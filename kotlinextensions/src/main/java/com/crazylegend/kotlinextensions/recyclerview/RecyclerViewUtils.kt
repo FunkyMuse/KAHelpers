@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.SparseBooleanArray
 import android.view.View
 import android.widget.CheckBox
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -147,7 +148,7 @@ class RecyclerViewUtils {
     }
 
     fun <T> swipeAndDrag(adapter: RecyclerView.Adapter<*>, isLongPressEnabled:Boolean, isSwipeEnabled:Boolean,
-                         adapterList: MutableList<T>, context: Context, drawableLeft: Int, drawableRight: Int,
+                         adapterList: MutableList<T>, context: Context, @IdRes drawableLeft: Int, @IdRes drawableRight: Int,
                          leftAction: (swipedPosition: Int) -> Unit, rightAction: (swipedPosition: Int) -> Unit): ItemTouchHelper {
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 

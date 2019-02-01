@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -16,8 +17,8 @@ class RecyclerSectionItemDecoration(
     private val headerOffset: Int,
     private val sticky: Boolean,
     private val sectionCallback: SectionCallback,
-    private val headerViewID: Int,
-    private val sectionHeaderLayoutName: Int
+    @IdRes private val headerViewID: Int,
+    @IdRes private val sectionHeaderLayoutName: Int
 ) : RecyclerView.ItemDecoration() {
 
     private var headerView: View? = null

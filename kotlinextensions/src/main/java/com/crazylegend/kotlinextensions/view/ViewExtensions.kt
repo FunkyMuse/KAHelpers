@@ -1,7 +1,9 @@
 package com.crazylegend.kotlinextensions.view
 
+import android.content.Context
 import android.view.View
 import android.widget.EditText
+import androidx.annotation.IdRes
 import com.google.android.material.textfield.TextInputEditText
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
@@ -11,9 +13,7 @@ import org.joda.time.LocalDate
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
 
-fun DateTime.isToday(): Boolean {
-    return this.toLocalDate() == LocalDate()
-}
+
 
 fun View.visible() {
     this.visibility = View.VISIBLE
@@ -50,3 +50,4 @@ fun EditText.getTheTextTrimmed(): String {
 fun EditText.setTheText(text: String) {
     this.setText(text, android.widget.TextView.BufferType.EDITABLE)
 }
+

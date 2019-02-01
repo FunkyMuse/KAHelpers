@@ -44,12 +44,7 @@ class RecyclerViewUtilsActionMode {
     private var selectedItems = SparseBooleanArray()
 
 
-    fun setupActionMode(
-        context: Context,
-        menuID: Int,
-        startingPosition: Int,
-        adapter: RecyclerView.Adapter<*>
-    ): ActionMode? {
+    fun setupActionMode(context: Context, menuID: Int, startingPosition: Int, adapter: RecyclerView.Adapter<*>): ActionMode? {
 
         started = startingPosition >= 0
 

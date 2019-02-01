@@ -14,5 +14,5 @@ inline fun <reified T> Retrofit?.create(): T? {
 
 /* example
 private  val retrofit by lazy {
-    RetrofitClient.getGsonRetrofit(context, BASE_URL).create<RetrofitInterface>()
+    RetrofitClient.gsonInstance(context, BASE_URL).create<RetrofitInterface>()
 }*/

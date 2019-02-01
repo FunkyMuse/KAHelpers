@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.IdRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
@@ -18,10 +19,12 @@ import androidx.core.app.NotificationManagerCompat
  */
 
 class NotificationsUtil(private val context: Context,
-                        private val channelName:String, private val channelID:String,
+                        private val channelName:String,
+                        private val channelID:String,
                         private val channelDescription:String,
                         private val enableCustomSound:Boolean,
-                        rawNotificationSound:Int) {
+                        @IdRes rawNotificationSound:Int) {
+
 
     private var notificationCompatBuilder: NotificationCompat.Builder? = null
     private var notificationManagerCompat: NotificationManagerCompat? = null
@@ -34,7 +37,7 @@ class NotificationsUtil(private val context: Context,
     }
 
 
-    fun createNotification(id: String, message: String, title: String, notificationDrawable:Int) {
+    fun createNotification(id: String, message: String, title: String,@IdRes notificationDrawable:Int) {
         notificationCompatBuilder = NotificationCompat.Builder(context, createNotificationChannel())
         notificationManagerCompat = NotificationManagerCompat.from(context)
 
@@ -60,7 +63,7 @@ class NotificationsUtil(private val context: Context,
 
     }
 
-    fun createNotificationWithPendingIntent(id: String, message: String, title: String, notificationDrawable:Int, pendingIntent: PendingIntent) {
+    fun createNotificationWithPendingIntent(id: String, message: String, title: String,@IdRes notificationDrawable:Int, pendingIntent: PendingIntent) {
         notificationCompatBuilder = NotificationCompat.Builder(context, createNotificationChannel())
         notificationManagerCompat = NotificationManagerCompat.from(context)
 
@@ -86,7 +89,7 @@ class NotificationsUtil(private val context: Context,
 
     }
 
-    fun createExpandableNotification(id: String, message: String, title: String,notificationDrawable:Int) {
+    fun createExpandableNotification(id: String, message: String, title: String,@IdRes notificationDrawable:Int) {
         notificationCompatBuilder = NotificationCompat.Builder(context, createNotificationChannel())
         notificationManagerCompat = NotificationManagerCompat.from(context)
 
