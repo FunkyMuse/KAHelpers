@@ -23,6 +23,25 @@ dependencies {
   }
 ```
 
+3. To not run into any issues in your application build.gradle add
+
+```gradle
+  compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+```
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
