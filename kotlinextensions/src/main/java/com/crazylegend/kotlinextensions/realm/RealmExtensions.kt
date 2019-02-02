@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions
+package com.crazylegend.kotlinextensions.realm
 
 
 /**
@@ -6,6 +6,7 @@ package com.crazylegend.kotlinextensions
  */
 
 /*
+
 fun executeTransaction(action: (realmInstance: Realm) -> Unit) {
     Realm.getDefaultInstance().use {
         it.executeTransaction { realmInstance ->
@@ -83,9 +84,17 @@ inline fun <reified T : RealmModel> Realm.createObject(primaryKeyValue: Any?): T
 }
 
 
-fun RealmObject.saveToDB() {
+fun RealmObject.saveAsync() {
     Realm.getDefaultInstance().use { db ->
         db.executeTransactionAsync {
+            db.insertOrUpdate(this)
+        }
+    }
+}
+
+fun RealmObject.save() {
+    Realm.getDefaultInstance().use { db ->
+        db.executeTransaction {
             db.insertOrUpdate(this)
         }
     }

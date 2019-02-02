@@ -13,11 +13,11 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Hristijan on 1/23/19 to long live and prosper !
  */
-object RetrofitClient {
+object RetrofitClientAuthenticator {
 
-    private var retrofit: Retrofit? = null
+     private var retrofit: Retrofit? = null
 
-    fun gsonInstance(context: Context, baseUrl: String, enableInterceptor: Boolean = false): Retrofit? {
+     fun <T> gsonInstance(context: Context, baseUrl: String,loginClass:Class<T>, enableInterceptor: Boolean = false): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -28,6 +28,7 @@ object RetrofitClient {
             addInterceptor(loggingInterceptor)
             addInterceptor(RetryRequestInterceptor(context))
             addInterceptor(ConnectivityInterceptor(context))
+            authenticator(TokenAuthenticator(context, loginClass)) //T is your Login Class
             connectTimeout(60, TimeUnit.SECONDS)
             readTimeout(100, TimeUnit.SECONDS)
             writeTimeout(100, TimeUnit.SECONDS)
@@ -46,7 +47,7 @@ object RetrofitClient {
 
     }
 
-    fun moshiInstance(context: Context, baseUrl: String, enableInterceptor: Boolean = false): Retrofit? {
+     fun <T> moshiInstance(context: Context, baseUrl: String,  loginClass:Class<T>, enableInterceptor: Boolean = false): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -57,6 +58,7 @@ object RetrofitClient {
             addInterceptor(loggingInterceptor)
             addInterceptor(RetryRequestInterceptor(context))
             addInterceptor(ConnectivityInterceptor(context))
+             authenticator(TokenAuthenticator(context, loginClass)) //T is your Login Class
             connectTimeout(60, TimeUnit.SECONDS)
             readTimeout(100, TimeUnit.SECONDS)
             writeTimeout(100, TimeUnit.SECONDS)

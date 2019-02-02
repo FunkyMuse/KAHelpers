@@ -27,6 +27,13 @@ class RecyclerViewUtilsActionMode {
         (context as AppCompatActivity).supportActionBar?.show()
     }
 
+    fun finish(adapter: RecyclerView.Adapter<*>, context: Context, showSupportBar: Boolean) {
+        started = false
+        clearSelected(adapter)
+        if (showSupportBar)
+            (context as AppCompatActivity).supportActionBar?.show()
+    }
+
     fun getValueForPosition(adapterPosition: Int): Boolean {
         return selectedItems.get(adapterPosition, false)
     }

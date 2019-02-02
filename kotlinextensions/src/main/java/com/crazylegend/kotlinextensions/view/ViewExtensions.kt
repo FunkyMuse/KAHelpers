@@ -1,18 +1,13 @@
 package com.crazylegend.kotlinextensions.view
 
-import android.content.Context
 import android.view.View
 import android.widget.EditText
-import androidx.annotation.IdRes
+import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-
 
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
-
 
 
 fun View.visible() {
@@ -27,27 +22,19 @@ fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
 
-fun TextInputEditText.getTheText(): String {
-    return this.text.toString()
-}
-
-fun TextInputEditText.getTheTextTrimmed(): String {
-    return this.text.toString().trim()
-}
+val TextInputEditText.getString: String get() = this.text.toString()
+val TextInputEditText.getStringTrimmed: String get() = this.text.toString().trim()
 
 fun TextInputEditText.setTheText(text: String) {
-    this.setText(text, android.widget.TextView.BufferType.EDITABLE)
+    this.setText(text, TextView.BufferType.EDITABLE)
 }
 
-fun EditText.getTheText(): String {
-    return this.text.toString()
-}
 
-fun EditText.getTheTextTrimmed(): String {
-    return this.text.toString().trim()
-}
+val EditText.getString: String get() = this.text.toString()
+val EditText.getStringTrimmed: String get() = this.text.toString().trim()
+
 
 fun EditText.setTheText(text: String) {
-    this.setText(text, android.widget.TextView.BufferType.EDITABLE)
+    this.setText(text, TextView.BufferType.EDITABLE)
 }
 

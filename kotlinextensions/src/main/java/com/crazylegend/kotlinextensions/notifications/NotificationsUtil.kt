@@ -112,6 +112,30 @@ class NotificationsUtil(private val context: Context,
 
     }
 
+    fun createExpandableNotificationWithPendingIntent(id: String, message: String, title: String,@IdRes notificationDrawable:Int, pendingIntent: PendingIntent) {
+        notificationCompatBuilder = NotificationCompat.Builder(context, createNotificationChannel())
+        notificationManagerCompat = NotificationManagerCompat.from(context)
+
+        notificationCompatBuilder?.setSmallIcon(notificationDrawable)
+            ?.setContentTitle(title)
+            ?.setContentText(message)
+            ?.setDefaults(Notification.DEFAULT_LIGHTS)
+            ?.setPriority(NotificationCompat.PRIORITY_HIGH)
+            ?.setAutoCancel(true)
+            ?.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            ?.setColorized(true)
+            ?.setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            ?.setOnlyAlertOnce(true)
+            ?.setContentIntent(pendingIntent)
+
+        if (enableCustomSound){
+            notificationCompatBuilder?.setSound(soundUri)
+        }
+
+        notificationCompatBuilder?.build()?.let { notificationManagerCompat?.notify(id.toInt(), it) }
+
+    }
+
     private fun createNotificationChannel(): String {
 
 
