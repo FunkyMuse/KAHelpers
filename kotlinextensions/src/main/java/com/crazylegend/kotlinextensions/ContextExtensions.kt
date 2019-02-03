@@ -66,7 +66,7 @@ fun Context.snackBar(text: String, actionText: String, length:Int, action: () ->
 }
 
 @Throws(GlideException::class)
-private fun Context.loadImg(imgUrl: String, view: ImageView) {
+ fun Context.loadImg(imgUrl: String, view: ImageView) {
     Glide.with(this)
         .load(imgUrl)
         .into(view)
@@ -74,7 +74,7 @@ private fun Context.loadImg(imgUrl: String, view: ImageView) {
 
 
 @Throws(GlideException::class)
-private fun Context.loadImgNoCache(imgUrl: String, view: ImageView) {
+ fun Context.loadImgNoCache(imgUrl: String, view: ImageView) {
     Glide.with(this)
         .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
         .load(imgUrl)
@@ -82,7 +82,7 @@ private fun Context.loadImgNoCache(imgUrl: String, view: ImageView) {
 }
 
 @Throws(GlideException::class)
-private fun Context.loadImgWithTransformation(imgUrl: String, view: ImageView, transformation:RequestOptions) {
+ fun Context.loadImgWithTransformation(imgUrl: String, view: ImageView, transformation:RequestOptions) {
     Glide.with(this)
         .applyDefaultRequestOptions(transformation)
         .load(imgUrl)
