@@ -1,7 +1,9 @@
 # Set Of Useful Kotlin Extensions and Helpers
 
+### Kotlin extensions and Helper classes
+
 [![](https://jitpack.io/v/CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers.svg)](https://jitpack.io/#CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.20-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.20-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) [![sad](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fjitpack.io%2F&ref_src=twsrc%5Etfw&text=Version%20Tag%20of%20Set-Of-Useful-Kotlin-Extensions-and-Helpers%20is%20now%20available%20on%20&tw_p=tweetbutton&url=http%3A%2F%2Fjitpack.io%2F%23CraZyLegenD%2FSet-Of-Useful-Kotlin-Extensions-and-Helpers%2FTag)
 
 ## Usage
 1. Add JitPack to your project build.gradle
@@ -19,7 +21,7 @@ allprojects {
 
 ```gradle
 dependencies {
-    implementation 'com.github.CraZyLegenD:Set-Of-Useful-Kotlin-Extensions-and-Helpers:0.1.1'
+    implementation 'com.github.CraZyLegenD:Set-Of-Useful-Kotlin-Extensions-and-Helpers:version'
   }
 ```
 
