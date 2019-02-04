@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.fragments
+package com.crazylegend.kotlinextensions.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
