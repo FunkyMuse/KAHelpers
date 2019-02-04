@@ -7,14 +7,17 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.DisplayMetrics
+import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.content.FileProvider
+import com.crazylegend.kotlinextensions.R
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -142,3 +145,5 @@ fun Context.getUriForFile(filePath: String, authority:String): Uri? {
 fun ContentResolver.getBitmap(imageUri: Uri): Bitmap {
     return MediaStore.Images.Media.getBitmap(this, imageUri)
 }
+
+

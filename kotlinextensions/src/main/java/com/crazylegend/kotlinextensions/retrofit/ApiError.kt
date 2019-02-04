@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.retrofit
 
 import android.content.Context
-import com.crazylegend.kotlinextensions.shortToast
+import com.crazylegend.kotlinextensions.context.shortToast
 import retrofit2.Response
 
 /**

@@ -2,8 +2,14 @@ package com.crazylegend.setofusefulkotlinextensions
 
 
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,11 +21,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+        img.setOnClickListener {
 
+        }
 
     }
 }
-
-
-
 

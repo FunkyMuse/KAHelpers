@@ -1,8 +1,11 @@
 package com.crazylegend.kotlinextensions.view
 
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import com.google.android.material.textfield.TextInputEditText
 
 /**
@@ -38,3 +41,34 @@ fun EditText.setTheText(text: String) {
     this.setText(text, TextView.BufferType.EDITABLE)
 }
 
+val SearchView?.editTextSearchView get() = this?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+
+
+private var viewOriginalHeight: Int = 0
+
+fun Button.enableButtonWithLoading( progressBar: ProgressBar) {
+    progressBar.visibility = View.GONE
+    if (this.tag != null) {
+        this.text = this.tag.toString()
+    }
+    this.isEnabled = true
+    this.alpha = 1f
+}
+
+fun Button.disableButtonWithLoading(progressBar: ProgressBar) {
+    progressBar.visibility = View.VISIBLE
+    this.tag = this.text
+    this.text = ""
+    this.isEnabled = false
+    this.alpha = 0.7.toFloat()
+}
+
+fun Button.enableButton(color: Int) {
+    this.isEnabled = true
+    this.alpha = 1f
+}
+
+fun Button.disableButton(color: Int) {
+    this.isEnabled = false
+    this.alpha = 0.7.toFloat()
+}
