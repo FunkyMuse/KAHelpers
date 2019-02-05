@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.view
 
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,13 @@ import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.RelativeLayout
+import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
 import com.crazylegend.kotlinextensions.R
+import androidx.core.content.ContextCompat.startActivity
+import android.content.Intent
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 
 
 /**
@@ -85,6 +92,15 @@ fun Context.slideUp(view:View){
 }
 
 
+fun View.slideDown(context: Context){
+    this.startAnimation( AnimationUtils.loadAnimation(context, R.anim.slide_down))
+}
+
+fun View.slideUp(context: Context){
+    this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up))
+}
+
+
 
 fun View.slideDown(second: View) {
 
@@ -98,4 +114,39 @@ fun View.slideDown(second: View) {
     valueAnimator.interpolator = DecelerateInterpolator()
     valueAnimator.duration = 500
     valueAnimator.start()
+}
+
+
+fun Context.leftToRight(view:View){
+    view.startAnimation( AnimationUtils.loadAnimation(this, R.anim.left_to_right))
+}
+
+fun View.animate(context: Context, @IdRes animation:Int){
+    this.startAnimation(AnimationUtils.loadAnimation(context, animation))
+}
+
+fun Context.animate(view: View, @IdRes animation:Int){
+    view.startAnimation(AnimationUtils.loadAnimation(this, animation))
+}
+
+fun Context.rightToLeft(view:View){
+    view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.right_to_left))
+}
+
+
+fun View.leftToRight(context: Context){
+    this.startAnimation( AnimationUtils.loadAnimation(context, R.anim.left_to_right))
+}
+
+fun View.rightToLeft(context: Context){
+    this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.right_to_left))
+}
+
+fun Context.transition(@IdRes enterTransition:Int, @IdRes exitTransition:Int){
+    (this as AppCompatActivity).overridePendingTransition(enterTransition,exitTransition)
+}
+
+fun Activity.animate( intent: Intent, transitionImage:View, EXTRA_IMAGE:String){
+    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, transitionImage, EXTRA_IMAGE)
+    ActivityCompat.startActivity(this, intent, options.toBundle())
 }
