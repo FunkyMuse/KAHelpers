@@ -81,29 +81,7 @@ fun Context.snackBar(text: String, actionText: String, length: Int, action: () -
 
 }
 
-@Throws(GlideException::class)
-fun Context.loadImg(imgUrl: String, view: ImageView) {
-    Glide.with(this)
-        .load(imgUrl)
-        .into(view)
-}
 
-
-@Throws(GlideException::class)
-fun Context.loadImgNoCache(imgUrl: String, view: ImageView) {
-    Glide.with(this)
-        .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
-        .load(imgUrl)
-        .into(view)
-}
-
-@Throws(GlideException::class)
-fun Context.loadImgWithTransformation(imgUrl: String, view: ImageView, transformation: RequestOptions) {
-    Glide.with(this)
-        .applyDefaultRequestOptions(transformation)
-        .load(imgUrl)
-        .into(view)
-}
 
 fun Context.rateUs() {
     try {
