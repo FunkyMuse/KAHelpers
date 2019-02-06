@@ -1,6 +1,8 @@
 package com.crazylegend.kotlinextensions.date
 
 import org.joda.time.*
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 
 
 /**
@@ -22,5 +24,23 @@ val DateTime.minutesAgo : Int get() {
 
 val DateTime.secondsAgo : Int get() {
     return Seconds.secondsBetween(this.toLocalDateTime(), LocalDateTime()).seconds
+}
+
+
+val String.parseIsBeforeNow : Boolean get() {
+    return DateTime.parse(this).isBeforeNow
+}
+
+val String.parseIsAfterNow : Boolean get() {
+    return DateTime.parse(this).isAfterNow
+}
+
+
+fun String.parseIsBeforeNow(dateTimeFormat: DateTimeFormatter) : Boolean {
+    return DateTime.parse(this, dateTimeFormat).isBeforeNow
+}
+
+fun String.parseIsAfterNow(dateTimeFormat: DateTimeFormatter) : Boolean {
+    return DateTime.parse(this, dateTimeFormat).isAfterNow
 }
 
