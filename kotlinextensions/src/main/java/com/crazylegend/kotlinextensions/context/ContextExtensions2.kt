@@ -7,8 +7,10 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import java.io.File
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 
 /**
@@ -80,3 +82,33 @@ fun Context.openWebPage(url: String) {
         e.printStackTrace()
     }
 }
+
+fun Context.sendEmail(myEmail:String, subject:String, text:String) {
+    val i = Intent(Intent.ACTION_SEND)
+    i.type = "message/rfc822"
+    i.putExtra(Intent.EXTRA_EMAIL, arrayOf(myEmail))
+    i.putExtra(Intent.EXTRA_TEXT, text)
+    i.putExtra(Intent.EXTRA_SUBJECT, subject)
+
+    try {
+        startActivity(Intent.createChooser(i, "Send e-mail..."))
+    } catch (ex: android.content.ActivityNotFoundException) {
+        shortToast("There are no email clients installed.")
+    }
+}
+
+fun Context.sendEmail(emails:Array<String>, subject:String, text:String) {
+    val i = Intent(Intent.ACTION_SEND)
+    i.type = "message/rfc822"
+    i.putExtra(Intent.EXTRA_EMAIL, emails)
+    i.putExtra(Intent.EXTRA_TEXT, text)
+    i.putExtra(Intent.EXTRA_SUBJECT, subject)
+
+    try {
+        startActivity(Intent.createChooser(i, "Send e-mail..."))
+    } catch (ex: android.content.ActivityNotFoundException) {
+        shortToast("There are no email clients installed.")
+    }
+}
+
+
