@@ -7,17 +7,14 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.DisplayMetrics
-import androidx.annotation.IdRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.content.FileProvider
-import com.crazylegend.kotlinextensions.R
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -37,8 +34,8 @@ data class FileAndUri(var file: File?, var path: String?)
 
 
 @RequiresPermission(allOf = [WRITE_EXTERNAL_STORAGE])
-fun Bitmap.createFileFromBitmapPNG(mediaDir:String, imageExtension:String,
-                                   compressionFormat:Bitmap.CompressFormat, compressionQuality : Int): FileAndUri {
+fun Bitmap.createFileFromBitmap(mediaDir:String, imageExtension:String,
+                                compressionFormat:Bitmap.CompressFormat, compressionQuality : Int): FileAndUri {
 
     val fileToReturn: File?
 
@@ -68,7 +65,7 @@ fun Bitmap.createFileFromBitmapPNG(mediaDir:String, imageExtension:String,
 
 
     val fos = FileOutputStream(file)
-    this@createFileFromBitmapPNG.compress(compressionFormat, compressionQuality, fos)
+    this@createFileFromBitmap.compress(compressionFormat, compressionQuality, fos)
     fos.flush()
     fos.close()
 
