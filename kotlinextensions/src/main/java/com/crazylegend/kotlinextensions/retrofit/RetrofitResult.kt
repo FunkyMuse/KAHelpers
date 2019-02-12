@@ -11,9 +11,11 @@ import okhttp3.ResponseBody
  */
 sealed class RetrofitResult<out T> {
 
-    data class Success<T>(val value:T) : RetrofitResult<T>()
-    data class Error(val message: String, val exception: Exception?=null) : RetrofitResult<Nothing>()
-    data class ApiError(private val context: Context, private val responseCode: Int,private val errorBody: ResponseBody?, private val showErrorByDefault:Boolean = true) : RetrofitResult<Nothing>(){
+    data class Success<T>(val value: T) : RetrofitResult<T>()
+    object Loading : RetrofitResult<Nothing>()
+    object NoData : RetrofitResult<Nothing>()
+    data class Error(val message: String, val exception: Exception?=null, val throwable: Throwable) : RetrofitResult<Nothing>()
+    data class ApiError(private val context: Context, private val responseCode: Int, private val errorBody: ResponseBody?, private val showErrorByDefault:Boolean = true) : RetrofitResult<Nothing>(){
 
         private val throwable = Throwable(errorBody.toString())
 
@@ -79,54 +81,69 @@ sealed class RetrofitResult<out T> {
     }
 
 
+
 }
 
 
 /*
-retrofit?.let {
+ init {
+        response.value = RetrofitResult.NoData
+    }
 
-    compositeDisposable.add(
-        it.getPosts()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+    fun fetchData() {
+        response.value = RetrofitResult.Loading
 
-                it.body()?.let {
-                    handleResponse(RetrofitResult.Success(it))
+        retrofit?.let {
+            compositeDisposable.add(
+                it.getPosts()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ res ->
+
+                        if (res.isSuccessful){
+
+                            res?.body()?.let {
+                                response.value = RetrofitResult.Success(it)
+                            }
+
+                        } else {
+                            response.value = RetrofitResult.ApiError(getApplication(), res.code(), res.errorBody(), true)
+                        }
+
+                    }, {
+                        response.value = RetrofitResult.Error(it.message.toString(), Exception(it), it)
+                    })
+            )
+        }
+    }
+
+
+ liveData.getFetchedData().observe(this, Observer { result ->
+
+            when (result) {
+                is RetrofitResult.Success<List<Model>> -> {
+                    handleSuccess(result.value)
                 }
 
-                handleResponse(RetrofitResult.ApiError(this, it.code(), it.errorBody(), true)) //or false if you don't want to show toasts
+                is RetrofitResult.Error -> {
+                    handleError(result)
+                }
 
-            }, {
-                handleResponse(RetrofitResult.Error(it.message.toString(), Exception(it)))
-            })
-    )
+                is RetrofitResult.NoData -> {
+                    handleNoData()
+                }
 
-}
+                is RetrofitResult.Loading -> {
+                    loadingDataHandle()
+                }
 
+                is RetrofitResult.ApiError -> {
+                    showApiErrors(result)
+                }
 
-private fun handleResponse(result: RetrofitResult<List<Model>>) {
+            }.exhaustive
 
-        when (result) {
-            is RetrofitResult.Success<List<Model>> -> {
-
-               result.value.forEach {
-                   Log.d("model", it.title.toString())
-               }
-            }
-
-            is RetrofitResult.Error ->{
-                result.exception?.printStackTrace()
-            }
-
-            is RetrofitResult.ApiError -> {
-               // result.errorCode(this)
-               // result.noConnectionError(this)
-            }
-
-        }.exhaustive // or without exhaustive if you don't want all methods called
-
-    }
+        })
 
 
 */
