@@ -121,11 +121,11 @@ fun Context.leftToRight(view:View){
     view.startAnimation( AnimationUtils.loadAnimation(this, R.anim.left_to_right))
 }
 
-fun View.animate(context: Context, @IdRes animation:Int){
+fun View.animate(context: Context, animation:Int){
     this.startAnimation(AnimationUtils.loadAnimation(context, animation))
 }
 
-fun Context.animate(view: View, @IdRes animation:Int){
+fun Context.animate(view: View, animation:Int){
     view.startAnimation(AnimationUtils.loadAnimation(this, animation))
 }
 

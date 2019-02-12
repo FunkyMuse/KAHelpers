@@ -1,11 +1,10 @@
 package com.crazylegend.kotlinextensions.view
 
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.IdRes
 import androidx.appcompat.widget.SearchView
+import androidx.transition.TransitionManager
 import com.google.android.material.textfield.TextInputEditText
 
 /**
@@ -71,4 +70,29 @@ fun Button.enableButton(color: Int) {
 fun Button.disableButton(color: Int) {
     this.isEnabled = false
     this.alpha = 0.7.toFloat()
+}
+
+fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropUPIMG:Int, dropDOWNIMG:Int) {
+    var firstClick = false
+
+    imageView.setOnClickListener {
+        if (firstClick) {
+
+            TransitionManager.beginDelayedTransition(linearLayout)
+            linearLayout.visibility = View.GONE
+            imageView.setImageResource(dropDOWNIMG)
+
+            firstClick = false
+
+        } else {
+            TransitionManager.beginDelayedTransition(linearLayout)
+            linearLayout.visibility = View.VISIBLE
+            imageView.setImageResource(dropUPIMG)
+
+            firstClick = true
+
+        }
+    }
+
+
 }
