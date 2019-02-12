@@ -21,3 +21,7 @@ fun doLog(o: Any) {
     }
 
 }
+
+val <T> T.isNull : Boolean get() {
+    return this == null
+}
