@@ -142,7 +142,7 @@ fun View.rightToLeft(context: Context){
     this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.right_to_left))
 }
 
-fun Context.transition(@IdRes enterTransition:Int, @IdRes exitTransition:Int){
+fun Context.transition( enterTransition:Int,  exitTransition:Int){
     (this as AppCompatActivity).overridePendingTransition(enterTransition,exitTransition)
 }
 
