@@ -1,13 +1,12 @@
 package com.crazylegend.kotlinextensions.context
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.net.Uri
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import java.io.File
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -111,4 +110,16 @@ fun Context.sendEmail(emails:Array<String>, subject:String, text:String) {
     }
 }
 
+fun Context.copyToClipboard(text:String){
+    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("", text)
+    clipboard.primaryClip = clip
+}
 
+val Context.getTextFromClipboard :String? get() {
+
+    val clipboard = ContextCompat.getSystemService(this, ClipboardManager::class.java)
+    val item = clipboard?.primaryClip?.getItemAt(0)
+
+    return item?.text.toString()
+}

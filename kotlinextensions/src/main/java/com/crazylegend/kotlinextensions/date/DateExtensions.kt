@@ -27,6 +27,20 @@ val DateTime.secondsAgo : Int get() {
 }
 
 
+val DateTime.daysAgo : Int get() {
+    return Days.daysBetween(this.toLocalDateTime(), LocalDateTime()).days
+}
+
+val DateTime.monthsAgo : Int get() {
+    return Months.monthsBetween(this.toLocalDateTime(), LocalDateTime()).months
+}
+
+val DateTime.yearsAgo : Int get() {
+    return Years.yearsBetween(this.toLocalDateTime(), LocalDateTime()).years
+}
+
+
+
 val String.parseIsBeforeNow : Boolean get() {
     return DateTime.parse(this).isBeforeNow
 }

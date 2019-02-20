@@ -102,7 +102,7 @@ fun Bitmap.toByteArray(compressFormat: Bitmap.CompressFormat, quality:Int): Sing
 
 }
 
-fun Activity.createColoredBitmap(color:Int): Bitmap {
+fun Activity.createColoredBitmapFullScreen(color:Int): Bitmap {
 
 
     val displayMetrics = DisplayMetrics()
@@ -121,6 +121,25 @@ fun Activity.createColoredBitmap(color:Int): Bitmap {
 
     return bitmap
 }
+
+
+fun Activity.createColoredBitmap(color:Int, width:Int, height:Int): Bitmap {
+
+    val displayMetrics = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(displayMetrics)
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+
+    val paint = Paint()
+    paint.color = color
+    paint.style = Paint.Style.FILL
+    canvas.drawPaint(paint)
+
+
+    return bitmap
+}
+
+
 
 
 

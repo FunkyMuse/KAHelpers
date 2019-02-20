@@ -22,8 +22,7 @@ fun Context.isFragmentWithTagVisible(tag: String): Boolean {
     val presentFragment = this.supportFragmentManager.findFragmentByTag(tag)?.isVisible
 
     return if (presentFragment!=null){
-        this.supportFragmentManager.findFragmentByTag(tag) != null &&
-                presentFragment
+        this.supportFragmentManager.findFragmentByTag(tag) != null && presentFragment
     } else {
         false
     }
