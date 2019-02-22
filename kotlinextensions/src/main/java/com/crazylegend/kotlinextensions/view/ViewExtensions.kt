@@ -1,10 +1,17 @@
 package com.crazylegend.kotlinextensions.view
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.*
+import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.ViewCompat
 import androidx.transition.TransitionManager
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 
 /**
@@ -94,5 +101,35 @@ fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropUPIMG:I
         }
     }
 
+
+}
+
+
+fun adjustAlpha(@ColorInt color: Int, factor: Float): Int {
+    val alpha = Math.round(Color.alpha(color) * factor)
+    val red = Color.red(color)
+    val green = Color.green(color)
+    val blue = Color.blue(color)
+    return Color.argb(alpha, red, green, blue)
+}
+
+fun bottomBarColor(bottomBar: BottomNavigationView, color: Int) {
+    try {
+        val mMenuViewField = BottomNavigationView::class.java.getDeclaredField("mMenuView")
+        mMenuViewField.isAccessible = true
+        val mMenuView = mMenuViewField.get(bottomBar) as BottomNavigationMenuView
+        val mButtonsField = BottomNavigationMenuView::class.java.getDeclaredField("mButtons")
+        mButtonsField.isAccessible = true
+        val mButtons = mButtonsField.get(mMenuView) as Array<*>
+
+        for (item in mButtons) {
+            item as BottomNavigationItemView
+            ViewCompat.setBackground(item, ColorDrawable(color))
+        }
+    } catch (e: NoSuchFieldException) {
+        e.printStackTrace()
+    } catch (e: IllegalAccessException) {
+        e.printStackTrace()
+    }
 
 }
