@@ -1,30 +1,26 @@
-package com.crazylegend.kotlinextensions.view
+package com.crazylegend.kotlinextensions.views
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 
 
 /**
- * Created by CrazyLegenD on 2/7/19 to long live and prosper !
+ * Created by crazy on 2/7/19 to long live and prosper !
  */
 
-/*
-USAGE
-AppRater.app_launched(this, "Friendz", 0, 1)*/
+object AppRaterDarkDarkTheme {
 
 
-object AppRater {
-
-
-    fun app_launched(context: Context, APP_TITLE:String, DAYS_UNTIL_PROMPT:Int, LAUNCHES_UNTIL_PROMPT:Int) {
+    fun app_launched(context: Context, APP_TITLE:String, DAYS_UNTIL_PROMPT:Int, LAUNCHES_UNTIL_PROMPT:Int, isDarkThemeEnabled: Boolean, @IdRes darkThemeColor:Int, @IdRes whiteThemeColor:Int) {
         val prefs = context.getSharedPreferences("apprater", 0)
         if (prefs.getBoolean("dontshowagain", false)) {
             return
         }
+
 
         val editor = prefs.edit()
 
@@ -44,41 +40,46 @@ object AppRater {
         // Wait at least n days before opening
         if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
             if (System.currentTimeMillis() >= date_firstLaunch!! + DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000) {
-                showRateDialog(context, editor, APP_TITLE)
+                showRateDialog(context, editor, APP_TITLE, isDarkThemeEnabled, whiteThemeColor, darkThemeColor)
             }
         }
 
         editor.apply()
     }
 
-    private fun showRateDialog(context: Context, editor: SharedPreferences.Editor?, APP_TITLE: String) {
-        val dialogBuilder = AlertDialog.Builder(context)
-        val dialog = dialogBuilder.create()
+    private fun showRateDialog(context: Context, editor: SharedPreferences.Editor?, APP_TITLE: String, isDarkThemeEnabled: Boolean, whiteThemeColor: Int, darkThemeColor: Int) {
+        val dialog = AlertDialog.Builder(context)
         dialog.setTitle("Rate $APP_TITLE")
 
         dialog.setMessage("If you're enjoy using $APP_TITLE, please take a moment to rate it. Thanks for your support!")
 
-        dialog.setButton(Dialog.BUTTON_POSITIVE, "Rate $APP_TITLE"){
-            dialog, _ ->
+        dialog.setPositiveButton("Rate $APP_TITLE"){d, _ ->
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}")))
-            dialog.dismiss()
+            d.dismiss()
+        }
+
+        dialog.setNegativeButton("Remind me later"){
+            d, _ ->
+            d.dismiss()
         }
 
 
-        dialog.setButton(Dialog.BUTTON_NEUTRAL, "Remind me later"){
-         dialog, _ ->
-            dialog.dismiss()
-        }
-
-        dialog.setButton(Dialog.BUTTON_NEGATIVE, "Don't show again"){
-            dialog, _ ->
+        dialog.setNeutralButton("Don't show again"){
+            d, _ ->
             if (editor != null) {
                 editor.putBoolean("dontshowagain", true)
                 editor.commit()
             }
-            dialog.dismiss()
+            d.dismiss()
         }
 
-        dialog.show()
+
+        if (isDarkThemeEnabled) {
+            dialog.show().window?.setBackgroundDrawableResource(darkThemeColor)
+
+        } else {
+            dialog.show().window?.setBackgroundDrawableResource(whiteThemeColor)
+        }
+
     }
 }

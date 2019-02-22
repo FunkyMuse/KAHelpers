@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.view
+package com.crazylegend.kotlinextensions.views
 
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -9,10 +9,8 @@ import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.RelativeLayout
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.crazylegend.kotlinextensions.R
-import androidx.core.content.ContextCompat.startActivity
 import android.content.Intent
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat

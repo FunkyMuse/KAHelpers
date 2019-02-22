@@ -3,6 +3,8 @@ package com.crazylegend.kotlinextensions.context
 import android.app.Activity
 import android.content.*
 import android.net.Uri
+import android.util.DisplayMetrics
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
@@ -123,3 +125,33 @@ val Context.getTextFromClipboard :String? get() {
 
     return item?.text.toString()
 }
+
+/**
+ * {@link ContextCompat#getColor(int)}.
+ */
+fun Context.getColorCompat(color: Int) = ContextCompat.getColor(this, color)
+
+/**
+ * Device width in pixels
+ */
+inline val Context.displayWidth: Int
+    get() = resources.displayMetrics.widthPixels
+
+/**
+ * Device height in pixels
+ */
+inline val Context.displayHeight: Int
+    get() = resources.displayMetrics.heightPixels
+
+
+/**
+ * Context.displayMetricks
+ */
+inline val Context.displayMetricks: DisplayMetrics
+    get() = resources.displayMetrics
+
+/**
+ * Get LayoutInflater
+ */
+inline val Context.inflater: LayoutInflater
+    get() = LayoutInflater.from(this)

@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.date
 import org.joda.time.*
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
+import java.util.*
 
 
 /**
@@ -58,3 +59,13 @@ fun String.parseIsAfterNow(dateTimeFormat: DateTimeFormatter) : Boolean {
     return DateTime.parse(this, dateTimeFormat).isAfterNow
 }
 
+
+
+fun Date.millisecondsSince(date: Date) = (time - date.time)
+fun Date.secondsSince(date: Date): Double = millisecondsSince(date) / 1000.0
+fun Date.minutesSince(date: Date): Double = secondsSince(date) / 60
+fun Date.hoursSince(date: Date): Double = minutesSince(date) / 60
+fun Date.daysSince(date: Date): Double = hoursSince(date) / 24
+fun Date.weeksSince(date: Date): Double = daysSince(date) / 7
+fun Date.monthsSince(date: Date): Double = weeksSince(date) / 4
+fun Date.yearsSince(date: Date): Double = monthsSince(date) / 12

@@ -10,14 +10,8 @@ import android.net.Uri
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.Gravity
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -29,9 +23,6 @@ inline fun <reified T> Context.launch() {
     this.startActivity(Intent(this, T::class.java))
 }
 
-inline fun <reified T> Fragment.launch() {
-    this.requireActivity().startActivity(Intent(this.requireActivity(), T::class.java))
-}
 
 fun Context.shortToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
@@ -41,16 +32,11 @@ fun Context.longToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 }
 
-fun Fragment.shortToast(text: String) {
-    Toast.makeText(this.requireActivity(), text, Toast.LENGTH_SHORT).show()
-}
 
-fun Fragment.longToast(text: String) {
-    Toast.makeText(this.requireActivity(), text, Toast.LENGTH_LONG).show()
-}
-
-fun Fragment.finish() {
-    this.requireActivity().finish()
+inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
+    val intent = Intent(this, T::class.java)
+    intent.body()
+    return intent
 }
 
 fun AppCompatActivity.showBackButton() {
@@ -65,9 +51,6 @@ fun AppCompatActivity.showToolbar() {
     this.supportActionBar?.show()
 }
 
-fun Fragment.getAppCompatActivity(): AppCompatActivity {
-    return this.requireActivity() as AppCompatActivity
-}
 
 fun Context.snackBar(text: String, actionText: String, length: Int, action: () -> Unit) {
     this as AppCompatActivity

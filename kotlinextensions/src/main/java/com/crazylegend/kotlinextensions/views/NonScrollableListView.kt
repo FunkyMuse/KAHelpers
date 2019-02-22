@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.view
+package com.crazylegend.kotlinextensions.views
 
 import android.content.Context
 import android.util.AttributeSet

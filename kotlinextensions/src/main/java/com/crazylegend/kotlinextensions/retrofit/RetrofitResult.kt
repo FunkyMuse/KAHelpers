@@ -80,8 +80,6 @@ sealed class RetrofitResult<out T> {
         }
     }
 
-
-
 }
 
 
