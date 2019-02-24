@@ -59,3 +59,62 @@ infix fun Int.root(n: Number): Double {
  * int time to 2 digit String
  */
 fun Int.twoDigitTime() = if (this < 10) "0" + toString() else toString()
+
+
+
+/**
+ * Convert Celsius temperature to Fahrenheit
+ */
+fun Double.celsiusToFahrenheit() : Double = (this * 1.8) + 32
+
+/**
+ * Convert Fahrenheit temperature to Celsius
+ */
+fun Double.fahrenheitToCelsius() : Double = (this - 32) * 5/9
+
+
+/**
+ * Convert meters to miles
+ */
+val Double.metersToMiles: Double get() {
+    return if (this != 0.0) {
+        this / 1609.344
+    } else -1.0
+}
+
+
+
+/**
+ * Convert miles to meters
+ */
+val Double.milesToMeters: Double get() {
+    return if (this != 0.0) {
+       this * 1609.344
+    } else -1.0
+}
+
+
+
+
+/**
+ * Convets given bytes to human readable form.
+ */
+fun Long.convertBytesToHumanReadableForm(si: Boolean): String {
+    val unit = if (si) 1000 else 1024
+    if (this < unit) return toString() + " B"
+    val exp = (Math.log(toDouble()) / Math.log(unit.toDouble())).toInt()
+    val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"
+    return String.format("%.1f %sB", this / Math.pow(unit.toDouble(), exp.toDouble()), pre)
+}
+
+
+/* Divides */
+
+infix fun Int.divides(other: Int): Boolean {
+    return this == other || this % other == 0
+}
+
+/* Does Not Divide */
+infix fun Int.doesNotDivide(other: Int): Boolean {
+    return !(this divides other)
+}

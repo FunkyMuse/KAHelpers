@@ -62,8 +62,6 @@ val <T> T.exhaustive: T
 
 fun <T> T.asNullable(): T? = this
 
-fun <T> T?.isNull(): Boolean = this == null
-fun <T> T?.isNotNull(): Boolean = this != null
 
 /**
  * Provides handler and mainThread.

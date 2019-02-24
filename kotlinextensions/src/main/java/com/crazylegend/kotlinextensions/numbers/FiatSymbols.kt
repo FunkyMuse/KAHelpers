@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions
+package com.crazylegend.kotlinextensions.numbers
 
 
 

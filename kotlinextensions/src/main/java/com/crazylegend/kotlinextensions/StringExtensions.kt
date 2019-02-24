@@ -121,3 +121,5 @@ private fun encrypt(string: String?, type: String): String {
  * Method to check String equalsIgnoreCase
  */
 fun String.equalsIgnoreCase(other: String) = this.toLowerCase().contentEquals(other.toLowerCase())
+
+

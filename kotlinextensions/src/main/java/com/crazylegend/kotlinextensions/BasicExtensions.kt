@@ -25,3 +25,17 @@ fun doLog(o: Any) {
 val <T> T.isNull : Boolean get() {
     return this == null
 }
+
+val <T> T.isNotNull : Boolean get() {
+    return this != null
+}
+
+/**
+ * Debug mode code
+ */
+inline fun debugMode(block : () -> Unit) {
+    if (BuildConfig.DEBUG) {
+        block()
+    }
+}
+

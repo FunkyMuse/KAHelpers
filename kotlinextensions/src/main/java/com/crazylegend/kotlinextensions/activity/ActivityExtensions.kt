@@ -2,7 +2,9 @@ package com.crazylegend.kotlinextensions.activity
 
 import android.app.Activity
 import android.content.Context
+import android.util.DisplayMetrics
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 
 
 /**
@@ -21,3 +23,19 @@ fun Activity.hideSoftKeyboard() {
     }
 }
 
+/**
+ * Returns display density as ...DPI
+ */
+fun AppCompatActivity.getDisplayDensity(): String {
+    val metrics = DisplayMetrics()
+    this.windowManager.defaultDisplay.getMetrics(metrics)
+    return when (metrics.densityDpi) {
+        DisplayMetrics.DENSITY_LOW -> "LDPI"
+        DisplayMetrics.DENSITY_MEDIUM -> "MDPI"
+        DisplayMetrics.DENSITY_HIGH -> "HDPI"
+        DisplayMetrics.DENSITY_XHIGH -> "XHDPI"
+        DisplayMetrics.DENSITY_XXHIGH -> "XXHDPI"
+        DisplayMetrics.DENSITY_XXXHIGH -> "XXXHDPI"
+        else -> "XXHDPI"
+    }
+}

@@ -4,19 +4,21 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewTreeObserver
+import android.transition.TransitionManager
+import android.view.*
 import android.view.animation.AlphaAnimation
 import android.widget.*
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.google.android.material.textfield.TextInputEditText
@@ -59,7 +61,7 @@ val SearchView?.editTextSearchView get() = this?.findViewById<EditText>(androidx
 
 private var viewOriginalHeight: Int = 0
 
-fun Button.enableButtonWithLoading( progressBar: ProgressBar) {
+fun Button.enableButtonWithLoading(progressBar: ProgressBar) {
     progressBar.visibility = View.GONE
     if (this.tag != null) {
         this.text = this.tag.toString()
@@ -86,7 +88,7 @@ fun Button.disableButton() {
     this.alpha = 0.7.toFloat()
 }
 
-fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropUPIMG:Int, dropDOWNIMG:Int) {
+fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropUPIMG: Int, dropDOWNIMG: Int) {
     var firstClick = false
 
     imageView.setOnClickListener {
@@ -157,7 +159,7 @@ fun View.resize(width: Int, height: Int) {
 /**
  * INVISIBLE TO VISIBLE AND OTHERWISE
  */
-fun View.toggleVisibilityInvisibleToVisible() : View {
+fun View.toggleVisibilityInvisibleToVisible(): View {
     visibility = if (visibility == View.VISIBLE) {
         View.INVISIBLE
     } else {
@@ -169,7 +171,7 @@ fun View.toggleVisibilityInvisibleToVisible() : View {
 /**
  * INVISIBLE TO GONE AND OTHERWISE
  */
-fun View.toggleVisibilityGoneToVisible() : View {
+fun View.toggleVisibilityGoneToVisible(): View {
     visibility = if (visibility == View.VISIBLE) {
         View.GONE
     } else {
@@ -177,7 +179,6 @@ fun View.toggleVisibilityGoneToVisible() : View {
     }
     return this
 }
-
 
 
 /**
@@ -249,3 +250,64 @@ inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
     })
 }
 
+
+val View.isVisibile: Boolean
+    get() {
+        return this.visibility == View.VISIBLE
+    }
+
+val View.isGone: Boolean
+    get() {
+        return this.visibility == View.GONE
+    }
+
+val View.isInvisible: Boolean
+    get() {
+        return this.visibility == View.INVISIBLE
+    }
+
+/**
+ * Sets color to status bar
+ */
+fun Window.addStatusBarColor(@ColorRes color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        this.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        this.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        this.statusBarColor = ContextCompat.getColor(this.context, color)
+    }
+}
+
+/**
+ * Visible if condition met
+ */
+
+inline fun View.visibleIf(block: () -> Boolean) {
+    if (visibility != View.VISIBLE && block()) {
+        visibility = View.VISIBLE
+    }
+}
+
+/**
+ * Invisible if condition met
+ */
+
+inline fun View.invisibleIf(block: () -> Boolean) {
+    if (visibility != View.INVISIBLE && block()) {
+        visibility = View.INVISIBLE
+    }
+}
+
+/**
+ * Gone if condition met
+ */
+inline fun View.goneIf(block: () -> Boolean) {
+    if (visibility != View.GONE && block()) {
+        visibility = View.GONE
+    }
+}
+
+
+/**
+ * Turns refreshing off on SwipeTo refresh layout
+ */
+fun SwipeRefreshLayout.turnOff() = setOnRefreshListener { isRefreshing = false }

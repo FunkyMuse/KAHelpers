@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions
+package com.crazylegend.kotlinextensions.views
 
 import android.view.MotionEvent
 import android.widget.EditText
@@ -17,7 +17,12 @@ class EditTextDrawableClicker {
 
     fun clickListener(event: MotionEvent, editText: EditText, drawablePosition: Int, action: () -> Unit) {
 
-        val positions = arrayOf(DRAWABLE_LEFT, DRAWABLE_TOP, DRAWABLE_RIGHT, DRAWABLE_BOTTOM)
+        val positions = arrayOf(
+            DRAWABLE_LEFT,
+            DRAWABLE_TOP,
+            DRAWABLE_RIGHT,
+            DRAWABLE_BOTTOM
+        )
 
         if (event.action == MotionEvent.ACTION_UP) {
             if (event.rawX >= (editText.right - editText.compoundDrawables[positions[drawablePosition]].bounds.width())) {
