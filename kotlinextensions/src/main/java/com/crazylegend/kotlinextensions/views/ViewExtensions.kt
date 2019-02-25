@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.views
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -19,6 +20,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.*
+import androidx.core.widget.ImageViewCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Transition
 import com.bumptech.glide.Glide
@@ -593,3 +595,13 @@ fun View.startMargin(size:Int){
     }
 
 }
+
+/**
+ * Change Imageview tint
+ */
+fun ImageView.changeTint(color: Int) {
+    ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
+
+}
+
+
