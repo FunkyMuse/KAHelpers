@@ -11,12 +11,14 @@ import android.transition.TransitionManager
 import android.view.*
 import android.view.animation.AlphaAnimation
 import android.widget.*
+import android.widget.RelativeLayout.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.view.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Transition
 import com.bumptech.glide.Glide
@@ -311,3 +313,283 @@ inline fun View.goneIf(block: () -> Boolean) {
  * Turns refreshing off on SwipeTo refresh layout
  */
 fun SwipeRefreshLayout.turnOff() = setOnRefreshListener { isRefreshing = false }
+
+
+/**
+ * Aligns to left of the parent in relative layout
+ */
+fun View.alignParentStart(){
+   val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        addRule(ALIGN_PARENT_START)
+    }
+
+}
+
+
+
+/**
+ * Aligns to right of the parent in relative layout
+ */
+fun View.alignParentEnd(){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        addRule(ALIGN_PARENT_END)
+    }
+
+}
+
+
+
+
+/**
+ * Aligns in the center of the parent in relative layout
+ */
+fun View.alignInCenter(){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        addRule(CENTER_HORIZONTAL)
+    }
+
+}
+
+
+/**
+ * Sets margins for views in Linear Layout
+ */
+fun View.linearMargins(left:Int, top:Int, right:Int, bottom:Int){
+    val params =  layoutParams as LinearLayout.LayoutParams?
+
+    params?.apply {
+       setMargins(left, top, right, bottom)
+    }
+
+}
+
+
+/**
+ * Sets margins for views in Linear Layout
+ */
+fun View.linearMargins(size:Int){
+    val params =  layoutParams as LinearLayout.LayoutParams?
+
+    params?.apply {
+       setMargins(size)
+    }
+
+}
+
+
+/**
+ * Sets right margin for views in Linear Layout
+ */
+fun View.endLinearMargin(size:Int){
+    val params =  layoutParams as LinearLayout.LayoutParams?
+
+    params?.apply {
+       marginEnd = size
+    }
+
+}
+
+
+
+
+/**
+ * Sets bottom margin for views in Linear Layout
+ */
+fun View.bottomLinearMargin(size:Int){
+    val params =  layoutParams as LinearLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, marginTop , marginRight, size)
+    }
+
+}
+
+/**
+ * Sets top margin for views in Linear Layout
+ */
+fun View.topLinearMargin(size:Int){
+    val params =  layoutParams as LinearLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, size, marginRight, marginBottom)
+    }
+
+}
+
+
+
+/**
+ * Sets top margin for views in Linear Layout
+ */
+fun View.startLinearMargin(size:Int){
+    val params =  layoutParams as LinearLayout.LayoutParams?
+
+    params?.apply {
+       marginStart = size
+    }
+
+}
+
+
+/**
+ * Sets margins for views in Relative Layout
+ */
+fun View.relativeMargins(left:Int, top:Int, right:Int, bottom:Int){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+       setMargins(left, top, right, bottom)
+    }
+
+}
+
+
+/**
+ * Sets margins for views in Relative Layout
+ */
+fun View.relativeMargins(size:Int){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+       setMargins(size)
+    }
+
+}
+
+
+/**
+ * Sets right margin for views in Relative Layout
+ */
+fun View.endRelativeMargin(size:Int){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        marginEnd = size
+    }
+
+}
+
+
+
+
+/**
+ * Sets bottom margin for views in Relative Layout
+ */
+fun View.bottomRelativeMargin(size:Int){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, marginTop , marginRight, size)
+    }
+
+}
+
+/**
+ * Sets top margin for views in Relative Layout
+ */
+fun View.topRelativeMargin(size:Int){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, size, marginRight, marginBottom)
+    }
+
+}
+
+
+
+/**
+ * Sets top margin for views in Relative Layout
+ */
+fun View.startRelativeMargin(size:Int){
+    val params =  layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        marginStart = size
+    }
+
+}
+
+/**
+ * Sets margins for views
+ */
+fun View.setMargins(left:Int, top:Int, right:Int, bottom:Int){
+    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+
+    params?.apply {
+        setMargins(left, top, right, bottom)
+    }
+}
+
+
+/**
+ * Sets margins for views
+ */
+fun View.setMargins(size:Int){
+    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+
+    params?.apply {
+        setMargins(size)
+    }
+
+}
+
+
+/**
+ * Sets right margin for views
+ */
+fun View.endMargin(size:Int){
+    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+
+    params?.apply {
+        marginEnd = size
+    }
+
+}
+
+
+
+
+/**
+ * Sets bottom margin for views
+ */
+fun View.bottomMargin(size:Int){
+    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, marginTop , marginRight, size)
+    }
+
+}
+
+/**
+ * Sets top margin for views
+ */
+fun View.topMargin(size:Int){
+    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, size, marginRight, marginBottom)
+    }
+
+}
+
+
+
+/**
+ * Sets top margin for views
+ */
+fun View.startMargin(size:Int){
+    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+
+    params?.apply {
+        marginStart = size
+    }
+
+}
