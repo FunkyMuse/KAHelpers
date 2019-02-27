@@ -95,7 +95,7 @@ inline val Context.jobScheduler: JobScheduler?
 /**
  * Get notification for Context.
  */
-inline fun Context.notification(body: NotificationCompat.Builder.() -> Unit, channelID:String): Notification {
+inline fun Context.notification(body: NotificationCompat.Builder.() -> Unit, channelID: String): Notification {
     val builder = NotificationCompat.Builder(this, channelID)
     builder.body()
     return builder.build()
@@ -105,48 +105,79 @@ inline fun Context.notification(body: NotificationCompat.Builder.() -> Unit, cha
 /**
  * Get color from resources
  */
-fun Context.getCompatColor(@ColorRes colorInt: Int) : Int =
+fun Context.getCompatColor(@ColorRes colorInt: Int): Int =
     ContextCompat.getColor(this, colorInt)
 
 /**
  * Get drawable from resources
  */
-fun Context.getCompatDrawable(@DrawableRes drawableRes: Int) : Drawable? =
+fun Context.getCompatDrawable(@DrawableRes drawableRes: Int): Drawable? =
     ContextCompat.getDrawable(this, drawableRes)
 
-
-
+/**
+ * Get ActivityManager
+ */
 inline val Context.activityManager: ActivityManager
     get() = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
-
+/**
+ * Get AppWidgetManager
+ */
 inline val Context.appWidgetManager
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     get() = getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
 
+/**
+ * Get InputMethodManager
+ */
 inline val Context.inputMethodManager: InputMethodManager
     get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
+/**
+ * Get BluetoothManager
+ */
 inline val Context.bluetoothManager: BluetoothManager
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     get() = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
 
+/**
+ * Get AudioManager
+ */
 inline val Context.audioManager
     get() = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
+/**
+ * Get BatteryManager
+ */
 inline val Context.batteryManager
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     get() = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
 
+/**
+ * Get CameraManager
+ */
 inline val Context.cameraManager
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     get() = getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
+/**
+ * Get Vibrator
+ */
 inline val Context.vibrator
     get() = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
+
+/**
+ * Dial a number
+ */
 fun Context.dial(tel: String?) = startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$tel")))
 
-fun Context.isLandscape() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+/**
+ * Get if screen is in landscape mode
+ */
+val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-fun Context.isPortrait() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+/**
+ * Get if screen is in portrait mode
+ */
+val Context.isPortrait get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT

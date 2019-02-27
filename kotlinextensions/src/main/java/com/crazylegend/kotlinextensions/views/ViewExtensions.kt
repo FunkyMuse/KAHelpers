@@ -25,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.transition.Transition
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 
 /**
@@ -599,9 +600,17 @@ fun View.startMargin(size:Int){
 /**
  * Change Imageview tint
  */
-fun ImageView.changeTint(color: Int) {
+fun ImageView.setTint(color: Int) {
     ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
 
+}
+
+
+/**
+ * Change Floating action button tint
+ */
+fun FloatingActionButton.setTint(color:Int){
+    this.imageTintList = ColorStateList.valueOf(color)
 }
 
 

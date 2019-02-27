@@ -30,8 +30,7 @@ inline fun <reified T> Fragment.launch() {
 }
 
 
-fun Fragment.getAppCompatActivity(): AppCompatActivity {
-    return this.requireActivity() as AppCompatActivity
-}
+val Fragment.getAppCompatActivity get() = this.requireActivity() as AppCompatActivity
 
-inline fun Fragment.notification(body: NotificationCompat.Builder.() -> Unit, channelID:String) = requireActivity().notification(body, channelID)
+inline fun Fragment.notification(body: NotificationCompat.Builder.() -> Unit, channelID: String) =
+    requireActivity().notification(body, channelID)
