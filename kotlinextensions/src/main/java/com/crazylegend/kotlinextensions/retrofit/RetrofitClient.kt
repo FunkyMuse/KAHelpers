@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.retrofit
 
 import android.content.Context
+import com.crazylegend.kotlinextensions.isNull
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -21,7 +22,8 @@ object RetrofitClient {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = if (enableInterceptor) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        loggingInterceptor.level =
+            if (enableInterceptor) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
 
         clientBuilder.apply {
@@ -33,13 +35,17 @@ object RetrofitClient {
             writeTimeout(100, TimeUnit.SECONDS)
         }
 
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .client(clientBuilder.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .build()
+        if (retrofit.isNull) {
+            retrofit = buildRetrofit(baseUrl, clientBuilder)
+
+        } else {
+            retrofit?.baseUrl()?.let {
+
+                if (it.toString() != baseUrl) {
+                    retrofit = buildRetrofit(baseUrl, clientBuilder)
+
+                }
+            }
         }
 
         return retrofit
@@ -50,7 +56,8 @@ object RetrofitClient {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = if (enableInterceptor) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        loggingInterceptor.level =
+            if (enableInterceptor) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
 
         clientBuilder.apply {
@@ -62,18 +69,31 @@ object RetrofitClient {
             writeTimeout(100, TimeUnit.SECONDS)
         }
 
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(clientBuilder.build())
-                .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
+        if (retrofit.isNull) {
+            retrofit = buildRetrofit(baseUrl, clientBuilder)
+
+        } else {
+            retrofit?.baseUrl()?.let {
+
+                if (it.toString() != baseUrl) {
+                    retrofit = buildRetrofit(baseUrl, clientBuilder)
+                }
+            }
         }
 
         return retrofit
 
     }
+
+    private fun buildRetrofit(baseUrl: String, okHttpClient: OkHttpClient.Builder): Retrofit? {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(okHttpClient.build())
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+    }
+
 
 
 }
