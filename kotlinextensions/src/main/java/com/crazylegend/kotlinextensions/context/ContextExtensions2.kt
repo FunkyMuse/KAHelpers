@@ -132,6 +132,13 @@ val Context.getTextFromClipboard :String? get() {
 fun Context.getColorCompat(color: Int) = ContextCompat.getColor(this, color)
 
 /**
+ * {@link ContextCompat#getDrawable(int)}.
+ */
+fun Context.getDrawablecompat(drawable: Int) = ContextCompat.getDrawable(this, drawable)
+
+
+
+/**
  * Device width in pixels
  */
 inline val Context.displayWidth: Int
