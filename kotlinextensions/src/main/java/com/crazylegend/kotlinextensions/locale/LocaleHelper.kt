@@ -11,6 +11,7 @@ import java.util.*
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
 
+@Suppress("DEPRECATION")
 class LocaleHelper {
 
     val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
@@ -81,3 +82,20 @@ class LocaleHelper {
         return context
     }
 }
+
+
+/*
+ //application level
+class MainApplication : Application() {
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(LocaleHelper().onAttach(base, "en"))
+    }
+}*/
+
+
+/* // activity
+override fun attachBaseContext(newBase: Context?) {
+    super.attachBaseContext(newBase?.let { LocaleHelper().onAttach(it) })
+}
+
+*/

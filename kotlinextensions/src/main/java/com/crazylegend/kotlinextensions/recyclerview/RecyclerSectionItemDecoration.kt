@@ -116,7 +116,7 @@ class RecyclerSectionItemDecoration(
     }
 }
 
-/*
+/*   USAGE
  val sectionItemDecoration = RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
             false, // true for sticky, false for not, R.id.list_item_section_text, R.layout.section_header
             object : RecyclerSectionItemDecoration.SectionCallback {

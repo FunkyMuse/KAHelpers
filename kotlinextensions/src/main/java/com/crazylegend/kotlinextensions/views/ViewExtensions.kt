@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -18,13 +19,9 @@ import androidx.annotation.ColorRes
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.*
 import androidx.core.widget.ImageViewCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.transition.Transition
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 
@@ -614,3 +611,23 @@ fun FloatingActionButton.setTint(color:Int){
 }
 
 
+/**
+ * Create a Screnshot of the view and returns it as a Bitmap
+ */
+fun View.screenshot(): Bitmap {
+    val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bmp)
+    draw(canvas)
+    canvas.save()
+    return bmp
+}
+
+
+/**
+ * get Activity On Which View is inflated to
+ */
+val View.getActivity : Activity?  get() {
+    if (context is Activity)
+        return context as Activity
+    return null
+}

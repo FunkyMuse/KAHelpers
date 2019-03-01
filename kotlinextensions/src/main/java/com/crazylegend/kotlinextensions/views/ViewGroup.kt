@@ -63,3 +63,19 @@ fun ViewGroup.removeViewsByTag(tag: String) {
         }
     }
 }
+
+
+/**
+ * get All the Children's as Iterator
+ */
+fun ViewGroup.childs() = object : Iterator<View> {
+    var index = 0
+    override fun hasNext(): Boolean {
+        return index < childCount
+    }
+
+    override fun next(): View {
+        return getChildAt(index++)
+    }
+
+}

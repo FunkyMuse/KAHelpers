@@ -40,6 +40,24 @@ fun Context.showKeyboard(toFocus: View) {
     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
 }
 
+
+fun Context.hideKeyboard() {
+    val activity = this as Activity?
+    if (activity != null) {
+        val inputManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+
+        if (inputManager != null) {
+            val v = this.currentFocus
+            if (v != null) {
+                inputManager.hideSoftInputFromWindow(
+                    v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
+        }
+    }
+}
+
+
 fun Context.openEmail() {
     try {
         val emailClientNames = ArrayList<String>()
@@ -152,9 +170,9 @@ inline val Context.displayHeight: Int
 
 
 /**
- * Context.displayMetricks
+ * Context.displayMetrics
  */
-inline val Context.displayMetricks: DisplayMetrics
+inline val Context.displayMetrics: DisplayMetrics
     get() = resources.displayMetrics
 
 /**

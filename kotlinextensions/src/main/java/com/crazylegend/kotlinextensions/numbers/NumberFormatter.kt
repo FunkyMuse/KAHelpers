@@ -9,13 +9,7 @@ import java.util.*
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
 
-/**
- *usage
- *
- *
-NumberFormatter().formatter.format(number.toDouble()).toString()
- *
- *
- */
 
-class NumberFormatter(var formatter: DecimalFormat = NumberFormat.getInstance(Locale.US) as DecimalFormat)
+fun getNumberFormatter(locale: Locale): DecimalFormat {
+    return NumberFormat.getInstance(locale) as DecimalFormat
+}

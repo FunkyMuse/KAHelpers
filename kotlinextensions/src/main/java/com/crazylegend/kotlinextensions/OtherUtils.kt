@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
 import java.util.concurrent.TimeUnit
 
 
@@ -33,7 +34,7 @@ inline fun belowApi(api: Int, included: Boolean = false, block: () -> Unit) {
 /**
  * Check if is Main Thread.
  */
-fun isMainThread(): Boolean = Looper.myLooper() == Looper.getMainLooper()
+inline val isMainThread: Boolean get() = Looper.myLooper() == Looper.getMainLooper()
 
 
 /**
@@ -70,3 +71,29 @@ private object ContextHandler {
     val handler = Handler(Looper.getMainLooper())
     val mainThread = Looper.getMainLooper().thread
 }
+
+/**
+ * try the code in [runnable], If it runs then its perfect if its not, It won't crash your app.
+ */
+fun tryOrIgnore(runnable: () -> Unit) = try {
+    runnable()
+} catch (e: Exception) {
+    e.printStackTrace()
+}
+
+/**
+ * get CurrentTimeInMillis from System.currentTimeMillis
+ */
+inline val currentTimeMillis: Long get() = System.currentTimeMillis()
+
+
+/**
+ * get Saved Data from memory, null if it os not exists
+ */
+fun getFromMemory(key: String): Any? = InMemoryCache.get(key)
+
+
+/**
+ * put Something In Memory to use it later
+ */
+fun putInMemory(key: String, any: Any?) = InMemoryCache.put(key, any)

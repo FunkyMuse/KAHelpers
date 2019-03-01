@@ -69,3 +69,9 @@ fun Date.daysSince(date: Date): Double = hoursSince(date) / 24
 fun Date.weeksSince(date: Date): Double = daysSince(date) / 7
 fun Date.monthsSince(date: Date): Double = weeksSince(date) / 4
 fun Date.yearsSince(date: Date): Double = monthsSince(date) / 12
+
+
+/**
+ * get Current Date.
+ */
+fun currentDate() = Date(System.currentTimeMillis())

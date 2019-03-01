@@ -52,7 +52,7 @@ fun AppCompatActivity.showToolbar() {
 }
 
 
-fun Context.snackBar(text: String, actionText: String, length: Int, action: () -> Unit) {
+fun Context.snackBar(text: String, actionText: String, length: Int, action: () -> Unit): Snackbar {
     this as AppCompatActivity
     val snackbar =
         Snackbar.make(this.findViewById(android.R.id.content), text, length)
@@ -62,6 +62,7 @@ fun Context.snackBar(text: String, actionText: String, length: Int, action: () -
     }
     snackbar.show()
 
+    return snackbar
 }
 
 
