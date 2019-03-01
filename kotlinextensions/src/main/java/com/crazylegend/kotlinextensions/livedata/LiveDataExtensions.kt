@@ -14,33 +14,33 @@ import androidx.lifecycle.ViewModelProviders
  */
 
 //app compat activity
-inline fun <reified T : ViewModel> AppCompatActivity.provider(): T {
+inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(): T {
     return ViewModelProviders.of(this).get(T::class.java)
 }
 
-inline fun <reified T : AndroidViewModel> AppCompatActivity.provider(factory: ViewModelProvider.Factory): T {
+inline fun <reified T : AndroidViewModel> AppCompatActivity.compatProvider(factory: ViewModelProvider.Factory): T {
     return ViewModelProviders.of(this, factory).get(T::class.java)
 }
 
 
 //fragment
-inline fun <reified T : ViewModel> Fragment.provider(): T {
+inline fun <reified T : ViewModel> Fragment.fragmentProvider(): T {
 
     return ViewModelProviders.of(this).get(T::class.java)
 }
 
-inline fun <reified T : AndroidViewModel> Fragment.provider(factory: ViewModelProvider.Factory): T {
+inline fun <reified T : AndroidViewModel> Fragment.fragmentProvider(factory: ViewModelProvider.Factory): T {
 
     return ViewModelProviders.of(this, factory).get(T::class.java)
 }
 
 //fragment activity
-inline fun <reified T : ViewModel> FragmentActivity.provider(): T {
+inline fun <reified T : ViewModel> FragmentActivity.fragmentActivityProvider(): T {
 
     return ViewModelProviders.of(this).get(T::class.java)
 }
 
-inline fun <reified T : AndroidViewModel> FragmentActivity.provider(factory: ViewModelProvider.Factory): T {
+inline fun <reified T : AndroidViewModel> FragmentActivity.fragmentActivityProvider(factory: ViewModelProvider.Factory): T {
 
     return ViewModelProviders.of(this, factory).get(T::class.java)
 }
