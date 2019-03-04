@@ -9,9 +9,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import java.io.File
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 
 /**
@@ -180,3 +177,32 @@ inline val Context.displayMetrics: DisplayMetrics
  */
 inline val Context.inflater: LayoutInflater
     get() = LayoutInflater.from(this)
+
+
+/**
+ * Share text using the `Intent.createChooser` method
+ */
+fun Context.shareText(text: String, subject: String = ""): Boolean = try {
+    val intent = Intent(android.content.Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject)
+    intent.putExtra(android.content.Intent.EXTRA_TEXT, text)
+    startActivity(Intent.createChooser(intent, null))
+    true
+} catch (e: ActivityNotFoundException) {
+    e.printStackTrace()
+    false
+}
+
+/**
+ * Send an SMS using the default messages client in the system
+ */
+fun Context.sendSMS(number: String, text: String = ""): Boolean = try {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:$number"))
+    intent.putExtra("sms_body", text)
+    startActivity(intent)
+    true
+} catch (e: Exception) {
+    e.printStackTrace()
+    false
+}

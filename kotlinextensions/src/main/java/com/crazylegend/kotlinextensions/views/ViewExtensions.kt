@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.animation.IntEvaluator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
@@ -7,12 +9,16 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.transition.TransitionManager
 import android.view.*
 import android.view.animation.AlphaAnimation
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.RelativeLayout.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -20,15 +26,16 @@ import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.*
-import androidx.core.widget.ImageViewCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
 
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
 
+private var viewOriginalHeight: Int = 0
 
 fun View.visible() {
     this.visibility = View.VISIBLE
@@ -42,53 +49,11 @@ fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
 
-val TextInputEditText.getString: String get() = this.text.toString()
-val TextInputEditText.getStringTrimmed: String get() = this.text.toString().trim()
-
-fun TextInputEditText.setTheText(text: String) {
-    this.setText(text, TextView.BufferType.EDITABLE)
-}
 
 
-val EditText.getString: String get() = this.text.toString()
-val EditText.getStringTrimmed: String get() = this.text.toString().trim()
+val SearchView?.getEditTextSearchView get() = this?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
 
-fun EditText.setTheText(text: String) {
-    this.setText(text, TextView.BufferType.EDITABLE)
-}
-
-val SearchView?.editTextSearchView get() = this?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-
-
-private var viewOriginalHeight: Int = 0
-
-fun Button.enableButtonWithLoading(progressBar: ProgressBar) {
-    progressBar.visibility = View.GONE
-    if (this.tag != null) {
-        this.text = this.tag.toString()
-    }
-    this.isEnabled = true
-    this.alpha = 1f
-}
-
-fun Button.disableButtonWithLoading(progressBar: ProgressBar) {
-    progressBar.visibility = View.VISIBLE
-    this.tag = this.text
-    this.text = ""
-    this.isEnabled = false
-    this.alpha = 0.7.toFloat()
-}
-
-fun Button.enableButton() {
-    this.isEnabled = true
-    this.alpha = 1f
-}
-
-fun Button.disableButton() {
-    this.isEnabled = false
-    this.alpha = 0.7.toFloat()
-}
 
 fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropUPIMG: Int, dropDOWNIMG: Int) {
     var firstClick = false
@@ -148,6 +113,9 @@ fun View.setWidth(newValue: Int) {
         layoutParams = params
     }
 }
+
+
+
 
 fun View.resize(width: Int, height: Int) {
     val params = layoutParams
@@ -594,14 +562,14 @@ fun View.startMargin(size:Int){
 
 }
 
+
 /**
- * Change Imageview tint
+ * Gives focus to the passed view once the view has been completely inflated
  */
-fun ImageView.setTint(color: Int) {
-    ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
-
+fun Activity.setFocusToView(view: View) {
+    val handler = Handler(this.mainLooper)
+    handler.post { view.requestFocus() }
 }
-
 
 /**
  * Change Floating action button tint
@@ -631,3 +599,161 @@ val View.getActivity : Activity?  get() {
         return context as Activity
     return null
 }
+
+/**
+ * Gives focus to the passed view once the view has been completely inflated
+ */
+fun Fragment.setFocusToView(view: View) {
+    val handler = Handler(this.activity?.mainLooper)
+    handler.post { view.requestFocus() }
+}
+
+/**
+ * Gives focus to the passed view once the view has been completely
+ * inflated using `view.requestFocusFromTouch`
+ */
+fun Activity.setTouchFocusToView(view: View) {
+    val handler = Handler(this.mainLooper)
+    handler.post { view.requestFocusFromTouch() }
+}
+
+/**
+ * Gives focus to the passed view once the view has been completely
+ * inflated using `view.requestFocusFromTouch`
+ */
+fun Fragment.setTouchFocusToView(view: View) {
+    val handler = Handler(this.activity?.mainLooper)
+    handler.post { view.requestFocusFromTouch() }
+}
+
+/**
+ * Hides all the views passed as argument(s)
+ */
+fun Context.hideViews(vararg views: View) = views.forEach { it.visibility = View.GONE }
+
+/**
+ * Shows all the views passed as argument(s)
+ */
+fun Context.showViews(vararg views: View) = views.forEach { it.visibility = View.VISIBLE }
+
+
+fun View.limitHeight(h: Int, min: Int, max: Int): View {
+    val params = layoutParams
+    when {
+        h < min -> params.height = min
+        h > max -> params.height = max
+        else -> params.height = h
+    }
+    layoutParams = params
+    return this
+}
+
+fun View.limitWidth(w: Int, min: Int, max: Int): View {
+    val params = layoutParams
+    when {
+        w < min -> params.width = min
+        w > max -> params.width = max
+        else -> params.width = w
+    }
+    layoutParams = params
+    return this
+}
+
+fun View.margin(leftMargin: Int = Int.MAX_VALUE, topMargin: Int = Int.MAX_VALUE, rightMargin: Int = Int.MAX_VALUE, bottomMargin: Int = Int.MAX_VALUE): View {
+    val params = layoutParams as ViewGroup.MarginLayoutParams
+    if (leftMargin != Int.MAX_VALUE)
+        params.leftMargin = leftMargin
+    if (topMargin != Int.MAX_VALUE)
+        params.topMargin = topMargin
+    if (rightMargin != Int.MAX_VALUE)
+        params.rightMargin = rightMargin
+    if (bottomMargin != Int.MAX_VALUE)
+        params.bottomMargin = bottomMargin
+    layoutParams = params
+    return this
+}
+
+
+
+fun View.animateWidth(targetValue: Int, duration: Long = 400, action:((Float)->Unit)? = null) {
+    ValueAnimator.ofInt(width, targetValue).apply {
+        addUpdateListener {
+            setWidth(it.animatedValue as Int)
+            action?.invoke((it.animatedFraction))
+        }
+        setDuration(duration)
+        start()
+    }
+}
+
+fun View.animateHeight(targetValue: Int, duration: Long = 400, action:((Float)->Unit)? = null) {
+    ValueAnimator.ofInt(height, targetValue).apply {
+        addUpdateListener {
+            setHeight(it.animatedValue as Int)
+            action?.invoke((it.animatedFraction))
+        }
+        setDuration(duration)
+        start()
+    }
+}
+
+
+fun View.animateWidthAndHeight(targetWidth: Int, targetHeight: Int, duration: Long = 400, action:((Float)->Unit)? = null) {
+    val startHeight = height
+    val evaluator = IntEvaluator()
+    ValueAnimator.ofInt(width, targetWidth).apply {
+        addUpdateListener {
+            resize(it.animatedValue as Int, evaluator.evaluate(it.animatedFraction, startHeight, targetHeight))
+            action?.invoke((it.animatedFraction))
+        }
+        setDuration(duration)
+        start()
+    }
+}
+
+/**
+ * Get a screenshot of the View, support a long screenshot of the entire RecyclerView list
+ * Note: When calling this method, please make sure the View has been measured. If the width and height are 0, an exception will be thrown.
+ */
+fun View.toBitmap(): Bitmap {
+    if (measuredWidth == 0 || measuredHeight == 0) {
+        throw RuntimeException("调用该方法时，请确保View已经测量完毕，如果宽高为0，则抛出异常以提醒！")
+    }
+    return when (this) {
+        is RecyclerView -> {
+            this.scrollToPosition(0)
+            this.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+
+            val bmp = Bitmap.createBitmap(width, measuredHeight, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bmp)
+
+            //draw default bg, otherwise will be black
+            if (background != null) {
+                background.setBounds(0, 0, width, measuredHeight)
+                background.draw(canvas)
+            } else {
+                canvas.drawColor(Color.WHITE)
+            }
+            this.draw(canvas)
+            // reset height
+            this.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST))
+            bmp //return
+        }
+        else -> {
+            val screenshot = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_4444)
+            val canvas = Canvas(screenshot)
+            if (background != null) {
+                background.setBounds(0, 0, width, measuredHeight)
+                background.draw(canvas)
+            } else {
+                canvas.drawColor(Color.WHITE)
+            }
+            draw(canvas)// Draw the view onto the canvas
+            screenshot //return
+        }
+    }
+}
+
+

@@ -42,3 +42,7 @@ fun Intent.noHistory() = apply {
 fun Intent.singleTop() = apply {
     addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 }
+
+fun Intent.reorderToFront() = apply {
+    addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+}

@@ -2,35 +2,31 @@ package com.crazylegend.kotlinextensions.context
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ActivityManager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.Icon
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.provider.Settings
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import androidx.core.app.ActivityCompat
 import com.crazylegend.kotlinextensions.enums.ContentColumns
 import com.crazylegend.kotlinextensions.enums.ContentOrder
 import com.crazylegend.kotlinextensions.toFile
 import java.io.File
 import java.util.*
-import androidx.core.content.pm.ShortcutManagerCompat.requestPinShortcut
-import android.content.pm.ShortcutInfo
-import androidx.core.content.pm.ShortcutManagerCompat.isRequestPinShortcutSupported
-import android.content.pm.ShortcutManager
-import androidx.core.content.ContextCompat.getSystemService
-import android.os.Parcelable
-import android.app.Activity
-import android.graphics.drawable.Icon
-import androidx.annotation.DrawableRes
-import androidx.annotation.NonNull
 
 
 /**
@@ -356,5 +352,34 @@ inline fun <reified T> Activity.createShortcut(title: String, @DrawableRes icon:
         } else {
            // println("failed_to_add")
         }
+    }
+}
+
+
+/**
+ * Reboot the application
+ *
+ * @param[restartIntent] optional, desired activity to show after the reboot
+ */
+fun Context.reboot(restartIntent: Intent = this.packageManager.getLaunchIntentForPackage(this.packageName)) {
+    restartIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    if (this is Activity) {
+        this.startActivity(restartIntent)
+        finishAffinity(this)
+    } else {
+        restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        this.startActivity(restartIntent)
+    }
+}
+
+/* ********************************************
+ *               Private methods              *
+ ******************************************** */
+
+private fun finishAffinity(activity: Activity) {
+    activity.setResult(Activity.RESULT_CANCELED)
+    when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> activity.finishAffinity()
+        else -> ActivityCompat.finishAffinity(activity)
     }
 }

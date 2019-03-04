@@ -1,10 +1,13 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.Spannable
+import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 
@@ -88,5 +91,31 @@ fun TextView.setDrawableRight(drawable: Int) {
  */
 fun TextView.setDrawableBottom(drawable: Int) {
     this.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, drawable)
+}
+
+
+fun TextView.sizeSpan(str: String, range: IntRange, scale: Float = 1.5f){
+    text = str.toSizeSpan(range, scale)
+}
+
+
+fun TextView.colorSpan(str: String, range: IntRange, color: Int = Color.RED){
+    text = str.toColorSpan(range, color)
+}
+
+
+fun TextView.backgroundColorSpan(str: String, range: IntRange, color: Int = Color.RED){
+    text = str.toBackgroundColorSpan(range, color)
+}
+
+fun TextView.strikeThrougthSpan(str: String, range: IntRange){
+    text = str.toStrikeThroughSpan(range)
+}
+
+fun TextView.clickSpan(str: String, range: IntRange,
+                       color: Int = Color.RED, isUnderlineText: Boolean = false, clickListener: View.OnClickListener){
+    movementMethod = LinkMovementMethod.getInstance()
+    highlightColor = Color.TRANSPARENT  // remove click bg color
+    text = str.toClickSpan(range, color, isUnderlineText, clickListener)
 }
 

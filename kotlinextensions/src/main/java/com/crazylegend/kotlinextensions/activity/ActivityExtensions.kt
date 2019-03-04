@@ -6,9 +6,11 @@ import android.graphics.Rect
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -92,3 +94,21 @@ fun Activity.setNavigationBarDividerColor(@ColorInt color: Int) {
     window.navigationBarDividerColor = color
 }
 
+/**
+ *  Makes the activity enter fullscreen mode.
+ */
+@UiThread
+fun Activity.enterFullScreenMode() {
+    window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+    window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+}
+
+
+/**
+ * Makes the Activity exit fullscreen mode.
+ */
+@UiThread
+fun Activity.exitFullScreenMode() {
+    window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+}

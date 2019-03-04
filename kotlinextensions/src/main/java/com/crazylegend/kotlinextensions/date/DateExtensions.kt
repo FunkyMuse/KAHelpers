@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.date
 
 import org.joda.time.*
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import java.util.*
 

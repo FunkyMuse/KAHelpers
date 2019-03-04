@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.retrofit
 
 import android.content.Context
 import com.crazylegend.kotlinextensions.context.shortToast
-import com.crazylegend.kotlinextensions.retrofit.NoConnectionException
 import okhttp3.ResponseBody
 
 

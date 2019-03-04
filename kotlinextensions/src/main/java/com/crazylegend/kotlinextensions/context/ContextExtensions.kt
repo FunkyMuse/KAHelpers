@@ -33,7 +33,7 @@ fun Context.longToast(text: String) {
 }
 
 
-inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit): Intent {
+inline fun <reified T : Any> Context.intent(body: Intent.() -> Unit ): Intent {
     val intent = Intent(this, T::class.java)
     intent.body()
     return intent

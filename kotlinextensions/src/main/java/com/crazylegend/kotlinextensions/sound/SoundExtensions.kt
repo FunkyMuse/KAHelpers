@@ -2,13 +2,13 @@ package com.crazylegend.kotlinextensions.sound
 
 import android.Manifest.permission.ACCESS_NOTIFICATION_POLICY
 import android.Manifest.permission.MODIFY_AUDIO_SETTINGS
+import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.media.AudioManager
 import android.os.Build
-import androidx.annotation.RequiresPermission
-import android.content.Intent
-import android.app.NotificationManager
 import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 
 
 /**

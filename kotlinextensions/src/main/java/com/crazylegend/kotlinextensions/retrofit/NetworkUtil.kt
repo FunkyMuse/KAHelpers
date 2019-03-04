@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.retrofit
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 
 /**
  * Created by Hristijan on 1/25/19 to long live and prosper !

@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions
 
+import android.os.Build
+import android.text.Html
 import android.util.Base64
 import java.io.File
 import java.io.FileOutputStream
@@ -7,6 +9,7 @@ import java.net.URLDecoder
 import java.net.URLEncoder
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.regex.Pattern
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 
@@ -232,3 +235,26 @@ private fun encrypt(string: String?, type: String): String {
         ""
     }
 }
+
+/**
+ * Clear all HTML tags from a string.
+ */
+fun String.clearHtmlTags(): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
+    } else {
+        @Suppress("DEPRECATION")
+        Html.fromHtml(this).toString()
+    }
+}
+
+/**
+ * Returns true if this string contains exactly the provided string.
+ * This method uses RegEx to evaluate and its case-sensitive. What makes it different from the classic
+ * [contains] is that it doesn't uses [indexOf], hence it's more performant when used on long char sequences
+ * and has much higher probabilities of not returning false positives per approximation.
+ */
+fun String.containsExact(string: String): Boolean =
+    Pattern.compile("(?<=^|[^a-zA-Z0-9])\\Q$string\\E(?=\$|[^a-zA-Z0-9])")
+        .matcher(this)
+        .find()

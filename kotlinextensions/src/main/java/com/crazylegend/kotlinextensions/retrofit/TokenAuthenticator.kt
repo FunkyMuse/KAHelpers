@@ -1,14 +1,12 @@
 package com.crazylegend.kotlinextensions.retrofit
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-
-
 
 
 /**

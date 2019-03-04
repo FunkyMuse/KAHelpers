@@ -181,3 +181,13 @@ val Context.isLandscape get() = resources.configuration.orientation == Configura
  * Get if screen is in portrait mode
  */
 val Context.isPortrait get() = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+
+
+/**
+ * get Height of status bar
+ */
+val Context.getStatusBarHeight: Int get() {
+    val resourceId = this.resources.getIdentifier("status_bar_height", "dimen", "android")
+    return this.resources.getDimensionPixelSize(resourceId)
+}
+

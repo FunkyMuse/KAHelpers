@@ -118,3 +118,33 @@ infix fun Int.divides(other: Int): Boolean {
 infix fun Int.doesNotDivide(other: Int): Boolean {
     return !(this divides other)
 }
+
+/**
+* Returns Zero (0) if this number is null
+*/
+val Number?.orZero: Number get() =  this ?: 0
+
+/**
+ * Returns true if this number is null or zero (0)
+ */
+val Number?.isNullOrZero: Boolean get() = this == null || this == 0
+
+/**
+ * Returns true if this number is not null or zero (0)
+ */
+val Int?.isNotNullAndMoreThanZero: Boolean get() = this != null && this > 0
+
+/**
+ * Returns true if this number is not null or zero (0)
+ */
+val Long?.isNotNullAndMoreThanZero: Boolean get() = this != null && this > 0L
+
+/**
+ * Returns true if this number is not null or zero (0)
+ */
+val Float?.isNotNullAndMoreThanZero: Boolean get() = this != null && this > 0F
+
+/**
+ * Returns true if this number is not null or zero (0)
+ */
+val Double?.isNotNullAndMoreThanZero: Boolean get() = this != null && this > 0.0
