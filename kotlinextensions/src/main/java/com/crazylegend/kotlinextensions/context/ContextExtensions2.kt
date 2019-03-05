@@ -6,6 +6,8 @@ import android.net.Uri
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -205,4 +207,45 @@ fun Context.sendSMS(number: String, text: String = ""): Boolean = try {
 } catch (e: Exception) {
     e.printStackTrace()
     false
+}
+
+fun Context.copyTextToClipboard(value: String) {
+    clipboardManager?.primaryClip = ClipData.newPlainText("text", value)
+}
+
+fun Context.copyUriToClipboard(uri: Uri) {
+    clipboardManager?.primaryClip = ClipData.newUri(contentResolver, "uri", uri)
+}
+
+fun Context.getTextFromClipboard(): CharSequence {
+    val clipData = clipboardManager?.primaryClip
+    if (clipData != null && clipData.itemCount > 0) {
+        return clipData.getItemAt(0).coerceToText(this)
+    }
+
+    return ""
+}
+
+fun Context.getUriFromClipboard(): Uri? {
+    val clipData = clipboardManager?.primaryClip
+    if (clipData != null && clipData.itemCount > 0) {
+        return clipData.getItemAt(0).uri
+    }
+
+    return null
+}
+
+fun Context.hideKeyboard(window : Window, view :View?) {
+    if(view?.windowToken != null)
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+}
+
+fun Context.isShowKeyboard() :Boolean {
+    return inputMethodManager.isAcceptingText
+}
+
+fun Context.toggleKeyboard() {
+    if(inputMethodManager.isActive)
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
 }

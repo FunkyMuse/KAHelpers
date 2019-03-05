@@ -1,10 +1,13 @@
 package com.crazylegend.kotlinextensions
 
 import android.content.Context
+import android.content.Intent
+import android.os.BatteryManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.collection.LruCache
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
@@ -148,3 +151,70 @@ fun RecyclerView.ViewHolder.dp2px(dpValue: Int): Int? {
 fun RecyclerView.ViewHolder.px2dp(pxValue: Int): Float? {
     return itemView.px2dp(pxValue)
 }
+
+fun getBatteryInfo(batteryIntent: Intent): String {
+    val status = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
+    val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING
+            || status == BatteryManager.BATTERY_STATUS_FULL
+    val chargePlug = batteryIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
+    val usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB
+    val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
+
+    val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+    val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+
+    val batteryPct = level / scale.toFloat()
+    return "Battery Info: isCharging=$isCharging usbCharge=$usbCharge acCharge=$acCharge batteryPct=$batteryPct"
+}
+
+fun getBatteryLevel(batteryIntent: Intent): Float {
+    val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+    val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+    return level / scale.toFloat()
+}
+
+/**
+ * Gets value with specific key from the cache. If the value is not present,
+ * calls [defaultValue] to obtain a non-null value which is placed into the
+ * cache, then returned.
+ *
+ * This method is thread-safe.
+ */
+inline fun <K, V> LruCache<K, V>.getOrPut(key: K, defaultValue: () -> V): V {
+    synchronized(this) {
+        this[key]?.let { return it }
+        return defaultValue().apply { put(key, this) }
+    }
+}
+
+/**
+ * Gets value with specific key from the cache. If the value is not present,
+ * calls [defaultValue] to obtain a value which is placed into the cache
+ * if not null, then returned.
+ *
+ * This method is thread-safe.
+ */
+inline fun <K, V> LruCache<K, V>.getOrPutNotNull(key: K, defaultValue: () -> V?): V? {
+    synchronized(this) {
+        this[key]?.let { return it }
+        return defaultValue()?.apply { put(key, this) }
+    }
+}
+
+/**
+ * Returns an array containing the keys in the cache.
+ */
+fun <V> LruCache<Int, V>.keys(): IntArray =
+        snapshot().keys.toIntArray()
+
+/**
+ * Returns an array containing the keys in the cache.
+ */
+fun <V> LruCache<Long, V>.keys(): LongArray =
+        snapshot().keys.toLongArray()
+
+/**
+ * Returns an array containing the keys in the cache.
+ */
+inline fun <reified K, V> LruCache<K, V>.keys(): Array<K> =
+        snapshot().keys.toTypedArray()

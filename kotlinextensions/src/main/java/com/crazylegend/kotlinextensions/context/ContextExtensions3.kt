@@ -11,6 +11,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.media.MediaMetadataRetriever
@@ -18,10 +19,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.provider.Settings
-import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
+import android.util.TypedValue
+import androidx.annotation.*
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.crazylegend.kotlinextensions.enums.ContentColumns
 import com.crazylegend.kotlinextensions.enums.ContentOrder
 import com.crazylegend.kotlinextensions.toFile
@@ -292,7 +295,7 @@ fun Context.showDatePicker(year: Int, month: Int, day: Int, onDatePicked: (year:
  * Show the Time Picker and Get the Picked Time Easily
  */
 fun Context.showTimePicker(
-    currentDate: Date = com.crazylegend.kotlinextensions.date.currentDate(),
+    currentDate: Date = com.crazylegend.kotlinextensions.date.currentDate,
     is24Hour: Boolean = false,
     onDatePicked: (hour: Int, minute: Int) -> Unit
 ) {
@@ -382,4 +385,74 @@ private fun finishAffinity(activity: Activity) {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> activity.finishAffinity()
         else -> ActivityCompat.finishAffinity(activity)
     }
+}
+
+
+inline fun Context.color(@ColorRes id: Int): Int = ContextCompat.getColor(this, id)
+inline fun Context.boolean(@BoolRes id: Int): Boolean = resources.getBoolean(id)
+inline fun Context.integer(@IntegerRes id: Int): Int = resources.getInteger(id)
+inline fun Context.dimen(@DimenRes id: Int): Float = resources.getDimension(id)
+inline fun Context.dimenPixelSize(@DimenRes id: Int): Int = resources.getDimensionPixelSize(id)
+inline fun Context.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(this, id)
+
+//Attr retrievers
+fun Context.resolveColor(@AttrRes attr: Int, @ColorInt fallback: Int = 0): Int {
+    val a = theme.obtainStyledAttributes(intArrayOf(attr))
+    try {
+        return a.getColor(0, fallback)
+    } finally {
+        a.recycle()
+    }
+}
+
+fun Context.resolveDrawable(@AttrRes attr: Int): Drawable? {
+    val a = theme.obtainStyledAttributes(intArrayOf(attr))
+    try {
+        return a.getDrawable(0)
+    } finally {
+        a.recycle()
+    }
+}
+
+fun Context.resolveBoolean(@AttrRes attr: Int, fallback: Boolean = false): Boolean {
+    val a = theme.obtainStyledAttributes(intArrayOf(attr))
+    try {
+        return a.getBoolean(0, fallback)
+    } finally {
+        a.recycle()
+    }
+}
+
+fun Context.resolveString(@AttrRes attr: Int, fallback: String = ""): String {
+    val v = TypedValue()
+    return if (theme.resolveAttribute(attr, v, true)) v.string.toString() else fallback
+}
+
+
+fun Context.cancelNotification(notificationID: Int) = NotificationManagerCompat.from(this).cancel(notificationID)
+
+
+fun Context.string(@StringRes str: Int): String {
+    return getString(str)
+}
+
+
+fun Context.dimenInt(@DimenRes dmn: Int): Int {
+    return resources.getDimensionPixelSize(dmn)
+}
+
+fun Context.int(@IntegerRes int: Int): Int {
+    return resources.getInteger(int)
+}
+
+fun Context.font(@FontRes font: Int): Typeface? {
+    return ResourcesCompat.getFont(this, font)
+}
+
+fun Context.stringArray(array: Int): Array<String> {
+    return resources.getStringArray(array)
+}
+
+fun Context.intArray(array: Int): IntArray {
+    return resources.getIntArray(array)
 }

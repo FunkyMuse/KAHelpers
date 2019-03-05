@@ -1,5 +1,9 @@
 package com.crazylegend.kotlinextensions.numbers
 
+import androidx.annotation.IntRange
+import java.math.RoundingMode
+import java.text.DecimalFormat
+
 
 /**
  * Created by hristijan on 2/20/19 to long live and prosper !
@@ -148,3 +152,11 @@ val Float?.isNotNullAndMoreThanZero: Boolean get() = this != null && this > 0F
  * Returns true if this number is not null or zero (0)
  */
 val Double?.isNotNullAndMoreThanZero: Boolean get() = this != null && this > 0.0
+
+fun Number.round(@IntRange(from = 1L) decimalCount: Int): String {
+    val expression = StringBuilder().append("#.")
+    (1..decimalCount).forEach { expression.append("#") }
+    val formatter = DecimalFormat(expression.toString())
+    formatter.roundingMode = RoundingMode.HALF_UP
+    return formatter.format(this)
+}

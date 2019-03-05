@@ -2,34 +2,45 @@ package com.crazylegend.kotlinextensions.views
 
 import android.animation.IntEvaluator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Build
 import android.os.Handler
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.transition.TransitionManager
+import android.util.TypedValue
 import android.view.*
 import android.view.animation.AlphaAnimation
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import android.widget.RelativeLayout.*
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.MenuRes
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.*
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.crazylegend.kotlinextensions.R
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
@@ -50,9 +61,7 @@ fun View.invisible() {
 }
 
 
-
 val SearchView?.getEditTextSearchView get() = this?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-
 
 
 fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropUPIMG: Int, dropDOWNIMG: Int) {
@@ -113,8 +122,6 @@ fun View.setWidth(newValue: Int) {
         layoutParams = params
     }
 }
-
-
 
 
 fun View.resize(width: Int, height: Int) {
@@ -286,8 +293,8 @@ fun SwipeRefreshLayout.turnOff() = setOnRefreshListener { isRefreshing = false }
 /**
  * Aligns to left of the parent in relative layout
  */
-fun View.alignParentStart(){
-   val params =  layoutParams as RelativeLayout.LayoutParams?
+fun View.alignParentStart() {
+    val params = layoutParams as RelativeLayout.LayoutParams?
 
     params?.apply {
         addRule(ALIGN_PARENT_START)
@@ -296,12 +303,11 @@ fun View.alignParentStart(){
 }
 
 
-
 /**
  * Aligns to right of the parent in relative layout
  */
-fun View.alignParentEnd(){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
+fun View.alignParentEnd() {
+    val params = layoutParams as RelativeLayout.LayoutParams?
 
     params?.apply {
         addRule(ALIGN_PARENT_END)
@@ -310,13 +316,11 @@ fun View.alignParentEnd(){
 }
 
 
-
-
 /**
  * Aligns in the center of the parent in relative layout
  */
-fun View.alignInCenter(){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
+fun View.alignInCenter() {
+    val params = layoutParams as RelativeLayout.LayoutParams?
 
     params?.apply {
         addRule(CENTER_HORIZONTAL)
@@ -328,11 +332,11 @@ fun View.alignInCenter(){
 /**
  * Sets margins for views in Linear Layout
  */
-fun View.linearMargins(left:Int, top:Int, right:Int, bottom:Int){
-    val params =  layoutParams as LinearLayout.LayoutParams?
+fun View.linearMargins(left: Int, top: Int, right: Int, bottom: Int) {
+    val params = layoutParams as LinearLayout.LayoutParams?
 
     params?.apply {
-       setMargins(left, top, right, bottom)
+        setMargins(left, top, right, bottom)
     }
 
 }
@@ -341,11 +345,11 @@ fun View.linearMargins(left:Int, top:Int, right:Int, bottom:Int){
 /**
  * Sets margins for views in Linear Layout
  */
-fun View.linearMargins(size:Int){
-    val params =  layoutParams as LinearLayout.LayoutParams?
+fun View.linearMargins(size: Int) {
+    val params = layoutParams as LinearLayout.LayoutParams?
 
     params?.apply {
-       setMargins(size)
+        setMargins(size)
     }
 
 }
@@ -354,88 +358,8 @@ fun View.linearMargins(size:Int){
 /**
  * Sets right margin for views in Linear Layout
  */
-fun View.endLinearMargin(size:Int){
-    val params =  layoutParams as LinearLayout.LayoutParams?
-
-    params?.apply {
-       marginEnd = size
-    }
-
-}
-
-
-
-
-/**
- * Sets bottom margin for views in Linear Layout
- */
-fun View.bottomLinearMargin(size:Int){
-    val params =  layoutParams as LinearLayout.LayoutParams?
-
-    params?.apply {
-        setMargins(marginLeft, marginTop , marginRight, size)
-    }
-
-}
-
-/**
- * Sets top margin for views in Linear Layout
- */
-fun View.topLinearMargin(size:Int){
-    val params =  layoutParams as LinearLayout.LayoutParams?
-
-    params?.apply {
-        setMargins(marginLeft, size, marginRight, marginBottom)
-    }
-
-}
-
-
-
-/**
- * Sets top margin for views in Linear Layout
- */
-fun View.startLinearMargin(size:Int){
-    val params =  layoutParams as LinearLayout.LayoutParams?
-
-    params?.apply {
-       marginStart = size
-    }
-
-}
-
-
-/**
- * Sets margins for views in Relative Layout
- */
-fun View.relativeMargins(left:Int, top:Int, right:Int, bottom:Int){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
-
-    params?.apply {
-       setMargins(left, top, right, bottom)
-    }
-
-}
-
-
-/**
- * Sets margins for views in Relative Layout
- */
-fun View.relativeMargins(size:Int){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
-
-    params?.apply {
-       setMargins(size)
-    }
-
-}
-
-
-/**
- * Sets right margin for views in Relative Layout
- */
-fun View.endRelativeMargin(size:Int){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
+fun View.endLinearMargin(size: Int) {
+    val params = layoutParams as LinearLayout.LayoutParams?
 
     params?.apply {
         marginEnd = size
@@ -444,25 +368,23 @@ fun View.endRelativeMargin(size:Int){
 }
 
 
-
-
 /**
- * Sets bottom margin for views in Relative Layout
+ * Sets bottom margin for views in Linear Layout
  */
-fun View.bottomRelativeMargin(size:Int){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
+fun View.bottomLinearMargin(size: Int) {
+    val params = layoutParams as LinearLayout.LayoutParams?
 
     params?.apply {
-        setMargins(marginLeft, marginTop , marginRight, size)
+        setMargins(marginLeft, marginTop, marginRight, size)
     }
 
 }
 
 /**
- * Sets top margin for views in Relative Layout
+ * Sets top margin for views in Linear Layout
  */
-fun View.topRelativeMargin(size:Int){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
+fun View.topLinearMargin(size: Int) {
+    val params = layoutParams as LinearLayout.LayoutParams?
 
     params?.apply {
         setMargins(marginLeft, size, marginRight, marginBottom)
@@ -471,12 +393,88 @@ fun View.topRelativeMargin(size:Int){
 }
 
 
+/**
+ * Sets top margin for views in Linear Layout
+ */
+fun View.startLinearMargin(size: Int) {
+    val params = layoutParams as LinearLayout.LayoutParams?
+
+    params?.apply {
+        marginStart = size
+    }
+
+}
+
+
+/**
+ * Sets margins for views in Relative Layout
+ */
+fun View.relativeMargins(left: Int, top: Int, right: Int, bottom: Int) {
+    val params = layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(left, top, right, bottom)
+    }
+
+}
+
+
+/**
+ * Sets margins for views in Relative Layout
+ */
+fun View.relativeMargins(size: Int) {
+    val params = layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(size)
+    }
+
+}
+
+
+/**
+ * Sets right margin for views in Relative Layout
+ */
+fun View.endRelativeMargin(size: Int) {
+    val params = layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        marginEnd = size
+    }
+
+}
+
+
+/**
+ * Sets bottom margin for views in Relative Layout
+ */
+fun View.bottomRelativeMargin(size: Int) {
+    val params = layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, marginTop, marginRight, size)
+    }
+
+}
 
 /**
  * Sets top margin for views in Relative Layout
  */
-fun View.startRelativeMargin(size:Int){
-    val params =  layoutParams as RelativeLayout.LayoutParams?
+fun View.topRelativeMargin(size: Int) {
+    val params = layoutParams as RelativeLayout.LayoutParams?
+
+    params?.apply {
+        setMargins(marginLeft, size, marginRight, marginBottom)
+    }
+
+}
+
+
+/**
+ * Sets top margin for views in Relative Layout
+ */
+fun View.startRelativeMargin(size: Int) {
+    val params = layoutParams as RelativeLayout.LayoutParams?
 
     params?.apply {
         marginStart = size
@@ -487,8 +485,8 @@ fun View.startRelativeMargin(size:Int){
 /**
  * Sets margins for views
  */
-fun View.setMargins(left:Int, top:Int, right:Int, bottom:Int){
-    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams?
 
     params?.apply {
         setMargins(left, top, right, bottom)
@@ -499,8 +497,8 @@ fun View.setMargins(left:Int, top:Int, right:Int, bottom:Int){
 /**
  * Sets margins for views
  */
-fun View.setMargins(size:Int){
-    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+fun View.setMargins(size: Int) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams?
 
     params?.apply {
         setMargins(size)
@@ -512,8 +510,8 @@ fun View.setMargins(size:Int){
 /**
  * Sets right margin for views
  */
-fun View.endMargin(size:Int){
-    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+fun View.endMargin(size: Int) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams?
 
     params?.apply {
         marginEnd = size
@@ -522,16 +520,14 @@ fun View.endMargin(size:Int){
 }
 
 
-
-
 /**
  * Sets bottom margin for views
  */
-fun View.bottomMargin(size:Int){
-    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+fun View.bottomMargin(size: Int) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams?
 
     params?.apply {
-        setMargins(marginLeft, marginTop , marginRight, size)
+        setMargins(marginLeft, marginTop, marginRight, size)
     }
 
 }
@@ -539,8 +535,8 @@ fun View.bottomMargin(size:Int){
 /**
  * Sets top margin for views
  */
-fun View.topMargin(size:Int){
-    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+fun View.topMargin(size: Int) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams?
 
     params?.apply {
         setMargins(marginLeft, size, marginRight, marginBottom)
@@ -549,12 +545,11 @@ fun View.topMargin(size:Int){
 }
 
 
-
 /**
  * Sets top margin for views
  */
-fun View.startMargin(size:Int){
-    val params =  layoutParams as ViewGroup.MarginLayoutParams?
+fun View.startMargin(size: Int) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams?
 
     params?.apply {
         marginStart = size
@@ -574,7 +569,7 @@ fun Activity.setFocusToView(view: View) {
 /**
  * Change Floating action button tint
  */
-fun FloatingActionButton.setTint(color:Int){
+fun FloatingActionButton.setTint(color: Int) {
     this.imageTintList = ColorStateList.valueOf(color)
 }
 
@@ -594,11 +589,12 @@ fun View.screenshot(): Bitmap {
 /**
  * get Activity On Which View is inflated to
  */
-val View.getActivity : Activity?  get() {
-    if (context is Activity)
-        return context as Activity
-    return null
-}
+val View.getActivity: Activity?
+    get() {
+        if (context is Activity)
+            return context as Activity
+        return null
+    }
 
 /**
  * Gives focus to the passed view once the view has been completely inflated
@@ -674,8 +670,7 @@ fun View.margin(leftMargin: Int = Int.MAX_VALUE, topMargin: Int = Int.MAX_VALUE,
 }
 
 
-
-fun View.animateWidth(targetValue: Int, duration: Long = 400, action:((Float)->Unit)? = null) {
+fun View.animateWidth(targetValue: Int, duration: Long = 400, action: ((Float) -> Unit)? = null) {
     ValueAnimator.ofInt(width, targetValue).apply {
         addUpdateListener {
             setWidth(it.animatedValue as Int)
@@ -686,7 +681,7 @@ fun View.animateWidth(targetValue: Int, duration: Long = 400, action:((Float)->U
     }
 }
 
-fun View.animateHeight(targetValue: Int, duration: Long = 400, action:((Float)->Unit)? = null) {
+fun View.animateHeight(targetValue: Int, duration: Long = 400, action: ((Float) -> Unit)? = null) {
     ValueAnimator.ofInt(height, targetValue).apply {
         addUpdateListener {
             setHeight(it.animatedValue as Int)
@@ -698,7 +693,7 @@ fun View.animateHeight(targetValue: Int, duration: Long = 400, action:((Float)->
 }
 
 
-fun View.animateWidthAndHeight(targetWidth: Int, targetHeight: Int, duration: Long = 400, action:((Float)->Unit)? = null) {
+fun View.animateWidthAndHeight(targetWidth: Int, targetHeight: Int, duration: Long = 400, action: ((Float) -> Unit)? = null) {
     val startHeight = height
     val evaluator = IntEvaluator()
     ValueAnimator.ofInt(width, targetWidth).apply {
@@ -723,7 +718,7 @@ fun View.toBitmap(): Bitmap {
         is RecyclerView -> {
             this.scrollToPosition(0)
             this.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
 
             val bmp = Bitmap.createBitmap(width, measuredHeight, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bmp)
@@ -738,7 +733,7 @@ fun View.toBitmap(): Bitmap {
             this.draw(canvas)
             // reset height
             this.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST))
+                    View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST))
             bmp //return
         }
         else -> {
@@ -757,3 +752,339 @@ fun View.toBitmap(): Bitmap {
 }
 
 
+/**
+ * Attaches a listener to the recyclerview to hide the fab when it is scrolling downwards
+ * The fab will reappear when scrolling has stopped or if the user scrolls up
+ */
+fun FloatingActionButton.hideOnDownwardsScroll(recycler: RecyclerView) {
+    recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE && !isShown) show()
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            if (dy > 0 && isShown) hide()
+            else if (dy < 0 && isOrWillBeHidden) show()
+        }
+    })
+}
+
+inline var View.scaleXY
+    get() = Math.max(scaleX, scaleY)
+    set(value) {
+        scaleX = value
+        scaleY = value
+    }
+
+
+fun View.elevate(elevation: Float) = setElevation(elevation)
+
+val View.isAttachedToWindow: Boolean
+    get() {
+        return isAttachedToWindow
+    }
+
+fun View.isInBounds(container: View): Boolean {
+    val containerBounds = Rect()
+    container.getHitRect(containerBounds)
+    return getLocalVisibleRect(containerBounds)
+}
+
+/**
+ * Creates an on touch listener that only emits on a short single tap
+ */
+@SuppressLint("ClickableViewAccessibility")
+inline fun View.setOnSingleTapListener(crossinline onSingleTap: (v: View, event: MotionEvent) -> Unit) {
+    setOnTouchListener { v, event ->
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> true
+            MotionEvent.ACTION_UP -> {
+                if (event.eventTime - event.downTime < 100)
+                    onSingleTap(v, event)
+                true
+            }
+            else -> false
+        }
+    }
+}
+
+fun BottomSheetBehavior<View>.onSlide(onSlide: (View, Float) -> Unit) {
+    setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            onSlide(bottomSheet, slideOffset)
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+        }
+
+    })
+}
+
+fun BottomSheetBehavior<View>.onStateChanged(onStateChanged: (View, Int) -> Unit) {
+    setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            onStateChanged(bottomSheet, newState)
+        }
+
+    })
+}
+
+
+fun TabLayout.getTabViewAt(position: Int) = (getChildAt(0) as ViewGroup).getChildAt(position)
+
+private const val DEFAULT_DRAWER_GRAVITY = GravityCompat.START
+
+val DrawerLayout?.isOpen: Boolean get() = this?.isDrawerOpen(GravityCompat.START) ?: false
+val DrawerLayout?.isEndOpen: Boolean get() = this?.isDrawerOpen(GravityCompat.END) ?: false
+fun DrawerLayout?.open() = this?.openDrawer(GravityCompat.START)
+fun DrawerLayout?.openEnd() = this?.openDrawer(GravityCompat.END)
+fun DrawerLayout?.close() = this?.closeDrawer(GravityCompat.START)
+fun DrawerLayout?.closeEnd() = this?.openDrawer(GravityCompat.END)
+fun DrawerLayout?.toggle() = if (isOpen) close() else open()
+fun DrawerLayout?.toggleEnd() = if (isEndOpen) closeEnd() else closeEnd()
+
+inline fun DrawerLayout.consume(gravity: Int = GravityCompat.START, func: () -> Unit): Boolean {
+    func()
+    close()
+    return true
+}
+
+fun View.setLightStatusBar(condition: Boolean = true) {
+    if (Build.VERSION.SDK_INT >= 23 && condition) {
+        systemUiVisibility = systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    }
+}
+
+val Context.hasNavigationBar: Boolean
+    get() {
+        return !ViewConfiguration.get(this).hasPermanentMenuKey()
+    }
+
+/**
+ * Return true if navigation bar is at the bottom, false otherwise
+ */
+val Context.isNavigationBarHorizontal: Boolean
+    get() {
+        if (!hasNavigationBar) return false
+        val dm = resources.displayMetrics
+        return !navigationBarCanChangeItsPosition || dm.widthPixels < dm.heightPixels
+    }
+
+/**
+ * Return true if navigation bar change its position when device rotates, false otherwise
+ */
+val Context.navigationBarCanChangeItsPosition: Boolean // Only phone between 0-599dp can
+    get() {
+        val dm = resources.displayMetrics
+        return dm.widthPixels != dm.heightPixels && resources.configuration.smallestScreenWidthDp < 600
+    }
+
+/**
+ * Return the status bar height. 0 otherwise
+ */
+val Context.statusBarHeight: Int
+    get() {
+        val id = resources.getIdentifier("status_bar_height", "dimen", "android")
+        return resources.getDimensionPixelSize(id)
+    }
+
+inline fun <T : View> T.onClick(crossinline func: T.() -> Unit) {
+    setOnClickListener { func() }
+}
+
+inline fun <T : View> T.onLongClick(crossinline func: T.() -> Unit) {
+    setOnLongClickListener { func(); true }
+}
+
+inline fun <T : View> T.onGlobalLayout(crossinline func: T.() -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            if (measuredWidth > 0 && measuredHeight > 0) {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                func()
+            }
+        }
+    })
+}
+
+inline fun <T : View> T.onPreDraw(crossinline func: T.() -> Unit) {
+    viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+        override fun onPreDraw(): Boolean {
+            viewTreeObserver.removeOnPreDrawListener(this)
+            func()
+            return true
+        }
+    })
+}
+
+
+fun View.changeBackgroundColor(@ColorInt newColor: Int, duration: Int = 300) {
+    val oldBackground = background
+    val color = ColorDrawable(newColor)
+    val ld = LayerDrawable(arrayOf<Drawable>(color))
+    if (oldBackground == null) background = ld
+    else {
+        val td = TransitionDrawable(arrayOf(oldBackground, ld))
+        background = td
+        td.startTransition(duration)
+    }
+}
+
+
+inline fun Snackbar.maxLines(lines: Int): Snackbar {
+    view.findViewById<TextView>(R.id.snackbar_text).maxLines = lines
+    return this
+}
+
+
+/**
+ * Sets receiver's visibility to [View.GONE] if [TextView.getText] is
+ * null or empty; sets it to [View.VISIBLE] otherwise.
+ */
+fun TextView.collapseIfEmpty() {
+    visibility = if (!text.isNullOrEmpty()) View.VISIBLE else View.GONE
+}
+
+/**
+ * Sets receiver's visibility to [View.INVISIBLE] if [TextView.getText] is
+ * null or empty; sets it to [View.VISIBLE] otherwise.
+ */
+fun TextView.hideIfEmpty() {
+    visibility = if (!text.isNullOrEmpty()) View.VISIBLE else View.INVISIBLE
+}
+
+
+/**
+ * Displays a popup by inflating menu with specified
+ * [menu resource id][menuResourceId], calling [onClick] when an item
+ * is clicked, and optionally calling [onInit] with
+ * [PopupMenu] as receiver to initialize prior to display.
+ */
+fun View.showPopup(@MenuRes menuResourceId: Int,
+                   onInit: PopupMenu.() -> Unit = {},
+                   onClick: (MenuItem) -> Boolean) {
+    PopupMenu(context, this).apply {
+        menuInflater.inflate(menuResourceId, menu)
+        onInit(this)
+        setOnMenuItemClickListener(onClick)
+    }.show()
+}
+
+/**
+ * Sets receiver's visibility to [View.INVISIBLE] if [value] is true;
+ * sets it to [View.VISIBLE] otherwise. Opposite of [showIf]; also
+ * see [collapseIf].
+ */
+fun View.hideIf(value: Boolean) {
+    visibility = if (!value) View.VISIBLE else View.INVISIBLE
+}
+
+/**
+ * Sets receiver's visibility to [View.GONE] if [value] is true;
+ * sets it to [View.VISIBLE] otherwise. Opposite of [expandIf]; also
+ * see [hideIf].
+ */
+fun View.collapseIf(value: Boolean) {
+    visibility = if (!value) View.VISIBLE else View.GONE
+}
+
+inline fun <T : Adapter> AdapterView<T>.onItemSelected(crossinline action: (parent: AdapterView<*>?, view: View?, position: Int, id: Long) -> Unit = { _, _, _, _ -> }) {
+    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) = action(parent, view, position, id)
+    }
+}
+
+/**
+ * Returns the default, clear background for selectable items.  Reacts when touched.
+ */
+val View.selectableItemBackgroundResource: Int
+    get() {
+        val outValue = TypedValue()
+        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
+        return outValue.resourceId
+    }
+
+/**
+ * Returns the default, clear background for selectable items without a border.  Reacts when touched.
+ */
+val View.selectableItemBackgroundBorderlessResource: Int
+    get() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // If we're running on Honeycomb or newer, then we can use the Theme's
+            // selectableItemBackground to ensure that the View has a pressed state
+            val outValue = TypedValue()
+            context.theme.resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true)
+            return outValue.resourceId
+        }
+        return 0
+    }
+
+/**
+ * Allows you to modify the elevation on a view without worrying about version.
+ */
+var View.elevationCompat: Float
+    get() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return elevation
+        }
+        return 0f
+    }
+    set(value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            elevation = value
+        }
+    }
+
+/**
+ * Shows the soft input for the vindow.
+ */
+fun View.showSoftInput() {
+    context.getSystemService(Context.INPUT_METHOD_SERVICE).let { it as InputMethodManager }.showSoftInput(this, 0)
+}
+
+/**
+ * Hides the soft input for the vindow.
+ */
+fun View.hideSoftInput() {
+    context.getSystemService(Context.INPUT_METHOD_SERVICE).let { it as InputMethodManager }.hideSoftInputFromWindow(this.applicationWindowToken, 0)
+}
+
+/**
+ * Sets an on click listener for a view, but ensures the action cannot be triggered more often than [coolDown] milliseconds.
+ */
+inline fun View.setOnClickListenerCooldown(coolDown: Long = 1000L, crossinline action: () -> Unit) {
+    setOnClickListener(object : View.OnClickListener {
+        var lastTime = 0L
+        override fun onClick(v: View?) {
+            val now = System.currentTimeMillis()
+            if (now - lastTime > coolDown) {
+                action()
+                lastTime = now
+            }
+        }
+    })
+}
+
+/**
+ * Post functions
+ */
+inline fun <T : View> T.postLet(crossinline block: (T) -> Unit) {
+    post { block(this) }
+}
+
+inline fun <T : View> T.postDelayedLet(delay: Long, crossinline block: (T) -> Unit) {
+    postDelayed({ block(this) }, delay)
+}
+
+inline fun <T : View> T.postApply(crossinline block: T.() -> Unit) {
+    post { block(this) }
+}
+
+inline fun <T : View> T.postDelayedApply(delay: Long, crossinline block: T.() -> Unit) {
+    postDelayed({ block(this) }, delay)
+}

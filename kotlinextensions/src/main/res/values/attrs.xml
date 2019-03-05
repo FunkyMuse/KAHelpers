@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PinEditText">
+        <attr name="pinNormalStateDrawable" format="reference"/>
+        <attr name="pinHighlightStateDrawable" format="reference"/>
+        <attr name="pinWidth" format="dimension|reference"/>
+        <attr name="pinHeight" format="dimension|reference"/>
+        <attr name="pinSpace" format="dimension|reference"/>
+    </declare-styleable>
+
+</resources>

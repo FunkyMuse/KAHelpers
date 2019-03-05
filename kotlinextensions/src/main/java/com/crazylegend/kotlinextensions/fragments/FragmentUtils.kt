@@ -7,6 +7,7 @@ import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 
 
 /**
@@ -173,20 +174,33 @@ fun AppCompatActivity.addFragment(@Nullable title: String?, @NonNull fragment: F
 }
 
 
+fun AppCompatActivity.removeFragmentBackstack(fragment: Fragment) {
+    supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+    supportFragmentManager.popBackStack(fragment.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+}
+
+fun Context.removeFragmentBackstack(fragment: Fragment) {
+    this as AppCompatActivity
+    supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+    supportFragmentManager.popBackStack(fragment.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+}
+
+fun Fragment.removeFragmentBackstack(fragment: Fragment) {
+    val activity = this.requireActivity() as AppCompatActivity
+    activity.supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+    activity.supportFragmentManager.popBackStack(fragment.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+}
+
 fun AppCompatActivity.removeFragment(fragment: Fragment) {
     supportFragmentManager.beginTransaction().remove(fragment).commitNow()
-    supportFragmentManager.popBackStack()
 }
 
 fun Context.removeFragment(fragment: Fragment) {
     this as AppCompatActivity
     supportFragmentManager.beginTransaction().remove(fragment).commitNow()
-    supportFragmentManager.popBackStack()
 }
 
 fun Fragment.removeFragment(fragment: Fragment) {
     val activity = this.requireActivity() as AppCompatActivity
     activity.supportFragmentManager.beginTransaction().remove(fragment).commitNow()
-    activity.supportFragmentManager.popBackStack()
 }
-

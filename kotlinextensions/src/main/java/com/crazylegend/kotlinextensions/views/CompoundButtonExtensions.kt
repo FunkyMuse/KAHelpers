@@ -42,7 +42,7 @@ inline fun CompoundButton.onUnChecked(crossinline block: () -> Unit) {
  * @see CompoundButton.setOnCheckedChangeListener
  * @see CompoundButton.OnCheckedChangeListener
  */
-inline fun CompoundButton.onCheckedChange(crossinline block: (Boolean) -> Unit) {
+inline fun CompoundButton.onCheckedChange(crossinline block: (isChecked: Boolean) -> Unit) {
     setOnCheckedChangeListener { _, isChecked ->
         block.invoke(isChecked)
     }

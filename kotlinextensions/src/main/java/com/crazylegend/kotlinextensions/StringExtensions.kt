@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions
 
 import android.os.Build
 import android.text.Html
+import android.text.Spanned
 import android.util.Base64
 import java.io.File
 import java.io.FileOutputStream
@@ -258,3 +259,95 @@ fun String.containsExact(string: String): Boolean =
     Pattern.compile("(?<=^|[^a-zA-Z0-9])\\Q$string\\E(?=\$|[^a-zA-Z0-9])")
         .matcher(this)
         .find()
+
+/**
+ * Converts string to integer safely otherwise returns zero
+ */
+fun String.toIntOrZero() : Int {
+    var value = 0
+    tryOrIgnore {
+        value = this.toInt()
+    }
+    return value
+}
+
+/**
+ * Converts a string to boolean such as 'Y', 'yes', 'TRUE'
+ */
+
+fun String.toBoolean(): Boolean {
+    return this != "" &&
+            (this.equals("TRUE", ignoreCase = true)
+                    || this.equals("Y", ignoreCase = true)
+                    || this.equals("YES", ignoreCase = true))
+}
+
+/**
+ * Converts string to camel case. Handles multiple strings and empty strings
+ */
+fun String.convertToCamelCase(): String {
+    var titleText = ""
+    if (!this.isEmpty()) {
+        val words = this.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        words.filterNot { it.isEmpty() }
+            .map { it.substring(0, 1).toUpperCase() + it.substring(1).toLowerCase() }
+            .forEach { titleText += it + " " }
+    }
+    return titleText.trim { it <= ' ' }
+}
+
+fun String.ellipsize(at: Int): String {
+    if (this.length > at) {
+        return this.substring(0, at) + "..."
+    }
+    return this
+}
+
+@Suppress("DEPRECATION")
+inline fun String.htmlToSpanned(): Spanned {
+    return if (Build.VERSION.SDK_INT >= 24) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        Html.fromHtml(this)
+    }
+}
+
+fun String.noNumbers() :Boolean {
+    return matches(Regex(".*\\d.*"))
+}
+
+fun String.onlyNumbers() :Boolean {
+    return !matches(Regex("\\d+"))
+}
+
+fun String.allUpperCase() :Boolean {
+    return toUpperCase() != this
+}
+
+fun String.allLowerCase() :Boolean {
+    return toLowerCase() != this
+}
+
+fun String.atLeastOneLowerCase() :Boolean {
+    return matches(Regex("[A-Z0-9]+"))
+}
+
+fun String.atLeastOneUpperCase() :Boolean {
+    return matches(Regex("[a-z0-9]+"))
+}
+
+fun String.atLeastOneNumber() :Boolean {
+    return !matches(Regex(".*\\d.*"))
+}
+
+fun String.startsWithNonNumber() :Boolean {
+    return Character.isDigit(this[0])
+}
+
+fun String.noSpecialCharacter() :Boolean {
+    return !matches(Regex("[A-Za-z0-9]+"))
+}
+
+fun String.atLeastOneSpecialCharacter() :Boolean {
+    return matches(Regex("[A-Za-z0-9]+"))
+}

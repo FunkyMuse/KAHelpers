@@ -36,3 +36,13 @@ fun SharedPreferences.putStringSet(key: String, value: Set<String>) {
 fun SharedPreferences.clear() {
     edit { clear() }
 }
+
+fun <T> SharedPreferences.put(key: String, t: T) {
+    when (t) {
+        is Int -> putInt(key, t)
+        is Long -> putLong(key, t)
+        is Float -> putFloat(key, t)
+        is String -> putString(key, t)
+        is Boolean -> putBoolean(key, t)
+    }
+}
