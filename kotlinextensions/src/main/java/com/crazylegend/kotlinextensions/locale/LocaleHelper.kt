@@ -8,13 +8,11 @@ import java.util.*
 
 
 /**
- * Created by Hristijan on 2/1/19 to long live and prosper !
+ * Created by Hristijan on 11/6/18 to live long and prosper.
  */
+object LocaleHelper {
 
-@Suppress("DEPRECATION")
-class LocaleHelper {
-
-    val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
+    private val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
 
     fun onAttach(context: Context): Context {
         val lang = getPersistedData(context, Locale.getDefault().language)
@@ -64,6 +62,7 @@ class LocaleHelper {
         return context.createConfigurationContext(configuration)
     }
 
+    @Suppress("DEPRECATION")
     private fun updateResourcesLegacy(context: Context, language: String?): Context {
         val locale = Locale(language)
         Locale.setDefault(locale)
@@ -71,11 +70,10 @@ class LocaleHelper {
         val resources = context.resources
 
         val configuration = resources.configuration
-
-
         configuration.locale = locale
-        configuration.setLayoutDirection(locale)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLayoutDirection(locale)
+        }
 
         resources.updateConfiguration(configuration, resources.displayMetrics)
 
@@ -88,14 +86,16 @@ class LocaleHelper {
  //application level
 class MainApplication : Application() {
     override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleHelper().onAttach(base, "en"))
+        super.attachBaseContext(LocaleHelper.onAttach(base, "en"))
     }
 }*/
 
+//setting the locale
+//LocaleHelper.setLocale(context, "en")
 
 /* // activity
 override fun attachBaseContext(newBase: Context?) {
-    super.attachBaseContext(newBase?.let { LocaleHelper().onAttach(it) })
+    super.attachBaseContext(newBase?.let { LocaleHelper.onAttach(it) })
 }
 
 */
