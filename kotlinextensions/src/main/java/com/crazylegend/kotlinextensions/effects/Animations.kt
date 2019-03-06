@@ -17,7 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.NestedScrollView
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.`package`.buildIsLollipopAndUp
+import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
 import com.crazylegend.kotlinextensions.views.invisible
 import com.crazylegend.kotlinextensions.views.visible
 

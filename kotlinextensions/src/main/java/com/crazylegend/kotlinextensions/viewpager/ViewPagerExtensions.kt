@@ -86,3 +86,27 @@ inline fun ViewPager.isOnLastPage(): Boolean {
 inline fun ViewPager.isOnFirstPage(): Boolean {
     return currentItem == 0
 }
+
+/**
+ * Checks if ViewPager can swipe back.
+ */
+fun ViewPager.canGoBack() = currentItem > 0
+
+/**
+ * Checks if ViewPager can swipe next
+ */
+fun ViewPager.canGoNext() = adapter != null && currentItem < adapter!!.count - 1
+
+/**
+ * Swipes ViewPager back
+ */
+fun ViewPager.goPrevious() {
+    if (canGoBack()) currentItem -= 1
+}
+
+/**
+ * Swipes ViewPager next
+ */
+fun ViewPager.goNext() {
+    if (canGoNext()) currentItem += 1
+}

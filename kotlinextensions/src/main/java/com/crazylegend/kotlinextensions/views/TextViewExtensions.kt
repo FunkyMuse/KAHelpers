@@ -1,15 +1,21 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.content.ClipData
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.os.Build
+import android.text.Html
 import android.text.Spannable
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.crazylegend.kotlinextensions.context.clipboardManager
 
 
 /**
@@ -57,10 +63,15 @@ fun TextView.setColorOfSubstring(substring: String, color: Int) {
     try {
         val spannable = android.text.SpannableString(text)
         val start = text.indexOf(substring)
-        spannable.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, color)), start, start + substring.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(context, color)),
+            start,
+            start + substring.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         text = spannable
     } catch (e: Exception) {
-        Log.d("ViewExtensions",  "exception in setColorOfSubstring, text=$text, substring=$substring", e)
+        Log.d("ViewExtensions", "exception in setColorOfSubstring, text=$text, substring=$substring", e)
     }
 }
 
@@ -94,28 +105,75 @@ fun TextView.setDrawableBottom(drawable: Int) {
 }
 
 
-fun TextView.sizeSpan(str: String, range: IntRange, scale: Float = 1.5f){
+fun TextView.sizeSpan(str: String, range: IntRange, scale: Float = 1.5f) {
     text = str.toSizeSpan(range, scale)
 }
 
 
-fun TextView.colorSpan(str: String, range: IntRange, color: Int = Color.RED){
+fun TextView.colorSpan(str: String, range: IntRange, color: Int = Color.RED) {
     text = str.toColorSpan(range, color)
 }
 
 
-fun TextView.backgroundColorSpan(str: String, range: IntRange, color: Int = Color.RED){
+fun TextView.backgroundColorSpan(str: String, range: IntRange, color: Int = Color.RED) {
     text = str.toBackgroundColorSpan(range, color)
 }
 
-fun TextView.strikeThrougthSpan(str: String, range: IntRange){
+fun TextView.strikeThrougthSpan(str: String, range: IntRange) {
     text = str.toStrikeThroughSpan(range)
 }
 
-fun TextView.clickSpan(str: String, range: IntRange,
-                       color: Int = Color.RED, isUnderlineText: Boolean = false, clickListener: View.OnClickListener){
+fun TextView.clickSpan(
+    str: String, range: IntRange,
+    color: Int = Color.RED, isUnderlineText: Boolean = false, clickListener: View.OnClickListener
+) {
     movementMethod = LinkMovementMethod.getInstance()
     highlightColor = Color.TRANSPARENT  // remove click bg color
     text = str.toClickSpan(range, color, isUnderlineText, clickListener)
 }
 
+
+/**
+ * Copies TextView text to clipboard with given label
+ */
+fun TextView.copyToClipboard(label: String) {
+    if (text != null) {
+        val manager= context.clipboardManager
+        manager?.primaryClip = ClipData.newPlainText(label, text)
+    }
+}
+
+
+/**
+ * Copies TextView text to clipboard with given label
+ */
+fun TextView.copyToClipboard() {
+    if (text != null) {
+        val manager= context.clipboardManager
+        manager?.primaryClip = ClipData.newPlainText("", text)
+    }
+}
+
+/**
+ * Set TextView from Html
+ */
+fun TextView.setTextFromHtml(html: String) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        this.text = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        @Suppress("DEPRECATION")
+        this.text = Html.fromHtml(html)
+    }
+}
+
+/**
+ * Sets given content to TextView or hides it.
+ */
+fun TextView.setAsContent(content: CharSequence?) {
+    if (!TextUtils.isEmpty(content)) {
+        text = content
+        visibility = View.VISIBLE
+    } else {
+        visibility = View.GONE
+    }
+}

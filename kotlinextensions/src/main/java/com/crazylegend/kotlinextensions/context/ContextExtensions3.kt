@@ -456,3 +456,13 @@ fun Context.stringArray(array: Int): Array<String> {
 fun Context.intArray(array: Int): IntArray {
     return resources.getIntArray(array)
 }
+
+/**
+ * Checks if a Broadcast can be resolved
+ */
+fun Context.canResolveBroadcast(intent: Intent) = packageManager.queryBroadcastReceivers(intent, 0).isNotEmpty()
+
+/**
+ * Checks if a Provider exists with given name
+ */
+fun Context.providerExists(providerName: String) = packageManager.resolveContentProvider(providerName, 0) != null

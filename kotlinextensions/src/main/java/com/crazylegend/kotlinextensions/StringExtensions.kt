@@ -4,15 +4,22 @@ import android.os.Build
 import android.text.Html
 import android.text.Spanned
 import android.util.Base64
+import androidx.annotation.RequiresApi
 import java.io.File
 import java.io.FileOutputStream
+import java.net.URI
+import java.net.URL
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.security.SecureRandom
+import java.util.*
 import java.util.regex.Pattern
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
+import java.nio.file.Path
+import java.nio.file.Paths
 
 
 /**
@@ -351,3 +358,77 @@ fun String.noSpecialCharacter() :Boolean {
 fun String.atLeastOneSpecialCharacter() :Boolean {
     return matches(Regex("[A-Za-z0-9]+"))
 }
+
+fun Any.readResourceText(resource: String): String? {
+    return this.javaClass.classLoader?.getResource(resource)?.readText()
+}
+
+private const val MESSAGE_INVALID_LENGTH = "Length argument must not be less than zero."
+private const val CHARACTERS: String = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+private val random: Random = SecureRandom()
+
+/**
+ * Generate and return a random alpha-numeric [String] of an arbitrary [length],
+ * or an empty [String] if the [length] parameter is equal to zero.
+ *
+ * @throws IllegalArgumentException If the [length] parameter is less than zero.
+ */
+
+fun randomString(length: Int): String {
+    if (length < 0) throw IllegalArgumentException(MESSAGE_INVALID_LENGTH)
+    if (length == 0) return ""
+
+    return buildString {
+        (1..length)
+            .forEach {
+                val selection = random.nextInt(CHARACTERS.length)
+                val character = CHARACTERS[selection]
+                append(character)
+            }
+    }
+}
+
+/**
+ * Generates and returns a random array of bytes of an arbitrary [length], or an
+ * empty [ByteArray] if the [length] parameter is equal to zero.
+ *
+ * @throws IllegalArgumentException If the [length] parameter is less than zero.
+ * @author soykdan@gmail.com
+ */
+fun randomBytes(length: Int): ByteArray {
+    if (length < 0) throw IllegalArgumentException(MESSAGE_INVALID_LENGTH)
+    if (length == 0) return ByteArray(0)
+
+    val bytes = ByteArray(length)
+
+    random.nextBytes(bytes)
+
+    return bytes
+}
+
+fun String.occurrences(pattern: String): Int
+        = length - replace(pattern, "").length
+
+/**
+ * Convenience method for creating a [URL] from a valid [String].
+ */
+fun String.toURL(): URL
+        = URL(this)
+
+fun String.toURI(): URI
+        = URI(this)
+
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.toPath(): Path
+        = Paths.get(this)
+
+/**
+ * Convenience method to clear all content from a [StringBuilder].
+ *
+ * @see StringBuilder.setLength
+ * @author soykdan@gmail.com
+ */
+fun StringBuilder.clear(): Unit
+        = setLength(0)

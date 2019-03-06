@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.views
 import android.content.Context
 import android.graphics.PorterDuff
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
@@ -10,8 +11,11 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.google.android.material.textfield.TextInputEditText
+import java.net.MalformedURLException
+import java.net.URL
 
 
 /**
@@ -39,9 +43,11 @@ fun EditText.setTheText(text: String) {
  *
  * @return The `TextWatcher` being added to EditText
  */
-fun EditText.addTextWatcher(afterTextChanged: (text: Editable?) -> Unit = { _ -> },
-                            beforeTextChanged: (text: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
-                            onTextChanged: (text: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> }): TextWatcher {
+fun EditText.addTextWatcher(
+    afterTextChanged: (text: Editable?) -> Unit = { _ -> },
+    beforeTextChanged: (text: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
+    onTextChanged: (text: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> }
+): TextWatcher {
 
     val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -68,7 +74,7 @@ fun EditText.focus() {
     }
 }
 
-fun EditText.afterTextChanged(afterTextChanged: (chars: Editable?) -> Unit = {_->}) {
+fun EditText.afterTextChanged(afterTextChanged: (chars: Editable?) -> Unit = { _ -> }) {
     addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             afterTextChanged(s)
@@ -83,7 +89,7 @@ fun EditText.afterTextChanged(afterTextChanged: (chars: Editable?) -> Unit = {_-
     })
 }
 
-fun EditText.beforeTextChanged(beforeTextChanged: (chars: CharSequence?, start: Int, count: Int, after: Int) -> Unit  = {_,_,_,_->}) {
+fun EditText.beforeTextChanged(beforeTextChanged: (chars: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> }) {
     addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
@@ -98,7 +104,7 @@ fun EditText.beforeTextChanged(beforeTextChanged: (chars: CharSequence?, start: 
     })
 }
 
-fun EditText.onTextChanged(onTextChanged: (chars: CharSequence?, start: Int, count: Int, after: Int) -> Unit  = {_,_,_,_->}) {
+fun EditText.onTextChanged(onTextChanged: (chars: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> }) {
     addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
         }
@@ -186,7 +192,7 @@ inline fun EditText.onSend(crossinline action: (text: String) -> Unit) {
 fun EditText.setCursorColor(color: Int) {
     try {
         val fCursorDrawableRes = TextView::class.java.getDeclaredField("mCursorDrawableRes")
-        fCursorDrawableRes.setAccessible(true)
+        fCursorDrawableRes.isAccessible = true
         val mCursorDrawableRes = fCursorDrawableRes.getInt(this)
         val fEditor = TextView::class.java.getDeclaredField("mEditor")
         fEditor.isAccessible = true
@@ -195,10 +201,85 @@ fun EditText.setCursorColor(color: Int) {
         val fCursorDrawable = clazz.getDeclaredField("mCursorDrawable")
         fCursorDrawable.isAccessible = true
         val drawables = arrayOf(
-                context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply { this?.setColorFilter(color, PorterDuff.Mode.SRC_IN) },
-                context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply { this?.setColorFilter(color, PorterDuff.Mode.SRC_IN) }
+            context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
+                this?.setColorFilter(
+                    color,
+                    PorterDuff.Mode.SRC_IN
+                )
+            },
+            context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
+                this?.setColorFilter(
+                    color,
+                    PorterDuff.Mode.SRC_IN
+                )
+            }
         )
         fCursorDrawable.set(editor, drawables)
     } catch (ignored: Throwable) {
+    }
+}
+
+/**
+ * Extension method to replace all text inside an [Editable] with the specified [newValue].
+ */
+fun Editable.replaceAll(newValue: String) {
+    replace(0, length, newValue)
+}
+
+/**
+ * Extension method to replace all text inside an [Editable] with the specified [newValue] while
+ * ignoring any [android.text.InputFilter] set on the [Editable].
+ */
+fun Editable.replaceAllIgnoreFilters(newValue: String) {
+    val currentFilters = filters
+    filters = emptyArray()
+    replaceAll(newValue)
+    filters = currentFilters
+}
+
+/**
+ * returns EditText text as URL
+ */
+fun EditText.getUrl(): URL? {
+    return try {
+        URL(text.toString())
+    } catch (e: MalformedURLException) {
+        null
+    }
+}
+
+/**
+ * Sets EditText text from Clipboard
+ */
+fun EditText.pasteFromClipBoard() {
+    var text = ""
+
+    val manager = context.clipboardManager
+
+    manager?.primaryClip?.let {
+        val item = manager.primaryClip?.getItemAt(0)
+        text = item?.text.toString()
+    }
+
+    if (!TextUtils.isEmpty(text)) setText(text)
+}
+
+/**
+ * Copies TextView text to clipboard with given label
+ */
+fun EditText.copyToClipboard(label: String) {
+    if (text != null) {
+        val manager= context.clipboardManager
+        manager?.primaryClip = android.content.ClipData.newPlainText(label, text)
+    }
+}
+
+/**
+ * Copies TextView text to clipboard with given label
+ */
+fun EditText.copyToClipboard() {
+    if (text != null) {
+        val manager= context.clipboardManager
+        manager?.primaryClip = android.content.ClipData.newPlainText("", text)
     }
 }

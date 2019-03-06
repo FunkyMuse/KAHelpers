@@ -68,7 +68,7 @@ fun ViewGroup.removeViewsByTag(tag: String) {
 /**
  * get All the Children's as Iterator
  */
-fun ViewGroup.childs() = object : Iterator<View> {
+fun ViewGroup.children() = object : Iterator<View> {
     var index = 0
     override fun hasNext(): Boolean {
         return index < childCount
@@ -79,3 +79,36 @@ fun ViewGroup.childs() = object : Iterator<View> {
     }
 
 }
+
+/**
+ * Hides all child views
+ */
+fun ViewGroup.hideAll() {
+    eachChild {
+        it.gone()
+    }
+}
+
+/**
+ * SHows all child views
+ */
+fun ViewGroup.showAll() {
+    eachChild {
+        it.visible()
+    }
+}
+
+/**
+ * Applys given func to all child views
+ */
+inline fun ViewGroup.eachChild(func: (view: View) -> Unit) {
+    for (i in 0 until childCount) {
+        func(getChildAt(i))
+    }
+}
+
+
+/**
+ * Gets Child View at index
+ */
+inline operator fun ViewGroup.get(i: Int): View? = getChildAt(i)

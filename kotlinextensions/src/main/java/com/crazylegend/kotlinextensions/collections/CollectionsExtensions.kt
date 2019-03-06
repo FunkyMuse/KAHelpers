@@ -1,7 +1,9 @@
 package com.crazylegend.kotlinextensions.collections
 
+import android.content.res.TypedArray
 import android.util.SparseArray
 import java.util.*
+import kotlin.NoSuchElementException
 
 
 /**
@@ -27,6 +29,16 @@ fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
     this[index2] = tmp
 }
 
+/**
+ * Gets mid element
+ */
+@Throws(NoSuchElementException::class)
+fun <T> List<T>.midElement(): T {
+    if (isEmpty())
+        throw NoSuchElementException("List is empty.")
+    return this[size / 2]
+}
+
 
 /**
  * Iterate the receiver [List] backwards.
@@ -49,6 +61,12 @@ inline fun <T> List<T>.forEachReversedIndexed(f: (Int, T) -> Unit) {
         i--
     }
 }
+
+/**
+ * get mid index of a list
+ */
+val <T> List<T>.midIndex: Int
+    get() = if (size == 0) 0 else size / 2
 
 /**
  * Adds [E] to this list if the same doesn't exist
@@ -185,3 +203,46 @@ inline fun <V> SparseArray<V>.getOrPut(key: Int, defaultValue: () -> V): V {
     this[key]?.let { return it }
     return defaultValue().apply { put(key, this) }
 }
+
+/**
+ * Returns a [Deque] filled with all elements of this collection.
+ */
+fun <T> Iterable<T>.toDeque(): Deque<T> {
+    return if (this is Collection<T>) this.toDeque()
+    else toCollection(ArrayDeque<T>())
+}
+
+/**
+ * Returns a [Deque] filled with all elements of this collection.
+ */
+fun <T> Collection<T>.toDeque(): Deque<T>
+        = ArrayDeque<T>(this)
+
+/**
+ * Returns an empty new [Deque].
+ */
+fun <T> dequeOf(): Deque<T>
+        = arrayDequeOf()
+
+/**
+ * Returns an empty new [ArrayDeque].
+ */
+fun <T> arrayDequeOf(): ArrayDeque<T>
+        = ArrayDeque()
+
+/**
+ * Returns a new [Deque] with the given elements.
+ */
+fun <T> dequeOf(vararg elements: T): Deque<T> {
+    return if (elements.isEmpty()) ArrayDeque()
+    else elements.toCollection(ArrayDeque<T>())
+}
+
+/**
+ * Returns a new [ArrayDeque] with the given elements.
+ */
+fun <T> arrayDequeOf(vararg elements: T): ArrayDeque<T> {
+    return if (elements.isEmpty()) ArrayDeque()
+    else elements.toCollection(ArrayDeque())
+}
+

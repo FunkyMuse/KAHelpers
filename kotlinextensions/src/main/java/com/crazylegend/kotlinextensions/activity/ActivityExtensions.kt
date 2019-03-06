@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
@@ -14,9 +15,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.annotation.UiThread
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.`package`.buildIsMarshmallowAndUp
+import com.crazylegend.kotlinextensions.packageutils.buildIsMarshmallowAndUp
 
 
 /**
@@ -156,3 +158,25 @@ fun Activity.finishSlideOut() {
     overridePendingTransition(R.anim.fade_in, R.anim.abc_fade_out)
 }
 
+
+inline fun <reified T> Activity.startActivityForResult(
+    requestCode: Int,
+    bundleBuilder: Bundle.() -> Unit = {},
+    intentBuilder: Intent.() -> Unit = {}
+) {
+    val intent = Intent(this, T::class.java)
+    intent.intentBuilder()
+    val bundle = Bundle()
+    bundle.bundleBuilder()
+    startActivityForResult(intent, requestCode, if (bundle.isEmpty) null else bundle)
+}
+
+
+/**
+ * Simplify using AlertDialog
+ */
+inline fun Activity.alert(body: AlertDialog.Builder.() -> AlertDialog.Builder) {
+    AlertDialog.Builder(this)
+        .body()
+        .show()
+}

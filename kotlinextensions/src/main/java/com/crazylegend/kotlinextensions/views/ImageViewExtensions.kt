@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.app.WallpaperManager
 import android.content.res.ColorStateList
 import android.widget.ImageView
 import androidx.core.widget.ImageViewCompat
@@ -25,7 +26,7 @@ fun ImageView.setTint(color: Int) {
 
 
 /**
- * Glide加载图片
+ * Glide
  * @param url
  * @param placeholder
  * @param error
@@ -33,7 +34,7 @@ fun ImageView.setTint(color: Int) {
  * @param isCenterCrop
  * @param roundRadius
  * @param isCrossFade
- * @param isForceOriginalSize 是
+ * @param isForceOriginalSize
  */
 fun ImageView.load(url: Any, placeholder: Int = 0, error: Int = 0,
                    isCircle: Boolean = false,
@@ -63,4 +64,12 @@ fun ImageView.load(url: Any, placeholder: Int = 0, error: Int = 0,
             if (isCrossFade) transition(DrawableTransitionOptions.withCrossFade())
         }
         .into(this)
+}
+
+/**
+ * Loads current device wallpaper to an Imageview
+ */
+fun ImageView.setWallpaper() {
+    val wallpaperManager = WallpaperManager.getInstance(context)
+    setImageDrawable(wallpaperManager.drawable)
 }

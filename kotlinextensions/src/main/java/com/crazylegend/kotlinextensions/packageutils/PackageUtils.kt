@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.`package`
+package com.crazylegend.kotlinextensions.packageutils
 
 import android.content.ActivityNotFoundException
 import android.content.Context

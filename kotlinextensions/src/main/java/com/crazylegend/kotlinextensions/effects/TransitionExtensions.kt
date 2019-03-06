@@ -18,7 +18,7 @@ import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
-import com.crazylegend.kotlinextensions.`package`.buildIsLollipopAndUp
+import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
 import com.crazylegend.kotlinextensions.views.scaleXY
 
 

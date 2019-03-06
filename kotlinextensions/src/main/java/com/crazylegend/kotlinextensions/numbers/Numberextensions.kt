@@ -160,3 +160,19 @@ fun Number.round(@IntRange(from = 1L) decimalCount: Int): String {
     formatter.roundingMode = RoundingMode.HALF_UP
     return formatter.format(this)
 }
+
+/**
+ * Decompose an [Int] value into it's component digits.
+ *
+ * @return An ordered list of each digit.
+ */
+fun Int.digits() : List<Int> {
+    var value = this
+    val digits = mutableListOf<Int>()
+    do {
+        digits.add(value % 10)
+        value /= 10
+    }
+    while (value > 0 || value < 0)
+    return digits.reversed()
+}

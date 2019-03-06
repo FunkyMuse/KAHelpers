@@ -219,4 +219,137 @@ fun <T> LiveData<T>.distinctUntilChanged(): LiveData<T> {
     return mutableLiveData
 }
 
+/**
+ * Merges this LiveData with another one, and emits any item that was emitted by any of them
+ */
+fun <T> LiveData<T>.mergeWith(vararg liveDatas: LiveData<T>): LiveData<T> {
+    val mergeWithArray = mutableListOf<LiveData<T>>()
+    mergeWithArray.add(this)
+    mergeWithArray.addAll(liveDatas)
+    return merge(mergeWithArray)
+}
+
+/**
+ * Merges multiple LiveData, and emits any item that was emitted by any of them
+ */
+fun <T> merge(liveDataList: List<LiveData<T>>): LiveData<T> {
+    val finalLiveData: MediatorLiveData<T> = MediatorLiveData()
+    liveDataList.forEach { liveData ->
+
+        liveData.value?.let {
+            finalLiveData.value = it
+        }
+
+        finalLiveData.addSource(liveData) { source ->
+            finalLiveData.value = source
+        }
+    }
+    return finalLiveData
+}
+
+/**
+ * Emits the `startingValue` before any other value.
+ */
+fun <T> LiveData<T>.startWith(startingValue: T?): LiveData<T> {
+    val finalLiveData: MediatorLiveData<T> = MediatorLiveData()
+    finalLiveData.value = startingValue
+    finalLiveData.addSource(this) { source ->
+        finalLiveData.value = source
+    }
+    return finalLiveData
+}
+
+/**
+ * Converts the LiveData to `SingleLiveData` and concats it with the `otherLiveData` and emits their
+ * values one by one
+ */
+fun <T> LiveData<T>.then(otherLiveData:LiveData<T>):LiveData<T>{
+    return if (this is SingleLiveData){
+        when (otherLiveData) {
+            is SingleLiveData -> SingleLiveDataConcat(this,otherLiveData)
+            else -> SingleLiveDataConcat(this,otherLiveData.toSingleLiveData())
+        }
+    }else{
+        when (otherLiveData) {
+            is SingleLiveData -> SingleLiveDataConcat(this.toSingleLiveData(),otherLiveData)
+            else -> SingleLiveDataConcat(this.toSingleLiveData(),otherLiveData.toSingleLiveData())
+        }
+    }
+}
+fun <T> LiveData<T>.concatWith(otherLiveData:LiveData<T>) = then(otherLiveData)
+
+/**
+ * Concats the given LiveData together and emits their values one by one in order
+ */
+fun <T> concat(vararg liveData:LiveData<T>):LiveData<T>{
+    val liveDataList = mutableListOf<SingleLiveData<T>>()
+    liveData.forEach {
+        if( it is SingleLiveData<T>)
+            liveDataList.add(it)
+        else
+            liveDataList.add(it.toSingleLiveData())
+    }
+    return SingleLiveDataConcat(liveDataList)
+}
+
+
+
+/**
+ * Emits the items that pass through the predicate
+ */
+inline fun <T> LiveData<T>.filter(crossinline predicate : (T?)->Boolean): LiveData<T> {
+    val mutableLiveData: MediatorLiveData<T> = MediatorLiveData()
+    mutableLiveData.addSource(this) {
+        if(predicate(it))
+            mutableLiveData.value = it
+    }
+    return mutableLiveData
+}
+
+
+
+/**
+ * emits the item that was emitted at `index` position
+ * Note: This only works for elements that were emitted `after` the `elementAt` is applied.
+ */
+fun <T> LiveData<T>.elementAt(index:Int): SingleLiveData<T> {
+    val mutableLiveData: MediatorLiveData<T> = MediatorLiveData()
+    var currentIndex = 0
+    if(this.value != null)
+        currentIndex = -1
+    mutableLiveData.addSource(this) {
+        if(currentIndex==index) {
+            mutableLiveData.value = it
+            mutableLiveData.removeSource(this)
+        }
+        currentIndex++
+    }
+    return SingleLiveData(mutableLiveData)
+}
+
+/**
+ * Emits only the values that are not null
+ */
+fun <T> LiveData<T>.nonNull(): NonNullLiveData<T> {
+    return NonNullLiveData(this)
+}
+
+/**
+ * Buffers the items emitted by the LiveData, and emits them when they reach the `count` as a List.
+ */
+fun <T> LiveData<T>.buffer(count:Int): MutableLiveData<List<T?>> {
+    val mutableLiveData: MediatorLiveData<List<T?>> = MediatorLiveData()
+    val latestBuffer = mutableListOf<T?>()
+    mutableLiveData.addSource(this) { value ->
+        synchronized(latestBuffer) {
+            latestBuffer.add(value)
+            if (latestBuffer.size == count){
+                mutableLiveData.value = latestBuffer.toList()
+                latestBuffer.clear()
+            }
+        }
+
+    }
+    return mutableLiveData
+}
 
