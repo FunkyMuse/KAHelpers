@@ -69,7 +69,21 @@ val String.mostCommonCharacter: Char?
         return maxEntry.key
     }
 
-fun String.removeFirstLastChar(): String = this.substring(1, this.length - 1)
+fun String.removeFirstChar(): String {
+    return if (this.isEmpty()){
+        ""
+    } else {
+        this.substring(1)
+    }
+}
+fun String.removeLastCharacter(): String {
+    return  if (this.isEmpty()){
+        ""
+    } else {
+        this.substring(0, this.length - 1)
+    }
+}
+
 
 fun <T> T.concatAsString(b: T): String {
     return this.toString() + b.toString()
