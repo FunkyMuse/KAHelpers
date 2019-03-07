@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.crazylegend.kotlinextensions.collections
 
 import android.content.res.TypedArray
@@ -246,3 +248,398 @@ fun <T> arrayDequeOf(vararg elements: T): ArrayDeque<T> {
     else elements.toCollection(ArrayDeque())
 }
 
+/**
+ * Find the index of the minimal element of an array.
+ * @param [arr] an array of any Comparable type.
+ * @return the index of the first minimal element in the array.
+ */
+fun <T: Comparable<T>> indexOfMin(arr: Array<T>) : Int {
+    var minIndex = 0
+    val minItem = arr[0]
+
+    for(i in 1 .. arr.size) {
+        if (arr[minIndex] < minItem)
+            minIndex = i
+    }
+
+    return minIndex
+}
+
+
+inline fun <T> count(start: T, step: T, crossinline add: (T, T) -> T): Sequence<T> = sequence {
+    var n = start
+
+    while (true) {
+        yield(n)
+        n = add(n, step)
+    }
+}
+
+/**
+ * Make an iterator that returns values starting with [start] with evenly space [step].
+ */
+fun count(start: Byte, step: Byte = 1): Sequence<Byte> = count(start, step) { n, s -> (n + s).toByte() }
+
+/**
+ * Make an iterator that returns values starting with [start] with evenly space [step].
+ */
+fun count(start: Short, step: Short = 1): Sequence<Short> = count(start, step) { n, s -> (n + s).toShort() }
+
+/**
+ * Make an iterator that returns values starting with [start] with evenly space [step].
+ */
+fun count(start: Int, step: Int = 1): Sequence<Int> = count(start, step) { n, s -> n + s }
+
+/**
+ * Make an iterator that returns values starting with [start] with evenly space [step].
+ */
+fun count(start: Long, step: Long = 1L): Sequence<Long> = count(start, step) { n, s -> n + s }
+
+/**
+ * Make an iterator that returns values starting with [start] with evenly space [step].
+ */
+fun count(start: Float, step: Float = 1f): Sequence<Float> = count(start, step) { n, s -> n + s }
+
+/**
+ * Make an iterator that returns values starting with [start] with evenly space [step].
+ */
+fun count(start: Double, step: Double = 1.0): Sequence<Double> = count(start, step) { n, s -> n + s }
+
+/**
+ * Make an iterator returning elements from the iterable and saving a copy of each.
+ * When the iterable is exhausted, return elements from the saved copy. Repeats indefinitely.
+ */
+fun <T> Iterable<T>.cycle(): Sequence<T> = sequence {
+    val saved = mutableListOf<T>()
+
+    for (item in this@cycle) {
+        yield(item)
+        saved.add(item)
+    }
+    if (saved.isNotEmpty()) {
+        while (true) {
+            for (item in saved) {
+                yield(item)
+            }
+        }
+    }
+}
+
+/**
+ * Make an iterator that returns element over and over again. Runs indefinitely.
+ */
+fun <T> T.repeat(): Sequence<T> = sequence {
+    while (true) {
+        yield(this@repeat)
+    }
+}
+
+/**
+ * Make an iterator that returns element over and over again. Runs [count] times.
+ */
+fun <T> T.repeat(count: Int): Sequence<T> = sequence {
+    for (i in 1..count) {
+        yield(this@repeat)
+    }
+}
+
+/**
+ * Returns the first element matching the given [predicate],
+ * or the result of calling the [defaultValue] function if no such element is found.
+ */
+inline fun <T> Iterable<T>.firstOrElse(predicate: (T) -> Boolean, defaultValue: () -> T): T {
+    for (element in this) if (predicate(element)) return element
+
+    return defaultValue()
+}
+
+/**
+ * Returns the first element which is not null.
+ * @throws [NoSuchElementException] if there are no elements or all elements are null.
+ */
+fun <T> Iterable<T?>.firstNotNull(): T = this.first { it != null } as T
+
+/**
+ * Returns the first element which is not null.
+ * @throws [NoSuchElementException] if there are no elements or all elements are null.
+ */
+fun <T> List<T?>.firstNotNull(): T = this.first { it != null } as T
+
+/**
+ * Returns the first element which is not null,
+ * or the result of calling the [defaultValue] function if there are no elements or all elements are null.
+ */
+inline fun <T> Iterable<T?>.firstNotNullOrElse(defaultValue: () -> T): T = firstOrElse({ it != null }, defaultValue) as T
+
+/**
+ * Returns the first element which is not null,
+ * or the result of calling the [defaultValue] function if there are no elements or all elements are null.
+ */
+inline fun <T> List<T?>.firstNotNullOrElse(defaultValue: () -> T): T = firstOrElse({ it != null }, defaultValue) as T
+
+/**
+ * Returns the last element matching the given [predicate],
+ * or the result of calling the [defaultValue] function if no such element is found.
+ */
+inline fun <T> Iterable<T>.lastOrElse(predicate: (T) -> Boolean, defaultValue: () -> T): T {
+    var last: T? = null
+    var found = false
+    for (element in this) {
+        if (predicate(element)) {
+            last = element
+            found = true
+        }
+    }
+    if (!found) {
+        return defaultValue()
+    }
+    return last as T
+}
+
+/**
+ * Returns the last element matching the given [predicate],
+ * or the result of calling the [defaultValue] function if no such element is found.
+ */
+inline fun <T> List<T>.lastOrElse(predicate: (T) -> Boolean, defaultValue: () -> T): T {
+    val iterator = this.listIterator(size)
+    while (iterator.hasPrevious()) {
+        val element = iterator.previous()
+        if (predicate(element)) return element
+    }
+
+    return defaultValue()
+}
+
+/**
+ * Returns the last element which is not null.
+ * @throws [NoSuchElementException] if there are no elements or all elements are null.
+ */
+fun <T> Iterable<T?>.lastNotNull(): T = this.last { it != null } as T
+
+/**
+ * Returns the last element which is not null.
+ * @throws [NoSuchElementException] if there are no elements or all elements are null.
+ */
+fun <T> List<T?>.lastNotNull(): T = this.last { it != null } as T
+
+/**
+ * Returns the last element which is not null,
+ * or the result of calling the [defaultValue] function if there are no elements or all elements are null.
+ */
+inline fun <T> Iterable<T?>.lastNotNullOrElse(defaultValue: () -> T): T = lastOrElse({ it != null }, defaultValue) as T
+
+/**
+ * Returns the last element which is not null,
+ * or the result of calling the [defaultValue] function if there are no elements or all elements are null.
+ */
+inline fun <T> List<T?>.lastNotNullOrElse(defaultValue: () -> T): T = lastOrElse({ it != null }, defaultValue) as T
+
+
+/**
+* splits a list into sublists
+* @param partitionSize the max size of each sublist. The last sub list may be shorter.
+* @return a List of Lists of T
+*/
+fun <T> List<T>.split(partitionSize: Int): List<List<T>> {
+    if(this.isEmpty()) return emptyList()
+    if(partitionSize < 1) throw IllegalArgumentException("partitionSize must be positive")
+
+    val result = ArrayList<List<T>>()
+    var entry = ArrayList<T>(partitionSize)
+    for (item in this) {
+        if(entry.size == partitionSize) {
+            result.add(entry)
+            entry = ArrayList<T>()
+        }
+        entry.add(item)
+    }
+    result.add(entry)
+    return result
+}
+
+/**
+ * like map, but multithreaded. It uses the number of cores + 2 threads.
+ */
+inline fun <T,V> List<T>.pmap(operation: (T) -> V): List<V> {
+    val threads = ArrayList<Thread>()
+    val cores = Runtime.getRuntime().availableProcessors();
+    // run each thread on a partitioned block to minimize thread setup/teardown
+    val partitioned = this.split(cores + 2);
+    val partitionedResult = partitioned.map { partition ->
+        val thread = Thread()
+        threads.add(thread)
+        thread.run {
+            partition.map(operation)
+        }
+    }
+    // wait for threads to finish
+    for (thread in threads) {
+        thread.join()
+    }
+
+    return partitionedResult.flatten()
+}
+
+/**
+* Moves the given **T** item to the specified index
+*/
+fun <T> MutableList<T>.move(item: T, newIndex: Int)  {
+    val currentIndex = indexOf(item)
+    if (currentIndex < 0) return
+    removeAt(currentIndex)
+    add(newIndex, item)
+}
+
+/**
+ * Moves the given item at the `oldIndex` to the `newIndex`
+ */
+fun <T> MutableList<T>.moveAt(oldIndex: Int, newIndex: Int)  {
+    val item = this[oldIndex]
+    removeAt(oldIndex)
+    if (oldIndex > newIndex)
+        add(newIndex, item)
+    else
+        add(newIndex - 1, item)
+}
+
+/**
+ * Moves all items meeting a predicate to the given index
+ */
+fun <T> MutableList<T>.moveAll(newIndex: Int, predicate: (T) -> Boolean) {
+    check(newIndex in 0..(size - 1))
+    val split = partition(predicate)
+    clear()
+    addAll(split.second)
+    addAll(if (newIndex >= size) size else newIndex,split.first)
+}
+
+/**
+ * Moves the given element at specified index up the **MutableList** by one increment
+ * unless it is at the top already which will result in no movement
+ */
+fun <T> MutableList<T>.moveUpAt(index: Int) {
+    if (index == 0) return
+    if (index < 0 || index >= size) throw Exception("Invalid index $index for MutableList of size $size")
+    val newIndex = index + 1
+    val item = this[index]
+    removeAt(index)
+    add(newIndex, item)
+}
+
+/**
+ * Moves the given element **T** up the **MutableList** by one increment
+ * unless it is at the bottom already which will result in no movement
+ */
+fun <T> MutableList<T>.moveDownAt(index: Int) {
+    if (index == size - 1) return
+    if (index < 0 || index >= size) throw Exception("Invalid index $index for MutableList of size $size")
+    val newIndex = index - 1
+    val item = this[index]
+    removeAt(index)
+    add(newIndex, item)
+}
+
+/**
+ * Moves the given element **T** up the **MutableList** by an index increment
+ * unless it is at the top already which will result in no movement.
+ * Returns a `Boolean` indicating if move was successful
+ */
+fun <T> MutableList<T>.moveUp(item: T): Boolean {
+    val currentIndex = indexOf(item)
+    if (currentIndex == -1) return false
+    val newIndex = (currentIndex - 1)
+    if (currentIndex <=0) return false
+    remove(item)
+    add(newIndex, item)
+    return true
+}
+
+/**
+ * Moves the given element **T** up the **MutableList** by an index increment
+ * unless it is at the bottom already which will result in no movement.
+ * Returns a `Boolean` indicating if move was successful
+ */
+fun <T> MutableList<T>.moveDown(item: T): Boolean {
+    val currentIndex = indexOf(item)
+    if (currentIndex == -1) return false
+    val newIndex = (currentIndex + 1)
+    if (newIndex >= size)  return false
+    remove(item)
+    add(newIndex, item)
+    return true
+}
+
+
+/**
+ * Moves first element **T** up an index that satisfies the given **predicate**, unless its already at the top
+ */
+inline fun <T> MutableList<T>.moveUp(crossinline predicate: (T) -> Boolean)  = find(predicate)?.let { moveUp(it) }
+
+/**
+ * Moves first element **T** down an index that satisfies the given **predicate**, unless its already at the bottom
+ */
+inline fun <T> MutableList<T>.moveDown(crossinline predicate: (T) -> Boolean)  = find(predicate)?.let { moveDown(it) }
+
+/**
+ * Moves all **T** elements up an index that satisfy the given **predicate**, unless they are already at the top
+ */
+inline fun <T> MutableList<T>.moveUpAll(crossinline predicate: (T) -> Boolean)  = asSequence().withIndex()
+    .filter { predicate.invoke(it.value) }
+    .forEach { moveUpAt(it.index) }
+
+/**
+ * Moves all **T** elements down an index that satisfy the given **predicate**, unless they are already at the bottom
+ */
+inline fun <T> MutableList<T>.moveDownAll(crossinline predicate: (T) -> Boolean)  = asSequence().withIndex()
+    .filter { predicate.invoke(it.value) }
+    .forEach { moveDownAt(it.index) }
+
+
+/**
+ * Swaps the index position of two items
+ */
+fun <T> MutableList<T>.swap(itemOne: T, itemTwo: T) = swap(indexOf(itemOne), indexOf(itemTwo))
+
+@JvmName("combinationsExtension")
+fun <A, B> List<A>.combinations(listB: List<B>): List<Pair<A, B>> =
+    combinations<A, B>(this, listB)
+
+@JvmName("combinations")
+fun <A, B> combinations(listA: List<A>, listB: List<B>): List<Pair<A, B>> =
+    listA.flatMap { first -> listB.map { second -> first to second } }
+
+@JvmName("combinationsExtension")
+fun <A, B, C> List<A>.combinations(listB: List<B>, listC: List<C>): List<Triple<A, B, C>> =
+    combinations<A, B, C>(this, listB, listC)
+
+@JvmName("combinations")
+fun <A, B, C> combinations(listA: List<A>, listB: List<B>, listC: List<C>): List<Triple<A, B, C>> =
+    listA.flatMap { first ->
+        listB.flatMap { second ->
+            listC.map { third ->
+                Triple(first, second, third)
+            }
+        }
+    }
+
+fun <T> combinations(vararg listOfList: List<T>): List<List<T>> {
+    return listOfList.fold(
+        initial = listOf(emptyList<T>()),
+        operation = { accumulateListOfList: List<List<T>>, elementList: List<T> ->
+            accumulateListOfList.flatMap { list: List<T> ->
+                elementList.map { element: T -> list + element }
+            }
+        }
+    )
+}
+
+fun <T> Collection<T>.doIfContained(t: T, func: T.() -> Unit): Boolean {
+    if (contains(t)) {
+        t.func()
+        return true
+    }
+    return false
+}
+
+infix fun <T> T.appendTo(list: List<T>) = list + listOf(this)
+infix fun <T> T.prependTo(list: List<T>) = listOf(this) + list

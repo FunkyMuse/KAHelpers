@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.context
 import android.app.Activity
 import android.content.*
 import android.net.Uri
+import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -248,4 +249,25 @@ fun Context.isShowKeyboard() :Boolean {
 fun Context.toggleKeyboard() {
     if(inputMethodManager.isActive)
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
+}
+
+/**
+ * Gets intent from Context
+ * @return: Generated intent from Flags, Data and Bundle.
+ * @param[flags] Flags to pass to the intent
+ * @param[data] Uri to pass to intent
+ * @param[bundle] Extra to pass to intent
+ * @receiver Context to generate intent from
+ */
+@JvmOverloads
+inline fun <reified T : Context> Context.getIntent(
+    flags: Int = 0,
+    bundle: Bundle? = null,
+    data: Uri? = null
+): Intent = Intent(this, T::class.java).apply {
+    this.flags = flags
+    this.data = data
+    bundle?.let {
+        putExtras(it)
+    }
 }

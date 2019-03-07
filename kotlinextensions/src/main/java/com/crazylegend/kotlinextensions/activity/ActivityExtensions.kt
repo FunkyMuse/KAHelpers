@@ -1,22 +1,31 @@
 package com.crazylegend.kotlinextensions.activity
 
+import android.Manifest.permission.WRITE_SETTINGS
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
-import androidx.annotation.UiThread
+import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.packageutils.buildIsMarshmallowAndUp
 
@@ -180,3 +189,236 @@ inline fun Activity.alert(body: AlertDialog.Builder.() -> AlertDialog.Builder) {
         .body()
         .show()
 }
+
+inline fun <reified T : Any> Activity.launchActivity(
+    requestCode: Int = -1,
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {}
+) {
+    val intent = newIntent<T>(this)
+    intent.init()
+
+    startActivityForResult(intent, requestCode, options)
+
+}
+
+inline fun <reified T : Any> Context.launchActivity(
+    options: Bundle? = null,
+    noinline init: Intent.() -> Unit = {}
+) {
+    val intent = newIntent<T>(this)
+    intent.init()
+    startActivity(intent, options)
+
+}
+
+inline fun <reified T : Any> newIntent(context: Context): Intent =
+    Intent(context, T::class.java)
+
+fun Activity.setBackgroundColor(@ColorInt color: Int) {
+    window.setBackgroundDrawable(ColorDrawable(color))
+}
+
+
+fun FragmentActivity.switchFragment(showFragment: Fragment,
+                                    @IdRes containerId: Int,
+                                    transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+    supportFragmentManager.switch(showFragment, containerId, transaction)
+}
+
+fun Fragment.hide() {
+    this.fragmentManager?.hide(this)
+}
+
+fun Fragment.show() {
+    this.fragmentManager?.show(this)
+}
+
+fun Fragment.remove() {
+    this.fragmentManager?.remove(this)
+}
+
+fun Fragment.showHide(vararg hideFragment: Fragment,
+                      transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+    this.fragmentManager?.showHide(this, *hideFragment, transaction = transaction)
+}
+
+fun FragmentManager.add(addFragment: Fragment,
+                        @IdRes containerId: Int,
+                        isHide: Boolean = false,
+                        isAddStack: Boolean = false,
+                        tag: String = addFragment::class.java.name) {
+    val ft = this.beginTransaction()
+    val fragmentByTag = this.findFragmentByTag(tag)
+    if (fragmentByTag != null && fragmentByTag.isAdded) {
+        ft.remove(fragmentByTag)
+    }
+    ft.add(containerId, addFragment, tag)
+    if (isHide) ft.hide(addFragment)
+    if (isAddStack) ft.addToBackStack(tag)
+
+    ft.commit()
+}
+
+
+fun FragmentManager.add(addList: List<Fragment>,
+                        @IdRes containerId: Int,
+                        showIndex: Int = 0) {
+    val ft = this.beginTransaction()
+    for (i in 0 until addList.size) {
+        val addFragment = addList[i]
+        val tag = addFragment::class.java.name
+        val fragmentByTag = this.findFragmentByTag(tag)
+        if (fragmentByTag != null && fragmentByTag.isAdded) {
+            ft.remove(fragmentByTag)
+        }
+        ft.add(containerId, addFragment, tag)
+
+        if (showIndex != i) ft.hide(addFragment)
+    }
+    ft.commit()
+}
+
+
+fun FragmentManager.hide(vararg hideFragment: Fragment) {
+    hide(hideFragment.toList())
+}
+
+
+fun FragmentManager.hide(hideFragment: List<Fragment>) {
+    val ft = this.beginTransaction()
+    for (fragment in hideFragment) {
+        ft.hide(fragment)
+    }
+    ft.commit()
+}
+
+
+fun FragmentManager.show(showFragment: Fragment) {
+    val ft = this.beginTransaction()
+    ft.show(showFragment)
+    ft.commit()
+}
+
+
+fun FragmentManager.remove(vararg removeFragment: Fragment) {
+    val ft = this.beginTransaction()
+    for (fragment in removeFragment) {
+        ft.remove(fragment)
+    }
+    ft.commit()
+}
+
+
+fun FragmentManager.removeTo(removeTo: Fragment, isIncludeSelf: Boolean = false) {
+    val ft = this.beginTransaction()
+    val fragments = this.getFmFragments()
+    for (i in (fragments.size - 1)..0) {
+        val fragment = fragments[i]
+        if (fragment == removeTo && isIncludeSelf) {
+            ft.remove(fragment)
+            break
+        }
+        ft.remove(fragment)
+    }
+    ft.commit()
+}
+
+
+fun FragmentManager.removeAll() {
+    val frg = getFmFragments()
+    if (frg.isEmpty()) return
+
+    val ft = this.beginTransaction()
+    for (fragment in frg) {
+        ft.remove(fragment)
+    }
+    ft.commit()
+}
+
+
+fun FragmentManager.showHide(
+    showFragment: Fragment,
+    vararg hideFragment: Fragment,
+    transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+    val ft = this.beginTransaction().setTransition(transaction)
+
+    ft.show(showFragment)
+    for (fragment in hideFragment) {
+        if (fragment != showFragment) {
+            ft.hide(fragment)
+        }
+    }
+
+    ft.commit()
+}
+
+
+fun FragmentManager.replace(fragment: Fragment,
+                            @IdRes containerId: Int,
+                            isAddStack: Boolean = false,
+                            tag: String = fragment::class.java.name) {
+    val ft = this.beginTransaction()
+
+    ft.replace(containerId, fragment, tag)
+    if (isAddStack) ft.addToBackStack(tag)
+
+    ft.commit()
+}
+
+
+fun FragmentManager.switch(showFragment: Fragment,
+                           @IdRes containerId: Int,
+                           transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+    val ft = this.beginTransaction().setTransition(transaction)
+
+    val tag = showFragment::class.java.name
+    val fragmentByTag = this.findFragmentByTag(tag)
+    if (fragmentByTag != null && fragmentByTag.isAdded) {
+        ft.show(fragmentByTag)
+    } else {
+        ft.add(containerId, showFragment, tag)
+    }
+
+    for (tempF in this.getFmFragments()) {
+        if (tempF != fragmentByTag) {
+            ft.hide(tempF)
+        }
+    }
+    ft.commit()
+}
+
+fun FragmentManager.getTop(): Fragment? {
+    val frg = getFmFragments()
+    return frg.ifEmpty { return null }[frg.size - 1]
+}
+
+fun FragmentManager.getFmFragments(): List<Fragment> {
+    return this.fragments
+}
+
+inline fun <reified T : Fragment> FragmentManager.findFragment(): Fragment? {
+    return this.findFragmentByTag(T::class.java.name)
+}
+
+inline var Context.sleepDuration: Int
+    @RequiresPermission(WRITE_SETTINGS)
+    set(value) {
+        Settings.System.putInt(
+            this.contentResolver,
+            Settings.System.SCREEN_OFF_TIMEOUT,
+            value
+        )
+    }
+    get() {
+        return try {
+            Settings.System.getInt(
+                this.contentResolver,
+                Settings.System.SCREEN_OFF_TIMEOUT
+            )
+        } catch (e: Settings.SettingNotFoundException) {
+            e.printStackTrace()
+            -123
+        }
+    }
+

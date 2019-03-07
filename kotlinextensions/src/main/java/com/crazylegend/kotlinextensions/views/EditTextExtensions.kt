@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.views
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -13,6 +14,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
+import com.crazylegend.kotlinextensions.context.inputMethodManager
 import com.google.android.material.textfield.TextInputEditText
 import java.net.MalformedURLException
 import java.net.URL
@@ -283,3 +285,66 @@ fun EditText.copyToClipboard() {
         manager?.primaryClip = android.content.ClipData.newPlainText("", text)
     }
 }
+
+/**
+ * Sets OnFocusChangeListener and calls specified function [block]
+ * if this view become focused
+ *
+ * @see View.OnFocusChangeListener
+ * @see View.setOnFocusChangeListener
+ */
+inline fun EditText.onFocused(crossinline block: () -> Unit) {
+    setOnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) block.invoke()
+    }
+}
+
+/**
+ * Sets OnFocusChangeListener and calls specified function [block]
+ * if this view become unfocused
+ *
+ * @see View.OnFocusChangeListener
+ * @see View.setOnFocusChangeListener
+ */
+inline fun EditText.onUnFocused(crossinline block: () -> Unit) {
+    setOnFocusChangeListener { _, hasFocus ->
+        if (!hasFocus) block.invoke()
+    }
+}
+
+/**
+ * Shows keyboard for this edit text
+ */
+fun EditText.showKeyboard() {
+    requestFocus()
+    context.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
+/**
+ * Shows keyboard for this edit text with delay
+ *
+ * @param delayMillis - delay in milliseconds before keyboard will be shown
+ */
+fun EditText.showKeyboardDelayed(delayMillis: Long) {
+    Handler().postDelayed({
+        requestFocus()
+        showKeyboard()
+    }, delayMillis)
+}
+
+/**
+ * Hides keyboard for this edit text
+ */
+fun EditText.hideKeyboard() =
+    context.inputMethodManager.hideSoftInputFromWindow(
+        windowToken,
+        InputMethodManager.HIDE_NOT_ALWAYS
+    )
+
+/**
+ * Hides keyboard for this edit text with delay
+ *
+ * @param delayMillis - delay in milliseconds before keyboard will be hided
+ */
+fun EditText.hideKeyboardDelayed(delayMillis: Long) =
+    Handler().postDelayed({ hideKeyboard() }, delayMillis)

@@ -1,10 +1,21 @@
 package com.crazylegend.kotlinextensions
 
+import android.annotation.TargetApi
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.Context
+import android.graphics.Color
+import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.text.Html
 import android.text.Spanned
 import android.util.Base64
+import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import androidx.core.text.isDigitsOnly
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
@@ -20,6 +31,10 @@ import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentMap
 
 
 /**
@@ -432,3 +447,219 @@ fun String.toPath(): Path
  */
 fun StringBuilder.clear(): Unit
         = setLength(0)
+
+
+fun String.urlencode(): String = URLEncoder.encode(this,"UTF-8")
+fun String.urldecode(): String = URLDecoder.decode(this,"UTF-8")
+
+/**
+ * Gets extension from filePath
+ */
+val String.extension: String
+    get() {
+        return if (isEmptyString()) {
+            ""
+        } else {
+            val dot = lastIndexOf(".")
+            if (dot >= 0) {
+                substring(dot)
+            } else {
+                ""
+            }
+        }
+    }
+
+fun String.isLocal() = !isEmptyString() && (startsWith("http://") || startsWith("https://"))
+
+fun Uri.isMediaUri() = authority.equals("media", true)
+
+fun File.getUri() = Uri.fromFile(this)
+
+fun Uri.isExternalStorageDocument() = authority == "com.android.externalstorage.documents"
+
+fun Uri.isDownloadDocuments() = authority == "com.android.providers.downloads.documents"
+
+fun Uri.isMediaDocument() = authority == "com.android.providers.media.documents"
+
+@TargetApi(19)
+fun Context.getFilePath(uri: Uri): String {
+    var path = ""
+    if (uri.isExternalStorageDocument()) {
+        val docId = DocumentsContract.getDocumentId(uri)
+        val split = docId.split(":")
+        val storageType = split[0]
+
+        if (storageType.equals("primary", true)) {
+            path = "${Environment.getExternalStorageDirectory().path}/${split[1]}"
+        }
+    } else if (uri.isDownloadDocuments()) {
+        val id = DocumentsContract.getDocumentId(uri)
+        val contentUri = ContentUris.withAppendedId(
+            Uri.parse("content://downloads/public_downloads"),
+            id.toLong())
+        path = getDataColumn(contentUri, null, null)
+    } else if (uri.isMediaDocument()) {
+        val id = DocumentsContract.getDocumentId(uri)
+        val split = id.split(":")
+        val mediaType = split[0]
+        val selection = "_id=?"
+        val selectionArg = arrayOf(split[1])
+
+        when {
+            mediaType.equals("image", true) -> path = getDataColumn(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection, selectionArg)
+            mediaType.equals("video", true) -> path = getDataColumn(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, selection, selectionArg)
+            mediaType.equals("audio", true) -> path = getDataColumn(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, selection, selectionArg)
+        }
+
+
+    } else if (uri.isMediaUri()) {
+        path = getDataColumn(uri, null, null)
+    }
+    return path
+}
+
+@TargetApi(19)
+fun ContentResolver.getRealPathFromUri(contentUri: Uri): String {
+    val proj = arrayOf(MediaStore.Audio.Media.DATA)
+    val cursor = query(contentUri, proj, null, null, null)
+    cursor.use {
+        val columnIndex: Int
+        return if (it != null) {
+            columnIndex = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+            it.moveToFirst()
+            it.getString(columnIndex)
+        } else {
+            ""
+        }
+    }
+}
+
+@TargetApi(19)
+fun Context.getDataColumn(uri: Uri, selection: String?, selectionArg: Array<String>?): String {
+    val column = "_data"
+    val projection = arrayOf(column)
+
+    val cursor = contentResolver.query(uri, projection, selection, selectionArg, null)
+    cursor.use {
+        if (it != null) {
+            val columnIndex = it.getColumnIndexOrThrow(column)
+            it.moveToFirst()
+            return it.getString(columnIndex)
+        }
+    }
+    return ""
+}
+
+@JvmOverloads
+fun String.failSafeSplit(delimeter: String = ","): List<String>? {
+    return if (contains(delimeter)) {
+        this.split(delimeter)
+    } else {
+        listOf(this)
+    }
+}
+
+@JvmOverloads
+fun String?.containsInArray(vararg names: String, ignoreCase: Boolean = true): Boolean {
+    this?.let {
+        it.replace(" ", "")
+        it.replace("\n", "")
+        it.replace(",\n", "")
+        it.replace(", ", "")
+        return names.any { this.equals(it, ignoreCase) }
+    }
+    return false
+}
+
+fun String.convertDateFormat(fromFormat: String, toFormat: String): String {
+    return if (this.isDateStringProperlyFormatted(fromFormat)) {
+        try {
+            this toDate fromFormat asString toFormat
+        } catch (e: Exception) {
+            e.printStackTrace()
+            this
+        }
+
+    } else {
+        this
+    }
+}
+
+fun String.isDateStringProperlyFormatted(dateFormat: String): Boolean {
+    var isProperlyFormatted = false
+    val format = SimpleDateFormat(dateFormat, Locale.getDefault())
+    //SetLenient means dateString will be checked strictly with dateFormat. Otherwise it will format as per wish.
+    format.isLenient = false
+    try {
+        format.parse(this)
+        isProperlyFormatted = true
+    } catch (e: ParseException) {
+        //exception means dateString is not parsable by dateFormat. Thus dateIsProperlyFormatted.
+    }
+
+    return isProperlyFormatted
+}
+
+infix fun Date.asString(parseFormat: String): String {
+    return try {
+        SimpleDateFormat(parseFormat, Locale.getDefault()).format(this)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        ""
+    }
+
+}
+
+infix fun String.toDate(currentFormat: String): Date {
+    return try {
+        if (this.isEmptyString()) {
+            Date()
+        } else {
+            SimpleDateFormat(currentFormat, Locale.getDefault()).parse(this)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        //If It can not be parsed, return today's date instead of null. So return value of this method does not create null pointer exception.
+        Date()
+    }
+}
+
+fun CharSequence.getDouble(): Double {
+    return try {
+        if (isDigitsOnly()) {
+            if (contains(".")) {
+                toString().toDouble()
+            } else {
+                getNumber().toDouble()
+            }
+        } else {
+            0.0
+        }
+    } catch (e: Exception) {
+        0.0
+    }
+}
+
+
+infix fun String?.useIfEmpty(otherString: String?) = if ((this ?: "").isEmptyString()) otherString ?: "" else (this ?: "")
+
+fun CharSequence.isEmptyString(): Boolean {
+    return this.isEmpty() || this.toString().equals("null", true)
+}
+
+
+fun CharSequence.isDigitOnly(): Boolean {
+    return (0 until length).any { Character.isDigit(this[it]) }
+}
+
+fun CharSequence.getNumber(): Int {
+    return if (isDigitOnly()) {
+        Integer.parseInt(toString())
+    } else {
+        0
+    }
+}
+
+fun String.occurencesOf(other: String): Int = split(other).size - 1
+
+val String.asColor: Int @ColorInt get() = Color.parseColor(this)

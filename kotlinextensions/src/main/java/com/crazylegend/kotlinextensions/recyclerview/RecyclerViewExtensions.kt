@@ -5,9 +5,13 @@ import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EdgeEffect
+import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
+import androidx.core.widget.EdgeEffectCompat
 import androidx.recyclerview.widget.*
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.dp2px
@@ -441,6 +445,42 @@ fun RecyclerView.verticalDivider(drawable: Drawable, dividerSize: Int = drawable
 
         override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
             outRect.set(0, 0, 0, dividerSize)
+        }
+    })
+}
+
+fun RecyclerView.smoothScrollTo(position: Int, callback: (() -> Unit)? = null) {
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                callback?.invoke()
+                removeOnScrollListener(this)
+            }
+        }
+    })
+    smoothScrollToPosition(position)
+}
+
+fun GridLayoutManager.setSpanSize(func: (Int) -> Int) {
+    spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int) = func(position)
+    }
+}
+
+
+
+fun RecyclerView.addScroll(
+    onScrollStateChanged :(recycler:RecyclerView, newState:Int) -> Unit = {_,_->},
+    onScrolled :(recycler:RecyclerView, scrollbyX:Int, scrollbyY:Int) -> Unit = {_,_,_->}
+){
+    this.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            onScrollStateChanged(recyclerView, newState)
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            onScrolled(recyclerView, dx, dy)
         }
     })
 }

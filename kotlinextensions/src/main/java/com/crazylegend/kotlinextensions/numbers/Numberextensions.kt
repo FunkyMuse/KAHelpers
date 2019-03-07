@@ -1,8 +1,12 @@
 package com.crazylegend.kotlinextensions.numbers
 
+import android.os.Build
 import androidx.annotation.IntRange
+import androidx.annotation.RequiresApi
+import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.time.Duration
 
 
 /**
@@ -176,3 +180,20 @@ fun Int.digits() : List<Int> {
     while (value > 0 || value < 0)
     return digits.reversed()
 }
+
+
+
+fun BigDecimal.isZero() = this == BigDecimal.ZERO
+fun BigDecimal.isNotZero() = !isZero()
+
+val Number.nanos @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofNanos(this.toLong())!!
+val Number.millis @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofMillis(this.toLong())!!
+val Number.seconds @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofSeconds(this.toLong())!!
+val Number.minutes @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofMinutes(this.toLong())!!
+val Number.hours @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofHours(this.toLong())!!
+val Number.days @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofDays(this.toLong())!!
+
+fun Number.toHexString(width: Int) = String.format("0x%0${width}X", this)
+
+inline val Long.seconds@RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofSeconds(this)
+inline val Int.seconds get() = toLong().seconds

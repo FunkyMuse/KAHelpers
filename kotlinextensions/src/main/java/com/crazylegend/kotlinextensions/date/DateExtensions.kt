@@ -1,11 +1,16 @@
 package com.crazylegend.kotlinextensions.date
 
+import android.content.Context
+import android.text.format.DateFormat
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.Clock
+import java.time.ZoneId
 import java.util.*
 
 
@@ -605,3 +610,132 @@ fun <T : ReadableInstant> maxOf(a: T, b: T, vararg args: T): T {
     }
     return max
 }
+
+
+/**
+ * Gives [Calendar] object from Date
+ */
+inline val Date.calendar: Calendar
+    get() {
+        val calendar = Calendar.getInstance()
+        calendar.time = this
+        return calendar
+    }
+
+
+/**
+ * Gets  Year directly from [Calendar] Object
+ */
+inline val Calendar.year: Int
+    get() = get(Calendar.YEAR)
+
+/**
+ * Gets value of DayOfMonth from [Calendar] Object
+ */
+inline val Calendar.dayOfMonth: Int
+    get() = get(Calendar.DAY_OF_MONTH)
+
+/**
+ * Gets value of Month from [Calendar] Object
+ */
+inline val Calendar.month: Int
+    get() = get(Calendar.MONTH)
+
+/**
+ * Gets value of Hour from [Calendar] Object
+ */
+inline val Calendar.hour: Int
+    get() = get(Calendar.HOUR)
+
+/**
+ * Gets value of HourOfDay from [Calendar] Object
+ */
+inline val Calendar.hourOfDay: Int
+    get() = get(Calendar.HOUR_OF_DAY)
+
+/**
+ * Gets value of Minute from [Calendar] Object
+ */
+inline val Calendar.minute: Int
+    get() = get(Calendar.MINUTE)
+
+/**
+ * Gets value of Second from [Calendar] Object
+ */
+inline val Calendar.second: Int
+    get() = get(Calendar.SECOND)
+
+/**
+ * Gets value of DayOfMonth from [Date] Object
+ */
+inline val Date.yearFromCalendar: Int
+    get() = calendar.year
+
+/**
+ * Gets value of DayOfMonth from [Date] Object
+ */
+inline val Date.dayOfMonth: Int
+    get() = calendar.dayOfMonth
+
+/**
+ * Gets value of Month from [Date] Object
+ */
+inline val Date.monthFromCalendar: Int
+    get() = calendar.month
+
+/**
+ * Gets value of Hour from [Date] Object
+ */
+inline val Date.hour: Int
+    get() = calendar.hour
+
+/**
+ * Gets value of HourOfDay from [Date] Object
+ */
+inline val Date.hourOfDay: Int
+    get() = calendar.hourOfDay
+
+/**
+ * Gets value of Minute from [Date] Object
+ */
+inline val Date.minute: Int
+    get() = calendar.minute
+
+
+/**
+ * Gets value of Second from [Date] Object
+ */
+inline val Date.second: Int
+    get() = calendar.second
+
+
+/**
+ * Gets value of Milliseconds of current time
+ */
+inline val now: Long
+    get() = Calendar.getInstance().timeInMillis
+
+/**
+ * Gets current time in given format
+ */
+fun getCurrentTimeInFormat(stringFormat: String): String {
+    val currentTime = Date()
+    return SimpleDateFormat(stringFormat, Locale.getDefault()).format(currentTime)
+}
+
+/**
+ * Formats date according to device's default date format
+ */
+fun Context.formatDateAccordingToDevice(date: Date): String {
+    val format = DateFormat.getDateFormat(this)
+    return format.format(date)
+}
+
+/**
+ * Formats time according to device's default time format
+ */
+fun Context.formatTimeAccordingToDevice(date: Date): String {
+    val format = DateFormat.getTimeFormat(this)
+    return format.format(date)
+}
+

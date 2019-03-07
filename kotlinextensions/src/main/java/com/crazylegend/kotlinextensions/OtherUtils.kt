@@ -11,6 +11,7 @@ import androidx.collection.LruCache
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -218,3 +219,5 @@ fun <V> LruCache<Long, V>.keys(): LongArray =
  */
 inline fun <reified K, V> LruCache<K, V>.keys(): Array<K> =
         snapshot().keys.toTypedArray()
+
+val randomUUIDstring get()  = UUID.randomUUID().toString()

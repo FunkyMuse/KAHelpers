@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.Context
 import android.graphics.Color
@@ -14,7 +16,10 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import com.crazylegend.kotlinextensions.context.clipboardManager
 
 
@@ -176,4 +181,25 @@ fun TextView.setAsContent(content: CharSequence?) {
     } else {
         visibility = View.GONE
     }
+}
+
+inline var TextView.isSelectable: Boolean
+    get() = isTextSelectable
+    set(value) = setTextIsSelectable(value)
+
+
+fun TextView.updateTextAppearance(@StyleRes resource: Int) =
+    TextViewCompat.setTextAppearance(this, resource)
+
+@SuppressLint("RestrictedApi")
+fun TextView.textColorAnim(from: Int, to: Int) {
+    val textColorAnimator = ObjectAnimator.ofObject(
+        this,
+        "textColor",
+        ArgbEvaluator(),
+        ContextCompat.getColor(context, from),
+        ContextCompat.getColor(context, to)
+    )
+    textColorAnimator.duration = 300
+    textColorAnimator.start()
 }

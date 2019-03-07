@@ -18,9 +18,9 @@ object FontUtils {
                 val tf = Typeface.createFromAsset(
                     context.applicationContext.assets, "fonts/$font.ttf"
                 )
-                sTypefaceCache.put(font, tf)
+                sTypefaceCache[font] = tf
             }
-            return sTypefaceCache.get(font)
+            return sTypefaceCache[font]
                 ?: throw IllegalArgumentException("Font error; typeface does not exist at assets/fonts$font.ttf")
         }
     }

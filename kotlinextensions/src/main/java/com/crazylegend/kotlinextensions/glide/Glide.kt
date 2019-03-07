@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.glide
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -96,3 +97,55 @@ fun Fragment.loadImgWithTransformation(imgUrl: String, view: ImageView, transfor
         .into(view)
 }
 
+
+
+@Throws(GlideException::class)
+fun View.loadImg(imgUrl: String, view: ImageView) {
+    GlideApp.with(this)
+        .load(imgUrl)
+        .into(view)
+}
+
+
+@Throws(GlideException::class)
+fun View.loadImg(imgUrl: String, view: ImageView, error:Drawable) {
+    GlideApp.with(this)
+        .load(imgUrl)
+        .error(error)
+        .into(view)
+}
+
+@Throws(GlideException::class)
+fun View.loadImg(imgUrl: String, view: ImageView, error:Drawable,placeHolder:Drawable) {
+    GlideApp.with(this)
+        .load(imgUrl)
+        .placeholder(placeHolder)
+        .error(error)
+        .into(view)
+}
+
+
+@Throws(GlideException::class)
+fun View.loadImgNoCache(imgUrl: String, view: ImageView) {
+    GlideApp.with(this)
+        .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+        .load(imgUrl)
+        .into(view)
+}
+
+@Throws(GlideException::class)
+fun View.loadImgNoCache(imgUrl: String, view: ImageView,  error:Drawable) {
+    GlideApp.with(this)
+        .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
+        .load(imgUrl)
+        .error(error)
+        .into(view)
+}
+
+@Throws(GlideException::class)
+fun View.loadImgWithTransformation(imgUrl: String, view: ImageView, transformation: RequestOptions) {
+    GlideApp.with(this)
+        .applyDefaultRequestOptions(transformation)
+        .load(imgUrl)
+        .into(view)
+}

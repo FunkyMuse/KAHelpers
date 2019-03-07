@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.views
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -69,3 +70,52 @@ fun Drawable.setBoundsCentered(centerX: Int, centerY: Int) {
     val top = centerY - minimumHeight / 2
     setBounds(left, top, left + minimumWidth, top + minimumHeight)
 }
+
+/**
+ * Uses compatibility library to create a tinted a drawable. Supports all important versions of Android.
+ * @param drawable Drawable to tint
+ * *
+ * @param color    Color to tint to, *not* R.color.whatever, must be resolved
+ * *
+ * @param mode     Mode of tinting to use
+ * *
+ * @return A tinted Drawable. Wraps the Drawable in a new class - instanceof will NOT match the old type
+ */
+@JvmOverloads fun createTintedDrawable(drawable: Drawable?, @ColorInt color: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_IN): Drawable? {
+    if (drawable == null) {
+        return null
+    }
+
+    val wrappedDrawable = DrawableCompat.wrap(drawable)
+    DrawableCompat.setTint(wrappedDrawable, color)
+    DrawableCompat.setTintMode(wrappedDrawable, mode)
+    return wrappedDrawable
+}
+
+/**
+ * Uses compatibility library to create a tinted a drawable. Supports all important versions of Android.
+ * @param drawable Drawable to tint
+ * *
+ * @param color    Color to tint to
+ * *
+ * @param mode     Mode of tinting to use
+ * *
+ * @return A tinted Drawable. Wraps the Drawable in a new class - instanceof will NOT match the old type
+ */
+fun createTintedDrawable(drawable: Drawable?, color: ColorStateList, mode: PorterDuff.Mode): Drawable? {
+    if (drawable == null) {
+        return null
+    }
+
+    val wrappedDrawable = DrawableCompat.wrap(drawable)
+    DrawableCompat.setTintList(wrappedDrawable, color)
+    DrawableCompat.setTintMode(wrappedDrawable, mode)
+    return wrappedDrawable
+}
+
+var Drawable.tint: Int
+    @ColorInt get() = tint
+    @ColorInt set(value) {
+        if (Build.VERSION.SDK_INT >= 21) setTint(value)
+        else DrawableCompat.setTint(DrawableCompat.wrap(this), value)
+    }

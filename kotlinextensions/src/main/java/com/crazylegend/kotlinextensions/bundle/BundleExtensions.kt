@@ -110,3 +110,35 @@ fun Bundle.withSceneTransitionAnimation(context: Context) {
     putAll(options.toBundle())
 }
 
+
+/**
+ * Extract bundle and returs string
+ */
+@JvmOverloads
+fun Bundle.extractBundle(keyValSeparator: String = ": ", newSetSeparator: String = "\n"): String {
+    val keyvals = StringBuilder()
+    keySet().forEach {
+        keyvals.append(it).append(keyValSeparator).append(get(it)?.toString()
+            ?: "null etnry")
+            .append(newSetSeparator)
+    }
+    return keyvals.toString()
+}
+
+/**
+ * Creates bundle to map
+ */
+fun Bundle.toMap(): Map<String, String> {
+    val map = HashMap<String, String>()
+    for (key in keySet()) {
+        map.put(key, get(key)?.toString() ?: "Null Entry")
+    }
+    return map
+}
+
+operator fun Bundle.contains(key: String): Boolean
+        = containsKey(key)
+
+
+inline fun <reified T> Bundle.obtain(key: String, noinline converter: ((Any?) -> T?) = { it as? T }): T?
+        = converter(this[key])

@@ -19,6 +19,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.channels.FileChannel
 import java.nio.charset.Charset
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -586,6 +588,28 @@ fun File.getFolderSize(): Long {
 
     return size
 }
+
+fun File.lastModifiedDateTimeAsString(): String = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault()).format(lastModified())
+
+val String.fileExtension
+    get() = File(this).extension
+
+fun File.mkdirsIfNotExist() = parentFile.exists() || parentFile.mkdirs()
+
+/**
+ * The method is use to prevent a problem, when several threads can try to [.mkdirsIfNotExist] for the same Path simultaneously.
+ */
+@Synchronized
+fun File.mkdirsIfNotExistSynchronized() = mkdirsIfNotExist()
+
+fun File.saveFile(runBlockIfOk: () -> Unit, runBlockIfFail: () -> Unit, useMkdirsIfNotExistSynchronized: Boolean) {
+    if (if (useMkdirsIfNotExistSynchronized) mkdirsIfNotExistSynchronized() else mkdirsIfNotExist()) {
+        runBlockIfOk()
+    } else {
+        runBlockIfFail()
+    }
+}
+
 
 /**
  * Deletes given directory and returns result
