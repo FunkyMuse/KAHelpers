@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.activity
 
 import android.Manifest.permission.WRITE_SETTINGS
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlarmManager
@@ -17,6 +18,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.View.GONE
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.*
@@ -422,3 +424,29 @@ inline var Context.sleepDuration: Int
         }
     }
 
+
+@SuppressLint("ObsoleteSdkInt")
+fun Activity.hideBottomBar() {
+    if (Build.VERSION.SDK_INT < 19) { // lower api
+        val v = this.window.decorView
+        v.systemUiVisibility = GONE
+    } else {
+        //for new api versions.
+        val decorView = window.decorView
+        val uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        decorView.systemUiVisibility = uiOptions
+    }
+}
+
+@SuppressLint("ObsoleteSdkInt")
+fun Activity.showBottomBar() {
+    if (Build.VERSION.SDK_INT < 19) { // lower api
+        val v = this.window.decorView
+        v.systemUiVisibility = View.VISIBLE
+    } else {
+        //for new api versions.
+        val decorView = window.decorView
+        val uiOptions = View.SYSTEM_UI_FLAG_VISIBLE
+        decorView.systemUiVisibility = uiOptions
+    }
+}
