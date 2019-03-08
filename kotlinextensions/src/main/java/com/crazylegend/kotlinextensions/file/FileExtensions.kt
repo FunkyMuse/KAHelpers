@@ -13,7 +13,7 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import com.crazylegend.kotlinextensions.interfaces.F1
+import com.crazylegend.kotlinextensions.interfaces.OneParamInvocation
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -349,7 +349,7 @@ fun downloadFile(urlPath :String, localPath :String, callback :(Uri?) -> Unit = 
     return uri
 }
 
-fun downloadFile(urlPath :String, localPath :String, callback : F1<Uri>?) :Uri? {
+fun downloadFile(urlPath :String, localPath :String, callback : OneParamInvocation<Uri>?) :Uri? {
     var uri :Uri? = null
     val connection = URL(urlPath).openConnection() as HttpURLConnection
 

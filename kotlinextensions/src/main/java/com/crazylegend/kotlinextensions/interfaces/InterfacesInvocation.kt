@@ -6,14 +6,14 @@ package com.crazylegend.kotlinextensions.interfaces
  */
 
 
-interface F1<in A> {
+interface OneParamInvocation<in A> {
     operator fun invoke(object1: A)
 }
 
-interface F2<in A, in B> {
+interface TwoParamsInvocation<in A, in B> {
     operator fun invoke(object1: A, object2: B)
 }
 
-interface F3<in A, in B, in C> {
+interface ThreeParamsInvocation<in A, in B, in C> {
     operator fun invoke(object1: A, object2: B, object3: C)
 }
