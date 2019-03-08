@@ -157,3 +157,27 @@ fun Fragment.alert(style: Int, init: AlertDialog.Builder .() -> Unit) {
     builder.create()
     builder.show()
 }
+
+inline fun <reified T> Fragment.intent(body: Intent.() -> Unit ): Intent {
+    val intent = Intent(requireActivity(), T::class.java)
+    intent.body()
+    return intent
+}
+
+inline fun <reified T> Fragment.startActivity(body: Intent.() -> Unit ) {
+    val intent = Intent(requireActivity(), T::class.java)
+    intent.body()
+    startActivity(intent)
+}
+
+inline fun <reified T> FragmentActivity.intent(body: Intent.() -> Unit ): Intent {
+    val intent = Intent(this, T::class.java)
+    intent.body()
+    return intent
+}
+
+inline fun <reified T> FragmentActivity.startActivity(body: Intent.() -> Unit ) {
+    val intent = Intent(this, T::class.java)
+    intent.body()
+    startActivity(intent)
+}
