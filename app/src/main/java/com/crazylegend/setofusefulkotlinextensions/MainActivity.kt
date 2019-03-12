@@ -7,6 +7,7 @@ package com.crazylegend.setofusefulkotlinextensions
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
+
 class MainActivity : AppCompatActivity() {
 
 
@@ -16,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-    }
 
+    }
 
 
 

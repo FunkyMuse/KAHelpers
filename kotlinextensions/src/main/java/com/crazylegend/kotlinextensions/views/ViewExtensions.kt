@@ -1149,6 +1149,8 @@ fun SearchView.textListener(
     })
 }
 
+val SearchView?.getSubmitButton get() = this?.findViewById<ImageView>(androidx.appcompat.R.id.search_go_btn)
+
 
 fun BottomSheetBehavior<*>.sliderListener(
     onSlide: (bottomSheet:View, slideOffset:Float)-> Unit = {_,_ ->},
