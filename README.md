@@ -43,7 +43,13 @@ dependencies {
         experimental = true
     }
 ```
-
+4. Additionally you can include
+```
+ kapt {
+        generateStubs = true
+        correctErrorTypes = true
+    }
+```  
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
