@@ -16,8 +16,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.widget.NestedScrollView
+import androidx.transition.TransitionManager
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
+import com.crazylegend.kotlinextensions.views.gone
 import com.crazylegend.kotlinextensions.views.invisible
 import com.crazylegend.kotlinextensions.views.visible
 
@@ -722,4 +724,29 @@ fun NestedScrollView.setEdgeEffectColor(@ColorInt color: Int) {
             set(this@setEdgeEffectColor, edgeEffect)
         }
     }
+}
+
+fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropDownResource:Int, dropUpResource:Int) {
+    var firstClick = false
+
+    imageView.setOnClickListener {
+        if (firstClick) {
+
+            TransitionManager.beginDelayedTransition(linearLayout)
+            linearLayout.gone()
+            imageView.setImageResource(dropDownResource)
+
+            firstClick = false
+
+        } else {
+            TransitionManager.beginDelayedTransition(linearLayout)
+            linearLayout.visible()
+            imageView.setImageResource(dropUpResource)
+
+            firstClick = true
+
+        }
+    }
+
+
 }
