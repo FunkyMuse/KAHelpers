@@ -726,27 +726,3 @@ fun NestedScrollView.setEdgeEffectColor(@ColorInt color: Int) {
     }
 }
 
-fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropDownResource:Int, dropUpResource:Int) {
-    var firstClick = false
-
-    imageView.setOnClickListener {
-        if (firstClick) {
-
-            TransitionManager.beginDelayedTransition(linearLayout)
-            linearLayout.gone()
-            imageView.setImageResource(dropDownResource)
-
-            firstClick = false
-
-        } else {
-            TransitionManager.beginDelayedTransition(linearLayout)
-            linearLayout.visible()
-            imageView.setImageResource(dropUpResource)
-
-            firstClick = true
-
-        }
-    }
-
-
-}
