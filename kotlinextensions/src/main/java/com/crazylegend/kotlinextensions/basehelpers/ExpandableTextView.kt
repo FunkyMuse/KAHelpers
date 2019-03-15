@@ -7,16 +7,38 @@ import android.widget.TextView
 import com.crazylegend.kotlinextensions.R
 
 
+
+
 /**
  * Created by hristijan on 3/15/19 to long live and prosper !
  */
-open class ExpandableTextView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : TextView(context, attrs), View.OnClickListener {
+class ExpandableTextView : TextView, View.OnClickListener {
     /* Custom method because standard getMaxLines() requires API > 16 */
     var myMaxLines = Integer.MAX_VALUE
         private set
 
-    var customDrawable: Int = R.drawable.icon_more_text
+    var customDrawable = R.drawable.icon_more_text
         private set
+
+    fun setMaxLinesToText(maxLines: Int) {
+        myMaxLines = maxLines
+    }
+
+    fun setTheCustomDrawableOnExpand(drawable:Int){
+        customDrawable = drawable
+    }
+
+    constructor(context: Context) : super(context) {
+        setOnClickListener(this)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+        setOnClickListener(this)
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        setOnClickListener(this)
+    }
 
     override fun onTextChanged(text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int) {
         /* If text longer than MAX_LINES set DrawableBottom - I'm using '...' icon */
@@ -30,10 +52,6 @@ open class ExpandableTextView @JvmOverloads constructor(context: Context, attrs:
         }
     }
 
-
-    fun setCustomDrawable(drawable:Int){
-        customDrawable = drawable
-    }
 
     override fun setMaxLines(maxLines: Int) {
         myMaxLines = maxLines
@@ -51,5 +69,4 @@ open class ExpandableTextView @JvmOverloads constructor(context: Context, attrs:
     companion object {
         private const val MAX_LINES = 5
     }
-
 }
