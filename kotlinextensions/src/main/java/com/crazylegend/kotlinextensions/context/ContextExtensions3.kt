@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -466,3 +467,18 @@ fun Context.canResolveBroadcast(intent: Intent) = packageManager.queryBroadcastR
  * Checks if a Provider exists with given name
  */
 fun Context.providerExists(providerName: String) = packageManager.resolveContentProvider(providerName, 0) != null
+
+
+fun Context.watchYoutubeVideo( id: String) {
+    val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
+    val webIntent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse("http://www.youtube.com/watch?v=$id")
+    )
+    try {
+        this.startActivity(appIntent)
+    } catch (ex: ActivityNotFoundException) {
+        this.startActivity(webIntent)
+    }
+
+}
