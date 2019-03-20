@@ -1168,3 +1168,25 @@ fun BottomSheetBehavior<*>.sliderListener(
     })
 
 }
+
+inline fun View.toggleSelected(){
+    this.isSelected = !this.isSelected
+}
+
+fun View.windowBackground(): Int {
+    return context.themeAttributeToColor(android.R.attr.windowBackground)
+}
+// Used to tint buttons
+fun Context.textColorTertiary(): Int {
+    return this.themeAttributeToColor(android.R.attr.textColorTertiary)
+}
+
+private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
+    val outValue = TypedValue()
+    val theme = this.theme
+    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
+    if (resolved){
+        return ContextCompat.getColor(this, outValue.resourceId)
+    }
+    return fallbackColor
+}

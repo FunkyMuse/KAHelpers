@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.RippleDrawable
+import android.graphics.drawable.*
 import android.os.Build
 import android.os.Handler
 import androidx.annotation.ColorInt
@@ -119,3 +116,7 @@ var Drawable.tint: Int
         if (Build.VERSION.SDK_INT >= 21) setTint(value)
         else DrawableCompat.setTint(DrawableCompat.wrap(this), value)
     }
+
+
+val LayerDrawable.layers: List<Drawable>
+    get() = (0 until numberOfLayers).map { getDrawable(it) }

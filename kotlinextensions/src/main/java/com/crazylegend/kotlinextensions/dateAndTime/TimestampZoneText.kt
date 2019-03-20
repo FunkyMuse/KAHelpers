@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.date
+package com.crazylegend.kotlinextensions.dateAndTime
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone

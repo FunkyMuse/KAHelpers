@@ -50,6 +50,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 
 
 /**
@@ -234,6 +235,11 @@ val Context.isTablet: Boolean get()  {
         .SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
 }
 
+fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat? {
+    return AnimatedVectorDrawableCompat.create(this, id)
+}
+
+
 
 val Context.networkOperatorName: String?
     get() = telephonyManager?.networkOperatorName
@@ -351,3 +357,10 @@ val Context.wifiManager
 
 val Context.windowManager
     get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager?
+
+inline val Context.configuration: android.content.res.Configuration
+    get() = resources.configuration
+
+inline val Context.isOneHanded: Boolean get() {
+    return isPortrait && configuration.smallestScreenWidthDp < 600
+}

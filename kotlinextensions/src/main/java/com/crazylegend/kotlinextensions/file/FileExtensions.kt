@@ -672,3 +672,5 @@ private fun File.verifiedDirectoryFiles(): Array<File> {
         ?: // null if security restricted
         throw IOException("Failed to list contents of $this")
 }
+
+fun <T: Any> T.getJarDirectory(): String = File(this::class.java.protectionDomain.codeSource.location.toURI().path).path

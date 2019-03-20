@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.version
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.RequiresApi
 
 
 /**
@@ -54,6 +55,8 @@ fun doIfSdk(version: Int, f: () -> Unit) {
     }
 }
 
+val Context.getVersionCode : Long @RequiresApi(Build.VERSION_CODES.P)
+get() = packageManager.getPackageInfo(packageName, 0).longVersionCode
 
 fun Context.getVersionCode(): Int = packageManager.getPackageInfo(packageName, 0).versionCode
 
@@ -109,6 +112,7 @@ inline fun doWithLowerApi(sdkCode: Int, block: () -> Unit) {
     }
 }
 
+
 fun isLollipop(): Boolean =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
@@ -116,6 +120,9 @@ fun isPreLollipop(): Boolean =
         Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
 
 enum class Api(val sdkCode: Int) {
+
+
+
     BASE(1),
     BASE_1_1(2),
     CUPCAKE(3),
@@ -142,5 +149,9 @@ enum class Api(val sdkCode: Int) {
     M(23),
     N(24),
     N_MR1(25),
-    O(26)
+    O(26),
+    P(27),
+    Q(29)
+
+
 }

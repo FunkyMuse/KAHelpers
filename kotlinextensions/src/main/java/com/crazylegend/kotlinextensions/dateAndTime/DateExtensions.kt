@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.date
+package com.crazylegend.kotlinextensions.dateAndTime
 
 import android.content.Context
 import android.text.format.DateFormat
@@ -9,8 +9,6 @@ import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.time.Clock
-import java.time.ZoneId
 import java.util.*
 
 
@@ -739,3 +737,36 @@ fun Context.formatTimeAccordingToDevice(date: Date): String {
     return format.format(date)
 }
 
+fun Date.getCurrentTimeString() : String {
+    val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    return timeFormat.format(this.time)
+}
+
+fun Date.getCurrentTimeHour() : Int {
+    return this.getCurrentTimeString().split(":")[0].toInt()
+}
+
+fun Date.getCurrentTimeMinutes() : Int {
+    return this.getCurrentTimeString().split(":")[1].toInt()
+}
+
+fun Date.getMonthNumber(): Int {
+    val dateFormat = SimpleDateFormat("MM", Locale.getDefault())
+    val mStr = dateFormat.format(this.time)
+    return Integer.parseInt(mStr)
+}
+
+fun Date.getCurrentDayString(): String {
+    val dateFormat = SimpleDateFormat("dd", Locale.getDefault())
+    return dateFormat.format(this.time)
+}
+
+fun Date.getCurrentWeekdayString() : String {
+    val weekdayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+    return weekdayFormat.format(this.time)
+}
+
+fun Date.getCurrentDateString(pattern:String) : String {
+    val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+    return dateFormat.format(this.time)
+}

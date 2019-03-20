@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.media.ExifInterface
 import androidx.annotation.DrawableRes
+import java.io.File
 import java.io.IOException
 /**
  * Created by hristijan on 3/5/19 to long live and prosper !
@@ -78,4 +79,13 @@ fun getPhotoOrientationDegree(filePath: String?): Int {
         }
     }
     return degree
+}
+
+
+fun isRealImage(image: String): Boolean {
+    return File(image).exists()
+}
+
+fun isChoosedImage(image: String): Boolean{
+    return image.startsWith("content://com.android.providers.media.documents/document")
 }

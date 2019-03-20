@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.livedata
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -353,3 +354,8 @@ fun <T> LiveData<T>.buffer(count:Int): MutableLiveData<List<T?>> {
     return mutableLiveData
 }
 
+/**
+ * Gets the application context from within the android viewmodel
+ */
+val AndroidViewModel.context : Context
+    get() = getApplication()

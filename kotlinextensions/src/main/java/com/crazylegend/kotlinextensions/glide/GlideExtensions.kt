@@ -149,3 +149,4 @@ fun View.loadImgWithTransformation(imgUrl: String, view: ImageView, transformati
         .load(imgUrl)
         .into(view)
 }
+

@@ -3,16 +3,12 @@ package com.crazylegend.kotlinextensions.activity
 import android.Manifest.permission.WRITE_SETTINGS
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ActivityManager
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -222,9 +218,11 @@ fun Activity.setBackgroundColor(@ColorInt color: Int) {
 }
 
 
-fun FragmentActivity.switchFragment(showFragment: Fragment,
-                                    @IdRes containerId: Int,
-                                    transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+fun FragmentActivity.switchFragment(
+    showFragment: Fragment,
+    @IdRes containerId: Int,
+    transaction: Int = FragmentTransaction.TRANSIT_NONE
+) {
     supportFragmentManager.switch(showFragment, containerId, transaction)
 }
 
@@ -240,16 +238,20 @@ fun Fragment.remove() {
     this.fragmentManager?.remove(this)
 }
 
-fun Fragment.showHide(vararg hideFragment: Fragment,
-                      transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+fun Fragment.showHide(
+    vararg hideFragment: Fragment,
+    transaction: Int = FragmentTransaction.TRANSIT_NONE
+) {
     this.fragmentManager?.showHide(this, *hideFragment, transaction = transaction)
 }
 
-fun FragmentManager.add(addFragment: Fragment,
-                        @IdRes containerId: Int,
-                        isHide: Boolean = false,
-                        isAddStack: Boolean = false,
-                        tag: String = addFragment::class.java.name) {
+fun FragmentManager.add(
+    addFragment: Fragment,
+    @IdRes containerId: Int,
+    isHide: Boolean = false,
+    isAddStack: Boolean = false,
+    tag: String = addFragment::class.java.name
+) {
     val ft = this.beginTransaction()
     val fragmentByTag = this.findFragmentByTag(tag)
     if (fragmentByTag != null && fragmentByTag.isAdded) {
@@ -263,9 +265,11 @@ fun FragmentManager.add(addFragment: Fragment,
 }
 
 
-fun FragmentManager.add(addList: List<Fragment>,
-                        @IdRes containerId: Int,
-                        showIndex: Int = 0) {
+fun FragmentManager.add(
+    addList: List<Fragment>,
+    @IdRes containerId: Int,
+    showIndex: Int = 0
+) {
     val ft = this.beginTransaction()
     for (i in 0 until addList.size) {
         val addFragment = addList[i]
@@ -342,7 +346,8 @@ fun FragmentManager.removeAll() {
 fun FragmentManager.showHide(
     showFragment: Fragment,
     vararg hideFragment: Fragment,
-    transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+    transaction: Int = FragmentTransaction.TRANSIT_NONE
+) {
     val ft = this.beginTransaction().setTransition(transaction)
 
     ft.show(showFragment)
@@ -356,10 +361,12 @@ fun FragmentManager.showHide(
 }
 
 
-fun FragmentManager.replace(fragment: Fragment,
-                            @IdRes containerId: Int,
-                            isAddStack: Boolean = false,
-                            tag: String = fragment::class.java.name) {
+fun FragmentManager.replace(
+    fragment: Fragment,
+    @IdRes containerId: Int,
+    isAddStack: Boolean = false,
+    tag: String = fragment::class.java.name
+) {
     val ft = this.beginTransaction()
 
     ft.replace(containerId, fragment, tag)
@@ -369,9 +376,11 @@ fun FragmentManager.replace(fragment: Fragment,
 }
 
 
-fun FragmentManager.switch(showFragment: Fragment,
-                           @IdRes containerId: Int,
-                           transaction: Int = FragmentTransaction.TRANSIT_NONE) {
+fun FragmentManager.switch(
+    showFragment: Fragment,
+    @IdRes containerId: Int,
+    transaction: Int = FragmentTransaction.TRANSIT_NONE
+) {
     val ft = this.beginTransaction().setTransition(transaction)
 
     val tag = showFragment::class.java.name
@@ -450,3 +459,9 @@ fun Activity.showBottomBar() {
         decorView.systemUiVisibility = uiOptions
     }
 }
+
+val View.hasNotch: Boolean
+    @RequiresApi(Build.VERSION_CODES.P)
+    get() {
+        return rootWindowInsets?.displayCutout != null
+    }

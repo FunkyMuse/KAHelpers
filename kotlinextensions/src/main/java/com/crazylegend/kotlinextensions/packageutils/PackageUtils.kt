@@ -69,3 +69,7 @@ inline val Context.isFromGooglePlay: Boolean
         val installer = installerPackageName
         return arrayOf(INSTALLER_GOOGLE_PLAY_FEEDBACK, INSTALLER_GOOGLE_PLAY_VENDING).any { it == installer }
     }
+
+fun PackageManager.isIntentSafe(intent: Intent): Boolean {
+    return queryIntentActivities(intent, 0).isNotEmpty()
+}

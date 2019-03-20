@@ -3,6 +3,10 @@ package com.crazylegend.kotlinextensions.numbers
 import android.os.Build
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
+import java.lang.Double.doubleToRawLongBits
+import java.lang.Double.longBitsToDouble
+import java.lang.Float.floatToRawIntBits
+import java.lang.Float.intBitsToFloat
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -19,6 +23,10 @@ val Number.getSatoshi: Double
         return this.toDouble().times(0.00000001)
     }
 
+fun Float.ieee754(): Int = floatToRawIntBits(this)
+fun Double.ieee754(): Long = doubleToRawLongBits(this)
+fun Int.ieee754(): Float = intBitsToFloat(this)
+fun Long.ieee754(): Double = longBitsToDouble(this)
 
 val Int.numberOfDigits get() = toString().length
 

@@ -6,7 +6,9 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -296,7 +298,7 @@ fun Context.showDatePicker(year: Int, month: Int, day: Int, onDatePicked: (year:
  * Show the Time Picker and Get the Picked Time Easily
  */
 fun Context.showTimePicker(
-    currentDate: Date = com.crazylegend.kotlinextensions.date.currentDate,
+    currentDate: Date = com.crazylegend.kotlinextensions.dateAndTime.currentDate,
     is24Hour: Boolean = false,
     onDatePicked: (hour: Int, minute: Int) -> Unit
 ) {
@@ -481,4 +483,10 @@ fun Context.watchYoutubeVideo( id: String) {
         this.startActivity(webIntent)
     }
 
+}
+
+inline fun <reified T> Context.getAppWidgetsIdsFor(): IntArray {
+    return AppWidgetManager.getInstance(this).getAppWidgetIds(
+        ComponentName(this, T::class.java)
+    )
 }

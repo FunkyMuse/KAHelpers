@@ -17,7 +17,9 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StyleRes
+import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
+import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import com.crazylegend.kotlinextensions.context.clipboardManager
@@ -202,4 +204,10 @@ fun TextView.textColorAnim(from: Int, to: Int) {
     )
     textColorAnimator.duration = 300
     textColorAnimator.start()
+}
+
+@WorkerThread
+fun TextView.precomputeText(text: Spannable): PrecomputedTextCompat {
+    val textParams = TextViewCompat.getTextMetricsParams(this)
+    return PrecomputedTextCompat.create(text, textParams)
 }
