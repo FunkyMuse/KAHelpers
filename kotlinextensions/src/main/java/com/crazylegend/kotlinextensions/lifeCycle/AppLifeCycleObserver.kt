@@ -15,12 +15,12 @@ class AppLifeCycleObserver : LifecycleObserver {
     var lifeCycleCallback : LifeCycleCallBacks ? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    private fun onEnterForeground() {
+    fun onEnterForeground() {
         lifeCycleCallback?.appInForeground()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    private fun onEnterBackground(){
+    fun onEnterBackground(){
         lifeCycleCallback?.appInBackground()
     }
 
