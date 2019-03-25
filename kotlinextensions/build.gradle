@@ -54,6 +54,7 @@ dependencies {
     //live data
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'android.arch.lifecycle:reactivestreams:1.1.1'
+    implementation group: 'androidx.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.1.0-alpha03'
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
 
     //joda time
