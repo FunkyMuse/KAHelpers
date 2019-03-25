@@ -1169,6 +1169,18 @@ fun BottomSheetBehavior<*>.sliderListener(
 
 }
 
+fun View.enable(){
+    this.isEnabled = true
+}
+
+fun View.toggleEnabled(){
+    this.isEnabled = !this.isEnabled
+}
+
+fun View.disable(){
+    this.isEnabled = false
+}
+
 inline fun View.toggleSelected(){
     this.isSelected = !this.isSelected
 }
@@ -1179,6 +1191,30 @@ fun View.windowBackground(): Int {
 // Used to tint buttons
 fun Context.textColorTertiary(): Int {
     return this.themeAttributeToColor(android.R.attr.textColorTertiary)
+}
+
+fun  MenuItem.disable(){
+    this.isEnabled = false
+}
+
+fun  MenuItem.enable(){
+    this.isEnabled = true
+}
+
+fun  MenuItem.toggleEnabled(){
+    this.isEnabled = !this.isEnabled
+}
+
+fun MenuItem.check(){
+    this.isChecked = true
+}
+
+fun MenuItem.unCheck(){
+    this.isChecked = false
+}
+
+fun MenuItem.toggleChecked(){
+    this.isChecked = !this.isChecked
 }
 
 private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
