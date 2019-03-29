@@ -6,8 +6,6 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -18,6 +16,13 @@ import com.crazylegend.kotlinextensions.context.inputMethodManager
 import com.google.android.material.textfield.TextInputEditText
 import java.net.MalformedURLException
 import java.net.URL
+import java.lang.reflect.AccessibleObject.setAccessible
+import android.annotation.SuppressLint
+import android.text.InputFilter
+import android.view.*
+import android.view.KeyEvent.KEYCODE_DEL
+
+
 
 
 /**
@@ -39,6 +44,16 @@ val EditText.getStringTrimmed: String get() = this.text.toString().trim()
 fun EditText.setTheText(text: String) {
     this.setText(text, TextView.BufferType.EDITABLE)
 }
+
+fun EditText.selectEnd() {
+    if (!isFocused)
+        return
+
+    post {
+        setSelection(text.toString().length)
+    }
+}
+
 
 /**
  * Accepts 3 text watcher methods with a default empty implementation.
@@ -69,6 +84,9 @@ fun EditText.addTextWatcher(
     return textWatcher
 }
 
+fun EditText.setMaxLength(length: Int) {
+    filters = arrayOf(InputFilter.LengthFilter(length))
+}
 
 fun EditText.focus() {
     if (hasFocus()) {
@@ -348,3 +366,78 @@ fun EditText.hideKeyboard() =
  */
 fun EditText.hideKeyboardDelayed(delayMillis: Long) =
     Handler().postDelayed({ hideKeyboard() }, delayMillis)
+
+
+ @SuppressLint("ClickableViewAccessibility")
+ fun EditText.disableCopyAndPaste() {
+    try {
+
+        this.setOnLongClickListener { _ -> true }
+        this.isLongClickable = false
+        this.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                this.setInsertionDisabled()
+            }
+            false
+        }
+        this.setTextIsSelectable(false)
+        this.customSelectionActionModeCallback = object : android.view.ActionMode.Callback {
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                return false
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                return false
+            }
+
+            override fun onCreateActionMode(mode: android.view.ActionMode, menu: Menu): Boolean {
+                return false
+            }
+
+            override fun onDestroyActionMode(mode: android.view.ActionMode) {
+
+            }
+        }
+
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+}
+
+ fun EditText.setInsertionDisabled() {
+    try {
+        val editorField = TextView::class.java.getDeclaredField("mEditor")
+        editorField.isAccessible = true
+        val editorObject = editorField.get(this)
+
+        // if this view supports insertion handles
+        @SuppressLint("PrivateApi") val editorClass = Class.forName("android.widget.Editor")
+        val mInsertionControllerEnabledField = editorClass.getDeclaredField("mInsertionControllerEnabled")
+        mInsertionControllerEnabledField.isAccessible = true
+        mInsertionControllerEnabledField.set(editorObject, false)
+
+        // if this view supports selection handles
+        val mSelectionControllerEnabledField = editorClass.getDeclaredField("mSelectionControllerEnabled")
+        mSelectionControllerEnabledField.isAccessible = true
+        mSelectionControllerEnabledField.set(editorObject, false)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+}
+
+fun deleteAllWhenContainsStar(vararg editTexts: EditText) {
+    for (et in editTexts) {
+        et.deleteAllWhenContainsStar()
+    }
+}
+
+fun EditText.deleteAllWhenContainsStar() {
+    this.setOnKeyListener { _, keyCode, _ ->
+        if (keyCode == KeyEvent.KEYCODE_DEL && this.text.toString().contains("*")) {
+            this.setText("")
+        }
+        false
+    }
+}

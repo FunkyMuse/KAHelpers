@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions
 
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 
@@ -39,3 +41,11 @@ open class ComparableByteArray(val bytes: ByteArray) {
     override fun hashCode() = bytes.contentHashCode()
 }
 
+
+fun ByteArray.saveAt(pathName: String): Boolean = try {
+    FileOutputStream(File(pathName)).use { it.write(this) }
+    true
+} catch (e: Exception) {
+    e.printStackTrace()
+    false
+}

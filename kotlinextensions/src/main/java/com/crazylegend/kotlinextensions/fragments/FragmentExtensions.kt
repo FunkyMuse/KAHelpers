@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.crazylegend.kotlinextensions.context.getIntent
 import com.crazylegend.kotlinextensions.context.notification
+import com.crazylegend.kotlinextensions.log.debug
 
 
 /**
@@ -401,4 +402,16 @@ fun Context.removeFragment(fragment: Fragment) {
 fun Fragment.removeFragment(fragment: Fragment) {
     val activity = this.requireActivity() as AppCompatActivity
     activity.supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+}
+
+fun AppCompatActivity.printBackStack() {
+    this.debug("Fragment", "Current BackStack:  " + supportFragmentManager.backStackEntryCount)
+    for (entry in 0 until supportFragmentManager.backStackEntryCount) {
+        val stackEntry = supportFragmentManager.getBackStackEntryAt(entry)
+        this.debug("Fragment", "[" + stackEntry.id + "] " + stackEntry.name)
+    }
+}
+
+fun AppCompatActivity.currentFragment(@IdRes container: Int): Fragment? {
+    return supportFragmentManager.findFragmentById(container)
 }

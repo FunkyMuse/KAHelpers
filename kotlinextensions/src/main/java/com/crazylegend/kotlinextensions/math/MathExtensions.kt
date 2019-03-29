@@ -1,5 +1,12 @@
 package com.crazylegend.kotlinextensions.math
 
+import android.content.Context
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import kotlin.random.Random
+
 
 /**
  * Created by hristijan on 2/22/19 to long live and prosper !
@@ -75,6 +82,79 @@ inline fun Float.nextUp(): Float = Math.nextUp(this)
 inline fun Float.scalb(scaleFactor: Int): Float = Math.scalb(this, scaleFactor)
 inline fun Float.clamp(min: Float, max: Float): Float = Math.max(min, Math.min(this, max))
 
+fun Number?.orZero(): Number = this ?: 0
+
+fun Int?.orZero(): Int = this ?: 0
+
+fun Float?.orZero(): Float = this ?: 0.0f
+
+fun Double?.orZero(): Double = this ?: 0.0
+
+fun Int.getString(context: Context?): String? {
+    return context?.getString(this)
+}
+
+fun Double.format(pattern: String): String {
+    val df = DecimalFormat(pattern)
+    return df.format(this)
+}
+
+fun Double.format(pattern: String, init: DecimalFormat.() -> Unit): String {
+    val df = DecimalFormat(pattern)
+    df.init()
+    return df.format(this)
+}
+
+fun Double.format(pattern: String, roundingMode: RoundingMode): String {
+    return format(pattern) {
+        this.roundingMode = roundingMode
+    }
+}
+
+fun Double.format(pattern: String, groupingSeperator: Char): String {
+    val symbols = DecimalFormatSymbols()
+    symbols.groupingSeparator = groupingSeperator
+    val df = DecimalFormat(pattern, symbols)
+    return df.format(this)
+}
+
+fun Double.roundDown(pattern: String): String {
+    return format(pattern, RoundingMode.DOWN)
+}
+
+fun Double.roundHalfUp() = BigDecimal(this).setScale(0, BigDecimal.ROUND_HALF_UP).toDouble()
+
+fun Short.clamp(min: Short, max: Short): Short {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+fun Int.clamp(min: Int, max: Int): Int {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+fun Long.clamp(min: Long, max: Long): Long {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+fun Float.valueToPercentOfRange(min: Float = 0f, max: Float) = (this - min) / (max - min)
+fun Float.percentToValueOfRange(min: Float = 0f, max: Float) = min + this * (max - min)
+
+fun Int.sleep() = this.toLong().sleep()
+
+fun Long.sleep() = Thread.sleep(this)
+
+fun Int.randomStrings(): String {
+    val randomStringBuilder = StringBuilder()
+    var tempChar: Char
+    for (i in 0 until this) {
+        tempChar = (Random.nextInt(96) + 32).toChar()
+        randomStringBuilder.append(tempChar)
+    }
+    return randomStringBuilder.toString()
+}
 
 object FloatMath {
     val PI: Float = Math.PI.toFloat()

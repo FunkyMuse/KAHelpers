@@ -14,6 +14,7 @@ import android.content.Context.*
 import android.content.Intent
 import android.content.RestrictionsManager
 import android.content.pm.LauncherApps
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.hardware.ConsumerIrManager
@@ -35,6 +36,7 @@ import android.net.wifi.p2p.WifiP2pManager
 import android.nfc.NfcManager
 import android.os.*
 import android.os.storage.StorageManager
+import android.preference.PreferenceManager
 import android.print.PrintManager
 import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
@@ -364,3 +366,9 @@ inline val Context.configuration: android.content.res.Configuration
 inline val Context.isOneHanded: Boolean get() {
     return isPortrait && configuration.smallestScreenWidthDp < 600
 }
+
+inline fun Context.isPermissionGranted(permission: String): Boolean =
+    ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+inline fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
+    permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }

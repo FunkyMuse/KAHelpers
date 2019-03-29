@@ -359,3 +359,11 @@ fun <T> LiveData<T>.buffer(count:Int): MutableLiveData<List<T?>> {
  */
 val AndroidViewModel.context : Context
     get() = getApplication()
+
+
+fun <X, Y> LiveData<X>.map(mapFunction: (value: X?) -> Y?) =
+    Transformations.map(this, mapFunction)
+
+
+fun <X, Y> LiveData<X>.switchMap(mapFunction: (value: X?) -> LiveData<Y>): LiveData<Y> =
+    Transformations.switchMap(this, mapFunction)

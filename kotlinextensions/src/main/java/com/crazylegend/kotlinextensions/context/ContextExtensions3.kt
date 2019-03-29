@@ -7,10 +7,7 @@ import android.app.ActivityManager
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
-import android.content.ActivityNotFoundException
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -22,12 +19,18 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.TextUtils.isEmpty
 import android.util.TypedValue
+import android.view.View
 import androidx.annotation.*
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.crazylegend.kotlinextensions.enums.ContentColumns
 import com.crazylegend.kotlinextensions.enums.ContentOrder
 import com.crazylegend.kotlinextensions.toFile
@@ -489,4 +492,61 @@ inline fun <reified T> Context.getAppWidgetsIdsFor(): IntArray {
     return AppWidgetManager.getInstance(this).getAppWidgetIds(
         ComponentName(this, T::class.java)
     )
+}
+
+fun Context?.openGoogleMaps(address: String?) {
+    if (isEmpty(address))
+        return
+
+    val gmmIntentUri = Uri.parse("geo:0,0?q=${address?.trim()}")
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.`package` = "com.google.android.apps.maps"
+    this?.startActivity(mapIntent)
+}
+
+/**
+ * Hides all the views passed in the arguments
+ */
+fun Context.hideViews(vararg views: View) = views.forEach { it.visibility = View.GONE }
+
+/**
+ * Shows all the views passed in the arguments
+ */
+fun Context.showViews(vararg views: View) = views.forEach { it.visibility = View.VISIBLE }
+
+fun Context.unRegisterReceiverSafe(broadcastReceiver: BroadcastReceiver) {
+    // needs to be in try catch in order to avoid crashing on Samsung Lollipop devices https://issuetracker.google.com/issues/37001269#c3
+    try {
+        this.unregisterReceiver(broadcastReceiver)
+    } catch (e: IllegalArgumentException) {
+        e.printStackTrace()
+    }
+}
+
+fun Context.getFontCompat(fontRes: Int): Typeface? {
+    return ResourcesCompat.getFont(this, fontRes)
+}
+
+fun Context.registerReceiverSafe(broadcastReceiver: BroadcastReceiver, intentFilter: IntentFilter) {
+    // needs to be in try catch in order to avoid crashing on Samsung Lollipop devices https://issuetracker.google.com/issues/37001269#c3
+    try {
+        this.registerReceiver(broadcastReceiver, intentFilter)
+    } catch (e: IllegalArgumentException) {
+        e.printStackTrace()
+    }
+}
+
+fun Context.getProductionApplicationId(): String {
+    val applicationId = packageName
+    return when {
+        applicationId.contains(".stage") -> applicationId.dropLast(6)
+        applicationId.contains(".debug") -> applicationId.dropLast(6)
+        else -> applicationId
+    }
+}
+
+
+
+fun Context.areNotificationsEnabled(): Boolean {
+    return NotificationManagerCompat.from(this).areNotificationsEnabled()
 }

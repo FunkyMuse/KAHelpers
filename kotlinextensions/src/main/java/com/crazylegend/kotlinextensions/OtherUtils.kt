@@ -11,6 +11,10 @@ import androidx.collection.LruCache
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
+import java.io.InputStream
+import java.math.BigInteger
+import java.nio.ByteBuffer
+import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -222,4 +226,21 @@ inline fun <reified K, V> LruCache<K, V>.keys(): Array<K> =
 
 val randomUUIDstring get()  = UUID.randomUUID().toString()
 
+fun CharSequence.isEmptyNullOrStringNull(): Boolean {
+    return isNullOrEmpty() || this == "null"
+}
 
+
+fun UUID.toLong(): Long {
+    var longValue: Long
+    do {
+        val buffer = ByteBuffer.wrap(ByteArray(16))
+        buffer.putLong(leastSignificantBits)
+        buffer.putLong(mostSignificantBits)
+        val bi = BigInteger(buffer.array())
+        longValue = bi.toLong()
+    } while (longValue < 0)
+    return longValue
+}
+
+fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String = bufferedReader(charset).use { it.readText() }

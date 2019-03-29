@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.views
 
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 
@@ -31,4 +32,9 @@ fun View.snackbarIndefinite(msg: String) {
 
 fun View.snackbarIndefinite(@StringRes msg: Int) {
     Snackbar.make(this, msg, Snackbar.LENGTH_INDEFINITE).show()
+}
+
+fun Snackbar.withTextColor(color: Int): Snackbar {
+    view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTextColor(color)
+    return this
 }

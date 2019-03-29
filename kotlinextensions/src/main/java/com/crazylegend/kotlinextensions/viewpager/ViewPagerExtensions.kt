@@ -110,3 +110,34 @@ fun ViewPager.goPrevious() {
 fun ViewPager.goNext() {
     if (canGoNext()) currentItem += 1
 }
+
+val ViewPager.length: Int?
+    get() = adapter?.count
+
+val ViewPager.lastIndex: Int?
+    get() = adapter?.count?.minus(1)
+
+val ViewPager.isLastView: Boolean
+    get() = currentItem == length?.minus(1)
+
+fun ViewPager.next() {
+    if (!isLastView) {
+        currentItem += 1
+    }
+}
+
+fun ViewPager.next(lastCallback: () -> Unit) {
+    if (!isLastView) {
+        currentItem += 1
+    } else {
+        lastCallback()
+    }
+}
+
+fun ViewPager.nextCircular() {
+    if (!isLastView) {
+        currentItem += 1
+    } else {
+        currentItem = 0
+    }
+}

@@ -12,6 +12,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Html
 import android.text.Spanned
+import android.text.TextUtils
 import android.util.Base64
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
@@ -677,3 +678,141 @@ fun CharSequence.getNumber(): Int {
 fun String.occurencesOf(other: String): Int = split(other).size - 1
 
 val String.asColor: Int @ColorInt get() = Color.parseColor(this)
+
+/**
+ * Computes the substring starting at start and ending at endInclusive,
+ *      which is the length of text unless specified otherwise.
+ */
+fun stringSubstring(text: String, start: Int, endInclusive: Int = text.length - 1): String {
+    var result = ""
+    val startFixed = if (start < 0) 0 else start
+    val endFixed = if (endInclusive > text.length - 1) text.length - 1 else endInclusive
+
+    for (i in startFixed..endFixed){
+        result += text[i]
+        if (i + 1 >= text.length) return result
+    }
+    return result
+}
+
+
+fun stringConcatenateArrays(first: List<Char>, second: List<Char>): List<Char> {
+    var result = ArrayList<Char>(first.size + second.size)
+    var j = 0
+    for (i in 0 until first.size) i.run {
+        result[this] = first[this]
+        j = this
+    }
+    for (k in 0 until second.size) result[k + j + 1] = second[k]
+    return result
+}
+
+fun String.searchForPattern(pattern: String): Int {
+    //if the searched text is longer than the original
+    if (pattern.length > this.length) return -1
+    //if the searched text is null
+    if (pattern.isEmpty()) return 0
+
+    for (i in 0 until this.length - pattern.length){
+        var j = i
+        while (this[j] == pattern[j - i]){
+            if ((j - i) + 1 == pattern.length) return i
+            if (j + 1 == this.length) break
+            j++
+        }
+    }
+    return -1
+}
+
+fun String.removeSymbols(replacement: String = "�"): String {
+    return this.replace(Regex("[^\\p{ASCII}‘’]"), replacement)
+}
+
+fun String.containsAny(vararg strings: String): Boolean {
+    return strings.any { this.contains(it) }
+}
+
+fun String.capitalizeWords(): String {
+    return this.split(" ").joinToString(" ") { it.capitalize() }
+}
+
+fun String.camelCaseWords(): String {
+    return this.toLowerCase().capitalizeWords()
+}
+
+fun String.trimTo(length: Int): String {
+    return if (this.length < length) {
+        this
+    } else {
+        this.substring(0, length - 1).plus("…")
+    }
+}
+
+fun List<String>.containsCaseInsensitive(string: String): Boolean {
+    forEach {
+        if (it.equals(string, true)) {
+            return true
+        }
+    }
+    return false
+}
+
+fun List<String>.indexCaseInsensitive(string: String): Int {
+    forEachIndexed { index, s ->
+        if (s.equals(string, true)) {
+            return index
+        }
+    }
+    return -1
+}
+
+val arabicChars = charArrayOf('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩')
+
+fun String.asArabicNumbers(): String {
+    if (TextUtils.isEmpty(this))
+        return ""
+
+    val builder = StringBuilder()
+    for (i in 0 until this.length) {
+        if (Character.isDigit(this[i])) {
+            builder.append(arabicChars[this[i].toInt() - 48])
+        } else {
+            builder.append(this[i])
+        }
+    }
+    return "" + builder.toString()
+}
+
+fun String.parseAssetFile(): Uri = Uri.parse("file:///android_asset/$this")
+
+fun String.parseInternalStorageFile(absolutePath:String): Uri = Uri.parse("$absolutePath/$this")
+
+fun String.parseExternalStorageFile(): Uri = Uri.parse("${Environment.getExternalStorageDirectory()}/$this")
+
+fun String.parseFile(): Uri = Uri.fromFile(File(this))
+
+val Uri.fileExists: Boolean
+    get() = File(toString()).exists()
+
+
+/**
+ * Removes all occurrences of the [value] in the string
+ * @param value A vlaue
+ * @param ignoreCase Ignore case?
+ * @return A new string with all occurrences of the [value] removed
+ */
+fun String.remove(value: String, ignoreCase: Boolean = false): String = replace(value, "", ignoreCase)
+
+/**
+ * Removes decimal number format symbol
+ * @return A new string without `,`
+ */
+fun String.removeNumberFormat(): String = remove(",")
+
+
+/**
+ * Removes decimal number format symbol
+ * @return A new string without `,`
+ */
+fun String.removeNumberFormatDot(): String = remove(".")
+

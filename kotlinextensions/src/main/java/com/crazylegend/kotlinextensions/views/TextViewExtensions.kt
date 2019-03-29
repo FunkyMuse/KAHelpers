@@ -8,21 +8,22 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
-import android.text.Html
-import android.text.Spannable
-import android.text.TextUtils
+import android.text.*
 import android.text.method.LinkMovementMethod
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.StyleRes
-import androidx.annotation.WorkerThread
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
 import com.crazylegend.kotlinextensions.context.clipboardManager
+import com.crazylegend.kotlinextensions.context.getColorCompat
+import com.crazylegend.kotlinextensions.context.getFontCompat
+import com.google.android.material.textfield.TextInputLayout
 
 
 /**
@@ -210,4 +211,67 @@ fun TextView.textColorAnim(from: Int, to: Int) {
 fun TextView.precomputeText(text: Spannable): PrecomputedTextCompat {
     val textParams = TextViewCompat.getTextMetricsParams(this)
     return PrecomputedTextCompat.create(text, textParams)
+}
+
+inline fun TextView.addTextChangedListener(
+    crossinline onBeforeTextChanged: (s: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
+    crossinline onTextChanged: (s: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> },
+    crossinline onAfterTextChanged: (s: Editable) -> Unit = { }
+): TextWatcher {
+    val listener = object : TextWatcher {
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+            onTextChanged(s, start, before, count)
+
+        override fun afterTextChanged(s: Editable) = onAfterTextChanged(s)
+        override fun beforeTextChanged(
+            s: CharSequence?,
+            start: Int,
+            count: Int,
+            after: Int
+        ) = onBeforeTextChanged(s, start, count, after)
+
+
+    }
+
+    addTextChangedListener(listener)
+    return listener
+}
+
+infix fun TextView.set(@StringRes id: Int) {
+    setText(id)
+}
+
+infix fun TextView.set(text: String?) {
+    setText(text)
+}
+
+infix fun TextView.set(text: Spannable?) {
+    setText(text)
+}
+
+
+fun TextInputLayout.clearError() {
+    error = null
+    isErrorEnabled = false
+}
+
+val TextView.textString: String
+    get() = text.toString()
+
+
+fun TextView.setTextColorId(id: Int){
+    this.setTextColor(this.context.getColorCompat(id))
+}
+
+fun TextView.setRightDrawable(@DrawableRes resId: Int) {
+    setCompoundDrawablesWithIntrinsicBounds(0,0,resId,0)
+}
+
+fun TextView.setFont(@FontRes font: Int) {
+    this.typeface = context.getFontCompat(font)
+}
+
+fun TextView.setFont(typeface: Typeface?) {
+    this.typeface = typeface
 }

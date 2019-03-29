@@ -19,7 +19,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
+import android.widget.ImageView
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.content.FileProvider
@@ -40,6 +42,7 @@ import java.util.*
 
 
 data class FileAndUri(var file: File?, var path: String?)
+
 
 
 @RequiresPermission(allOf = [WRITE_EXTERNAL_STORAGE])
@@ -167,6 +170,24 @@ fun Context.getUriForFile(filePath: String, authority: String): Uri? {
 
 fun ContentResolver.getBitmap(imageUri: Uri): Bitmap {
     return MediaStore.Images.Media.getBitmap(this, imageUri)
+}
+
+inline fun <T : Bitmap?, R> T.use(block: (T) -> R): R {
+    var recycled = false
+    try {
+        return block(this)
+    } catch (e: Exception) {
+        recycled = true
+        try {
+            this?.recycle()
+        } catch (exception: Exception) {
+        }
+        throw e
+    } finally {
+        if (!recycled) {
+            this?.recycle()
+        }
+    }
 }
 
 
@@ -620,6 +641,63 @@ fun downloadBitmap(imageUrl :String) :Bitmap? {
     return bitmap
 }
 
+fun Bitmap.toDrawable(context: Context): Drawable {
+    return BitmapDrawable(context.resources, this)
+}
+
+fun Drawable.toBitmap(): Bitmap? {
+    val bitmap: Bitmap? = if (intrinsicWidth <= 0 || intrinsicHeight <= 0) {
+        Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+    } else {
+        Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+    }
+
+    if (this is BitmapDrawable) {
+        if (this.bitmap != null) {
+            return this.bitmap
+        }
+    }
+
+    val canvas = Canvas(bitmap)
+    setBounds(0, 0, canvas.width, canvas.height)
+    draw(canvas)
+
+    return bitmap
+}
+
+@Throws(FileNotFoundException::class)
+fun Uri.toBitmapWithContext(context: Context): Bitmap {
+    return MediaStore.Images.Media.getBitmap(context.contentResolver, this)
+}
+
+@Throws(FileNotFoundException::class)
+fun Uri.toDrawableWithContext(context: Context): Drawable {
+    val inputStream = context.contentResolver.openInputStream(this)
+    return Drawable.createFromStream(inputStream, this.toString())
+}
+
+infix fun ImageView.set(@DrawableRes id: Int) {
+    setImageResource(id)
+}
+
+infix fun ImageView.set(bitmap: Bitmap) {
+    setImageBitmap(bitmap)
+}
+
+infix fun ImageView.set(drawable: Drawable) {
+    setImageDrawable(drawable)
+}
+
+@RequiresApi(Build.VERSION_CODES.M)
+infix fun ImageView.set(ic: Icon) {
+    setImageIcon(ic)
+}
+
+infix fun ImageView.set(uri: Uri) {
+    setImageURI(uri)
+}
+
+
 fun Bitmap.resize(width :Int, height :Int, mode :ResizeMode = ResizeMode.AUTOMATIC, isExcludeAlpha :Boolean = false) :Bitmap {
     var mWidth = width
     var mHeight = height
@@ -661,3 +739,4 @@ private enum class ImageOrientation {
                 if(width >= height) ImageOrientation.LANDSCAPE else ImageOrientation.PORTRAIT
     }
 }
+

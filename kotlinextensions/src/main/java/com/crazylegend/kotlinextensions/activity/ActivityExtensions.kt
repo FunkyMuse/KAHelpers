@@ -7,6 +7,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -465,3 +467,35 @@ val View.hasNotch: Boolean
     get() {
         return rootWindowInsets?.displayCutout != null
     }
+
+
+inline fun Activity.lockCurrentScreenOrientation() {
+    requestedOrientation = when (resources.configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        else -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+    }
+}
+
+inline fun Activity.unlockScreenOrientation() {
+    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+}
+
+inline val Activity.isInMultiWindow: Boolean
+    get() {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            isInMultiWindowMode
+        } else {
+            false
+        }
+    }
+
+/**
+ * Iterate through fragments attached to FragmentManager and pop's one after the other.
+ */
+fun AppCompatActivity.popWholeBackStack() {
+    val fragmentManager = this.supportFragmentManager
+    for (i in 0 until fragmentManager.fragments.size) {
+        fragmentManager.popBackStack()
+    }
+}
+

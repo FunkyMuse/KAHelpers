@@ -12,6 +12,8 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.core.content.FileProvider
 import com.crazylegend.kotlinextensions.interfaces.OneParamInvocation
 import java.io.*
@@ -21,6 +23,13 @@ import java.nio.channels.FileChannel
 import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
+import java.nio.file.Files.isDirectory
+import java.nio.file.Files.delete
+import java.nio.file.Files.isDirectory
+
+
+
+
 
 
 /**
@@ -127,6 +136,31 @@ fun File.toByteArray(): ByteArray { val bos = ByteArrayOutputStream(this.length(
  */
 fun File.copyFromInputStream(inputStream: InputStream) =
     inputStream.use { input -> outputStream().use { output -> input.copyTo(output) } }
+
+fun Context.deleteCache() {
+    try {
+        val dir = this.cacheDir
+        if (dir != null && dir.isDirectory) {
+            deleteDir(dir)
+        }
+    } catch (@NonNull e: Exception) {
+    }
+
+}
+
+fun deleteDir(@Nullable dir: File?): Boolean {
+    if (dir != null && dir.isDirectory) {
+        val children = dir.list()
+        for (i in children.indices) {
+            val success = deleteDir(File(dir, children[i]))
+            if (!success) {
+                return false
+            }
+        }
+    }
+    return dir!!.delete()
+}
+
 
 fun Uri.realPath(context: Context): Uri {
     val result: String?

@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.dateAndTime
 
 import android.content.Context
 import android.text.format.DateFormat
+import android.text.format.DateUtils
 import org.joda.time.*
 import org.joda.time.base.AbstractInstant
 import org.joda.time.format.DateTimeFormat
@@ -9,6 +10,7 @@ import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+
 import java.util.*
 
 
@@ -769,4 +771,157 @@ fun Date.getCurrentWeekdayString() : String {
 fun Date.getCurrentDateString(pattern:String) : String {
     val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
     return dateFormat.format(this.time)
+}
+
+// Converts current date to proper provided format
+fun Date.convertTo(format: String): String? {
+    var dateStr: String? = null
+    val df = SimpleDateFormat(format)
+    try {
+        dateStr = df.format(this)
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+
+    return dateStr
+}
+
+// Converts current date to Calendar
+fun Date.toCalendar(): Calendar {
+    val cal = Calendar.getInstance()
+    cal.time = this
+    return cal
+}
+
+fun Date.isFuture(): Boolean {
+    return !Date().before(this)
+}
+
+fun Date.isPast(): Boolean {
+    return Date().before(this)
+}
+
+fun Date.isToday(): Boolean {
+    return DateUtils.isToday(this.time)
+}
+
+fun Date.isYesterday(): Boolean {
+    return DateUtils.isToday(this.time + DateUtils.DAY_IN_MILLIS)
+}
+
+fun Date.isTomorrow(): Boolean {
+    return DateUtils.isToday(this.time - DateUtils.DAY_IN_MILLIS)
+}
+
+fun Date.today(): Date {
+    return Date()
+}
+
+fun Date.yesterday(): Date {
+    val cal = this.toCalendar()
+    cal.add(Calendar.DAY_OF_YEAR, -1)
+    return cal.time
+}
+
+fun Date.tomorrow(): Date {
+    val cal = this.toCalendar()
+    cal.add(Calendar.DAY_OF_YEAR, 1)
+    return cal.time
+}
+
+fun Date.hour(): Int {
+    return this.toCalendar().get(Calendar.HOUR)
+}
+
+fun Date.minute(): Int {
+    return this.toCalendar().get(Calendar.MINUTE)
+}
+
+fun Date.second(): Int {
+    return this.toCalendar().get(Calendar.SECOND)
+}
+
+fun Date.month(): Int {
+    return this.toCalendar().get(Calendar.MONTH) + 1
+}
+
+fun Date.monthName(locale: Locale? = Locale.getDefault()): String {
+    return this.toCalendar().getDisplayName(Calendar.MONTH, Calendar.LONG, locale)
+}
+
+fun Date.year(): Int {
+    return this.toCalendar().get(Calendar.YEAR)
+}
+
+fun Date.day(): Int {
+    return this.toCalendar().get(Calendar.DAY_OF_MONTH)
+}
+
+fun Date.dayOfWeek(): Int {
+    return this.toCalendar().get(Calendar.DAY_OF_WEEK)
+}
+
+fun Date.dayOfWeekName(locale: Locale? = Locale.getDefault()): String {
+    return this.toCalendar().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale)
+}
+
+fun Date.dayOfYear(): Int {
+    return this.toCalendar().get(Calendar.DAY_OF_YEAR)
+}
+
+
+fun Date.resetHourMinSecForDate(): Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MILLISECOND, 0)
+    return calendar.time
+}
+
+
+fun Date.isDateToday(): Boolean {
+    return this.resetHourMinSecForDate() == Date().resetHourMinSecForDate()
+}
+
+fun Date.isDateSameDay(compareDate: Date): Boolean {
+    return this.resetHourMinSecForDate() == compareDate.resetHourMinSecForDate()
+}
+
+fun Date.format(pattern: String, locale: Locale ): String {
+    return SimpleDateFormat(pattern, locale).format(this)
+}
+
+fun Date.isDateThisYear(): Boolean {
+    val calendar = Calendar.getInstance()
+
+    val currentYear = calendar.get(Calendar.YEAR)
+    calendar.time = this
+
+    return currentYear == calendar.get(Calendar.YEAR)
+}
+
+fun Date.sameWeekLastYear(): Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    val currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+    val currentYear = calendar.get(Calendar.YEAR)
+    calendar.set(Calendar.YEAR, currentYear - 1)
+    calendar.set(Calendar.WEEK_OF_YEAR, currentWeek)
+    return calendar.time
+}
+
+fun Date.lastDayOfMonth(): Date {
+    val c = Calendar.getInstance()
+    c.time = this
+    c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH))
+    return c.time
+}
+
+fun Date.lastDayOfWeek(): Date {
+    val c = Calendar.getInstance()
+    c.time = this
+    c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_WEEK))
+    return c.time
 }

@@ -9,6 +9,14 @@ import androidx.annotation.RequiresApi
  * Created by hristijan on 3/4/19 to long live and prosper !
  */
 
+inline fun toApi(toVersion: Int, inclusive: Boolean = false, action: () -> Unit) {
+    if (Build.VERSION.SDK_INT < toVersion || (inclusive && Build.VERSION.SDK_INT == toVersion)) action()
+}
+
+inline fun fromApi(fromVersion: Int, inclusive: Boolean = true, action: () -> Unit) {
+    if (Build.VERSION.SDK_INT > fromVersion || (inclusive && Build.VERSION.SDK_INT == fromVersion)) action()
+}
+
 /**
  * Execute [f] only if the current Android SDK version is [version] or newer. Optionally, execute [else] if the
  * current Android SDK version is lower than the provided one.
@@ -111,6 +119,8 @@ inline fun doWithLowerApi(sdkCode: Int, block: () -> Unit) {
         block()
     }
 }
+
+
 
 
 fun isLollipop(): Boolean =

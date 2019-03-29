@@ -23,6 +23,8 @@ import java.util.*
  * Created by hristijan on 3/4/19 to long live and prosper !
  */
 
+val <VH> RecyclerView.Adapter<VH>.isEmpty: Boolean where VH : RecyclerView.ViewHolder
+    get() = itemCount == 0
 
 fun RecyclerView.divider(color: Int = Color.parseColor("#CCCCCC"), size: Int = 1): RecyclerView {
 
@@ -37,6 +39,23 @@ fun RecyclerView.divider(color: Int = Color.parseColor("#CCCCCC"), size: Int = 1
     })
     addItemDecoration(decoration)
     return this
+}
+
+val RecyclerView.ViewHolder.context: Context
+    get() = this.itemView.context
+
+fun RecyclerView.disableAnimations() {
+    this.itemAnimator?.addDuration = 0
+    this.itemAnimator?.removeDuration = 0
+    this.itemAnimator?.moveDuration = 0
+    this.itemAnimator?.changeDuration = 0
+}
+
+fun RecyclerView.enableAnimations() {
+    this.itemAnimator?.addDuration = 120
+    this.itemAnimator?.removeDuration = 120
+    this.itemAnimator?.moveDuration = 250
+    this.itemAnimator?.changeDuration = 250
 }
 
 

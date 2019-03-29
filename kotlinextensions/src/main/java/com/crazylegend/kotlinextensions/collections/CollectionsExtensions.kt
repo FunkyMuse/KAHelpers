@@ -5,6 +5,7 @@ package com.crazylegend.kotlinextensions.collections
 import android.content.res.TypedArray
 import android.util.LongSparseArray
 import android.util.SparseArray
+import android.util.SparseBooleanArray
 import androidx.core.util.forEach
 import java.util.*
 import kotlin.NoSuchElementException
@@ -717,4 +718,154 @@ fun <T> LongSparseArray<T>.toggle(key: Long, item: T){
     } else {
         this.remove(key)
     }
+}
+
+
+inline fun <T : TypedArray?, R> T.use(block: (T) -> R): R {
+    var recycled = false
+    try {
+        return block(this)
+    } catch (e: Exception) {
+        recycled = true
+        try {
+            this?.recycle()
+        } catch (exception: Exception) {
+        }
+        throw e
+    } finally {
+        if (!recycled) {
+            this?.recycle()
+        }
+    }
+}
+
+fun generateRandomIntegerList(size: Int, range: IntRange): MutableList<Int> {
+    val resultList = ArrayList<Int>(size)
+    for (i in 1..size){
+        resultList.add( kotlin.random.Random.nextInt(range.start, range.endInclusive))
+    }
+    return resultList
+}
+
+
+fun <T> List<T>.getStringRepresentation(maxElements: Int = Integer.MAX_VALUE): String {
+    if (size > maxElements) return " The list is too long to output!"
+    var string = ""
+    forEach { string += "$it, " }
+    string = string.trimEnd(' ')
+    string = string.trimEnd(',')
+    return string
+}
+
+fun <T: Comparable<T>> List<T>.isListSorted(): Boolean {
+    return this == this.sorted()
+}
+
+val List<Int>.isBinarySearcheable: Boolean get()  {
+    return (this == this.distinct().sorted())
+}
+
+fun <K, V> Map<K, V?>.filterNotNullValues(): Map<K, V> {
+    return mapNotNull { (key, nullableValue) ->
+        nullableValue?.let { key to it }
+    }.toMap()
+}
+
+fun <T, S> MutableMap<T, S>.replaceWith(map: Map<T, S>) {
+    if (map === this) return
+    clear()
+    putAll(map)
+}
+
+/**
+ * Adds the item if it is not in the collection or removes it if it is.
+ * @return Whether this collection contains the item, AFTER this operation
+ */
+fun <T> MutableCollection<T>.addOrRemove(item: T): Boolean {
+    return if (contains(item)) {
+        remove(item)
+        false
+    } else {
+        add(item)
+        true
+    }
+}
+
+/**
+ * Returns true if an element matching the given [predicate] was found.
+ */
+inline fun <T> Iterable<T>.contains(predicate: (T) -> Boolean): Boolean {
+    for (element in this) if (predicate(element)) return true
+    return false
+}
+
+fun <T> MutableCollection<T>.replaceWith(collection: Collection<T>) {
+    if (collection === this) return
+    clear()
+    addAll(collection)
+}
+
+/**
+ * Replaces the first item within the list that matches the given predicate or adds the item to
+ * the list if none match.
+ */
+fun <T> MutableList<T>.addOrReplace(item: T, predicate: (T) -> Boolean): Boolean {
+    return this.indexOfFirst { predicate.invoke(it) }
+        .takeIf { it >= 0 }
+        ?.let { this[it] = item }
+        ?.let { true }
+        ?: this.add(item)
+            .let { false }
+}
+
+fun <S: MutableList<T>, T> S.addAnd(index: Int, item: T): S {
+    add(index, item)
+    return this
+}
+
+fun <S: MutableCollection<T>, T> S.addAnd(item: T): S{
+    add(item)
+    return this
+}
+
+fun <T> MutableCollection<T>.addAll(vararg items: T) {
+    addAll(items)
+}
+
+val <T> Collection<T>?.isNullOrEmpty: Boolean get()  {
+    return (this == null || this.isEmpty())
+}
+/**
+ * Checks if [element] is contained (ignoring case) by the array
+ * @param element An element
+ * @return Does the array contain [element]
+ */
+fun Array<String>.containsIgnoreCase(element: String): Boolean = any { it.equals(element, true) }
+
+fun <E> Collection<E>.isLast(position: Int) = position == size - 1
+
+
+inline fun <reified T> T.addToList(list: MutableList<T>): T = this.apply {
+    list.add(this)
+}
+
+fun Collection<*>?.isIndexOutOfBounds(index: Int): Boolean {
+    return this == null || index < 0 || index > this.size - 1
+}
+
+
+fun <E> MutableList<E>.removeInRange(position: Int, count: Int) {
+    this.removeAll(drop(position).take(count))
+}
+
+fun <E> ArrayList<E>.removeInRange(position: Int, count: Int) {
+    this.removeAll(drop(position).take(count))
+}
+
+fun <T> List<T>?.sizeOrZero(): Int {
+    return this?.size ?: 0
+}
+
+fun <T> List<T>?.orEmptyString(string: String): String {
+    return if(this?.isEmpty() == true) "" else string
 }
