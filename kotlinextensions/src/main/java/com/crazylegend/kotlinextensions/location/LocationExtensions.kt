@@ -2,13 +2,12 @@ package com.crazylegend.kotlinextensions.location
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.location.Criteria
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.content.Context
+import android.location.*
 import android.os.Bundle
 import android.os.Looper
 import androidx.annotation.RequiresPermission
+import com.crazylegend.kotlinextensions.context.shortToast
 
 
 /**
@@ -40,3 +39,67 @@ inline fun LocationManager.requestSingleUpdate(
         }
     }, Looper.getMainLooper())
 }
+
+
+ fun Context.getCompleteAddressString(LATITUDE: Double, LONGITUDE: Double): ObtainedLocationModel {
+
+    val geocoder = Geocoder(this)
+
+    val obtainedLocationModel = ObtainedLocationModel()
+
+    try {
+
+        val addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1)
+
+        if (addresses.isNotEmpty()) {
+
+            val returnedAddress = addresses[0]
+            val city = addresses[0].locality
+            val state = addresses[0].adminArea
+            val country = addresses[0].countryName
+            val postalCode = addresses[0].postalCode
+            val knownName = addresses[0].featureName // Only if available else return NULL
+
+
+            city?.let {
+                obtainedLocationModel.city = it
+            }
+
+            state?.let {
+                obtainedLocationModel.state = it
+            }
+
+            country?.let {
+                obtainedLocationModel.country = it
+            }
+
+            postalCode?.let {
+                obtainedLocationModel.postalCode = it
+            }
+
+            knownName?.let {
+                obtainedLocationModel.knownName = it
+            }
+
+
+            for (i in 0..returnedAddress.maxAddressLineIndex) {
+                obtainedLocationModel.address = returnedAddress.getAddressLine(i)
+            }
+
+        } else {
+
+            shortToast("No address available for location !")
+
+
+        }
+    } catch (e: Exception) {
+
+        e.printStackTrace()
+        this.shortToast("No address available for location !")
+
+
+    }
+
+    return obtainedLocationModel
+}
+
