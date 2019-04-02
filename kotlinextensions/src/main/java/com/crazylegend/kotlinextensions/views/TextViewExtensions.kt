@@ -207,11 +207,26 @@ fun TextView.textColorAnim(from: Int, to: Int) {
     textColorAnimator.start()
 }
 
+
+@WorkerThread
+fun TextView.setPrecomputedText(){
+    val textParams = TextViewCompat.getTextMetricsParams(this)
+    val text = PrecomputedTextCompat.create(text, textParams)
+    this.text = text
+}
+
 @WorkerThread
 fun TextView.precomputeText(text: Spannable): PrecomputedTextCompat {
     val textParams = TextViewCompat.getTextMetricsParams(this)
     return PrecomputedTextCompat.create(text, textParams)
 }
+
+@WorkerThread
+fun TextView.precomputeText(text: String): PrecomputedTextCompat {
+    val textParams = TextViewCompat.getTextMetricsParams(this)
+    return PrecomputedTextCompat.create(text, textParams)
+}
+
 
 inline fun TextView.addTextChangedListener(
     crossinline onBeforeTextChanged: (s: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },

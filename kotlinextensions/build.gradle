@@ -81,6 +81,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
 
+    implementation 'androidx.biometric:biometric:1.0.0-alpha03'
+
 
 }
 repositories {
