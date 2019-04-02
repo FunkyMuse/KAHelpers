@@ -5,13 +5,9 @@ import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EdgeEffect
-import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
-import androidx.core.widget.EdgeEffectCompat
 import androidx.recyclerview.widget.*
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.dp2px

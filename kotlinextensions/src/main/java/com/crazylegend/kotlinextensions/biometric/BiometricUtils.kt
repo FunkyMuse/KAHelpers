@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.biometric
 
 import android.Manifest.permission.USE_BIOMETRIC
 import androidx.annotation.RequiresPermission
-import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import java.util.concurrent.Executors

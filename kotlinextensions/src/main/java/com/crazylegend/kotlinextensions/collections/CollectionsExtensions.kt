@@ -5,7 +5,6 @@ package com.crazylegend.kotlinextensions.collections
 import android.content.res.TypedArray
 import android.util.LongSparseArray
 import android.util.SparseArray
-import android.util.SparseBooleanArray
 import androidx.core.util.forEach
 import java.util.*
 import kotlin.NoSuchElementException

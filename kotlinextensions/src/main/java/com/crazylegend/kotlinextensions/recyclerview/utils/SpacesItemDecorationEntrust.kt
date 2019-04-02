@@ -2,10 +2,10 @@ package com.crazylegend.kotlinextensions.recyclerview.utils
 
 import android.graphics.Canvas
 import android.graphics.Rect
-import androidx.recyclerview.widget.RecyclerView
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 
 /**

@@ -1,11 +1,14 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Handler
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -16,13 +19,6 @@ import com.crazylegend.kotlinextensions.context.inputMethodManager
 import com.google.android.material.textfield.TextInputEditText
 import java.net.MalformedURLException
 import java.net.URL
-import java.lang.reflect.AccessibleObject.setAccessible
-import android.annotation.SuppressLint
-import android.text.InputFilter
-import android.view.*
-import android.view.KeyEvent.KEYCODE_DEL
-
-
 
 
 /**

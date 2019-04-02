@@ -4,7 +4,7 @@ import android.Manifest.permission.*
 import android.app.Activity
 import android.app.SearchManager
 import android.content.Intent
-import android.graphics.*
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.*
 import androidx.annotation.RequiresPermission

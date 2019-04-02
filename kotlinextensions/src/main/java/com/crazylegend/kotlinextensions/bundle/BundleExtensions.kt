@@ -6,11 +6,9 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.View
 import androidx.annotation.AnimRes
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
-import java.lang.Exception
 import java.io.Serializable
 
 

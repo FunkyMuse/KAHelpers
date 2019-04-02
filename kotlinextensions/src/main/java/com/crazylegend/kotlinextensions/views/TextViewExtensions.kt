@@ -3,14 +3,12 @@ package com.crazylegend.kotlinextensions.views
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.ClipData
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
-import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View

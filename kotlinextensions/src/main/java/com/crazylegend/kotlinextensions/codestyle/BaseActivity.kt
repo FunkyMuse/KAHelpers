@@ -3,18 +3,18 @@ package com.crazylegend.kotlinextensions.codestyle
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.crazylegend.kotlinextensions.locale.LocaleHelper
-import android.widget.RelativeLayout
 import com.crazylegend.kotlinextensions.views.gone
 import com.crazylegend.kotlinextensions.views.visible
-import android.widget.TextView
-import android.view.Gravity
-import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 
 
 /**

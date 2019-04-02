@@ -3,7 +3,6 @@ package com.crazylegend.kotlinextensions.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.provider.Telephony
 import android.telephony.SmsMessage
 

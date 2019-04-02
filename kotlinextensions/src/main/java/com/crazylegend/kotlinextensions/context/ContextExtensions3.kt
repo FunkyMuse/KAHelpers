@@ -27,10 +27,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.crazylegend.kotlinextensions.enums.ContentColumns
 import com.crazylegend.kotlinextensions.enums.ContentOrder
 import com.crazylegend.kotlinextensions.toFile

@@ -1,6 +1,5 @@
 package com.crazylegend.kotlinextensions.compress
 
-import com.bumptech.glide.load.engine.bitmap_recycle.ByteArrayAdapter
 import java.io.ByteArrayOutputStream
 import java.util.zip.Deflater
 import java.util.zip.Inflater

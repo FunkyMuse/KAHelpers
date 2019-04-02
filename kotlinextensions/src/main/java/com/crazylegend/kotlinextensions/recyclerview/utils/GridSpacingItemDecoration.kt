@@ -1,15 +1,9 @@
 package com.crazylegend.kotlinextensions.recyclerview.utils
 
-import android.R.attr.top
-import android.R.attr.right
-import android.R.attr.left
-import android.R.attr.bottom
 import android.graphics.Rect
 import android.view.View
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-
-
 
 
 /**

@@ -36,7 +36,6 @@ import android.net.wifi.p2p.WifiP2pManager
 import android.nfc.NfcManager
 import android.os.*
 import android.os.storage.StorageManager
-import android.preference.PreferenceManager
 import android.print.PrintManager
 import android.telecom.TelecomManager
 import android.telephony.TelephonyManager

@@ -1,10 +1,10 @@
 package com.crazylegend.kotlinextensions.receivers
 
-import android.telephony.TelephonyManager
-import android.telephony.PhoneStateListener
-import android.content.Intent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.telephony.PhoneStateListener
+import android.telephony.TelephonyManager
 import java.util.*
 
 
