@@ -367,3 +367,7 @@ fun <X, Y> LiveData<X>.map(mapFunction: (value: X?) -> Y?) =
 
 fun <X, Y> LiveData<X>.switchMap(mapFunction: (value: X?) -> LiveData<Y>): LiveData<Y> =
     Transformations.switchMap(this, mapFunction)
+
+inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinline onEventUnhandledContent: (T) -> Unit) {
+    observe(owner, Observer { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) })
+}
