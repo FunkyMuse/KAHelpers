@@ -32,7 +32,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected abstract fun getLayoutResourceId(): Int
 
-    fun RelativeLayout.showProgressBar(position:Int = RelativeLayout.CENTER_IN_PARENT) {
+    fun RelativeLayout.showProgressBar(position: Int = RelativeLayout.CENTER_IN_PARENT) {
         progressBar = ProgressBar(this@BaseActivity, null, android.R.attr.progressBarStyleLarge)
         val params = RelativeLayout.LayoutParams(100, 100)
         params.addRule(position)
@@ -40,7 +40,11 @@ abstract class BaseActivity : AppCompatActivity() {
         progressBar?.visible()
     }
 
-    fun showProgressDialog(isCancellable : Boolean = true) {
+    fun showProgressDialog(
+        isCancellable: Boolean = true,
+        loadingText: String = "Loading ...",
+        loadingTextColor: Int = Color.parseColor("#000000")
+    ) {
 
         val linearLayoutPadding = 30
         val linearLayout = LinearLayout(this)
@@ -65,8 +69,8 @@ abstract class BaseActivity : AppCompatActivity() {
         )
         linearLayoutParams.gravity = Gravity.CENTER
         val tvText = TextView(this)
-        tvText.text = "Loading ..."
-        tvText.setTextColor(Color.parseColor("#000000"))
+        tvText.text = loadingText
+        tvText.setTextColor(loadingTextColor)
         tvText.textSize = 20f
         tvText.layoutParams = linearLayoutParams
 
@@ -89,7 +93,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private var progressDialog : AlertDialog? = null
+    private var progressDialog: AlertDialog? = null
 
     override fun onPause() {
         super.onPause()
