@@ -9,6 +9,9 @@ import android.net.Uri
 import android.provider.*
 import androidx.annotation.RequiresPermission
 import androidx.print.PrintHelper
+import androidx.core.app.ActivityCompat.startActivityForResult
+
+
 
 
 /**
@@ -231,4 +234,13 @@ fun Activity.openWebPage(url: String) {
             val bitmap = BitmapFactory.decodeResource(resources, drawable)
             printHelper.printBitmap(jobName, bitmap)
         }
+}
+
+
+fun Activity.multipleImagesIntent(requestCode:Int){
+    val intent = Intent()
+    intent.type = "image/*"
+    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+    intent.action = Intent.ACTION_GET_CONTENT
+    startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode)
 }
