@@ -366,6 +366,7 @@ inline val Context.isOneHanded: Boolean get() {
     return isPortrait && configuration.smallestScreenWidthDp < 600
 }
 
+
 inline fun Context.isPermissionGranted(permission: String): Boolean =
     ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 

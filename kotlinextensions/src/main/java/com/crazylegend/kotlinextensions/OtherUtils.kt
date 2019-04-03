@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Handler
@@ -11,6 +12,7 @@ import androidx.collection.LruCache
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
+import com.crazylegend.kotlinextensions.context.batteryManager
 import java.io.InputStream
 import java.math.BigInteger
 import java.nio.ByteBuffer
@@ -169,8 +171,29 @@ fun getBatteryInfo(batteryIntent: Intent): String {
     val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
 
     val batteryPct = level / scale.toFloat()
-    return "Battery Info: isCharging=$isCharging usbCharge=$usbCharge acCharge=$acCharge batteryPct=$batteryPct"
+    return "Battery Info: isCharging=$isCharging isUsbCharging=$usbCharge isACcharging=$acCharge batteryPct=$batteryPct"
 }
+
+
+
+val Context.getBatteryPercentage get() =  batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+
+
+val Context.batteryStatusIntent: Intent? get() =  IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
+    registerReceiver(null, ifilter)
+}
+
+val Context.batteryHelperStatus: Int get() = batteryStatusIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+
+val Context.isCharging get()  = batteryHelperStatus == BatteryManager.BATTERY_STATUS_CHARGING
+        || batteryHelperStatus == BatteryManager.BATTERY_STATUS_FULL
+
+// How are we charging?
+val Context.isChargePlugCharging get()  = batteryStatusIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
+val Context.isUsbCharging get() =  isChargePlugCharging == BatteryManager.BATTERY_PLUGGED_USB
+val Context.isACcharging get() =  isChargePlugCharging == BatteryManager.BATTERY_PLUGGED_AC
+
+
 
 fun getBatteryLevel(batteryIntent: Intent): Float {
     val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
