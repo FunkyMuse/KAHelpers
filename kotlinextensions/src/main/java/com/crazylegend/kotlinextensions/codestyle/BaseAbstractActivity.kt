@@ -95,6 +95,10 @@ abstract class BaseAbstractActivity : AppCompatActivity() {
 
     private var progressDialog: AlertDialog? = null
 
+    fun dismissProgressDialog(){
+        progressDialog?.dismiss()
+    }
+
     override fun onPause() {
         super.onPause()
         progressDialog?.dismiss()
