@@ -20,7 +20,7 @@ import com.crazylegend.kotlinextensions.views.visible
 /**
  * Created by hristijan on 4/2/19 to long live and prosper !
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseAbstractActivity : AppCompatActivity() {
 
 
     private var progressBar: ProgressBar? = null
@@ -33,7 +33,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected abstract fun getLayoutResourceId(): Int
 
     fun RelativeLayout.showProgressBar(position: Int = RelativeLayout.CENTER_IN_PARENT) {
-        progressBar = ProgressBar(this@BaseActivity, null, android.R.attr.progressBarStyleLarge)
+        progressBar = ProgressBar(this@BaseAbstractActivity, null, android.R.attr.progressBarStyleLarge)
         val params = RelativeLayout.LayoutParams(100, 100)
         params.addRule(position)
         this.addView(progressBar, params)

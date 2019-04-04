@@ -4,14 +4,13 @@ package com.crazylegend.setofusefulkotlinextensions
 
 
 
-import android.app.Notification
 import android.os.Bundle
-import com.crazylegend.kotlinextensions.codestyle.BaseActivity
+import com.crazylegend.kotlinextensions.codestyle.BaseAbstractActivity
 import com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.cryptography.EncriptionUtil
 import com.crazylegend.kotlinextensions.log.debug
 
 
-class MainActivity : BaseActivity() {
+class MainAbstractActivity : BaseAbstractActivity() {
 
 
     override fun getLayoutResourceId(): Int {
