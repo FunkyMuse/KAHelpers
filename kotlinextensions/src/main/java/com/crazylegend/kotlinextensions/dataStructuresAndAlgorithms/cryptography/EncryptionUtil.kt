@@ -24,7 +24,7 @@ import javax.security.cert.CertificateException
  * Created by hristijan on 4/2/19 to long live and prosper !
  */
 
- object EncriptionUtil {
+ object EncryptionUtil {
     private val AndroidKeyStore = "AndroidKeyStore"
     private val AES_MODE = "AES/GCM/NoPadding"
     private val FIXED_IV = "randomizemsg" // to randomize the encrypted data( give any values to randomize)
@@ -190,10 +190,10 @@ import javax.security.cert.CertificateException
         try {
             var d: ByteArray? = ByteArray(0)
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                d = EncriptionUtil.decryptM(text)
+                d = EncryptionUtil.decryptM(text)
             } else {
                 try {
-                    d = EncriptionUtil.rsaDecrypt(text)
+                    d = EncryptionUtil.rsaDecrypt(text)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -213,9 +213,9 @@ import javax.security.cert.CertificateException
         try {
             val d = ByteArray(0)
             input = if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                EncriptionUtil.encryptM(input)
+                EncryptionUtil.encryptM(input)
             } else {
-                input?.toByteArray()?.let { EncriptionUtil.rsaEncrypt(it) }
+                input?.toByteArray()?.let { EncryptionUtil.rsaEncrypt(it) }
             }
             return input.toString()
         } catch (e: Exception) {

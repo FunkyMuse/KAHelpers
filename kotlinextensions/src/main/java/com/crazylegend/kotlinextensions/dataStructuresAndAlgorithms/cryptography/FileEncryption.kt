@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.photos
+package com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.cryptography
 
 import java.io.IOException
 import java.io.InputStream
@@ -29,7 +29,9 @@ object FileEncryption {
         var out = output
         try {
             val iv = IvParameterSpec(cypherSpecString.toByteArray(Charsets.UTF_8))
-            val keyspec = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8), SECRET_KEY)
+            val keyspec = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8),
+                SECRET_KEY
+            )
 
             val cipher = Cipher.getInstance(ENCRYPTOR)
             cipher.init(Cipher.ENCRYPT_MODE, keyspec, iv)
@@ -53,7 +55,9 @@ object FileEncryption {
         var out = output
         try {
             val iv = IvParameterSpec(cypherSpecString.toByteArray(Charsets.UTF_8))
-            val keyspec = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8), SECRET_KEY)
+            val keyspec = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8),
+                SECRET_KEY
+            )
 
             val cipher = Cipher.getInstance(ENCRYPTOR)
             cipher.init(Cipher.DECRYPT_MODE, keyspec, iv)

@@ -637,6 +637,9 @@ fun File.saveFile(runBlockIfOk: () -> Unit, runBlockIfFail: () -> Unit, useMkdir
     }
 }
 
+fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String {
+    return this.bufferedReader(charset).use { it.readText() }
+}
 
 /**
  * Deletes given directory and returns result
