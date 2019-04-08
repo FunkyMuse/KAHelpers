@@ -82,6 +82,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
 
     implementation 'androidx.biometric:biometric:1.0.0-alpha03'
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
 
 
 }
