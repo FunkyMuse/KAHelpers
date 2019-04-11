@@ -4,9 +4,11 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import java.io.File
+import java.lang.Exception
 
 
 /**
@@ -92,3 +94,22 @@ val Uri.isTelephoneLink: Boolean
 
 val Uri.isMailToLink: Boolean
     get() = toString().startsWith("mailto:")
+
+fun Context.getPathFromURI(contentUri: Uri): String? {
+    var res: String? = null
+    val proj = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = contentResolver.query(contentUri, proj, null, null, null)
+    try {
+        cursor?.apply {
+            if (cursor.moveToFirst()) {
+                val column_index = getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                res = column_index.let { cursor.getString(it) }
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+        cursor?.close()
+    }
+    return res
+}
