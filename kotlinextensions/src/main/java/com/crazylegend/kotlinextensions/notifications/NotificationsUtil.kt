@@ -19,7 +19,7 @@ import androidx.core.app.NotificationManagerCompat
  */
 
 class NotificationsUtil(private val context: Context,
-                        private val channelName:String = "",
+                        private val channelName:String = "gi",
                         private val channelID:String,
                         private val channelDescription:String = "",
                         private val enableCustomSound:Boolean = false,

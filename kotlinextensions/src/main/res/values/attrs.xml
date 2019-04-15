@@ -21,4 +21,56 @@
         </attr>
     </declare-styleable>
 
+
+    <declare-styleable name="AspectRatioFrameLayout">
+        <attr name="xRatio" format="integer" />
+        <attr name="yRatio" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ColorProgressBar">
+        <attr name="progressColor" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ShadowView">
+        <attr name="angle" format="enum">
+            <enum name="topToBottom" value="0" />
+            <enum name="topRightToBottomLeft" value="1" />
+            <enum name="rightToLeft" value="2" />
+            <enum name="bottomRightToTopLeft" value="3" />
+            <enum name="bottomToTop" value="4" />
+            <enum name="bottomLeftToTopRight" value="5" />
+            <enum name="LeftToRight" value="6" />
+            <enum name="topLeftToBottomRight" value="7" />
+        </attr>
+        <attr name="startColor" format="color"/>
+        <attr name="endColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="CircularButton">
+        <attr name="shadowColor" format="color" />
+        <attr name="buttonColor" format="color" />
+    </declare-styleable>
+    <color name="snack_default">#34495e</color>
+    <color name="snack_info">#3498db</color>
+    <color name="snack_success">#2ecc71</color>
+    <color name="snack_error">#e74c3c</color>
+    <color name="snack_warning">#f39c12</color>
+    <color name="snack_dark">#3d3d3d</color>
+    <declare-styleable name="CircularImageView">
+        <attr name="border" format="boolean" />
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="background_color" format="color" />
+        <attr name="shadow" format="boolean" />
+        <attr name="shadow_color" format="color" />
+        <attr name="shadow_radius" format="float" />
+        <attr name="shadow_gravity">
+            <flag name="center" value="1" />
+            <flag name="top" value="2" />
+            <flag name="bottom" value="3" />
+            <flag name="start" value="4" />
+            <flag name="end" value="5" />
+        </attr>
+    </declare-styleable>
 </resources>

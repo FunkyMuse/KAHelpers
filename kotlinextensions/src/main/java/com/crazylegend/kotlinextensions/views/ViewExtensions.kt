@@ -846,6 +846,9 @@ fun BottomSheetBehavior<*>.onStateChanged(onStateChanged: (bottomSheet: View, ne
     })
 }
 
+fun View.getLocationOnScreen() = IntArray(2).apply { getLocationOnScreen(this) }
+
+fun View.getLocationInWindow() = IntArray(2).apply { getLocationInWindow(this) }
 
 operator fun TabLayout.get(position: Int): TabLayout.Tab = getTabAt(position)!!
 
@@ -1699,3 +1702,32 @@ fun View.zAnimator(values: FloatArray, duration: Long = 300, repeatCount: Int = 
 fun ViewGroup.isEmpty() = childCount == 0
 
 fun ViewGroup.isNotEmpty() = !isEmpty()
+
+/**
+ * get Activity On Which View is inflated to
+ */
+fun View.getActivity(): Activity? {
+    if (context is Activity)
+        return context as Activity
+    return null
+}
+
+/**
+ * will show the view If Condition is true else make if INVISIBLE or GONE Based on the [makeInvisible] flag
+ */
+fun View.showIf(boolean: Boolean, makeInvisible: Boolean = false) {
+    visibility = if (boolean) View.VISIBLE else if (makeInvisible) View.INVISIBLE else View.GONE
+}
+
+
+/**
+ * will enable the view If Condition is true else enables It
+ */
+
+fun View.enableIf(boolean: Boolean) = {isEnabled = boolean}
+
+/**
+ * will disable the view If Condition is true else enables It
+ */
+
+fun View.disableIf(boolean: Boolean) = {isEnabled = boolean.not()}

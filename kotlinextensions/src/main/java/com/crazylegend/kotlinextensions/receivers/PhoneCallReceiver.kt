@@ -13,7 +13,6 @@ import java.util.*
  */
 
 /**
- * <pre>
  * <receiver android:name=".services.calls.TrackingPhoneCallReceiver" android:enabled="true">
  * <intent-filter>
  * <action android:name="android.intent.action.NEW_OUTGOING_CALL"></action>
@@ -21,7 +20,6 @@ import java.util.*
 </intent-filter> *
 </receiver> *
  *
-</pre> *
  */
 abstract class PhoneCallReceiver : BroadcastReceiver() {
 

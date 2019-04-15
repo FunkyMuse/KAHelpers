@@ -267,3 +267,69 @@ fun UUID.toLong(): Long {
 }
 
 fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String = bufferedReader(charset).use { it.readText() }
+
+inline fun <T> T.alsoIfTrue(boolean: Boolean, block: (T) -> Unit): T {
+    if (boolean) block(this)
+    return this
+}
+
+inline fun <T> T.alsoIfFalse(boolean: Boolean, block: (T) -> Unit): T {
+    if (!boolean) block(this)
+    return this
+}
+
+inline fun <T> tryOrNull(block: () -> T): T? = try {
+    block()
+} catch (e: Exception) {
+    null
+}
+
+inline fun tryOrPrint(block: () -> Unit) = try {
+    block()
+} catch (e: Exception) {
+    e.printStackTrace()
+}
+
+inline fun trySilently(block: () -> Unit) = try {
+    block()
+} catch (e: Exception) {
+}
+
+inline fun <T> tryOrElse(defaultValue: T, block: () -> T): T = tryOrNull(block)
+    ?: defaultValue
+
+inline fun <T> T.applyIf(condition: Boolean, block: T.() -> T): T = apply {
+    if (condition) {
+        block()
+    }
+}
+
+inline fun <T, R> T.letIf(condition: Boolean, block: (T) -> R): R? = let {
+    if (condition) {
+        block(it)
+    } else {
+        null
+    }
+}
+
+inline fun <T, R> T.runIf(condition: Boolean, block: T.() -> R): R? = run {
+    if (condition) {
+        block()
+    } else {
+        null
+    }
+}
+
+inline fun <T> T.alsoIf(condition: Boolean, block: (T) -> T): T = also {
+    if (condition) {
+        block(it)
+    }
+}
+
+inline fun <T, R> withIf(receiver: T, condition: Boolean, block: T.() -> R): R? = with(receiver) {
+    if (condition) {
+        block()
+    } else {
+        null
+    }
+}

@@ -11,8 +11,10 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Html
+import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
+import android.text.style.StrikethroughSpan
 import android.util.Base64
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
@@ -813,4 +815,35 @@ fun String.removeNumberFormat(): String = remove(",")
  * @return A new string without `,`
  */
 fun String.removeNumberFormatDot(): String = remove(".")
+
+/** The Char array representing by this string */
+inline val String.ch: Array<Char> get() = this.toCharArray().toTypedArray()
+
+fun String?.strikeThrough() = this?.let { SpannableString(it).apply { setSpan(StrikethroughSpan(), 0, it.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE) } }
+
+
+fun String.abbreviateMiddle(middle: String, length: Int): String {
+    val str = this
+
+    if (this.isEmpty()) {
+        return this
+    }
+
+    if (length >= str.length || length < middle.length + 2) {
+        return this
+    }
+
+    val targetSting = length - middle.length
+    val startOffset = targetSting / 2 + targetSting % 2
+    val endOffset = str.length - targetSting / 2
+
+    val builder = StringBuilder(length)
+    builder.append(str.substring(0, startOffset))
+    builder.append(middle)
+    builder.append(str.substring(endOffset))
+
+    return builder.toString()
+}
+
+
 
