@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.intent
 import android.Manifest.permission.*
 import android.app.Activity
 import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -200,6 +201,13 @@ fun Activity.openSettingsCategory(category:String){
         }
 }
 
+fun Activity.openSettingsCategory(category:String, resultCode:Int){
+    val intent = Intent(category)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(intent,resultCode)
+    }
+}
+
 fun Activity.openWifiSettings() {
     val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
     if (intent.resolveActivity(packageManager) != null) {
@@ -244,3 +252,65 @@ fun Activity.multipleImagesIntent(requestCode:Int){
     intent.action = Intent.ACTION_GET_CONTENT
     startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode)
 }
+
+/**
+ * Available types
+ *
+ACTION_SETTINGS
+ACTION_WIRELESS_SETTINGS
+ACTION_AIRPLANE_MODE_SETTINGS
+ACTION_WIFI_SETTINGS
+ACTION_APN_SETTINGS
+ACTION_BLUETOOTH_SETTINGS
+ACTION_DATE_SETTINGS
+ACTION_LOCALE_SETTINGS
+ACTION_INPUT_METHOD_SETTINGS
+ACTION_DISPLAY_SETTINGS
+ACTION_SECURITY_SETTINGS
+ACTION_LOCATION_SOURCE_SETTINGS
+ACTION_INTERNAL_STORAGE_SETTINGS
+ACTION_MEMORY_CARD_SETTINGS
+ */
+fun Context.openSettingsCategory(category:String){
+    val intent = Intent(category)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
+}
+
+fun Context.openWifiSettings() {
+    val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
+}
+
+
+fun Context.composeMmsMessage(message: String, attachment: Uri) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        data = Uri.parse("smsto:")  // This ensures only SMS apps respond
+        putExtra("sms_body", message)
+        putExtra(Intent.EXTRA_STREAM, attachment)
+    }
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
+}
+
+fun Context.openWebPage(url: String) {
+    val webpage: Uri = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW, webpage)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
+}
+
+fun Context.doPhotoPrint(drawable:Int, jobName:String) {
+    PrintHelper(this).apply {
+        scaleMode = PrintHelper.SCALE_MODE_FIT
+    }.also { printHelper ->
+        val bitmap = BitmapFactory.decodeResource(resources, drawable)
+        printHelper.printBitmap(jobName, bitmap)
+    }
+}
+
