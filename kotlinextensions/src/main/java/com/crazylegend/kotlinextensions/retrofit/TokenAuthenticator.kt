@@ -14,7 +14,7 @@ import okhttp3.Route
  */
 class TokenAuthenticator<E>(private val context: Context, private val loginClass:Class<E>) : Authenticator {
 
-    override fun authenticate(route: Route, response: Response): Request? {
+    override fun authenticate(route: Route?, response: Response): Request? {
         if (!response.isSuccessful && response.header("Authorization") != null) {
             val intent = Intent(context, loginClass)
             context.startActivity(intent)
@@ -22,4 +22,5 @@ class TokenAuthenticator<E>(private val context: Context, private val loginClass
         }
         return null
     }
+
 }
