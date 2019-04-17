@@ -139,26 +139,6 @@ fun TextView.clickSpan(
 }
 
 
-/**
- * Copies TextView text to clipboard with given label
- */
-fun TextView.copyToClipboard(label: String) {
-    if (text != null) {
-        val manager= context.clipboardManager
-        manager?.primaryClip = ClipData.newPlainText(label, text)
-    }
-}
-
-
-/**
- * Copies TextView text to clipboard with given label
- */
-fun TextView.copyToClipboard() {
-    if (text != null) {
-        val manager= context.clipboardManager
-        manager?.primaryClip = ClipData.newPlainText("", text)
-    }
-}
 
 /**
  * Set TextView from Html
@@ -206,7 +186,6 @@ fun TextView.textColorAnim(from: Int, to: Int) {
 }
 
 
-@WorkerThread
 fun TextView.setPrecomputedText(){
     val textParams = TextViewCompat.getTextMetricsParams(this)
     val text = PrecomputedTextCompat.create(text, textParams)

@@ -13,6 +13,14 @@ import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import android.net.NetworkCapabilities
+import android.net.Network
+import android.net.NetworkInfo
+import android.os.Build
+import androidx.annotation.IntRange
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 
 /**
@@ -112,11 +120,59 @@ val Context.deviceID
     get() = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
 
 
-val Context.isOnline : Boolean get() {
-    val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val networkInfo = connectivityManager.activeNetworkInfo
-    return networkInfo != null && networkInfo.isConnected
+val Context.isOnline : Boolean get()  {
+    val cm = connectivityManager
+
+    if (cm != null) {
+        if (Build.VERSION.SDK_INT < 23) {
+            val ni = cm.activeNetworkInfo
+
+            if (ni != null) {
+                return ni.isConnected && (ni.type == ConnectivityManager.TYPE_WIFI || ni.type == ConnectivityManager.TYPE_MOBILE)
+            }
+        } else {
+            val n = cm.activeNetwork
+
+            if (n != null) {
+                val nc = cm.getNetworkCapabilities(n)
+
+                return nc!!.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+            }
+        }
+    }
+
+    return false
 }
+
+
+@IntRange(from = 0, to = 2)
+fun Context.getConnectionType(): Int {
+    var result = 0 // Returns connection type. 0: none; 1: mobile data; 2: wifi
+    val cm = connectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        cm?.run {
+            cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+                if (hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    result = 2
+                } else if (hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    result = 1
+                }
+            }
+        }
+    } else {
+        cm?.run {
+            cm.activeNetworkInfo?.run {
+                if (type == ConnectivityManager.TYPE_WIFI) {
+                    result = 2
+                } else if (type == ConnectivityManager.TYPE_MOBILE) {
+                    result = 1
+                }
+            }
+        }
+    }
+    return result
+}
+
 
 
 fun Context.showShortToastTop(message: String) {

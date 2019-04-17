@@ -19,17 +19,17 @@ import androidx.core.app.ActivityCompat.startActivityForResult
  * Created by hristijan on 3/28/19 to long live and prosper !
  */
 
-@RequiresPermission(allOf = [READ_EXTERNAL_STORAGE])
+
 fun Activity.pickImage(PICK_PHOTO_REQUEST_CODE:Int) {
     val intent = Intent(
         Intent.ACTION_PICK,
-        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     )
     intent.type = "image/*"
     startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PHOTO_REQUEST_CODE)
 }
 
-@RequiresPermission(allOf = [READ_EXTERNAL_STORAGE])
+
 fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE:Int) {
     val intent = Intent(
         Intent.ACTION_PICK,
@@ -40,7 +40,7 @@ fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE:Int) {
 }
 
 
-@RequiresPermission(allOf = [READ_EXTERNAL_STORAGE])
+
 fun Activity.pickPDF(PICK_PDF_CODE:Int) {
     val intentPDF = Intent(Intent.ACTION_GET_CONTENT)
     intentPDF.type = "application/pdf"

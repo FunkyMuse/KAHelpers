@@ -38,35 +38,6 @@ import java.util.*
  * Created by hristijan on 2/27/19 to long live and prosper !
  */
 
-/**
- * Get a video duration in milliseconds
- */
-@RequiresPermission(allOf = [android.Manifest.permission.READ_EXTERNAL_STORAGE])
-fun Context.getVideoDuration(videoFile: File): Long? {
-    val retriever = MediaMetadataRetriever()
-    var videoDuration = Long.MAX_VALUE
-    try {
-        retriever.setDataSource(this, Uri.fromFile(videoFile))
-        val time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        videoDuration = java.lang.Long.parseLong(time)
-        retriever.release()
-    } catch (e: IllegalArgumentException) {
-        e.printStackTrace()
-    } catch (e: SecurityException) {
-        e.printStackTrace()
-    }
-    return videoDuration
-}
-
-/**
- * ask the system to scan your file easily with a broadcast.
- */
-fun Context.requestMediaScanner(url: String) {
-    val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-    val contentUri = Uri.fromFile(File(url))
-    mediaScanIntent.data = contentUri
-    this.sendBroadcast(mediaScanIntent)
-}
 
 /**
  * check if you can resolve the intent
@@ -100,39 +71,6 @@ fun Context.isAppInstalled(packageName: String): Boolean {
 
 
 /**
- * Want All the Images from the User Phone?
- *
- * Get them easily with the below method, Make Sure You have READ_EXTERNAL_STORAGE Permission
- */
-@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-fun Context.getAllImages(
-    sortBy: ContentColumns = ContentColumns.DATE_ADDED,
-    order: ContentOrder = ContentOrder.DESCENDING
-): List<String>? {
-    val data = mutableListOf<String>()
-    val cursor = contentResolver.query(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        arrayOf(MediaStore.Images.Media.DATA),
-        null,
-        null,
-        sortBy.s + " " + order.s
-    )
-    cursor?.let {
-        val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        while (cursor.isClosed.not() && cursor.moveToNext()) {
-            cursor.getString(columnIndexData).let {
-                if (it.toFile().exists()) {
-                    data.add(it)
-                }
-            }
-        }
-        cursor.close()
-    }
-    return data.toList()
-}
-
-
-/**
  * Checks if App is in Background
  */
 fun Context.isBackground(pName: String = packageName): Boolean {
@@ -144,37 +82,6 @@ fun Context.isBackground(pName: String = packageName): Boolean {
     return false
 }
 
-/**
- * Want All the Videos from the User Phone?
- *
- * Get them easily with the below method, Make Sure You have READ_EXTERNAL_STORAGE Permission
- */
-@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-fun Context.getAllVideos(
-    sortBy: ContentColumns = ContentColumns.DATE_ADDED,
-    order: ContentOrder = ContentOrder.DESCENDING
-): List<String>? {
-    val data = mutableListOf<String>()
-    val cursor = contentResolver.query(
-        MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-        arrayOf(MediaStore.Video.Media.DATA),
-        null,
-        null,
-        sortBy.s + " " + order.s
-    )
-    cursor?.let {
-        val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
-        while (cursor.isClosed.not() && cursor.moveToNext()) {
-            cursor.getString(columnIndexData).let {
-                if (it.toFile().exists()) {
-                    data.add(it)
-                }
-            }
-        }
-        cursor.close()
-    }
-    return data.toList()
-}
 
 /**
  * get Application Name,
@@ -244,45 +151,12 @@ fun Context.getAppVersionName(pName: String = packageName): String {
  *
  * Provide Package or will provide the current App Detail
  */
+@RequiresApi(Build.VERSION_CODES.P)
 @Throws(PackageManager.NameNotFoundException::class)
 fun Context.getAppVersionCode(pName: String = packageName): Long {
     return packageManager.getPackageInfo(pName, 0).longVersionCode
 }
 
-
-
-
-/**
- * All the Audios from the User Phone
- *
- * Get them easily with the below method, Make Sure You have READ_EXTERNAL_STORAGE Permission
- */
-@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-fun Context.getAllAudios(
-    sortBy: ContentColumns = ContentColumns.DATE_ADDED,
-    order: ContentOrder = ContentOrder.DESCENDING
-): List<String>? {
-    val data = mutableListOf<String>()
-    val cursor = contentResolver.query(
-        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-        arrayOf(MediaStore.Audio.Media.DATA),
-        null,
-        null,
-        sortBy.s + " " + order.s
-    )
-    cursor?.let {
-        val columnIndexData = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
-        while (cursor.isClosed.not() && cursor.moveToNext()) {
-            cursor.getString(columnIndexData).let {
-                if (it.toFile().exists()) {
-                    data.add(it)
-                }
-            }
-        }
-        cursor.close()
-    }
-    return data.toList()
-}
 
 /**
  * Show Date Picker and Get the Picked Date Easily
@@ -366,13 +240,13 @@ inline fun <reified T> Activity.createShortcut(title: String, @DrawableRes icon:
  *
  * @param[restartIntent] optional, desired activity to show after the reboot
  */
-fun Context.reboot(restartIntent: Intent = this.packageManager.getLaunchIntentForPackage(this.packageName)) {
-    restartIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+fun Context.reboot(restartIntent: Intent? = this.packageManager.getLaunchIntentForPackage(this.packageName)) {
+    restartIntent?.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
     if (this is Activity) {
         this.startActivity(restartIntent)
         finishAffinity(this)
     } else {
-        restartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        restartIntent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         this.startActivity(restartIntent)
     }
 }
@@ -381,7 +255,7 @@ fun Context.reboot(restartIntent: Intent = this.packageManager.getLaunchIntentFo
  *               Private methods              *
  ******************************************** */
 
-private fun finishAffinity(activity: Activity) {
+ fun finishAffinity(activity: Activity) {
     activity.setResult(Activity.RESULT_CANCELED)
     when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> activity.finishAffinity()
@@ -470,7 +344,7 @@ fun Context.canResolveBroadcast(intent: Intent) = packageManager.queryBroadcastR
 fun Context.providerExists(providerName: String) = packageManager.resolveContentProvider(providerName, 0) != null
 
 
-fun Context.watchYoutubeVideo( id: String) {
+fun Context.watchYoutubeVideo(id: String) {
     val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
     val webIntent = Intent(
         Intent.ACTION_VIEW,

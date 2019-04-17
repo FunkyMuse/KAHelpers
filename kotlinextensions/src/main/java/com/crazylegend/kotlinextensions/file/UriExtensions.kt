@@ -40,8 +40,8 @@ fun Uri.isMediaDocument(): Boolean {
 /**
  * Opens and reads the entirety of the Uri into a ByteArray.
  */
-fun Uri.toByteArray(context: Context): ByteArray {
-    return context.contentResolver.openInputStream(this).run {
+fun Uri.toByteArray(context: Context): ByteArray? {
+    return context.contentResolver.openInputStream(this)?.run {
         val array = this.readBytes()
         close()
         array
@@ -95,21 +95,3 @@ val Uri.isTelephoneLink: Boolean
 val Uri.isMailToLink: Boolean
     get() = toString().startsWith("mailto:")
 
-fun Context.getPathFromURI(contentUri: Uri): String? {
-    var res: String? = null
-    val proj = arrayOf(MediaStore.Images.Media.DATA)
-    val cursor = contentResolver.query(contentUri, proj, null, null, null)
-    try {
-        cursor?.apply {
-            if (cursor.moveToFirst()) {
-                val column_index = getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                res = column_index.let { cursor.getString(it) }
-            }
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    } finally {
-        cursor?.close()
-    }
-    return res
-}

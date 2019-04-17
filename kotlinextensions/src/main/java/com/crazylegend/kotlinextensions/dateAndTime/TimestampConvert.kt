@@ -82,7 +82,7 @@ object TimestampConvert {
      * Converts an ISO-8601-style timestamp to a Date.
      */
     @Throws(ParseException::class)
-    fun iso8601ToDate(timestamp: String): Date {
+    fun iso8601ToDate(timestamp: String): Date? {
         return iso8601Formatter.parse(timestamp)
     }
 
@@ -97,7 +97,7 @@ object TimestampConvert {
      * Converts an RFC-1123-style timestamp to a Date.
      */
     @Throws(ParseException::class)
-    fun rfc1123ToDate(timestamp: String): Date {
+    fun rfc1123ToDate(timestamp: String): Date? {
         return rfc1123Formatter.parse(timestamp)
     }
 
@@ -112,7 +112,7 @@ object TimestampConvert {
      * Converts an RFC-1036-style timestamp to a Date.
      */
     @Throws(ParseException::class)
-    fun rfc1036ToDate(timestamp: String): Date {
+    fun rfc1036ToDate(timestamp: String): Date? {
         return rfc1036Formatter.parse(timestamp)
     }
 
@@ -145,7 +145,7 @@ object TimestampConvert {
      * @throws ParseException if none of the formats apply.
      */
     @Throws(ParseException::class)
-    fun httpToDate(timestamp: String): Date {
+    fun httpToDate(timestamp: String): Date? {
 
         // Try the different formats in order of preference
 

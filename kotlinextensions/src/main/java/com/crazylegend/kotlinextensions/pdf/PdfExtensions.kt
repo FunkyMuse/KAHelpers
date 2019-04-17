@@ -23,7 +23,6 @@ import java.util.*
  */
 
 
-@RequiresPermission(allOf = [Manifest.permission.WRITE_EXTERNAL_STORAGE])
 fun View.createPDF(mediaDir:String, uriAuthority:String): Uri? {
 
     val file: File?
@@ -78,7 +77,6 @@ fun View.createPDF(mediaDir:String, uriAuthority:String): Uri? {
 
 }
 
-@RequiresPermission(allOf = [Manifest.permission.WRITE_EXTERNAL_STORAGE])
 fun View.createPDF(pdfNameWithoutDotPDF:String, mediaDir:String, uriAuthority:String): Uri? {
 
     val file: File?
@@ -131,7 +129,6 @@ fun View.createPDF(pdfNameWithoutDotPDF:String, mediaDir:String, uriAuthority:St
     return FileProvider.getUriForFile(this.context, uriAuthority, file)
 }
 
-@RequiresPermission(allOf = [Manifest.permission.WRITE_EXTERNAL_STORAGE])
 fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String, uriAuthority:String): Uri? {
 
     val file: File?
@@ -184,7 +181,6 @@ fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String,
     return FileProvider.getUriForFile(this.context, uriAuthority, file)
 }
 
-@RequiresPermission(allOf = [Manifest.permission.WRITE_EXTERNAL_STORAGE])
 fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String, uriAuthority:String, background :Int = Color.WHITE): Uri? {
 
     val file: File?

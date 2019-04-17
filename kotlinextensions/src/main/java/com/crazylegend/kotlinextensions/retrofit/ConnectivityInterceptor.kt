@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.retrofit
 
 import android.content.Context
+import com.crazylegend.kotlinextensions.context.isOnline
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -14,7 +15,7 @@ class ConnectivityInterceptor(private val context: Context) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        if (!NetworkUtil.isOnline(context)){
+        if (!context.isOnline){
             throw NoConnectionException()
         }
 

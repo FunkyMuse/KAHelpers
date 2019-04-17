@@ -533,21 +533,7 @@ fun Context.getFilePath(uri: Uri): String {
     return path
 }
 
-@TargetApi(19)
-fun ContentResolver.getRealPathFromUri(contentUri: Uri): String {
-    val proj = arrayOf(MediaStore.Audio.Media.DATA)
-    val cursor = query(contentUri, proj, null, null, null)
-    cursor.use {
-        val columnIndex: Int
-        return if (it != null) {
-            columnIndex = it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
-            it.moveToFirst()
-            it.getString(columnIndex)
-        } else {
-            ""
-        }
-    }
-}
+
 
 @TargetApi(19)
 fun Context.getDataColumn(uri: Uri, selection: String?, selectionArg: Array<String>?): String {

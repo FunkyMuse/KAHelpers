@@ -89,46 +89,6 @@ private fun ImageView.loadImage(imageResource: Any, skipMemoryCache: Boolean, tr
 }
 
 
-/**
- * Glide
- * @param url
- * @param placeholder
- * @param error
- * @param isCircle
- * @param isCenterCrop
- * @param roundRadius
- * @param isCrossFade
- * @param isForceOriginalSize
- */
-fun ImageView.load(url: Any, placeholder: Int = 0, error: Int = 0,
-                   isCircle: Boolean = false,
-                   isCenterCrop: Boolean = false,
-                   roundRadius: Int = 0,
-                   isCrossFade: Boolean = false,
-                   isForceOriginalSize: Boolean = false) {
-    val options = RequestOptions().placeholder(placeholder).error(error).apply {
-        if (isCenterCrop && scaleType != ImageView.ScaleType.CENTER_CROP)
-            scaleType = ImageView.ScaleType.CENTER_CROP
-        if (isCircle) {
-            circleCrop()
-        } else if (roundRadius != 0) {
-            if (scaleType == ImageView.ScaleType.CENTER_CROP) {
-                transforms(CenterCrop(), RoundedCorners(roundRadius))
-            } else {
-                transform(RoundedCorners(roundRadius))
-            }
-        }
-        if(isForceOriginalSize){
-            override(Target.SIZE_ORIGINAL)
-        }
-    }
-    Glide.with(context).load(url)
-        .apply(options)
-        .apply {
-            if (isCrossFade) transition(DrawableTransitionOptions.withCrossFade())
-        }
-        .into(this)
-}
 
 /**
  * Loads current device wallpaper to an Imageview

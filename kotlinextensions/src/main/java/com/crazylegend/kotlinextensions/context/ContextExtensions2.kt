@@ -130,11 +130,6 @@ fun Context.sendEmail(emails:Array<String>, subject:String, text:String) {
     }
 }
 
-fun Context.copyToClipboard(text:String){
-    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("", text)
-    clipboard.primaryClip = clip
-}
 
 val Context.getTextFromClipboard :String? get() {
 
@@ -210,13 +205,7 @@ fun Context.sendSMS(number: String, text: String = ""): Boolean = try {
     false
 }
 
-fun Context.copyTextToClipboard(value: String) {
-    clipboardManager?.primaryClip = ClipData.newPlainText("text", value)
-}
 
-fun Context.copyUriToClipboard(uri: Uri) {
-    clipboardManager?.primaryClip = ClipData.newUri(contentResolver, "uri", uri)
-}
 
 fun Context.getTextFromClipboard(): CharSequence {
     val clipData = clipboardManager?.primaryClip

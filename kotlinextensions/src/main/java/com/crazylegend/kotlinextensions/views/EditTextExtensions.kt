@@ -280,25 +280,7 @@ fun EditText.pasteFromClipBoard() {
     if (!TextUtils.isEmpty(text)) setText(text)
 }
 
-/**
- * Copies TextView text to clipboard with given label
- */
-fun EditText.copyToClipboard(label: String) {
-    if (text != null) {
-        val manager= context.clipboardManager
-        manager?.primaryClip = android.content.ClipData.newPlainText(label, text)
-    }
-}
 
-/**
- * Copies TextView text to clipboard with given label
- */
-fun EditText.copyToClipboard() {
-    if (text != null) {
-        val manager= context.clipboardManager
-        manager?.primaryClip = android.content.ClipData.newPlainText("", text)
-    }
-}
 
 /**
  * Sets OnFocusChangeListener and calls specified function [block]

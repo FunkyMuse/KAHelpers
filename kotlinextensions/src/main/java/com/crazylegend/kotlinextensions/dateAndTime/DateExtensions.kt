@@ -845,7 +845,7 @@ fun Date.month(): Int {
     return this.toCalendar().get(Calendar.MONTH) + 1
 }
 
-fun Date.monthName(locale: Locale? = Locale.getDefault()): String {
+fun Date.monthName(locale: Locale = Locale.getDefault()): String? {
     return this.toCalendar().getDisplayName(Calendar.MONTH, Calendar.LONG, locale)
 }
 
@@ -861,7 +861,7 @@ fun Date.dayOfWeek(): Int {
     return this.toCalendar().get(Calendar.DAY_OF_WEEK)
 }
 
-fun Date.dayOfWeekName(locale: Locale? = Locale.getDefault()): String {
+fun Date.dayOfWeekName(locale: Locale = Locale.getDefault()): String? {
     return this.toCalendar().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale)
 }
 

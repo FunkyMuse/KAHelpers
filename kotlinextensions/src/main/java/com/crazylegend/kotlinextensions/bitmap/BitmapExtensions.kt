@@ -90,10 +90,7 @@ fun Bitmap.createFileFromBitmap(
 
 }
 
-@Throws(FileNotFoundException::class, SecurityException::class)
-fun Uri.getBitmap(contentResolver: ContentResolver): Bitmap? {
-    return MediaStore.Images.Media.getBitmap(contentResolver, this)
-}
+
 
 
 @RequiresApi(26)
@@ -168,28 +165,6 @@ fun Context.getUriForFile(filePath: String, authority: String): Uri? {
     return FileProvider.getUriForFile(this, authority, File(filePath))
 }
 
-fun ContentResolver.getBitmap(imageUri: Uri): Bitmap {
-    return MediaStore.Images.Media.getBitmap(this, imageUri)
-}
-
-inline fun <T : Bitmap?, R> T.use(block: (T) -> R): R {
-    var recycled = false
-    try {
-        return block(this)
-    } catch (e: Exception) {
-        recycled = true
-        try {
-            this?.recycle()
-        } catch (exception: Exception) {
-        }
-        throw e
-    } finally {
-        if (!recycled) {
-            this?.recycle()
-        }
-    }
-}
-
 
 /**
  * Resize Bitmap to specified height and width.
@@ -207,6 +182,42 @@ fun Bitmap.resize(newWidth: Number, newHeight: Number): Bitmap {
     return this
 }
 
+
+fun Bitmap.toRoundCorner(radius :Float) :Bitmap? {
+    val width = this.width
+    val height = this.height
+    val bitmap = Bitmap.createBitmap(width, height, this.config)
+    val paint = Paint()
+    val canvas = Canvas(bitmap)
+    val rect = Rect(0, 0, width, height)
+
+    paint.isAntiAlias = true
+    canvas.drawRoundRect(RectF(rect), radius, radius, paint)
+    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+    canvas.drawBitmap(this, rect, rect, paint)
+
+    this.recycle()
+    return bitmap
+}
+
+fun Bitmap.makeCircle(): Bitmap? {
+    val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(output)
+
+    val color = -0xbdbdbe
+    val paint = Paint()
+    val rect = Rect(0, 0, width, height)
+
+    paint.isAntiAlias = true
+    canvas.drawARGB(0, 0, 0, 0)
+    paint.color = color
+
+    canvas.drawCircle(width.div(2f), height.div(2f), width.div(2f), paint)
+    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+    canvas.drawBitmap(this, rect, rect, paint)
+
+    return output
+}
 
 /**
  * Mthod to save Bitmap to specified file path.
@@ -344,50 +355,6 @@ fun Bitmap.toRound(borderSize: Float = 0f, borderColor: Int = 0, recycle: Boolea
     return ret
 }
 
-fun Bitmap.toUriJpeg(context: Context, title: String, description: String): Uri {
-    val bytes = ByteArrayOutputStream()
-    compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-    val path = MediaStore.Images.Media.insertImage(context.contentResolver, this, title, description)
-    return Uri.parse(path)
-}
-
-fun Bitmap.toUriPng(context: Context, title: String, description: String): Uri {
-    val bytes = ByteArrayOutputStream()
-    compress(Bitmap.CompressFormat.PNG, 100, bytes)
-    val path = MediaStore.Images.Media.insertImage(context.contentResolver, this, title, description)
-    return Uri.parse(path)
-}
-
-fun Bitmap.toUriWebp(context: Context, title: String, description: String): Uri {
-    val bytes = ByteArrayOutputStream()
-    compress(Bitmap.CompressFormat.WEBP, 100, bytes)
-    val path = MediaStore.Images.Media.insertImage(context.contentResolver, this, title, description)
-    return Uri.parse(path)
-}
-
-fun Bitmap.makeCircle(): Bitmap? {
-    val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(output)
-
-    val color = -0xbdbdbe
-    val paint = Paint()
-    val rect = Rect(0, 0, width, height)
-
-    paint.isAntiAlias = true
-    canvas.drawARGB(0, 0, 0, 0)
-    paint.color = color
-
-    canvas.drawCircle(width.div(2f), height.div(2f), width.div(2f), paint)
-    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-    canvas.drawBitmap(this, rect, rect, paint)
-
-    return output
-}
-
-@Throws(FileNotFoundException::class)
-fun Uri.toBitmap(context: Context): Bitmap {
-    return MediaStore.Images.Media.getBitmap(context.contentResolver, this)
-}
 
 @Throws(FileNotFoundException::class)
 fun Uri.toDrawable(context: Context): Drawable {
@@ -399,7 +366,7 @@ fun Uri.toDrawable(context: Context): Drawable {
  * Corrects the rotation of a bitmap based on the EXIF tags in the file as specified by the URI
  */
 @SuppressLint("NewApi")
-private fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap {
+fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap {
     var bitmap = initialBitmap
     try {
         val exif = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -563,31 +530,6 @@ private inline fun calculateInSampleSizeMax(options: BitmapFactory.Options, maxW
     return inSampleSize
 }
 
-fun Bitmap.toRoundCorner(radius :Float) :Bitmap? {
-    val width = this.width
-    val height = this.height
-    val bitmap = Bitmap.createBitmap(width, height, this.config)
-    val paint = Paint()
-    val canvas = Canvas(bitmap)
-    val rect = Rect(0, 0, width, height)
-
-    paint.isAntiAlias = true
-    canvas.drawRoundRect(RectF(rect), radius, radius, paint)
-    paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-    canvas.drawBitmap(this, rect, rect, paint)
-
-    this.recycle()
-    return bitmap
-}
-
-fun Context.saveBitmapToFile(bitmap :Bitmap) :File? {
-    val file = getOutputMediaFile()
-    file.outputStream().use {
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-    }
-    return file
-}
-
 fun File.saveBitmapToFile(bitmap :Bitmap) :File? {
     this.outputStream().use {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
@@ -595,15 +537,7 @@ fun File.saveBitmapToFile(bitmap :Bitmap) :File? {
     return this
 }
 
-private fun Context.getOutputMediaFile() :File {
-    val picName = UUID.randomUUID().toString().replace("-".toRegex(), "") + ".jpg"
-    val folder = this.getExternalFilesDir(null)
-    if(!folder.isDirectory) {
-        folder.mkdirs()
-    }
 
-    return File(folder, picName)
-}
 
 fun drawableToBitmap(drawable :Drawable) :Bitmap {
     if(drawable is BitmapDrawable) {
@@ -658,17 +592,15 @@ fun Drawable.toBitmap(): Bitmap? {
         }
     }
 
-    val canvas = Canvas(bitmap)
-    setBounds(0, 0, canvas.width, canvas.height)
-    draw(canvas)
+    val canvas = bitmap?.let { Canvas(it) }
+    canvas?.apply {
+        setBounds(0, 0, canvas.width, canvas.height)
+        draw(canvas)
+    }
 
     return bitmap
 }
 
-@Throws(FileNotFoundException::class)
-fun Uri.toBitmapWithContext(context: Context): Bitmap {
-    return MediaStore.Images.Media.getBitmap(context.contentResolver, this)
-}
 
 @Throws(FileNotFoundException::class)
 fun Uri.toDrawableWithContext(context: Context): Drawable {

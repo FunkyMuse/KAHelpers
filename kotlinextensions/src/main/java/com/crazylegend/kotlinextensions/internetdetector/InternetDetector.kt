@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.LiveData
+import com.crazylegend.kotlinextensions.context.isOnline
 
 
 /**
@@ -65,8 +66,10 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
     }
 
     private fun updateConnection() {
-        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-        postValue(activeNetwork?.isConnected == true)
+
+       /* val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        postValue(activeNetwork?.isConnected == true)*/
+        postValue(  context.isOnline)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
