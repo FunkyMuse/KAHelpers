@@ -253,6 +253,10 @@ fun CharSequence.isEmptyNullOrStringNull(): Boolean {
     return isNullOrEmpty() || this == "null"
 }
 
+fun Any?.ifNull(block: () -> Unit) {
+    if (this == null) block()
+}
+
 
 fun UUID.toLong(): Long {
     var longValue: Long

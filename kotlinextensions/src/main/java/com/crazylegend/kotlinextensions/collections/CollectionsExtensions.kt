@@ -895,3 +895,8 @@ inline fun <T, R> Iterable<T>.mapToSet(transform: (T) -> R) =
 
 inline fun <T, R : Any> Iterable<T>.mapNotNullToSet(transform: (T) -> R?) =
     this.mapNotNull(transform).toSet()
+
+
+fun <T> Comparator<T>.sort(list: MutableList<T>) {
+    list.sortWith(this)
+}

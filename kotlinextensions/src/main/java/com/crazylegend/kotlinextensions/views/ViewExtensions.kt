@@ -481,6 +481,8 @@ fun View.startRelativeMargin(size: Int) {
 
 }
 
+
+
 /**
  * Sets margins for views
  */
@@ -654,7 +656,7 @@ fun View.limitWidth(w: Int, min: Int, max: Int): View {
     return this
 }
 
-fun View.margin(
+fun View.margins(
     leftMargin: Int = Int.MAX_VALUE,
     topMargin: Int = Int.MAX_VALUE,
     rightMargin: Int = Int.MAX_VALUE,
@@ -721,7 +723,7 @@ fun View.animateWidthAndHeight(
  */
 fun View.toBitmap(): Bitmap {
     if (measuredWidth == 0 || measuredHeight == 0) {
-        throw RuntimeException("调用该方法时，请确保View已经测量完毕，如果宽高为0，则抛出异常以提醒！")
+        throw RuntimeException("When calling this method, please make sure the View has been measured. If the width and height are 0, an exception is thrown as a reminder！")
     }
     return when (this) {
         is RecyclerView -> {
@@ -793,7 +795,7 @@ inline var View.scaleXY
 
 fun View.elevate(elevation: Float) = setElevation(elevation)
 
-val View.isAttachedToWindow: Boolean
+val View.isAttachedToAWindow: Boolean
     get() {
         return isAttachedToWindow
     }

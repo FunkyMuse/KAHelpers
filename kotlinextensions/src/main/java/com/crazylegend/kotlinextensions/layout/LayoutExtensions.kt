@@ -18,13 +18,4 @@ fun Context.inflate(
 ): View? = layoutInflater?.inflate(layoutId, root, attachToRoot)
 
 
-fun ViewGroup.inflateInto(
-        @LayoutRes layoutReId: Int,
-        attachToRoot: Boolean = false
-): View? = context.inflate(layoutReId, this, attachToRoot)
-
-
-fun ViewGroup.inflateView(@LayoutRes layoutRes: Int): View? =
-        context.inflate(layoutRes, this, false)
-
 

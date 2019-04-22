@@ -24,6 +24,15 @@ fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)
 }
 
+fun ViewGroup.getFirstChildOrNull(): View? {
+    if (childCount == 0) return null
+    return getChildAt(0)
+}
+
+fun ViewGroup.getLastChildOrNull(): View? {
+    if (childCount == 0) return null
+    return getChildAt(childCount - 1)
+}
 
 
 /**

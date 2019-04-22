@@ -41,56 +41,25 @@ import java.util.*
  */
 
 
-data class FileAndUri(var file: File?, var path: String?)
 
-
-
-@RequiresPermission(allOf = [WRITE_EXTERNAL_STORAGE])
-fun Bitmap.createFileFromBitmap(
-    mediaDir: String, imageExtension: String,
-    compressionFormat: Bitmap.CompressFormat, compressionQuality: Int
-): FileAndUri {
-
-    val fileToReturn: File?
-
-
-    val file: File?
-    val uuid = UUID.randomUUID().toString()
-    val directory = File(Environment.getExternalStorageDirectory(), mediaDir)
-
-
-    file = if (directory.exists()) {
-        File(directory, uuid.plus(imageExtension))
-
-    } else {
-        directory.mkdirs()
-
-        File(directory, uuid.plus(imageExtension))
-
-    }
-
-
-    /*Single.fromCallable {
-        Bitmap()
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).doOnSuccess {
-
-
-    }*/
-
-
-    val fos = FileOutputStream(file)
-    this@createFileFromBitmap.compress(compressionFormat, compressionQuality, fos)
-    fos.flush()
-    fos.close()
-
-    fileToReturn = file
-
-
-    return FileAndUri(fileToReturn, fileToReturn.name)
-
+fun Bitmap.toOutputStream(
+        compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+        quality: Int = 100
+): OutputStream {
+    val stream = ByteArrayOutputStream()
+    compress(compressFormat, quality, stream)
+    return stream
 }
 
-
+fun Bitmap.toInputStream(
+        compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+        quality: Int = 100
+): InputStream {
+    val stream = ByteArrayOutputStream()
+    compress(compressFormat, quality, stream)
+    val byteArray = stream.toByteArray()
+    return ByteArrayInputStream(byteArray)
+}
 
 
 @RequiresApi(26)

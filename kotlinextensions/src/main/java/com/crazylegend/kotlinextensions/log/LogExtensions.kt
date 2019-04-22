@@ -118,3 +118,11 @@ fun Any.warning(context: Any, message: () -> Any?) = warning(context.tag, messag
 fun Any.info(context: Any, message: () -> Any?) = info(context.tag, message())
 
 fun Any.verbose(context: Any, message: () -> Any?) = verbose(context.tag, message())
+
+inline fun <reified T> T.log(message: String) =
+        Log.d(T::class.java.simpleName, message)
+
+inline fun <reified T> T.log(exc: Throwable) {
+    exc.printStackTrace()
+    Log.e(T::class.java.simpleName, exc.message ?: "no-message")
+}

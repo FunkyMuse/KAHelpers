@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.Typeface
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.media.MediaMetadataRetriever
@@ -31,6 +32,7 @@ import com.crazylegend.kotlinextensions.enums.ContentColumns
 import com.crazylegend.kotlinextensions.enums.ContentOrder
 import com.crazylegend.kotlinextensions.toFile
 import java.io.File
+import java.io.InputStream
 import java.util.*
 
 
@@ -419,4 +421,8 @@ fun Context.getProductionApplicationId(): String {
 
 fun Context.areNotificationsEnabled(): Boolean {
     return NotificationManagerCompat.from(this).areNotificationsEnabled()
+}
+
+fun Context.createInputStreamFromUri(uri: Uri): InputStream? {
+    return contentResolver.openInputStream(uri)
 }

@@ -16,6 +16,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.StrikethroughSpan
 import android.util.Base64
+import android.util.Patterns
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.core.text.isDigitsOnly
@@ -30,6 +31,7 @@ import java.nio.file.Paths
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
+import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -832,4 +834,32 @@ fun String.abbreviateMiddle(middle: String, length: Int): String {
 }
 
 
+private val NON_DIGIT_REGEX = Regex("[^A-Za-z0-9]")
+private val DIGIT_REGEX = Regex("[^0-9]")
 
+fun String?.replaceNonDigit() = this?.replace(NON_DIGIT_REGEX, "")
+
+fun String?.replaceDigit() = this?.replace(DIGIT_REGEX, "")
+
+fun String.isValidEmail() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+fun String?.isInt(): Boolean {
+    if (isNullOrBlank()) return false
+    return try {
+        val int = this!!.toInt()
+        true
+    } catch (exc: ParseException) {
+        false
+    }
+}
+
+fun String.removeSpace(): String = replace(" ", "")
+
+fun String.toDate(format: DateFormat): Date? {
+    return try {
+        format.parse(this)
+    } catch (exc: ParseException) {
+        exc.printStackTrace()
+        null
+    }
+}

@@ -9,7 +9,9 @@ import android.graphics.Typeface
 import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -267,3 +269,93 @@ fun TextView.setFont(@FontRes font: Int) {
 fun TextView.setFont(typeface: Typeface?) {
     this.typeface = typeface
 }
+
+
+
+fun TextView.addTextListener(
+        beforeChanged: ((s: CharSequence) -> Unit)? = null,
+        onChanged: ((s: CharSequence) -> Unit)? = null,
+        afterChanged: ((s: Editable) -> Unit)? = null
+) {
+    addDebounceTextListener(
+            debounceTimeInMillis = 0,
+            beforeChanged = beforeChanged, onChanged = onChanged, afterChanged = afterChanged
+    )
+}
+
+fun TextView.addDebounceTextListener(
+        debounceTimeInMillis: Long = 500,
+        beforeChanged: ((s: CharSequence) -> Unit)? = null,
+        afterChanged: ((s: Editable) -> Unit)? = null,
+        onChanged: ((s: CharSequence) -> Unit)? = null
+) {
+    addTextChangedListener(object : TextWatcher {
+        private val changedRunnable: Runnable = Runnable {
+            onChanged?.invoke(text)
+        }
+
+        override fun afterTextChanged(s: Editable) {
+            afterChanged?.invoke(s)
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            beforeChanged?.invoke(s)
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if (onChanged == null) return
+
+            if (debounceTimeInMillis <= 0) {
+                onChanged.invoke(s)
+                return
+            }
+
+            removeCallbacks(changedRunnable)
+            postDelayed(changedRunnable, debounceTimeInMillis)
+        }
+    })
+}
+
+fun TextView.addDebounceChangeStateListener(delayInMillis: Long = 500, timeoutInMillis: Long = 0, listener: (Boolean) -> Unit) {
+    addTextChangedListener(object : TextWatcher {
+        private var start: Boolean = false
+        private val runnable: Runnable = Runnable {
+            start = false
+            listener(false)
+            removeCallbacks(timeoutRunnable)
+
+        }
+
+        private val timeoutRunnable: Runnable = object : Runnable {
+            override fun run() {
+                listener(true)
+                postDelayed(this, timeoutInMillis)
+            }
+        }
+
+        override fun afterTextChanged(s: Editable) {
+            //nothing
+        }
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            //nothing
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if (!this.start) {
+                this.start = true
+                listener(true)
+                postDelayed(timeoutRunnable, timeoutInMillis)
+            } else {
+                if (s.isEmpty()) {
+                    listener(false)
+                    this.start = false
+                    removeCallbacks(timeoutRunnable)
+                }
+            }
+            removeCallbacks(runnable)
+            postDelayed(runnable, delayInMillis)
+        }
+    })
+}
+

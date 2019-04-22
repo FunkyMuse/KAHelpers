@@ -484,8 +484,39 @@ fun GridLayoutManager.setSpanSize(func: (Int) -> Int) {
 }
 
 
+fun RecyclerView.isReverseLayout(): Boolean {
+    return this.layoutManager?.isReverseLayout() ?: false
+}
 
-fun RecyclerView.addScroll(
+fun RecyclerView.LayoutManager.isReverseLayout(): Boolean {
+    if (this is LinearLayoutManager) {
+        return this.reverseLayout
+    }
+    return false
+}
+
+fun RecyclerView.getFirstVisibleItemPosition(): Int? {
+    return layoutManager?.let { manager ->
+        return when (manager) {
+            is LinearLayoutManager -> manager.findFirstVisibleItemPosition()
+            is GridLayoutManager -> manager.findFirstVisibleItemPosition()
+            else -> null
+        }
+    }
+}
+
+fun RecyclerView.getLastVisibleItemPosition(): Int? {
+    return layoutManager?.let { manager ->
+        return when (manager) {
+            is LinearLayoutManager -> manager.findLastVisibleItemPosition()
+            is GridLayoutManager -> manager.findLastVisibleItemPosition()
+            else -> null
+        }
+    }
+}
+
+
+fun RecyclerView.scrollListener(
     onScrollStateChanged :(recycler:RecyclerView, newState:Int) -> Unit = {_,_->},
     onScrolled :(recycler:RecyclerView, scrollbyX:Int, scrollbyY:Int) -> Unit = {_,_,_->}
 ){

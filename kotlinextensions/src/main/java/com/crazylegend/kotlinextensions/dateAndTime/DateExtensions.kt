@@ -12,6 +12,7 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -924,4 +925,104 @@ fun Date.lastDayOfWeek(): Date {
     c.time = this
     c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_WEEK))
     return c.time
+}
+
+fun Date.getAge(): Int {
+    val birthday = Calendar.getInstance()
+    birthday.time = this
+    val today = Calendar.getInstance()
+
+    var age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR)
+    if (today.get(Calendar.DAY_OF_YEAR) < birthday.get(Calendar.DAY_OF_YEAR)) {
+        age -= 1
+    }
+    return age
+}
+
+
+val Date?.isTheDateToday: Boolean get()  {
+    if (this == null) return false
+    return DateUtils.isToday(this.time)
+}
+
+fun Date?.isDateYesterday(): Boolean {
+    if (this == null) return false
+
+    val instance = Calendar.getInstance()
+    instance.time = this
+    val yesterday = Calendar.getInstance()
+    yesterday.add(Calendar.DAY_OF_YEAR, -1)
+
+    return (yesterday.get(Calendar.YEAR) == instance.get(Calendar.YEAR) &&
+            yesterday.get(Calendar.DAY_OF_YEAR) == instance.get(Calendar.DAY_OF_YEAR))
+}
+
+fun Date?.isDateTomorrow(): Boolean {
+    if (this == null) return false
+
+    val instance = Calendar.getInstance()
+    instance.time = this
+    val tomorrow = Calendar.getInstance()
+    tomorrow.add(Calendar.DAY_OF_YEAR, 1)
+
+    return (tomorrow.get(Calendar.YEAR) == instance.get(Calendar.YEAR) &&
+            tomorrow.get(Calendar.DAY_OF_YEAR) == instance.get(Calendar.DAY_OF_YEAR))
+}
+
+
+fun Date.getDifferenceInDays(compareDate: Date): Long {
+    val difference = compareDate.time - this.time
+    return TimeUnit.MILLISECONDS.toDays(difference)
+}
+
+fun Date.getDifferenceInWeek(date: Date): Int {
+    val calendar = Calendar.getInstance()
+    val compareDate: Date = if (this.before(date)) {
+        calendar.time = this
+        date
+    } else {
+        calendar.time = date
+        this
+    }
+    var i = 0
+    while (calendar.time.before(compareDate)) {
+        calendar.add(Calendar.WEEK_OF_YEAR, 1)
+        i++
+    }
+    if (date.before(this)) {
+        i *= -1
+    }
+    return --i
+}
+
+fun Date.getDifferenceInMonth(date: Date): Int {
+    val calendar = Calendar.getInstance()
+    val compareDate: Date = if (this.before(date)) {
+        calendar.time = this
+        date
+    } else {
+        calendar.time = date
+        this
+    }
+    var i = 0
+    while (calendar.time.before(compareDate)) {
+        calendar.add(Calendar.MONTH, 1)
+        i++
+    }
+    if (date.before(this)) {
+        i *= -1
+    }
+    if (calendar.get(Calendar.DAY_OF_MONTH) == compareDate.dayOfMonth) {
+        return i
+    }
+    return --i
+}
+
+fun Date.getMillisToNextMin(): Long {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    calendar.add(Calendar.MINUTE, 1)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MILLISECOND, 0)
+    return calendar.timeInMillis - this.time
 }

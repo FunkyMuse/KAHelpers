@@ -40,7 +40,7 @@ val Int.opaque: Int
  * rewriting the method and storing the [Random] instance
  * rather than generating one each time
  */
-inline val rndColor: Int
+inline val randomColor: Int
     get() {
         val rnd = Random()
         return Color.rgb(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
@@ -273,14 +273,6 @@ fun Toolbar.tint(@ColorInt color: Int, tintTitle: Boolean = true) {
         setSubtitleTextColor(color)
     }
     (0 until childCount).asSequence().forEach { (getChildAt(it) as? ImageButton)?.setColorFilter(color) }
-}
-
-fun Int.tween(end: Int, t: Float): Int {
-    val red = Color.red(this).tween(Color.red(end), t)
-    val green = Color.green(this).tween(Color.green(end), t)
-    val blue = Color.blue(this).tween(Color.blue(end), t)
-    val alpha = Color.alpha(this).tween(Color.alpha(end), t)
-    return Color.argb(alpha, red, green, blue)
 }
 
 /**

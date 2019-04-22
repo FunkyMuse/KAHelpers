@@ -3,8 +3,6 @@ package com.crazylegend.setofusefulkotlinextensions
 
 import android.os.Bundle
 import com.crazylegend.kotlinextensions.codestyle.BaseAbstractActivity
-import com.crazylegend.kotlinextensions.generators.createRandomImageUrl
-import com.crazylegend.kotlinextensions.log.debug
 
 
 class MainAbstractActivity : BaseAbstractActivity() {
@@ -18,9 +16,6 @@ class MainAbstractActivity : BaseAbstractActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        debug(
-            createRandomImageUrl()
-        )
     }
 
 
