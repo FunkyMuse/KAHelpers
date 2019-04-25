@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.AnimRes
+import androidx.fragment.app.Fragment
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
 import java.io.Serializable
@@ -141,3 +142,13 @@ operator fun Bundle.contains(key: String): Boolean
 
 inline fun <reified T> Bundle.obtain(key: String, noinline converter: ((Any?) -> T?) = { it as? T }): T?
         = converter(this[key])
+
+
+inline fun <reified T: Any> Fragment.extra(key: String, default: T? = null) = lazy {
+    val value = arguments?.get(key)
+    if (value is T) value else default
+}
+inline fun <reified T: Any> Fragment.extraNotNull(key: String, default: T? = null) = lazy {
+    val value = arguments?.get(key)
+    requireNotNull(if (value is T) value else default) { key }
+}
