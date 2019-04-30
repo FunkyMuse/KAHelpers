@@ -372,3 +372,4 @@ inline fun Context.isPermissionGranted(permission: String): Boolean =
 
 inline fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
     permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
+

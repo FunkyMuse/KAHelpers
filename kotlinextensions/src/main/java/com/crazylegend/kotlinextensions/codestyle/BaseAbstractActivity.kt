@@ -28,9 +28,13 @@ abstract class BaseAbstractActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutResourceId())
+       /* initUI(savedInstanceState)
+        initLateInitVars(savedInstanceState)*/
     }
 
     protected abstract fun getLayoutResourceId(): Int
+    /*protected abstract fun initUI(savedInstanceState: Bundle?)
+    protected abstract fun initLateInitVars(savedInstanceState: Bundle?)*/
 
     fun RelativeLayout.showProgressBar(position: Int = RelativeLayout.CENTER_IN_PARENT) {
         progressBar = ProgressBar(this@BaseAbstractActivity, null, android.R.attr.progressBarStyleLarge)
