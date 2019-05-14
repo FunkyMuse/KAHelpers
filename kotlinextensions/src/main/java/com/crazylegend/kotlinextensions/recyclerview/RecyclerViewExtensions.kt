@@ -8,6 +8,8 @@ import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.text.PrecomputedTextCompat
 import androidx.recyclerview.widget.*
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.dp2px
@@ -529,4 +531,8 @@ fun RecyclerView.scrollListener(
             onScrolled(recyclerView, dx, dy)
         }
     })
+}
+
+fun AppCompatTextView.setRecyclerPrecomputedText(text:String){
+    setTextFuture(PrecomputedTextCompat.getTextFuture(text, this.textMetricsParamsCompat, null))
 }
