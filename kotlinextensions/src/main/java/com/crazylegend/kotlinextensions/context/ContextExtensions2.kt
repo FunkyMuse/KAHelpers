@@ -206,6 +206,13 @@ fun Context.sendSMS(number: String, text: String = ""): Boolean = try {
 }
 
 
+fun Context.copyToClipboard(text: String){
+    val clipboard = clipboardManager
+    val clip = ClipData.newPlainText("label",text)
+    clipboard?.setPrimaryClip(clip)
+}
+
+
 
 fun Context.getTextFromClipboard(): CharSequence {
     val clipData = clipboardManager?.primaryClip
