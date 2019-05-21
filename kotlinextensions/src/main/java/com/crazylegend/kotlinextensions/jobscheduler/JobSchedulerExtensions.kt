@@ -7,6 +7,9 @@ import android.content.ComponentName
 import android.content.Context
 import androidx.annotation.RequiresPermission
 import com.crazylegend.kotlinextensions.context.jobScheduler
+import androidx.core.content.ContextCompat.getSystemService
+import android.app.ActivityManager
+import com.crazylegend.kotlinextensions.context.activityManager
 
 
 /**
@@ -124,14 +127,16 @@ inline fun <reified T> JobScheduler?.scheduleJob(context: Context, id: Int,
     return jobInfo
 }
 
-fun Context.isJobRunning(id:Int): Boolean {
-    var hasBeenScheduled = false
-    this.jobScheduler?.allPendingJobs?.forEach {
-        hasBeenScheduled = it.id == id
+inline fun <reified T> Context.isJobRunning(): Boolean {
+    val manager = activityManager
+    for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
+        if (T::class.java.name == service.service.className) {
+            return true
+        }
     }
-
-    return hasBeenScheduled
+    return false
 }
+
 
 fun Context.cancelSchedulerJob(id:Int){
     this.jobScheduler?.cancel(id)
