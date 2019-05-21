@@ -27,7 +27,6 @@ object RetrofitClient {
 
         clientBuilder.apply {
             addInterceptor(loggingInterceptor)
-            addInterceptor(RetryRequestInterceptor(context))
             addInterceptor(ConnectivityInterceptor(context))
             connectTimeout(60, TimeUnit.SECONDS)
             readTimeout(100, TimeUnit.SECONDS)
@@ -61,7 +60,6 @@ object RetrofitClient {
 
         clientBuilder.apply {
             addInterceptor(loggingInterceptor)
-            addInterceptor(RetryRequestInterceptor(context))
             addInterceptor(ConnectivityInterceptor(context))
             connectTimeout(60, TimeUnit.SECONDS)
             readTimeout(100, TimeUnit.SECONDS)
