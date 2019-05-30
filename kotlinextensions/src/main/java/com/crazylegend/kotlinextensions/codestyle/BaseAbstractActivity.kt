@@ -30,6 +30,7 @@ abstract class BaseAbstractActivity : AppCompatActivity() {
     }
 
     var hasInternetConnection = false
+    private set
 
     private var progressBar: ProgressBar? = null
 

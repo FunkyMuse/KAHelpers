@@ -33,6 +33,7 @@ abstract class BaseAbstractActivityCoroutinedScope : AppCompatActivity(), Corout
     }
 
     var hasInternetConnection = false
+    private set
 
     var job: Job = Job()
 
