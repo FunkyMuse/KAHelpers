@@ -23,6 +23,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.crazylegend.kotlinextensions.bitmap.flipHorizontally
 import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.crazylegend.kotlinextensions.context.getCompatColor
@@ -40,6 +41,14 @@ fun View.setLayoutHeight(height: Int) {
     val params = layoutParams as RelativeLayout.LayoutParams
     params.height = height
     layoutParams = params
+}
+
+fun SwipeRefreshLayout.setIsRefreshing() {
+    isRefreshing = true
+}
+
+fun SwipeRefreshLayout.setIsNotRefreshing() {
+    isRefreshing = false
 }
 
 
