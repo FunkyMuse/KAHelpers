@@ -12,6 +12,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import com.crazylegend.kotlinextensions.internetdetector.InternetDetector
 import com.crazylegend.kotlinextensions.locale.LocaleHelper
 import com.crazylegend.kotlinextensions.views.gone
 import com.crazylegend.kotlinextensions.views.visible
@@ -23,6 +25,12 @@ import com.crazylegend.kotlinextensions.views.visible
 abstract class BaseAbstractActivity : AppCompatActivity() {
 
 
+    private val internetDetector by lazy {
+        InternetDetector(this)
+    }
+
+    var hasInternetConnection = false
+
     private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +38,13 @@ abstract class BaseAbstractActivity : AppCompatActivity() {
         setContentView(getLayoutResourceId())
        /* initUI(savedInstanceState)
         initLateInitVars(savedInstanceState)*/
+
+
+        internetDetector.observe(this, Observer {
+            it?.apply {
+                hasInternetConnection = this
+            }
+        })
     }
 
     protected abstract fun getLayoutResourceId(): Int
