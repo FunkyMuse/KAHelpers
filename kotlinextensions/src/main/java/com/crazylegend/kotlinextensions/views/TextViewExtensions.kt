@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.*
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
@@ -359,3 +360,10 @@ fun TextView.addDebounceChangeStateListener(delayInMillis: Long = 500, timeoutIn
     })
 }
 
+
+
+fun AppCompatTextView.setPrecomputedText(text:String?){
+    text?.let {
+        setTextFuture(PrecomputedTextCompat.getTextFuture(it, this.textMetricsParamsCompat, null))
+    }
+}

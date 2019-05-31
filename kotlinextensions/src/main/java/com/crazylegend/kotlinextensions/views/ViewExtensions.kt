@@ -338,6 +338,8 @@ fun View.linearMargins(left: Int, top: Int, right: Int, bottom: Int) {
         setMargins(left, top, right, bottom)
     }
 
+    this.layoutParams = params
+
 }
 
 
@@ -350,6 +352,7 @@ fun View.linearMargins(size: Int) {
     params?.apply {
         setMargins(size)
     }
+    this.layoutParams = params
 
 }
 
@@ -363,6 +366,7 @@ fun View.endLinearMargin(size: Int) {
     params?.apply {
         marginEnd = size
     }
+    this.layoutParams = params
 
 }
 
@@ -376,6 +380,7 @@ fun View.bottomLinearMargin(size: Int) {
     params?.apply {
         setMargins(marginLeft, marginTop, marginRight, size)
     }
+    this.layoutParams = params
 
 }
 
@@ -388,6 +393,7 @@ fun View.topLinearMargin(size: Int) {
     params?.apply {
         setMargins(marginLeft, size, marginRight, marginBottom)
     }
+    this.layoutParams = params
 
 }
 
@@ -401,6 +407,7 @@ fun View.startLinearMargin(size: Int) {
     params?.apply {
         marginStart = size
     }
+    this.layoutParams = params
 
 }
 
@@ -414,6 +421,7 @@ fun View.relativeMargins(left: Int, top: Int, right: Int, bottom: Int) {
     params?.apply {
         setMargins(left, top, right, bottom)
     }
+    this.layoutParams = params
 
 }
 
@@ -427,6 +435,7 @@ fun View.relativeMargins(size: Int) {
     params?.apply {
         setMargins(size)
     }
+    this.layoutParams = params
 
 }
 
@@ -440,6 +449,7 @@ fun View.endRelativeMargin(size: Int) {
     params?.apply {
         marginEnd = size
     }
+    this.layoutParams = params
 
 }
 
@@ -453,6 +463,7 @@ fun View.bottomRelativeMargin(size: Int) {
     params?.apply {
         setMargins(marginLeft, marginTop, marginRight, size)
     }
+    this.layoutParams = params
 
 }
 
@@ -465,6 +476,7 @@ fun View.topRelativeMargin(size: Int) {
     params?.apply {
         setMargins(marginLeft, size, marginRight, marginBottom)
     }
+    this.layoutParams = params
 
 }
 
@@ -478,6 +490,7 @@ fun View.startRelativeMargin(size: Int) {
     params?.apply {
         marginStart = size
     }
+    this.layoutParams = params
 
 }
 
@@ -492,6 +505,8 @@ fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
     params?.apply {
         setMargins(left, top, right, bottom)
     }
+    this.layoutParams = params
+
 }
 
 
@@ -504,6 +519,7 @@ fun View.setMargins(size: Int) {
     params?.apply {
         setMargins(size)
     }
+    this.layoutParams = params
 
 }
 
@@ -517,6 +533,7 @@ fun View.endMargin(size: Int) {
     params?.apply {
         marginEnd = size
     }
+    this.layoutParams = params
 
 }
 
@@ -530,6 +547,7 @@ fun View.bottomMargin(size: Int) {
     params?.apply {
         setMargins(marginLeft, marginTop, marginRight, size)
     }
+    this.layoutParams = params
 
 }
 
@@ -542,6 +560,7 @@ fun View.topMargin(size: Int) {
     params?.apply {
         setMargins(marginLeft, size, marginRight, marginBottom)
     }
+    this.layoutParams = params
 
 }
 
@@ -555,6 +574,7 @@ fun View.startMargin(size: Int) {
     params?.apply {
         marginStart = size
     }
+    this.layoutParams = params
 
 }
 
