@@ -11,8 +11,7 @@ import android.provider.*
 import androidx.annotation.RequiresPermission
 import androidx.print.PrintHelper
 import androidx.core.app.ActivityCompat.startActivityForResult
-
-
+import java.lang.Exception
 
 
 /**
@@ -311,6 +310,27 @@ fun Context.doPhotoPrint(drawable:Int, jobName:String) {
     }.also { printHelper ->
         val bitmap = BitmapFactory.decodeResource(resources, drawable)
         printHelper.printBitmap(jobName, bitmap)
+    }
+}
+
+fun Context.composeMessage(phone: String, message: String = "") {
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        putExtra("sms_body", message)
+        data = Uri.parse("sms:$phone")
+    }
+    try {
+        startActivity(intent)
+    }catch (e: Exception){
+        e.printStackTrace()
+    }
+}
+
+fun Context.dialPhoneNumber(phoneNumber: String) {
+    val intent = Intent(Intent.ACTION_DIAL).apply {
+        data = Uri.parse("tel:$phoneNumber")
+    }
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
     }
 }
 
