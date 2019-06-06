@@ -14,6 +14,7 @@ class ProgressResponseBody(
     private  val responseBody: ResponseBody,
     private val progressListener: OnAttachmentDownloadListener?
 ) : ResponseBody() {
+
     private var bufferedSource: BufferedSource? = null
 
     override fun contentType(): MediaType? {
@@ -24,11 +25,13 @@ class ProgressResponseBody(
         return responseBody.contentLength()
     }
 
-    override fun source(): BufferedSource? {
-        if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(source(responseBody.source()))
+
+    override fun source(): BufferedSource {
+        return if (bufferedSource == null) {
+            source(responseBody.source()).buffer()
+        } else {
+            bufferedSource!!
         }
-        return bufferedSource
     }
 
     private fun source(source: Source): Source {
@@ -43,7 +46,6 @@ class ProgressResponseBody(
                 val bytesRead = super.read(sink, byteCount)
 
                 totalBytesRead += if (bytesRead != -1L) bytesRead else 0
-
 
                 val percent =
                     if (bytesRead == -1L) 100f

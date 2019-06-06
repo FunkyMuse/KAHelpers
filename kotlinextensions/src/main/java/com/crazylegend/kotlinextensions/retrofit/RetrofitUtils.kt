@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.retrofit
 
 import com.crazylegend.kotlinextensions.exhaustive
+import com.crazylegend.kotlinextensions.retrofit.withProgress.OnAttachmentDownloadListener
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -93,6 +94,27 @@ fun HashMap<String,RequestBody>.addImagesToRetrofit(pathList:List<String>){
     }
 }
 
+
+fun progressDSL(
+        onProgressStarted : ()-> Unit = {},
+        onProgressFinished : () -> Unit = {},
+        onProgressChanged : (percent:Int) -> Unit = {_->}
+): OnAttachmentDownloadListener {
+    return object : OnAttachmentDownloadListener {
+        override fun onAttachmentDownloadedStarted() {
+            onProgressStarted()
+        }
+
+        override fun onAttachmentDownloadedFinished() {
+            onProgressFinished()
+        }
+
+        override fun onAttachmentDownloadUpdate(percent: Int) {
+            onProgressChanged(percent)
+        }
+
+    }
+}
 
 /**
  *
