@@ -10,7 +10,7 @@ import retrofit2.Retrofit
  */
 
 
-inline fun <reified T> Retrofit?.createClient(): T? {
+inline fun <reified T> Retrofit?.create(): T? {
     return this?.create(T::class.java)
 }
 
