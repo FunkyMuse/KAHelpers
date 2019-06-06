@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    compileSdkVersion 'android-Q'
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 21
