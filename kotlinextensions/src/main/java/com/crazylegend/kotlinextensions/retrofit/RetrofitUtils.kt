@@ -1,8 +1,12 @@
 package com.crazylegend.kotlinextensions.retrofit
 
 import com.crazylegend.kotlinextensions.exhaustive
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
+import java.io.File
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 /**
@@ -78,3 +82,34 @@ fun <T> RetrofitResult<T>.handle(
     }.exhaustive
 }
 
+const val multiPartContentType = "multipart/form-data"
+
+fun HashMap<String,RequestBody>.addImagesToRetrofit(pathList:List<String>){
+    if (pathList.isNotEmpty()){
+        pathList.forEachIndexed { index, s ->
+            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index+1}")
+            this[key] = File(s).toRequestBody(MediaType.parse(multiPartContentType))
+        }
+    }
+}
+
+
+/**
+ *
+ * val hashMap: HashMap<String, RequestBody> = HashMap()
+
+if (pathList.isNotEmpty()){
+hashMap.addImages(pathList.map {
+it.pathToImage
+})
+}
+ */
+/**
+ *
+ @Multipart
+@POST()
+fun postNewWaterMeterMeasurementWithImages(@Header("Authorization") token: String,
+@PartMap images: Map<String,@JvmSuppressWildcards RequestBody>): Single<Response<ResponseBody>>
+
+ *
+ */

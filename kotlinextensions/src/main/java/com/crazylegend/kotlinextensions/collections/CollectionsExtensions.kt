@@ -900,3 +900,8 @@ inline fun <T, R : Any> Iterable<T>.mapNotNullToSet(transform: (T) -> R?) =
 fun <T> Comparator<T>.sort(list: MutableList<T>) {
     list.sortWith(this)
 }
+
+
+fun <T> listEqualsIgnoreOrder(list1: List<T>, list2: List<T>): Boolean {
+    return HashSet(list1) == HashSet(list2)
+}
