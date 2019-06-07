@@ -28,19 +28,7 @@ inline fun Service.registerVolumeChange(crossinline block: (Int) -> Unit): Broad
     }
 }
 
-inline fun BluetoothClass.Service.registerBluetoothChange(crossinline connectionStateChanged: (Intent, Int) -> Unit): BroadcastReceiver {
-    return object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action ?: return
-            if (action == BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED) {
-                connectionStateChanged(intent, intent.getIntExtra(BluetoothProfile.EXTRA_STATE, -1))
-            }
-        }
-    }.apply {
-        val intent = IntentFilter().apply { addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED) }
-        this@registerBluetoothChange.registerReceiver(this, intent)
-    }
-}
+
 
 inline fun ContextWrapper.registerWifiStateChanged(crossinline callback: (Intent) -> Unit): BroadcastReceiver {
     val action = "android.net.wifi.WIFI_STATE_CHANGED"

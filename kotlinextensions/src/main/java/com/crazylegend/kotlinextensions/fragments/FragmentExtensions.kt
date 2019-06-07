@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.crazylegend.kotlinextensions.context.getIntent
 import com.crazylegend.kotlinextensions.context.notification
 import com.crazylegend.kotlinextensions.log.debug
+import com.crazylegend.kotlinextensions.orFalse
 
 
 /**
