@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.ActivityManager.RunningAppProcessInfo.*
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
@@ -11,6 +12,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
+import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
@@ -31,9 +33,13 @@ import androidx.core.content.res.ResourcesCompat
 import com.crazylegend.kotlinextensions.enums.ContentColumns
 import com.crazylegend.kotlinextensions.enums.ContentOrder
 import com.crazylegend.kotlinextensions.toFile
+import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
+import java.io.InputStreamReader
 import java.util.*
+import android.os.Process
+
 
 
 /**
@@ -425,4 +431,161 @@ fun Context.areNotificationsEnabled(): Boolean {
 
 fun Context.createInputStreamFromUri(uri: Uri): InputStream? {
     return contentResolver.openInputStream(uri)
+}
+
+fun Context.locale(): Locale? {
+    try {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            resources.configuration.locales.get(0)
+        } else {
+            resources.configuration.locale
+        }
+    } catch (e: Exception) {
+
+    }
+    return null
+}
+
+
+@RequiresApi(Build.VERSION_CODES.M)
+inline fun <reified T> Context.systemService() = getSystemService(T::class.java)
+
+fun <T> Context.systemService(name: String) = getSystemService(name) as? T
+
+
+fun Context.coloredDrawable(@DrawableRes drawableResId: Int, @ColorRes filterColorResourceId: Int): Drawable? =
+        drawable(drawableResId).apply { this?.setColorFilter(color(filterColorResourceId), PorterDuff.Mode.SRC_ATOP) }
+
+fun Context?.quantityString(@PluralsRes res: Int, quantity: Int, vararg args: Any?) =
+        if (this == null) "" else resources.getQuantityString(res, quantity, *args)
+
+fun Context?.quantityString(@PluralsRes res: Int, quantity: Int) = quantityString(res, quantity, quantity)
+
+fun Context.uriFromResource(@DrawableRes resId: Int): String = Uri.Builder()
+        .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+        .authority(resources.getResourcePackageName(resId))
+        .appendPath(resources.getResourceTypeName(resId))
+        .appendPath(resources.getResourceEntryName(resId))
+        .build().toString()
+
+val Context.actionBarSizeResourse: Int
+    get() =
+        getResourceIdAttribute(android.R.attr.actionBarSize)
+
+val Context.selectableItemBackgroundResource: Int
+    get() =
+        getResourceIdAttribute(android.R.attr.selectableItemBackground)
+
+val Context.actionBarItemBackgroundResource: Int
+    get() =
+        getResourceIdAttribute(android.R.attr.actionBarItemBackground)
+
+fun Context.getResourceIdAttribute(@AttrRes attribute: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attribute, typedValue, true)
+    theme.resolveAttribute(attribute, typedValue, true)
+    return typedValue.resourceId
+}
+
+fun Context.reboot(reason: String?) {
+    powerManager?.reboot(reason)
+}
+
+fun Context.disableBar() {
+    try {
+        val service = getSystemService("statusbar")
+        val statusbarManager = Class.forName("android.app.StatusBarManager")
+        val method = statusbarManager.getMethod("disable", Int::class.javaPrimitiveType)
+        method.invoke(service, DISABLE_EXPAND or DISABLE_NAVIGATION)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+val DISABLE_EXPAND = 0x00010000
+val DISABLE_NOTIFICATION_ICONS = 0x00020000
+val DISABLE_NOTIFICATION_ALERTS = 0x00040000
+val DISABLE_NOTIFICATION_TICKER = 0x00080000
+val DISABLE_SYSTEM_INFO = 0x00100000
+val DISABLE_HOME = 0x00200000
+val DISABLE_RECENT = 0x01000000
+val DISABLE_BACK = 0x00400000
+val DISABLE_CLOCK = 0x00800000
+val DISABLE_SEARCH = 0x02000000
+val DISABLE_NONE = 0x00000000
+
+val DISABLE_NAVIGATION = DISABLE_HOME or DISABLE_RECENT
+
+
+val Context.processName: String?
+    get() = activityManager.runningAppProcesses
+            .filter { it.pid ==  Process.myPid() }
+            .map { it.processName }
+            .firstOrNull()
+
+
+val Context.packageVersionName: String
+    get() = packageManager.getPackageInfo(packageName, 0).versionName
+
+
+val Context.isBackground: Boolean
+    get() {
+        val appProcess = activityManager.runningAppProcesses.firstOrNull{ it.processName == packageName }
+        return if (appProcess == null) {
+            false
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                appProcess.importance == IMPORTANCE_CACHED || appProcess.importance == IMPORTANCE_SERVICE
+            } else {
+                appProcess.importance == IMPORTANCE_SERVICE || appProcess.importance == IMPORTANCE_BACKGROUND
+            }
+        }
+
+    }
+
+
+val Context.isMiUi: Boolean
+    get() = getSystemProperty("ro.miui.ui.version.name").isNotEmpty()
+
+
+val Context.isEmUi: Boolean
+    get() = getSystemProperty("ro.build.version.emui").isNotEmpty()
+
+
+private fun getSystemProperty(propName: String): String {
+    val process = Runtime.getRuntime().exec("getprop $propName")
+    val input = BufferedReader(InputStreamReader(process.inputStream), 1024)
+    val line = input.readLine()
+    input.close()
+    return line
+}
+
+/**
+  * Disable navigation bar
+  *
+  * Note: System signature is required and the system UID is shared
+  */
+@SuppressLint("WrongConstant", "PrivateApi")
+fun Context.disableNatigation() {
+    try {
+        val service = getSystemService("statusbar")
+        val statusbarManager = Class.forName("android.app.StatusBarManager")
+        val method = statusbarManager.getMethod("disable", Int::class.javaPrimitiveType)
+        method.invoke(service, DISABLE_NAVIGATION)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+
+@SuppressLint("PrivateApi", "WrongConstant")
+fun Context.disableNotificationBar() {
+    try {
+        val service = getSystemService("statusbar")
+        val statusbarManager = Class.forName("android.app.StatusBarManager")
+        val method = statusbarManager.getMethod("disable", Int::class.javaPrimitiveType)
+        method.invoke(service, DISABLE_EXPAND)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }

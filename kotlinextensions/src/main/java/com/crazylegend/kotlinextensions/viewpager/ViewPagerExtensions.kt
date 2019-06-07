@@ -141,3 +141,4 @@ fun ViewPager.nextCircular() {
         currentItem = 0
     }
 }
+

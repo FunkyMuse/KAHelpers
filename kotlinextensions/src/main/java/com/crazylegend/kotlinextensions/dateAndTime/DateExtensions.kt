@@ -1026,3 +1026,4 @@ fun Date.getMillisToNextMin(): Long {
     calendar.set(Calendar.MILLISECOND, 0)
     return calendar.timeInMillis - this.time
 }
+

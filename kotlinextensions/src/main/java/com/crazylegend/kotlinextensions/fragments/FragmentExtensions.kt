@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.crazylegend.kotlinextensions.context.getIntent
 import com.crazylegend.kotlinextensions.context.notification
 import com.crazylegend.kotlinextensions.log.debug
@@ -415,3 +416,40 @@ fun AppCompatActivity.printBackStack() {
 fun AppCompatActivity.currentFragment(@IdRes container: Int): Fragment? {
     return supportFragmentManager.findFragmentById(container)
 }
+
+fun FragmentActivity.isFragmentAtTheTop(fragment: Fragment): Boolean =
+        supportFragmentManager.fragments.last() == fragment
+
+fun AppCompatActivity.isFragmentAtTheTop(fragment: Fragment): Boolean =
+        supportFragmentManager.fragments.last() == fragment
+
+
+inline fun FragmentActivity.inTransaction(
+        allowStateLoss: Boolean = false,
+        block: FragmentTransaction.() -> Unit
+) {
+    with(supportFragmentManager) {
+        beginTransaction().apply {
+            block(this)
+
+            if (!isStateSaved) {
+                commit()
+            } else if (allowStateLoss) {
+                commitAllowingStateLoss()
+            }
+        }
+    }
+}
+
+inline fun Fragment.inTransaction(
+        allowStateLoss: Boolean = false,
+        block: FragmentTransaction.() -> Unit
+) {
+    activity?.inTransaction(allowStateLoss, block)
+}
+
+fun Fragment.navigateBack() {
+    activity?.onBackPressed()
+}
+
+fun Fragment.isAtTheTop(): Boolean = activity?.isFragmentAtTheTop(this).orFalse()

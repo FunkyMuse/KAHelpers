@@ -4,10 +4,11 @@ import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.retrofit.withProgress.OnAttachmentDownloadListener
 import okhttp3.MediaType
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import java.io.File
-import okhttp3.RequestBody.Companion.toRequestBody
 
 
 /**
@@ -57,7 +58,7 @@ fun <T> RetrofitResult<T>.handle(
         loading: () -> Unit,
         noData: () -> Unit,
         emptyData: () -> Unit,
-        calError: (message: String, throwable: Throwable, exception:Exception?) -> Unit = { _, _,_ -> },
+        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
         apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
         success: T.() -> Unit) {
 
@@ -85,20 +86,21 @@ fun <T> RetrofitResult<T>.handle(
 
 const val multiPartContentType = "multipart/form-data"
 
-fun HashMap<String,RequestBody>.addImagesToRetrofit(pathList:List<String>){
-    if (pathList.isNotEmpty()){
+fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
+    if (pathList.isNotEmpty()) {
         pathList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index+1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
             this[key] = File(s).toRequestBody(MediaType.parse(multiPartContentType))
         }
     }
 }
 
 
+
 fun progressDSL(
-        onProgressStarted : ()-> Unit = {},
-        onProgressFinished : () -> Unit = {},
-        onProgressChanged : (percent:Int) -> Unit = {_->}
+        onProgressStarted: () -> Unit = {},
+        onProgressFinished: () -> Unit = {},
+        onProgressChanged: (percent: Int) -> Unit = { _ -> }
 ): OnAttachmentDownloadListener {
     return object : OnAttachmentDownloadListener {
         override fun onAttachmentDownloadedStarted() {
@@ -128,7 +130,7 @@ it.pathToImage
  */
 /**
  *
- @Multipart
+@Multipart
 @POST()
 fun postNewWaterMeterMeasurementWithImages(@Header("Authorization") token: String,
 @PartMap images: Map<String,@JvmSuppressWildcards RequestBody>): Single<Response<ResponseBody>>

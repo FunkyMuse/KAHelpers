@@ -905,3 +905,279 @@ fun <T> Comparator<T>.sort(list: MutableList<T>) {
 fun <T> listEqualsIgnoreOrder(list1: List<T>, list2: List<T>): Boolean {
     return HashSet(list1) == HashSet(list2)
 }
+
+inline fun <T> Array<T>.firstIndexed(
+        filter: (index: Int, T) -> Boolean,
+        onNext: (index: Int, T) -> Unit = { i, t -> },
+        onSuccess: () -> Unit = {},
+        onFail: () -> Unit = {},
+        onComplete: () -> Unit = {}
+) {
+    var isNull = true
+    for ((index, element) in this.withIndex()) {
+        if (filter(index, element)) {
+            isNull = false
+            onNext(index, element)
+            break
+        }
+    }
+    if (isNull) onFail() else onSuccess()
+    onComplete()
+}
+
+inline fun <reified T> initArrayOf(size: Int, predicate: (index: Int) -> T): Array<T> {
+    return arrayListOf<T>().also {
+        for (index in 0 until size) {
+            it.add(predicate(index))
+        }
+    }.toTypedArray()
+}
+
+inline fun MutableMap<String, Any>.transform(key: String, block: (Any?) -> String) {
+    val t = get(key)
+    this[key] = block.invoke(t)
+}
+
+inline fun <reified T : Any> MutableMap<String, Any>.makeTo(fromKey: String, toKey: String, block: (from: Any?) -> T) {
+    val from = get(fromKey)
+    this[toKey] = block.invoke(from)
+}
+
+fun <T, S> MutableList<T>.compose(
+        mixList: List<S>,
+        mixFilter: (T, S) -> Boolean,
+        mixOperate: (T?, S) -> T,
+        removeCannotMix: Boolean = true
+) {
+    val list1 = this
+    val list2 = mutableListOf<S>().apply {
+        addAll(mixList)
+    }
+    for (i in list1.size - 1 downTo 0) {
+        run {
+            val item1 = list1[i]
+            for (j in list2.size - 1 downTo 0) {
+                val item2 = list2[j]
+                val mix = mixFilter(item1, item2)
+                if (mix) {
+                    list1[i] = mixOperate(item1, item2)
+                    list2.removeAt(j)
+                    return@run
+                }
+            }
+            if (removeCannotMix) {
+                list1.remove(item1)
+            }
+        }
+    }
+    list1.addAll(0, list2.map {
+        mixOperate(null, it)
+    })
+}
+
+inline fun <T> mutableListCreate(size: Int, create: (index: Int) -> T): MutableList<T> {
+    val list = ArrayList<T>()
+    for (index in 0 until size) {
+        list.add(create(index))
+    }
+    return list
+}
+
+infix operator fun ByteArray.plus(byte: Byte) = ByteArray(this@plus.size + 1) { index ->
+    when {
+        index < this@plus.size -> this[index]
+        index == this@plus.size -> byte
+        else -> throw ArrayIndexOutOfBoundsException("ByteArray.plus return error with index:$index")
+    }
+}
+
+
+infix operator fun ByteArray.plus(int: Int): ByteArray {
+    if (int > 0XFF) {
+        throw IndexOutOfBoundsException("An error occurred while int converting Byte, $int > 0XFF,please check index!!!")
+    } else return this@plus + int.toByte()
+}
+
+
+fun ByteArray.toInt(isHighFront: Boolean = true): Int {
+    val array = if (isHighFront) {
+        this.reversedArray()
+    } else {
+        this
+    }
+    var temp = (array[0].toInt() and 0xff)
+    val rangeSize = if (array.size <= 4) array.size else 4
+    for (index in 1 until rangeSize) {
+        temp = temp or (array[index].toInt() and 0xff shl 8 * index)
+    }
+    return temp
+}
+
+fun <T> LinkedList<T>.safePop(): T? {
+    return if (size > 0) pop()
+    else null
+}
+
+
+inline fun <E> Iterable<E>.forEachApply(action: E.() -> Unit) {
+    for (element in this) element.action()
+}
+
+inline fun <E> Iterable<E>.forEachApplyIndexed(action: E.(index: Int) -> Unit) {
+    var index = 0
+    for (item in this) item.action(index++)
+}
+
+fun <T> Set<T>?.isEmpty(): Boolean = this?.isEmpty() ?: true
+
+
+fun <K, V> Map<K, List<V>>.flatten(): List<Any?> =
+        map { (k, v) ->
+            mutableListOf<Any?>().apply {
+                add(k)
+                addAll(v)
+            }
+        }.flatten()
+
+fun <K, V> Map<K, List<V>>.indexInSection(element: V): Int {
+    forEach { (_, list) -> if (list.contains(element)) return list.indexOf(element) }
+    return -1
+}
+
+fun <K, V> Map<K, List<V>>.keyIndex(key: K?): Int {
+    key ?: return -1
+    var index = 0
+    forEach { (k, _) -> if (key == k) return index else index++ }
+    return -1
+}
+
+fun <K, V> Map<K, List<V>>.keyAtIndex(index: Int): K? {
+    keys.forEachIndexed { ind, k -> if (ind == index) return k }
+    return null
+}
+
+fun <K, V> Map<K, List<V>>.sectionKey(element: V): K? {
+    forEach { (k, list) -> if (list.contains(element)) return k }
+    return null
+}
+
+
+fun <T> T.mergeWith(items: Iterable<T>)  =
+        mutableListOf(this).apply { addAll(items) }
+
+fun <T> T.mergeWith(vararg items: T) =
+        mutableListOf(this).apply { addAll(items) }
+
+fun <E : Comparable<E>> MutableList<E>.sortedSelf(): MutableList<E> =
+        also { sortWith(Comparator { o1, o2 -> o1.compareTo(o2) }) }
+
+inline fun <E, R : Comparable<R>> MutableList<E>.sortedSelf(crossinline selector: (E) -> R?): MutableList<E> =
+        also { sortWith(compareBy(selector)) }
+
+fun <E> List<E>.indexOf(item: E?): Int = if (item == null) -1 else indexOf(item)
+
+fun <E> List<E>.isLast(element: E): Boolean = indexOf(element) == size - 1
+
+fun <E> List<E>.nextAfter(index: Int): E? = if (index == count() - 1) null else this[index + 1]
+
+fun <E> List<E>.nextAfter(element: E): E? =
+        when (val index = indexOf(element)) {
+            -1 -> throw IllegalAccessException("List doesn't contains $element")
+            size - 1 -> null
+            else -> this[index + 1]
+        }
+
+
+fun <E> List<E>.prevBefore(index: Int): E? = if (index == 0) null else this[index - 1]
+
+fun <E> List<E>.prevBefore(element: E): E? =
+        when (val index = indexOf(element)) {
+            -1 -> throw IllegalAccessException("List doesn't contains $element")
+            0 -> null
+            else -> this[index - 1]
+        }
+
+fun <T> List<T>.random(): T = shuffled().first()
+
+
+fun <T> List<T>?.isLast(index: Int): Boolean {
+    return index == this?.lastIndex
+}
+
+
+fun <E> MutableList<E>.removeElement(element: E): E? {
+    val index = indexOfOrNull(element) ?: return null
+    return removeAt(index)
+}
+
+private fun <E> MutableList<E>.indexOfOrNull(element: E): Int? {
+    val indexOf = indexOf(element)
+    return if (indexOf != -1) indexOf else null
+}
+
+
+
+inline fun <T> Collection<T>?.isBlank(): Boolean = this == null || isEmpty()
+
+inline fun <T> Collection<T?>.anyNull(): Boolean = any { it == null }
+
+inline fun <T> Collection<T?>.allNull(): Boolean = all { it == null }
+
+inline fun <T> Collection<T?>.countNulls(): Int = count { it == null }
+inline fun <T> Collection<T?>.countNonNulls(): Int = size - countNulls()
+
+inline fun <T : Any> Iterable<T?>.trimNulls(): List<T> = filterNotNull()
+inline fun <T : Any> Iterable<T?>.trimNullsToMutableList(): MutableList<T> = filterNotNullTo(mutableListOf())
+
+inline fun Iterable<String?>.trim(): List<String> = trimNulls().filterNot { it.isBlank() }
+inline fun Iterable<String?>.trimToMutableList(): MutableList<String> = trimNulls().filterNotTo(mutableListOf()) { it.isBlank() }
+
+inline fun <T1, T2> Iterable<T1>.combine(other: Iterable<T2>): List<Pair<T1, T2>> = combine(other) { thisItem: T1, otherItem: T2 -> Pair(thisItem, otherItem) }
+inline fun <T1, T2> Iterable<T1>.combineToMutableList(other: Iterable<T2>): MutableList<Pair<T1, T2>> = combineToMutableList(other) { thisItem: T1, otherItem: T2 -> Pair(thisItem, otherItem) }
+
+inline fun <T1, T2, R> Iterable<T1>.combine(other: Iterable<T2>, transform: (thisItem: T1, otherItem: T2) -> R): List<R>
+        = flatMap { thisItem -> other.map { otherItem -> transform(thisItem, otherItem) } }
+
+inline fun <T1, T2, R> Iterable<T1>.combineToMutableList(other: Iterable<T2>, transform: (thisItem: T1, otherItem: T2) -> R): MutableList<R>
+        = flatMapTo(mutableListOf()) { thisItem -> other.map { otherItem -> transform(thisItem, otherItem) } }
+
+inline fun <T, R> Iterable<T>.mapToMutableList(transform: (T) -> R): MutableList<R> = mapTo(mutableListOf(), transform)
+inline fun <T, R> Iterable<T>.flatMapToMutableList(transform: (T) -> Iterable<R>): MutableList<R> = flatMapTo(mutableListOf(), transform)
+
+inline fun <T> Int.timesToListOf(predicate: (Int) -> T): List<T> = (0 until this).map { predicate(it) }
+inline fun <T> Int.timesToMutableListOf(predicate: (Int) -> T): MutableList<T> = (0 until this).mapToMutableList { predicate(it) }
+
+fun <T> MutableList<T>.swapMutable(i: Int, j: Int): MutableList<T> {
+    return apply {
+        val aux = this[i]
+        this[i] = this[j]
+        this[j] = aux
+    }
+}
+
+fun <T> List<T>.swapped(i: Int, j: Int): List<T> = toMutableList().swapMutable(i, j)
+
+inline fun <T> List<T>.getRandom(generator: Random = Random()): T = get(generator.nextInt(size))
+
+inline fun <T> MutableList<T>.shuffle(generator: Random = Random()): MutableList<T> = apply { Collections.shuffle(this, generator) }
+
+inline fun <T> List<T>.shuffled(generator: Random = Random()): List<T> = toMutableList().shuffle()
+
+inline fun randomIntList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt() }
+inline fun randomIntList(size: Int, bound: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt(bound) }
+inline fun randomFloatList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextFloat() }
+inline fun randomDoubleList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextDouble() }
+inline fun randomBooleanList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextBoolean() }
+
+inline fun <T> List<T>.encapsulate(): List<List<T>> = map { listOf(it) }
+inline fun <T> List<T>.encapsulateToMutableList(): MutableList<MutableList<T>> = mapToMutableList { mutableListOf(it) }
+
+inline fun <T> Collection<T>.init(): List<T> = take(size - 1)
+
+inline val Collection<*>.half: Int get() = size / 2
+
+inline fun <T> Collection<T>.firstHalf(): List<T> = take(half)
+inline fun <T> Collection<T>.secondHalf(): List<T> = drop(half)
+
+inline fun <T> Collection<T>.split(index: Int): Pair<List<T>, List<T>> = take(index) to drop(index)
+inline fun <T> Collection<T>.split(): Pair<List<T>, List<T>> = split(half)

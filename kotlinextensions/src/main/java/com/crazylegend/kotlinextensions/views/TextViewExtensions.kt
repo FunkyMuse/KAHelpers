@@ -6,6 +6,7 @@ import android.content.ClipData
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -365,5 +366,79 @@ fun TextView.addDebounceChangeStateListener(delayInMillis: Long = 500, timeoutIn
 fun AppCompatTextView.setPrecomputedText(text:String?){
     text?.let {
         setTextFuture(PrecomputedTextCompat.getTextFuture(it, this.textMetricsParamsCompat, null))
+    }
+}
+
+
+fun TextView.setTextStrikeThru(strikeThru: Boolean) {
+    if (strikeThru) setTextStrikeThru() else setTextNotStrikeThru()
+}
+
+fun TextView.setTextStrikeThru() {
+    paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+}
+
+fun TextView.setTextNotStrikeThru() {
+    paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+}
+
+fun TextView.setTextUnderlined(underlined: Boolean) {
+    if (underlined) setTextUnderlined() else setTextNotUnderlined()
+}
+
+fun TextView.setTextUnderlined() {
+    paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
+}
+
+fun TextView.setTextNotUnderlined() {
+    paintFlags = paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+}
+
+
+fun TextView.setDrawableLeft(drawable: Drawable?, width: Int = 0, height: Int = width) =
+        setDrawables(drawable, width = width, height = height)
+
+fun TextView.setDrawables(
+        left: Drawable? = null,
+        top: Drawable? = null,
+        right: Drawable? = null,
+        bottom: Drawable? = null,
+        width: Int = 0,
+        height: Int = 0
+) =
+        if (width == 0 || height == 0)
+            setDrawablesWithIntrinsicBounds(left, top, right, bottom)
+        else
+            setCompoundDrawables(
+                    left?.apply { setSize(width, height) },
+                    top?.apply { setSize(width, height) },
+                    right?.apply { setSize(width, height) },
+                    bottom?.apply { setSize(width, height) }
+            )
+
+fun TextView.setDrawablesWithIntrinsicBounds(
+        left: Drawable? = null,
+        top: Drawable? = null,
+        right: Drawable? = null,
+        bottom: Drawable? = null
+) =
+        setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
+
+
+fun TextView.ellipsizeDynamic(text: String) {
+    this.text = text
+    this.afterLatestMeasured {
+        val noOfLinesVisible = this.height / (this.lineHeight)
+        this.maxLines = noOfLinesVisible
+        this.ellipsize = TextUtils.TruncateAt.END
+    }
+}
+
+fun TextView.ellipsizeViewPager(text: String) {
+    this.text = text
+    this.afterLatestMeasured {
+        val noOfLinesVisible = this.height / (this.lineHeight.toDouble() * 0.84).toInt()
+        this.maxLines = noOfLinesVisible
+        this.ellipsize = TextUtils.TruncateAt.END
     }
 }

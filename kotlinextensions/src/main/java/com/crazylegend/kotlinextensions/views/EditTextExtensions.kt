@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Handler
-import android.text.Editable
-import android.text.InputFilter
-import android.text.TextUtils
-import android.text.TextWatcher
+import android.text.*
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import com.crazylegend.kotlinextensions.activity.isKeyboardSubmit
 import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.context.inputMethodManager
@@ -41,6 +39,17 @@ fun EditText.setTheText(text: String) {
     this.setText(text, TextView.BufferType.EDITABLE)
 }
 
+inline fun EditText.onKeyboardSubmit(crossinline block: EditText.() -> Unit) {
+    setOnEditorActionListener { _, actionId, event ->
+        return@setOnEditorActionListener if (isKeyboardSubmit(actionId, event)) {
+            block()
+            true
+        } else {
+            false
+        }
+    }
+}
+
 fun EditText.selectEnd() {
     if (!isFocused)
         return
@@ -49,6 +58,12 @@ fun EditText.selectEnd() {
         setSelection(text.toString().length)
     }
 }
+
+fun EditText.updateCursorLocation(index: Int = text.length) {
+    Selection.setSelection(text, index)
+}
+
+
 
 
 /**

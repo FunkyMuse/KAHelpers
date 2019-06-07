@@ -42,6 +42,7 @@ val gsonPrettyPrinting: Gson by lazy {
 }
 
 
+
 fun Any.toJson(): String = gson.toJson(this)
 
 fun Any.toJsonPrettyPrinting(): String = gsonPrettyPrinting.toJson(this)

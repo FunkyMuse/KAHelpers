@@ -1,6 +1,16 @@
 package com.crazylegend.kotlinextensions.intent
 
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import io.reactivex.Observable
+import java.io.File
 
 
 /**
@@ -45,4 +55,67 @@ fun Intent.singleTop() = apply {
 
 fun Intent.reorderToFront() = apply {
     addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+}
+
+fun Intent.canBeHandled(context: Context) = this.resolveActivity(context.packageManager) != null
+
+fun Context.intentCanBeHandled(intent: Intent) = intent.resolveActivity(packageManager) != null
+
+fun Context.getActivityPendingIntent(requestCode: Int = 0, intent: Intent, flags: Int = PendingIntent.FLAG_ONE_SHOT): PendingIntent =
+        PendingIntent.getActivity(this, requestCode, intent, flags)
+
+fun Context.getBroadcastPendingIntent(requestCode: Int = 0, intent: Intent, flags: Int = PendingIntent.FLAG_ONE_SHOT): PendingIntent =
+        PendingIntent.getBroadcast(this, requestCode, intent, flags)
+
+fun Context.getProductionApplicationId(): String {
+    val applicationId = packageName
+    return when {
+        applicationId.contains(".stage") -> applicationId.dropLast(6)
+        applicationId.contains(".debug") -> applicationId.dropLast(6)
+        else -> applicationId
+    }
+}
+
+
+
+fun Context?.openGoogleMaps(query: String, placeId: String) {
+    val queryEncoded = Uri.encode(query)
+    val gmmIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$queryEncoded&query_place_id=$placeId");
+    val mapIntent =  Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    mapIntent.setPackage("com.google.android.apps.maps")
+    if (mapIntent.resolveActivity(this?.packageManager) != null) {
+        this?.startActivity(mapIntent)
+    }
+}
+
+fun Context.cacheImage(url: String): Observable<Boolean> {
+    return Observable.create {
+
+        if (url.isEmpty()) {
+            it.onNext(false)
+        } else {
+            Glide.with(applicationContext)
+                    .downloadOnly()
+                    .load(url)
+                    .listener(object : RequestListener<File> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<File>?, isFirstResource: Boolean): Boolean {
+
+                            if (e != null) {
+                                it.onNext(false)
+                            }
+                            return false
+
+                        }
+
+                        override fun onResourceReady(resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            it.onNext(true)
+                            return false
+                        }
+
+
+                    })
+                    .submit()
+        }
+
+    }
 }

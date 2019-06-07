@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.views
 import android.app.WallpaperManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.util.Base64
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.crazylegend.kotlinextensions.context.getColorCompat
+import java.io.FileOutputStream
 
 
 /**
@@ -35,7 +37,6 @@ fun ImageView.setTint(@ColorRes colorRes: Int, mode: PorterDuff.Mode = PorterDuf
 
 fun ImageView.loadBase64Image(base64Image: String?) {
     base64Image?.let {
-        //        val data = base64Image.split(',')[1] //Get the second part
         Glide.with(context)
             .asBitmap()
             .load(Base64.decode(base64Image, Base64.DEFAULT))
@@ -88,6 +89,26 @@ private fun ImageView.loadImage(imageResource: Any, skipMemoryCache: Boolean, tr
         .into(this)
 }
 
+fun ImageView.setBase64(base64: String, flag: Int) {
+    if (base64.isNotEmpty()) {
+        val thumb: Bitmap?
+        val bytes = Base64.decode(base64, flag)
+        val file = createTempFile(suffix = ".png")
+        var out: FileOutputStream? = null
+        try {
+            out = FileOutputStream(file)
+            out.write(bytes)
+            out.flush()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            out?.close()
+        }
+        thumb = BitmapFactory.decodeFile(file.absolutePath)
+        file.delete()
+        setImageBitmap(thumb)
+    }
+}
 
 
 /**
@@ -97,3 +118,4 @@ fun ImageView.setWallpaper() {
     val wallpaperManager = WallpaperManager.getInstance(context)
     setImageDrawable(wallpaperManager.drawable)
 }
+

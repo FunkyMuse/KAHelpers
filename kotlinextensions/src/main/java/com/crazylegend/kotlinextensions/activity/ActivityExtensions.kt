@@ -6,28 +6,41 @@ import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
+import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.packageutils.buildIsMarshmallowAndUp
+import java.util.*
 
 
 /**
@@ -499,3 +512,94 @@ fun AppCompatActivity.popWholeBackStack() {
     }
 }
 
+fun Activity.getBitmapFromUri(uri: Uri): Bitmap {
+    return BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
+}
+
+fun Activity.makeSceneTransitionAnimation(view: View, transitionName: String): ActivityOptionsCompat =
+        ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, transitionName)
+
+fun Context.asActivity(): Activity = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.asActivity()
+    else -> throw IllegalStateException("Context $this NOT contains activity!")
+}
+
+fun Context.asFragmentActivity(): FragmentActivity = when (this) {
+    is FragmentActivity -> this
+    is Activity -> throw IllegalStateException("Context $this NOT support-v4 Activity")
+    is ContextWrapper -> baseContext.asFragmentActivity()
+    else -> throw IllegalStateException("Context $this NOT contains activity!")
+}
+
+inline fun <reified T : Any> Activity.launchActivityAndFinish() {
+    val intent = newIntent<T>(this)
+    startActivity(intent)
+    finish()
+}
+
+inline fun <reified T : Any> newIntent(context: Context, bundle: Array<out Pair<String, Any?>>? = null): Intent {
+    return Intent(context, T::class.java)
+}
+
+fun AppCompatActivity.setupToolbar(
+        toolbar: Toolbar,
+        displayHomeAsUpEnabled: Boolean = true,
+        displayShowHomeEnabled: Boolean = true,
+        displayShowTitleEnabled: Boolean = false,
+        showUpArrowAsCloseIcon: Boolean = false,
+        @DrawableRes closeIconDrawableRes: Int? = null
+) {
+    setSupportActionBar(toolbar)
+    supportActionBar?.apply {
+        setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
+        setDisplayShowHomeEnabled(displayShowHomeEnabled)
+        setDisplayShowTitleEnabled(displayShowTitleEnabled)
+
+        if (showUpArrowAsCloseIcon && closeIconDrawableRes != null) {
+            setHomeAsUpIndicator(AppCompatResources.getDrawable(this@setupToolbar, closeIconDrawableRes))
+        }
+    }
+}
+
+fun AppCompatActivity.onSupportNavigateUpGoBack(): Boolean {
+    onBackPressed()
+    return true
+}
+
+fun isKeyboardSubmit(actionId: Int, event: KeyEvent?): Boolean =
+        actionId == EditorInfo.IME_ACTION_GO ||
+                actionId == EditorInfo.IME_ACTION_DONE ||
+                (event != null && event.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_ENTER)
+
+fun Activity.datePickerContext(): ContextWrapper {
+    return object : ContextWrapper(this) {
+
+        private var wrappedResources: Resources? = null
+
+        override fun getResources(): Resources {
+            val r = super.getResources()
+            if (wrappedResources == null) {
+                wrappedResources = object : Resources(r.assets, r.displayMetrics, r.configuration) {
+                    @Throws(Resources.NotFoundException::class)
+                    override fun getString(id: Int, vararg formatArgs: Any): String {
+                        return try {
+                            super.getString(id, *formatArgs)
+                        } catch (ifce: IllegalFormatConversionException) {
+                            Log.e("DatePickerDialogFix", "IllegalFormatConversionException Fixed!", ifce)
+                            var template = super.getString(id)
+                            template = template.replace(("%" + ifce.conversion).toRegex(), "%s")
+                            String.format(configuration.locale, template, *formatArgs)
+                        }
+
+                    }
+                }
+            }
+            return wrappedResources as Resources
+        }
+    }
+}
+
+fun Activity.enableFullScreen() {
+    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+}

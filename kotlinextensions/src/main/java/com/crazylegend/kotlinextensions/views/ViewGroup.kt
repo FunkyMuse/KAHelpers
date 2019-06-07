@@ -3,6 +3,9 @@ package com.crazylegend.kotlinextensions.views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 
 /**
@@ -121,3 +124,58 @@ inline fun ViewGroup.eachChild(func: (view: View) -> Unit) {
  * Gets Child View at index
  */
 inline operator fun ViewGroup.get(i: Int): View? = getChildAt(i)
+
+
+
+fun ViewGroup.getChildren(): List<View> {
+    return (0 until childCount).map {
+        getChildAt(it)
+    }
+}
+
+fun ViewGroup.getBottomLevelChildren(stopAtRecyclerView: Boolean = false): List<View> {
+    val result = mutableListOf<View>()
+
+    val children = getChildren()
+    children.forEach {
+        if (it is ViewGroup && it.childCount > 0 && (!stopAtRecyclerView || (stopAtRecyclerView && it !is RecyclerView))) {
+            result.addAll(it.getBottomLevelChildren(stopAtRecyclerView))
+        } else {
+            result.add(it)
+        }
+    }
+
+    return result
+}
+
+fun ViewGroup.getAllChildren(): List<View> {
+    val result = mutableListOf<View>()
+
+    val children = getChildren()
+    children.forEach {
+        if (it is ViewGroup && it.childCount > 0) {
+            result.add(it)
+            result.addAll(it.getAllChildren())
+        } else {
+            result.add(it)
+        }
+    }
+
+    return result
+}
+
+suspend fun doParallel(vararg blocks: suspend () -> Any) = coroutineScope {
+    blocks
+            .map { async { it() } }
+            .forEach { it.await() }
+}
+
+suspend fun <T> doParallelWithResult(vararg blocks: suspend () -> T) = coroutineScope {
+    val result = mutableListOf<T>()
+    blocks
+            .map { async { it() } }
+            .forEach { result.add(it.await()) }
+
+    return@coroutineScope result
+}
+

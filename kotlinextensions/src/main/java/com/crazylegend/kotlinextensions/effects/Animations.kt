@@ -4,6 +4,7 @@ import android.animation.*
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -20,7 +21,9 @@ import androidx.transition.Scene
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.crazylegend.kotlinextensions.R
+import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
+import com.crazylegend.kotlinextensions.views.afterLatestMeasured
 import com.crazylegend.kotlinextensions.views.gone
 import com.crazylegend.kotlinextensions.views.invisible
 import com.crazylegend.kotlinextensions.views.visible
@@ -1027,4 +1030,115 @@ fun View?.slideUp(duration: Long = 400, startDelay: Long = 0, interpolator: Inte
             .setDuration(duration)
     }
     return null
+}
+
+
+
+fun entryAnimationFromBottom(view: View, duration: Long = 600, finished: () -> Unit = {}) {
+    view.alpha = 0f
+
+    AnimatorSet().apply {
+        playTogether(
+                ObjectAnimator.ofFloat(view, "translationY", 50f, 0f),
+                ObjectAnimator.ofFloat(view, "alpha", 0f, 1.0f)
+        )
+        this.duration = duration
+        interpolator = DecelerateInterpolator()
+        addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                finished()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+                finished()
+            }
+
+            override fun onAnimationStart(animation: Animator?) {}
+
+        })
+    }.start()
+}
+
+
+fun enterChildViewsFromBottomDelayed(
+        view: ViewGroup,
+        delay: Long = 150,
+        duration: Long = 500,
+        finished: () -> Unit = {}
+) {
+    for (i in 0 until view.childCount) {
+        view.getChildAt(i).alpha = 0f
+    }
+
+    val animators = (0 until view.childCount).mapIndexed { index, value ->
+        AnimatorSet().apply {
+            playTogether(
+                    ObjectAnimator.ofFloat(view.getChildAt(index), "translationY", 50f, 0f),
+                    ObjectAnimator.ofFloat(view.getChildAt(index), "alpha", 0f, 1.0f)
+            )
+            startDelay = index * delay
+            this.duration = duration
+            interpolator = DecelerateInterpolator()
+        }
+    }
+
+    AnimatorSet().apply {
+        playTogether(animators)
+        addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                finished()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+                finished()
+            }
+
+            override fun onAnimationStart(animation: Animator?) {}
+
+        })
+    }.start()
+}
+
+
+
+
+
+/**
+ * Fades out the View
+ */
+fun View?.fadeOut(duration: Long = 400, startDelay: Long = 0, interpolator: Interpolator = AccelerateDecelerateInterpolator(), invisible: Boolean = false): ViewPropertyAnimator? {
+    this?.let {
+        return animate(true)
+                .alpha(0.0f)
+                .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .withEndAction {
+                    if (!invisible) this.gone() else this.invisible()
+                }
+    }
+
+    return null
+}
+
+
+fun View.setbackgroundColorResourceAnimated(resId: Int, duration: Long = 400) {
+    val colorFrom = (this.background as ColorDrawable).color
+    val colorTo = this.context.getColorCompat(resId)
+    val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
+    colorAnimation.duration = duration
+    colorAnimation.addUpdateListener { animator -> this.setBackgroundColor(animator.animatedValue as Int) }
+    colorAnimation.start()
+}
+
+fun View.fadeInUp(duration: Long = 250, offset: Float? = null) {
+    this.invisible()
+    afterLatestMeasured {
+        this.translationY = offset ?: this.height.toFloat() - (this.height / 2)
+        this.alpha = 0f
+        this.visible()
+        this.animate(true).translationY(0f).alpha(1f).setDuration(duration).setInterpolator(AccelerateDecelerateInterpolator())
+    }
 }

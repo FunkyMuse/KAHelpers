@@ -1,10 +1,8 @@
 package com.crazylegend.kotlinextensions.views
 
-import android.animation.Animator
-import android.animation.IntEvaluator
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
+import android.animation.*
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
@@ -27,6 +25,7 @@ import android.widget.*
 import android.widget.RelativeLayout.*
 import androidx.annotation.*
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.*
 import androidx.drawerlayout.widget.DrawerLayout
@@ -34,7 +33,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.crazylegend.kotlinextensions.R
+import com.crazylegend.kotlinextensions.context.actionBarItemBackgroundResource
+import com.crazylegend.kotlinextensions.context.drawable
 import com.crazylegend.kotlinextensions.context.getColorCompat
+import com.crazylegend.kotlinextensions.context.selectableItemBackgroundResource
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -494,20 +496,6 @@ fun View.startRelativeMargin(size: Int) {
 
 }
 
-
-
-/**
- * Sets margins for views
- */
-fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
-    val params = layoutParams as ViewGroup.MarginLayoutParams?
-
-    params?.apply {
-        setMargins(left, top, right, bottom)
-    }
-    this.layoutParams = params
-
-}
 
 
 /**
@@ -1215,6 +1203,7 @@ fun TextInputLayout.setTextInputLayoutUpperHintColor(@ColorInt color: Int) {
     defaultHintTextColor = ColorStateList(arrayOf(intArrayOf()), intArrayOf(color))
 }
 
+
 fun TextInputLayout.toggleTextHintColorOnEmpty(activeColor: Int, inactiveColor: Int) = setTextInputLayoutUpperHintColor(
     if (editText?.text?.isNotEmpty() == true)
         activeColor else
@@ -1753,3 +1742,238 @@ fun View.enableIf(boolean: Boolean) = {isEnabled = boolean}
  */
 
 fun View.disableIf(boolean: Boolean) = {isEnabled = boolean.not()}
+
+val unspecified
+    get() = View.MeasureSpec.UNSPECIFIED
+
+val atMost
+    get() = View.MeasureSpec.AT_MOST
+
+val exactly
+    get() = View.MeasureSpec.EXACTLY
+
+
+var View.transitionNameCompat: String?
+    get() = ViewCompat.getTransitionName(this)
+    set(value) = ViewCompat.setTransitionName(this, value)
+
+
+@TargetApi(value = Build.VERSION_CODES.M)
+fun View.setRippleClickForeground() {
+    if (canUseForeground) {
+        foreground = context.drawable(context.selectableItemBackgroundResource)
+        setClickable()
+    }
+}
+
+fun View.setRippleClickBackground() {
+    setBackgroundResource(context.selectableItemBackgroundResource)
+    setClickable()
+}
+
+fun View.setRippleClickAnimation() =
+        if (canUseForeground) setRippleClickForeground() else setRippleClickBackground()
+
+
+private val canUseForeground
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+
+
+
+fun View.setClickable() {
+    isClickable = true
+    isFocusable = true
+}
+
+fun View.setRoundRippleClickBackground() {
+    setBackgroundResource(context.actionBarItemBackgroundResource)
+    setClickable()
+}
+
+fun View.setRoundRippleClickAnimation() = setRoundRippleClickBackground()
+
+
+fun View.rootView(): View {
+    var root = this
+    while (root.parent is View) {
+        root = root.parent as View
+    }
+    return root
+}
+
+
+
+fun View.resetFocus() {
+    clearFocus()
+    isFocusableInTouchMode = false
+    isFocusable = false
+    isFocusableInTouchMode = true
+    isFocusable = true
+}
+
+inline fun <reified V : View> V.onFirstAttachToWindow(crossinline whenAttached: V.() -> Unit) {
+    addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+        override fun onViewDetachedFromWindow(v: View?) {
+            removeOnAttachStateChangeListener(this)
+        }
+
+        override fun onViewAttachedToWindow(v: View?) {
+            removeOnAttachStateChangeListener(this)
+            (v as? V)?.whenAttached()
+        }
+    })
+}
+
+inline fun <reified T : View> ViewGroup.findView(): T? {
+    for (i in 0 until childCount) {
+        val view = getChildAt(i)
+        if (view is T) {
+            return view
+        }
+    }
+
+    return null
+}
+
+var ViewGroup.animateLayoutChanges: Boolean
+    set(value) {
+        if (value) {
+            layoutTransition = LayoutTransition().apply {
+                disableTransitionType(LayoutTransition.DISAPPEARING)
+            }
+        } else {
+            layoutTransition = null
+        }
+    }
+    get() = layoutTransition != null
+
+
+fun View.setSize(height: Int, width: Int) {
+    val params = layoutParams
+    params.width = width
+    params.height = height
+    layoutParams = params
+}
+
+
+
+fun ViewGroup.getString(@StringRes stringRes: Int): String {
+    return this.context.getString(stringRes)
+}
+
+
+fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
+    val params = layoutParams
+
+
+    when (params) {
+        is ConstraintLayout.LayoutParams -> {
+            params.setMargins(left, top, right, bottom)
+            this.layoutParams = params
+        }
+        is LinearLayout.LayoutParams -> {
+            params.setMargins(left, top, right, bottom)
+            this.layoutParams = params
+        }
+        is FrameLayout.LayoutParams -> {
+            params.setMargins(left, top, right, bottom)
+            this.layoutParams = params
+        }
+        is RelativeLayout.LayoutParams -> {
+            params.setMargins(left, top, right, bottom)
+            this.layoutParams = params
+        }
+    }
+}
+
+fun View.modifyMargin(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null) {
+    val l = left ?: this.marginLeft
+    val t = top ?: this.marginTop
+    val r = right ?: this.marginRight
+    val b = bottom ?: this.marginBottom
+    this.setMargins(l, t, r, b)
+}
+
+fun View.modifyPadding(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null) {
+    val l = left ?: this.paddingLeft
+    val t = top ?: this.paddingTop
+    val r = right ?: this.paddingRight
+    val b = bottom ?: this.paddingBottom
+    this.setPadding(l, t, r, b)
+}
+
+
+fun View.scale(scale: Float) {
+    this.scaleX = scale
+    this.scaleY = scale
+}
+
+fun View.setWidthWrapContent() {
+    val params = this.layoutParams
+    params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+    this.layoutParams = params
+}
+
+fun View.setHeightWrapContent() {
+    val params = this.layoutParams
+    params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+    this.layoutParams = params
+}
+
+fun View.disableClipOnParents() {
+    val v = this
+
+    if (v.parent == null) {
+        return
+    }
+
+    if (v is ViewGroup) {
+        v.clipChildren = false
+    }
+
+    if (v.parent is View) {
+        (v.parent as View).disableClipOnParents()
+    }
+}
+
+fun View.getGoneHeight(): Int {
+    val widthSpec = View.MeasureSpec.makeMeasureSpec(this.width, View.MeasureSpec.EXACTLY)
+    val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+    this.measure(widthSpec, heightSpec)
+    return this.measuredHeight
+}
+
+fun View.setSemiTransparentIf(shouldBeTransparent: Boolean, disabledAlpha: Float = 0.3f) {
+    alpha = when (shouldBeTransparent) {
+        true -> disabledAlpha
+        false -> 1f
+    }
+}
+
+fun View.getGoneHeight(callback: (futureHeight: Int) -> Unit) {
+
+
+    afterLatestMeasured {
+        val originalHeight = height // save the original height (is most likely wrap content)
+
+        setHeight(0) // "hide" the view
+        invisible() // make the view invisible so it gets a width
+
+        this.afterLatestMeasured {
+
+            val originalWidth = width // the view now has a width
+
+            // measure how high the view will be
+            val widthSpec = View.MeasureSpec.makeMeasureSpec(originalWidth, View.MeasureSpec.EXACTLY)
+            val heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            measure(widthSpec, heightSpec)
+
+            val futureHeight = measuredHeight
+
+            // hide the view and set back to the original height
+            gone()
+            setHeight(originalHeight)
+            callback(futureHeight)
+        }
+    }
+}

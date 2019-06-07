@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -20,6 +21,7 @@ import android.util.Patterns
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.core.text.isDigitsOnly
+import org.intellij.lang.annotations.RegExp
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
@@ -863,3 +865,63 @@ fun String.toDate(format: DateFormat): Date? {
         null
     }
 }
+
+fun String.getRequestUrl(vararg fields: Pair<String, Any>): String {
+
+    val param = StringBuffer()
+    for (item in fields) {
+        param.append(item.first + "=" + URLEncoder.encode(item.second.toString(), "UTF-8") + "&")
+    }
+    val paramStr = param.toString().let {
+        it.substring(0, it.length - 1)
+    }
+    return if (indexOf("?") >= 0) {
+        "$this&$paramStr"
+    } else {
+        "$this?$paramStr"
+    }
+}
+
+
+fun String.remove(@RegExp pattern: String) = remove(Regex(pattern, RegexOption.IGNORE_CASE))
+
+fun String.remove(regex: Regex) = replace(regex, "")
+
+fun String.capitalizeFirstLetter(): String {
+    return this.substring(0, 1).toUpperCase() + this.substring(1)
+}
+
+fun String?.openInBrowser(context: Context?) {
+    if (this != null && this.isNotEmpty()) {
+        val page = Uri.parse(this)
+        val intent = Intent(Intent.ACTION_VIEW, page)
+
+        if (intent.resolveActivity(context?.packageManager) != null) {
+            context?.startActivity(intent)
+        }
+    }
+}
+
+fun String.removeSpaces(): String {
+    return this.replace(" ", "")
+}
+
+fun String.versionNumberToInt(): Int {
+    return split(".").joinToString("").toInt()
+}
+
+fun String.capitalizeFirstLetterEachWord(): String {
+    return this.toLowerCase()
+            .split(" ")
+            .joinToString(" ") { it.capitalize() }
+}
+
+fun String.toColor(): Int? {
+    return if (this.isNotEmpty()) {
+        Color.parseColor(this)
+    } else {
+        null
+    }
+}
+
+fun String.urlEncoded(): String? = URLEncoder.encode(this, "utf-8")

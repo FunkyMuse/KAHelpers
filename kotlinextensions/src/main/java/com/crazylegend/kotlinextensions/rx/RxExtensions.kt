@@ -7,6 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.Subject
 import java.util.concurrent.TimeUnit
 
 
@@ -16,19 +17,19 @@ import java.util.concurrent.TimeUnit
 
 
 fun <T : Any> Observable<T>.joinToString(
-    separator: String? = null,
-    prefix: String? = null,
-    postfix: String? = null
+        separator: String? = null,
+        prefix: String? = null,
+        postfix: String? = null
 ): Single<String> = collect(
-    { StringBuilder(prefix ?: "") })
+        { StringBuilder(prefix ?: "") })
 { builder: StringBuilder, next: T ->
     builder.append(if (builder.length == prefix?.length ?: 0) "" else separator ?: "").append(next)
 }
-    .map { it.append(postfix ?: "").toString() }
+        .map { it.append(postfix ?: "").toString() }
 
 
 fun <T : Any> Observable<T>.withIndex(): Observable<IndexedValue<T>> =
-    zipWith(Observable.range(0, Int.MAX_VALUE), BiFunction { value, index -> IndexedValue(index, value) })
+        zipWith(Observable.range(0, Int.MAX_VALUE), BiFunction { value, index -> IndexedValue(index, value) })
 
 
 private val mainThread = AndroidSchedulers.mainThread()
@@ -44,69 +45,69 @@ private val ioThread = Schedulers.io()
  *  .subscribe({}, {])
  */
 fun <T> Observable<T>.runSafeOnMain(): Observable<T> =
-    observeOn(mainThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnComplete { unsubscribeOn(newThread) }
+        observeOn(mainThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnComplete { unsubscribeOn(newThread) }
 
 fun <T> Observable<T>.runSafeOnIO(): Observable<T> =
-    observeOn(ioThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnComplete { unsubscribeOn(newThread) }
+        observeOn(ioThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnComplete { unsubscribeOn(newThread) }
 
 fun <T> Flowable<T>.runSafeOnMain(): Flowable<T> =
-    observeOn(mainThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnComplete { unsubscribeOn(newThread) }
+        observeOn(mainThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnComplete { unsubscribeOn(newThread) }
 
 fun <T> Flowable<T>.runSafeOnIO(): Flowable<T> =
-    observeOn(ioThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnComplete { unsubscribeOn(newThread) }
+        observeOn(ioThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnComplete { unsubscribeOn(newThread) }
 
 fun <T> Single<T>.runSafeOnMain(): Single<T> =
-    observeOn(mainThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnSuccess { unsubscribeOn(newThread) }
+        observeOn(mainThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnSuccess { unsubscribeOn(newThread) }
 
 fun <T> Single<T>.runSafeOnIO(): Single<T> =
-    observeOn(ioThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnSuccess { unsubscribeOn(newThread) }
+        observeOn(ioThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnSuccess { unsubscribeOn(newThread) }
 
 fun Completable.runSafeOnMain(): Completable =
-    observeOn(mainThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnComplete { unsubscribeOn(newThread) }
+        observeOn(mainThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnComplete { unsubscribeOn(newThread) }
 
 fun Completable.runSafeOnIO(): Completable =
-    observeOn(ioThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnComplete { unsubscribeOn(newThread) }
+        observeOn(ioThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnComplete { unsubscribeOn(newThread) }
 
 fun <T> Maybe<T>.runSafeOnMain(): Maybe<T> =
-    observeOn(mainThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnSuccess { unsubscribeOn(newThread) }
+        observeOn(mainThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnSuccess { unsubscribeOn(newThread) }
 
 fun <T> Maybe<T>.runSafeOnIO(): Maybe<T> =
-    observeOn(ioThread)
-        .subscribeOn(newThread)
-        .doOnError { unsubscribeOn(newThread) }
-        .doOnSuccess { unsubscribeOn(newThread) }
+        observeOn(ioThread)
+                .subscribeOn(newThread)
+                .doOnError { unsubscribeOn(newThread) }
+                .doOnSuccess { unsubscribeOn(newThread) }
 
 
-fun Disposable?.unsubscribe(){
+fun Disposable?.unsubscribe() {
     this?.let {
-        if (!isDisposed){
+        if (!isDisposed) {
             dispose()
         }
     }
@@ -117,7 +118,7 @@ fun <T> Observable<T>.asFlowable(backpressureStrategy: BackpressureStrategy = Ba
     return this.toFlowable(backpressureStrategy)
 }
 
-fun <T> Flowable<T>.asLiveData() : LiveData<T> {
+fun <T> Flowable<T>.asLiveData(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this)
 }
 
@@ -150,17 +151,179 @@ fun <T> Single<T>.defer(): Single<T> {
 }
 
 fun rxTimer(
-    oldTimer: Disposable?,
-    time: Long,
-    unit: TimeUnit = TimeUnit.MILLISECONDS,
-    thread: Scheduler = Schedulers.computation(),
-    observerThread: Scheduler = AndroidSchedulers.mainThread(), action: ((Long) -> Unit)
+        oldTimer: Disposable?,
+        time: Long,
+        unit: TimeUnit = TimeUnit.MILLISECONDS,
+        thread: Scheduler = Schedulers.computation(),
+        observerThread: Scheduler = AndroidSchedulers.mainThread(), action: ((Long) -> Unit)
 ): Disposable? {
     oldTimer?.dispose()
     return Observable
-        .timer(time, unit, thread)
-        .observeOn(observerThread)
-        .subscribe {
-            action.invoke(it)
+            .timer(time, unit, thread)
+            .observeOn(observerThread)
+            .subscribe {
+                action.invoke(it)
+            }
+}
+
+val Disposable?.isNullOrDisposed get() = this == null || isDisposed
+
+val <T> Subject<T>.canPublish get() = !hasComplete() && !hasThrowable()
+
+
+// region Single
+/**
+ * Calls subscribe on `this`, with an empty function for both onSuccess and onError.
+ */
+@Suppress("CheckResult")
+fun <T> Single<T>.subscribeIgnoringResult() {
+    subscribe({}, {})
+}
+
+/**
+ * Chains a flapMap to `this` if [predicate] is true, applying [mapper] to the item emitted by the source Single.
+ *
+ * @param predicate whether or not the mapper function will be applied
+ * @param mapper function to transform the emitter item
+ *
+ * @return the new Single if [predicate] is true, the original Single otherwise
+ */
+fun <T> Single<T>.flatMapIf(predicate: Boolean, mapper: (T) -> Single<T>): Single<T> =
+        if (predicate) flatMap { mapper(it) } else this
+// endregion
+
+// region Completable
+/**
+ * Calls subscribe on `this`, with an empty function for both onComplete and onError.
+ */
+@Suppress("CheckResult")
+fun Completable.subscribeIgnoringResult() {
+    subscribe({}, {})
+}
+
+/**
+ * Creates a Single that will subscribe to `this` and emit after `this` completes.
+ *
+ * @param item value to be emitted by onSuccess once source Completable calls onComplete
+ * @param alternateError optional throwable to be emitted by onError once source Completable call onError. If null then
+ * original error is emitted.
+ *
+ * @return the new Single
+ */
+fun <T> Completable.emitOnComplete(item: T, alternateError: Throwable? = null): Single<T> =
+        Single.create { emitter ->
+            subscribe(
+                    { emitter.ifNotDisposed { onSuccess(item) } },
+                    { error -> emitter.ifNotDisposed { onError(alternateError ?: error) } }
+            )
         }
+
+/**
+ * Creates a Single that will subscribe to `this` and always call onError after `this` completes, regardless of
+ * onComplete or onError.
+ *
+ * @param error throwable to be emitted by onError once source Completable calls onComplete or onError
+ *
+ * @return the new Completable
+ */
+fun <T> Completable.emitErrorOnComplete(error: Throwable): Single<T> =
+        Single.create { emitter ->
+            subscribe(
+                    { emitter.ifNotDisposed { onError(error) } },
+                    { emitter.ifNotDisposed { onError(error) } }
+            )
+        }
+
+/**
+ * Creates a Single that will subscribe to `this` and always call onSuccess after `this` completes, regardless of
+ * onComplete or onError.
+ *
+ * @param item value to be emitted by onSuccess once source Completable calls onComplete or onError
+ *
+ * @return the new Completable
+ */
+fun <T> Completable.emitFinally(item: T): Single<T> =
+        Single.create { emitter ->
+            subscribe(
+                    { emitter.ifNotDisposed { onSuccess(item) } },
+                    { emitter.ifNotDisposed { onSuccess(item) } }
+            )
+        }
+
+/**
+ * Creates a Completable that will subscribe to `this` and once onComplete is called then subscribe will be called on
+ * [chainableCompletableInvocation]. The new completable will emit the values emitted by [chainableCompletableInvocation].
+ *
+ * @param chainableCompletableInvocation Completable source that will only be subscribed to if `this` completes without
+ * error
+ *
+ * @return the new Completable
+ */
+fun Completable.ifCompletes(chainableCompletableInvocation: () -> Completable): Completable =
+        Completable.create { emitter ->
+            subscribe(
+                    {
+                        chainableCompletableInvocation().subscribe(
+                                { emitter.ifNotDisposed { onComplete() } },
+                                { error -> emitter.ifNotDisposed { onError(error) } }
+                        )
+                    },
+                    { error -> emitter.ifNotDisposed { onError(error) } }
+            )
+        }
+// endregion
+
+// region Observable
+/**
+ * Calls subscribe on `this`, with an empty function for onNext and onError
+ */
+@Suppress("CheckResult")
+fun <T> Observable<T>.subscribeIgnoringResult() {
+    subscribe({}, {})
+}
+
+/**
+ * Function to peek emissions and possibly filter them out based on a given [predicate].
+ *
+ * @param predicate filter function to decide whether a given emission will actually be emitted
+ */
+inline fun <T> Observable<T>.filterNotifications(crossinline predicate: (Notification<T>) -> Boolean): Observable<T> =
+        materialize().filter { predicate(it) }.dematerialize { it }
+// endregion
+
+// region Emitters
+/**
+ * Checks if `this` is already disposed before invoking [body].
+ *
+ * @param body that will only be invoked if isDisposed is false
+ */
+inline fun <T> MaybeEmitter<T>.ifNotDisposed(body: MaybeEmitter<T>.() -> Unit) {
+    if (!isDisposed) body()
+}
+
+/**
+ * Checks if `this` is already disposed before invoking [body].
+ *
+ * @param body that will only be invoked if isDisposed is false
+ */
+inline fun <T> SingleEmitter<T>.ifNotDisposed(body: SingleEmitter<T>.() -> Unit) {
+    if (!isDisposed) body()
+}
+
+/**
+ * Checks if `this` is already disposed before invoking [body].
+ *
+ * @param body that will only be invoked if isDisposed is false
+ */
+inline fun CompletableEmitter.ifNotDisposed(body: CompletableEmitter.() -> Unit) {
+    if (!isDisposed) body()
+}
+
+/**
+ * Checks if `this` is already disposed before invoking [body].
+ *
+ * @param body that will only be invoked if isDisposed is false
+ */
+inline fun <T> ObservableEmitter<T>.ifNotDisposed(body: ObservableEmitter<T>.() -> Unit) {
+    if (!isDisposed) body()
 }

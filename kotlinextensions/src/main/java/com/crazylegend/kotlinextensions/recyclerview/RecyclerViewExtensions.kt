@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.PrecomputedTextCompat
@@ -538,4 +539,48 @@ fun RecyclerView.scrollListener(
 
 fun AppCompatTextView.setRecyclerPrecomputedText(text:String){
     setTextFuture(PrecomputedTextCompat.getTextFuture(text, this.textMetricsParamsCompat, null))
+}
+
+/**
+ * Calls [RecyclerView.addItemDecoration] with [ItemOffsetDecoration] as a parameter.
+ *
+ * @param dimenRes [DimenRes] of the desired offset
+ *
+ * @return `this`
+ */
+fun RecyclerView.withItemOffsetDecoration(@DimenRes dimenRes: Int): RecyclerView = apply {
+    addItemDecoration(ItemOffsetDecoration(context, dimenRes))
+}
+
+
+
+/**
+ * Set a [GridLayoutManager] as `this` layoutManager.
+ *
+ * @param spanCount number of grid columns
+ *
+ * @return `this`
+ */
+fun RecyclerView.withGridLayoutManager(spanCount: Int): RecyclerView = apply {
+    layoutManager = GridLayoutManager(context, spanCount)
+}
+
+/**
+ * Set a [LinearLayoutManager] as `this` layoutManager.
+ *
+ * @param vertical whether `this` layout should be vertical, default is true
+ * @param reversed whether `this` layout should be reverted, default is false
+ *
+ * @return `this`
+ */
+fun RecyclerView.withLinearLayoutManager(
+        vertical: Boolean = true,
+        reversed: Boolean = false
+): RecyclerView = apply {
+    layoutManager =
+            LinearLayoutManager(context, if (vertical) RecyclerView.VERTICAL else RecyclerView.HORIZONTAL, reversed)
+}
+
+fun RecyclerView.withPagerSnapHelper(): RecyclerView = apply {
+    PagerSnapHelper().attachToRecyclerView(this)
 }

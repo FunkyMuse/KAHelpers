@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
 import com.crazylegend.kotlinextensions.context.batteryManager
+import com.crazylegend.kotlinextensions.memory.bytes
 import java.io.InputStream
 import java.math.BigInteger
 import java.nio.ByteBuffer
@@ -336,4 +337,14 @@ inline fun <T, R> withIf(receiver: T, condition: Boolean, block: T.() -> R): R? 
     } else {
         null
     }
+}
+
+
+fun getMemoryUsage(transform: (Long, Long, Long, Long, Int) -> String = { total, free, max, usage, percent -> "$usage / $max MB in use ($percent%)" }): Pair<Int, String> {
+    val total = Runtime.getRuntime().totalMemory().bytes.toMegaBytes
+    val free = Runtime.getRuntime().freeMemory().bytes.toMegaBytes
+    val max = Runtime.getRuntime().maxMemory().bytes.toMegaBytes
+    val usage = total - free
+    val percent = ((usage.toDouble()/max) * 100).toInt()
+    return percent to transform(total, free, max, usage, percent)
 }

@@ -46,3 +46,13 @@ fun <T> SharedPreferences.put(key: String, t: T) {
         is Boolean -> putBoolean(key, t)
     }
 }
+
+inline fun <reified T : Any> SharedPreferences.get(key: String, defaultValue: T): T =
+        when (defaultValue) {
+            is Boolean -> getBoolean(key, defaultValue) as? T ?: defaultValue
+            is Int -> getInt(key, defaultValue) as? T ?: defaultValue
+            is Float -> getFloat(key, defaultValue) as? T? ?: defaultValue
+            is Long -> getLong(key, defaultValue) as? T? ?: defaultValue
+            is String -> getString(key, defaultValue) as? T? ?: defaultValue
+            else -> throw UnsupportedOperationException("Class not supported by SharedPreferences.put()")
+        }
