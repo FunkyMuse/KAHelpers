@@ -5,7 +5,6 @@ import com.crazylegend.kotlinextensions.retrofit.withProgress.OnAttachmentDownlo
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import java.io.File
@@ -84,6 +83,42 @@ fun <T> RetrofitResult<T>.handle(
     }.exhaustive
 }
 
+
+fun <T> RetrofitStatePagedList<T>.handle(
+        loading: () -> Unit,
+        noData: () -> Unit,
+        emptyData: () -> Unit,
+        cantLoadMore: () -> Unit,
+        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
+        apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+        success: T.() -> Unit) {
+
+    when (this) {
+        is RetrofitStatePagedList.Success -> {
+            success.invoke(value)
+        }
+        RetrofitStatePagedList.Loading -> {
+            loading()
+        }
+        RetrofitStatePagedList.NoData -> {
+            noData()
+
+        }
+        RetrofitStatePagedList.EmptyData -> {
+            emptyData()
+        }
+        RetrofitStatePagedList.CantLoadMore -> {
+            cantLoadMore()
+        }
+        is RetrofitStatePagedList.Error -> {
+            calError(message, throwable, exception)
+        }
+        is RetrofitStatePagedList.ApiError -> {
+            apiError(errorBody, responseCode)
+        }
+    }.exhaustive
+}
+
 const val multiPartContentType = "multipart/form-data"
 
 fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
@@ -94,7 +129,6 @@ fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
         }
     }
 }
-
 
 
 fun progressDSL(
