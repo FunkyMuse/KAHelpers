@@ -5,6 +5,7 @@ import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.isNotNullOrEmpty
 import com.crazylegend.kotlinextensions.retrofit.withProgress.OnAttachmentDownloadListener
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -176,6 +177,17 @@ fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<By
 
 val generateRetrofitImageKeyName get() = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
 
+fun Double.toRequestBodyForm(): RequestBody {
+    return this.toString().toRequestBody(MultipartBody.FORM)
+}
+
+fun String.toRequestBodyForm(): RequestBody {
+    return toRequestBody(MultipartBody.FORM)
+}
+
+fun Any.toRequestBodyForm() : RequestBody{
+    return toString().toRequestBodyForm()
+}
 
 
 fun progressDSL(
