@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.intent
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -77,11 +78,10 @@ fun Context.getProductionApplicationId(): String {
 }
 
 
-
 fun Context?.openGoogleMaps(query: String, placeId: String) {
     val queryEncoded = Uri.encode(query)
-    val gmmIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$queryEncoded&query_place_id=$placeId");
-    val mapIntent =  Intent(Intent.ACTION_VIEW, gmmIntentUri)
+    val gmmIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$queryEncoded&query_place_id=$placeId")
+    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
     mapIntent.setPackage("com.google.android.apps.maps")
     if (mapIntent.resolveActivity(this?.packageManager) != null) {
         this?.startActivity(mapIntent)
@@ -118,4 +118,20 @@ fun Context.cacheImage(url: String): Observable<Boolean> {
         }
 
     }
+}
+
+fun Activity.pickImage( PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images") {
+    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
+            .setType("image/*")
+    startActivityForResult(Intent.createChooser(intent, title), PICK_IMAGES_CODE)
+}
+
+fun Activity.openFile(mimeType:String, requestCode: Int, title: String = "Select file via"){
+    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType(mimeType)
+
+    startActivityForResult(Intent.createChooser(intent, title   ), requestCode)
 }

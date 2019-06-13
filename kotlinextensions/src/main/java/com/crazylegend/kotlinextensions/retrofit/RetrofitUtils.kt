@@ -1,11 +1,14 @@
 package com.crazylegend.kotlinextensions.retrofit
 
+import com.crazylegend.kotlinextensions.color.randomColor
 import com.crazylegend.kotlinextensions.exhaustive
+import com.crazylegend.kotlinextensions.isNotNullOrEmpty
 import com.crazylegend.kotlinextensions.retrofit.withProgress.OnAttachmentDownloadListener
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
+import okio.ByteString
 import retrofit2.Retrofit
 import java.io.File
 
@@ -129,6 +132,50 @@ fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
         }
     }
 }
+
+fun HashMap<String, RequestBody>.addImageToRetrofit(path :String?) {
+    if (path.isNotNullOrEmpty()) {
+            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+            this[key] = File(path).toRequestBody(MediaType.parse(multiPartContentType))
+    }
+}
+
+
+fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?) {
+    if (image != null) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+        this[key] = image.toRequestBody(MediaType.parse(multiPartContentType))
+    }
+}
+
+fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteString?) {
+    if (image != null) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+        this[key] = image.toRequestBody(MediaType.parse(multiPartContentType))
+    }
+}
+
+fun HashMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArray>) {
+    if (byteList.isNotEmpty()) {
+        byteList.forEachIndexed { index, s ->
+            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            this[key] = s.toRequestBody(MediaType.parse(multiPartContentType))
+        }
+    }
+}
+
+fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>) {
+    if (byteList.isNotEmpty()) {
+        byteList.forEachIndexed { index, s ->
+            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            this[key] = s.toRequestBody(MediaType.parse(multiPartContentType))
+        }
+    }
+}
+
+
+val generateRetrofitImageKeyName get() = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+
 
 
 fun progressDSL(
