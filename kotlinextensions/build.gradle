@@ -84,7 +84,7 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.0.0-alpha04'
     implementation 'androidx.exifinterface:exifinterface:1.1.0-alpha01'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha01'
-    implementation 'androidx.preference:preference:1.1.0-alpha05'
+    implementation 'androidx.preference:preference:1.1.0-beta01'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"

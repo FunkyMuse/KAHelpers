@@ -142,4 +142,5 @@ class MainApplication : Application() {
 //setting the locale
 //LocaleHelper.setLocale(context, "en")
     }
+
 }
