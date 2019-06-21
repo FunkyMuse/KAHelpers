@@ -226,7 +226,7 @@ class RecyclerViewUtils {
                         icon = BitmapFactory.decodeResource(context.resources, drawableLeft)
                         val icon_dest = RectF(itemView.left.toFloat() + width, itemView.top.toFloat() + width, itemView.left.toFloat() + 2 * width, itemView.bottom.toFloat() - width)
                         c.drawBitmap(icon, null, icon_dest, p)
-                    } else {
+                    } else  {
                         //right
                         p.color = Color.parseColor("#D32F2F")
                         val background = RectF(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
