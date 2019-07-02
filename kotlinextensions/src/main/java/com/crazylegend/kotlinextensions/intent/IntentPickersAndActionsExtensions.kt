@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.intent
 
-import android.Manifest.permission.*
+import android.Manifest.permission.CALL_PHONE
+import android.Manifest.permission.SET_ALARM
 import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
@@ -10,8 +11,6 @@ import android.net.Uri
 import android.provider.*
 import androidx.annotation.RequiresPermission
 import androidx.print.PrintHelper
-import androidx.core.app.ActivityCompat.startActivityForResult
-import java.lang.Exception
 
 
 /**
@@ -19,29 +18,31 @@ import java.lang.Exception
  */
 
 
-fun Activity.pickImage(PICK_PHOTO_REQUEST_CODE:Int) {
+fun Activity.pickImage(PICK_PHOTO_REQUEST_CODE: Int) {
     val intent = Intent(
-        Intent.ACTION_PICK,
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     )
+    intent.setURIPermissionFlags()
     intent.type = "image/*"
     startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PHOTO_REQUEST_CODE)
 }
 
 
-fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE:Int) {
+fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE: Int) {
     val intent = Intent(
-        Intent.ACTION_PICK,
-        MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            Intent.ACTION_PICK,
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     )
+    intent.setURIPermissionFlags()
     intent.type = "video/*"
     startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_VIDEO_REQUEST_CODE)
 }
 
 
-
-fun Activity.pickPDF(PICK_PDF_CODE:Int) {
+fun Activity.pickPDF(PICK_PDF_CODE: Int) {
     val intentPDF = Intent(Intent.ACTION_GET_CONTENT)
+    intent.setURIPermissionFlags()
     intentPDF.type = "application/pdf"
     startActivityForResult(Intent.createChooser(intentPDF, "Select Picture"), PICK_PDF_CODE)
 }
@@ -85,7 +86,7 @@ fun Activity.addEvent(title: String, location: String, begin: Long, end: Long) {
 }
 
 
-fun Activity.selectContact(REQUEST_SELECT_CONTACT:Int) {
+fun Activity.selectContact(REQUEST_SELECT_CONTACT: Int) {
     val intent = Intent(Intent.ACTION_PICK).apply {
         type = ContactsContract.Contacts.CONTENT_TYPE
     }
@@ -193,17 +194,17 @@ ACTION_LOCATION_SOURCE_SETTINGS
 ACTION_INTERNAL_STORAGE_SETTINGS
 ACTION_MEMORY_CARD_SETTINGS
  */
-fun Activity.openSettingsCategory(category:String){
-        val intent = Intent(category)
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        }
-}
-
-fun Activity.openSettingsCategory(category:String, resultCode:Int){
+fun Activity.openSettingsCategory(category: String) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
-        startActivityForResult(intent,resultCode)
+        startActivity(intent)
+    }
+}
+
+fun Activity.openSettingsCategory(category: String, resultCode: Int) {
+    val intent = Intent(category)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(intent, resultCode)
     }
 }
 
@@ -234,19 +235,20 @@ fun Activity.openWebPage(url: String) {
     }
 }
 
- fun Activity.doPhotoPrint(drawable:Int, jobName:String) {
-        PrintHelper(this).apply {
-            scaleMode = PrintHelper.SCALE_MODE_FIT
-        }.also { printHelper ->
-            val bitmap = BitmapFactory.decodeResource(resources, drawable)
-            printHelper.printBitmap(jobName, bitmap)
-        }
+fun Activity.doPhotoPrint(drawable: Int, jobName: String) {
+    PrintHelper(this).apply {
+        scaleMode = PrintHelper.SCALE_MODE_FIT
+    }.also { printHelper ->
+        val bitmap = BitmapFactory.decodeResource(resources, drawable)
+        printHelper.printBitmap(jobName, bitmap)
+    }
 }
 
 
-fun Activity.multipleImagesIntent(requestCode:Int){
+fun Activity.multipleImagesIntent(requestCode: Int) {
     val intent = Intent()
     intent.type = "image/*"
+    intent.setURIPermissionFlags()
     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
     intent.action = Intent.ACTION_GET_CONTENT
     startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode)
@@ -270,7 +272,7 @@ ACTION_LOCATION_SOURCE_SETTINGS
 ACTION_INTERNAL_STORAGE_SETTINGS
 ACTION_MEMORY_CARD_SETTINGS
  */
-fun Context.openSettingsCategory(category:String){
+fun Context.openSettingsCategory(category: String) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
@@ -304,7 +306,7 @@ fun Context.openWebPage(url: String) {
     }
 }
 
-fun Context.doPhotoPrint(drawable:Int, jobName:String) {
+fun Context.doPhotoPrint(drawable: Int, jobName: String) {
     PrintHelper(this).apply {
         scaleMode = PrintHelper.SCALE_MODE_FIT
     }.also { printHelper ->
@@ -320,7 +322,7 @@ fun Context.composeMessage(phone: String, message: String = "") {
     }
     try {
         startActivity(intent)
-    }catch (e: Exception){
+    } catch (e: Exception) {
         e.printStackTrace()
     }
 }
@@ -334,5 +336,7 @@ fun Context.dialPhoneNumber(phoneNumber: String) {
     }
 }
 
-val Intent.takeFlags: Int get() = flags and
-        (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+fun Intent.setURIPermissionFlags() {
+    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+}
