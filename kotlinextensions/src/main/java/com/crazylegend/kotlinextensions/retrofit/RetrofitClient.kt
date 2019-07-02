@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.retrofit
 import android.content.Context
 import com.crazylegend.kotlinextensions.isNull
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
@@ -38,13 +39,13 @@ object RetrofitClient {
         }
 
         if (retrofit.isNull) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.create())
+            retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
 
         } else {
             retrofit?.baseUrl()?.let {
 
                 if (it.toString() != baseUrl) {
-                    retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.create())
+                    retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 }
             }
         }
@@ -104,13 +105,13 @@ object RetrofitClient {
         }
 
         if (retrofit.isNull) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, MoshiConverterFactory.create(), RxJava2CallAdapterFactory.create())
+            retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
 
         } else {
             retrofit?.baseUrl()?.let {
 
                 if (it.toString() != baseUrl) {
-                    retrofit = buildRetrofit(baseUrl, clientBuilder, MoshiConverterFactory.create(), RxJava2CallAdapterFactory.create())
+                    retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 }
             }
         }
