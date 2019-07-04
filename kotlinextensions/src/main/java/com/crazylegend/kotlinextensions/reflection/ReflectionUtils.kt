@@ -3,8 +3,8 @@ package com.crazylegend.kotlinextensions.reflection
 import java.lang.reflect.Field
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
-import java.lang.reflect.AccessibleObject.setAccessible
 import java.lang.reflect.Constructor
+import kotlin.reflect.full.memberProperties
 
 
 /**
@@ -167,4 +167,11 @@ fun getConstructor(className: String, parameterTypes: Array<Class<*>>): Construc
     }
 
     return null
+}
+
+
+fun Any.firstPropertyValue(equalsToFieldName: String): String {
+    return javaClass.kotlin.memberProperties.first { member->
+        member.name.toLowerCase() == equalsToFieldName.toLowerCase()
+    }.get(this).toString()
 }
