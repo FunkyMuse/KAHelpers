@@ -23,7 +23,7 @@ class OnProgressDownloadInterceptor(private val context: Context, private val pr
 
         val originalResponse = chain.proceed(chain.request())
         return originalResponse.newBuilder()
-            .body(originalResponse.body()?.let { ProgressResponseBody(it,
+            .body(originalResponse.body?.let { ProgressResponseBody(it,
                 progressListenerDownload
             ) })
             .build()
