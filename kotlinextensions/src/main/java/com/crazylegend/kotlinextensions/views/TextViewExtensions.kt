@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.views
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.ClipData
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -10,9 +9,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -22,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
-import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.crazylegend.kotlinextensions.context.getFontCompat
 import com.google.android.material.textfield.TextInputLayout
@@ -190,14 +186,14 @@ fun TextView.textColorAnim(from: Int, to: Int) {
 }
 
 
-fun TextView.setPrecomputedText(){
+fun TextView.preComputeCurrentText(){
     val textParams = TextViewCompat.getTextMetricsParams(this)
     val text = PrecomputedTextCompat.create(text, textParams)
     this.text = text
 }
 
 @WorkerThread
-fun TextView.precomputeText(text: Spannable): PrecomputedTextCompat {
+fun TextView.precomputeSpannableText(text: Spannable): PrecomputedTextCompat {
     val textParams = TextViewCompat.getTextMetricsParams(this)
     return PrecomputedTextCompat.create(text, textParams)
 }
@@ -247,12 +243,23 @@ infix fun TextView.set(text: Spannable?) {
 }
 
 
+
+infix fun AppCompatTextView.set(text: String?) {
+    setPrecomputedText(text)
+}
+
+
+
 fun TextInputLayout.clearError() {
     error = null
     isErrorEnabled = false
 }
 
 val TextView.textString: String
+    get() = text.toString()
+
+
+val AppCompatTextView.textString: String
     get() = text.toString()
 
 
@@ -271,7 +278,6 @@ fun TextView.setFont(@FontRes font: Int) {
 fun TextView.setFont(typeface: Typeface?) {
     this.typeface = typeface
 }
-
 
 
 fun TextView.addTextListener(

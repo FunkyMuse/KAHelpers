@@ -4,13 +4,14 @@ import com.crazylegend.kotlinextensions.color.randomColor
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.isNotNullOrEmpty
 import com.crazylegend.kotlinextensions.retrofit.withProgress.OnAttachmentDownloadListener
-import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
 import okio.ByteString
 import retrofit2.Retrofit
+import okhttp3.RequestBody
 import java.io.File
 
 
@@ -129,15 +130,15 @@ fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
     if (pathList.isNotEmpty()) {
         pathList.forEachIndexed { index, s ->
             val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
-            this[key] = File(s).toRequestBody(MediaType.parse(multiPartContentType))
+            this[key] = File(s).asRequestBody(multiPartContentType.toMediaType())
         }
     }
 }
 
-fun HashMap<String, RequestBody>.addImageToRetrofit(path :String?) {
-    if (path.isNotNullOrEmpty()) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile :String?) {
+    if (pathToFile.isNotNullOrEmpty()) {
             val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
-            this[key] = File(path).toRequestBody(MediaType.parse(multiPartContentType))
+            this[key] = File(pathToFile.toString()).asRequestBody(multiPartContentType.toMediaType())
     }
 }
 
@@ -145,14 +146,14 @@ fun HashMap<String, RequestBody>.addImageToRetrofit(path :String?) {
 fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?) {
     if (image != null) {
         val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
-        this[key] = image.toRequestBody(MediaType.parse(multiPartContentType))
+        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
     }
 }
 
 fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteString?) {
     if (image != null) {
         val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
-        this[key] = image.toRequestBody(MediaType.parse(multiPartContentType))
+        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
     }
 }
 
@@ -160,7 +161,7 @@ fun HashMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArra
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
             val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
-            this[key] = s.toRequestBody(MediaType.parse(multiPartContentType))
+            this[key] = s.toRequestBody(multiPartContentType.toMediaType())
         }
     }
 }
@@ -169,7 +170,7 @@ fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<By
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
             val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
-            this[key] = s.toRequestBody(MediaType.parse(multiPartContentType))
+            this[key] = s.toRequestBody(multiPartContentType.toMediaType())
         }
     }
 }

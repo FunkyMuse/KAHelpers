@@ -53,7 +53,7 @@ fun Any.getDeclaredMethod(methodName: String, vararg parameterTypes: Class<*>): 
 
         }
 
-        clazz = clazz.superclass
+        clazz = clazz.superclass as Class<*>
     }
 
     return null
@@ -91,7 +91,7 @@ fun Any.getDeclaredField(fieldName: String): Field? {
 
         }
 
-        clazz = clazz.superclass
+        clazz = clazz.superclass as Class<*>
     }
 
     return null

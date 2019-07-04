@@ -83,9 +83,12 @@ fun Context?.openGoogleMaps(query: String, placeId: String) {
     val gmmIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$queryEncoded&query_place_id=$placeId")
     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
     mapIntent.setPackage("com.google.android.apps.maps")
-    if (mapIntent.resolveActivity(this?.packageManager) != null) {
-        this?.startActivity(mapIntent)
+    this?.apply {
+        if (mapIntent.canBeHandled(this)) {
+            startActivity(mapIntent)
+        }
     }
+
 }
 
 fun Context.cacheImage(url: String): Observable<Boolean> {

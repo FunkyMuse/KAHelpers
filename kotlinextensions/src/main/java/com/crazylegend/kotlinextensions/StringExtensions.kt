@@ -21,6 +21,7 @@ import android.util.Patterns
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.core.text.isDigitsOnly
+import com.crazylegend.kotlinextensions.intent.canBeHandled
 import org.intellij.lang.annotations.RegExp
 import java.io.File
 import java.io.FileOutputStream
@@ -896,9 +897,12 @@ fun String?.openInBrowser(context: Context?) {
         val page = Uri.parse(this)
         val intent = Intent(Intent.ACTION_VIEW, page)
 
-        if (intent.resolveActivity(context?.packageManager) != null) {
-            context?.startActivity(intent)
+        context?.apply {
+            if (intent.canBeHandled(this)) {
+                context.startActivity(intent)
+            }
         }
+
     }
 }
 

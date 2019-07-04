@@ -537,9 +537,6 @@ fun RecyclerView.scrollListener(
     })
 }
 
-fun AppCompatTextView.setRecyclerPrecomputedText(text:String){
-    setTextFuture(PrecomputedTextCompat.getTextFuture(text, this.textMetricsParamsCompat, null))
-}
 
 /**
  * Calls [RecyclerView.addItemDecoration] with [ItemOffsetDecoration] as a parameter.
