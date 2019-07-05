@@ -169,9 +169,16 @@ fun getConstructor(className: String, parameterTypes: Array<Class<*>>): Construc
     return null
 }
 
-
+/**
+ * Finds first property if the name is exact as the one provided or returns an empty string if not found
+ */
 fun Any.firstPropertyValue(equalsToFieldName: String): String {
-    return javaClass.kotlin.memberProperties.first { member->
-        member.name.toLowerCase() == equalsToFieldName.toLowerCase()
-    }.get(this).toString()
+    return try {
+        javaClass.kotlin.memberProperties.first { member->
+            member.name.toLowerCase() == equalsToFieldName.toLowerCase()
+        }.get(this).toString()
+    }catch (e:java.lang.Exception){
+        ""
+    }
+
 }
