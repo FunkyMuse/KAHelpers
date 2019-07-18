@@ -15,19 +15,10 @@ sealed class RetrofitResult<out T> {
     object NoData : RetrofitResult<Nothing>()
     object EmptyData : RetrofitResult<Nothing>()
     data class Error(val message: String, val exception: Exception?=null, val throwable: Throwable) : RetrofitResult<Nothing>()
-    data class ApiError(private val context: Context, val responseCode: Int, val errorBody: ResponseBody?, private val showErrorByDefault:Boolean = true) : RetrofitResult<Nothing>(){
-
-        private val throwable = Throwable(errorBody.toString())
-
-        init {
-            if (showErrorByDefault){
-                showErrors(context)
-            }
-        }
+    data class ApiError(val responseCode: Int, val errorBody: ResponseBody?) : RetrofitResult<Nothing>(){
 
         fun showErrors(context: Context){
             errorCode(context)
-            noConnectionError(context)
         }
 
         private fun errorCode(context: Context) {
@@ -73,11 +64,6 @@ sealed class RetrofitResult<out T> {
             }
         }
 
-        private fun noConnectionError(context: Context) {
-            if (throwable is NoConnectionException) {
-                context.shortToast("No internet connection")
-            }
-        }
     }
 
 }

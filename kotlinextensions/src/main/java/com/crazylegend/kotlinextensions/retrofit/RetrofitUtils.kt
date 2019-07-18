@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.retrofit
 
+import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.color.randomColor
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.isNotNullOrEmpty
@@ -12,6 +13,7 @@ import okhttp3.ResponseBody
 import okio.ByteString
 import retrofit2.Retrofit
 import okhttp3.RequestBody
+import retrofit2.Response
 import java.io.File
 
 
@@ -190,6 +192,48 @@ fun Any.toRequestBodyForm() : RequestBody{
     return toString().toRequestBodyForm()
 }
 
+
+fun <T> MutableLiveData<RetrofitResult<T>>.loading() {
+    value = RetrofitResult.Loading
+}
+
+ fun <T> MutableLiveData<RetrofitResult<T>>.emptyData() {
+    value = RetrofitResult.EmptyData
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.noData() {
+    value = RetrofitResult.NoData
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>, includeEmptyData: Boolean = false) {
+    if (response.isSuccessful){
+        response.body()?.apply {
+            if (includeEmptyData){
+                if (this == null){
+                    value = RetrofitResult.EmptyData
+                } else {
+                    value = RetrofitResult.Success(this)
+                }
+            } else {
+                value = RetrofitResult.Success(this)
+            }
+        }
+    } else {
+        value = RetrofitResult.ApiError(response.code(), response.errorBody())
+    }
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.callError(throwable: Throwable) {
+    value = RetrofitResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable)
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.success(model:T) {
+    value = RetrofitResult.Success(model)
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.apiError(code:Int, errorBody: ResponseBody?) {
+    value = RetrofitResult.ApiError(code, errorBody)
+}
 
 fun progressDSL(
         onProgressStarted: () -> Unit = {},
