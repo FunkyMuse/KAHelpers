@@ -1,7 +1,9 @@
 package com.crazylegend.kotlinextensions.database
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.exhaustive
+import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 
 
 /**
@@ -61,4 +63,26 @@ fun <T> MutableLiveData<DBResult<T>>.callError(throwable: Throwable) {
 
 fun <T> MutableLiveData<DBResult<T>>.success(model:T) {
     value = DBResult.Success(model)
+}
+
+fun <T> MutableLiveData<DBResult<T>>.getSuccess(action: (T) -> Unit) {
+    value?.let {
+        when (it) {
+            is DBResult.Success -> {
+                action(it.value)
+            }
+            else -> {}
+        }
+    }
+}
+
+fun <T> LiveData<DBResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) {
+    value?.let {
+        when (it) {
+            is DBResult.Success -> {
+                action(it.value)
+            }
+            else -> {}
+        }
+    }
 }

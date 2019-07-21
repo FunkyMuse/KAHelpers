@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.retrofit
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.color.randomColor
 import com.crazylegend.kotlinextensions.exhaustive
@@ -15,6 +16,7 @@ import retrofit2.Retrofit
 import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.File
+import kotlin.random.Random
 
 
 /**
@@ -61,12 +63,13 @@ errorBody, responseCode ->
  */
 
 fun <T> RetrofitResult<T>.handle(
-        loading: () -> Unit,
-        noData: () -> Unit,
-        emptyData: () -> Unit,
-        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
-        apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
-        success: T.() -> Unit) {
+    loading: () -> Unit,
+    noData: () -> Unit,
+    emptyData: () -> Unit,
+    calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
+    apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+    success: T.() -> Unit
+) {
 
     when (this) {
         is RetrofitResult.Success -> {
@@ -92,13 +95,14 @@ fun <T> RetrofitResult<T>.handle(
 
 
 fun <T> RetrofitStatePagedList<T>.handle(
-        loading: () -> Unit,
-        noData: () -> Unit,
-        emptyData: () -> Unit,
-        cantLoadMore: () -> Unit,
-        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
-        apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
-        success: T.() -> Unit) {
+    loading: () -> Unit,
+    noData: () -> Unit,
+    emptyData: () -> Unit,
+    cantLoadMore: () -> Unit,
+    calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
+    apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+    success: T.() -> Unit
+) {
 
     when (this) {
         is RetrofitStatePagedList.Success -> {
@@ -137,10 +141,10 @@ fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
     }
 }
 
-fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile :String?) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?) {
     if (pathToFile.isNotNullOrEmpty()) {
-            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
-            this[key] = File(pathToFile.toString()).asRequestBody(multiPartContentType.toMediaType())
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+        this[key] = File(pathToFile.toString()).asRequestBody(multiPartContentType.toMediaType())
     }
 }
 
@@ -178,7 +182,11 @@ fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<By
 }
 
 
-val generateRetrofitImageKeyName get() = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+val generateRetrofitImageKeyName
+    get() = String.format(
+        "%1\$s\"; filename=\"%1\$s",
+        "photo_${Random.nextInt(0, Int.MAX_VALUE)}"
+    )
 
 fun Double.toRequestBodyForm(): RequestBody {
     return this.toString().toRequestBody(MultipartBody.FORM)
@@ -188,7 +196,7 @@ fun String.toRequestBodyForm(): RequestBody {
     return toRequestBody(MultipartBody.FORM)
 }
 
-fun Any.toRequestBodyForm() : RequestBody{
+fun Any.toRequestBodyForm(): RequestBody {
     return toString().toRequestBodyForm()
 }
 
@@ -197,7 +205,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.loading() {
     value = RetrofitResult.Loading
 }
 
- fun <T> MutableLiveData<RetrofitResult<T>>.emptyData() {
+fun <T> MutableLiveData<RetrofitResult<T>>.emptyData() {
     value = RetrofitResult.EmptyData
 }
 
@@ -205,14 +213,47 @@ fun <T> MutableLiveData<RetrofitResult<T>>.noData() {
     value = RetrofitResult.NoData
 }
 
+inline fun <reified T> isGenericInstanceOf(obj: Any, contract: T): Boolean {
+    return obj is T
+}
+
 fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>, includeEmptyData: Boolean = false) {
-    if (response.isSuccessful){
+    if (response.isSuccessful) {
         response.body()?.apply {
-            if (includeEmptyData){
-                if (this == null){
+            if (includeEmptyData) {
+                if (this == null) {
                     value = RetrofitResult.EmptyData
                 } else {
                     value = RetrofitResult.Success(this)
+                }
+            } else {
+                value = RetrofitResult.Success(this)
+            }
+        }
+    } else {
+        value = RetrofitResult.ApiError(response.code(), response.errorBody())
+    }
+}
+
+
+
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>, includeEmptyData: Boolean = false) {
+    if (response.isSuccessful) {
+        response.body()?.apply {
+            if (includeEmptyData) {
+                if (this == null) {
+                    value = RetrofitResult.EmptyData
+                } else {
+                    if (this is List<*>){
+                        val list = this as List<*>
+                        if (list.isNullOrEmpty()){
+                            value = RetrofitResult.EmptyData
+                        } else {
+                            value = RetrofitResult.Success(this)
+                        }
+                    } else {
+                        value = RetrofitResult.Success(this)
+                    }
                 }
             } else {
                 value = RetrofitResult.Success(this)
@@ -227,18 +268,44 @@ fun <T> MutableLiveData<RetrofitResult<T>>.callError(throwable: Throwable) {
     value = RetrofitResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable)
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.success(model:T) {
+fun <T> MutableLiveData<RetrofitResult<T>>.success(model: T) {
     value = RetrofitResult.Success(model)
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.apiError(code:Int, errorBody: ResponseBody?) {
+fun <T> MutableLiveData<RetrofitResult<T>>.apiError(code: Int, errorBody: ResponseBody?) {
     value = RetrofitResult.ApiError(code, errorBody)
 }
 
+
+fun <T> MutableLiveData<RetrofitResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) {
+    value?.let {
+        when (it) {
+            is RetrofitResult.Success -> {
+                action(it.value)
+            }
+            else -> {
+            }
+        }
+    }
+}
+
+
+fun <T> LiveData<RetrofitResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) {
+    value?.let {
+        when (it) {
+            is RetrofitResult.Success -> {
+                action(it.value)
+            }
+            else -> {
+            }
+        }
+    }
+}
+
 fun progressDSL(
-        onProgressStarted: () -> Unit = {},
-        onProgressFinished: () -> Unit = {},
-        onProgressChanged: (percent: Int) -> Unit = { _ -> }
+    onProgressStarted: () -> Unit = {},
+    onProgressFinished: () -> Unit = {},
+    onProgressChanged: (percent: Int) -> Unit = { _ -> }
 ): OnAttachmentDownloadListener {
     return object : OnAttachmentDownloadListener {
         override fun onAttachmentDownloadedStarted() {
