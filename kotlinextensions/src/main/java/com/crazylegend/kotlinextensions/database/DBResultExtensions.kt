@@ -3,7 +3,6 @@ package com.crazylegend.kotlinextensions.database
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.exhaustive
-import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 
 
 /**
