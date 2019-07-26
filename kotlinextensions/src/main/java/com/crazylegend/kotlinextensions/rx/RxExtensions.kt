@@ -358,3 +358,29 @@ inline fun <reified T> LiveData<T>.toReactivePublisher(lifecycleOwner: Lifecycle
 }
 
 
+/**
+The Parallel Version
+
+val disposable = Observable.merge(
+firstNetworkCall().subscribeOn(Schedulers.io()),
+secondNetworkCall().subscribeOn(Schedulers.io()))
+.observeOn(AndroidSchedulers.mainThread())
+.subscribe { it -> doSomethingWithIndividualResponse(it) }
+
+ */
+
+
+/**
+Combining 2 networks call
+
+val disposable = Observable.zip(
+firstNetworkCall().subscribeOn(Schedulers.io()),
+secondNetworkCall().subscribeOn(Schedulers.io()),
+BiFunction{
+firstResonse: ResponseOneType,
+secondResponse: ResponseTwoType ->
+combineResult(firstResponse, secondResponse) }))
+.observeOn(AndroidSchedulers.mainThread())
+.subscribe { it -> doSomethingWithIndividualResponse(it) }
+
+ */
