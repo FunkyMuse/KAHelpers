@@ -15,10 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.*
 import com.crazylegend.kotlinextensions.context.getIntent
 import com.crazylegend.kotlinextensions.context.notification
 import com.crazylegend.kotlinextensions.log.debug
@@ -454,3 +451,10 @@ fun Fragment.navigateBack() {
 }
 
 fun Fragment.isAtTheTop(): Boolean = activity?.isFragmentAtTheTop(this).orFalse()
+
+fun FragmentManager.applyActions(actions:(fragmentTransaction:FragmentTransaction)-> Unit = {_->}){
+    commit {
+        actions(this)
+    }
+}
+

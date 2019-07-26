@@ -17,7 +17,7 @@ import android.view.View
  USAGE
 
   img.setOnTouchListener { v, event ->
-val color = decodeActionDownEvent(v,event, img.getBitmap())
+val color = decodeActionDownEvent(v,event, img.toBitmap())
 
 color.debug(color.toHexString())
 

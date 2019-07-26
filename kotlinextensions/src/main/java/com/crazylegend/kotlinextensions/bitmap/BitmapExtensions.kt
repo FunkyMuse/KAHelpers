@@ -25,6 +25,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.content.FileProvider
+import androidx.palette.graphics.Palette
 import com.crazylegend.kotlinextensions.file.getRealPath
 import com.crazylegend.kotlinextensions.file.outAsBitmap
 import io.reactivex.Single
@@ -120,7 +121,7 @@ fun Activity.createColoredBitmap(color: Int, width: Int, height: Int): Bitmap {
 }
 
 
-fun ByteArray.getBitmap(): Single<Bitmap>? {
+fun ByteArray.toBitmap(): Single<Bitmap>? {
 
     return Single.fromCallable {
         BitmapFactory.decodeByteArray(this, 0, this.size)
@@ -637,7 +638,8 @@ private enum class ImageOrientation {
 
     companion object {
         fun getOrientation(width :Int, height :Int) :ImageOrientation =
-                if(width >= height) ImageOrientation.LANDSCAPE else ImageOrientation.PORTRAIT
+                if(width >= height) LANDSCAPE else PORTRAIT
     }
 }
 
+val Bitmap.getPallete get() = Palette.from(this).generate()

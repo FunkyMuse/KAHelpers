@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.RelativeLayout.*
 import androidx.annotation.*
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -59,6 +60,19 @@ fun View.gone() {
 
 fun View.invisible() {
     this.visibility = View.INVISIBLE
+}
+
+
+inline fun TextView.setTextSizeRes(@DimenRes rid: Int) {
+    setTextSize(TypedValue.COMPLEX_UNIT_PX, this.context.resources.getDimension(rid))
+}
+
+inline fun AppCompatTextView.setTextSizeRes(@DimenRes rid: Int) {
+    setTextSize(TypedValue.COMPLEX_UNIT_PX, this.context.resources.getDimension(rid))
+}
+
+inline fun View.px(@DimenRes rid: Int): Int {
+    return this.context.resources.getDimensionPixelOffset(rid)
 }
 
 
@@ -497,7 +511,6 @@ fun View.startRelativeMargin(size: Int) {
 }
 
 
-
 /**
  * Sets margins for views
  */
@@ -665,10 +678,10 @@ fun View.limitWidth(w: Int, min: Int, max: Int): View {
 }
 
 fun View.margins(
-    leftMargin: Int = Int.MAX_VALUE,
-    topMargin: Int = Int.MAX_VALUE,
-    rightMargin: Int = Int.MAX_VALUE,
-    bottomMargin: Int = Int.MAX_VALUE
+        leftMargin: Int = Int.MAX_VALUE,
+        topMargin: Int = Int.MAX_VALUE,
+        rightMargin: Int = Int.MAX_VALUE,
+        bottomMargin: Int = Int.MAX_VALUE
 ): View {
     val params = layoutParams as ViewGroup.MarginLayoutParams
     if (leftMargin != Int.MAX_VALUE)
@@ -708,10 +721,10 @@ fun View.animateHeight(targetValue: Int, duration: Long = 400, action: ((Float) 
 
 
 fun View.animateWidthAndHeight(
-    targetWidth: Int,
-    targetHeight: Int,
-    duration: Long = 400,
-    action: ((Float) -> Unit)? = null
+        targetWidth: Int,
+        targetHeight: Int,
+        duration: Long = 400,
+        action: ((Float) -> Unit)? = null
 ) {
     val startHeight = height
     val evaluator = IntEvaluator()
@@ -737,8 +750,8 @@ fun View.toBitmap(): Bitmap {
         is RecyclerView -> {
             this.scrollToPosition(0)
             this.measure(
-                View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                    View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
             )
 
             val bmp = Bitmap.createBitmap(width, measuredHeight, Bitmap.Config.ARGB_8888)
@@ -754,8 +767,8 @@ fun View.toBitmap(): Bitmap {
             this.draw(canvas)
             // reset height
             this.measure(
-                View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST)
+                    View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST)
             )
             bmp //return
         }
@@ -867,9 +880,9 @@ inline fun TabLayout.forEach(func: (TabLayout.Tab) -> Unit) {
 }
 
 fun TabLayout.tint(
-    selectedPosition: Int = 0,
-    selectedColor: Int = ContextCompat.getColor(context, android.R.color.white),
-    defaultColor: Int = Color.parseColor("#80FFFFFF")
+        selectedPosition: Int = 0,
+        selectedColor: Int = ContextCompat.getColor(context, android.R.color.white),
+        defaultColor: Int = Color.parseColor("#80FFFFFF")
 ) {
     forEach { it.icon?.tint = defaultColor }
     get(selectedPosition).icon?.tint = selectedColor
@@ -905,16 +918,16 @@ fun Array<View>.gone() {
 
 fun ProgressBar.indeterminateDrawableColor(@ColorRes color: Int) {
     indeterminateDrawable.setColorFilter(
-        ContextCompat.getColor(context, color), android.graphics.PorterDuff.Mode.SRC_IN
+            ContextCompat.getColor(context, color), android.graphics.PorterDuff.Mode.SRC_IN
     )
 }
 
 fun View.aspect(ratio: Float = 3 / 4f) =
-    post {
-        val params = layoutParams
-        params.height = (width / ratio).toInt()
-        layoutParams = params
-    }
+        post {
+            val params = layoutParams
+            params.height = (width / ratio).toInt()
+            layoutParams = params
+        }
 
 
 fun View.waitForLayout(onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener) {
@@ -1056,9 +1069,9 @@ fun TextView.hideIfEmpty() {
  * [PopupMenu] as receiver to initialize prior to display.
  */
 fun View.showPopup(
-    @MenuRes menuResourceId: Int,
-    onInit: PopupMenu.() -> Unit = {},
-    onClick: (MenuItem) -> Boolean
+        @MenuRes menuResourceId: Int,
+        onInit: PopupMenu.() -> Unit = {},
+        onClick: (MenuItem) -> Boolean
 ) {
     PopupMenu(context, this).apply {
         menuInflater.inflate(menuResourceId, menu)
@@ -1089,7 +1102,7 @@ inline fun <T : Adapter> AdapterView<T>.onItemSelected(crossinline action: (pare
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) =
-            action(parent, view, position, id)
+                action(parent, view, position, id)
     }
 }
 
@@ -1136,7 +1149,7 @@ fun View.showSoftInput() {
  */
 fun View.hideSoftInput() {
     context.getSystemService(Context.INPUT_METHOD_SERVICE).let { it as InputMethodManager }
-        .hideSoftInputFromWindow(this.applicationWindowToken, 0)
+            .hideSoftInputFromWindow(this.applicationWindowToken, 0)
 }
 
 /**
@@ -1205,9 +1218,9 @@ fun TextInputLayout.setTextInputLayoutUpperHintColor(@ColorInt color: Int) {
 
 
 fun TextInputLayout.toggleTextHintColorOnEmpty(activeColor: Int, inactiveColor: Int) = setTextInputLayoutUpperHintColor(
-    if (editText?.text?.isNotEmpty() == true)
-        activeColor else
-        inactiveColor
+        if (editText?.text?.isNotEmpty() == true)
+            activeColor else
+            inactiveColor
 )
 
 fun View.afterLatestMeasured(callback: () -> Unit) {
@@ -1261,8 +1274,8 @@ fun View.setBackgroundTint(color: Int, tintMode: PorterDuff.Mode = PorterDuff.Mo
 }
 
 fun SearchView.textListener(
-    onQuerySubmit: (queryTextSubmit: String) -> Unit = { _ -> },
-    onQueryChange: (queryTextChange: String) -> Unit = { _ -> }
+        onQuerySubmit: (queryTextSubmit: String) -> Unit = { _ -> },
+        onQueryChange: (queryTextChange: String) -> Unit = { _ -> }
 ) {
     this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
@@ -1281,8 +1294,8 @@ val SearchView?.getSubmitButton get() = this?.findViewById<ImageView>(androidx.a
 
 
 fun BottomSheetBehavior<*>.sliderListener(
-    onSlide: (bottomSheet: View, slideOffset: Float) -> Unit = { _, _ -> },
-    onStateChanged: (bottomSheet: View, newState: Int) -> Unit = { _, _ -> }
+        onSlide: (bottomSheet: View, slideOffset: Float) -> Unit = { _, _ -> },
+        onStateChanged: (bottomSheet: View, newState: Int) -> Unit = { _, _ -> }
 ) {
 
     this.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -1363,7 +1376,7 @@ fun SeekBar.onProgressChanged(callback: (theSeekBar: SeekBar, progress: Int, fro
         override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) =
-            callback(seekBar, progress, fromUser)
+                callback(seekBar, progress, fromUser)
     })
 }
 
@@ -1384,8 +1397,8 @@ fun View.dismissKeyboard() {
 
 
 fun View.snackbar(
-    message: Int, duration: Int = Snackbar.LENGTH_SHORT,
-    actionName: Int = 0, actionTextColor: Int = 0, action: (View) -> Unit = {}
+        message: Int, duration: Int = Snackbar.LENGTH_SHORT,
+        actionName: Int = 0, actionTextColor: Int = 0, action: (View) -> Unit = {}
 ): Snackbar {
     val snackbar = Snackbar.make(this, message, duration)
 
@@ -1397,8 +1410,8 @@ fun View.snackbar(
 }
 
 fun View.snackbar(
-    message: Int, duration: Int = Snackbar.LENGTH_SHORT,
-    actionName: String = "", actionTextColor: Int = 0, action: (View) -> Unit = {}
+        message: Int, duration: Int = Snackbar.LENGTH_SHORT,
+        actionName: String = "", actionTextColor: Int = 0, action: (View) -> Unit = {}
 ): Snackbar {
     val snackbar = Snackbar.make(this, message, duration)
 
@@ -1410,8 +1423,8 @@ fun View.snackbar(
 }
 
 fun View.snackbar(
-    message: String, duration: Int = Snackbar.LENGTH_SHORT,
-    actionName: Int = 0, actionTextColor: Int = 0, action: (View) -> Unit = {}
+        message: String, duration: Int = Snackbar.LENGTH_SHORT,
+        actionName: Int = 0, actionTextColor: Int = 0, action: (View) -> Unit = {}
 ): Snackbar {
     val snackbar = Snackbar.make(this, message, duration)
 
@@ -1423,8 +1436,8 @@ fun View.snackbar(
 }
 
 fun View.snackbar(
-    message: String, duration: Int = Snackbar.LENGTH_SHORT,
-    actionName: String = "", actionTextColor: Int = 0, action: (View) -> Unit = {}
+        message: String, duration: Int = Snackbar.LENGTH_SHORT,
+        actionName: String = "", actionTextColor: Int = 0, action: (View) -> Unit = {}
 ): Snackbar {
     val snackbar = Snackbar.make(this, message, duration)
 
@@ -1558,10 +1571,10 @@ fun View.animateZ(values: FloatArray, duration: Long = 300, repeatCount: Int = 0
 }
 
 fun View.translationXAnimator(
-    values: FloatArray,
-    duration: Long = 300,
-    repeatCount: Int = 0,
-    repeatMode: Int = 0
+        values: FloatArray,
+        duration: Long = 300,
+        repeatCount: Int = 0,
+        repeatMode: Int = 0
 ): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.TRANSLATION_X, *values)
     animator.repeatCount = repeatCount
@@ -1573,10 +1586,10 @@ fun View.translationXAnimator(
 }
 
 fun View.translationYAnimator(
-    values: FloatArray,
-    duration: Long = 300,
-    repeatCount: Int = 0,
-    repeatMode: Int = 0
+        values: FloatArray,
+        duration: Long = 300,
+        repeatCount: Int = 0,
+        repeatMode: Int = 0
 ): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, *values)
     animator.repeatCount = repeatCount
@@ -1589,10 +1602,10 @@ fun View.translationYAnimator(
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun View.translationZAnimator(
-    values: FloatArray,
-    duration: Long = 300,
-    repeatCount: Int = 0,
-    repeatMode: Int = 0
+        values: FloatArray,
+        duration: Long = 300,
+        repeatCount: Int = 0,
+        repeatMode: Int = 0
 ): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Z, *values)
     animator.repeatCount = repeatCount
@@ -1634,10 +1647,10 @@ fun View.alphaAnimator(values: FloatArray, duration: Long = 300, repeatCount: In
 }
 
 fun View.rotationAnimator(
-    values: FloatArray,
-    duration: Long = 300,
-    repeatCount: Int = 0,
-    repeatMode: Int = 0
+        values: FloatArray,
+        duration: Long = 300,
+        repeatCount: Int = 0,
+        repeatMode: Int = 0
 ): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.ROTATION, *values)
     animator.repeatCount = repeatCount
@@ -1649,10 +1662,10 @@ fun View.rotationAnimator(
 }
 
 fun View.rotationXAnimator(
-    values: FloatArray,
-    duration: Long = 300,
-    repeatCount: Int = 0,
-    repeatMode: Int = 0
+        values: FloatArray,
+        duration: Long = 300,
+        repeatCount: Int = 0,
+        repeatMode: Int = 0
 ): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.ROTATION_X, *values)
     animator.repeatCount = repeatCount
@@ -1664,10 +1677,10 @@ fun View.rotationXAnimator(
 }
 
 fun View.rotationYAnimator(
-    values: FloatArray,
-    duration: Long = 300,
-    repeatCount: Int = 0,
-    repeatMode: Int = 0
+        values: FloatArray,
+        duration: Long = 300,
+        repeatCount: Int = 0,
+        repeatMode: Int = 0
 ): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.ROTATION_Y, *values)
     animator.repeatCount = repeatCount
@@ -1735,13 +1748,13 @@ fun View.showIf(boolean: Boolean, makeInvisible: Boolean = false) {
  * will enable the view If Condition is true else enables It
  */
 
-fun View.enableIf(boolean: Boolean) = {isEnabled = boolean}
+fun View.enableIf(boolean: Boolean) = { isEnabled = boolean }
 
 /**
  * will disable the view If Condition is true else enables It
  */
 
-fun View.disableIf(boolean: Boolean) = {isEnabled = boolean.not()}
+fun View.disableIf(boolean: Boolean) = { isEnabled = boolean.not() }
 
 val unspecified
     get() = View.MeasureSpec.UNSPECIFIED
@@ -1779,7 +1792,6 @@ private val canUseForeground
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
 
-
 fun View.setClickable() {
     isClickable = true
     isFocusable = true
@@ -1800,7 +1812,6 @@ fun View.rootView(): View {
     }
     return root
 }
-
 
 
 fun View.resetFocus() {
@@ -1854,7 +1865,6 @@ fun View.setSize(height: Int, width: Int) {
     params.height = height
     layoutParams = params
 }
-
 
 
 fun ViewGroup.getString(@StringRes stringRes: Int): String {
@@ -1950,6 +1960,21 @@ fun View.setSemiTransparentIf(shouldBeTransparent: Boolean, disabledAlpha: Float
     }
 }
 
+fun ViewGroup.subviews(vararg views: View): View {
+    assignViewIdIfNeeded()
+    for (v in views) {
+        v.assignViewIdIfNeeded()
+        addView(v)
+    }
+    return this
+}
+
+fun View.assignViewIdIfNeeded() {
+    if (id == -1) {
+        id = View.generateViewId()
+    }
+}
+
 fun View.getGoneHeight(callback: (futureHeight: Int) -> Unit) {
 
 
@@ -1975,5 +2000,59 @@ fun View.getGoneHeight(callback: (futureHeight: Int) -> Unit) {
             setHeight(originalHeight)
             callback(futureHeight)
         }
+    }
+}
+
+
+
+fun layout(vararg items: Any) {
+    var previousMargin: Int? = null
+    var previousView: View? = null
+    var viewCount = 0
+    for (item in items) {
+
+        fun layoutView(view: View) {
+            previousMargin?.let { previousMargin ->
+                if (viewCount == 1) {
+                    view.top(previousMargin)
+                } else {
+                    previousView?.let { previousView ->
+                        view.constrainTopToBottomOf(previousView, previousMargin)
+                    }
+                }
+            }
+            previousView = view
+        }
+
+        // Embedded Horizontal layout.
+        (item as? Array<Any>)?.let { horizontalLayout ->
+
+            // Take first "View" type in the array to layout.
+            var secondItem = if (horizontalLayout.count() > 1) horizontalLayout[1] else null
+            var firstView = (horizontalLayout.firstOrNull() as? View)
+                    ?: (secondItem as? View)
+            firstView?.let {
+                layoutView(it)
+            }
+        }
+
+        when (item) {
+            is Int -> {
+                previousMargin = item
+                if (viewCount == items.count() - 1) { // Last Margin == Bottom
+                    previousView?.let { previousView ->
+                        previousView.bottom(item)
+                    }
+                }
+            }
+            is View -> {
+                layoutView(item)
+            }
+            is String -> {
+                previousMargin = null
+                previousView = null
+            }
+        }
+        viewCount++
     }
 }
