@@ -61,7 +61,7 @@ if (it.requestId == REQUEST_ID) {
 class PermissionManager : BasePermissionManager() {
 
     private val permissionResultLiveEvent: SingleLiveEvent<PermissionResult> by lazy {
-        SingleLiveEvent()
+        SingleLiveEvent<PermissionResult>()
     }
 
     override fun onPermissionResult(permissionResult: PermissionResult) {
