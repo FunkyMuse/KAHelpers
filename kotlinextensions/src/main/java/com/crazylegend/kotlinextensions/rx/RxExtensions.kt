@@ -369,18 +369,18 @@ inline fun <reified T> LiveData<T>.toReactivePublisher(lifecycleOwner: Lifecycle
 /**
  *
  * @receiver Flowable<T>?
- * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param result MutableLiveData<RetrofitResult<R>>
  * @param compositeDisposable CompositeDisposable
  * @param dropBackPressure Boolean
  * @param includeEmptyData Boolean
  */
 fun <T : Response<R>, R> Flowable<T>?.makeApiCall(
-        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        result: MutableLiveData<RetrofitResult<R>>,
         compositeDisposable: CompositeDisposable,
         dropBackPressure: Boolean = false,
         includeEmptyData: Boolean = false
 ) {
-    problemsResult.loading()
+    result.loading()
 
     this?.apply {
         if (dropBackPressure) {
@@ -388,9 +388,9 @@ fun <T : Response<R>, R> Flowable<T>?.makeApiCall(
         }
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    problemsResult.subscribe(it, includeEmptyData)
+                    result.subscribe(it, includeEmptyData)
                 }, {
-                    problemsResult.callError(it)
+                    result.callError(it)
                 }).addTo(compositeDisposable)
     }
 
@@ -399,22 +399,22 @@ fun <T : Response<R>, R> Flowable<T>?.makeApiCall(
 /**
  *
  * @receiver Single<T>?
- * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param result MutableLiveData<RetrofitResult<R>>
  * @param compositeDisposable CompositeDisposable
  * @param includeEmptyData Boolean
  */
 fun <T : Response<R>, R> Single<T>?.makeApiCall(
-        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        result: MutableLiveData<RetrofitResult<R>>,
         compositeDisposable: CompositeDisposable,
         includeEmptyData: Boolean = false
 ) {
-    problemsResult.loading()
+    result.loading()
     this?.apply {
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    problemsResult.subscribe(it, includeEmptyData)
+                    result.subscribe(it, includeEmptyData)
                 }, {
-                    problemsResult.callError(it)
+                    result.callError(it)
                 }).addTo(compositeDisposable)
     }
 
@@ -423,22 +423,22 @@ fun <T : Response<R>, R> Single<T>?.makeApiCall(
 /**
  *
  * @receiver Observable<T>?
- * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param result MutableLiveData<RetrofitResult<R>>
  * @param compositeDisposable CompositeDisposable
  * @param includeEmptyData Boolean
  */
 fun <T : Response<R>, R> Observable<T>?.makeApiCall(
-        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        result: MutableLiveData<RetrofitResult<R>>,
         compositeDisposable: CompositeDisposable,
         includeEmptyData: Boolean = false
 ) {
-    problemsResult.loading()
+    result.loading()
     this?.apply {
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    problemsResult.subscribe(it, includeEmptyData)
+                    result.subscribe(it, includeEmptyData)
                 }, {
-                    problemsResult.callError(it)
+                    result.callError(it)
                 }).addTo(compositeDisposable)
     }
 
@@ -447,22 +447,22 @@ fun <T : Response<R>, R> Observable<T>?.makeApiCall(
 /**
  *
  * @receiver Maybe<T>?
- * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param result MutableLiveData<RetrofitResult<R>>
  * @param compositeDisposable CompositeDisposable
  * @param includeEmptyData Boolean
  */
 fun <T : Response<R>, R> Maybe<T>?.makeApiCall(
-        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        result: MutableLiveData<RetrofitResult<R>>,
         compositeDisposable: CompositeDisposable,
         includeEmptyData: Boolean = false
 ) {
-    problemsResult.loading()
+    result.loading()
     this?.apply {
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    problemsResult.subscribe(it, includeEmptyData)
+                    result.subscribe(it, includeEmptyData)
                 }, {
-                    problemsResult.callError(it)
+                    result.callError(it)
                 }).addTo(compositeDisposable)
     }
 
