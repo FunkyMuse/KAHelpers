@@ -213,6 +213,18 @@ fun <T> MutableLiveData<RetrofitResult<T>>.noData() {
     value = RetrofitResult.NoData
 }
 
+fun <T> MutableLiveData<RetrofitResult<T>>.loadingPost() {
+    postValue(RetrofitResult.Loading)
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.emptyDataPost() {
+    postValue(RetrofitResult.EmptyData)
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.noDataPost() {
+   postValue(RetrofitResult.NoData)
+}
+
 inline fun <reified T> isGenericInstanceOf(obj: Any, contract: T): Boolean {
     return obj is T
 }
@@ -234,6 +246,25 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>, incl
         value = RetrofitResult.ApiError(response.code(), response.errorBody())
     }
 }
+
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>, includeEmptyData: Boolean = false) {
+    if (response.isSuccessful) {
+        response.body()?.apply {
+            if (includeEmptyData) {
+                if (this == null) {
+                    postValue(RetrofitResult.EmptyData)
+                } else {
+                    postValue(RetrofitResult.Success(this))
+                }
+            } else {
+                postValue(RetrofitResult.Success(this))
+            }
+        }
+    } else {
+        postValue(RetrofitResult.ApiError(response.code(), response.errorBody()))
+    }
+}
+
 
 
 
@@ -264,16 +295,55 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>, 
     }
 }
 
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<T>, includeEmptyData: Boolean = false) {
+    if (response.isSuccessful) {
+        response.body()?.apply {
+            if (includeEmptyData) {
+                if (this == null) {
+                   postValue(RetrofitResult.EmptyData)
+                } else {
+                    if (this is List<*>){
+                        val list = this as List<*>
+                        if (list.isNullOrEmpty()){
+                            postValue( RetrofitResult.EmptyData)
+                        } else {
+                            postValue(RetrofitResult.Success(this))
+                        }
+                    } else {
+                        postValue( RetrofitResult.Success(this))
+                    }
+                }
+            } else {
+                postValue( RetrofitResult.Success(this))
+            }
+        }
+    } else {
+        postValue(RetrofitResult.ApiError(response.code(), response.errorBody()))
+    }
+}
+
 fun <T> MutableLiveData<RetrofitResult<T>>.callError(throwable: Throwable) {
     value = RetrofitResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable)
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.callErrorPost(throwable: Throwable) {
+    postValue(RetrofitResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable))
 }
 
 fun <T> MutableLiveData<RetrofitResult<T>>.success(model: T) {
     value = RetrofitResult.Success(model)
 }
+fun <T> MutableLiveData<RetrofitResult<T>>.successPost(model: T) {
+    postValue(RetrofitResult.Success(model))
+}
 
 fun <T> MutableLiveData<RetrofitResult<T>>.apiError(code: Int, errorBody: ResponseBody?) {
     value = RetrofitResult.ApiError(code, errorBody)
+}
+
+
+fun <T> MutableLiveData<RetrofitResult<T>>.apiErrorPost(code: Int, errorBody: ResponseBody?) {
+   postValue(RetrofitResult.ApiError(code, errorBody))
 }
 
 

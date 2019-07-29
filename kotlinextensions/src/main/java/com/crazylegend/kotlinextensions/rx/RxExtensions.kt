@@ -3,13 +3,21 @@ package com.crazylegend.kotlinextensions.rx
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.MutableLiveData
+import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.retrofit.callError
+import com.crazylegend.kotlinextensions.retrofit.loading
+import com.crazylegend.kotlinextensions.retrofit.subscribe
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.Subject
 import org.reactivestreams.Publisher
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 
@@ -357,6 +365,108 @@ inline fun <reified T> LiveData<T>.toReactivePublisher(lifecycleOwner: Lifecycle
     return LiveDataReactiveStreams.toPublisher(lifecycleOwner, this)
 }
 
+
+/**
+ *
+ * @receiver Flowable<T>?
+ * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param dropBackPressure Boolean
+ * @param includeEmptyData Boolean
+ */
+fun <T : Response<R>, R> Flowable<T>?.makeApiCall(
+        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        dropBackPressure: Boolean = false,
+        includeEmptyData: Boolean = false
+) {
+    problemsResult.loading()
+
+    this?.apply {
+        if (dropBackPressure) {
+            onBackpressureDrop()
+        }
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    problemsResult.subscribe(it, includeEmptyData)
+                }, {
+                    problemsResult.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+/**
+ *
+ * @receiver Single<T>?
+ * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param includeEmptyData Boolean
+ */
+fun <T : Response<R>, R> Single<T>?.makeApiCall(
+        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = false
+) {
+    problemsResult.loading()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    problemsResult.subscribe(it, includeEmptyData)
+                }, {
+                    problemsResult.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+/**
+ *
+ * @receiver Observable<T>?
+ * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param includeEmptyData Boolean
+ */
+fun <T : Response<R>, R> Observable<T>?.makeApiCall(
+        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = false
+) {
+    problemsResult.loading()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    problemsResult.subscribe(it, includeEmptyData)
+                }, {
+                    problemsResult.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+/**
+ *
+ * @receiver Maybe<T>?
+ * @param problemsResult MutableLiveData<RetrofitResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param includeEmptyData Boolean
+ */
+fun <T : Response<R>, R> Maybe<T>?.makeApiCall(
+        problemsResult: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = false
+) {
+    problemsResult.loading()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    problemsResult.subscribe(it, includeEmptyData)
+                }, {
+                    problemsResult.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
 
 /**
 The Parallel Version
