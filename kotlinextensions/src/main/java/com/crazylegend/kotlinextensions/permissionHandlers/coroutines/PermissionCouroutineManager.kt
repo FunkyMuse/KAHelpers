@@ -42,7 +42,7 @@ is PermissionResult.PermissionDeniedPermanently -> {
 //Add your logic here if user denied permission(s) permanently.
 //Ideally you should ask user to manually go to settings and enable permission(s)
 }
-is PermissionResult.ShowRational -> {
+is PermissionResult.ShowRationale -> {
 //If user denied permission frequently then she/he is not clear about why you are asking this permission.
 //This is your chance to explain them why you need permission.
 }
