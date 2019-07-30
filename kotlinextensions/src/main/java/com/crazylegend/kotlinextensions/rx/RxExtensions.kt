@@ -4,6 +4,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
+import com.crazylegend.kotlinextensions.database.DBResult
+import com.crazylegend.kotlinextensions.database.callError
+import com.crazylegend.kotlinextensions.database.querying
+import com.crazylegend.kotlinextensions.database.subscribe
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.retrofit.callError
 import com.crazylegend.kotlinextensions.retrofit.loading
@@ -470,6 +474,106 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCall(
 }
 
 
+/**
+ *
+ * @receiver Flowable<T>?
+ * @param result MutableLiveData<DBResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param dropBackPressure Boolean
+ * @param includeEmptyData Boolean
+ */
+fun <T> Flowable<T>?.makeDBCall(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        dropBackPressure: Boolean = false,
+        includeEmptyData: Boolean = false
+) {
+    result.querying()
+    this?.apply {
+        if (dropBackPressure) {
+            onBackpressureDrop()
+        }
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+}
+
+/**
+ *
+ * @receiver Single<T>?
+ * @param result MutableLiveData<DBResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param includeEmptyData Boolean
+ */
+fun <T> Single<T>?.makeDBCall(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = false
+) {
+    result.querying()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+/**
+ *
+ * @receiver Observable<T>?
+ * @param result MutableLiveData<RetrofitResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param includeEmptyData Boolean
+ */
+fun <T> Observable<T>?.makeDBCall(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = false
+) {
+    result.querying()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+/**
+ *
+ * @receiver Maybe<T>?
+ * @param result MutableLiveData<RetrofitResult<R>>
+ * @param compositeDisposable CompositeDisposable
+ * @param includeEmptyData Boolean
+ */
+fun <T> Maybe<T>?.makeDBCall(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = false
+) {
+    result.querying()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+}
+
+
 fun <T> Observable<T>.toFlowableLatest(): Flowable<T> = toFlowable(BackpressureStrategy.LATEST)
 fun <T> Observable<T>.toFlowableBuffer(): Flowable<T> = toFlowable(BackpressureStrategy.BUFFER)
 fun <T> Observable<T>.toFlowableDrop(): Flowable<T> = toFlowable(BackpressureStrategy.DROP)
@@ -490,10 +594,9 @@ fun <T> Single<T>.toFlowableError() = toObservable().toFlowableError()
 fun <T> Single<T>.toFlowableMissing() = toObservable().toFlowableMissing()
 
 
-fun <T, R> Maybe<T>.mapSelf(mapper : T.() -> R) = map { it.mapper() }
+fun <T, R> Maybe<T>.mapSelf(mapper: T.() -> R) = map { it.mapper() }
 
-fun <T> Subject<T>.canPublish() : Boolean = !hasComplete() && !hasThrowable()
-
+fun <T> Subject<T>.canPublish(): Boolean = !hasComplete() && !hasThrowable()
 
 
 fun <T> Observable<T>?.subscribeSafely() = this?.subscribe({}, {})
@@ -513,7 +616,6 @@ inline fun <reified T> Observable<T>.applyComputationSchedulers(): Observable<T>
 inline fun <reified T> Observable<T>.intervalRequest(duration: Long): Observable<T> {
     return this.throttleFirst(duration, TimeUnit.MILLISECONDS)
 }
-
 
 
 /**

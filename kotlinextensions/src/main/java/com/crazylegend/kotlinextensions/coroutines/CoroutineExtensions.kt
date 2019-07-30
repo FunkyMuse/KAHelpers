@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.coroutines
 
 import androidx.lifecycle.MutableLiveData
+import com.crazylegend.kotlinextensions.database.*
 import com.crazylegend.kotlinextensions.retrofit.*
 import kotlinx.coroutines.*
 import retrofit2.Response
@@ -99,16 +100,105 @@ fun <T> CoroutineScope.makeApiCall(
                         }
                     }
                 } else {
-                    mainCoroutine {
-                        retrofitResult.apiErrorPost(code(), errorBody())
-                    }
+                    retrofitResult.apiErrorPost(code(), errorBody())
                 }
             }
 
         } catch (t: Throwable) {
-            mainCoroutine {
-                retrofitResult.callErrorPost(t)
+            retrofitResult.callErrorPost(t)
+        }
+    }
+
+}
+
+
+/**
+
+USAGE:
+
+viewModelScope.launch {
+makeDBCall(db?.getSomething(), dbResult)
+}
+
+ * @receiver CoroutineScope
+ * @param queryModel Response<T>?
+ * @param retrofitResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @return Job
+ */
+fun <T> CoroutineScope.makeDBCall(
+        queryModel: T?,
+        retrofitResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false
+): Job {
+    retrofitResult.querying()
+    return launch(Dispatchers.IO) {
+        try {
+            if (includeEmptyData) {
+                if (queryModel == null) {
+                    retrofitResult.emptyDataPost()
+                } else {
+                    retrofitResult.successPost(queryModel)
+                }
+            } else {
+                queryModel?.apply {
+                    retrofitResult.successPost(this)
+                }
             }
+
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+
+}
+
+
+/**
+
+USAGE:
+
+viewModelScope.launch {
+makeDBCall(db?.getSomething(), dbResult)
+}
+
+ * @receiver CoroutineScope
+ * @param queryModel Response<T>?
+ * @param retrofitResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @return Job
+ */
+fun <T> CoroutineScope.makeDBCallList(
+        queryModel: T?,
+        retrofitResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false
+): Job {
+    retrofitResult.querying()
+    return launch(Dispatchers.IO) {
+        try {
+            if (includeEmptyData) {
+                if (queryModel == null) {
+                    retrofitResult.emptyDataPost()
+                } else {
+                    if (queryModel is List<*>) {
+                        val list = queryModel as List<*>
+
+                        if (list.isNullOrEmpty()) {
+                            retrofitResult.emptyDataPost()
+                        } else {
+                            retrofitResult.successPost(queryModel)
+                        }
+
+                    }
+                }
+            } else {
+                queryModel?.apply {
+                    retrofitResult.successPost(this)
+                }
+            }
+
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
         }
     }
 
