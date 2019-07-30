@@ -3,6 +3,8 @@ package com.crazylegend.kotlinextensions.permissionHandlers
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
+import com.crazylegend.kotlinextensions.collections.mergeWith
 import com.crazylegend.kotlinextensions.context.shortToast
 import com.crazylegend.kotlinextensions.coroutines.mainCoroutine
 import com.crazylegend.kotlinextensions.exhaustive
@@ -10,6 +12,8 @@ import com.crazylegend.kotlinextensions.fragments.finish
 import com.crazylegend.kotlinextensions.fragments.shortToast
 import com.crazylegend.kotlinextensions.permissionHandlers.coroutines.PermissionCouroutineManager
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 /**
@@ -19,23 +23,24 @@ import com.google.android.material.snackbar.Snackbar
 
 private const val SINGLE_ID_PERMISSION_ACTIVITY = 111
 
-fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleText: String = "", actionOnGranted: () -> Unit = {}) {
-
-    mainCoroutine {
+fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", actionOnGranted: () -> Unit = {}) {
+    lifecycleScope.launch(Dispatchers.Main){
         val permissionResult =
-                PermissionCouroutineManager.requestPermissions(this, SINGLE_ID_PERMISSION_ACTIVITY, permissionName)
+                PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, SINGLE_ID_PERMISSION_ACTIVITY, permissionName)
 
         when (permissionResult) {
             is PermissionResult.PermissionGranted -> {
                 actionOnGranted()
             }
             is PermissionResult.PermissionDenied -> {
-                retrySnackbar {
+                retrySnackbar(rationaleText,retryText) {
                     checkSinglePermission(permissionName)
                 }
             }
             is PermissionResult.ShowRationale -> {
-                checkSinglePermission(permissionName)
+                retrySnackbar(rationaleText,retryText) {
+                    checkSinglePermission(permissionName)
+                }
             }
             is PermissionResult.PermissionDeniedPermanently -> {
                 shortToast(rationaleText)
@@ -45,23 +50,25 @@ fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleTex
 }
 
 
-fun Fragment.checkSinglePermission(permissionName: String, rationaleText: String = "", actionOnGranted: () -> Unit = {}) {
+fun Fragment.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", actionOnGranted: () -> Unit = {}) {
 
-    mainCoroutine {
+    lifecycleScope.launch(Dispatchers.Main){
         val permissionResult =
-                PermissionCouroutineManager.requestPermissions(this, SINGLE_ID_PERMISSION_ACTIVITY, permissionName)
+                PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, SINGLE_ID_PERMISSION_ACTIVITY, permissionName)
 
         when (permissionResult) {
             is PermissionResult.PermissionGranted -> {
                 actionOnGranted()
             }
             is PermissionResult.PermissionDenied -> {
-                requireActivity().retrySnackbar {
+                requireActivity().retrySnackbar(rationaleText, retryText) {
                     checkSinglePermission(permissionName)
                 }
             }
             is PermissionResult.ShowRationale -> {
-                checkSinglePermission(permissionName)
+                requireActivity().retrySnackbar(rationaleText, retryText) {
+                    checkSinglePermission(permissionName)
+                }
             }
             is PermissionResult.PermissionDeniedPermanently -> {
                 shortToast(rationaleText)
@@ -76,13 +83,14 @@ fun AppCompatActivity.checkMultiplePermissions(
         vararg permissions: String,
         shouldFinishActivityOnPermissionDeny: Boolean = false,
         rationaleText: String = "",
+        retryText:String = "",
         actionOnGranted: () -> Unit = {}
 ) {
 
-    mainCoroutine {
+    lifecycleScope.launch(Dispatchers.Main) {
         val permissionResult =
                 PermissionCouroutineManager.requestPermissions(
-                        this,
+                        this@checkMultiplePermissions,
                         MULTIPLE_ID_PERMISSION_ACTIVITY,
                         *permissions
                 )
@@ -92,12 +100,14 @@ fun AppCompatActivity.checkMultiplePermissions(
                 actionOnGranted()
             }
             is PermissionResult.PermissionDenied -> {
-                retrySnackbar {
+                retrySnackbar(rationaleText, retryText) {
                     checkMultiplePermissions()
                 }
             }
             is PermissionResult.ShowRationale -> {
-                checkMultiplePermissions()
+                retrySnackbar(rationaleText, retryText) {
+                    checkMultiplePermissions()
+                }
             }
             is PermissionResult.PermissionDeniedPermanently -> {
                 shortToast(rationaleText)
@@ -112,12 +122,13 @@ fun AppCompatActivity.checkMultiplePermissions(
 fun Fragment.checkMultiplePermissions(
         vararg permissions: String, shouldFinishActivityOnPermissionDeny: Boolean = false,
         rationaleText: String = "",
+        retryText:String = "",
         actionOnGranted: () -> Unit = {}
 ) {
-    mainCoroutine {
+    lifecycleScope.launch(Dispatchers.Main) {
         val permissionResult =
                 PermissionCouroutineManager.requestPermissions(
-                        this,
+                        this@checkMultiplePermissions,
                         MULTIPLE_ID_PERMISSION_ACTIVITY,
                         *permissions
                 )
@@ -127,12 +138,14 @@ fun Fragment.checkMultiplePermissions(
                 actionOnGranted()
             }
             is PermissionResult.PermissionDenied -> {
-                requireActivity().retrySnackbar {
+                requireActivity().retrySnackbar(rationaleText, retryText) {
                     checkMultiplePermissions()
                 }
             }
             is PermissionResult.ShowRationale -> {
-                checkMultiplePermissions()
+                requireActivity().retrySnackbar(rationaleText, retryText) {
+                    checkMultiplePermissions()
+                }
             }
             is PermissionResult.PermissionDeniedPermanently -> {
                 shortToast(rationaleText)
