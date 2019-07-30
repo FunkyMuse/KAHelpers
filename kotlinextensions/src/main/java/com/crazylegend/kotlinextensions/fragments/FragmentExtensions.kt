@@ -3,7 +3,6 @@ package com.crazylegend.kotlinextensions.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -84,7 +83,7 @@ inline fun <reified T> Fragment.launch() {
 val Fragment.getAppCompatActivity get() = this.requireActivity() as AppCompatActivity
 
 inline fun Fragment.notification(body: NotificationCompat.Builder.() -> Unit, channelID: String) =
-    requireActivity().notification(body, channelID)
+        requireActivity().notification(body, channelID)
 
 fun FragmentActivity.popFragment() {
     val fm = supportFragmentManager
@@ -92,6 +91,24 @@ fun FragmentActivity.popFragment() {
     fm.popBackStack()
 }
 
+fun Fragment.ifIsAddedAction(action: () -> Unit = {}) {
+    if (isAdded)  action()
+
+}
+
+fun Fragment.ifIsAttachedAction(action: () -> Unit = {}) {
+    if (!isDetached) action()
+
+}
+
+fun Fragment.ifIsVisibleAction(action: () -> Unit = {}) {
+    if (isVisible) action()
+
+}
+
+fun Fragment.ifIsResumedAction(action: () -> Unit = {}) {
+    if (isResumed) action()
+}
 
 
 fun FragmentActivity.popFragment(name: String, flags: Int) {
@@ -106,7 +123,7 @@ fun FragmentActivity.popFragment(id: Int, flags: Int) {
     fm.popBackStack(id, flags)
 }
 
-fun AppCompatActivity.getCurrentActiveFragment(@IdRes frameId : Int): Fragment? {
+fun AppCompatActivity.getCurrentActiveFragment(@IdRes frameId: Int): Fragment? {
     return supportFragmentManager.findFragmentById(frameId)
 }
 
@@ -114,17 +131,14 @@ fun AppCompatActivity.clearAllFragments() {
     supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
 
-fun Fragment.isFragmentPresent(tag:String): Fragment? {
+fun Fragment.isFragmentPresent(tag: String): Fragment? {
     return fragmentManager?.findFragmentByTag(tag)
 }
 
 
-fun Fragment.isFragmentPresent(id:Int): Fragment? {
+fun Fragment.isFragmentPresent(id: Int): Fragment? {
     return fragmentManager?.findFragmentById(id)
 }
-
-
-
 
 
 /**
@@ -176,7 +190,7 @@ fun Fragment.goBackToFragment(name: String, flag: Int = 0) {
 inline fun <reified T : Activity> Fragment.startActivity(flags: Int = 0,
                                                          data: Uri? = null,
                                                          extras: Bundle? = null) = this.startActivity(
-    getIntent<T>(flags, extras, data))
+        getIntent<T>(flags, extras, data))
 
 /**
  * Calls `startActivityForResult` using given flags, bundles and url
@@ -185,11 +199,11 @@ inline fun <reified T : Activity> Fragment.startActivity(flags: Int = 0,
  * @param[extras] Extra to pass to intent
  */
 inline fun <reified T : Activity> Fragment.startActivityForResult(
-    flags: Int = 0,
-    data: Uri? = null,
-    extras: Bundle? = null, requestCode: Int) = this.startActivityForResult(getIntent<T>
-    (flags, extras, data),
-    requestCode)
+        flags: Int = 0,
+        data: Uri? = null,
+        extras: Bundle? = null, requestCode: Int) = this.startActivityForResult(getIntent<T>
+(flags, extras, data),
+        requestCode)
 
 /**
  * Generates intent from Fragment
@@ -213,25 +227,25 @@ fun Fragment.alert(style: Int, init: AlertDialog.Builder .() -> Unit) {
     builder.show()
 }
 
-inline fun <reified T> Fragment.intent(body: Intent.() -> Unit ): Intent {
+inline fun <reified T> Fragment.intent(body: Intent.() -> Unit): Intent {
     val intent = Intent(requireActivity(), T::class.java)
     intent.body()
     return intent
 }
 
-inline fun <reified T> Fragment.startActivity(body: Intent.() -> Unit ) {
+inline fun <reified T> Fragment.startActivity(body: Intent.() -> Unit) {
     val intent = Intent(requireActivity(), T::class.java)
     intent.body()
     startActivity(intent)
 }
 
-inline fun <reified T> FragmentActivity.intent(body: Intent.() -> Unit ): Intent {
+inline fun <reified T> FragmentActivity.intent(body: Intent.() -> Unit): Intent {
     val intent = Intent(this, T::class.java)
     intent.body()
     return intent
 }
 
-inline fun <reified T> FragmentActivity.startActivity(body: Intent.() -> Unit ) {
+inline fun <reified T> FragmentActivity.startActivity(body: Intent.() -> Unit) {
     val intent = Intent(this, T::class.java)
     intent.body()
     startActivity(intent)
@@ -254,24 +268,24 @@ fun Context.isFragmentWithTagVisible(tag: String): Boolean {
 
 fun AppCompatActivity.addFragment(@NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
-        .beginTransaction()
-        .add(layoutId, fragment, tag)
-        .commit()
+            .beginTransaction()
+            .add(layoutId, fragment, tag)
+            .commit()
 }
 
 fun Fragment.addFragment(@NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     fragmentManager
-        ?.beginTransaction()
-        ?.add(layoutId, fragment, tag)
-        ?.commit()
+            ?.beginTransaction()
+            ?.add(layoutId, fragment, tag)
+            ?.commit()
 }
 
 fun Context.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
-        .supportFragmentManager
-        .beginTransaction()
-        .replace(layoutId, fragment, tag)
-        .commit()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(layoutId, fragment, tag)
+            .commit()
     if (this.supportActionBar != null) {
         this.supportActionBar?.setTitle(title)
     }
@@ -279,10 +293,10 @@ fun Context.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, 
 
 fun Context.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
-        .supportFragmentManager
-        .beginTransaction()
-        .replace(layoutId, fragment, tag)
-        .commit()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(layoutId, fragment, tag)
+            .commit()
     if (title != null) {
         if (this.supportActionBar != null) {
             this.supportActionBar?.title = title
@@ -292,10 +306,10 @@ fun Context.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragmen
 
 fun Context.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
-        .supportFragmentManager
-        .beginTransaction()
-        .add(layoutId, fragment, tag)
-        .commit()
+            .supportFragmentManager
+            .beginTransaction()
+            .add(layoutId, fragment, tag)
+            .commit()
     if (title != null) {
         if (this.supportActionBar != null) {
             this.supportActionBar?.title = title
@@ -325,9 +339,9 @@ fun Fragment.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment,
     val activity = this.requireActivity() as AppCompatActivity
 
     activity.supportFragmentManager
-        .beginTransaction()
-        .replace(layoutId, fragment, tag)
-        .commit()
+            .beginTransaction()
+            .replace(layoutId, fragment, tag)
+            .commit()
     if (activity.supportActionBar != null) {
         activity.supportActionBar?.setTitle(title)
     }
@@ -337,9 +351,9 @@ fun Fragment.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragme
     val activity = this.requireActivity() as AppCompatActivity
 
     activity.supportFragmentManager
-        .beginTransaction()
-        .replace(layoutId, fragment, tag)
-        .commit()
+            .beginTransaction()
+            .replace(layoutId, fragment, tag)
+            .commit()
     if (title != null) {
         if (activity.supportActionBar != null) {
             activity.supportActionBar?.title = title
@@ -351,9 +365,9 @@ fun Fragment.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, 
     val activity = this.requireActivity() as AppCompatActivity
 
     activity.supportFragmentManager
-        .beginTransaction()
-        .add(layoutId, fragment, tag)
-        .commit()
+            .beginTransaction()
+            .add(layoutId, fragment, tag)
+            .commit()
     if (title != null) {
         if (activity.supportActionBar != null) {
             activity.supportActionBar?.title = title
@@ -378,9 +392,9 @@ fun AppCompatActivity.isFragmentWithTagVisible(tag: String): Boolean {
 
 fun AppCompatActivity.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
-        .beginTransaction()
-        .replace(layoutId, fragment, tag)
-        .commit()
+            .beginTransaction()
+            .replace(layoutId, fragment, tag)
+            .commit()
     if (this.supportActionBar != null) {
         this.supportActionBar?.setTitle(title)
     }
@@ -388,9 +402,9 @@ fun AppCompatActivity.replaceFragment(@StringRes title: Int, @NonNull fragment: 
 
 fun AppCompatActivity.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
-        .beginTransaction()
-        .replace(layoutId, fragment, tag)
-        .commit()
+            .beginTransaction()
+            .replace(layoutId, fragment, tag)
+            .commit()
     if (title != null) {
         if (this.supportActionBar != null) {
             this.supportActionBar?.title = title
@@ -400,9 +414,9 @@ fun AppCompatActivity.replaceFragment(@Nullable title: String?, @NonNull fragmen
 
 fun AppCompatActivity.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
-        .beginTransaction()
-        .add(layoutId, fragment, tag)
-        .commit()
+            .beginTransaction()
+            .add(layoutId, fragment, tag)
+            .commit()
     if (title != null) {
         if (this.supportActionBar != null) {
             this.supportActionBar?.title = title
@@ -491,7 +505,7 @@ fun Fragment.navigateBack() {
 
 fun Fragment.isAtTheTop(): Boolean = activity?.isFragmentAtTheTop(this).orFalse()
 
-fun FragmentManager.applyActions(actions:(fragmentTransaction:FragmentTransaction)-> Unit = {_->}){
+fun FragmentManager.applyActions(actions: (fragmentTransaction: FragmentTransaction) -> Unit = { _ -> }) {
     commit {
         actions(this)
     }
