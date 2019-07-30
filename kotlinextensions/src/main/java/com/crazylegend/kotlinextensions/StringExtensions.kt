@@ -21,6 +21,7 @@ import android.util.Patterns
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.core.text.isDigitsOnly
+import com.crazylegend.kotlinextensions.encryption.EncryptUtils
 import com.crazylegend.kotlinextensions.intent.canBeHandled
 import org.intellij.lang.annotations.RegExp
 import java.io.File
@@ -929,3 +930,27 @@ fun String.toColor(): Int? {
 }
 
 fun String.urlEncoded(): String? = URLEncoder.encode(this, "utf-8")
+
+fun String.md5() = EncryptUtils.encryptMD5ToString(this)
+
+fun String.sha1() = EncryptUtils.encryptSHA1ToString(this)
+
+fun String.sha256() = EncryptUtils.encryptSHA256ToString(this)
+
+fun String.sha512() = EncryptUtils.encryptSHA512ToString(this)
+
+
+fun String.md5Hmac(salt: String) = EncryptUtils.encryptHmacMD5ToString(this, salt)
+
+fun String.sha1Hmac(salt: String) = EncryptUtils.encryptHmacSHA1ToString(this, salt)
+
+fun String.sha256Hmac(salt: String) = EncryptUtils.encryptHmacSHA256ToString(this, salt)
+
+
+fun String.encryptDES(key: String) = EncryptUtils.encryptDES(this, key)
+
+fun String.decryptDES(key: String) = EncryptUtils.decryptDES(this, key)
+
+fun String.encryptAESUtils(key: String) = EncryptUtils.encryptAES(this, key)
+
+fun String.decryptAESUtils(key: String) = EncryptUtils.decryptAES(this, key)

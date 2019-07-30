@@ -421,3 +421,6 @@ get() = powerManager?.isIgnoringBatteryOptimizations(packageName)
 
 val Context.isDeviceIdle @RequiresApi(Build.VERSION_CODES.M)
 get() = powerManager?.isDeviceIdleMode
+
+fun Context.permissionGranted(permission: String) =
+        packageManager.checkPermission(permission, packageName) == PackageManager.PERMISSION_GRANTED

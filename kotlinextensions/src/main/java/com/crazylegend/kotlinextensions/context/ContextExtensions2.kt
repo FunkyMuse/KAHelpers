@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.context
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.*
 import android.net.Uri
 import android.os.Bundle
@@ -267,3 +268,36 @@ inline fun <reified T : Context> Context.getIntent(
         putExtras(it)
     }
 }
+
+fun Context?.isActivityFinished(): Boolean {
+    this ?: return false
+    return if (this is Activity) {
+        this.isActivityFinishing()
+    } else {
+        true
+    }
+}
+
+fun Context?.isActivityActive(): Boolean {
+    this ?: return false
+    return if (this is Activity) {
+        !this.isActivityFinishing()
+    } else {
+        false
+    }
+}
+
+fun Activity.isActivityFinishing(): Boolean = this.isFinishing || this.isDestroyed
+
+
+fun Context.getActivityPendingIntent(
+        requestCode: Int = 0,
+        intent: Intent,
+        flags: Int = PendingIntent.FLAG_ONE_SHOT
+): PendingIntent = PendingIntent.getActivity(this, requestCode, intent, flags)
+
+fun Context.getBroadcastPendingIntent(
+        requestCode: Int = 0,
+        intent: Intent,
+        flags: Int = PendingIntent.FLAG_ONE_SHOT
+): PendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, flags)

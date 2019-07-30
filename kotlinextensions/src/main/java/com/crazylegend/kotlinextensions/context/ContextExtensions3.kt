@@ -577,6 +577,14 @@ fun Context.disableNatigation() {
     }
 }
 
+fun Context.needPermissionsFor(action : () -> Unit) = try {
+    action.invoke()
+    false
+} catch (e : SecurityException) {
+    true
+}
+
+
 
 @SuppressLint("PrivateApi", "WrongConstant")
 fun Context.disableNotificationBar() {

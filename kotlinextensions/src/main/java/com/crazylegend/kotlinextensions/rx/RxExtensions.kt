@@ -13,6 +13,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.Subject
@@ -467,6 +468,53 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCall(
     }
 
 }
+
+
+fun <T> Observable<T>.toFlowableLatest(): Flowable<T> = toFlowable(BackpressureStrategy.LATEST)
+fun <T> Observable<T>.toFlowableBuffer(): Flowable<T> = toFlowable(BackpressureStrategy.BUFFER)
+fun <T> Observable<T>.toFlowableDrop(): Flowable<T> = toFlowable(BackpressureStrategy.DROP)
+fun <T> Observable<T>.toFlowableError(): Flowable<T> = toFlowable(BackpressureStrategy.ERROR)
+fun <T> Observable<T>.toFlowableMissing(): Flowable<T> = toFlowable(BackpressureStrategy.MISSING)
+
+
+fun <T> Maybe<T>.toFlowableLatest() = toObservable().toFlowableLatest()
+fun <T> Maybe<T>.toFlowableBuffer() = toObservable().toFlowableBuffer()
+fun <T> Maybe<T>.toFlowableDrop() = toObservable().toFlowableDrop()
+fun <T> Maybe<T>.toFlowableError() = toObservable().toFlowableError()
+fun <T> Maybe<T>.toFlowableMissing() = toObservable().toFlowableMissing()
+
+fun <T> Single<T>.toFlowableLatest() = toObservable().toFlowableLatest()
+fun <T> Single<T>.toFlowableBuffer() = toObservable().toFlowableBuffer()
+fun <T> Single<T>.toFlowableDrop() = toObservable().toFlowableDrop()
+fun <T> Single<T>.toFlowableError() = toObservable().toFlowableError()
+fun <T> Single<T>.toFlowableMissing() = toObservable().toFlowableMissing()
+
+
+fun <T, R> Maybe<T>.mapSelf(mapper : T.() -> R) = map { it.mapper() }
+
+fun <T> Subject<T>.canPublish() : Boolean = !hasComplete() && !hasThrowable()
+
+
+
+fun <T> Observable<T>?.subscribeSafely() = this?.subscribe({}, {})
+
+fun <T> Observable<T>?.subscribeSafely(consumer: Consumer<T>) =
+        this?.subscribe(consumer, Consumer<Throwable> { })
+
+inline fun <reified T> Observable<T>.applyNetworkSchedulers(): Observable<T> {
+    return this.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> Observable<T>.applyComputationSchedulers(): Observable<T> {
+    return this.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> Observable<T>.intervalRequest(duration: Long): Observable<T> {
+    return this.throttleFirst(duration, TimeUnit.MILLISECONDS)
+}
+
+
 
 /**
 The Parallel Version

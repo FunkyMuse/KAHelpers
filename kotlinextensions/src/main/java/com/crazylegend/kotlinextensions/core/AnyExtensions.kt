@@ -74,4 +74,3 @@ inline fun <reified T : Enum<T>> enumSafeValueOf(name: String): T? {
     }
 }
 
-val Unit?.exhaustive get() = this

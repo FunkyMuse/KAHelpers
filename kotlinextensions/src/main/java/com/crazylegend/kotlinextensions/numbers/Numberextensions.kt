@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.numbers
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.DimenRes
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
 import com.crazylegend.kotlinextensions.math.log
@@ -354,3 +355,15 @@ inline fun BigInteger.isPrime(certainty: Int = 5, precise: Boolean = false): Boo
 
 val LOG2 by lazy { Math.log(2.0) }
 val TWO_BIG by lazy { 2.toBigInteger() }
+
+inline fun <reified T : Number> Context?.dimen(@DimenRes res: Int): T =
+        (if (this == null) 0f else resources.getDimension(res)).let { dimen ->
+            when (T::class) {
+                Float::class -> dimen as T
+                Int::class -> dimen.toInt() as T
+                Double::class -> dimen.toDouble() as T
+                Long::class -> dimen.toLong() as T
+                Short::class -> dimen.toShort() as T
+                else -> throw IllegalArgumentException("Unknown dimen type")
+            }
+        }

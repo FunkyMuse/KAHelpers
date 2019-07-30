@@ -581,3 +581,5 @@ fun RecyclerView.withLinearLayoutManager(
 fun RecyclerView.withPagerSnapHelper(): RecyclerView = apply {
     PagerSnapHelper().attachToRecyclerView(this)
 }
+
+

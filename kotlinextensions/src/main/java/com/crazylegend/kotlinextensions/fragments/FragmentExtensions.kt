@@ -3,8 +3,10 @@ package com.crazylegend.kotlinextensions.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.NonNull
@@ -16,6 +18,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.*
+import com.crazylegend.kotlinextensions.activity.newIntent
 import com.crazylegend.kotlinextensions.context.getIntent
 import com.crazylegend.kotlinextensions.context.notification
 import com.crazylegend.kotlinextensions.log.debug
@@ -33,6 +36,40 @@ fun Fragment.shortToast(text: String) {
 
 fun Fragment.longToast(text: String) {
     Toast.makeText(this.requireActivity(), text, Toast.LENGTH_LONG).show()
+}
+
+inline fun <reified T : Any> Fragment.launchActivity(
+        requestCode: Int = -1,
+        options: Bundle? = null,
+        noinline init: Intent.() -> Unit = {}
+) {
+    val intent = newIntent<T>(requireActivity())
+    intent.init()
+
+    startActivityForResult(intent, requestCode, options)
+
+}
+
+inline fun <reified T : Any> Fragment.launchActivity(
+        options: Bundle? = null,
+        noinline init: Intent.() -> Unit = {}
+) {
+    val intent = newIntent<T>(requireActivity())
+    intent.init()
+    startActivity(intent, options)
+
+}
+
+inline fun <reified T> Fragment.startActivityForResult(
+        requestCode: Int,
+        bundleBuilder: Bundle.() -> Unit = {},
+        intentBuilder: Intent.() -> Unit = {}
+) {
+    val intent = Intent(requireActivity(), T::class.java)
+    intent.intentBuilder()
+    val bundle = Bundle()
+    bundle.bundleBuilder()
+    startActivityForResult(intent, requestCode, if (bundle.isEmpty) null else bundle)
 }
 
 fun Fragment.finish() {
@@ -54,6 +91,8 @@ fun FragmentActivity.popFragment() {
     if (fm.backStackEntryCount == 0) return
     fm.popBackStack()
 }
+
+
 
 fun FragmentActivity.popFragment(name: String, flags: Int) {
     val fm = supportFragmentManager
@@ -458,3 +497,15 @@ fun FragmentManager.applyActions(actions:(fragmentTransaction:FragmentTransactio
     }
 }
 
+fun Fragment?.hideKeyboard() {
+    (this?.context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+}
+
+fun Fragment.showKeyboard() {
+    (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager)
+            ?.also { inputMethodManager ->
+                view?.rootView?.apply { post { inputMethodManager.showSoftInput(this, 0) } }
+                        ?: inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            }
+}
