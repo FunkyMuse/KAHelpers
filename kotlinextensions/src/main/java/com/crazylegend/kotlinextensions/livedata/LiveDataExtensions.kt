@@ -374,6 +374,12 @@ inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinlin
 fun <T> T?.asLiveData(): LiveData<T> = MutableLiveData<T>().apply { value = this@asLiveData }
 
 
+/**
+ * Creates an instance of [MutableLiveData] with `this` as its value.
+ */
+fun <T> T?.asMutableLiveData(): MutableLiveData<T> = MutableLiveData<T>().apply { value = this@asMutableLiveData}
+
+
 
 /**
  * Shorthand function that will observe the liveData using `this` as the [LifecycleOwner]. If the emitted value is not
