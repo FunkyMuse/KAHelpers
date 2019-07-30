@@ -23,10 +23,10 @@ import kotlinx.coroutines.launch
 
 private const val SINGLE_ID_PERMISSION_ACTIVITY = 111
 
-fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", actionOnGranted: () -> Unit = {}) {
+fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", requestCode :Int = SINGLE_ID_PERMISSION_ACTIVITY, actionOnGranted: () -> Unit = {}) {
     lifecycleScope.launch(Dispatchers.Main){
         val permissionResult =
-                PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, SINGLE_ID_PERMISSION_ACTIVITY, permissionName)
+                PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, requestCode, permissionName)
 
         when (permissionResult) {
             is PermissionResult.PermissionGranted -> {
@@ -50,11 +50,11 @@ fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleTex
 }
 
 
-fun Fragment.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", actionOnGranted: () -> Unit = {}) {
+fun Fragment.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", requestCode :Int = SINGLE_ID_PERMISSION_ACTIVITY,actionOnGranted: () -> Unit = {}) {
 
     lifecycleScope.launch(Dispatchers.Main){
         val permissionResult =
-                PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, SINGLE_ID_PERMISSION_ACTIVITY, permissionName)
+                PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, requestCode, permissionName)
 
         when (permissionResult) {
             is PermissionResult.PermissionGranted -> {
@@ -84,6 +84,7 @@ fun AppCompatActivity.checkMultiplePermissions(
         shouldFinishActivityOnPermissionDeny: Boolean = false,
         rationaleText: String = "",
         retryText:String = "",
+        requestCode :Int = MULTIPLE_ID_PERMISSION_ACTIVITY,
         actionOnGranted: () -> Unit = {}
 ) {
 
@@ -91,7 +92,7 @@ fun AppCompatActivity.checkMultiplePermissions(
         val permissionResult =
                 PermissionCouroutineManager.requestPermissions(
                         this@checkMultiplePermissions,
-                        MULTIPLE_ID_PERMISSION_ACTIVITY,
+                        requestCode,
                         *permissions
                 )
 
@@ -123,13 +124,14 @@ fun Fragment.checkMultiplePermissions(
         vararg permissions: String, shouldFinishActivityOnPermissionDeny: Boolean = false,
         rationaleText: String = "",
         retryText:String = "",
+        requestCode :Int = MULTIPLE_ID_PERMISSION_ACTIVITY,
         actionOnGranted: () -> Unit = {}
 ) {
     lifecycleScope.launch(Dispatchers.Main) {
         val permissionResult =
                 PermissionCouroutineManager.requestPermissions(
                         this@checkMultiplePermissions,
-                        MULTIPLE_ID_PERMISSION_ACTIVITY,
+                        requestCode,
                         *permissions
                 )
 
