@@ -49,3 +49,16 @@ fun ByteArray.saveAt(pathName: String): Boolean = try {
     e.printStackTrace()
     false
 }
+
+infix fun Byte.shr(that: Int): Int = this.toInt().shr(that)
+infix fun Int.shr(that: Byte): Int = this.shr(that.toInt()) // Not necessary in this case because no there's (Int shl Byte)
+infix fun Byte.shr(that: Byte): Int = this.toInt().shr(that.toInt()) // Not necessary in this case because no there's (Byte shl Byte)
+
+infix fun Byte.and(that: Int): Int = this.toInt().and(that)
+infix fun Int.and(that: Byte): Int = this.and(that.toInt()) // Not necessary in this case because no there's (Int and Byte)
+infix fun Byte.and(that: Byte): Int = this.toInt().and(that.toInt()) // Not necessary in this case because no there's (Byte and Byte)
+
+
+infix fun Byte.shl(that: Int): Int = this.toInt().shl(that)
+infix fun Int.shl(that: Byte): Int = this.shl(that.toInt()) // Not necessary in this case because no there's (Int shl Byte)
+infix fun Byte.shl(that: Byte): Int = this.toInt().shl(that.toInt()) // Not necessary in this case because no there's (Byte shl Byte)

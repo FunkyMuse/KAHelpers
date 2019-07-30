@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions
 
 import android.annotation.TargetApi
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -21,7 +20,7 @@ import android.util.Patterns
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.core.text.isDigitsOnly
-import com.crazylegend.kotlinextensions.encryption.EncryptUtils
+import com.crazylegend.kotlinextensions.encryption.EncryptionUtils
 import com.crazylegend.kotlinextensions.intent.canBeHandled
 import org.intellij.lang.annotations.RegExp
 import java.io.File
@@ -334,7 +333,7 @@ fun String.convertToCamelCase(): String {
         val words = this.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         words.filterNot { it.isEmpty() }
             .map { it.substring(0, 1).toUpperCase() + it.substring(1).toLowerCase() }
-            .forEach { titleText += it + " " }
+            .forEach { titleText += "$it " }
     }
     return titleText.trim { it <= ' ' }
 }
@@ -931,26 +930,26 @@ fun String.toColor(): Int? {
 
 fun String.urlEncoded(): String? = URLEncoder.encode(this, "utf-8")
 
-fun String.md5() = EncryptUtils.encryptMD5ToString(this)
+fun String.md5() = EncryptionUtils.encryptMD5ToString(this)
 
-fun String.sha1() = EncryptUtils.encryptSHA1ToString(this)
+fun String.sha1() = EncryptionUtils.encryptSHA1ToString(this)
 
-fun String.sha256() = EncryptUtils.encryptSHA256ToString(this)
+fun String.sha256() = EncryptionUtils.encryptSHA256ToString(this)
 
-fun String.sha512() = EncryptUtils.encryptSHA512ToString(this)
-
-
-fun String.md5Hmac(salt: String) = EncryptUtils.encryptHmacMD5ToString(this, salt)
-
-fun String.sha1Hmac(salt: String) = EncryptUtils.encryptHmacSHA1ToString(this, salt)
-
-fun String.sha256Hmac(salt: String) = EncryptUtils.encryptHmacSHA256ToString(this, salt)
+fun String.sha512() = EncryptionUtils.encryptSHA512ToString(this)
 
 
-fun String.encryptDES(key: String) = EncryptUtils.encryptDES(this, key)
+fun String.md5Hmac(salt: String) = EncryptionUtils.encryptHmacMD5ToString(this, salt)
 
-fun String.decryptDES(key: String) = EncryptUtils.decryptDES(this, key)
+fun String.sha1Hmac(salt: String) = EncryptionUtils.encryptHmacSHA1ToString(this, salt)
 
-fun String.encryptAESUtils(key: String) = EncryptUtils.encryptAES(this, key)
+fun String.sha256Hmac(salt: String) = EncryptionUtils.encryptHmacSHA256ToString(this, salt)
 
-fun String.decryptAESUtils(key: String) = EncryptUtils.decryptAES(this, key)
+
+fun String.encryptDES(key: String) = EncryptionUtils.encryptDES(this, key)
+
+fun String.decryptDES(key: String) = EncryptionUtils.decryptDES(this, key)
+
+fun String.encryptAESUtils(key: String) = EncryptionUtils.encryptAES(this, key)
+
+fun String.decryptAESUtils(key: String) = EncryptionUtils.decryptAES(this, key)

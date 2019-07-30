@@ -1,6 +1,16 @@
 package com.crazylegend.kotlinextensions.encryption
 
-import android.provider.SyncStateContract.Helpers.update
+import android.util.Base64
+import com.crazylegend.kotlinextensions.shr
+import okhttp3.internal.and
+import java.security.InvalidKeyException
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import javax.crypto.Cipher
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+
+
 
 
 
@@ -10,13 +20,8 @@ import android.provider.SyncStateContract.Helpers.update
  */
 
 
-class EncryptUtils private constructor() {
+object EncryptionUtils  {
 
-    init {
-        throw UnsupportedOperationException("Can't instantiate singleton...")
-    }
-
-    companion object {
 
         ///////////////////////////////////////////////////////////////////////////
         // hash encryption
@@ -64,7 +69,7 @@ class EncryptUtils private constructor() {
          */
         fun encryptMD5ToString(data: ByteArray?, salt: ByteArray?): String {
             if (data == null && salt == null) return ""
-            if (salt == null) return bytes2HexString(encryptMD5(data))
+            if (salt == null) return bytes2HexString(data?.let { encryptMD5(it) })
             if (data == null) return bytes2HexString(encryptMD5(salt))
             val dataSalt = ByteArray(data.size + salt.size)
             System.arraycopy(data, 0, dataSalt, 0, data.size)
@@ -181,14 +186,14 @@ class EncryptUtils private constructor() {
          * @return the bytes of hash encryption
          */
         private fun hashTemplate(data: ByteArray?, algorithm: String): ByteArray? {
-            if (data == null || data.size <= 0) return null
-            try {
+            if (data == null || data.isEmpty()) return null
+            return try {
                 val md = MessageDigest.getInstance(algorithm)
                 md.update(data)
-                return md.digest()
+                md.digest()
             } catch (e: NoSuchAlgorithmException) {
                 e.printStackTrace()
-                return null
+                null
             }
 
         }
@@ -205,7 +210,7 @@ class EncryptUtils private constructor() {
          * @return the hex string of HmacMD5 encryption
          */
         fun encryptHmacMD5ToString(data: String?, key: String?): String {
-            return if (data == null || data.length == 0 || key == null || key.length == 0) "" else encryptHmacMD5ToString(data.toByteArray(), key.toByteArray())
+            return if (data == null || data.isEmpty() || key == null || key.isEmpty()) "" else encryptHmacMD5ToString(data.toByteArray(), key.toByteArray())
         }
 
         /**
@@ -238,7 +243,7 @@ class EncryptUtils private constructor() {
          * @return the hex string of HmacSHA1 encryption
          */
         fun encryptHmacSHA1ToString(data: String?, key: String?): String {
-            return if (data == null || data.length == 0 || key == null || key.length == 0) "" else encryptHmacSHA1ToString(data.toByteArray(), key.toByteArray())
+            return if (data == null || data.isEmpty() || key == null || key.isEmpty()) "" else encryptHmacSHA1ToString(data.toByteArray(), key.toByteArray())
         }
 
         /**
@@ -271,7 +276,7 @@ class EncryptUtils private constructor() {
          * @return the hex string of HmacSHA256 encryption
          */
         fun encryptHmacSHA256ToString(data: String?, key: String?): String {
-            return if (data == null || data.length == 0 || key == null || key.length == 0) "" else encryptHmacSHA256ToString(data.toByteArray(), key.toByteArray())
+            return if (data == null || data.isEmpty() || key == null || key.isEmpty()) "" else encryptHmacSHA256ToString(data.toByteArray(), key.toByteArray())
         }
 
         /**
@@ -307,18 +312,18 @@ class EncryptUtils private constructor() {
         private fun hmacTemplate(data: ByteArray?,
                                  key: ByteArray?,
                                  algorithm: String): ByteArray? {
-            if (data == null || data.size == 0 || key == null || key.size == 0) return null
-            try {
+            if (data == null || data.isEmpty() || key == null || key.isEmpty()) return null
+            return try {
                 val secretKey = SecretKeySpec(key, algorithm)
                 val mac = Mac.getInstance(algorithm)
                 mac.init(secretKey)
-                return mac.doFinal(data)
+                mac.doFinal(data)
             } catch (e: InvalidKeyException) {
                 e.printStackTrace()
-                return null
+                null
             } catch (e: NoSuchAlgorithmException) {
                 e.printStackTrace()
-                return null
+                null
             }
 
         }
@@ -408,6 +413,5 @@ class EncryptUtils private constructor() {
 
             return null
         }
-    }
 
 }
