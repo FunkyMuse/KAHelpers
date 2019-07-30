@@ -849,8 +849,7 @@ fun String.isValidEmail() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
 fun String?.isInt(): Boolean {
     if (isNullOrBlank()) return false
     return try {
-        val int = this!!.toInt()
-        true
+        this?.toIntOrNull()!=null
     } catch (exc: ParseException) {
         false
     }
