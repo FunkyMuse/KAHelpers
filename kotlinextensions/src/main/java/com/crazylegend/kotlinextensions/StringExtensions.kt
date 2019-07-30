@@ -840,9 +840,9 @@ fun String.abbreviateMiddle(middle: String, length: Int): String {
 private val NON_DIGIT_REGEX = Regex("[^A-Za-z0-9]")
 private val DIGIT_REGEX = Regex("[^0-9]")
 
-fun String?.replaceNonDigit() = this?.replace(NON_DIGIT_REGEX, "")
+fun String?.replaceNonDigit(replacement:String = "") = this?.replace(NON_DIGIT_REGEX, replacement)
 
-fun String?.replaceDigit() = this?.replace(DIGIT_REGEX, "")
+fun String?.replaceDigit(replacement:String = "") = this?.replace(DIGIT_REGEX, replacement)
 
 fun String.isValidEmail() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
