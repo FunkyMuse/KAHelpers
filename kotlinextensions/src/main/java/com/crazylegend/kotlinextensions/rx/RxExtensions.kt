@@ -1023,30 +1023,272 @@ inline fun <reified T> Observable<T>.intervalRequest(duration: Long): Observable
     return this.throttleFirst(duration, TimeUnit.MILLISECONDS)
 }
 
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Flowable<Response<T>>,
+        secondCall: Flowable<Response<U>>,
+        onError: (throwable: Throwable) -> Unit,
+        onFirstCall: (model: Response<T>) -> Unit,
+        onSecondCall: (model: Response<U>) -> Unit
+) {
+    Flowable.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                onFirstCall(it.first)
+                onSecondCall(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
 
-/**
-The Parallel Version
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Flowable<Response<T>>,
+        secondCall: Flowable<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>,
+        onError: (throwable: Throwable) -> Unit
+) {
+    Flowable.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
 
-val disposable = Observable.merge(
-firstNetworkCall().subscribeOn(Schedulers.io()),
-secondNetworkCall().subscribeOn(Schedulers.io()))
-.observeOn(AndroidSchedulers.mainThreadScheduler())
-.subscribe { it -> doSomethingWithIndividualResponse(it) }
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Flowable<Response<T>>,
+        secondCall: Flowable<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>
+) {
+    Flowable.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                firstResult.callError(it)
+                secondResult.callError(it)
+            }).addTo(this)
+}
 
- */
+//
 
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Observable<Response<T>>,
+        secondCall: Observable<Response<U>>,
+        onError: (throwable: Throwable) -> Unit,
+        onFirstCall: (model: Response<T>) -> Unit,
+        onSecondCall: (model: Response<U>) -> Unit
+) {
+    Observable.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                onFirstCall(it.first)
+                onSecondCall(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
 
-/**
-Combining 2 networks call
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Observable<Response<T>>,
+        secondCall: Observable<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>,
+        onError: (throwable: Throwable) -> Unit
+) {
+    Observable.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
 
-val disposable = Observable.zip(
-firstNetworkCall().subscribeOn(Schedulers.io()),
-secondNetworkCall().subscribeOn(Schedulers.io()),
-BiFunction{
-firstResonse: ResponseOneType,
-secondResponse: ResponseTwoType ->
-combineResult(firstResponse, secondResponse) }))
-.observeOn(AndroidSchedulers.mainThreadScheduler())
-.subscribe { it -> doSomethingWithIndividualResponse(it) }
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Observable<Response<T>>,
+        secondCall: Observable<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>
+) {
+    Observable.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                firstResult.callError(it)
+                secondResult.callError(it)
+            }).addTo(this)
+}
 
- */
+//
+
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Single<Response<T>>,
+        secondCall: Single<Response<U>>,
+        onError: (throwable: Throwable) -> Unit,
+        onFirstCall: (model: Response<T>) -> Unit,
+        onSecondCall: (model: Response<U>) -> Unit
+) {
+    Single.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                onFirstCall(it.first)
+                onSecondCall(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
+
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Single<Response<T>>,
+        secondCall: Single<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>,
+        onError: (throwable: Throwable) -> Unit
+) {
+    Single.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
+
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Single<Response<T>>,
+        secondCall: Single<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>
+) {
+    Single.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                firstResult.callError(it)
+                secondResult.callError(it)
+            }).addTo(this)
+}
+
+//
+
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Maybe<Response<T>>,
+        secondCall: Maybe<Response<U>>,
+        onError: (throwable: Throwable) -> Unit,
+        onFirstCall: (model: Response<T>) -> Unit,
+        onSecondCall: (model: Response<U>) -> Unit
+) {
+    Maybe.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                onFirstCall(it.first)
+                onSecondCall(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
+
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Maybe<Response<T>>,
+        secondCall: Maybe<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>,
+        onError: (throwable: Throwable) -> Unit
+) {
+    Maybe.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                onError(it)
+            }).addTo(this)
+}
+
+fun <T, U> CompositeDisposable.parallelApiCall(
+        firstCall: Maybe<Response<T>>,
+        secondCall: Maybe<Response<U>>,
+        firstResult: MutableLiveData<RetrofitResult<T>>,
+        secondResult: MutableLiveData<RetrofitResult<U>>
+) {
+    Maybe.zip(
+            firstCall.subscribeOn(ioThreadScheduler),
+            secondCall.subscribeOn(ioThreadScheduler),
+            BiFunction { firstResponse: Response<T>, secondResponse: Response<U> ->
+                Pair(firstResponse, secondResponse)
+            }
+    ).observeOn(mainThreadScheduler)
+            .subscribe({
+                firstResult.subscribe(it.first)
+                secondResult.subscribe(it.second)
+            }, {
+                firstResult.callError(it)
+                secondResult.callError(it)
+            }).addTo(this)
+}
