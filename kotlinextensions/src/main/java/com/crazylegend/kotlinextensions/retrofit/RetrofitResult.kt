@@ -81,7 +81,7 @@ sealed class RetrofitResult<out T> {
             compositeDisposable.add(
                 it.getPosts()
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThreadScheduler())
                     .subscribe({ res ->
 
                         if (res.isSuccessful){

@@ -4,14 +4,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
-import com.crazylegend.kotlinextensions.database.DBResult
-import com.crazylegend.kotlinextensions.database.callError
-import com.crazylegend.kotlinextensions.database.querying
-import com.crazylegend.kotlinextensions.database.subscribe
-import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
-import com.crazylegend.kotlinextensions.retrofit.callError
-import com.crazylegend.kotlinextensions.retrofit.loading
-import com.crazylegend.kotlinextensions.retrofit.subscribe
+import com.crazylegend.kotlinextensions.database.*
+import com.crazylegend.kotlinextensions.database.subscribeList
+import com.crazylegend.kotlinextensions.retrofit.*
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -47,9 +42,9 @@ fun <T : Any> Observable<T>.withIndex(): Observable<IndexedValue<T>> =
         zipWith(Observable.range(0, Int.MAX_VALUE), BiFunction { value, index -> IndexedValue(index, value) })
 
 
-private val mainThread = AndroidSchedulers.mainThread()
-private val newThread = Schedulers.newThread()
-private val ioThread = Schedulers.io()
+ val mainThreadScheduler = AndroidSchedulers.mainThread()
+ val newThreadScheduler = Schedulers.newThread()
+ val ioThreadScheduler = Schedulers.io()
 /**
  * observe on main thread
  * subscribe on new thread
@@ -59,65 +54,65 @@ private val ioThread = Schedulers.io()
  *  .runSafeOnMain()
  *  .subscribe({}, {])
  */
-fun <T> Observable<T>.runSafeOnMain(): Observable<T> =
-        observeOn(mainThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnComplete { unsubscribeOn(newThread) }
+fun <T> Observable<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Observable<T> =
+        observeOn(mainThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Observable<T>.runSafeOnIO(): Observable<T> =
-        observeOn(ioThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnComplete { unsubscribeOn(newThread) }
+fun <T> Observable<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Observable<T> =
+        observeOn(ioThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Flowable<T>.runSafeOnMain(): Flowable<T> =
-        observeOn(mainThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnComplete { unsubscribeOn(newThread) }
+fun <T> Flowable<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Flowable<T> =
+        observeOn(mainThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Flowable<T>.runSafeOnIO(): Flowable<T> =
-        observeOn(ioThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnComplete { unsubscribeOn(newThread) }
+fun <T> Flowable<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Flowable<T> =
+        observeOn(ioThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Single<T>.runSafeOnMain(): Single<T> =
-        observeOn(mainThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnSuccess { unsubscribeOn(newThread) }
+fun <T> Single<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Single<T> =
+        observeOn(mainThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnSuccess { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Single<T>.runSafeOnIO(): Single<T> =
-        observeOn(ioThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnSuccess { unsubscribeOn(newThread) }
+fun <T> Single<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Single<T> =
+        observeOn(ioThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnSuccess { unsubscribeOn(newThreadScheduler) }
 
-fun Completable.runSafeOnMain(): Completable =
-        observeOn(mainThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnComplete { unsubscribeOn(newThread) }
+fun Completable.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Completable =
+        observeOn(mainThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun Completable.runSafeOnIO(): Completable =
-        observeOn(ioThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnComplete { unsubscribeOn(newThread) }
+fun Completable.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Completable =
+        observeOn(ioThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Maybe<T>.runSafeOnMain(): Maybe<T> =
-        observeOn(mainThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnSuccess { unsubscribeOn(newThread) }
+fun <T> Maybe<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Maybe<T> =
+        observeOn(mainThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnSuccess { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Maybe<T>.runSafeOnIO(): Maybe<T> =
-        observeOn(ioThread)
-                .subscribeOn(newThread)
-                .doOnError { unsubscribeOn(newThread) }
-                .doOnSuccess { unsubscribeOn(newThread) }
+fun <T> Maybe<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Maybe<T> =
+        observeOn(ioThreadScheduler)
+                .subscribeOn(subscribeOn)
+                .doOnError { unsubscribeOn(newThreadScheduler) }
+                .doOnSuccess { unsubscribeOn(newThreadScheduler) }
 
 
 fun Disposable?.unsubscribe() {
@@ -401,6 +396,29 @@ fun <T : Response<R>, R> Flowable<T>?.makeApiCall(
 
 }
 
+
+fun <T : Response<R>, R> Flowable<T>?.makeApiCallList(
+        result: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        dropBackPressure: Boolean = false,
+        includeEmptyData: Boolean = true
+) {
+    result.loading()
+
+    this?.apply {
+        if (dropBackPressure) {
+            onBackpressureDrop()
+        }
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribeList(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
 /**
  *
  * @receiver Single<T>?
@@ -412,6 +430,23 @@ fun <T : Response<R>, R> Single<T>?.makeApiCall(
         result: MutableLiveData<RetrofitResult<R>>,
         compositeDisposable: CompositeDisposable,
         includeEmptyData: Boolean = false
+) {
+    result.loading()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+fun <T : Response<R>, R> Single<T>?.makeApiCallList(
+        result: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = true
 ) {
     result.loading()
     this?.apply {
@@ -449,6 +484,23 @@ fun <T : Response<R>, R> Observable<T>?.makeApiCall(
 
 }
 
+fun <T : Response<R>, R> Observable<T>?.makeApiCallList(
+        result: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = true
+) {
+    result.loading()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
 /**
  *
  * @receiver Maybe<T>?
@@ -473,6 +525,145 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCall(
 
 }
 
+fun <T : Response<R>, R> Maybe<T>?.makeApiCallList(
+        result: MutableLiveData<RetrofitResult<R>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = true
+) {
+    result.loading()
+    this?.apply {
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+/**
+ *
+ * @receiver CompositeDisposable
+ * @param result MutableLiveData<RetrofitResult<T>>
+ * @param dropBackPressure Boolean
+ * @param includeEmptyData Boolean
+ * @param function Function0<Flowable<Response<T>>?>
+ */
+fun <T> CompositeDisposable.makeApiCall(result: MutableLiveData<RetrofitResult<T>>, dropBackPressure: Boolean = false,
+                                        includeEmptyData: Boolean = false, function: () -> Flowable<Response<T>>?) {
+    result.loading()
+    val disposable = function()
+            ?.observeOn(AndroidSchedulers.mainThread())
+
+
+    if (dropBackPressure) {
+        disposable?.onBackpressureDrop()
+                ?.subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    } else {
+        disposable
+                ?.subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    }
+
+}
+
+fun <T> CompositeDisposable.makeApiCallList(result: MutableLiveData<RetrofitResult<T>>, dropBackPressure: Boolean = false,
+                                        includeEmptyData: Boolean = true, function: () -> Flowable<Response<T>>?) {
+    result.loading()
+    val disposable = function()
+            ?.observeOn(AndroidSchedulers.mainThread())
+
+
+    if (dropBackPressure) {
+        disposable?.onBackpressureDrop()
+                ?.subscribe({
+                    result.subscribeList(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    } else {
+        disposable
+                ?.subscribe({
+                    result.subscribeList(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    }
+
+}
+
+
+/**
+ *
+ * @receiver CompositeDisposable
+ * @param result MutableLiveData<RetrofitResult<T>>
+ * @param includeEmptyData Boolean
+ * @param function Function0<Single<Response<T>>?>
+ */
+fun <T> CompositeDisposable.makeApiCallSingle(result: MutableLiveData<RetrofitResult<T>>,
+                                        includeEmptyData: Boolean = false, function: () -> Single<Response<T>>?) {
+    result.loading()
+    function()
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribe(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
+fun <T> CompositeDisposable.makeApiCallListSingle(result: MutableLiveData<RetrofitResult<T>>,
+                                              includeEmptyData: Boolean = true, function: () -> Single<Response<T>>?) {
+    result.loading()
+    function()
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribeList(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
+fun <T> CompositeDisposable.makeApiCallMaybe(result: MutableLiveData<RetrofitResult<T>>,
+                                        includeEmptyData: Boolean = false, function: () -> Maybe<Response<T>>?) {
+    result.loading()
+    function()
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribe(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
+fun <T> CompositeDisposable.makeApiCallListMaybe(result: MutableLiveData<RetrofitResult<T>>,
+                                             includeEmptyData: Boolean = true, function: () -> Maybe<Response<T>>?) {
+    result.loading()
+    function()
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribeList(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
 
 /**
  *
@@ -493,9 +684,31 @@ fun <T> Flowable<T>?.makeDBCall(
         if (dropBackPressure) {
             onBackpressureDrop()
         }
+        subscribeOn(Schedulers.io())
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+}
+
+fun <T> Flowable<T>?.makeDBCallList(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        dropBackPressure: Boolean = false,
+        includeEmptyData: Boolean = true
+) {
+    result.querying()
+    this?.apply {
+        if (dropBackPressure) {
+            onBackpressureDrop()
+        }
+        subscribeOn(Schedulers.io())
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribeList(it, includeEmptyData)
                 }, {
                     result.callError(it)
                 }).addTo(compositeDisposable)
@@ -516,9 +729,28 @@ fun <T> Single<T>?.makeDBCall(
 ) {
     result.querying()
     this?.apply {
+        subscribeOn(Schedulers.io())
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+fun <T> Single<T>?.makeDBCallList(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = true
+) {
+    result.querying()
+    this?.apply {
+        subscribeOn(Schedulers.io())
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribeList(it, includeEmptyData)
                 }, {
                     result.callError(it)
                 }).addTo(compositeDisposable)
@@ -540,9 +772,28 @@ fun <T> Observable<T>?.makeDBCall(
 ) {
     result.querying()
     this?.apply {
+        subscribeOn(Schedulers.io())
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+
+}
+
+fun <T> Observable<T>?.makeDBCallList(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = true
+) {
+    result.querying()
+    this?.apply {
+        subscribeOn(Schedulers.io())
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribeList(it, includeEmptyData)
                 }, {
                     result.callError(it)
                 }).addTo(compositeDisposable)
@@ -564,12 +815,167 @@ fun <T> Maybe<T>?.makeDBCall(
 ) {
     result.querying()
     this?.apply {
+        subscribeOn(Schedulers.io())
         observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     result.subscribe(it, includeEmptyData)
                 }, {
                     result.callError(it)
                 }).addTo(compositeDisposable)
+    }
+}
+
+fun <T> Maybe<T>?.makeDBCallList(
+        result: MutableLiveData<DBResult<T>>,
+        compositeDisposable: CompositeDisposable,
+        includeEmptyData: Boolean = true
+) {
+    result.querying()
+    this?.apply {
+        subscribeOn(Schedulers.io())
+        observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    result.subscribeList(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                }).addTo(compositeDisposable)
+    }
+}
+
+
+fun <T> CompositeDisposable.makeDBCall(result: MutableLiveData<DBResult<T>>, dropBackPressure: Boolean = false,
+                                       includeEmptyData: Boolean = false, function: () -> Flowable<T>?) {
+    result.querying()
+    val disposable = function()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+
+    if (dropBackPressure) {
+        disposable?.onBackpressureDrop()
+                ?.subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    } else {
+        disposable
+                ?.subscribe({
+                    result.subscribe(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    }
+
+}
+
+fun <T> CompositeDisposable.makeDBCallList(result: MutableLiveData<DBResult<T>>, dropBackPressure: Boolean = false,
+                                       includeEmptyData: Boolean = false, function: () -> Flowable<T>?) {
+    result.querying()
+    val disposable = function()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+
+    if (dropBackPressure) {
+        disposable?.onBackpressureDrop()
+                ?.subscribe({
+                    result.subscribeList(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    } else {
+        disposable
+                ?.subscribe({
+                    result.subscribeList(it, includeEmptyData)
+                }, {
+                    result.callError(it)
+                })
+                ?.addTo(this)
+    }
+
+}
+
+fun <T> CompositeDisposable.makeDBCallSingle(result: MutableLiveData<DBResult<T>>,
+                                       includeEmptyData: Boolean = false, function: () -> Single<T>?) {
+    result.querying()
+    function()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribe(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
+fun <T> CompositeDisposable.makeDBCallListSingle(result: MutableLiveData<DBResult<T>>,
+                                             includeEmptyData: Boolean = true, function: () -> Single<T>?) {
+    result.querying()
+    function()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribeList(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
+fun <T> CompositeDisposable.makeDBCallMaybe(result: MutableLiveData<DBResult<T>>,
+                                       includeEmptyData: Boolean = false, function: () -> Maybe<T>?) {
+    result.querying()
+    function()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribe(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
+fun <T> CompositeDisposable.makeDBCallListMaybe(result: MutableLiveData<DBResult<T>>,
+                                            includeEmptyData: Boolean = true, function: () -> Maybe<T>?) {
+    result.querying()
+    function()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+                result.subscribeList(it, includeEmptyData)
+            }, {
+                result.callError(it)
+            })
+            ?.addTo(this)
+}
+
+fun Completable?.makeDBCall(compositeDisposable: CompositeDisposable, onThrow: (error: Throwable) -> Unit = { _ -> }, onComplete: () -> Unit = {} ) {
+    this?.apply {
+        subscribeOn(Schedulers.io())
+        observeOn(AndroidSchedulers.mainThread())
+        subscribe({
+            onComplete()
+        }, {
+            onThrow.invoke(it)
+        }).addTo(compositeDisposable)
+    }
+}
+
+
+fun CompositeDisposable.makeDBCallCompletable(onComplete: () -> Unit = {}, onThrow: (error: Throwable) -> Unit = { _ -> }, function: () -> Completable?) {
+    function()?.apply {
+        subscribeOn(Schedulers.io())
+        observeOn(AndroidSchedulers.mainThread())
+        subscribe({
+            onComplete()
+        }, {
+            onThrow.invoke(it)
+        })
+        addTo(this@makeDBCallCompletable)
     }
 }
 
@@ -624,7 +1030,7 @@ The Parallel Version
 val disposable = Observable.merge(
 firstNetworkCall().subscribeOn(Schedulers.io()),
 secondNetworkCall().subscribeOn(Schedulers.io()))
-.observeOn(AndroidSchedulers.mainThread())
+.observeOn(AndroidSchedulers.mainThreadScheduler())
 .subscribe { it -> doSomethingWithIndividualResponse(it) }
 
  */
@@ -640,7 +1046,7 @@ BiFunction{
 firstResonse: ResponseOneType,
 secondResponse: ResponseTwoType ->
 combineResult(firstResponse, secondResponse) }))
-.observeOn(AndroidSchedulers.mainThread())
+.observeOn(AndroidSchedulers.mainThreadScheduler())
 .subscribe { it -> doSomethingWithIndividualResponse(it) }
 
  */

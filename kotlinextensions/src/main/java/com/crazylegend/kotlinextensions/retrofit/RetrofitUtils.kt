@@ -229,96 +229,105 @@ inline fun <reified T> isGenericInstanceOf(obj: Any, contract: T): Boolean {
     return obj is T
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>, includeEmptyData: Boolean = false) {
-    if (response.isSuccessful) {
-        response.body()?.apply {
-            if (includeEmptyData) {
-                if (this == null) {
-                    value = RetrofitResult.EmptyData
-                } else {
-                    value = RetrofitResult.Success(this)
-                }
-            } else {
-                value = RetrofitResult.Success(this)
-            }
-        }
-    } else {
-        value = RetrofitResult.ApiError(response.code(), response.errorBody())
-    }
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>, includeEmptyData: Boolean = false) {
-    if (response.isSuccessful) {
-        response.body()?.apply {
-            if (includeEmptyData) {
-                if (this == null) {
-                    postValue(RetrofitResult.EmptyData)
-                } else {
-                    postValue(RetrofitResult.Success(this))
-                }
-            } else {
-                postValue(RetrofitResult.Success(this))
-            }
-        }
-    } else {
-        postValue(RetrofitResult.ApiError(response.code(), response.errorBody()))
-    }
-}
-
-
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>, includeEmptyData: Boolean = false) {
-    if (response.isSuccessful) {
-        response.body()?.apply {
-            if (includeEmptyData) {
-                if (this == null) {
-                    value = RetrofitResult.EmptyData
-                } else {
-                    if (this is List<*>){
-                        val list = this as List<*>
-                        if (list.isNullOrEmpty()){
-                            value = RetrofitResult.EmptyData
-                        } else {
-                            value = RetrofitResult.Success(this)
-                        }
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
+    response?.let { serverResponse ->
+        if (serverResponse.isSuccessful) {
+            serverResponse.body()?.apply {
+                if (includeEmptyData) {
+                    if (this == null) {
+                        value = RetrofitResult.EmptyData
                     } else {
                         value = RetrofitResult.Success(this)
                     }
+                } else {
+                    value = RetrofitResult.Success(this)
                 }
-            } else {
-                value = RetrofitResult.Success(this)
             }
+        } else {
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
         }
-    } else {
-        value = RetrofitResult.ApiError(response.code(), response.errorBody())
     }
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<T>, includeEmptyData: Boolean = false) {
-    if (response.isSuccessful) {
-        response.body()?.apply {
-            if (includeEmptyData) {
-                if (this == null) {
-                   postValue(RetrofitResult.EmptyData)
-                } else {
-                    if (this is List<*>){
-                        val list = this as List<*>
-                        if (list.isNullOrEmpty()){
-                            postValue( RetrofitResult.EmptyData)
-                        } else {
-                            postValue(RetrofitResult.Success(this))
-                        }
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>?, includeEmptyData: Boolean = false) {
+    response?.let {serverResponse ->
+        if (serverResponse.isSuccessful) {
+            serverResponse.body()?.apply {
+                if (includeEmptyData) {
+                    if (this == null) {
+                        postValue(RetrofitResult.EmptyData)
                     } else {
-                        postValue( RetrofitResult.Success(this))
+                        postValue(RetrofitResult.Success(this))
                     }
+                } else {
+                    postValue(RetrofitResult.Success(this))
                 }
-            } else {
-                postValue( RetrofitResult.Success(this))
             }
+        } else {
+            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
         }
-    } else {
-        postValue(RetrofitResult.ApiError(response.code(), response.errorBody()))
+    }
+}
+
+
+
+
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+    response?.let { serverResponse ->
+        if (serverResponse.isSuccessful) {
+            serverResponse.body()?.apply {
+                if (includeEmptyData) {
+                    if (this == null) {
+                        value = RetrofitResult.EmptyData
+                    } else {
+                        if (this is List<*>){
+                            val list = this as List<*>
+                            if (list.isNullOrEmpty()){
+                                value = RetrofitResult.EmptyData
+                            } else {
+                                value = RetrofitResult.Success(this)
+                            }
+                        } else {
+                            value = RetrofitResult.Success(this)
+                        }
+                    }
+                } else {
+                    value = RetrofitResult.Success(this)
+                }
+            }
+        } else {
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
+        }
+    }
+
+}
+
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
+    response?.let { serverResponse ->
+        if (serverResponse.isSuccessful) {
+            serverResponse.body()?.apply {
+                if (includeEmptyData) {
+                    if (this == null) {
+                        postValue(RetrofitResult.EmptyData)
+                    } else {
+                        if (this is List<*>){
+                            val list = this as List<*>
+                            if (list.isNullOrEmpty()){
+                                postValue( RetrofitResult.EmptyData)
+                            } else {
+                                postValue(RetrofitResult.Success(this))
+                            }
+                        } else {
+                            postValue( RetrofitResult.Success(this))
+                        }
+                    }
+                } else {
+                    postValue( RetrofitResult.Success(this))
+                }
+            }
+        } else {
+            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
+        }
     }
 }
 
@@ -358,7 +367,6 @@ fun <T> MutableLiveData<RetrofitResult<T>>.getSuccess(action: (model: T) -> Unit
         }
     }
 }
-
 
 fun <T> LiveData<RetrofitResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) {
     value?.let {

@@ -80,7 +80,7 @@ fun <T> T.asNullable(): T? = this
 
 
 /**
- * Provides handler and mainThread.
+ * Provides handler and mainThreadScheduler.
  */
 private object ContextHandler {
     val handler = Handler(Looper.getMainLooper())
