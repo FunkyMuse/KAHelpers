@@ -294,17 +294,21 @@ db?.getDBSomething()
  */
 
 fun AndroidViewModel.makeDBCall(
+        onCallExecuted : () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
     return viewModelIOCoroutine {
         try {
             dbCall()
         } catch (t: Throwable) {
             t.printStackTrace()
+        } finally {
+            onCallExecuted()
         }
     }
 }
 
 fun AndroidViewModel.makeDBCall(
+        onCallExecuted : () -> Unit = {},
         onErrorAction: (throwable:Throwable)-> Unit = {_->},
         dbCall: suspend () -> Unit): Job {
     return viewModelIOCoroutine {
@@ -312,6 +316,8 @@ fun AndroidViewModel.makeDBCall(
             dbCall()
         } catch (t: Throwable) {
             onErrorAction(t)
+        }finally {
+            onCallExecuted()
         }
     }
 }
