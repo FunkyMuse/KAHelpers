@@ -12,60 +12,10 @@ sealed class RetrofitResult<out T> {
 
     data class Success<T>(val value: T) : RetrofitResult<T>()
     object Loading : RetrofitResult<Nothing>()
-    object NoData : RetrofitResult<Nothing>()
+    object NoData : RetrofitResult<Nothing>() //this should be initial, before the data is loaded
     object EmptyData : RetrofitResult<Nothing>()
     data class Error(val message: String, val exception: Exception?=null, val throwable: Throwable) : RetrofitResult<Nothing>()
-    data class ApiError(val responseCode: Int, val errorBody: ResponseBody?) : RetrofitResult<Nothing>(){
-
-        fun showErrors(context: Context){
-            errorCode(context)
-        }
-
-        private fun errorCode(context: Context) {
-            when (responseCode) {
-                400 -> {
-                    // bad request
-                    context.shortToast("Bad Request")
-                }
-
-                401 -> {
-                    // unauthorized
-                    context.shortToast("Unauthorized")
-                }
-
-                404 -> {
-                    // not found
-                    context.shortToast("Not found")
-                }
-
-                408 -> {
-                    // time out
-                    context.shortToast("Time out")
-                }
-
-                422 -> {
-                    // account exists
-                    context.shortToast("Account with that email already exists")
-                }
-
-                500 -> {
-                    // internal server error
-                    context.shortToast("Server error")
-                }
-
-                502 -> {
-                    // bad gateway
-                    context.shortToast("Bad gateway")
-                }
-                504 -> {
-                    // gateway timeout
-                    context.shortToast("Gateway timeout")
-                }
-            }
-        }
-
-    }
-
+    data class ApiError(val responseCode: Int, val errorBody: ResponseBody?) : RetrofitResult<Nothing>()
 }
 
 

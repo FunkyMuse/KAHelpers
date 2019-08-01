@@ -153,13 +153,14 @@ object RetrofitClient {
             .build()
     }
 
+    private fun OkHttpClient.Builder.addInterceptors(loggingInterceptor: HttpLoggingInterceptor, connectivityInterceptor: ConnectivityInterceptor, connectTimeout: Long, readTimeout: Long, writeTimeout: Long, timeUnit: TimeUnit = TimeUnit.SECONDS) {
+        addInterceptor(loggingInterceptor)
+        addInterceptor(connectivityInterceptor)
+        connectTimeout(connectTimeout, timeUnit)
+        readTimeout(readTimeout,timeUnit)
+        writeTimeout(writeTimeout, timeUnit)
+    }
+
 
 }
 
-private fun OkHttpClient.Builder.addInterceptors(loggingInterceptor: HttpLoggingInterceptor, connectivityInterceptor: ConnectivityInterceptor, connectTimeout: Long, readTimeout: Long, writeTimeout: Long, timeUnit: TimeUnit = TimeUnit.SECONDS) {
-    addInterceptor(loggingInterceptor)
-    addInterceptor(connectivityInterceptor)
-    connectTimeout(connectTimeout, timeUnit)
-    readTimeout(readTimeout,timeUnit)
-    writeTimeout(writeTimeout, timeUnit)
-}

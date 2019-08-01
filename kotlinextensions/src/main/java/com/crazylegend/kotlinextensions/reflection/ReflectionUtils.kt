@@ -27,7 +27,7 @@ import kotlin.reflect.full.memberProperties
  * @throws InvocationTargetException
  */
 @Throws(NoSuchMethodException::class, SecurityException::class, IllegalAccessException::class, IllegalArgumentException::class, InvocationTargetException::class)
-fun Any.callMethod(methodName: String, parameterTypes: Array<Class<*>>, parameters: Array<Any>): Any {
+fun Any.callMethod(methodName: String, parameterTypes: Array<Class<*>>, parameters: Array<Any>): Any? {
     val method = javaClass.getDeclaredMethod(methodName, *parameterTypes)
     method.isAccessible = true
     return method.invoke(this, parameters)

@@ -304,6 +304,20 @@ fun AndroidViewModel.makeDBCall(
     }
 }
 
+fun AndroidViewModel.makeDBCall(
+        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        dbCall: suspend () -> Unit): Job {
+    return viewModelIOCoroutine {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        }
+    }
+}
+
+
+
 /**
  *
  * @receiver AndroidViewModel

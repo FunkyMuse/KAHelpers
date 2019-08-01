@@ -1023,6 +1023,40 @@ inline fun <reified T> Observable<T>.intervalRequest(duration: Long): Observable
     return this.throttleFirst(duration, TimeUnit.MILLISECONDS)
 }
 
+inline fun <reified T> Flowable<T>.applyNetworkSchedulers(): Flowable<T> {
+    return this.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> Flowable<T>.applyComputationSchedulers(): Flowable<T> {
+    return this.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> Flowable<T>.intervalRequest(duration: Long): Flowable<T> {
+    return this.throttleFirst(duration, TimeUnit.MILLISECONDS)
+}
+
+inline fun <reified T> Single<T>.applyNetworkSchedulers(): Single<T> {
+    return this.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> Single<T>.applyComputationSchedulers(): Single<T> {
+    return this.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+
+inline fun <reified T> Maybe<T>.applyNetworkSchedulers(): Maybe<T> {
+    return this.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> Maybe<T>.applyComputationSchedulers(): Maybe<T> {
+    return this.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+}
+
+
+
 fun <T, U> CompositeDisposable.parallelApiCall(
         firstCall: Flowable<Response<T>>,
         secondCall: Flowable<Response<U>>,
@@ -1292,3 +1326,4 @@ fun <T, U> CompositeDisposable.parallelApiCall(
                 secondResult.callError(it)
             }).addTo(this)
 }
+
