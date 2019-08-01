@@ -133,6 +133,13 @@ fun <T> MutableLiveData<PagingStateResult<T>>.emptyDataPost() {
 }
 
 
+fun <T> MutableLiveData<PagingStateResult<T>>.cantLoadMorePost() {
+    postValue(PagingStateResult.CantLoadMore)
+}
+
+fun <T> MutableLiveData<PagingStateResult<T>>.cantLoadMore() {
+    value = PagingStateResult.CantLoadMore
+}
 fun <T> MutableLiveData<PagingStateResult<T>>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
