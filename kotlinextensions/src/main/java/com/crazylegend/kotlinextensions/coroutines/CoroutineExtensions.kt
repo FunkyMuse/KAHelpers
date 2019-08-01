@@ -302,7 +302,9 @@ fun AndroidViewModel.makeDBCall(
         } catch (t: Throwable) {
             t.printStackTrace()
         } finally {
-            onCallExecuted()
+            viewModelMainCoroutine {
+                onCallExecuted()
+            }
         }
     }
 }
@@ -317,7 +319,9 @@ fun AndroidViewModel.makeDBCall(
         } catch (t: Throwable) {
             onErrorAction(t)
         }finally {
-            onCallExecuted()
+            viewModelMainCoroutine {
+                onCallExecuted()
+            }
         }
     }
 }
