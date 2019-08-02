@@ -436,10 +436,10 @@ fun Context.removeFragmentBackstack(fragment: Fragment) {
     supportFragmentManager.popBackStack(fragment.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
 
-fun Fragment.removeFragmentBackstack(fragment: Fragment) {
+fun Fragment.removeFragmentBackstack() {
     val activity = this.requireActivity() as AppCompatActivity
-    activity.supportFragmentManager.beginTransaction().remove(fragment).commitNow()
-    activity.supportFragmentManager.popBackStack(fragment.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    activity.supportFragmentManager.beginTransaction().remove(this).commitNow()
+    activity.supportFragmentManager.popBackStack(this.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
 
 fun AppCompatActivity.removeFragment(fragment: Fragment) {
@@ -451,9 +451,9 @@ fun Context.removeFragment(fragment: Fragment) {
     supportFragmentManager.beginTransaction().remove(fragment).commitNow()
 }
 
-fun Fragment.removeFragment(fragment: Fragment) {
+fun Fragment.removeFragment() {
     val activity = this.requireActivity() as AppCompatActivity
-    activity.supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+    activity.supportFragmentManager.beginTransaction().remove(this).commitNow()
 }
 
 fun AppCompatActivity.printBackStack() {

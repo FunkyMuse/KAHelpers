@@ -3,7 +3,12 @@ package com.crazylegend.kotlinextensions.context
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.*
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -11,7 +16,10 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 
 
@@ -27,7 +35,7 @@ fun Activity?.hideKeyboard() {
             val v = this.currentFocus
             if (v != null) {
                 inputManager.hideSoftInputFromWindow(
-                    v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
+                        v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
                 )
             }
         }
@@ -51,7 +59,7 @@ fun Context.hideKeyboard() {
             val v = this.currentFocus
             if (v != null) {
                 inputManager.hideSoftInputFromWindow(
-                    v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
+                        v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
                 )
             }
         }
@@ -65,7 +73,7 @@ fun Context.openEmail() {
         val emailClientPackageNames = ArrayList<String>()
         // finding list of email clients that support send email
         val intent = Intent(
-            Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abc@gmail.com", null)
+                Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abc@gmail.com", null)
         )
         val packages = packageManager.queryIntentActivities(intent, 0)
         if (!packages.isEmpty()) {
@@ -103,7 +111,7 @@ fun Context.openWebPage(url: String) {
     }
 }
 
-fun Context.sendEmail(myEmail:String, subject:String, text:String) {
+fun Context.sendEmail(myEmail: String, subject: String, text: String) {
     val i = Intent(Intent.ACTION_SEND)
     i.type = "message/rfc822"
     i.putExtra(Intent.EXTRA_EMAIL, arrayOf(myEmail))
@@ -117,7 +125,7 @@ fun Context.sendEmail(myEmail:String, subject:String, text:String) {
     }
 }
 
-fun Context.sendEmail(emails:Array<String>, subject:String, text:String) {
+fun Context.sendEmail(emails: Array<String>, subject: String, text: String) {
     val i = Intent(Intent.ACTION_SEND)
     i.type = "message/rfc822"
     i.putExtra(Intent.EXTRA_EMAIL, emails)
@@ -132,13 +140,14 @@ fun Context.sendEmail(emails:Array<String>, subject:String, text:String) {
 }
 
 
-val Context.getTextFromClipboard :String? get() {
+val Context.getTextFromClipboard: String?
+    get() {
 
-    val clipboard = ContextCompat.getSystemService(this, ClipboardManager::class.java)
-    val item = clipboard?.primaryClip?.getItemAt(0)
+        val clipboard = ContextCompat.getSystemService(this, ClipboardManager::class.java)
+        val item = clipboard?.primaryClip?.getItemAt(0)
 
-    return item?.text.toString()
-}
+        return item?.text.toString()
+    }
 
 /**
  * {@link ContextCompat#getColor(int)}.
@@ -149,7 +158,6 @@ fun Context.getColorCompat(color: Int) = ContextCompat.getColor(this, color)
  * {@link ContextCompat#getDrawable(int)}.
  */
 fun Context.getDrawablecompat(drawable: Int) = ContextCompat.getDrawable(this, drawable)
-
 
 
 /**
@@ -207,12 +215,11 @@ fun Context.sendSMS(number: String, text: String = ""): Boolean = try {
 }
 
 
-fun Context.copyToClipboard(text: String){
+fun Context.copyToClipboard(text: String) {
     val clipboard = clipboardManager
-    val clip = ClipData.newPlainText("label",text)
+    val clip = ClipData.newPlainText("label", text)
     clipboard?.setPrimaryClip(clip)
 }
-
 
 
 fun Context.getTextFromClipboard(): CharSequence {
@@ -233,18 +240,18 @@ fun Context.getUriFromClipboard(): Uri? {
     return null
 }
 
-fun Context.hideKeyboard(window : Window, view :View?) {
-    if(view?.windowToken != null)
+fun Context.hideKeyboard(window: Window, view: View?) {
+    if (view?.windowToken != null)
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 }
 
-fun Context.isShowKeyboard() :Boolean {
+fun Context.isShowKeyboard(): Boolean {
     return inputMethodManager.isAcceptingText
 }
 
 fun Context.toggleKeyboard() {
-    if(inputMethodManager.isActive)
+    if (inputMethodManager.isActive)
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
 }
 
@@ -258,9 +265,9 @@ fun Context.toggleKeyboard() {
  */
 @JvmOverloads
 inline fun <reified T : Context> Context.getIntent(
-    flags: Int = 0,
-    bundle: Bundle? = null,
-    data: Uri? = null
+        flags: Int = 0,
+        bundle: Bundle? = null,
+        data: Uri? = null
 ): Intent = Intent(this, T::class.java).apply {
     this.flags = flags
     this.data = data
@@ -301,3 +308,26 @@ fun Context.getBroadcastPendingIntent(
         intent: Intent,
         flags: Int = PendingIntent.FLAG_ONE_SHOT
 ): PendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, flags)
+
+fun Toolbar?.changeNavigateUpColor(@IdRes color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+        this?.navigationIcon?.colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+    } else {
+        this?.navigationIcon?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+
+    }
+}
+
+fun AppCompatActivity.customToolbarDrawable(drawable: Drawable?) {
+    supportActionBar?.setBackgroundDrawable(drawable)
+}
+
+fun AppCompatActivity.customIndicator(drawable: Drawable?) {
+    supportActionBar?.setHomeAsUpIndicator(drawable)
+}
+
+fun AppCompatActivity.customIndicator(drawableResource: Int) {
+    supportActionBar?.setHomeAsUpIndicator(drawableResource)
+}
+
