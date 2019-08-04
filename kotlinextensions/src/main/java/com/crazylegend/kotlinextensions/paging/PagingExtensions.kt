@@ -11,7 +11,7 @@ import retrofit2.Response
  * Created by hristijan on 8/1/19 to long live and prosper !
  */
 
-fun <T> PagingStateResult<T>.handle(
+fun PagingStateResult.handle(
         loading: () -> Unit,
         cantLoadMore: () -> Unit,
         emptyData: () -> Unit,
@@ -43,30 +43,32 @@ fun <T> PagingStateResult<T>.handle(
 }
 
 
-fun <T> MutableLiveData<PagingStateResult<T>>.getSuccess(action: () -> Unit = {}) {
+fun MutableLiveData<PagingStateResult>.getSuccess(action: () -> Unit = {}) {
     value?.let {
         when (it) {
             is PagingStateResult.PagingSuccess -> {
                 action()
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
 
-fun <T> LiveData<PagingStateResult<T>>.getSuccess(action: () -> Unit = { }) {
+fun LiveData<PagingStateResult>.getSuccess(action: () -> Unit = { }) {
     value?.let {
         when (it) {
             is PagingStateResult.PagingSuccess -> {
                 action()
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
 
 
-fun <T> MutableLiveData<PagingStateResult<T>>.onCantLoadMore(action: () -> Unit = {}) {
+fun MutableLiveData<PagingStateResult>.onCantLoadMore(action: () -> Unit = {}) {
     value?.let {
         when (it) {
             is PagingStateResult.CantLoadMore -> {
@@ -78,7 +80,7 @@ fun <T> MutableLiveData<PagingStateResult<T>>.onCantLoadMore(action: () -> Unit 
     }
 }
 
-fun <T> LiveData<PagingStateResult<T>>.onCantLoadMore(action: () -> Unit = {}) {
+fun LiveData<PagingStateResult>.onCantLoadMore(action: () -> Unit = {}) {
     value?.let {
         when (it) {
             is PagingStateResult.CantLoadMore -> {
@@ -90,57 +92,58 @@ fun <T> LiveData<PagingStateResult<T>>.onCantLoadMore(action: () -> Unit = {}) {
     }
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.callError(throwable: Throwable) {
+fun MutableLiveData<PagingStateResult>.callError(throwable: Throwable) {
     value = PagingStateResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable)
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.callErrorPost(throwable: Throwable) {
+fun MutableLiveData<PagingStateResult>.callErrorPost(throwable: Throwable) {
     postValue(PagingStateResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable))
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.success() {
+fun MutableLiveData<PagingStateResult>.success() {
     value = PagingStateResult.PagingSuccess
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.successPost() {
+fun MutableLiveData<PagingStateResult>.successPost() {
     postValue(PagingStateResult.PagingSuccess)
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.apiError(code: Int, errorBody: ResponseBody?) {
+fun MutableLiveData<PagingStateResult>.apiError(code: Int, errorBody: ResponseBody?) {
     value = PagingStateResult.ApiError(code, errorBody)
 }
 
 
-fun <T> MutableLiveData<PagingStateResult<T>>.apiErrorPost(code: Int, errorBody: ResponseBody?) {
+fun MutableLiveData<PagingStateResult>.apiErrorPost(code: Int, errorBody: ResponseBody?) {
     postValue(PagingStateResult.ApiError(code, errorBody))
 }
 
 
-fun <T> MutableLiveData<PagingStateResult<T>>.loading() {
+fun MutableLiveData<PagingStateResult>.loading() {
     value = PagingStateResult.Loading
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.emptyData() {
+fun MutableLiveData<PagingStateResult>.emptyData() {
     value = PagingStateResult.EmptyData
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.loadingPost() {
+fun MutableLiveData<PagingStateResult>.loadingPost() {
     postValue(PagingStateResult.Loading)
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.emptyDataPost() {
+fun MutableLiveData<PagingStateResult>.emptyDataPost() {
     postValue(PagingStateResult.EmptyData)
 }
 
 
-fun <T> MutableLiveData<PagingStateResult<T>>.cantLoadMorePost() {
+fun MutableLiveData<PagingStateResult>.cantLoadMorePost() {
     postValue(PagingStateResult.CantLoadMore)
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.cantLoadMore() {
+fun MutableLiveData<PagingStateResult>.cantLoadMore() {
     value = PagingStateResult.CantLoadMore
 }
-fun <T> MutableLiveData<PagingStateResult<T>>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
+
+fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
             serverResponse.body()?.apply {
@@ -160,7 +163,7 @@ fun <T> MutableLiveData<PagingStateResult<T>>.subscribe(response: Response<T>?, 
     }
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.subscribePost(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableLiveData<PagingStateResult>.subscribePost(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
             serverResponse.body()?.apply {
@@ -181,7 +184,7 @@ fun <T> MutableLiveData<PagingStateResult<T>>.subscribePost(response: Response<T
 }
 
 
-fun <T> MutableLiveData<PagingStateResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableLiveData<PagingStateResult>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
             serverResponse.body()?.apply {
@@ -211,7 +214,7 @@ fun <T> MutableLiveData<PagingStateResult<T>>.subscribeList(response: Response<T
 
 }
 
-fun <T> MutableLiveData<PagingStateResult<T>>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableLiveData<PagingStateResult>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
             serverResponse.body()?.apply {
