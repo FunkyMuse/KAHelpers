@@ -5,6 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import com.crazylegend.kotlinextensions.database.DBResult
+import com.crazylegend.kotlinextensions.database.getSuccess
+import com.crazylegend.kotlinextensions.reflection.firstPropertyValue
+import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.retrofit.getSuccess
 
 
 /**
@@ -377,8 +382,7 @@ fun <T> T?.asLiveData(): LiveData<T> = MutableLiveData<T>().apply { value = this
 /**
  * Creates an instance of [MutableLiveData] with `this` as its value.
  */
-fun <T> T?.asMutableLiveData(): MutableLiveData<T> = MutableLiveData<T>().apply { value = this@asMutableLiveData}
-
+fun <T> T?.asMutableLiveData(): MutableLiveData<T> = MutableLiveData<T>().apply { value = this@asMutableLiveData }
 
 
 /**
@@ -402,3 +406,159 @@ inline fun <T, L : LiveData<T>> LifecycleOwner.observe(liveData: L, crossinline 
 fun <T, L : LiveData<Event<T>>> LifecycleOwner.observeEvent(liveData: L, body: (T) -> Unit = {}) {
     liveData.observe(this, EventObserver(body))
 }
+
+
+/**
+ * For all the ones till region
+ * USAGE  fun filteredData(): LiveData<List<YourObject>>? {
+
+return Transformations.switchMap(searchQuery) {
+dbResultDataFiltered.performSearch(it, "title", dbResultData)
+}
+}
+ */
+inline fun <reified T> MutableLiveData<List<T>>.performSearchDB(searchQuery: String, fieldName: String, dbResultData: MutableLiveData<DBResult<List<T>>>): LiveData<List<T>> {
+    val applyFilteredList: ArrayList<T> = ArrayList()
+    dbResultData.getSuccess { list ->
+        list.forEach { model ->
+            val property = model?.firstPropertyValue(fieldName)
+            property?.apply {
+                if (toLowerCase().contains(searchQuery, true)) {
+                    applyFilteredList.add(model)
+                }
+            }
+        }
+    }
+    this.value = applyFilteredList
+    return this
+}
+
+inline fun <reified T> LiveData<List<T>>.performSearchDB(searchQuery: String, fieldName: String, dbResultData: MutableLiveData<DBResult<List<T>>>, filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
+    val applyFilteredList: ArrayList<T> = ArrayList()
+    dbResultData.getSuccess { list ->
+        list.forEach { model ->
+            val property = model?.firstPropertyValue(fieldName)
+            property?.apply {
+                if (toLowerCase().contains(searchQuery, true)) {
+                    applyFilteredList.add(model)
+                }
+            }
+        }
+    }
+    filteredList.value = applyFilteredList
+    return this
+}
+
+inline fun <reified T> LiveData<List<T>>.performSearch(searchQuery: String, fieldName: String, dbResultData: List<T>, filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
+    val applyFilteredList: ArrayList<T> = ArrayList()
+    dbResultData.forEach { model ->
+        val property = model?.firstPropertyValue(fieldName)
+        property?.apply {
+            if (toLowerCase().contains(searchQuery, true)) {
+                applyFilteredList.add(model)
+            }
+        }
+    }
+    filteredList.value = applyFilteredList
+    return this
+}
+
+
+inline fun <reified T> MutableLiveData<List<T>>.performSearch(searchQuery: String, fieldName: String, dbResultData: List<T>): LiveData<List<T>> {
+    val applyFilteredList: ArrayList<T> = ArrayList()
+    dbResultData.forEach { model ->
+        val property = model?.firstPropertyValue(fieldName)
+        property?.apply {
+            if (toLowerCase().contains(searchQuery, true)) {
+                applyFilteredList.add(model)
+            }
+        }
+    }
+    this.value = applyFilteredList
+    return this
+}
+/**
+ * REGION
+ */
+
+
+/**
+ * For all the ones till region
+ * USAGE  fun filteredData(): LiveData<List<YourObject>>? {
+
+return Transformations.switchMap(searchQuery) {
+dbResultDataFiltered.performSearch(it, "title", dbResultData)
+}
+}
+ */
+inline fun <reified T> MutableLiveData<List<T>>.performSearchAPI(searchQuery: String, fieldName: String, resultData: MutableLiveData<RetrofitResult<List<T>>>): LiveData<List<T>> {
+    val applyFilteredList: ArrayList<T> = ArrayList()
+    resultData.getSuccess { list ->
+        list.forEach { model ->
+            val property = model?.firstPropertyValue(fieldName)
+            property?.apply {
+                if (toLowerCase().contains(searchQuery, true)) {
+                    applyFilteredList.add(model)
+                }
+            }
+        }
+    }
+    this.value = applyFilteredList
+    return this
+}
+
+inline fun <reified T> LiveData<List<T>>.performSearchAPI(searchQuery: String, fieldName: String, resultData: MutableLiveData<RetrofitResult<List<T>>>, filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
+    val applyFilteredList: ArrayList<T> = ArrayList()
+    resultData.getSuccess { list ->
+        list.forEach { model ->
+            val property = model?.firstPropertyValue(fieldName)
+            property?.apply {
+                if (toLowerCase().contains(searchQuery, true)) {
+                    applyFilteredList.add(model)
+                }
+            }
+        }
+    }
+    filteredList.value = applyFilteredList
+    return this
+}
+
+
+/**
+ * REGION
+ */
+
+
+inline fun <reified T> MutableLiveData<List<T>>.switchMapSearchDB(searchQuery: MutableLiveData<String>, fieldName: String, dbResultData: MutableLiveData<DBResult<List<T>>>): LiveData<List<T>> {
+    return Transformations.switchMap(searchQuery) {
+        performSearchDB(it, fieldName, dbResultData)
+    }
+}
+
+inline fun <reified T> LiveData<List<T>>.switchMapSearchDB(searchQuery: MutableLiveData<String>,
+                                                           fieldName: String,
+                                                           dbResultData: MutableLiveData<DBResult<List<T>>>,
+                                                           filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
+    return Transformations.switchMap(searchQuery) {
+        performSearchDB(it, fieldName, dbResultData, filteredList)
+    }
+}
+
+
+
+inline fun <reified T> MutableLiveData<List<T>>.switchMapSearchAPI(searchQuery: MutableLiveData<String>, fieldName: String, resultData: MutableLiveData<RetrofitResult<List<T>>>): LiveData<List<T>> {
+    return Transformations.switchMap(searchQuery) {
+        performSearchAPI(it, fieldName, resultData)
+    }
+}
+
+inline fun <reified T> LiveData<List<T>>.switchMapSearchAPI(searchQuery: MutableLiveData<String>,
+                                                           fieldName: String,
+                                                           dbResultData: MutableLiveData<RetrofitResult<List<T>>>,
+                                                           filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
+    return Transformations.switchMap(searchQuery) {
+        performSearchAPI(it, fieldName, dbResultData, filteredList)
+    }
+}
+
+

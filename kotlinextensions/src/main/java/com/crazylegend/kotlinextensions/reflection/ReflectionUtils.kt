@@ -1,10 +1,15 @@
 package com.crazylegend.kotlinextensions.reflection
 
-import java.lang.reflect.Field
-import java.lang.reflect.InvocationTargetException
-import java.lang.reflect.Method
-import java.lang.reflect.Constructor
+import com.crazylegend.kotlinextensions.isNotNull
+import com.crazylegend.kotlinextensions.isNull
+import com.crazylegend.kotlinextensions.tryOrIgnore
+import com.crazylegend.kotlinextensions.tryOrNull
+import java.lang.reflect.*
+import kotlin.reflect.*
+import kotlin.reflect.full.extensionReceiverParameter
+import kotlin.reflect.full.instanceParameter
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.kotlinProperty
 
 
 /**
@@ -61,7 +66,7 @@ fun Any.getDeclaredMethod(methodName: String, vararg parameterTypes: Class<*>): 
 
 
 fun Any.invokeMethod(methodName: String, parameterTypes: Array<Class<*>>,
-                 parameters: Array<Any>): Any? {
+                     parameters: Array<Any>): Any? {
     val method = getDeclaredMethod(methodName, *parameterTypes)
     method!!.isAccessible = true
     try {
@@ -174,11 +179,426 @@ fun getConstructor(className: String, parameterTypes: Array<Class<*>>): Construc
  */
 fun Any.firstPropertyValue(equalsToFieldName: String): String {
     return try {
-        javaClass.kotlin.memberProperties.first { member->
+        javaClass.kotlin.memberProperties.first { member ->
             member.name.toLowerCase() == equalsToFieldName.toLowerCase()
         }.get(this).toString()
-    }catch (e:java.lang.Exception){
+    } catch (e: java.lang.Exception) {
         ""
     }
 
 }
+
+
+/**
+ * Finds property if the name is exact as the one provided
+ */
+fun Any.fieldPropertyValue(equalsToFieldName: String): Any? {
+    return tryOrNull {
+        javaClass.kotlin.memberProperties.first { member ->
+            member.name.toLowerCase() == equalsToFieldName.toLowerCase()
+        }.get(this)
+    }
+}
+
+
+inline fun <reified T> T?.getGenericTypeName(fieldName: String): String? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).genericType.typeName
+        }
+    }
+}
+
+inline fun <reified T> T?.getClasstype(fieldName: String): Class<out Any>? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).type
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueByFieldName(fieldName: String): Any? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).get(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueBoolean(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getBoolean(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueByte(fieldName: String): Byte? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getByte(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueChar(fieldName: String): Char? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getChar(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueDouble(fieldName: String): Double? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getDouble(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueFloat(fieldName: String): Float? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getFloat(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueInt(fieldName: String): Int? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getInt(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueLong(fieldName: String): Long? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getLong(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldValueShort(fieldName: String): Short? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).getShort(model)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldModifiers(fieldName: String): Int? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).modifiers
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isFieldEnumConstant(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).isEnumConstant
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isFieldSynthetic(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).isSynthetic
+        }
+    }
+}
+
+
+inline fun <reified T> T?.fieldToGenericString(fieldName: String): String? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).toGenericString()
+        }
+    }
+}
+
+
+inline fun <reified T> T?.fieldDeclaredAnnotations(fieldName: String): Array<out Annotation>? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).declaredAnnotations
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isFieldAccessible(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).isAccessible
+        }
+    }
+}
+
+
+inline fun <reified T> T?.setFieldAccessible(fieldName: String) {
+    tryOrNull {
+        this?.let { model ->
+            model::class.java.getField(fieldName).isAccessible = true
+        }
+    }
+}
+
+
+/**
+ * Should call setFieldAccessible first
+ */
+inline fun <reified T> T?.setFieldValue(fieldName: String, value: String) {
+    tryOrNull {
+        this?.let { model ->
+            model::class.java.getField(fieldName).set(model, value)
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getGenericType(fieldName: String): Type? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).genericType
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getAnnotations(fieldName: String): List<Annotation>? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.annotations
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getGetter(fieldName: String): KProperty.Getter<Any?>? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.getter
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isConstant(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.isConst
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isLateInit(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.isLateinit
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isAbstract(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.isAbstract
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isFinal(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.isFinal
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isOpen(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.isOpen
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isSuspend(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.isSuspend
+        }
+    }
+}
+
+
+inline fun <reified T> T?.isFieldNull(fieldName: String): Boolean? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.isNull
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldParameters(fieldName: String): List<KParameter>? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.parameters
+        }
+    }
+}
+
+
+inline fun <reified T> T?.getFieldTypeParameters(fieldName: String): List<KTypeParameter>? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.typeParameters
+        }
+    }
+}
+
+
+/**
+ * Returns a parameter representing the `this` instance needed to call this callable,
+ * or `null` if this callable is not a member of a class and thus doesn't take such parameter.
+ */
+inline fun <reified T> T?.getFieldInstanceParameter(fieldName: String): KParameter? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.instanceParameter
+        }
+    }
+}
+
+
+/**
+ * Returns a parameter representing the extension receiver instance needed to call this callable,
+ * or `null` if this callable is not an extension.
+ */
+inline fun <reified T> T?.getFieldExtensionReceiverParameter(fieldName: String): KParameter? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.extensionReceiverParameter
+        }
+    }
+}
+
+
+/**
+ * Calls this callable with the specified list of arguments and returns the result.
+ * Throws an exception if the number of specified arguments is not equal to the size of [arguments],
+ * or if their types do not match the types of the parameters.
+ */
+inline fun <reified T> T?.callFieldWithArguments(fieldName: String, vararg arguments: Any) {
+    tryOrIgnore {
+        this?.let { model ->
+            model::class.java.getField(fieldName).kotlinProperty?.call(arguments)
+        }
+    }
+}
+
+/**
+ * Calls this callable with the specified list of arguments and returns the result.
+ * Throws an exception if the number of specified arguments is not equal to the size of [arguments],
+ * or if their types do not match the types of the parameters.
+ */
+inline fun <reified T> T?.callFieldWithArguments(fieldName: String, arguments: Map<KParameter, Any?>) {
+    tryOrIgnore {
+        this?.let { model ->
+            model::class.java.getField(fieldName).kotlinProperty?.callBy(arguments)
+        }
+    }
+}
+
+
+/**
+ * If the object has hash code returns it else null
+ */
+inline fun <reified T> T?.getObjectHashCode(fieldName: String): Int? {
+    return tryOrNull {
+        this?.let { model ->
+            return@let model::class.java.getField(fieldName).kotlinProperty?.hashCode()
+        }
+    }
+}
+
+
+
+/**
+ * 0-based index of this parameter in the parameter list of its containing callable.
+ */
+inline fun KParameter?.getParameterIndex(): Int? {
+    return this?.index
+}
+
+
+/**
+ * `true` if this parameter is optional and can be omitted when making a call via [KCallable.callBy], or `false` otherwise.
+ *
+ * A parameter is optional in any of the two cases:
+ * 1. The default value is provided at the declaration of this parameter.
+ * 2. The parameter is declared in a member function and one of the corresponding parameters in the super functions is optional.
+ */
+inline fun KParameter?.isOptional(): Boolean? {
+    return this?.isOptional
+}
+
+/**
+ * `true` if this parameter is `vararg`.
+ * See the [Kotlin language documentation](https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs)
+ * for more information.
+ */
+inline fun KParameter?.isVararg(): Boolean? {
+    return this?.isVararg
+}
+
+
+
+/**
+ * Kind of this parameter.
+ *   /** Instance required to make a call to the member, or an outer class instance for an inner class constructor. */
+INSTANCE,
+
+/** Extension receiver of an extension function or property. */
+EXTENSION_RECEIVER,
+
+/** Ordinary named value parameter. */
+VALUE,
+ */
+inline fun KParameter?.getParameterKind(): KParameter.Kind? {
+    return this?.kind
+}
+
+
+/**
+ * Type of this parameter. For a `vararg` parameter, this is the type of the corresponding array,
+ * not the individual element.
+ */
+inline fun KParameter?.getParameterType(): KType? {
+    return this?.type
+}
+
