@@ -3,21 +3,23 @@ package com.crazylegend.kotlinextensions.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.IdRes
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.*
 import com.crazylegend.kotlinextensions.activity.newIntent
+import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.crazylegend.kotlinextensions.context.getIntent
 import com.crazylegend.kotlinextensions.context.notification
 import com.crazylegend.kotlinextensions.log.debug
@@ -36,6 +38,63 @@ fun Fragment.shortToast(text: String) {
 fun Fragment.longToast(text: String) {
     Toast.makeText(this.requireActivity(), text, Toast.LENGTH_LONG).show()
 }
+
+
+fun Fragment.colors(@ColorRes stateListRes: Int): ColorStateList? {
+    return ContextCompat.getColorStateList(requireActivity(), stateListRes)
+}
+
+ fun Fragment.attribute(value: Int): TypedValue {
+    val ret = TypedValue()
+    requireActivity().theme.resolveAttribute(value, ret, true)
+    return ret
+}
+
+/**
+ * Get color from resource with fragment context.
+ */
+fun Fragment.compatColor(@ColorRes res: Int) = requireActivity().getColorCompat(res)
+
+
+/**
+ * Set arguments to fragment and return current instance
+ */
+inline fun <reified T : Fragment> T.withArguments(args: Bundle): T {
+    this.arguments = args
+    return this
+}
+
+
+/**
+ * Set target fragment with request code and return current instance
+ */
+fun Fragment.withTargetFragment(fragment: Fragment, reqCode: Int): Fragment {
+    setTargetFragment(fragment, reqCode)
+    return this
+}
+
+inline fun Fragment.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(requireActivity(), id)
+
+/**
+ * Get dimension defined by attribute [attr]
+ */
+fun Fragment.attrDimen(attr: Int): Int {
+    return TypedValue.complexToDimensionPixelSize(attribute(attr).data, resources.displayMetrics)
+}
+
+/**
+ * Get drawable defined by attribute [attr]
+ */
+fun Fragment.attrDrawable(attr: Int): Drawable? {
+    val a = requireActivity().theme.obtainStyledAttributes(intArrayOf(attr))
+    val attributeResourceId = a.getResourceId(0, 0)
+    a.recycle()
+    return drawable(attributeResourceId)
+}
+
+
+fun Fragment.shortToast(resId: Int) = Toast.makeText(requireActivity(), resId, Toast.LENGTH_SHORT).show()
+fun Fragment.longToast(resId: Int) = Toast.makeText(requireActivity(), resId, Toast.LENGTH_LONG).show()
 
 inline fun <reified T : Any> Fragment.launchActivity(
         requestCode: Int = -1,

@@ -26,7 +26,9 @@ fun Any.toUnsafeInt(): Int {
     }
 }
 
-
+fun <T> Any.asType(): T? {
+    return (this as? T)
+}
 
 fun Any.toNumberOrNull(): Number? {
     return when (this) {

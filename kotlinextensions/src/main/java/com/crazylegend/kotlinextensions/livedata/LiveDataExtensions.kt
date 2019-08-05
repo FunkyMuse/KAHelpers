@@ -330,6 +330,14 @@ fun <T> LiveData<T>.elementAt(index: Int): SingleLiveData<T> {
 }
 
 /**
+ * Notifies the observer with the same live data as it holds
+ * @receiver MutableLiveData<T>
+ */
+fun <T> MutableLiveData<T>.notifyObserver() {
+    postValue(value)
+}
+
+/**
  * Emits only the values that are not null
  */
 fun <T> LiveData<T>.nonNull(): NonNullLiveData<T> {

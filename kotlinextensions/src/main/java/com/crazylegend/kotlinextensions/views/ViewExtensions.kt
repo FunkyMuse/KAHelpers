@@ -8,10 +8,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.*
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.TransitionDrawable
+import android.graphics.drawable.*
 import android.os.Build
 import android.os.Handler
 import android.text.SpannableStringBuilder
@@ -74,6 +71,7 @@ inline fun AppCompatTextView.setTextSizeRes(@DimenRes rid: Int) {
 inline fun View.px(@DimenRes rid: Int): Int {
     return this.context.resources.getDimensionPixelOffset(rid)
 }
+
 
 
 val SearchView?.getEditTextSearchView get() = this?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
@@ -1216,6 +1214,26 @@ fun TextInputLayout.setTextInputLayoutUpperHintColor(@ColorInt color: Int) {
     defaultHintTextColor = ColorStateList(arrayOf(intArrayOf()), intArrayOf(color))
 }
 
+val View.centerX
+    get() = x + width / 2
+
+val View.centerY
+    get() = y + height / 2
+
+
+/**
+ * Restricts [Int] to be within a [min] and a [max] value
+ */
+fun Int.clamp(min: Int, max: Int): Int {
+    return Math.max(min, Math.min(max, this))
+}
+
+/**
+ * Adds a leading zero if only one digit
+ */
+fun Int.padWithZero(): String {
+    return String.format("%02d", this)
+}
 
 fun TextInputLayout.toggleTextHintColorOnEmpty(activeColor: Int, inactiveColor: Int) = setTextInputLayoutUpperHintColor(
         if (editText?.text?.isNotEmpty() == true)
@@ -1263,6 +1281,12 @@ fun List<View>.invisible() {
 
 fun List<View>.visible() {
     this.forEach { it.visible() }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.Q)
+fun View.setBackgrountTint(@ColorRes colorRes: Int, blendMode: BlendMode = BlendMode.SRC_ATOP){
+    background.colorFilter = BlendModeColorFilter(context.getColorCompat(colorRes),blendMode)
 }
 
 fun View.setBackgroundTintRes(@ColorRes colorRes: Int, tintMode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
@@ -1380,9 +1404,6 @@ fun SeekBar.onProgressChanged(callback: (theSeekBar: SeekBar, progress: Int, fro
     })
 }
 
-fun ProgressBar.loaderColor(color: Int) {
-    this.indeterminateDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-}
 
 fun CompoundButton.onChecked(onChecked: (View, Boolean) -> Unit) {
     setOnCheckedChangeListener { buttonView, isChecked ->

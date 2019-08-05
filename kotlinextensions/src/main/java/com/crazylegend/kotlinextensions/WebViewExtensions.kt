@@ -30,3 +30,7 @@ fun WebView.loadStyledHTML(style: String, htmlBody: String) {
 
     loadDataWithBaseURL("x-data://base", body, "text/html", "UTF-8", null)
 }
+
+fun WebView.loadHtml(text: String) {
+    loadData(text, "text/html", "UTF-8")
+}

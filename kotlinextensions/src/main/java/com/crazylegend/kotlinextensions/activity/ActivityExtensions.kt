@@ -62,6 +62,12 @@ fun Activity.hideSoftKeyboard() {
 
 
 /**
+ * Returns the Activity's content (root) view.
+ */
+val Activity.rootView: View?
+    get() = findViewById(android.R.id.content)
+
+/**
  * Show keyboard for an activity.
  */
 fun Activity.showKeyboard(toFocus: View) {
@@ -463,6 +469,33 @@ fun Activity.hideBottomBar() {
         decorView.systemUiVisibility = uiOptions
     }
 }
+
+/**
+ * Sets the screen brightness. Call this before setContentView.
+ * 0 is dimmest, 1 is brightest. Default value is 1
+ */
+inline fun Activity.brightness(brightness: Float = 1f) {
+    val params = window.attributes
+    params.screenBrightness = brightness // range from 0 - 1 as per docs
+    window.attributes = params
+    window.addFlags(WindowManager.LayoutParams.FLAGS_CHANGED)
+}
+
+
+inline fun <T> Activity.extra(key: String): Lazy<T?> {
+    return lazy(LazyThreadSafetyMode.NONE) {
+        @Suppress("UNCHECKED_CAST")
+        intent.extras?.get(key) as T
+    }
+}
+
+inline fun <T> Activity.extraOrNull(key: String): Lazy<T?> {
+    return lazy(LazyThreadSafetyMode.NONE) {
+        @Suppress("UNCHECKED_CAST")
+        intent.extras?.get(key) as? T?
+    }
+}
+
 
 @SuppressLint("ObsoleteSdkInt")
 fun Activity.showBottomBar() {

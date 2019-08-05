@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import kotlin.experimental.xor
 
 
 /**
@@ -11,7 +12,7 @@ import java.util.*
 /**
  * Xor two bytes array together, byte per byte.
  */
-infix fun ByteArray.xor (other: ByteArray): ByteArray {
+infix fun ByteArray.xor(other: ByteArray): ByteArray {
     assert(size == other.size)
     val out = ByteArray(size)
     for (i in indices) out[i] = (this[i].toInt() xor other[i].toInt()).toByte()
@@ -30,7 +31,6 @@ val ByteArray.string: String
 
 val ByteArray.hexString: String
     get() = map { String.format("%02X", it) }.joinToString("")
-
 
 
 /**
@@ -62,3 +62,36 @@ infix fun Byte.and(that: Byte): Int = this.toInt().and(that.toInt()) // Not nece
 infix fun Byte.shl(that: Int): Int = this.toInt().shl(that)
 infix fun Int.shl(that: Byte): Int = this.shl(that.toInt()) // Not necessary in this case because no there's (Int shl Byte)
 infix fun Byte.shl(that: Byte): Int = this.toInt().shl(that.toInt()) // Not necessary in this case because no there's (Byte shl Byte)
+
+
+inline val ByteArray?.xorAll: Byte
+    get() {
+        var result: Byte = 0
+        this?.forEach {
+            result = result xor it
+        }
+        return result
+    }
+
+
+@JvmOverloads
+fun ByteArray.arrayCopy(srcPos: Int = 0, des: ByteArray, desPos: Int = 0) {
+    System.arraycopy(this, srcPos, des, desPos, this.size)
+}
+
+
+
+inline val Int.byteArray: ByteArray
+    get() = byteArrayOf(((this shr 24) and 0xFF).toByte(), ((this shr 16) and 0xFF).toByte(),
+            ((this shr 0) and 0xFF).toByte(), this.toByte())
+
+
+inline val Short.byteArray: ByteArray
+    get() = byteArrayOf(((this.toInt() shr 8) and 0xFF).toByte(), this.toByte())
+
+inline val Byte.sign: Int
+    get() = when {
+        this < 0 -> -1
+        this > 0 -> 1
+        else -> 0
+    }

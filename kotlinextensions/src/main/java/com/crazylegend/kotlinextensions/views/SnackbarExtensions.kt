@@ -66,3 +66,16 @@ fun Snackbar.action(action: String, color: Int? = null, listener: (View) -> Unit
     setAction(action, listener)
     color?.let { setActionTextColor(color) }
 }
+
+
+/**
+ * Returns the [Snackbar]'s text view by looking for
+ * `android.support.design.R.id.snackbar_text` in the view's layout.
+ */
+val Snackbar.textView: TextView?
+    get() = view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+
+/**
+ * Default [Snackbar] duration. Set to [Snackbar.LENGTH_LONG].
+ */
+const val SNACKBAR_DEFAULT_DURATION = Snackbar.LENGTH_LONG

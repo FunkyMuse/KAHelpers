@@ -40,6 +40,9 @@ fun Context.longToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 }
 
+fun Context.shortToast(resId: Int) = Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+fun Context.longToast(resId: Int) = Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
+
 
 inline fun <reified T> Context.intent(body: Intent.() -> Unit ): Intent {
     val intent = Intent(this, T::class.java)

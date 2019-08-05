@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.dateAndTime
 
 import android.content.Context
+import android.os.Parcel
 import android.text.format.DateFormat
 import android.text.format.DateUtils
 import org.joda.time.*
@@ -104,7 +105,7 @@ fun Date.toLocalTime(): LocalTime = LocalTime.fromDateFields(this)
 /** Convert `Instant` to [DateTime] with TimeZone UTC */
 fun AbstractInstant.dateTimeUTC(): DateTime = this.toDateTime(DateTimeZone.UTC)
 
-/** Convert `Instant` to `MutableDateTime` with TimeZone UTC */
+/** Convert `Instant` to `MutableDateTimeWrapper` with TimeZone UTC */
 fun AbstractInstant.mutableDateTimeUTC(): MutableDateTime = this.toMutableDateTime(DateTimeZone.UTC)
 
 /** Millsecond */
@@ -224,13 +225,13 @@ fun dateTimeOf(year: Int,
                minutes: Int = 0,
                seconds: Int = 0,
                millis: Int = 0): DateTime =
-    DateTime(year, month, day, hours, minutes, seconds, millis)
+        DateTime(year, month, day, hours, minutes, seconds, millis)
 
 /** Start time of Day from this dateTime */
 fun DateTime.startOfDay(): DateTime = this.withTimeAtStartOfDay()
 
 fun DateTime.startOfWeek(): DateTime =
-    this.minusDays(this.dayOfWeek - DateTimeConstants.MONDAY).startOfDay()
+        this.minusDays(this.dayOfWeek - DateTimeConstants.MONDAY).startOfDay()
 
 /** Start time of Month from this dateTime */
 fun DateTime.startOfMonth(): DateTime = dateTimeOf(this.year, this.monthOfYear)
@@ -240,15 +241,15 @@ fun DateTime.startOfYear(): DateTime = dateTimeOf(this.year)
 
 @JvmOverloads
 fun DateTime.trimToHour(hour: Int = this.hourOfDay): DateTime =
-    startOfDay().withHourOfDay(hour)
+        startOfDay().withHourOfDay(hour)
 
 @JvmOverloads
 fun DateTime.trimToMinute(minute: Int = this.minuteOfHour): DateTime =
-    trimToHour().withMinuteOfHour(minute)
+        trimToHour().withMinuteOfHour(minute)
 
 @JvmOverloads
 fun DateTime.trimToSecond(second: Int = this.secondOfMinute): DateTime =
-    trimToMinute().withSecondOfMinute(second)
+        trimToMinute().withSecondOfMinute(second)
 
 
 /** DateTime `-` operator */

@@ -47,3 +47,4 @@ inline fun CompoundButton.onCheckedChange(crossinline block: (isChecked: Boolean
         block.invoke(isChecked)
     }
 }
+

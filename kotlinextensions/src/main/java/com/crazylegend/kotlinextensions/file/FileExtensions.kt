@@ -1,9 +1,6 @@
 package com.crazylegend.kotlinextensions.file
 
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.Context
+import android.content.*
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -608,3 +605,15 @@ private fun File.verifiedDirectoryFiles(): Array<File> {
 }
 
 fun <T: Any> T.getJarDirectory(): String? = File(this::class.java.protectionDomain?.codeSource?.location?.toURI()?.path).path
+
+
+/**
+ * Installs file as APK. Asks for user permission.
+ */
+fun File.installAPK(context: Context): File {
+    val intent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
+        data = Uri.fromFile(this@installAPK)
+    }
+    context.startActivity(intent)
+    return this
+}

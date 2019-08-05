@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.recyclerview
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -583,3 +584,13 @@ fun RecyclerView.withPagerSnapHelper(): RecyclerView = apply {
 }
 
 
+
+
+fun RecyclerView.isFirstChild(view: View): Boolean = getChildAdapterPosition(view) == 0
+
+fun RecyclerView.isLastChild(view: View): Boolean = getChildAdapterPosition(view) == childCount - 1
+
+
+
+inline val RecyclerView.ViewHolder.resources: Resources
+    get() = itemView.context.resources

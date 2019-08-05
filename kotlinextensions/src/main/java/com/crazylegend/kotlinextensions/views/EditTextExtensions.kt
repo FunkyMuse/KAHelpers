@@ -14,6 +14,7 @@ import com.crazylegend.kotlinextensions.activity.isKeyboardSubmit
 import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.context.inputMethodManager
+import com.crazylegend.kotlinextensions.isNull
 import com.google.android.material.textfield.TextInputEditText
 import java.net.MalformedURLException
 import java.net.URL
@@ -37,6 +38,10 @@ val EditText.getStringTrimmed: String get() = this.text.toString().trim()
 
 fun EditText.setTheText(text: String) {
     this.setText(text, TextView.BufferType.EDITABLE)
+}
+
+fun EditText.isNotEmpty(): Boolean {
+    return this.getString.isNotEmpty()
 }
 
 inline fun EditText.onKeyboardSubmit(crossinline block: EditText.() -> Unit) {
@@ -64,7 +69,26 @@ fun EditText.updateCursorLocation(index: Int = text.length) {
 }
 
 
+fun EditText.isEmpty(): Boolean {
+    return text.toString().isEmpty()
+}
 
+
+fun EditText.getTextLength(): Int {
+    return text.length
+}
+
+fun EditText.getTextInt(): Int? {
+    return text.toString().toIntOrNull()
+}
+
+fun EditText.getTextFloat(): Float? {
+    return text.toString().toFloatOrNull()
+}
+
+fun EditText.getTextDouble(): Double? {
+    return text.toString().toDoubleOrNull()
+}
 
 /**
  * Accepts 3 text watcher methods with a default empty implementation.

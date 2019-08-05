@@ -5,7 +5,9 @@ import android.os.Build
 import androidx.annotation.DimenRes
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
+import com.crazylegend.kotlinextensions.byteArray
 import com.crazylegend.kotlinextensions.math.log
+import com.crazylegend.kotlinextensions.xorAll
 import java.lang.Double.doubleToRawLongBits
 import java.lang.Double.longBitsToDouble
 import java.lang.Float.floatToRawIntBits
@@ -18,12 +20,26 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.util.*
+import kotlin.experimental.xor
 
 
 /**
  * Created by hristijan on 2/20/19 to long live and prosper !
  */
 
+fun Int.sleep() = this.toLong().sleep()
+
+fun Long.sleep() = Thread.sleep(this)
+
+fun Int.randomStrings(): String {
+    val randomStringBuilder = StringBuilder()
+    var tempChar: Char
+    for (i in 0 until this) {
+        tempChar = (Random().nextInt(96) + 32).toChar()
+        randomStringBuilder.append(tempChar)
+    }
+    return randomStringBuilder.toString()
+}
 
 val Number.getSatoshi: Double
     get() {
@@ -367,3 +383,90 @@ inline fun <reified T : Number> Context?.dimen(@DimenRes res: Int): T =
                 else -> throw IllegalArgumentException("Unknown dimen type")
             }
         }
+
+
+
+/**
+ * Calculates the percentage of a value in a given range.
+ *
+ * @param value Input value.
+ * @param min   - Min Range Value.
+ * @param max   - Max Range Value.
+ * @return Percentage of a given value in a range. If within range, returned values are between [0f,1f]
+ */
+fun Float.valueToPercentOfRange(min: Float = 0f, max: Float) = (this - min) / (max - min)
+
+/**
+ * Calculates a value in a given range by percentage.
+ *
+ * @param percent - Percentage. Expecting a value [0f,1f] if expected to be in range.
+ * @param min     - Min Range Value.
+ * @param max     - Max Range Value.
+ * @return Concrete value by a given percentage. If percentage value [0f, 1f] then the returned value will be in [min, max] range.
+ */
+fun Float.percentToValueOfRange(min: Float = 0f, max: Float) = min + this * (max - min)
+
+
+fun Short.clamp(min: Short, max: Short): Short {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+fun Int.clamp(min: Int, max: Int): Int {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+fun Long.clamp(min: Long, max: Long): Long {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+fun Float.clamp(min: Float, max: Float): Float {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+fun Double.clamp(min: Double, max: Double): Double {
+    if (this < min) return min
+    return if (this > max) max else this
+}
+
+const val BYTES_TO_KB: Long = 1024
+const val BYTES_TO_MB = BYTES_TO_KB * 1024
+const val BYTES_TO_GB = BYTES_TO_MB * 1024
+const val BYTES_TO_TB = BYTES_TO_GB * 1024
+
+/**
+ * alternative to Formatter.formatFileSize which doesn't show bytes and rounds to int
+ */
+fun Long.formatBytes(): String {
+    if (this <= 0)
+        return "0 bytes"
+
+    return when {
+        this / BYTES_TO_TB > 0 -> String.format("%.2f TB", this / BYTES_TO_TB.toFloat())
+        this / BYTES_TO_GB > 0 -> String.format("%.2f GB", this / BYTES_TO_GB.toFloat())
+        this / BYTES_TO_MB > 0 -> String.format("%.2f MB", this / BYTES_TO_MB.toFloat())
+        this / BYTES_TO_KB > 0 -> String.format("%.2f KB", this / BYTES_TO_KB.toFloat())
+        else -> "$this bytes"
+    }
+}
+
+
+
+infix fun Byte.xorx(short: Short) = this xorx short.byteArray
+
+infix fun Byte.xorx(byteArray: ByteArray?) = if (byteArray == null) this else (this xor byteArray.xorAll)
+
+infix fun Byte.shlx(bitCount: Int) = (toInt() and 0xFF) shl bitCount
+
+infix fun Byte.shrx(bitCount: Int) = (toInt() and 0xFF) shr bitCount
+
+infix fun Byte.shr(bitCount: Int) = (this shrx bitCount).toByte()
+
+infix fun Byte.shl(bitCount: Int) = (this shlx bitCount).toByte()
+
+infix fun Byte.equals(value: Int) = this == value.toByte()
+
+infix fun Byte.notEquals(value: Int) = this != value.toByte()

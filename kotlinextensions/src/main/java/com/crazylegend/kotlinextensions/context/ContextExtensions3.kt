@@ -2,24 +2,26 @@ package com.crazylegend.kotlinextensions.context
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.ActivityManager
+import android.app.*
 import android.app.ActivityManager.RunningAppProcessInfo.*
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.*
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
+import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
+import android.media.AudioManager
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
+import android.os.LocaleList
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.TextUtils.isEmpty
@@ -39,7 +41,9 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.*
 import android.os.Process
-
+import com.crazylegend.kotlinextensions.withOpacity
+import androidx.annotation.IntRange
+import androidx.core.graphics.drawable.DrawableCompat
 
 
 /**
@@ -491,6 +495,7 @@ fun Context.reboot(reason: String?) {
     powerManager?.reboot(reason)
 }
 
+@SuppressLint("WrongConstant")
 fun Context.disableBar() {
     try {
         val service = getSystemService("statusbar")
@@ -595,5 +600,95 @@ fun Context.disableNotificationBar() {
         method.invoke(service, DISABLE_EXPAND)
     } catch (e: Exception) {
         e.printStackTrace()
+    }
+}
+
+
+/**
+ * Get color from resources with alpha
+ */
+@ColorInt
+@Deprecated(message = "Use new [colorWithOpacity] extension", replaceWith = ReplaceWith("colorWithOpacity(res, alphaPercent)"))
+fun Context.colorWithAlpha(@ColorRes res: Int, @IntRange(from = 0, to = 100) alphaPercent: Int): Int {
+    return colorWithOpacity(res, alphaPercent)
+}
+
+/**
+ * Get color from resources with applied [opacity]
+ */
+@ColorInt
+fun Context.colorWithOpacity(@ColorRes res: Int, @IntRange(from = 0, to = 100) opacity: Int): Int {
+    return color(res).withOpacity(opacity)
+}
+
+
+
+/**
+ * Get dimension defined by attribute [attr]
+ */
+fun Context.attrDimen(attr: Int): Int {
+    return TypedValue.complexToDimensionPixelSize(attribute(attr).data, resources.displayMetrics)
+}
+
+
+/**
+ * Get drawable defined by attribute [attr]
+ */
+fun Context.attrDrawable(attr: Int): Drawable? {
+    val a = theme.obtainStyledAttributes(intArrayOf(attr))
+    val attributeResourceId = a.getResourceId(0, 0)
+    a.recycle()
+    return drawable(attributeResourceId)
+}
+
+fun Context.tintedDrawable(@DrawableRes drawableId: Int, @ColorRes colorId: Int): Drawable? {
+    val tint: Int = color(colorId)
+    val drawable = drawable(drawableId)
+    drawable?.mutate()
+    drawable?.let {
+        it.mutate()
+        DrawableCompat.setTint(it, tint)
+    }
+    return drawable
+}
+
+fun Context.colors(@ColorRes stateListRes: Int): ColorStateList? {
+    return ContextCompat.getColorStateList(this, stateListRes)
+}
+
+ fun Context.attribute(value: Int): TypedValue {
+    val ret = TypedValue()
+    theme.resolveAttribute(value, ret, true)
+    return ret
+}
+
+inline fun Context.musicVolume(): Int = audioManager
+        .getStreamVolume(AudioManager.STREAM_MUSIC)
+
+inline fun Context.propertyInAssets(propertyName: String) = Properties().also {
+    val inputStream = this.assets.open("$propertyName.properties")
+    it.load(inputStream)
+    inputStream.close()
+}
+
+inline fun Context.jsonInAssets(jsonName: String): String {
+    StringBuilder().let {
+        this.assets.open(jsonName)
+                .bufferedReader()
+                .forEachLine { line ->
+                    it.append(line)
+                }
+        return it.toString()
+    }
+}
+
+inline fun Context.xmlInAssets(xmlName: String) = this.assets.open(xmlName)
+
+fun Application.isApkInDebug(): Boolean {
+    return try {
+        val info = applicationInfo
+        info.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+    } catch (e: Exception) {
+        false
     }
 }

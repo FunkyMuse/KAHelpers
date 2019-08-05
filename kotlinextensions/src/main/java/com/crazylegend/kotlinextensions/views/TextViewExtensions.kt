@@ -44,6 +44,12 @@ fun TextView.deleteLine() {
     paint.isAntiAlias = true
 }
 
+fun TextView.setAppereance(resId: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    setTextAppearance(resId)
+} else {
+    @Suppress("DEPRECATION") setTextAppearance(context, resId)
+}
+
 
 /**
  * Bold the TextView.

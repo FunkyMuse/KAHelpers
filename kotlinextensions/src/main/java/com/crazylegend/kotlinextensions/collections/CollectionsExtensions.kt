@@ -3,6 +3,7 @@
 package com.crazylegend.kotlinextensions.collections
 
 import android.content.res.TypedArray
+import android.os.Build
 import android.util.LongSparseArray
 import android.util.SparseArray
 import androidx.core.util.forEach
@@ -13,6 +14,7 @@ import kotlin.NoSuchElementException
 /**
  * Created by hristijan on 2/22/19 to long live and prosper !
  */
+
 
 
 
@@ -1181,3 +1183,38 @@ inline fun <T> Collection<T>.secondHalf(): List<T> = drop(half)
 
 inline fun <T> Collection<T>.split(index: Int): Pair<List<T>, List<T>> = take(index) to drop(index)
 inline fun <T> Collection<T>.split(): Pair<List<T>, List<T>> = split(half)
+
+fun<K,V> Map<K, V>.keyAt(value: V): K? {
+    val entry = entries.find { it.value == value }
+    return entry?.key
+}
+
+fun<K,V> Map<K, V>.valueAt(key: V): V? {
+    val entry = entries.find { it.key == key }
+    return entry?.value
+}
+
+inline fun <reified T> MutableList<T>.removeIfCompat(noinline filter: (T) -> Boolean) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) removeIf(filter) else {
+        for (i in size - 1 downTo 0) {
+            if (filter(this[i])) {
+                removeAt(i)
+            }
+        }
+    }
+}
+
+
+/**
+ * Returns an unmodifiable version of a list.
+ */
+inline fun <reified T> List<T>.unmodifiable(): List<T> =
+        Collections.unmodifiableList(this)
+
+/**
+ * Returns an unmodifiable version of a set.
+ */
+inline fun <reified T> Set<T>.unmodifiable(): Set<T> =
+        Collections.unmodifiableSet(this)
+
+

@@ -7,18 +7,19 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.text.Html
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.TextUtils
+import android.text.*
 import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
 import android.util.Base64
 import android.util.Patterns
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
 import androidx.core.text.isDigitsOnly
 import com.crazylegend.kotlinextensions.encryption.EncryptionUtils
 import com.crazylegend.kotlinextensions.intent.canBeHandled
@@ -35,12 +36,15 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.text.DateFormat
+import java.text.Normalizer
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
+import kotlin.reflect.KProperty1
+import kotlin.reflect.jvm.isAccessible
 
 
 /**
@@ -352,6 +356,34 @@ inline fun String.htmlToSpanned(): Spanned {
     } else {
         Html.fromHtml(this)
     }
+}
+
+/**
+ * Normalize string - convert to lowercase, replace diacritics and trim trailing whitespaces
+ */
+fun String.normalize(): String {
+    return Normalizer.normalize(toLowerCase(), Normalizer.Form.NFD)
+            .replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "").trim()
+}
+
+/**
+ * Highlight substring [query] in this spannable with custom [style]. All occurrences of this substring
+ * are stylized
+ */
+fun Spannable.highlightSubstring(query: String, @StyleRes style: Int): Spannable {
+    val spannable = Spannable.Factory.getInstance().newSpannable(this)
+    val substrings = query.toLowerCase().split("\\s+".toRegex()).dropLastWhile(String::isEmpty).toTypedArray()
+    var lastIndex = 0
+    for (i in substrings.indices) {
+        do {
+            lastIndex = this.toString().toLowerCase().indexOf(substrings[i], lastIndex)
+            if (lastIndex != -1) {
+                spannable.setSpan(StyleSpan(style), lastIndex, lastIndex + substrings[i].length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                lastIndex++
+            }
+        } while (lastIndex != -1)
+    }
+    return spannable
 }
 
 fun String.noNumbers() :Boolean {
@@ -952,3 +984,64 @@ fun String.decryptDES(key: String) = EncryptionUtils.decryptDES(this, key)
 fun String.encryptAESUtils(key: String) = EncryptionUtils.encryptAES(this, key)
 
 fun String.decryptAESUtils(key: String) = EncryptionUtils.decryptAES(this, key)
+
+
+
+inline val String?.doubleValue: Double
+    get() = if (TextUtils.isEmpty(this)) 0.0 else try {
+        this!!.toDouble()
+    } catch (e: Exception) {
+        0.0
+    }
+
+inline val String?.intValue: Int
+    get() = if (TextUtils.isEmpty(this)) 0 else try {
+        this!!.toInt()
+    } catch (e: Exception) {
+        0
+    }
+
+inline val String?.floatValue: Float
+    get() = if (TextUtils.isEmpty(this)) 0f else try {
+        this!!.toFloat()
+    } catch (e: Exception) {
+        0f
+    }
+
+inline val CharSequence?.intValue: Int
+    get() = toString().intValue
+
+inline val CharSequence?.floatValue: Float
+    get() = toString().floatValue
+
+
+
+inline val String.isIp: Boolean
+    get() {
+        val p = Pattern.compile(
+                "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}")
+        val m = p.matcher(this)
+        return m.find()
+    }
+
+fun stringPairOf(vararg pair: Pair<String, Any?>): String {
+    val strList = ArrayList<String>(pair.size)
+    for ((key, value) in pair) {
+        strList.add("$key: $value")
+    }
+    return strList.joinToString()
+}
+
+inline fun <reified T> T.logString(): String {
+    val cls = T::class
+    val sb = StringBuilder()
+    sb.append(cls.simpleName)
+    sb.append("[")
+    sb.append(cls.members.filter { it is KProperty1<*, *> }.joinToString {
+        it.isAccessible = true
+        @Suppress("UNCHECKED_CAST") "${it.name}: ${(it as KProperty1<T, *>).get(this)}"
+    })
+    sb.append("]")
+    return sb.toString()
+}
+

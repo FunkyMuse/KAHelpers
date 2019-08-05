@@ -4,11 +4,14 @@ import android.Manifest.permission.CALL_PHONE
 import android.Manifest.permission.SET_ALARM
 import android.app.Activity
 import android.app.SearchManager
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.provider.*
+import android.widget.TimePicker
 import androidx.annotation.RequiresPermission
 import androidx.print.PrintHelper
 
@@ -340,3 +343,19 @@ fun Intent.setURIPermissionFlags() {
     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
     flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 }
+
+
+fun Context.showTimePicker(
+         hourOfDay: Int, minute: Int, is24Hour: Boolean,
+        action: (view: TimePicker, hourOfDay: Int, minute: Int) -> Unit
+) =
+        TimePickerDialog(this, TimePickerDialog.OnTimeSetListener(action), hourOfDay, minute, is24Hour).show()
+
+
+inline var TimePicker.hourCompat: Int
+    set(value) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) hour = value else currentHour = value
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) hour else currentHour
+
+inline var TimePicker.minuteCompat: Int
+    set(value) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) minute = value else currentMinute = value
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) minute else currentMinute

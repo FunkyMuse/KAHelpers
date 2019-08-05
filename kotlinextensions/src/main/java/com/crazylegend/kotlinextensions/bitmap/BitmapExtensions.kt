@@ -43,6 +43,14 @@ import java.util.*
 
 
 
+fun Bitmap.overlay(overlay: Bitmap): Bitmap {
+    val result = Bitmap.createBitmap(width, height, config)
+    val canvas = Canvas(result)
+    canvas.drawBitmap(this, Matrix(), null)
+    canvas.drawBitmap(overlay, Matrix(), null)
+    return result
+}
+
 fun Bitmap.toOutputStream(
         compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
         quality: Int = 100
