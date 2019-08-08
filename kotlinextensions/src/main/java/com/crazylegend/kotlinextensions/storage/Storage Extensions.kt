@@ -30,7 +30,7 @@ import java.io.*
  */
 @Throws(IOException::class)
 fun Context.getBitmapFromUri(uri: Uri): Bitmap? {
-    val parcelFileDescriptor = contentResolver.openFileDescriptor(uri, "r")
+    val parcelFileDescriptor = contentResolver.openFileDescriptor(uri, STORAGE_READ_MODE)
     val fileDescriptor = parcelFileDescriptor?.fileDescriptor
     val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
     parcelFileDescriptor?.close()
