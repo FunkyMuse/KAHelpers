@@ -21,34 +21,6 @@ import androidx.print.PrintHelper
  */
 
 
-fun Activity.pickImage(PICK_PHOTO_REQUEST_CODE: Int) {
-    val intent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-    )
-    intent.setURIPermissionFlags()
-    intent.type = "image/*"
-    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PHOTO_REQUEST_CODE)
-}
-
-
-fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE: Int) {
-    val intent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-    )
-    intent.setURIPermissionFlags()
-    intent.type = "video/*"
-    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_VIDEO_REQUEST_CODE)
-}
-
-
-fun Activity.pickPDF(PICK_PDF_CODE: Int) {
-    val intentPDF = Intent(Intent.ACTION_GET_CONTENT)
-    intent.setURIPermissionFlags()
-    intentPDF.type = "application/pdf"
-    startActivityForResult(Intent.createChooser(intentPDF, "Select Picture"), PICK_PDF_CODE)
-}
 
 @RequiresPermission(allOf = [SET_ALARM])
 fun Activity.createAlarm(message: String, hour: Int, minutes: Int) {
@@ -248,15 +220,6 @@ fun Activity.doPhotoPrint(drawable: Int, jobName: String) {
 }
 
 
-fun Activity.multipleImagesIntent(requestCode: Int) {
-    val intent = Intent()
-    intent.type = "image/*"
-    intent.setURIPermissionFlags()
-    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-    intent.action = Intent.ACTION_GET_CONTENT
-    startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode)
-}
-
 /**
  * Available types
  *
@@ -339,10 +302,6 @@ fun Context.dialPhoneNumber(phoneNumber: String) {
     }
 }
 
-fun Intent.setURIPermissionFlags() {
-    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-}
 
 
 fun Context.showTimePicker(

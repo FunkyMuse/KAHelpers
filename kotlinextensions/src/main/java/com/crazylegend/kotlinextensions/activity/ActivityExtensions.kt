@@ -53,8 +53,8 @@ import java.util.*
 fun Activity.hideSoftKeyboard() {
     if (currentFocus != null) {
         val inputMethodManager = getSystemService(
-            Context
-                .INPUT_METHOD_SERVICE
+                Context
+                        .INPUT_METHOD_SERVICE
         ) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
     }
@@ -188,9 +188,9 @@ fun Activity.finishSlideOut() {
 
 
 inline fun <reified T> Activity.startActivityForResult(
-    requestCode: Int,
-    bundleBuilder: Bundle.() -> Unit = {},
-    intentBuilder: Intent.() -> Unit = {}
+        requestCode: Int,
+        bundleBuilder: Bundle.() -> Unit = {},
+        intentBuilder: Intent.() -> Unit = {}
 ) {
     val intent = Intent(this, T::class.java)
     intent.intentBuilder()
@@ -205,14 +205,14 @@ inline fun <reified T> Activity.startActivityForResult(
  */
 inline fun Activity.alert(body: AlertDialog.Builder.() -> AlertDialog.Builder) {
     AlertDialog.Builder(this)
-        .body()
-        .show()
+            .body()
+            .show()
 }
 
 inline fun <reified T : Any> Activity.launchActivity(
-    requestCode: Int = -1,
-    options: Bundle? = null,
-    noinline init: Intent.() -> Unit = {}
+        requestCode: Int = -1,
+        options: Bundle? = null,
+        noinline init: Intent.() -> Unit = {}
 ) {
     val intent = newIntent<T>(this)
     intent.init()
@@ -222,8 +222,8 @@ inline fun <reified T : Any> Activity.launchActivity(
 }
 
 inline fun <reified T : Any> Context.launchActivity(
-    options: Bundle? = null,
-    noinline init: Intent.() -> Unit = {}
+        options: Bundle? = null,
+        noinline init: Intent.() -> Unit = {}
 ) {
     val intent = newIntent<T>(this)
     intent.init()
@@ -232,9 +232,8 @@ inline fun <reified T : Any> Context.launchActivity(
 }
 
 
-
 inline fun <reified T : Any> newIntent(context: Context): Intent =
-    Intent(context, T::class.java)
+        Intent(context, T::class.java)
 
 fun Activity.setBackgroundColor(@ColorInt color: Int) {
     window.setBackgroundDrawable(ColorDrawable(color))
@@ -242,9 +241,9 @@ fun Activity.setBackgroundColor(@ColorInt color: Int) {
 
 
 fun FragmentActivity.switchFragment(
-    showFragment: Fragment,
-    @IdRes containerId: Int,
-    transaction: Int = FragmentTransaction.TRANSIT_NONE
+        showFragment: Fragment,
+        @IdRes containerId: Int,
+        transaction: Int = FragmentTransaction.TRANSIT_NONE
 ) {
     supportFragmentManager.switch(showFragment, containerId, transaction)
 }
@@ -262,18 +261,18 @@ fun Fragment.remove() {
 }
 
 fun Fragment.showHide(
-    vararg hideFragment: Fragment,
-    transaction: Int = FragmentTransaction.TRANSIT_NONE
+        vararg hideFragment: Fragment,
+        transaction: Int = FragmentTransaction.TRANSIT_NONE
 ) {
     this.fragmentManager?.showHide(this, *hideFragment, transaction = transaction)
 }
 
 fun FragmentManager.add(
-    addFragment: Fragment,
-    @IdRes containerId: Int,
-    isHide: Boolean = false,
-    isAddStack: Boolean = false,
-    tag: String = addFragment::class.java.name
+        addFragment: Fragment,
+        @IdRes containerId: Int,
+        isHide: Boolean = false,
+        isAddStack: Boolean = false,
+        tag: String = addFragment::class.java.name
 ) {
     val ft = this.beginTransaction()
     val fragmentByTag = this.findFragmentByTag(tag)
@@ -289,9 +288,9 @@ fun FragmentManager.add(
 
 
 fun FragmentManager.add(
-    addList: List<Fragment>,
-    @IdRes containerId: Int,
-    showIndex: Int = 0
+        addList: List<Fragment>,
+        @IdRes containerId: Int,
+        showIndex: Int = 0
 ) {
     val ft = this.beginTransaction()
     for (i in 0 until addList.size) {
@@ -367,9 +366,9 @@ fun FragmentManager.removeAll() {
 
 
 fun FragmentManager.showHide(
-    showFragment: Fragment,
-    vararg hideFragment: Fragment,
-    transaction: Int = FragmentTransaction.TRANSIT_NONE
+        showFragment: Fragment,
+        vararg hideFragment: Fragment,
+        transaction: Int = FragmentTransaction.TRANSIT_NONE
 ) {
     val ft = this.beginTransaction().setTransition(transaction)
 
@@ -385,10 +384,10 @@ fun FragmentManager.showHide(
 
 
 fun FragmentManager.replace(
-    fragment: Fragment,
-    @IdRes containerId: Int,
-    isAddStack: Boolean = false,
-    tag: String = fragment::class.java.name
+        fragment: Fragment,
+        @IdRes containerId: Int,
+        isAddStack: Boolean = false,
+        tag: String = fragment::class.java.name
 ) {
     val ft = this.beginTransaction()
 
@@ -400,9 +399,9 @@ fun FragmentManager.replace(
 
 
 fun FragmentManager.switch(
-    showFragment: Fragment,
-    @IdRes containerId: Int,
-    transaction: Int = FragmentTransaction.TRANSIT_NONE
+        showFragment: Fragment,
+        @IdRes containerId: Int,
+        transaction: Int = FragmentTransaction.TRANSIT_NONE
 ) {
     val ft = this.beginTransaction().setTransition(transaction)
 
@@ -439,16 +438,16 @@ inline var Context.sleepDuration: Int
     @RequiresPermission(WRITE_SETTINGS)
     set(value) {
         Settings.System.putInt(
-            this.contentResolver,
-            Settings.System.SCREEN_OFF_TIMEOUT,
-            value
+                this.contentResolver,
+                Settings.System.SCREEN_OFF_TIMEOUT,
+                value
         )
     }
     get() {
         return try {
             Settings.System.getInt(
-                this.contentResolver,
-                Settings.System.SCREEN_OFF_TIMEOUT
+                    this.contentResolver,
+                    Settings.System.SCREEN_OFF_TIMEOUT
             )
         } catch (e: Settings.SettingNotFoundException) {
             e.printStackTrace()
@@ -547,8 +546,10 @@ fun AppCompatActivity.popWholeBackStack() {
     }
 }
 
-fun Activity.getBitmapFromUri(uri: Uri): Bitmap {
-    return BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
+fun Activity.getBitmapFromUri(uri: Uri): Bitmap? {
+    return contentResolver.openInputStream(uri)?.use {
+        return@use BitmapFactory.decodeStream(it)
+    }
 }
 
 fun Activity.makeSceneTransitionAnimation(view: View, transitionName: String): ActivityOptionsCompat =
@@ -556,14 +557,14 @@ fun Activity.makeSceneTransitionAnimation(view: View, transitionName: String): A
 
 fun Context.asActivity(): Activity = when (this) {
     is Activity -> this
-    is ContextWrapper -> baseContext.asActivity()
+    is ContextWrapper -> baseContext as Activity
     else -> throw IllegalStateException("Context $this NOT contains activity!")
 }
 
 fun Context.asFragmentActivity(): FragmentActivity = when (this) {
     is FragmentActivity -> this
     is Activity -> throw IllegalStateException("Context $this NOT support-v4 Activity")
-    is ContextWrapper -> baseContext.asFragmentActivity()
+    is ContextWrapper -> baseContext as FragmentActivity
     else -> throw IllegalStateException("Context $this NOT contains activity!")
 }
 

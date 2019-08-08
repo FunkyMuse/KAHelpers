@@ -21,6 +21,10 @@ inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(): T {
     return ViewModelProviders.of(this).get(T::class.java)
 }
 
+inline fun <reified T : ViewModel> AppCompatActivity.compatProviderVMF(factory: ViewModelProvider.Factory): T {
+    return ViewModelProviders.of(this, factory).get(T::class.java)
+}
+
 inline fun <reified T : AndroidViewModel> AppCompatActivity.compatProvider(factory: ViewModelProvider.Factory): T {
     return ViewModelProviders.of(this, factory).get(T::class.java)
 }
@@ -30,6 +34,11 @@ inline fun <reified T : AndroidViewModel> AppCompatActivity.compatProvider(facto
 inline fun <reified T : ViewModel> Fragment.fragmentProvider(): T {
 
     return ViewModelProviders.of(this).get(T::class.java)
+}
+
+inline fun <reified T : ViewModel> Fragment.fragmentProviderVMF(factory: ViewModelProvider.Factory): T {
+
+    return ViewModelProviders.of(this, factory).get(T::class.java)
 }
 
 inline fun <reified T : AndroidViewModel> Fragment.fragmentProvider(factory: ViewModelProvider.Factory): T {
@@ -43,6 +52,11 @@ inline fun <reified T : ViewModel> FragmentActivity.fragmentActivityProvider(): 
     return ViewModelProviders.of(this).get(T::class.java)
 }
 
+inline fun <reified T : ViewModel> FragmentActivity.fragmentActivityProviderVMF(factory: ViewModelProvider.Factory): T {
+
+    return ViewModelProviders.of(this, factory).get(T::class.java)
+}
+
 inline fun <reified T : AndroidViewModel> FragmentActivity.fragmentActivityProvider(factory: ViewModelProvider.Factory): T {
 
     return ViewModelProviders.of(this, factory).get(T::class.java)
@@ -53,6 +67,11 @@ inline fun <reified T : AndroidViewModel> FragmentActivity.fragmentActivityProvi
 inline fun <reified T : ViewModel> Fragment.sharedProvider(): T {
 
     return ViewModelProviders.of(requireActivity()).get(T::class.java)
+}
+
+inline fun <reified T : ViewModel> Fragment.sharedProviderVMF(factory: ViewModelProvider.Factory): T {
+
+    return ViewModelProviders.of(requireActivity(), factory).get(T::class.java)
 }
 
 inline fun <reified T : AndroidViewModel> Fragment.sharedProvider(factory: ViewModelProvider.Factory): T {
@@ -69,11 +88,8 @@ fun <T> LiveData<T>.toSingleLiveData(): SingleLiveData<T> = first()
 /**
  * Converts a LiveData to a MutableLiveData with the initial value set by this LiveData's value
  */
-fun <T> LiveData<T>.toMutableLiveData(): MutableLiveData<T> {
-    val liveData = MutableLiveData<T>()
-    liveData.value = this.value
-    return liveData
-}
+fun <T> LiveData<T>.toMutableLiveData(): MutableLiveData<T>  = MutableLiveData<T>(value)
+
 
 /**
  * Creates a LiveData that emits the initialValue immediately.
