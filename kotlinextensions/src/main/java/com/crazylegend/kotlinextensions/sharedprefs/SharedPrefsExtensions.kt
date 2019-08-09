@@ -39,6 +39,10 @@ fun SharedPreferences.clear() {
     edit { clear() }
 }
 
+fun SharedPreferences.remove(key:String){
+    edit { remove(key) }
+}
+
 fun <T> SharedPreferences.put(key: String, t: T) {
     when (t) {
         is Int -> putInt(key, t)
