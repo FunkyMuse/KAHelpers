@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.*
+import android.provider.Settings.Panel.ACTION_INTERNET_CONNECTIVITY
 import android.widget.TimePicker
 import androidx.annotation.RequiresPermission
 import androidx.print.PrintHelper
@@ -184,7 +185,7 @@ fun Activity.openSettingsCategory(category: String, resultCode: Int) {
 }
 
 fun Activity.openWifiSettings() {
-    val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+    val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
     }
