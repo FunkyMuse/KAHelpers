@@ -50,10 +50,32 @@ dependencies {
 4. Additionally you can include
 ```
  kapt {
-        generateStubs = true
         correctErrorTypes = true
+        useBuildCache = true
     }
+    
+     buildTypes {
+
+        debug {
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            crunchPngs false
+        }
+
+    }
+    
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+    
+    
 ```  
+5. Inside gradle.properties
+
+```
+kapt.incremental.apt=true
+
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
