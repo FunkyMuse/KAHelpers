@@ -18,66 +18,35 @@ import com.crazylegend.kotlinextensions.retrofit.getSuccess
 
 //app compat activity
 inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(): T {
-    return ViewModelProviders.of(this).get(T::class.java)
+    return ViewModelProvider(this).get()
 }
 
-inline fun <reified T : ViewModel> AppCompatActivity.compatProviderVMF(factory: ViewModelProvider.Factory): T {
-    return ViewModelProviders.of(this, factory).get(T::class.java)
+inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(factory: ViewModelProvider.Factory): T {
+    return ViewModelProvider(this, factory).get()
 }
-
-inline fun <reified T : AndroidViewModel> AppCompatActivity.compatProvider(factory: ViewModelProvider.Factory): T {
-    return ViewModelProviders.of(this, factory).get(T::class.java)
-}
-
 
 //fragment
 inline fun <reified T : ViewModel> Fragment.fragmentProvider(): T {
 
-    return ViewModelProviders.of(this).get(T::class.java)
-}
-
-inline fun <reified T : ViewModel> Fragment.fragmentProviderVMF(factory: ViewModelProvider.Factory): T {
-
-    return ViewModelProviders.of(this, factory).get(T::class.java)
-}
-
-inline fun <reified T : AndroidViewModel> Fragment.fragmentProvider(factory: ViewModelProvider.Factory): T {
-
-    return ViewModelProviders.of(this, factory).get(T::class.java)
-}
-
-//fragment activity
-inline fun <reified T : ViewModel> FragmentActivity.fragmentActivityProvider(): T {
-
-    return ViewModelProviders.of(this).get(T::class.java)
-}
-
-inline fun <reified T : ViewModel> FragmentActivity.fragmentActivityProviderVMF(factory: ViewModelProvider.Factory): T {
-
-    return ViewModelProviders.of(this, factory).get(T::class.java)
-}
-
-inline fun <reified T : AndroidViewModel> FragmentActivity.fragmentActivityProvider(factory: ViewModelProvider.Factory): T {
-
-    return ViewModelProviders.of(this, factory).get(T::class.java)
+    return ViewModelProvider(this).get()
 }
 
 
-//shared model
+inline fun <reified T : ViewModel> Fragment.fragmentProvider(factory: ViewModelProvider.Factory): T {
+    return ViewModelProvider(this, factory).get()
+}
+
+//shared model from the same activity
 inline fun <reified T : ViewModel> Fragment.sharedProvider(): T {
 
-    return ViewModelProviders.of(requireActivity()).get(T::class.java)
+    return ViewModelProvider(requireActivity()).get()
 }
 
-inline fun <reified T : ViewModel> Fragment.sharedProviderVMF(factory: ViewModelProvider.Factory): T {
+inline fun <reified T : ViewModel> Fragment.sharedProvider(factory: ViewModelProvider.Factory): T {
 
-    return ViewModelProviders.of(requireActivity(), factory).get(T::class.java)
+    return ViewModelProvider(requireActivity(), factory).get()
 }
 
-inline fun <reified T : AndroidViewModel> Fragment.sharedProvider(factory: ViewModelProvider.Factory): T {
-
-    return ViewModelProviders.of(requireActivity(), factory).get(T::class.java)
-}
 
 
 /**

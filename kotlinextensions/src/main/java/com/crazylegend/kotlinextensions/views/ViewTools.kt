@@ -3,8 +3,7 @@ package com.crazylegend.kotlinextensions.views
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
@@ -17,9 +16,11 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnLayout
 import androidx.core.view.forEach
 import androidx.core.widget.NestedScrollView
 import androidx.viewpager.widget.ViewPager
+import kotlin.math.min
 
 
 /**
@@ -63,7 +64,7 @@ fun Dialog.setSystemBarLightDialog() {
 }
 
 
-fun Activity.clearSystemBarLight( @ColorRes color: Int) {
+fun Activity.clearSystemBarLight(@ColorRes color: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         val window = window
         window.statusBarColor = ContextCompat.getColor(this, color)
@@ -86,8 +87,8 @@ fun getEmailFromName(name: String?): String? {
     } else name
 }
 
-fun nestedScrollTo(nested: NestedScrollView, targetView: View) {
-    nested.post { nested.scrollTo(500, targetView.bottom) }
+fun NestedScrollView.nestedScrollTo(targetView: View) {
+    doOnLayout { scrollTo(500, targetView.bottom) }
 }
 
 fun dip2px(context: Context, dpValue: Float): Int {
@@ -100,12 +101,12 @@ fun px2dip(context: Context, pxValue: Float): Int {
     return (pxValue / scale + 0.5f).toInt()
 }
 
-fun toggleArrow(view: View): Boolean {
-    return if (view.rotation == 0f) {
-        view.animate().setDuration(200).rotation(180f)
+fun View.toggleArrow(duration:Long = 200): Boolean {
+    return if (rotation == 0f) {
+        animate().setDuration(duration).rotation(180f)
         true
     } else {
-        view.animate().setDuration(200).rotation(0f)
+        animate().setDuration(duration).rotation(0f)
         false
     }
 }
@@ -121,26 +122,45 @@ fun toggleArrow(show: Boolean, view: View, delay: Boolean = true): Boolean {
     }
 }
 
-fun Toolbar.changeNavigateionIconColor( @ColorInt color: Int) {
+fun Toolbar.changeNavigateionIconColor(@ColorInt color: Int) {
     val drawable = this.navigationIcon
-    drawable!!.mutate()
-    drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+    drawable?.apply {
+        mutate()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+        } else {
+            setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        }
+    }
 }
 
 fun Menu.changeMenuIconColor(@ColorInt color: Int) {
     for (i in 0 until this.size()) {
-        val drawable = this.getItem(i).icon ?: continue
-        drawable.mutate()
-        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        val drawable = this.getItem(i).icon
+        drawable?.apply {
+            mutate()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+            } else {
+                setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+            }
+        }
     }
 }
 
-fun Toolbar.changeOverflowMenuIconColor( @ColorInt color: Int) {
+fun Toolbar.changeOverflowMenuIconColor(@ColorInt color: Int) {
     try {
         val drawable = this.overflowIcon
-        drawable!!.mutate()
-        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        drawable?.apply {
+            mutate()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+            } else {
+                setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+            }
+        }
     } catch (e: Exception) {
+        e.printStackTrace()
     }
 
 }
@@ -148,24 +168,23 @@ fun Toolbar.changeOverflowMenuIconColor( @ColorInt color: Int) {
 
 fun insertPeriodically(text: String, insert: String, period: Int): String {
     val builder = StringBuilder(
-        text.length + insert.length * (text.length / period) + 1
+            text.length + insert.length * (text.length / period) + 1
     )
     var index = 0
     var prefix = ""
     while (index < text.length) {
         builder.append(prefix)
         prefix = insert
-        builder.append(text.substring(index, Math.min(index + period, text.length)))
+        builder.append(text.substring(index, min(index + period, text.length)))
         index += period
     }
     return builder.toString()
 }
 
 
-
 fun Spinner.create(@LayoutRes itemLayout: Int, @IdRes textViewId: Int, items: Array<String>,
                    onItemSelected: (String, Int) -> Unit = { _, _ -> }) {
-    val aAdapter = ArrayAdapter<String>(context, itemLayout, textViewId, items)
+    val aAdapter = ArrayAdapter(context, itemLayout, textViewId, items)
     adapter = aAdapter
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -179,7 +198,7 @@ fun Spinner.create(@LayoutRes itemLayout: Int, @IdRes textViewId: Int, items: Ar
 
 fun Spinner.create(@LayoutRes itemLayout: Int, @IdRes textViewId: Int, items: MutableList<String>,
                    onItemSelected: (String, Int) -> Unit = { _, _ -> }) {
-    val aAdapter = ArrayAdapter<String>(context, itemLayout, textViewId, items)
+    val aAdapter = ArrayAdapter(context, itemLayout, textViewId, items)
     adapter = aAdapter
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -193,7 +212,7 @@ fun Spinner.create(@LayoutRes itemLayout: Int, @IdRes textViewId: Int, items: Mu
 
 fun AutoCompleteTextView.create(@LayoutRes itemLayout: Int, @IdRes textViewId: Int, items: Array<String>,
                                 onItemSelected: (String, Int) -> Unit = { _, _ -> }) {
-    val adapter = ArrayAdapter<String>(context, itemLayout, textViewId, items)
+    val adapter = ArrayAdapter(context, itemLayout, textViewId, items)
     setAdapter(adapter)
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -207,7 +226,7 @@ fun AutoCompleteTextView.create(@LayoutRes itemLayout: Int, @IdRes textViewId: I
 
 fun AutoCompleteTextView.create(@LayoutRes itemLayout: Int, @IdRes textViewId: Int, items: MutableList<String>,
                                 onItemSelected: (String, Int) -> Unit = { _, _ -> }) {
-    val adapter = ArrayAdapter<String>(context, itemLayout, textViewId, items)
+    val adapter = ArrayAdapter(context, itemLayout, textViewId, items)
     setAdapter(adapter)
     onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -218,7 +237,6 @@ fun AutoCompleteTextView.create(@LayoutRes itemLayout: Int, @IdRes textViewId: I
         }
     }
 }
-
 
 
 fun ViewPager.onPageScrollStateChanged(onPageScrollStateChanged: (Int) -> Unit) {
@@ -235,7 +253,6 @@ fun ViewPager.onPageScrollStateChanged(onPageScrollStateChanged: (Int) -> Unit) 
 
     })
 }
-
 
 
 /** Performs the given action on each item in this menu. */

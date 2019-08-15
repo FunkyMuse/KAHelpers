@@ -52,15 +52,15 @@ fun SwipeRefreshLayout.setIsNotRefreshing() {
 }
 
 
-fun setFont(font: Typeface?, views: ArrayList<View>?) {
+fun ArrayList<View>?.setFont(font: Typeface?) {
     if (font == null)
         return
 
-    if (views == null)
+    if (this == null)
         return
 
     val textViews = ArrayList<TextView>()
-    for (view in views) {
+    for (view in this) {
         if (view is TextView)
             textViews.add(view)
     }
@@ -75,7 +75,7 @@ fun getScreenLocation(view: View): IntArray {
     return locations
 }
 
-fun View.moveViewRelatively( left: Int, top: Int) {
+fun View.moveViewRelatively(left: Int, top: Int) {
     val location = getScreenLocation(this)
     val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     params.setMargins(left + location[0], top + location[1], 0, 0)
@@ -85,7 +85,7 @@ fun View.moveViewRelatively( left: Int, top: Int) {
     layoutParams = params
 }
 
-fun View.moveView( left: Int, top: Int) {
+fun View.moveView(left: Int, top: Int) {
     val params = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     params.setMargins(left, top, 0, 0)
     val p = layoutParams
@@ -94,8 +94,8 @@ fun View.moveView( left: Int, top: Int) {
     layoutParams = params
 }
 
-fun setFont(font: Typeface, vararg views: TextView) {
-    for (v in views)
+fun List<TextView>.setFont(font: Typeface) {
+    for (v in this)
         v.typeface = font
 }
 
@@ -134,10 +134,9 @@ fun Context.getScaledDrawable(@DrawableRes resourceId: Int, scaleInDp: Int): Dra
 
 fun Activity.getContentRoot(): View {
     return window
-        .decorView
-        .findViewById(android.R.id.content)
+            .decorView
+            .findViewById(android.R.id.content)
 }
-
 
 
 fun getLocationOnScreen(textView: View): Rect {
@@ -173,7 +172,7 @@ fun View.setViewBackgroundWithoutResettingPadding(@DrawableRes backgroundResId: 
 fun View.setViewBackgroundColorWithoutResettingPadding(color: Int) {
     val paddingBottom = this.paddingBottom
     val paddingLeft = this.paddingLeft
-    val paddingRight =this.paddingRight
+    val paddingRight = this.paddingRight
     val paddingTop = this.paddingTop
     this.setBackgroundColor(this.context.getCompatColor(color))
     this.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
@@ -189,11 +188,11 @@ fun TextView.addFadeOutToText(galleryHeight: Int, @ColorRes fromColor: Int, @Col
     val viewWidth = width
     val startHeight = if (lineCount > 2) galleryHeight / 2 else 0
     val availableWidth =
-        (viewWidth - paddingLeft - paddingRight - textPaint.measureText(text.toString())).toInt()
+            (viewWidth - paddingLeft - paddingRight - textPaint.measureText(text.toString())).toInt()
     if (availableWidth < 0) {
         val textShader = LinearGradient(
-            (3 * viewWidth / 4).toFloat(), startHeight.toFloat(), viewWidth.toFloat(), paint.textSize,
-            intArrayOf(this.context.getColorCompat(fromColor),this.context.getColorCompat(toColor)), null, Shader.TileMode.CLAMP
+                (3 * viewWidth / 4).toFloat(), startHeight.toFloat(), viewWidth.toFloat(), paint.textSize,
+                intArrayOf(this.context.getColorCompat(fromColor), this.context.getColorCompat(toColor)), null, Shader.TileMode.CLAMP
         )
         paint.shader = textShader
     }
@@ -204,7 +203,7 @@ fun TextView.addFadeOutToText(galleryHeight: Int, @ColorRes fromColor: Int, @Col
  * gradient(200f, 0x80C24641.toInt(), 0x80FFFFFF.toInt())
  */
 fun View.gradient(radius: Float, vararg colors: Int) {
-        background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors).apply { cornerRadius = radius }
+    background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors).apply { cornerRadius = radius }
 }
 
 fun View.locationInWindow(): Rect {
@@ -268,4 +267,4 @@ fun View.locationOnScreen(): Rect {
 
 @ColorInt
 fun View.getCurrentColor(@ColorInt default: Int = Color.TRANSPARENT): Int = (background as? ColorDrawable)?.color
-    ?: default
+        ?: default
