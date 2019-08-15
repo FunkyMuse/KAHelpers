@@ -15,6 +15,7 @@ import android.provider.Settings.Panel.ACTION_INTERNET_CONNECTIVITY
 import android.widget.TimePicker
 import androidx.annotation.RequiresPermission
 import androidx.print.PrintHelper
+import com.crazylegend.kotlinextensions.version.doIfSdk
 
 
 /**
@@ -185,12 +186,20 @@ fun Activity.openSettingsCategory(category: String, resultCode: Int) {
 }
 
 fun Activity.openWifiSettings() {
-    val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
-    if (intent.resolveActivity(packageManager) != null) {
+
+    doIfSdk(Build.VERSION_CODES.Q, {
+        val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }){
+        val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
         startActivity(intent)
     }
 }
-
 
 fun Activity.composeMmsMessage(message: String, attachment: Uri) {
     val intent = Intent(Intent.ACTION_SEND).apply {
@@ -247,8 +256,16 @@ fun Context.openSettingsCategory(category: String) {
 }
 
 fun Context.openWifiSettings() {
-    val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
-    if (intent.resolveActivity(packageManager) != null) {
+    doIfSdk(Build.VERSION_CODES.Q, {
+        val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }){
+        val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
         startActivity(intent)
     }
 }
