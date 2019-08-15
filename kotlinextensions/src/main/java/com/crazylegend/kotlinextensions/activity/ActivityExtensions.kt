@@ -231,7 +231,6 @@ inline fun <reified T : Any> Context.launchActivity(
 
 }
 
-
 inline fun <reified T : Any> newIntent(context: Context): Intent =
         Intent(context, T::class.java)
 
@@ -574,9 +573,6 @@ inline fun <reified T : Any> Activity.launchActivityAndFinish() {
     finish()
 }
 
-inline fun <reified T : Any> newIntent(context: Context, bundle: Array<out Pair<String, Any?>>? = null): Intent {
-    return Intent(context, T::class.java)
-}
 
 fun AppCompatActivity.setupToolbar(
         toolbar: Toolbar,
