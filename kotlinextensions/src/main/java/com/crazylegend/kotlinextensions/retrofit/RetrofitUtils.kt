@@ -95,6 +95,66 @@ fun <T> RetrofitResult<T>.handle(
     }.exhaustive
 }
 
+/**
+ *
+ * handle api call dsl
+ * USAGE
+ *
+ *
+retrofitResult.handle({
+//loading
+
+}, {
+// no data from server
+
+}, {
+//empty data
+
+}, { // call error
+message, throwable, exception ->
+
+}, { // api error
+errorBody, responseCode, model ->
+
+}, {
+//success handle
+
+})
+ *
+ *
+ */
+
+fun <T> RetrofitResult<T>.handleWrapper(
+        loading: () -> Unit,
+        noData: () -> Unit,
+        emptyData: () -> Unit,
+        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
+        apiError: (errorBody: ResponseBody?, responseCode: Int, model:T?) -> Unit = { _, _,_ -> },
+        success: T.() -> Unit
+) {
+
+    when (this) {
+        is RetrofitResult.Success -> {
+            success.invoke(value)
+        }
+        RetrofitResult.Loading -> {
+            loading()
+        }
+        RetrofitResult.NoData -> {
+            noData()
+        }
+        RetrofitResult.EmptyData -> {
+            emptyData()
+        }
+        is RetrofitResult.Error -> {
+            calError(message, throwable, exception)
+        }
+        is RetrofitResult.ApiError -> {
+            apiError(errorBody, responseCode, callModel)
+        }
+    }.exhaustive
+}
+
 
 const val multiPartContentType = "multipart/form-data"
 
