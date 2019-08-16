@@ -210,7 +210,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>?, inc
                 }
             }
         } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
         }
     }
 }
@@ -230,7 +230,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>?,
                 }
             }
         } else {
-            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
         }
     }
 }
@@ -260,7 +260,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>?,
                 }
             }
         } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
         }
     }
 
@@ -290,7 +290,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<
                 }
             }
         } else {
-            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
         }
     }
 }

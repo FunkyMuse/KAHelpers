@@ -14,8 +14,8 @@ sealed class RetrofitResult<out T> {
     object Loading : RetrofitResult<Nothing>()
     object NoData : RetrofitResult<Nothing>() //this should be initial, before the data is loaded
     object EmptyData : RetrofitResult<Nothing>()
-    data class Error(val message: String, val exception: Exception?=null, val throwable: Throwable) : RetrofitResult<Nothing>()
-    data class ApiError(val responseCode: Int, val errorBody: ResponseBody?) : RetrofitResult<Nothing>()
+    data class Error(val message: String, val exception: Exception? = null, val throwable: Throwable) : RetrofitResult<Nothing>()
+    data class ApiError<T>(val responseCode: Int, val errorBody: ResponseBody?, val callModel: T? = null) : RetrofitResult<T>()
 }
 
 
