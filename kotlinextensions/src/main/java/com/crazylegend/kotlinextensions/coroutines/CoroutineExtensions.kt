@@ -451,3 +451,302 @@ fun AppCompatActivity.defaultCoroutine(action: suspend () -> Unit = {}): Job {
         action()
     }
 }
+
+
+
+
+/**
+ * Appcompat activity coroutine extensions
+ * Must include the view model androidX for coroutines to provide view model scope
+ */
+
+
+/**
+ * USAGE:
+makeApiCall(sentResultData) {
+retrofitClient?.apiCall()
+}
+ * @receiver AndroidViewModel
+ * @param retrofitResult MutableLiveData<RetrofitResult<T>>
+ * @param includeEmptyData Boolean
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return Job
+ */
+fun <T> AppCompatActivity.makeApiCall(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = false,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loading()
+    return ioCoroutine {
+        try {
+            retrofitResult.subscribePost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+}
+
+
+/**
+ * USAGE:
+makeApiCall(sentResultData) {
+retrofitClient?.makeApiCallList()
+}
+ * @receiver AndroidViewModel
+ * @param retrofitResult MutableLiveData<RetrofitResult<T>>
+ * @param includeEmptyData Boolean
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return Job
+ */
+fun <T> AppCompatActivity.makeApiCallList(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = true,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loading()
+    return ioCoroutine {
+        try {
+            retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+}
+
+/**
+ * USAGE:
+makeApiCall(dbResult) {
+db?.getDBSomething()
+}
+ * @receiver AndroidViewModel
+ * @param dbResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+fun <T> AppCompatActivity.makeDBCall(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> T?): Job {
+    dbResult.querying()
+    return ioCoroutine {
+        try {
+            dbResult.subscribePost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+/**
+ * Must include empty data
+ * @receiver AndroidViewModel
+ * @param dbResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+fun <T> AppCompatActivity.makeDBCallList(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> T?): Job {
+    dbResult.querying()
+    return ioCoroutine {
+        try {
+            dbResult.subscribeListPost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+/**
+ * USAGE:
+makeApiCall(dbResult) {
+db?.getDBSomething()
+}
+ * @receiver AndroidViewModel
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+
+fun AppCompatActivity.makeDBCall(
+        onCallExecuted : () -> Unit = {},
+        dbCall: suspend () -> Unit): Job {
+    return ioCoroutine {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        } finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun AppCompatActivity.makeDBCall(
+        onCallExecuted : () -> Unit = {},
+        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        dbCall: suspend () -> Unit): Job {
+    return ioCoroutine {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        }finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+
+
+/**
+ * Appcompat activity coroutine extensions
+ * Must include the view model androidX for coroutines to provide view model scope
+ */
+
+
+/**
+ * USAGE:
+makeApiCall(sentResultData) {
+retrofitClient?.apiCall()
+}
+ * @receiver AndroidViewModel
+ * @param retrofitResult MutableLiveData<RetrofitResult<T>>
+ * @param includeEmptyData Boolean
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return Job
+ */
+fun <T> Fragment.makeApiCall(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = false,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loading()
+    return ioCoroutine {
+        try {
+            retrofitResult.subscribePost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+}
+
+
+/**
+ * USAGE:
+makeApiCall(sentResultData) {
+retrofitClient?.makeApiCallList()
+}
+ * @receiver AndroidViewModel
+ * @param retrofitResult MutableLiveData<RetrofitResult<T>>
+ * @param includeEmptyData Boolean
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return Job
+ */
+fun <T> Fragment.makeApiCallList(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = true,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loading()
+    return ioCoroutine {
+        try {
+            retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+}
+
+/**
+ * USAGE:
+makeApiCall(dbResult) {
+db?.getDBSomething()
+}
+ * @receiver AndroidViewModel
+ * @param dbResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+fun <T> Fragment.makeDBCall(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> T?): Job {
+    dbResult.querying()
+    return ioCoroutine {
+        try {
+            dbResult.subscribePost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+/**
+ * Must include empty data
+ * @receiver AndroidViewModel
+ * @param dbResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+fun <T> Fragment.makeDBCallList(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> T?): Job {
+    dbResult.querying()
+    return ioCoroutine {
+        try {
+            dbResult.subscribeListPost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+/**
+ * USAGE:
+makeApiCall(dbResult) {
+db?.getDBSomething()
+}
+ * @receiver AndroidViewModel
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+
+fun Fragment.makeDBCall(
+        onCallExecuted : () -> Unit = {},
+        dbCall: suspend () -> Unit): Job {
+    return ioCoroutine {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        } finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun Fragment.makeDBCall(
+        onCallExecuted : () -> Unit = {},
+        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        dbCall: suspend () -> Unit): Job {
+    return ioCoroutine {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        }finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}

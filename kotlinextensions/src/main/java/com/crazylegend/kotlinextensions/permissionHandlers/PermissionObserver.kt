@@ -1,6 +1,6 @@
 package com.crazylegend.kotlinextensions.permissionHandlers
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 
 /**

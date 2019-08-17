@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.retrofit.instances
+package com.crazylegend.kotlinextensions.retrofit.converterinstances
 
 import com.google.gson.Gson
 

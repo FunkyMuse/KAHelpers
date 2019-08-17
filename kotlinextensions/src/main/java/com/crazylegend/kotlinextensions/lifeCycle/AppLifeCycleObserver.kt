@@ -9,25 +9,6 @@ import androidx.lifecycle.OnLifecycleEvent
  * Created by hristijan on 3/18/19 to long live and prosper !
  */
 
-
-class AppLifeCycleObserver : LifecycleObserver {
-
-    var lifeCycleCallback : LifeCycleCallBacks ? = null
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onEnterForeground() {
-        lifeCycleCallback?.appInForeground()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onEnterBackground(){
-        lifeCycleCallback?.appInBackground()
-    }
-
-
-
-}
-
 /**
  * USAGE
  *
@@ -47,3 +28,21 @@ appLifeCycleObserver.debug("App in Foreground")
  *
  *
  */
+class AppLifeCycleObserver : LifecycleObserver {
+
+    var lifeCycleCallback : LifeCycleCallBacks ? = null
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onEnterForeground() {
+        lifeCycleCallback?.appInForeground()
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onEnterBackground(){
+        lifeCycleCallback?.appInBackground()
+    }
+
+
+
+}
+

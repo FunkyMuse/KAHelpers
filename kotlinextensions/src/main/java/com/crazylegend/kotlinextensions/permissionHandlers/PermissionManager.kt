@@ -1,6 +1,5 @@
 package com.crazylegend.kotlinextensions.permissionHandlers
 
-import android.arch.lifecycle.LiveData
 import android.content.Context
 import android.support.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity

@@ -916,7 +916,7 @@ fun Array<View>.gone() {
 
 fun ProgressBar.indeterminateDrawableColor(@ColorRes color: Int) {
     indeterminateDrawable.setColorFilter(
-            ContextCompat.getColor(context, color), android.graphics.PorterDuff.Mode.SRC_IN
+            ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN
     )
 }
 

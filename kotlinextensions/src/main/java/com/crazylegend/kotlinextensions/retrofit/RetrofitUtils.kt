@@ -45,9 +45,6 @@ retrofitResult.handle({
 //loading
 
 }, {
-// no data from server
-
-}, {
 //empty data
 
 }, { // call error
@@ -66,9 +63,8 @@ errorBody, responseCode ->
 
 fun <T> RetrofitResult<T>.handle(
         loading: () -> Unit,
-        noData: () -> Unit,
         emptyData: () -> Unit,
-        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
+        calError: (throwable: Throwable) -> Unit = { _ -> },
         apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
         success: T.() -> Unit
 ) {
@@ -80,77 +76,14 @@ fun <T> RetrofitResult<T>.handle(
         RetrofitResult.Loading -> {
             loading()
         }
-        RetrofitResult.NoData -> {
-            noData()
-        }
         RetrofitResult.EmptyData -> {
             emptyData()
         }
         is RetrofitResult.Error -> {
-            calError(message, throwable, exception)
+            calError(throwable)
         }
         is RetrofitResult.ApiError -> {
             apiError(errorBody, responseCode)
-        }
-    }.exhaustive
-}
-
-/**
- *
- * handle api call dsl
- * USAGE
- *
- *
-retrofitResult.handle({
-//loading
-
-}, {
-// no data from server
-
-}, {
-//empty data
-
-}, { // call error
-message, throwable, exception ->
-
-}, { // api error
-errorBody, responseCode, model ->
-
-}, {
-//success handle
-
-})
- *
- *
- */
-
-fun <T> RetrofitResult<T>.handleWrapper(
-        loading: () -> Unit,
-        noData: () -> Unit,
-        emptyData: () -> Unit,
-        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
-        apiError: (errorBody: ResponseBody?, responseCode: Int, model:T?) -> Unit = { _, _,_ -> },
-        success: T.() -> Unit
-) {
-
-    when (this) {
-        is RetrofitResult.Success -> {
-            success.invoke(value)
-        }
-        RetrofitResult.Loading -> {
-            loading()
-        }
-        RetrofitResult.NoData -> {
-            noData()
-        }
-        RetrofitResult.EmptyData -> {
-            emptyData()
-        }
-        is RetrofitResult.Error -> {
-            calError(message, throwable, exception)
-        }
-        is RetrofitResult.ApiError -> {
-            apiError(errorBody, responseCode, callModel)
         }
     }.exhaustive
 }
@@ -235,9 +168,6 @@ fun <T> MutableLiveData<RetrofitResult<T>>.emptyData() {
     value = RetrofitResult.EmptyData
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.noData() {
-    value = RetrofitResult.NoData
-}
 
 fun <T> MutableLiveData<RetrofitResult<T>>.loadingPost() {
     postValue(RetrofitResult.Loading)
@@ -247,13 +177,9 @@ fun <T> MutableLiveData<RetrofitResult<T>>.emptyDataPost() {
     postValue(RetrofitResult.EmptyData)
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.noDataPost() {
-    postValue(RetrofitResult.NoData)
-}
 
-inline fun <reified T> isGenericInstanceOf(obj: Any, contract: T): Boolean {
-    return obj is T
-}
+inline fun <reified T> isGenericInstanceOf(obj: Any): Boolean = obj is T
+
 
 fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
@@ -270,7 +196,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>?, inc
                 }
             }
         } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
         }
     }
 }
@@ -290,7 +216,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>?,
                 }
             }
         } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
+            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
         }
     }
 }
@@ -320,7 +246,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>?,
                 }
             }
         } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
+            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
         }
     }
 
@@ -350,17 +276,17 @@ fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<
                 }
             }
         } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody(), response.body())
+            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
         }
     }
 }
 
 fun <T> MutableLiveData<RetrofitResult<T>>.callError(throwable: Throwable) {
-    value = RetrofitResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable)
+    value = RetrofitResult.Error(throwable)
 }
 
 fun <T> MutableLiveData<RetrofitResult<T>>.callErrorPost(throwable: Throwable) {
-    postValue(RetrofitResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable))
+    postValue(RetrofitResult.Error(throwable))
 }
 
 fun <T> MutableLiveData<RetrofitResult<T>>.success(model: T) {
@@ -461,55 +387,29 @@ fun <T> LiveData<RetrofitResult<T>>.onEmptyData(action: () -> Unit = { }) {
     }
 }
 
-// no data
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.onNoData(action: () -> Unit = { }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.NoData -> {
-                action()
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> LiveData<RetrofitResult<T>>.onNoData(action: () -> Unit = { }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.NoData -> {
-                action()
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-
 // on call error on your side
 
 
-fun <T> MutableLiveData<RetrofitResult<T>>.onCallError(action: (message: String, exception: Exception?, throwable: Throwable) -> Unit = { _, _, _ -> }) {
+fun <T> MutableLiveData<RetrofitResult<T>>.onCallError(action: (throwable: Throwable) -> Unit = { _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.Error -> {
-                action(it.message, it.exception, it.throwable)
+                action(it.throwable)
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
 
-fun <T> LiveData<RetrofitResult<T>>.onCallError(action: (message: String, exception: Exception?, throwable: Throwable) -> Unit = { _, _, _ -> }) {
+fun <T> LiveData<RetrofitResult<T>>.onCallError(action: (throwable: Throwable) -> Unit = { _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.Error -> {
-                action(it.message, it.exception, it.throwable)
+                action(it.throwable)
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
@@ -517,48 +417,52 @@ fun <T> LiveData<RetrofitResult<T>>.onCallError(action: (message: String, except
 // on api error on server side
 
 
-fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(action: (responseCode:Int, errorBody:ResponseBody?) -> Unit = { _, _ -> }) {
+fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.ApiError -> {
                 action(it.responseCode, it.errorBody)
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
 
-fun <T> LiveData<RetrofitResult<T>>.onApiError(action: (responseCode:Int, errorBody:ResponseBody?) -> Unit = { _, _ -> }) {
+fun <T> LiveData<RetrofitResult<T>>.onApiError(action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.ApiError -> {
                 action(it.responseCode, it.errorBody)
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(context: Context, action: (responseCode:Int, errorBody:ResponseBody?) -> Unit = { _, _ -> }) {
+fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(context: Context, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.ApiError -> {
                 context.errorResponseCode(it.responseCode)
                 action(it.responseCode, it.errorBody)
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
 
-fun <T> LiveData<RetrofitResult<T>>.onApiError(context: Context, action: (responseCode:Int, errorBody:ResponseBody?) -> Unit = { _, _ -> }) {
+fun <T> LiveData<RetrofitResult<T>>.onApiError(context: Context, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.ApiError -> {
                 context.errorResponseCode(it.responseCode)
                 action(it.responseCode, it.errorBody)
             }
-            else -> { }
+            else -> {
+            }
         }
     }
 }
@@ -586,6 +490,12 @@ fun progressDSL(
 
 fun Context.errorResponseCode(responseCode: Int) {
     when (responseCode) {
+
+        301 -> {
+            shortToast("Moved permanently")
+        }
+
+
         400 -> {
             // bad request
             shortToast("Bad Request")
@@ -596,9 +506,25 @@ fun Context.errorResponseCode(responseCode: Int) {
             shortToast("Unauthorized")
         }
 
+        403 -> {
+            shortToast("Forbidden")
+        }
+
         404 -> {
             // not found
             shortToast("Not found")
+        }
+
+        405 -> {
+            shortToast("Method not allowed")
+        }
+
+        406 -> {
+            shortToast("Not acceptable")
+        }
+
+        407 -> {
+            shortToast("Proxy authentication required")
         }
 
         408 -> {
@@ -606,14 +532,38 @@ fun Context.errorResponseCode(responseCode: Int) {
             shortToast("Time out")
         }
 
+        409 -> {
+            shortToast("Conflict error")
+        }
+
+        410 -> {
+            shortToast("Request permanently deleted")
+        }
+
+        413 -> {
+            shortToast("Request too large")
+        }
+
         422 -> {
             // account exists
             shortToast("Account with that email already exists")
         }
 
+        425 -> {
+            shortToast("Server is busy")
+        }
+
+        429 -> {
+            shortToast("Too many requests, slow down")
+        }
+
         500 -> {
             // internal server error
             shortToast("Server error")
+        }
+
+        501 -> {
+            shortToast("Not implemented")
         }
 
         502 -> {
@@ -623,6 +573,10 @@ fun Context.errorResponseCode(responseCode: Int) {
         504 -> {
             // gateway timeout
             shortToast("Gateway timeout")
+        }
+
+        511 -> {
+            shortToast("Authentication required")
         }
     }
 }
