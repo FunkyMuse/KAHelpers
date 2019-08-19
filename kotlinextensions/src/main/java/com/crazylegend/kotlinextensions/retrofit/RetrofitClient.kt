@@ -19,6 +19,10 @@ import java.util.concurrent.TimeUnit
  */
 object RetrofitClient {
     private var retrofit: Retrofit? = null
+    
+    fun removeRetrofitInstance(){
+        retrofit = null
+    }
 
     fun gsonInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false,
                            connectTimeout: Long = 60, readTimeout: Long = 60, writeTimeout: Long = 60,
