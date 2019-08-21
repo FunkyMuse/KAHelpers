@@ -476,7 +476,7 @@ fun <T> AppCompatActivity.makeApiCall(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return ioCoroutine {
         try {
             retrofitResult.subscribePost(apiCall(), includeEmptyData)
@@ -502,7 +502,7 @@ fun <T> AppCompatActivity.makeApiCallList(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return ioCoroutine {
         try {
             retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
@@ -527,7 +527,7 @@ fun <T> AppCompatActivity.makeDBCall(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return ioCoroutine {
         try {
             dbResult.subscribePost(dbCall(), includeEmptyData)
@@ -549,7 +549,7 @@ fun <T> AppCompatActivity.makeDBCallList(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return ioCoroutine {
         try {
             dbResult.subscribeListPost(dbCall(), includeEmptyData)
@@ -625,7 +625,7 @@ fun <T> Fragment.makeApiCall(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return ioCoroutine {
         try {
             retrofitResult.subscribePost(apiCall(), includeEmptyData)
@@ -651,7 +651,7 @@ fun <T> Fragment.makeApiCallList(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return ioCoroutine {
         try {
             retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
@@ -676,7 +676,7 @@ fun <T> Fragment.makeDBCall(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return ioCoroutine {
         try {
             dbResult.subscribePost(dbCall(), includeEmptyData)
@@ -698,7 +698,7 @@ fun <T> Fragment.makeDBCallList(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return ioCoroutine {
         try {
             dbResult.subscribeListPost(dbCall(), includeEmptyData)
