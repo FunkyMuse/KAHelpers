@@ -114,7 +114,7 @@ fun <T> CoroutineScope.makeApiCall(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = false
 ): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return launch(Dispatchers.IO) {
         try {
             retrofitResult.subscribePost(response, includeEmptyData)
@@ -130,7 +130,7 @@ fun <T> CoroutineScope.makeApiCallList(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return launch(Dispatchers.IO) {
         try {
             retrofitResult.subscribeListPost(response, includeEmptyData)
@@ -161,7 +161,7 @@ fun <T> CoroutineScope.makeDBCall(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false
 ): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return launch(Dispatchers.IO) {
         try {
             dbResult.subscribePost(queryModel, includeEmptyData)
@@ -191,7 +191,7 @@ fun <T> CoroutineScope.makeDBCallList(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return launch(Dispatchers.IO) {
         try {
             dbResult.subscribeListPost(queryModel, includeEmptyData)
@@ -223,7 +223,7 @@ fun <T> AndroidViewModel.makeApiCall(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return viewModelIOCoroutine {
         try {
             retrofitResult.subscribePost(apiCall(), includeEmptyData)
@@ -249,7 +249,7 @@ fun <T> AndroidViewModel.makeApiCallList(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
-    retrofitResult.loading()
+    retrofitResult.loadingPost()
     return viewModelIOCoroutine {
         try {
             retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
@@ -274,7 +274,7 @@ fun <T> AndroidViewModel.makeDBCall(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return viewModelIOCoroutine {
         try {
             dbResult.subscribePost(dbCall(), includeEmptyData)
@@ -296,7 +296,7 @@ fun <T> AndroidViewModel.makeDBCallList(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
+    dbResult.queryingPost()
     return viewModelIOCoroutine {
         try {
             dbResult.subscribeListPost(dbCall(), includeEmptyData)
