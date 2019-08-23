@@ -750,3 +750,28 @@ fun Fragment.makeDBCall(
         }
     }
 }
+
+
+//Api call without wrappers
+fun <T> AndroidViewModel.makeApiCall(apiCall: suspend () -> Response<T>?,
+                                     onError: (throwable: Throwable) -> Unit = { _ -> },
+                                     onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+                                     onResponse: (response: T?) -> Unit
+): Job {
+
+    return viewModelIOCoroutine {
+        try {
+            val response = apiCall()
+            response?.apply {
+                if (isSuccessful) {
+                    onResponse(body())
+                } else {
+                    onUnsuccessfulCall(errorBody(), code())
+                }
+            }
+
+        } catch (t: Throwable) {
+            onError(t)
+        }
+    }
+}
