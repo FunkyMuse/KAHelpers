@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.crazylegend.kotlinextensions.database.*
 import com.crazylegend.kotlinextensions.retrofit.*
 import kotlinx.coroutines.*
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 
@@ -16,27 +17,27 @@ import retrofit2.Response
  * Created by hristijan on 5/27/19 to long live and prosper !
  */
 
-public suspend inline fun <T, R> T.onMain(crossinline block: (T) -> R): R {
+ suspend inline fun <T, R> T.onMain(crossinline block: (T) -> R): R {
     return withContext(Dispatchers.Main) { this@onMain.let(block) }
 }
 
-public suspend inline fun <T> onMain(crossinline block: CoroutineScope.() -> T): T {
+ suspend inline fun <T> onMain(crossinline block: CoroutineScope.() -> T): T {
     return withContext(Dispatchers.Main) { block.invoke(this@withContext) }
 }
 
-public suspend inline fun <T, R> T.onDefault(crossinline block: (T) -> R): R {
+ suspend inline fun <T, R> T.onDefault(crossinline block: (T) -> R): R {
     return withContext(Dispatchers.Default) { this@onDefault.let(block) }
 }
 
-public suspend inline fun <T> onDefault(crossinline block: CoroutineScope.() -> T): T {
+ suspend inline fun <T> onDefault(crossinline block: CoroutineScope.() -> T): T {
     return withContext(Dispatchers.Default) { block.invoke(this@withContext) }
 }
 
-public suspend inline fun <T, R> T.onIO(crossinline block: (T) -> R): R {
+ suspend inline fun <T, R> T.onIO(crossinline block: (T) -> R): R {
     return withContext(Dispatchers.IO) { this@onIO.let(block) }
 }
 
-public suspend inline fun <T> onIO(crossinline block: CoroutineScope.() -> T): T {
+ suspend inline fun <T> onIO(crossinline block: CoroutineScope.() -> T): T {
     return withContext(Dispatchers.IO) { block.invoke(this@withContext) }
 }
 
@@ -94,6 +95,7 @@ suspend fun <T> withUnconfinedContext(block: suspend () -> T): T {
         block()
     }
 }
+
 
 /**
 
@@ -772,6 +774,186 @@ fun <T> AndroidViewModel.makeApiCall(apiCall: suspend () -> Response<T>?,
 
         } catch (t: Throwable) {
             onError(t)
+        }
+    }
+}
+
+
+fun <T> CoroutineScope.makeApiCall(apiCall: suspend () -> Response<T>?,
+                                   onError: (throwable: Throwable) -> Unit = { _ -> },
+                                   onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+                                   onResponse: (response: T?) -> Unit
+): Job {
+
+    return launch(ioDispatcher){
+        try {
+            val response = apiCall()
+            response?.apply {
+                if (isSuccessful) {
+                    onResponse(body())
+                } else {
+                    onUnsuccessfulCall(errorBody(), code())
+                }
+            }
+        } catch (t: Throwable) {
+            onError(t)
+        }
+    }
+}
+
+
+
+/**
+ * USAGE:
+makeApiCall(sentResultData) {
+retrofitClient?.apiCall()
+}
+ * @receiver AndroidViewModel
+ * @param retrofitResult MutableLiveData<RetrofitResult<T>>
+ * @param includeEmptyData Boolean
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return Job
+ */
+fun <T> CoroutineScope.makeApiCall(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = false,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loadingPost()
+    return launch(ioDispatcher){
+        try {
+            retrofitResult.subscribePost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+
+        }
+    }
+
+}
+
+
+/**
+ * USAGE:
+makeApiCall(sentResultData) {
+retrofitClient?.makeApiCallList()
+}
+ * @receiver AndroidViewModel
+ * @param retrofitResult MutableLiveData<RetrofitResult<T>>
+ * @param includeEmptyData Boolean
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return Job
+ */
+fun <T> CoroutineScope.makeApiCallList(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = true,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loadingPost()
+
+    return launch(ioDispatcher){
+        try {
+            retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+
+        }
+    }
+
+}
+
+/**
+ * USAGE:
+makeApiCall(dbResult) {
+db?.getDBSomething()
+}
+ * @receiver AndroidViewModel
+ * @param dbResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+fun <T> CoroutineScope.makeDBCall(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> T?): Job {
+    dbResult.queryingPost()
+
+    return launch(ioDispatcher){
+        try {
+            dbResult.subscribePost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+
+        }
+    }
+
+}
+
+/**
+ * Must include empty data
+ * @receiver AndroidViewModel
+ * @param dbResult MutableLiveData<DBResult<T>>
+ * @param includeEmptyData Boolean
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+fun <T> CoroutineScope.makeDBCallList(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> T?): Job {
+    dbResult.queryingPost()
+
+    return launch(ioDispatcher){
+        try {
+            dbResult.subscribeListPost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+
+        }
+    }
+}
+
+/**
+ * USAGE:
+makeApiCall(dbResult) {
+db?.getDBSomething()
+}
+ * @receiver AndroidViewModel
+ * @param dbCall SuspendFunction0<T?>
+ * @return Job
+ */
+
+fun CoroutineScope.makeDBCall(
+        onCallExecuted : () -> Unit = {},
+        dbCall: suspend () -> Unit): Job {
+
+    return launch(ioDispatcher){
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun CoroutineScope.makeDBCall(
+        onCallExecuted : () -> Unit = {},
+        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        dbCall: suspend () -> Unit): Job {
+    return launch(ioDispatcher){
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            launch(mainDispatcher) {
+                onErrorAction(t)
+            }
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
         }
     }
 }
