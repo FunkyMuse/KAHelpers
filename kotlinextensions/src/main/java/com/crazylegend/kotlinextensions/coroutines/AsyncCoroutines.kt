@@ -112,7 +112,7 @@ fun <T> AndroidViewModel.makeApiCallAsync(
         retrofitResult.loading()
 
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribe(task.await(), includeEmptyData)
@@ -132,7 +132,7 @@ fun <T> AndroidViewModel.makeApiCallListAsync(
         retrofitResult.loading()
 
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribeList(task.await(), includeEmptyData)
@@ -227,7 +227,7 @@ fun <T> AppCompatActivity.makeApiCallAsync(
         retrofitResult.loading()
 
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribe(task.await(), includeEmptyData)
@@ -246,7 +246,7 @@ fun <T> AppCompatActivity.makeApiCallListAsync(
         retrofitResult.loading()
 
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribeList(task.await(), includeEmptyData)
@@ -342,7 +342,7 @@ fun <T> Fragment.makeApiCallAsync(
         retrofitResult.loading()
 
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribe(task.await(), includeEmptyData)
@@ -362,7 +362,7 @@ fun <T> Fragment.makeApiCallListAsync(
         retrofitResult.loading()
 
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribeList(task.await(), includeEmptyData)
@@ -458,7 +458,7 @@ fun <T> AndroidViewModel.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 
     return viewModelScope.launch(mainDispatcher) {
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             val response = task.await()
@@ -485,7 +485,7 @@ fun <T> CoroutineScope.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 
     return launch(mainDispatcher) {
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             val response = task.await()
@@ -512,7 +512,7 @@ fun <T> CoroutineScope.makeApiCallAsync(
     return launch(mainDispatcher) {
         retrofitResult.loading()
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribe(task.await(), includeEmptyData)
@@ -532,7 +532,7 @@ fun <T> CoroutineScope.makeApiCallListAsync(
     return launch(mainDispatcher) {
         retrofitResult.loading()
         try {
-            val task = async {
+            val task = async(ioDispatcher) {
                 apiCall()
             }
             retrofitResult.subscribeList(task.await(), includeEmptyData)
