@@ -1,10 +1,10 @@
 package com.crazylegend.kotlinextensions.coroutines
 
 
-import android.os.Build
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import kotlinx.coroutines.Job
+
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
  */

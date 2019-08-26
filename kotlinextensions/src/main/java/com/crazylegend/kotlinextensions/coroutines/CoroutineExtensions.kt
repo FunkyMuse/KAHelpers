@@ -11,33 +11,34 @@ import com.crazylegend.kotlinextensions.retrofit.*
 import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import retrofit2.Response
+import kotlin.coroutines.CoroutineContext
 
 
 /**
  * Created by hristijan on 5/27/19 to long live and prosper !
  */
 
- suspend inline fun <T, R> T.onMain(crossinline block: (T) -> R): R {
+suspend inline fun <T, R> T.onMain(crossinline block: (T) -> R): R {
     return withContext(Dispatchers.Main) { this@onMain.let(block) }
 }
 
- suspend inline fun <T> onMain(crossinline block: CoroutineScope.() -> T): T {
+suspend inline fun <T> onMain(crossinline block: CoroutineScope.() -> T): T {
     return withContext(Dispatchers.Main) { block.invoke(this@withContext) }
 }
 
- suspend inline fun <T, R> T.onDefault(crossinline block: (T) -> R): R {
+suspend inline fun <T, R> T.onDefault(crossinline block: (T) -> R): R {
     return withContext(Dispatchers.Default) { this@onDefault.let(block) }
 }
 
- suspend inline fun <T> onDefault(crossinline block: CoroutineScope.() -> T): T {
+suspend inline fun <T> onDefault(crossinline block: CoroutineScope.() -> T): T {
     return withContext(Dispatchers.Default) { block.invoke(this@withContext) }
 }
 
- suspend inline fun <T, R> T.onIO(crossinline block: (T) -> R): R {
+suspend inline fun <T, R> T.onIO(crossinline block: (T) -> R): R {
     return withContext(Dispatchers.IO) { this@onIO.let(block) }
 }
 
- suspend inline fun <T> onIO(crossinline block: CoroutineScope.() -> T): T {
+suspend inline fun <T> onIO(crossinline block: CoroutineScope.() -> T): T {
     return withContext(Dispatchers.IO) { block.invoke(this@withContext) }
 }
 
@@ -45,6 +46,7 @@ val mainDispatcher = Dispatchers.Main
 val defaultDispatcher = Dispatchers.Default
 val unconfinedDispatcher = Dispatchers.Unconfined
 val ioDispatcher = Dispatchers.IO
+
 
 fun <T> ioCoroutineGlobal(block: suspend () -> T): Job {
     return GlobalScope.launch(Dispatchers.IO) {
@@ -319,7 +321,7 @@ db?.getDBSomething()
  */
 
 fun AndroidViewModel.makeDBCall(
-        onCallExecuted : () -> Unit = {},
+        onCallExecuted: () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
     return viewModelIOCoroutine {
         try {
@@ -335,22 +337,21 @@ fun AndroidViewModel.makeDBCall(
 }
 
 fun AndroidViewModel.makeDBCall(
-        onCallExecuted : () -> Unit = {},
-        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Unit): Job {
     return viewModelIOCoroutine {
         try {
             dbCall()
         } catch (t: Throwable) {
             onErrorAction(t)
-        }finally {
+        } finally {
             viewModelMainCoroutine {
                 onCallExecuted()
             }
         }
     }
 }
-
 
 
 /**
@@ -404,7 +405,6 @@ fun AndroidViewModel.viewModelUnconfinedCoroutine(action: suspend () -> Unit = {
 }
 
 
-
 fun Fragment.ioCoroutine(action: suspend () -> Unit = {}): Job {
     return lifecycleScope.launch(ioDispatcher) {
         action()
@@ -453,8 +453,6 @@ fun AppCompatActivity.defaultCoroutine(action: suspend () -> Unit = {}): Job {
         action()
     }
 }
-
-
 
 
 /**
@@ -572,7 +570,7 @@ db?.getDBSomething()
  */
 
 fun AppCompatActivity.makeDBCall(
-        onCallExecuted : () -> Unit = {},
+        onCallExecuted: () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
     return ioCoroutine {
         try {
@@ -588,22 +586,21 @@ fun AppCompatActivity.makeDBCall(
 }
 
 fun AppCompatActivity.makeDBCall(
-        onCallExecuted : () -> Unit = {},
-        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Unit): Job {
     return ioCoroutine {
         try {
             dbCall()
         } catch (t: Throwable) {
             onErrorAction(t)
-        }finally {
+        } finally {
             mainCoroutine {
                 onCallExecuted()
             }
         }
     }
 }
-
 
 
 /**
@@ -721,7 +718,7 @@ db?.getDBSomething()
  */
 
 fun Fragment.makeDBCall(
-        onCallExecuted : () -> Unit = {},
+        onCallExecuted: () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
     return ioCoroutine {
         try {
@@ -737,15 +734,15 @@ fun Fragment.makeDBCall(
 }
 
 fun Fragment.makeDBCall(
-        onCallExecuted : () -> Unit = {},
-        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Unit): Job {
     return ioCoroutine {
         try {
             dbCall()
         } catch (t: Throwable) {
             onErrorAction(t)
-        }finally {
+        } finally {
             mainCoroutine {
                 onCallExecuted()
             }
@@ -785,7 +782,7 @@ fun <T> CoroutineScope.makeApiCall(apiCall: suspend () -> Response<T>?,
                                    onResponse: (response: T?) -> Unit
 ): Job {
 
-    return launch(ioDispatcher){
+    return launch(ioDispatcher) {
         try {
             val response = apiCall()
             response?.apply {
@@ -800,7 +797,6 @@ fun <T> CoroutineScope.makeApiCall(apiCall: suspend () -> Response<T>?,
         }
     }
 }
-
 
 
 /**
@@ -819,7 +815,7 @@ fun <T> CoroutineScope.makeApiCall(
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
     retrofitResult.loadingPost()
-    return launch(ioDispatcher){
+    return launch(ioDispatcher) {
         try {
             retrofitResult.subscribePost(apiCall(), includeEmptyData)
         } catch (t: Throwable) {
@@ -848,7 +844,7 @@ fun <T> CoroutineScope.makeApiCallList(
         apiCall: suspend () -> Response<T>?): Job {
     retrofitResult.loadingPost()
 
-    return launch(ioDispatcher){
+    return launch(ioDispatcher) {
         try {
             retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
         } catch (t: Throwable) {
@@ -876,7 +872,7 @@ fun <T> CoroutineScope.makeDBCall(
         dbCall: suspend () -> T?): Job {
     dbResult.queryingPost()
 
-    return launch(ioDispatcher){
+    return launch(ioDispatcher) {
         try {
             dbResult.subscribePost(dbCall(), includeEmptyData)
         } catch (t: Throwable) {
@@ -884,7 +880,6 @@ fun <T> CoroutineScope.makeDBCall(
 
         }
     }
-
 }
 
 /**
@@ -901,7 +896,7 @@ fun <T> CoroutineScope.makeDBCallList(
         dbCall: suspend () -> T?): Job {
     dbResult.queryingPost()
 
-    return launch(ioDispatcher){
+    return launch(ioDispatcher) {
         try {
             dbResult.subscribeListPost(dbCall(), includeEmptyData)
         } catch (t: Throwable) {
@@ -922,10 +917,10 @@ db?.getDBSomething()
  */
 
 fun CoroutineScope.makeDBCall(
-        onCallExecuted : () -> Unit = {},
+        onCallExecuted: () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
 
-    return launch(ioDispatcher){
+    return launch(ioDispatcher) {
         try {
             dbCall()
         } catch (t: Throwable) {
@@ -939,10 +934,10 @@ fun CoroutineScope.makeDBCall(
 }
 
 fun CoroutineScope.makeDBCall(
-        onCallExecuted : () -> Unit = {},
-        onErrorAction: (throwable:Throwable)-> Unit = {_->},
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Unit): Job {
-    return launch(ioDispatcher){
+    return launch(ioDispatcher) {
         try {
             dbCall()
         } catch (t: Throwable) {
