@@ -18,10 +18,7 @@ abstract class BasePermissionManager : Fragment() {
         retainInstance = true
     }
 
-    override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         if (grantResults.isNotEmpty() &&
                 grantResults.all { it == PackageManager.PERMISSION_GRANTED }
@@ -29,19 +26,13 @@ abstract class BasePermissionManager : Fragment() {
             onPermissionResult(PermissionResult.PermissionGranted(requestCode))
         } else if (permissions.any { shouldShowRequestPermissionRationale(it) }) {
             onPermissionResult(
-                    PermissionResult.PermissionDenied(requestCode,
-                            permissions.filterIndexed { index, _ ->
-                                grantResults[index] == PackageManager.PERMISSION_DENIED
-                            }
-                    )
+                    PermissionResult.PermissionDenied(requestCode, permissions.filterIndexed { index, _ ->
+                                grantResults[index] == PackageManager.PERMISSION_DENIED })
             )
         } else {
-            onPermissionResult(
-                    PermissionResult.PermissionDeniedPermanently(requestCode,
-                            permissions.filterIndexed { index, _ ->
+            onPermissionResult(PermissionResult.PermissionDeniedPermanently(requestCode, permissions.filterIndexed { index, _ ->
                                 grantResults[index] == PackageManager.PERMISSION_DENIED
-                            }
-                    ))
+            }))
         }
     }
 
@@ -54,10 +45,7 @@ abstract class BasePermissionManager : Fragment() {
         }
 
         val notGranted = permissions.filter {
-            ContextCompat.checkSelfPermission(
-                    requireActivity(),
-                    it
-            ) != PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(requireActivity(), it) != PackageManager.PERMISSION_GRANTED
         }.toTypedArray()
 
         when {

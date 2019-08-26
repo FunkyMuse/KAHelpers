@@ -93,16 +93,8 @@ class PermissionManager : BasePermissionManager() {
          */
         @JvmStatic
         @MainThread
-        fun requestPermissions(
-                activity: AppCompatActivity,
-                requestId: Int,
-                vararg permissions: String
-        ) {
-            _requestPermissions(
-                    activity,
-                    requestId,
-                    *permissions
-            )
+        fun requestPermissions(activity: AppCompatActivity, requestId: Int, vararg permissions: String) {
+            _requestPermissions(activity, requestId, *permissions)
         }
 
         /**
@@ -117,23 +109,11 @@ class PermissionManager : BasePermissionManager() {
          */
         @JvmStatic
         @MainThread
-        fun requestPermissions(
-                fragment: Fragment,
-                requestId: Int,
-                vararg permissions: String
-        ) {
-            _requestPermissions(
-                    fragment,
-                    requestId,
-                    *permissions
-            )
+        fun requestPermissions(fragment: Fragment, requestId: Int, vararg permissions: String) {
+            _requestPermissions(fragment, requestId, *permissions)
         }
 
-        private fun _requestPermissions(
-                activityOrFragment: Any,
-                requestId: Int,
-                vararg permissions: String
-        ) {
+        private fun _requestPermissions(activityOrFragment: Any, requestId: Int, vararg permissions: String) {
 
             val fragmentManager = if (activityOrFragment is AppCompatActivity) {
                 activityOrFragment.supportFragmentManager
@@ -142,21 +122,13 @@ class PermissionManager : BasePermissionManager() {
             }
 
             if (fragmentManager.findFragmentByTag(TAG) != null) {
-                (fragmentManager.findFragmentByTag(TAG) as PermissionManager).requestPermissions(
-                        requestId,
-                        *permissions
-                )
+                (fragmentManager.findFragmentByTag(TAG) as PermissionManager).requestPermissions(requestId, *permissions)
             } else {
                 if (activityOrFragment !is PermissionObserver) {
-                    throw IllegalArgumentException(
-                            "Activity/Fragment must implement PermissionObserver"
-                    )
+                    throw IllegalArgumentException("Activity/Fragment must implement PermissionObserver")
                 } else {
                     val permissionManager = PermissionManager()
-                    fragmentManager.beginTransaction().add(
-                            permissionManager,
-                            TAG
-                    ).commitNow()
+                    fragmentManager.beginTransaction().add(permissionManager, TAG).commitNow()
                     permissionManager.requestPermissions(requestId, *permissions)
                 }
             }

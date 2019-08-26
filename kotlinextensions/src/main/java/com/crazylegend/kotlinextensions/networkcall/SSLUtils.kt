@@ -19,7 +19,7 @@ object SslUtils {
 
     fun getSslContextForCertificateFile(context: Context, fileName: String): SSLContext {
         try {
-            val keyStore = SslUtils.getKeyStore(context, fileName)
+            val keyStore = getKeyStore(context, fileName)
             val sslContext = SSLContext.getInstance("SSL")
             val trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
             trustManagerFactory.init(keyStore)
@@ -47,7 +47,7 @@ object SslUtils {
 
             val keyStoreType = KeyStore.getDefaultType()
             keyStore = KeyStore.getInstance(keyStoreType)
-            keyStore!!.load(null, null)
+            keyStore?.load(null, null)
             keyStore.setCertificateEntry("ca", ca)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -65,18 +65,18 @@ object SslUtils {
 
             @SuppressLint("TrustAllX509TrustManager")
             @Throws(CertificateException::class)
-            override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+            override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {
             }
 
             @SuppressLint("TrustAllX509TrustManager")
             @Throws(CertificateException::class)
-            override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+            override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {
             }
         })
 
         // Install the all-trusting trust manager
         val sslContext = SSLContext.getInstance("SSL")
-        sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+        sslContext.init(null, trustAllCerts, SecureRandom())
         // Create an ssl socket factory with our all-trusting manager
 
         sslContext.socketFactory
