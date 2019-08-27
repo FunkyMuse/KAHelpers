@@ -102,13 +102,13 @@ object RetrofitClient {
         }
 
         if (retrofit.isNull) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            retrofit = buildRetrofit(baseUrl, clientBuilder, MoshiConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
 
         } else {
             retrofit?.baseUrl()?.let {
 
                 if (it.toString() != baseUrl) {
-                    retrofit = buildRetrofit(baseUrl, clientBuilder, GsonConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                    retrofit = buildRetrofit(baseUrl, clientBuilder, MoshiConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 }
             }
         }
