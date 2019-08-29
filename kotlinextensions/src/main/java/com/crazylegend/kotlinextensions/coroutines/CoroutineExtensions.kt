@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.crazylegend.kotlinextensions.database.*
 import com.crazylegend.kotlinextensions.retrofit.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import okhttp3.ResponseBody
 import retrofit2.Response
 import kotlin.coroutines.CoroutineContext
@@ -952,3 +954,177 @@ fun CoroutineScope.makeDBCall(
         }
     }
 }
+
+
+//flow
+
+fun <T> CoroutineScope.makeDBCallListFlow(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> Flow<T>?): Job {
+    dbResult.queryingPost()
+
+    return launch(ioDispatcher) {
+        try {
+
+            val result = dbCall()
+            result?.collect {
+                dbResult.subscribeListPost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeDBCallFlow(
+        queryModel: Flow<T>?,
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false
+): Job {
+    dbResult.queryingPost()
+    return launch(Dispatchers.IO) {
+        try {
+
+            val call = queryModel
+
+            call?.collect {
+                dbResult.subscribePost(it, includeEmptyData)
+            }
+
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeDBCallListFlow(
+        queryModel: Flow<T>?,
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true
+): Job {
+    dbResult.queryingPost()
+    return launch(Dispatchers.IO) {
+        try {
+            val call = queryModel
+
+            call?.collect {
+                dbResult.subscribeListPost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+
+}
+
+
+fun <T> AndroidViewModel.makeDBCallFlow(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> Flow<T>?): Job {
+    dbResult.queryingPost()
+    return viewModelIOCoroutine {
+        try {
+            val flow = dbCall()
+            flow?.collect {
+                dbResult.subscribePost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun <T> AndroidViewModel.makeDBCallListFlow(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> Flow<T>?): Job {
+    dbResult.queryingPost()
+    return viewModelIOCoroutine {
+        try {
+            val flow = dbCall()
+            flow?.collect {
+                dbResult.subscribeListPost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun <T> AppCompatActivity.makeDBCallFlow(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> Flow<T>?): Job {
+    dbResult.queryingPost()
+    return ioCoroutine {
+        try {
+            val flow = dbCall()
+            flow?.collect{
+                dbResult.subscribePost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun <T> AppCompatActivity.makeDBCallListFlow(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> Flow<T>?): Job {
+    dbResult.queryingPost()
+    return ioCoroutine {
+        try {
+            val flow = dbCall()
+            flow?.collect {
+                dbResult.subscribeListPost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun <T> Fragment.makeDBCallFlow(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> Flow<T>?): Job {
+    dbResult.queryingPost()
+    return ioCoroutine {
+        try {
+            val flow = dbCall()
+            flow?.collect {
+                dbResult.subscribeListPost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+
+fun <T> Fragment.makeDBCallListFlow(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> Flow<T>?): Job {
+    dbResult.queryingPost()
+    return ioCoroutine {
+        try {
+            val flow = dbCall()
+            flow?.collect {
+                dbResult.subscribeListPost(it, includeEmptyData)
+            }
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
