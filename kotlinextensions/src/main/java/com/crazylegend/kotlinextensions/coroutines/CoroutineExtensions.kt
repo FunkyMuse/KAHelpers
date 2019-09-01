@@ -1128,3 +1128,184 @@ fun <T> Fragment.makeDBCallListFlow(
     }
 }
 
+// no wrappers getting the result straight up
+fun <T> AndroidViewModel.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+    return viewModelIOCoroutine {
+        try {
+            val call = dbCall()
+            viewModelMainCoroutine {
+                onCalled(call)
+            }
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            viewModelMainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+    return launch(ioDispatcher) {
+        try {
+            val call = dbCall()
+            launch(mainDispatcher) {
+                onCalled(call)
+            }
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> Fragment.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+    return ioCoroutine{
+        try {
+            val call = dbCall()
+            mainCoroutine {
+                onCalled(call)
+            }
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> AppCompatActivity.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+    return ioCoroutine{
+        try {
+            val call = dbCall()
+            mainCoroutine {
+                onCalled(call)
+            }
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+// no wrappers getting the result straight up for flow
+
+fun <T> AndroidViewModel.makeDBCallFlow(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Flow<T>,
+        onCalled: (model: T) -> Unit): Job {
+    return viewModelIOCoroutine {
+        try {
+            val call = dbCall()
+            call.collect {
+                viewModelMainCoroutine {
+                    onCalled(it)
+                }
+            }
+
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            viewModelMainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeDBCallFlow(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Flow<T>,
+        onCalled: (model: T) -> Unit): Job {
+    return launch(ioDispatcher) {
+        try {
+            val call = dbCall()
+            call.collect {
+                launch(mainDispatcher) {
+                    onCalled(it)
+                }
+            }
+
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> Fragment.makeDBCallFlow(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Flow<T>,
+        onCalled: (model: T) -> Unit): Job {
+    return ioCoroutine{
+        try {
+            val call = dbCall()
+            call.collect {
+                mainCoroutine {
+                    onCalled(it)
+                }
+            }
+
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> AppCompatActivity.makeDBCallFlow(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Flow<T>,
+        onCalled: (model: T) -> Unit): Job {
+    return ioCoroutine{
+        try {
+            val call = dbCall()
+            call.collect {
+                mainCoroutine {
+                    onCalled(it)
+                }
+            }
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            mainCoroutine {
+                onCallExecuted()
+            }
+        }
+    }
+}
