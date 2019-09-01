@@ -132,6 +132,17 @@ fun Context.getScaledDrawable(@DrawableRes resourceId: Int, scaleInDp: Int): Dra
     return drawable
 }
 
+fun SearchView.disableSearchIconHint(){
+    try {
+        val mDrawable = SearchView::class.java.getDeclaredField("mSearchHintIcon")
+        mDrawable.isAccessible = true
+        val drawable = mDrawable.get(this) as Drawable
+        drawable.setBounds(0, 0, 0, 0)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
 fun Activity.getContentRoot(): View {
     return window
             .decorView
