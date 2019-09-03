@@ -148,7 +148,7 @@ class PermissionCouroutineManager : BasePermissionManager() {
                 fragmentManager.beginTransaction().add(
                         permissionManager,
                         TAG
-                ).commitNow()
+                ).commitNowAllowingStateLoss()
                 permissionManager.requestPermissions(requestId, *permissions)
                 permissionManager.completableDeferred.await()
             }
