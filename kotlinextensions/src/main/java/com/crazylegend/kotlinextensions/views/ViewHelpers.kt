@@ -23,6 +23,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.SearchView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.crazylegend.kotlinextensions.bitmap.flipHorizontally
 import com.crazylegend.kotlinextensions.context.getColorCompat
@@ -132,6 +133,10 @@ fun Context.getScaledDrawable(@DrawableRes resourceId: Int, scaleInDp: Int): Dra
     return drawable
 }
 
+/**
+ * AndroidX version of searchview gets the disabled icon hint
+ * @receiver SearchView
+ */
 fun SearchView.disableSearchIconHint(){
     try {
         val mDrawable = SearchView::class.java.getDeclaredField("mSearchHintIcon")
