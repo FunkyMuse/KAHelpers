@@ -1153,19 +1153,6 @@ fun View.hideSoftInput() {
 /**
  * Sets an on click listener for a view, but ensures the action cannot be triggered more often than [coolDown] milliseconds.
  */
-inline fun View.setOnClickListenerCooldown(coolDown: Long = 1000L, crossinline action: () -> Unit) {
-    setOnClickListener(object : View.OnClickListener {
-        var lastTime = 0L
-        override fun onClick(v: View?) {
-            val now = System.currentTimeMillis()
-            if (now - lastTime > coolDown) {
-                action()
-                lastTime = now
-            }
-        }
-    })
-}
-
 inline fun View.setOnClickListenerCooldown(coolDown: Long = 1000L, crossinline action: (view:View?) -> Unit) {
     setOnClickListener(object : View.OnClickListener {
         var lastTime = 0L
