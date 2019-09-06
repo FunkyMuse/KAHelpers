@@ -17,9 +17,7 @@ object UIDGenerator {
     private val nextUID = AtomicInteger(START_UID)
 
     fun newUID(): Int {
-        if (!isValid(nextUID.get())) {
-            throw IllegalStateException("UID pool depleted")
-        }
+        check(isValid(nextUID.get())) { "UID pool depleted" }
         return nextUID.incrementAndGet()
     }
 

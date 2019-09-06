@@ -35,25 +35,22 @@ fun hideName(name: String): String {
 
 
 private fun hideData(data: String, remainLength: Int, beforeLength: Int, afterLength: Int): String {
-    var data = data
-    val length = data.length
-    data = if (length <= remainLength) {
-        // 实际位数小等于要保留的位数，补0
-        val dataBuilder = StringBuilder(data)
+    var tempData = data
+    val length = tempData.length
+    tempData = if (length <= remainLength) {
+        val dataBuilder = StringBuilder(tempData)
         for (i in 0 until remainLength - length) {
             dataBuilder.insert(0, "0")
         }
         dataBuilder.toString()
     } else {
-        // 实际位数大于要保留的位数。否则保留0-保留长度-4， 源数据最后4位
-        data.substring(0, remainLength - 4) + data.substring(data.length - 4)
+        tempData.substring(0, remainLength - 4) + tempData.substring(tempData.length - 4)
     }
-    // 替换字符串，当前使用“*”
     val replaceSymbol = "*"
     val sb = StringBuilder()
     for (i in 0 until remainLength) {
         if (i < beforeLength || i >= remainLength - afterLength) {
-            sb.append(data[i])
+            sb.append(tempData[i])
         } else {
             sb.append(replaceSymbol)
         }
@@ -64,36 +61,36 @@ private fun hideData(data: String, remainLength: Int, beforeLength: Int, afterLe
 
 
 fun splitStrWithSpace(data: String, spaceIndex: Int): String {
-    var data = data
+    var tempData = data
     val regex = "(.{$spaceIndex})"
-    data = data.replace(regex.toRegex(), "$1 ")
-    return data
+    tempData = tempData.replace(regex.toRegex(), "$1 ")
+    return tempData
 }
 
 
 fun hideAndSplitBankCard(cardNo: String): String {
-    var cardNo = cardNo
-    cardNo = hideBankCard(cardNo)
-    return splitStrWithSpace(cardNo, 4)
+    var cardTemp = cardNo
+    cardTemp = hideBankCard(cardTemp)
+    return splitStrWithSpace(cardTemp, 4)
 }
 
 
 fun hideAndSplitBankCardStrictly(cardNo: String): String {
-    var cardNo = cardNo
-    cardNo = hideBankCardStrictly(cardNo)
-    return splitStrWithSpace(cardNo, 4)
+    var cardNoTemp = cardNo
+    cardNoTemp = hideBankCardStrictly(cardNoTemp)
+    return splitStrWithSpace(cardNoTemp, 4)
 }
 
 
 fun hideAndSplitIdCard(cardNo: String): String {
-    var cardNo = cardNo
-    cardNo = hideIdCard(cardNo)
-    return cardNo.substring(0, 6) + " " + cardNo.substring(6, 14) + " " + cardNo.substring(14, cardNo.length)
+    var cardNoTemp = cardNo
+    cardNoTemp = hideIdCard(cardNoTemp)
+    return cardNoTemp.substring(0, 6) + " " + cardNoTemp.substring(6, 14) + " " + cardNoTemp.substring(14, cardNoTemp.length)
 }
 
 
 fun hideAndSplitTel(tel: String): String {
-    var tel = tel
-    tel = hideTel(tel)
-    return tel.substring(0, 3) + " " + tel.substring(3, 7) + " " + tel.substring(7, tel.length)
+    var telNum = tel
+    telNum = hideTel(telNum)
+    return telNum.substring(0, 3) + " " + telNum.substring(3, 7) + " " + telNum.substring(7, telNum.length)
 }

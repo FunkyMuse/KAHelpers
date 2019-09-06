@@ -8,6 +8,6 @@ package com.crazylegend.kotlinextensions.handlers
 sealed class ProcessingResult<out T> {
     data class Success<T>(val value: T) : ProcessingResult<T>()
     object Processing : ProcessingResult<Nothing>()
-    data class Error(val message: String, val exception: Exception?=null, val throwable: Throwable) : ProcessingResult<Nothing>()
+    data class Error(val throwable: Throwable) : ProcessingResult<Nothing>()
     object Finished : ProcessingResult<Nothing>()
 }

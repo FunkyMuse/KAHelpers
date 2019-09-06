@@ -541,9 +541,6 @@ fun File.saveFile(runBlockIfOk: () -> Unit, runBlockIfFail: () -> Unit, useMkdir
     }
 }
 
-fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String {
-    return this.bufferedReader(charset).use { it.readText() }
-}
 
 /**
  * Deletes given directory and returns result
@@ -608,15 +605,3 @@ private fun File.verifiedDirectoryFiles(): Array<File> {
 }
 
 fun <T: Any> T.getJarDirectory(): String? = File(this::class.java.protectionDomain?.codeSource?.location?.toURI()?.path).path
-
-
-/**
- * Installs file as APK. Asks for user permission.
- */
-fun File.installAPK(context: Context): File {
-    val intent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
-        data = Uri.fromFile(this@installAPK)
-    }
-    context.startActivity(intent)
-    return this
-}

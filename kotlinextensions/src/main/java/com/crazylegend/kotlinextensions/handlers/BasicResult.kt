@@ -5,6 +5,6 @@ package com.crazylegend.kotlinextensions.handlers
  */
 sealed class BasicResult<out T> {
     data class Success<T>(val value: T) : BasicResult<T>()
-    data class Error(val message: String, val exception: Exception?=null, val throwable: Throwable) : BasicResult<Nothing>()
+    data class Error(val throwable: Throwable) : BasicResult<Nothing>()
     object NoData : BasicResult<Nothing>()
 }

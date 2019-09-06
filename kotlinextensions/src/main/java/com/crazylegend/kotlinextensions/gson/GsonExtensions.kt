@@ -11,9 +11,7 @@ import org.json.JSONObject
  * Created by hristijan on 2/22/19 to long live and prosper !
  */
 val gson: Gson by lazy {
-    GsonBuilder()
-        .disableHtmlEscaping()
-        .create()
+    Gson()
 }
 
 inline fun <reified T: Any> Gson.fromJson(json: String): T = this.fromJson(json, T::class.java)
@@ -40,8 +38,6 @@ val gsonPrettyPrinting: Gson by lazy {
         .setPrettyPrinting()
         .create()
 }
-
-
 
 fun Any.toJson(): String = gson.toJson(this)
 
