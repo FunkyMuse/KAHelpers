@@ -133,15 +133,6 @@ fun Activity.createNote(subject: String, text: String) {
     }
 }*/
 
-@RequiresPermission(allOf = [CALL_PHONE])
-fun Activity.dialPhoneNumber(phoneNumber: String) {
-    val intent = Intent(Intent.ACTION_DIAL).apply {
-        data = Uri.parse("tel:$phoneNumber")
-    }
-    if (intent.resolveActivity(packageManager) != null) {
-        startActivity(intent)
-    }
-}
 
 fun Activity.searchWeb(query: String) {
     val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
@@ -319,8 +310,6 @@ fun Context.dialPhoneNumber(phoneNumber: String) {
         startActivity(intent)
     }
 }
-
-
 
 fun Context.showTimePicker(
          hourOfDay: Int, minute: Int, is24Hour: Boolean,
