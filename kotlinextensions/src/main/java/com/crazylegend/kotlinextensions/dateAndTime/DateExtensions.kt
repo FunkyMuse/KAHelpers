@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.dateAndTime
 
 import android.content.Context
-import android.os.Parcel
 import android.text.format.DateFormat
 import android.text.format.DateUtils
 import org.joda.time.*
@@ -11,7 +10,6 @@ import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-
 import java.util.*
 import java.util.concurrent.TimeUnit
 

@@ -7,8 +7,7 @@ package com.crazylegend.kotlinextensions.generators
 
 
 import android.content.res.Resources
-
-import java.util.Random
+import java.util.*
 
 
 class MathExtensions @Throws(IllegalAccessException::class)

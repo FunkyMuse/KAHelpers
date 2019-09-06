@@ -19,14 +19,18 @@ import java.util.concurrent.TimeUnit
  */
 object RetrofitClient {
     private var retrofit: Retrofit? = null
-    
-    fun removeRetrofitInstance(){
+
+    fun removeRetrofitInstance() {
         retrofit = null
     }
 
-    fun gsonInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false,
-                           connectTimeout: Long = 60, readTimeout: Long = 60, writeTimeout: Long = 60,
-                           connectionTimeUnit: TimeUnit = TimeUnit.SECONDS, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    var connectTimeout: Long = 60
+    var readTimeout: Long = 60
+    var writeTimeout: Long = 60
+    var connectionTimeUnit: TimeUnit = TimeUnit.SECONDS
+
+
+    fun gsonInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -55,9 +59,7 @@ object RetrofitClient {
     }
 
 
-    fun gsonInstanceCouroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false,
-                                connectTimeout: Long = 60, readTimeout: Long = 60, writeTimeout: Long = 60,
-                                connectionTimeUnit: TimeUnit = TimeUnit.SECONDS, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun gsonInstanceCouroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -85,9 +87,7 @@ object RetrofitClient {
 
     }
 
-    fun moshiInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false,
-                            connectTimeout: Long = 60, readTimeout: Long = 60, writeTimeout: Long = 60,
-                            connectionTimeUnit: TimeUnit = TimeUnit.SECONDS, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun moshiInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -106,7 +106,6 @@ object RetrofitClient {
 
         } else {
             retrofit?.baseUrl()?.let {
-
                 if (it.toString() != baseUrl) {
                     retrofit = buildRetrofit(baseUrl, clientBuilder, MoshiConverterFactory.create(), RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 }
@@ -118,9 +117,7 @@ object RetrofitClient {
     }
 
 
-    fun moshiInstanceCoroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false,
-                                connectTimeout: Long = 60, readTimeout: Long = 60, writeTimeout: Long = 60,
-                                connectionTimeUnit: TimeUnit = TimeUnit.SECONDS, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun moshiInstanceCoroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()

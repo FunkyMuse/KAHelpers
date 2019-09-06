@@ -14,7 +14,6 @@ import com.crazylegend.kotlinextensions.activity.isKeyboardSubmit
 import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.context.inputMethodManager
-import com.crazylegend.kotlinextensions.isNull
 import com.google.android.material.textfield.TextInputEditText
 import java.net.MalformedURLException
 import java.net.URL

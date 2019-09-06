@@ -1,6 +1,6 @@
 package com.crazylegend.kotlinextensions.generators
 
-import java.util.Random;
+import java.util.*
 
 /**
  * Created by hristijan on 4/15/19 to long live and prosper !

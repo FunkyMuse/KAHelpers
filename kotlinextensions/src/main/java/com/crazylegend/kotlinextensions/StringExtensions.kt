@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
-import android.os.Build.VERSION.SDK_INT
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
@@ -18,7 +17,6 @@ import android.util.Base64
 import android.util.Patterns
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.core.text.isDigitsOnly
 import com.crazylegend.kotlinextensions.encryption.EncryptionUtils

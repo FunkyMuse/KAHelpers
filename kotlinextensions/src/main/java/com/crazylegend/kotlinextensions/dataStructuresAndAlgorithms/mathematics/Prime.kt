@@ -66,7 +66,7 @@ fun generateRandomPrime(range: IntRange): Int{
     var i = 0
     var number: Int
     do {
-        number = Random.nextInt(range.start, range.endInclusive)
+        number = Random.nextInt(range.first, range.last)
         if (isPrime(number.toLong())) return number
         i++
         if (i >= count) return -1

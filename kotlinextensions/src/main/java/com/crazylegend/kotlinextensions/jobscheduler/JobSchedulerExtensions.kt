@@ -6,10 +6,8 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import androidx.annotation.RequiresPermission
-import com.crazylegend.kotlinextensions.context.jobScheduler
-import androidx.core.content.ContextCompat.getSystemService
-import android.app.ActivityManager
 import com.crazylegend.kotlinextensions.context.activityManager
+import com.crazylegend.kotlinextensions.context.jobScheduler
 
 
 /**

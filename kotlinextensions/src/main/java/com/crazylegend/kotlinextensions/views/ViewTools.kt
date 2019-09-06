@@ -3,7 +3,10 @@ package com.crazylegend.kotlinextensions.views
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
-import android.graphics.*
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Build
 import android.view.Menu
 import android.view.MenuItem

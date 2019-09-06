@@ -8,7 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.crazylegend.kotlinextensions.database.*
 import com.crazylegend.kotlinextensions.retrofit.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Response
 

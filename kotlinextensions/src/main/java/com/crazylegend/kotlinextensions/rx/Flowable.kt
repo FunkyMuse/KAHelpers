@@ -3,14 +3,7 @@ package com.crazylegend.kotlinextensions.rx
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.FlowableEmitter
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
-import io.reactivex.functions.Function4
-import io.reactivex.functions.Function5
-import io.reactivex.functions.Function6
-import io.reactivex.functions.Function7
-import io.reactivex.functions.Function8
-import io.reactivex.functions.Function9
+import io.reactivex.functions.*
 
 
 /**

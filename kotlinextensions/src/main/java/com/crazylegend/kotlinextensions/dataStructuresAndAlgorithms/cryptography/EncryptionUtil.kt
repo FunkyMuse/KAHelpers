@@ -189,11 +189,11 @@ import javax.security.cert.CertificateException
     fun decrypt(text: String): String {
         try {
             var d: ByteArray? = ByteArray(0)
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                d = EncryptionUtil.decryptM(text)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                d = decryptM(text)
             } else {
                 try {
-                    d = EncryptionUtil.rsaDecrypt(text)
+                    d = rsaDecrypt(text)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -212,10 +212,10 @@ import javax.security.cert.CertificateException
         var input = text
         try {
             val d = ByteArray(0)
-            input = if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                EncryptionUtil.encryptM(input)
+            input = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                encryptM(input)
             } else {
-                input?.toByteArray()?.let { EncryptionUtil.rsaEncrypt(it) }
+                input?.toByteArray()?.let { rsaEncrypt(it) }
             }
             return input.toString()
         } catch (e: Exception) {

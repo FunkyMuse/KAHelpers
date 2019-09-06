@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import com.crazylegend.kotlinextensions.collections.mergeWith
 import com.crazylegend.kotlinextensions.context.shortToast
-import com.crazylegend.kotlinextensions.coroutines.mainCoroutine
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.fragments.finish
 import com.crazylegend.kotlinextensions.fragments.shortToast

@@ -15,7 +15,7 @@ package com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.search
  *      Average, Worst - O(n), linear.
  */
 fun <T> plainSearch(list: List<T>, value: T): Int {
-    for (i in 0 until list.size) if (list[i] == value) return i
+    for (i in list.indices) if (list[i] == value) return i
     return -1
 }
 

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.database.*
-import com.crazylegend.kotlinextensions.database.subscribeList
 import com.crazylegend.kotlinextensions.retrofit.*
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers

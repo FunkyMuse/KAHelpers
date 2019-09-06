@@ -1,6 +1,5 @@
 package com.crazylegend.kotlinextensions.pdf
 
-import android.Manifest
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -11,7 +10,6 @@ import android.os.Environment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.annotation.RequiresPermission
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
@@ -27,7 +25,7 @@ fun View.createPDF(mediaDir:String, uriAuthority:String): Uri? {
 
     val file: File?
     val uuid = UUID.randomUUID().toString()
-    val directory = File(Environment.getExternalStorageDirectory(), mediaDir)
+    val directory = File(Environment.getDataDirectory(), mediaDir)
 
     file = if (directory.exists()) {
         File(directory, uuid.plus(".pdf"))
@@ -80,7 +78,7 @@ fun View.createPDF(mediaDir:String, uriAuthority:String): Uri? {
 fun View.createPDF(pdfNameWithoutDotPDF:String, mediaDir:String, uriAuthority:String): Uri? {
 
     val file: File?
-    val directory = File(Environment.getExternalStorageDirectory(), mediaDir)
+    val directory = File(Environment.getDataDirectory(), mediaDir)
 
     file = if (directory.exists()) {
         File(directory, pdfNameWithoutDotPDF.plus(".pdf"))
@@ -132,7 +130,7 @@ fun View.createPDF(pdfNameWithoutDotPDF:String, mediaDir:String, uriAuthority:St
 fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String, uriAuthority:String): Uri? {
 
     val file: File?
-    val directory = File(Environment.getExternalStorageDirectory(), mediaDir)
+    val directory = File(Environment.getDataDirectory(), mediaDir)
 
     file = if (directory.exists()) {
         File(directory, pdfNameWithoutDotPDF.plus(".pdf"))
@@ -184,7 +182,7 @@ fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String,
 fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String, uriAuthority:String, background :Int = Color.WHITE): Uri? {
 
     val file: File?
-    val directory = File(Environment.getExternalStorageDirectory(), mediaDir)
+    val directory = File(Environment.getDataDirectory(), mediaDir)
 
     file = if (directory.exists()) {
         File(directory, pdfNameWithoutDotPDF.plus(".pdf"))

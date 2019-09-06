@@ -11,39 +11,32 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.media.AudioManager
-import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
-import android.os.LocaleList
-import android.provider.MediaStore
+import android.os.Process
 import android.provider.Settings
 import android.text.TextUtils.isEmpty
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.*
+import androidx.annotation.IntRange
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.crazylegend.kotlinextensions.enums.ContentColumns
-import com.crazylegend.kotlinextensions.enums.ContentOrder
+import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.toFile
+import com.crazylegend.kotlinextensions.withOpacity
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.*
-import android.os.Process
-import com.crazylegend.kotlinextensions.withOpacity
-import androidx.annotation.IntRange
-import androidx.core.graphics.drawable.DrawableCompat
 
 
 /**

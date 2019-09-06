@@ -1,20 +1,18 @@
 package com.crazylegend.kotlinextensions.views
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
-import com.crazylegend.kotlinextensions.context.inputManager
 import androidx.annotation.IntRange
 import com.crazylegend.kotlinextensions.context.colorWithOpacity
 import com.crazylegend.kotlinextensions.context.drawable
+import com.crazylegend.kotlinextensions.context.inputManager
 
 
 /**

@@ -3,7 +3,6 @@ package com.crazylegend.kotlinextensions.livedata
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import com.crazylegend.kotlinextensions.database.DBResult
 import com.crazylegend.kotlinextensions.database.getSuccess

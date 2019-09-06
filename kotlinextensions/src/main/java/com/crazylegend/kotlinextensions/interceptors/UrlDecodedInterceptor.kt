@@ -2,10 +2,11 @@ package com.crazylegend.kotlinextensions.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okio.Buffer
 import java.io.IOException
-import okhttp3.RequestBody.Companion.toRequestBody
+
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
  */

@@ -11,11 +11,7 @@ import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.core.widget.ImageViewCompat
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.crazylegend.kotlinextensions.context.getColorCompat
 import java.io.FileOutputStream
 

@@ -1,15 +1,8 @@
 package com.crazylegend.kotlinextensions.rx
 
-import io.reactivex.ObservableEmitter
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
-import io.reactivex.functions.Function4
-import io.reactivex.functions.Function5
-import io.reactivex.functions.Function6
-import io.reactivex.functions.Function7
-import io.reactivex.functions.Function8
-import io.reactivex.functions.Function9
+import io.reactivex.ObservableEmitter
+import io.reactivex.functions.*
 
 /**
  * Created by hristijan on 3/1/19 to long live and prosper !

@@ -6,21 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.widget.Toast
+import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import android.net.NetworkCapabilities
-import android.net.Network
-import android.net.NetworkInfo
-import android.os.Build
-import androidx.annotation.IntRange
-import androidx.core.content.ContextCompat.getSystemService
-
-
 
 
 /**

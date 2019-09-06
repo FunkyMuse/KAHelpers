@@ -13,6 +13,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.annotation.IntRange
 import androidx.collection.LruCache
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +26,6 @@ import java.nio.ByteBuffer
 import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
-import androidx.annotation.IntRange
 
 
 /**

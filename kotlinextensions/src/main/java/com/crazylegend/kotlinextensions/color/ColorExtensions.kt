@@ -10,7 +10,6 @@ import android.os.Build
 import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
-import androidx.annotation.IntRange
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.drawable.DrawableCompat

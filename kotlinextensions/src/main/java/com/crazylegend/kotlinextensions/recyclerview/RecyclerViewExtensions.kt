@@ -1,7 +1,5 @@
 package com.crazylegend.kotlinextensions.recyclerview
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -12,11 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.text.PrecomputedTextCompat
 import androidx.recyclerview.widget.*
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
-import com.crazylegend.kotlinextensions.context.getTextFromClipboard
 import com.crazylegend.kotlinextensions.dp2px
 import com.google.android.material.snackbar.Snackbar
 import java.util.*

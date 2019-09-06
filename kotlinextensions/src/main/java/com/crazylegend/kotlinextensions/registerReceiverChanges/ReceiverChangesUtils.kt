@@ -1,9 +1,6 @@
 package com.crazylegend.kotlinextensions.registerReceiverChanges
 
 import android.app.Service
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothClass
-import android.bluetooth.BluetoothProfile
 import android.content.*
 import android.media.AudioManager
 

@@ -8,7 +8,10 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.*
-import android.graphics.drawable.*
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Build
 import android.os.Handler
 import android.text.SpannableStringBuilder

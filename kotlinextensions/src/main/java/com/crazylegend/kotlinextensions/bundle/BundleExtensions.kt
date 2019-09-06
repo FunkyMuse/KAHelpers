@@ -61,7 +61,7 @@ infix fun Bundle.with(bundle: Bundle?): Bundle {
  * Saves all bundle args based on their respective types.
  *
  */
-fun bundleOf(vararg params: kotlin.Pair<String, Any?>): Bundle {
+fun bundleOfPrimitives(vararg params: Pair<String, Any?>): Bundle {
     val b = Bundle()
     for (p in params) {
         val (k, v) = p

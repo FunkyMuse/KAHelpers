@@ -1,9 +1,7 @@
 package com.crazylegend.kotlinextensions.bitmap
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -15,15 +13,12 @@ import android.graphics.drawable.Icon
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import androidx.core.content.FileProvider
 import androidx.palette.graphics.Palette
 import com.crazylegend.kotlinextensions.file.getRealPath
@@ -34,7 +29,6 @@ import io.reactivex.schedulers.Schedulers
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
 
 
 /**

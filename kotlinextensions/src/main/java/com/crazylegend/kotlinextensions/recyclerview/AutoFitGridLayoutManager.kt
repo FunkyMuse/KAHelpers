@@ -1,11 +1,9 @@
 package com.crazylegend.kotlinextensions.recyclerview
 
 import android.content.Context
-import android.util.AttributeSet
-import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.max
 
 

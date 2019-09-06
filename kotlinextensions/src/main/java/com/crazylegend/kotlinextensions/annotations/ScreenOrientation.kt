@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.annotations
 
-import androidx.annotation.IntDef
 import android.content.pm.ActivityInfo.*
+import androidx.annotation.IntDef
 
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !

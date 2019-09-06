@@ -20,7 +20,7 @@ private fun generateRandomPrimePair(range: IntRange): Pair<Int, Int> {
 }
 
 private fun generateRandomCoprime(range: IntRange, number: Int): Int {
-    while (true) Random.nextInt(range.start, range.endInclusive).run {
+    while (true) Random.nextInt(range.first, range.last).run {
         if (areCoprime(number.toLong(), this.toLong())) return this
     }
 }

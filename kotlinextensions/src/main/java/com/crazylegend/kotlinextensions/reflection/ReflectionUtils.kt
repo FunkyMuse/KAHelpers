@@ -1,6 +1,5 @@
 package com.crazylegend.kotlinextensions.reflection
 
-import com.crazylegend.kotlinextensions.isNotNull
 import com.crazylegend.kotlinextensions.isNull
 import com.crazylegend.kotlinextensions.tryOrIgnore
 import com.crazylegend.kotlinextensions.tryOrNull
@@ -183,6 +182,7 @@ fun Any.firstPropertyValue(equalsToFieldName: String): String {
             member.name.toLowerCase() == equalsToFieldName.toLowerCase()
         }.get(this).toString()
     } catch (e: java.lang.Exception) {
+        e.printStackTrace()
         ""
     }
 
@@ -507,6 +507,10 @@ inline fun <reified T> T.setProperty(property: String, value: Any?) {
         field.isAccessible = true
         field.set(this, value)
     } catch (e: NoSuchFieldException) {
+        e.printStackTrace()
     } catch (e: IllegalAccessException) {
-    } catch (e: IllegalArgumentException) { }
+        e.printStackTrace()
+    } catch (e: IllegalArgumentException) {
+        e.printStackTrace()
+    }
 }
