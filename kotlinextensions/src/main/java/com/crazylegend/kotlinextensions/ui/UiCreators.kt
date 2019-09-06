@@ -150,6 +150,25 @@ inline fun Container.verticalLayout(builder: Container.() -> Unit): LinearLayout
     return viewGroup
 }
 
+inline fun Container.horizontalLayout(builder: Container.() -> Unit): LinearLayout {
+    val viewGroup = LinearLayout(this.context).also {
+        it.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ).also {
+            it.gravity = Gravity.CENTER
+        }
+        it.orientation = LinearLayout.HORIZONTAL
+    }
+    if (view == null) {
+        view = viewGroup
+    } else {
+        view?.addView(viewGroup)
+    }
+    Container(this.context, viewGroup).builder()
+    return viewGroup
+}
+
 
 fun Container.textView(builder: AppCompatTextView.() -> Unit) {
     val item = AppCompatTextView(this.context)

@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
  */
 fun <T : Any> isNotNull(value: T?): Boolean {
     return try {
-        kotlin.checkNotNull(value)
+        checkNotNull(value)
         true
     } catch (e: IllegalStateException) {
         false
