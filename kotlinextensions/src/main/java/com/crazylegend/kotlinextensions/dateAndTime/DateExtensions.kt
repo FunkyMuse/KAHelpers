@@ -1028,3 +1028,67 @@ fun Date.getMillisToNextMin(): Long {
     return calendar.timeInMillis - this.time
 }
 
+
+fun Date.getCurrentDateString() : String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    return dateFormat.format(this.time)
+}
+
+fun Date.getCurrentDayAndMonthString(): String {
+    val dateFormat = SimpleDateFormat("d MMMM", Locale.getDefault())
+    return dateFormat.format(this.time)
+}
+
+fun Date.getCurrentYear() : String {
+    val dateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+    return dateFormat.format(this.time)
+}
+
+fun Date.getCurrentYearInt() : Int {
+    return Integer.parseInt(this.getCurrentYear())
+}
+
+fun Long.extractDate() : Date {
+    return Date(this*1000L)
+}
+
+
+fun Context.getDateDifferense(startDate: Date, endDate: Date): Pair<String,Long>? {
+
+    var different = endDate.time - startDate.time
+
+    val secondsInMilli: Long = 1000
+    val minutesInMilli = secondsInMilli * 60
+    val hoursInMilli = minutesInMilli * 60
+    val daysInMilli = hoursInMilli * 24
+    val monthsInMilli = daysInMilli * 30
+
+    val elapsedDays = different / daysInMilli
+    different %= daysInMilli
+
+    val elapsedHours = different / hoursInMilli
+    different %= hoursInMilli
+
+    val elapsedMinutes = different / minutesInMilli
+    different %= minutesInMilli
+
+    val elapsedSeconds = different / secondsInMilli
+
+    return when {
+        elapsedDays > 0 -> {
+            Pair("D", elapsedDays)
+        }
+        elapsedHours > 0 -> {
+            Pair("H", elapsedHours)
+        }
+        elapsedMinutes > 0 -> {
+            Pair("M", elapsedMinutes)
+        }
+        elapsedSeconds > 0 -> {
+            Pair("S", elapsedSeconds)
+        }
+        else -> {
+            null
+        }
+    }
+}

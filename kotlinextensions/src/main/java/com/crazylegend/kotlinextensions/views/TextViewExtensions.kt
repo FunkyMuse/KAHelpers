@@ -454,3 +454,20 @@ fun TextView.ellipsizeViewPager(text: String) {
         this.ellipsize = TextUtils.TruncateAt.END
     }
 }
+
+fun TextView.setTextOrHide(text: String?) {
+    text?.let {
+        this.text = it
+    } ?: run {
+        this.visibility = View.GONE
+    }
+}
+
+fun AppCompatTextView.setTextOrHide(text: String?) {
+    text?.let {
+        this.text = it
+    } ?: run {
+        this.visibility = View.GONE
+    }
+}
+

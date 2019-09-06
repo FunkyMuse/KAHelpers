@@ -33,3 +33,4 @@ fun <T : Any> (() -> T).toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 fun <T> Throwable.toMaybe(): Maybe<T> = Maybe.error(this)
 @JvmName("toMaybeFromThrowable")
 fun <T> (() -> Throwable).toMaybe(): Maybe<T> = Maybe.error(this)
+

@@ -25,3 +25,4 @@ fun <T> ReplaySubject(): ReplaySubject<T> = ReplaySubject.create()
 fun <T> SingleSubject(): SingleSubject<T> = SingleSubject.create()
 
 fun <T> UnicastSubject(): UnicastSubject<T> = UnicastSubject.create()
+

@@ -1,16 +1,11 @@
 package com.crazylegend.kotlinextensions.permissionHandlers.basic
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
+import androidx.fragment.app.Fragment
+
 
 
 /**
@@ -18,109 +13,69 @@ import androidx.core.content.edit
  */
 
 
+
 object PermissionUtils {
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    fun neverAskAgainSelected(activity: Activity, permission: String): Boolean {
-        val prevShouldShowStatus = getRatinaleDisplayStatus(activity, permission)
-        val currShouldShowStatus = activity.shouldShowRequestPermissionRationale(permission)
-        return prevShouldShowStatus != currShouldShowStatus
-    }
-
-    fun setShouldShowStatus(context: Context, permission: String) {
-        val genPrefs = context.getSharedPreferences("GENERIC_PREFERENCES", MODE_PRIVATE)
-        genPrefs.edit(true){
-            putBoolean(permission, true)
-        }
-    }
-
-    fun getRatinaleDisplayStatus(context: Context, permission: String): Boolean {
-        val genPrefs = context.getSharedPreferences("GENERIC_PREFERENCES", MODE_PRIVATE)
-        return genPrefs.getBoolean(permission, false)
-    }
-}
+    const val PERMISSION_REQUEST_CODE = 222
 
 
-fun Activity.requestPermission(permissionName: String, permissionRequestCode: Int,
-                               displayNeverAskAgainDialog: () -> Unit = {},
-                               onShouldShowRationale: () -> Unit = {},
-                               onGranted: () -> Unit = {}) {
-
-
-    if (ContextCompat.checkSelfPermission(this, permissionName) != PackageManager.PERMISSION_GRANTED) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (PermissionUtils.neverAskAgainSelected(this, permissionName)) {
-                displayNeverAskAgainDialog()
-            } else {
-                // Permission is not granted
-                // Should we show an explanation?
-                if (shouldShowRequestPermissionRationale(this, permissionName)) {
-                    // Show an explanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
-                    onShouldShowRationale()
-                } else {
-                    // No explanation needed, we can request the permission.
-                    ActivityCompat.requestPermissions(this, arrayOf(permissionName), permissionRequestCode)
-                }
-            }
+    fun requestPermission(activity: Activity, successAction: () -> Unit, requestedPermissions: Array<String>) {
+        if (needPermissions(activity, requestedPermissions)) {
+            getPermissions(activity, requestedPermissions)
         } else {
+            successAction.invoke()
+        }
+    }
 
-            // Permission is not granted
-            // Should we show an explanation?
-            if (shouldShowRequestPermissionRationale(this, permissionName)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                onShouldShowRationale()
+    fun requestPermission(fragment: Fragment, action: () -> Unit, requestedPermissions: Array<String>) {
+        fragment.activity.let {
+            if (needPermissions(it!!, requestedPermissions)) {
+                getPermissions(fragment, requestedPermissions)
             } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this, arrayOf(permissionName), permissionRequestCode)
+                action.invoke()
             }
         }
-
-
-    } else {
-        // Permission has already been granted
-        onGranted()
     }
-}
 
-
-
-fun Context.checkIfPermissionWasGrantedOnResult(grantResults: IntArray, onDenied: () -> Unit, onGranted: () -> Unit) {
-    return if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-        // permission was granted, yay! Do the
-        // contacts-related task you need to do.
-        onGranted()
-    } else {
-        // permission denied, boo! Disable the
-        // functionality that depends on this permission.
-        onDenied()
-        //PermissionUtils.setShouldShowStatus(this, SEND_SMS)
-    }
-}
-
-/*
-override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
-    when (requestCode) {
-        123 -> {
-            checkIfPermissionWasGrantedOnResult(grantResults, {
-                shortToast("PERMISSION DENIED")
-            }, {
-                shortToast("PERMISSION GRANTED")
-            })
-            return
-        }
-
-        // Add other 'when' lines to check for other
-        // permissions this app might request.
-        else -> {
-            // Ignore all other requests.
+    fun permissionsResult(
+            activity: Activity, requestedPermissions: Array<String>, requestCode: Int, grantResults: IntArray,
+            successAction: () -> Unit, unSuccessAction: () -> Unit, errorMessageAction: (() -> Unit)? = null
+    ) {
+        if (requestCode == PERMISSION_REQUEST_CODE && grantResults.size == requestedPermissions.size) {
+            var allGranted = true
+            for (gr in grantResults) {
+                allGranted = allGranted && gr == PackageManager.PERMISSION_GRANTED
+            }
+            when {
+                allGranted -> successAction()
+                shouldShowRationaleAllPermissions(activity, requestedPermissions) -> unSuccessAction.invoke()
+                else -> errorMessageAction?.invoke()
+            }
         }
     }
 
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-}*/
+    private fun needPermissions(activity: Activity, requestedPermissions: Array<String>): Boolean {
+        for (permission in requestedPermissions) {
+            if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun shouldShowRationaleAllPermissions(activity: Activity, requestedPermissions: Array<String>): Boolean {
+        for (permission in requestedPermissions) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun getPermissions(activity: Activity, requestedPermissions: Array<String>) =
+            ActivityCompat.requestPermissions(activity, requestedPermissions, PERMISSION_REQUEST_CODE)
+
+    private fun getPermissions(fragment: Fragment, requestedPermissions: Array<String>) =
+            fragment.requestPermissions(requestedPermissions, PERMISSION_REQUEST_CODE)
+
+}
