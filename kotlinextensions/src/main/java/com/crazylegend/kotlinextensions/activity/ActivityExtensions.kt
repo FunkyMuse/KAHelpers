@@ -655,3 +655,11 @@ fun Activity?.showKeyboard() {
     (this?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
             .toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 }
+
+fun Activity.keepScreenOn(){
+    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+}
+
+fun Activity.keepScreenOFF(){
+    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+}

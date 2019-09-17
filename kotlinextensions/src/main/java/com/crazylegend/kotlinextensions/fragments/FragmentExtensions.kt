@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
@@ -44,7 +45,7 @@ fun Fragment.colors(@ColorRes stateListRes: Int): ColorStateList? {
     return ContextCompat.getColorStateList(requireActivity(), stateListRes)
 }
 
- fun Fragment.attribute(value: Int): TypedValue {
+fun Fragment.attribute(value: Int): TypedValue {
     val ret = TypedValue()
     requireActivity().theme.resolveAttribute(value, ret, true)
     return ret
@@ -151,12 +152,12 @@ fun FragmentActivity.popFragment() {
 }
 
 fun Fragment.ifIsAddedAction(action: () -> Unit = {}) {
-    if (isAdded)  action()
+    if (isAdded) action()
 
 }
 
 fun Fragment.ifIsAttachedAction(action: () -> Unit = {}) {
-    if (!isDetached) action()
+    if (isAdded && activity != null) action()
 
 }
 
@@ -581,4 +582,12 @@ fun Fragment.showKeyboard() {
                 view?.rootView?.apply { post { inputMethodManager.showSoftInput(this, 0) } }
                         ?: inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
+}
+
+fun Activity.keepScreenOn() {
+    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+}
+
+fun Activity.keepScreenOFF() {
+    window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 }
