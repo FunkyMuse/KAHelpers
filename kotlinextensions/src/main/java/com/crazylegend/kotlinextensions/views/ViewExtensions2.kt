@@ -1,9 +1,9 @@
 package com.crazylegend.kotlinextensions.views
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -129,4 +129,19 @@ fun Drawable.toBitmap(): Bitmap {
         draw(this)
     }
     return bitmap
+}
+
+
+/**
+ * Usage drawable.colorFilterCompat(getColorCompat(R.color.colorAccent))
+ * @receiver Drawable
+ * @param color Int
+ */
+fun Drawable.colorFilterCompat(color: Int) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        colorFilter =
+                BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+    } else {
+        setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+    }
 }
