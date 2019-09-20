@@ -62,10 +62,10 @@ is PermissionResult.ShowRationale -> {
  */
 class PermissionCouroutineManager : BasePermissionManager() {
 
-    private lateinit var completableDeferred: CompletableDeferred<PermissionResult>
+    private var completableDeferred: CompletableDeferred<PermissionResult>? = null
 
     override fun onPermissionResult(permissionResult: PermissionResult) {
-        completableDeferred.complete(permissionResult)
+        completableDeferred?.complete(permissionResult)
     }
 
     companion object {
@@ -87,7 +87,7 @@ class PermissionCouroutineManager : BasePermissionManager() {
                 activity: AppCompatActivity,
                 requestId: Int,
                 vararg permissions: String
-        ): PermissionResult {
+        ): PermissionResult? {
             return withContext(Dispatchers.Main) {
                 return@withContext _requestPermissions(
                         activity,
@@ -112,7 +112,7 @@ class PermissionCouroutineManager : BasePermissionManager() {
                 fragment: Fragment,
                 requestId: Int,
                 vararg permissions: String
-        ): PermissionResult {
+        ): PermissionResult? {
             return withContext(Dispatchers.Main) {
                 return@withContext _requestPermissions(
                         fragment,
@@ -126,7 +126,7 @@ class PermissionCouroutineManager : BasePermissionManager() {
                 activityOrFragment: Any,
                 requestId: Int,
                 vararg permissions: String
-        ): PermissionResult {
+        ): PermissionResult? {
             val fragmentManager = if (activityOrFragment is AppCompatActivity) {
                 activityOrFragment.supportFragmentManager
             } else {
@@ -140,7 +140,11 @@ class PermissionCouroutineManager : BasePermissionManager() {
                         requestId,
                         *permissions
                 )
-                permissionManager.completableDeferred.await()
+                if (permissionManager.completableDeferred == null){
+                    null
+                } else {
+                    permissionManager.completableDeferred?.await()
+                }
             } else {
                 val permissionManager = PermissionCouroutineManager().apply {
                     completableDeferred = CompletableDeferred()
@@ -150,16 +154,23 @@ class PermissionCouroutineManager : BasePermissionManager() {
                         TAG
                 ).commitNowAllowingStateLoss()
                 permissionManager.requestPermissions(requestId, *permissions)
-                permissionManager.completableDeferred.await()
+                return if (permissionManager.completableDeferred == null){
+                    null
+                } else {
+                    permissionManager.completableDeferred?.await()
+                }
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (completableDeferred.isActive) {
-            completableDeferred.cancel()
+        completableDeferred?.apply {
+            if (isActive) {
+                cancel()
+            }
         }
+
     }
 }
 

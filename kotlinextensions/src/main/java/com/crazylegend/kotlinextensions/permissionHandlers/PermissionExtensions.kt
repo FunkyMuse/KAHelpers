@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 
 private const val SINGLE_ID_PERMISSION_ACTIVITY = 111
 
-fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", requestCode :Int = SINGLE_ID_PERMISSION_ACTIVITY, actionOnGranted: () -> Unit = {}) {
-    lifecycleScope.launch(Dispatchers.Main){
+fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText: String = "", requestCode: Int = SINGLE_ID_PERMISSION_ACTIVITY, actionOnGranted: () -> Unit = {}) {
+    lifecycleScope.launch(Dispatchers.Main) {
         val permissionResult =
                 PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, requestCode, permissionName)
 
@@ -31,26 +31,29 @@ fun AppCompatActivity.checkSinglePermission(permissionName: String, rationaleTex
                 actionOnGranted()
             }
             is PermissionResult.PermissionDenied -> {
-                retrySnackbar(rationaleText,retryText) {
+                retrySnackbar(rationaleText, retryText) {
                     checkSinglePermission(permissionName)
                 }
             }
             is PermissionResult.ShowRationale -> {
-                retrySnackbar(rationaleText,retryText) {
+                retrySnackbar(rationaleText, retryText) {
                     checkSinglePermission(permissionName)
                 }
             }
             is PermissionResult.PermissionDeniedPermanently -> {
                 shortToast(rationaleText)
+            }
+            null -> {
+
             }
         }
     }
 }
 
 
-fun Fragment.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText:String = "", requestCode :Int = SINGLE_ID_PERMISSION_ACTIVITY,actionOnGranted: () -> Unit = {}) {
+fun Fragment.checkSinglePermission(permissionName: String, rationaleText: String = "", retryText: String = "", requestCode: Int = SINGLE_ID_PERMISSION_ACTIVITY, actionOnGranted: () -> Unit = {}) {
 
-    lifecycleScope.launch(Dispatchers.Main){
+    lifecycleScope.launch(Dispatchers.Main) {
         val permissionResult =
                 PermissionCouroutineManager.requestPermissions(this@checkSinglePermission, requestCode, permissionName)
 
@@ -70,6 +73,9 @@ fun Fragment.checkSinglePermission(permissionName: String, rationaleText: String
             }
             is PermissionResult.PermissionDeniedPermanently -> {
                 shortToast(rationaleText)
+            }
+            null -> {
+
             }
         }
     }
@@ -81,8 +87,8 @@ fun AppCompatActivity.checkMultiplePermissions(
         vararg permissions: String,
         shouldFinishActivityOnPermissionDeny: Boolean = false,
         rationaleText: String = "",
-        retryText:String = "",
-        requestCode :Int = MULTIPLE_ID_PERMISSION_ACTIVITY,
+        retryText: String = "",
+        requestCode: Int = MULTIPLE_ID_PERMISSION_ACTIVITY,
         actionOnGranted: () -> Unit = {}
 ) {
 
@@ -113,6 +119,9 @@ fun AppCompatActivity.checkMultiplePermissions(
                 if (shouldFinishActivityOnPermissionDeny) {
                     finish()
                 }
+            }
+            null -> {
+
             }
         }
     }
@@ -121,8 +130,8 @@ fun AppCompatActivity.checkMultiplePermissions(
 fun Fragment.checkMultiplePermissions(
         vararg permissions: String, shouldFinishActivityOnPermissionDeny: Boolean = false,
         rationaleText: String = "",
-        retryText:String = "",
-        requestCode :Int = MULTIPLE_ID_PERMISSION_ACTIVITY,
+        retryText: String = "",
+        requestCode: Int = MULTIPLE_ID_PERMISSION_ACTIVITY,
         actionOnGranted: () -> Unit = {}
 ) {
     lifecycleScope.launch(Dispatchers.Main) {
@@ -153,6 +162,9 @@ fun Fragment.checkMultiplePermissions(
                 if (shouldFinishActivityOnPermissionDeny) {
                     finish()
                 }
+            }
+            null -> {
+
             }
         }
     }
@@ -208,7 +220,7 @@ requestId, permanentlyDeniedPermissions ->
  * @param onShouldShowRationale Function1<[@kotlin.ParameterName] Int, Unit>
  * @param onPermissionGranted Function1<[@kotlin.ParameterName] Int, Unit>
  */
-fun PermissionResult.handlePermissions(
+fun PermissionResult?.handlePermissions(
         onPermissionPermanentlyDenied: (requestId: Int, permanentlyDeniedPermissions: List<String>) -> Unit = { _, _ -> },
         onPermissionDenied: (requestId: Int) -> Unit = { _ -> },
         onShouldShowRationale: (requestId: Int) -> Unit = { _ -> },
@@ -226,6 +238,9 @@ fun PermissionResult.handlePermissions(
         }
         is PermissionResult.PermissionDeniedPermanently -> {
             onPermissionPermanentlyDenied(requestId, permanentlyDeniedPermissions)
+        }
+        null -> {
+
         }
     }.exhaustive
 }
