@@ -33,28 +33,28 @@ import com.crazylegend.kotlinextensions.orFalse
 
 
 fun Fragment.shortToast(text: String) {
-    Toast.makeText(this.requireActivity(), text, Toast.LENGTH_SHORT).show()
+    Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
 }
 
 fun Fragment.longToast(text: String) {
-    Toast.makeText(this.requireActivity(), text, Toast.LENGTH_LONG).show()
+    Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
 }
 
 
 fun Fragment.colors(@ColorRes stateListRes: Int): ColorStateList? {
-    return ContextCompat.getColorStateList(requireActivity(), stateListRes)
+    return ContextCompat.getColorStateList(requireContext(), stateListRes)
 }
 
 fun Fragment.attribute(value: Int): TypedValue {
     val ret = TypedValue()
-    requireActivity().theme.resolveAttribute(value, ret, true)
+    requireContext().theme.resolveAttribute(value, ret, true)
     return ret
 }
 
 /**
  * Get color from resource with fragment context.
  */
-fun Fragment.compatColor(@ColorRes res: Int) = requireActivity().getColorCompat(res)
+fun Fragment.compatColor(@ColorRes res: Int) = requireContext().getColorCompat(res)
 
 
 /**
@@ -74,7 +74,7 @@ fun Fragment.withTargetFragment(fragment: Fragment, reqCode: Int): Fragment {
     return this
 }
 
-inline fun Fragment.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(requireActivity(), id)
+inline fun Fragment.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(requireContext(), id)
 
 /**
  * Get dimension defined by attribute [attr]
@@ -87,22 +87,22 @@ fun Fragment.attrDimen(attr: Int): Int {
  * Get drawable defined by attribute [attr]
  */
 fun Fragment.attrDrawable(attr: Int): Drawable? {
-    val a = requireActivity().theme.obtainStyledAttributes(intArrayOf(attr))
+    val a = requireContext().theme.obtainStyledAttributes(intArrayOf(attr))
     val attributeResourceId = a.getResourceId(0, 0)
     a.recycle()
     return drawable(attributeResourceId)
 }
 
 
-fun Fragment.shortToast(resId: Int) = Toast.makeText(requireActivity(), resId, Toast.LENGTH_SHORT).show()
-fun Fragment.longToast(resId: Int) = Toast.makeText(requireActivity(), resId, Toast.LENGTH_LONG).show()
+fun Fragment.shortToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_SHORT).show()
+fun Fragment.longToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_LONG).show()
 
 inline fun <reified T : Any> Fragment.launchActivity(
         requestCode: Int = -1,
         options: Bundle? = null,
         noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(requireActivity())
+    val intent = newIntent<T>(requireContext())
     intent.init()
 
     startActivityForResult(intent, requestCode, options)
@@ -113,7 +113,7 @@ inline fun <reified T : Any> Fragment.launchActivity(
         options: Bundle? = null,
         noinline init: Intent.() -> Unit = {}
 ) {
-    val intent = newIntent<T>(requireActivity())
+    val intent = newIntent<T>(requireContext())
     intent.init()
     startActivity(intent, options)
 
@@ -124,7 +124,7 @@ inline fun <reified T> Fragment.startActivityForResult(
         bundleBuilder: Bundle.() -> Unit = {},
         intentBuilder: Intent.() -> Unit = {}
 ) {
-    val intent = Intent(requireActivity(), T::class.java)
+    val intent = Intent(requireContext(), T::class.java)
     intent.intentBuilder()
     val bundle = Bundle()
     bundle.bundleBuilder()
@@ -132,18 +132,18 @@ inline fun <reified T> Fragment.startActivityForResult(
 }
 
 fun Fragment.finish() {
-    this.requireActivity().finish()
+    requireActivity().finish()
 }
 
 inline fun <reified T> Fragment.launch() {
-    this.requireActivity().startActivity(Intent(this.requireActivity(), T::class.java))
+    this.requireContext().startActivity(Intent(this.requireContext(), T::class.java))
 }
 
 
-val Fragment.getAppCompatActivity get() = this.requireActivity() as AppCompatActivity
+val Fragment.getAppCompatActivity get() = this.requireContext() as AppCompatActivity
 
 inline fun Fragment.notification(body: NotificationCompat.Builder.() -> Unit, channelID: String) =
-        requireActivity().notification(body, channelID)
+        requireContext().notification(body, channelID)
 
 fun FragmentActivity.popFragment() {
     val fm = supportFragmentManager
@@ -288,13 +288,13 @@ fun Fragment.alert(style: Int, init: AlertDialog.Builder .() -> Unit) {
 }
 
 inline fun <reified T> Fragment.intent(body: Intent.() -> Unit): Intent {
-    val intent = Intent(requireActivity(), T::class.java)
+    val intent = Intent(requireContext(), T::class.java)
     intent.body()
     return intent
 }
 
 inline fun <reified T> Fragment.startActivity(body: Intent.() -> Unit) {
-    val intent = Intent(requireActivity(), T::class.java)
+    val intent = Intent(requireContext(), T::class.java)
     intent.body()
     startActivity(intent)
 }
@@ -379,12 +379,12 @@ fun Context.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, @
 
 
 fun Fragment.getFragmentWithTag(tag: String): Fragment? {
-    val activity = this.requireActivity() as AppCompatActivity
+    val activity = this.requireContext() as AppCompatActivity
     return activity.supportFragmentManager.findFragmentByTag(tag)
 }
 
 fun Fragment.isFragmentWithTagVisible(tag: String): Boolean {
-    val activity = this.requireActivity() as AppCompatActivity
+    val activity = this.requireContext() as AppCompatActivity
 
     val presentFragment = activity.supportFragmentManager.findFragmentByTag(tag)?.isVisible
 
@@ -396,7 +396,7 @@ fun Fragment.isFragmentWithTagVisible(tag: String): Boolean {
 }
 
 fun Fragment.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
-    val activity = this.requireActivity() as AppCompatActivity
+    val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
             .beginTransaction()
@@ -408,7 +408,7 @@ fun Fragment.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment,
 }
 
 fun Fragment.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
-    val activity = this.requireActivity() as AppCompatActivity
+    val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
             .beginTransaction()
@@ -422,7 +422,7 @@ fun Fragment.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragme
 }
 
 fun Fragment.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
-    val activity = this.requireActivity() as AppCompatActivity
+    val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
             .beginTransaction()
@@ -497,7 +497,7 @@ fun Context.removeFragmentBackstack(fragment: Fragment) {
 }
 
 fun Fragment.removeFragmentBackstack() {
-    val activity = this.requireActivity() as AppCompatActivity
+    val activity = this.requireContext() as AppCompatActivity
     activity.supportFragmentManager.beginTransaction().remove(this).commitNow()
     activity.supportFragmentManager.popBackStack(this.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
@@ -512,7 +512,7 @@ fun Context.removeFragment(fragment: Fragment) {
 }
 
 fun Fragment.removeFragment() {
-    val activity = this.requireActivity() as AppCompatActivity
+    val activity = this.requireContext() as AppCompatActivity
     activity.supportFragmentManager.beginTransaction().remove(this).commitNow()
 }
 
