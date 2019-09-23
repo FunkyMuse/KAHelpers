@@ -605,3 +605,16 @@ private fun File.verifiedDirectoryFiles(): Array<File> {
 }
 
 fun <T: Any> T.getJarDirectory(): String? = File(this::class.java.protectionDomain?.codeSource?.location?.toURI()?.path).path
+
+
+fun File.extractName(): String {
+    return this.extractNameWithExtension().substringBeforeLast(".")
+}
+
+fun File.extractNameWithExtension(): String {
+    return this.absolutePath.substringAfterLast("/")
+}
+
+fun File.extractExtension(): String {
+    return this.absolutePath.substringAfterLast(".")
+}

@@ -9,6 +9,7 @@ import android.util.SparseArray
 import androidx.core.util.forEach
 import java.util.*
 import kotlin.NoSuchElementException
+import kotlin.collections.ArrayList
 
 
 /**
@@ -1203,6 +1204,23 @@ inline fun <reified T> MutableList<T>.removeIfCompat(noinline filter: (T) -> Boo
         }
     }
 }
+
+fun <T> List<T>.second(): T? {
+    return when {
+        isEmpty() -> null
+        size < 2 -> null
+        else -> this[1]
+    }
+}
+
+fun <T> ArrayList<T>.second(): T? {
+    return when {
+        isEmpty() -> null
+        size < 2 -> null
+        else -> this[1]
+    }
+}
+
 
 
 /**

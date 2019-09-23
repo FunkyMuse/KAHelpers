@@ -13,6 +13,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -24,6 +25,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.GONE
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -656,10 +658,65 @@ fun Activity?.showKeyboard() {
             .toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 }
 
-fun Activity.keepScreenOn(){
+fun Activity.keepScreenOn() {
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 }
 
-fun Activity.keepScreenOFF(){
+fun Activity.keepScreenOFF() {
     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 }
+
+val Activity.isImmersiveModeEnabled
+    get() = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY == window.decorView.systemUiVisibility
+
+operator fun Window.plusAssign(flags: Int) {
+    addFlags(flags)
+}
+
+operator fun Window.minusAssign(flags: Int) {
+    clearFlags(flags)
+}
+
+fun Activity.setTransparentStatusBarFlags() {
+    setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false)
+    window.statusBarColor = Color.TRANSPARENT
+}
+
+fun Activity.setWindowFlag(bits: Int, on: Boolean) {
+    val winParams = window.attributes
+    if (on) {
+        winParams.flags = winParams.flags or bits
+    } else {
+        winParams.flags = winParams.flags and bits.inv()
+    }
+    window.attributes = winParams
+}
+
+var Activity.isLightNavigationBar
+    @RequiresApi(Build.VERSION_CODES.O)
+    get() = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR == window.decorView.systemUiVisibility
+    set(enabled) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return
+
+        if (enabled) {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        } else {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+        }
+    }
+
+
+var Activity.isLightStatusBar
+    @RequiresApi(Build.VERSION_CODES.M)
+    get() = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR == window.decorView.systemUiVisibility
+    set(enabled) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return
+
+        if (enabled) {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        } else {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        }
+    }

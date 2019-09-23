@@ -13,7 +13,7 @@ class SingleLiveDataConcat<T>(liveDataList:List<SingleLiveData<T>>): MediatorLiv
     private val hasEmittedValues = mutableListOf<Boolean>()
     private var lastEmittedLiveDataIndex = -1
     init {
-        (0 until liveDataList.size).forEach {
+        (liveDataList.indices).forEach {
                 index->
             emittedValues.add(null)
             hasEmittedValues.add(false)

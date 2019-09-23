@@ -1051,7 +1051,7 @@ fun Long.extractDate() : Date {
 }
 
 
-fun Context.getDateDifferense(startDate: Date, endDate: Date): Pair<String,Long>? {
+fun getDateDifferense(startDate: Date, endDate: Date): Pair<String,Long>? {
 
     var different = endDate.time - startDate.time
 

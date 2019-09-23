@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -9,8 +10,13 @@ import android.content.res.TypedArray
 import android.graphics.Color
 import android.os.BatteryManager
 import android.os.Build
+import android.os.Build.*
+import android.os.Build.VERSION.*
+import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
@@ -19,6 +25,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
 import com.crazylegend.kotlinextensions.context.batteryManager
+import com.crazylegend.kotlinextensions.generators.DefaultUserAgent
 import com.crazylegend.kotlinextensions.memory.bytes
 import java.io.InputStream
 import java.math.BigInteger
@@ -476,4 +483,114 @@ fun <T> TypedArray.use(block: (TypedArray) -> T): T {
 @ColorInt
 fun Int.withOpacity(@IntRange(from = 0, to = 100) opacity: Int): Int {
     return Color.argb((opacity / 100f * 255).toInt(), Color.red(this), Color.green(this), Color.blue(this))
+}
+
+
+@SuppressLint("HardwareIds")
+fun Context.createDeviceBuild(): Map<String, String> {
+    val info = LinkedHashMap<String, String>()
+    // http://developer.android.com/reference/android/os/Build.html
+
+    info["Model"] = MODEL
+    info["Manufacturer"] = MANUFACTURER
+    info["Release"] = RELEASE
+    info["SDK_INT"] = SDK_INT.toString()
+    info["TIME"] = Date(TIME).toString()
+
+    if (SDK_INT >= LOLLIPOP)
+        info["SUPPORTED_ABIS"] = Arrays.toString(SUPPORTED_ABIS)
+    else {
+
+        @Suppress("DEPRECATION")
+        info["CPU_ABI"] = CPU_ABI
+        @Suppress("DEPRECATION")
+        info["CPU_ABI2"] = CPU_ABI2
+    }
+
+    info["Board"] = BOARD
+    info["Bootloader"] = BOOTLOADER
+    info["Brand"] = BRAND
+    info["Device"] = DEVICE
+    info["Display"] = DISPLAY
+    info["Fingerprint"] = FINGERPRINT
+    info["Hardware"] = HARDWARE
+    info["Host"] = HOST
+    info["Id"] = ID
+    info["Product"] = PRODUCT
+    info["Tags"] = TAGS
+    info["Type"] = TYPE
+    info["User"] = USER
+    info["ANDROID ID"] = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+
+
+    // http://developer.android.com/reference/android/os/Build.VERSION.html
+    info["Codename"] = CODENAME
+    info["Incremental"] = INCREMENTAL
+    info["User Agent"] = DefaultUserAgent.getDefaultUserAgent(this)
+    info["HTTP Agent"] = System.getProperty("http.agent") ?: ""
+
+    return info
+}
+
+/**
+ * Simple way to calculate approximated function execution time
+ *
+ * @property actionName - String to define action name in logcat
+ * @property action - action to measure
+ */
+fun benchmarkAction(actionName: String, action: () -> Unit) {
+    Log.i("BENCHMARK", "___________________________________")
+    Log.i("BENCHMARK", "Action name: $actionName")
+    val startTime = System.currentTimeMillis()
+    Log.i("BENCHMARK", "Start time: $startTime")
+    action.invoke()
+    val endTime = System.currentTimeMillis()
+    Log.i("BENCHMARK", "End time: $endTime")
+    Log.i("BENCHMARK", "Action duration (millis): ${endTime - startTime}}")
+}
+
+
+/**
+ * Checking that all elements is equals
+ *
+ * @property values - vararg of checking elements
+ *
+ * allIsEqual("test", "test", "test") will return true
+ */
+fun <T>allIsEqual(vararg values: T): Boolean {
+    when {
+        values.isEmpty() -> return false
+        values.size == 1 -> return true
+    }
+    values.forEach {
+        if ((it == values.first()).not()) return false
+    }
+    return true
+}
+
+/**
+ * Executing out callback if all vararg values is not null
+ *
+ * Like .multilet , but not returning values
+ *
+ * @property values - vararg of checking elements
+ *
+ * val a = "a"
+ * val b = "b"
+ * val c = null
+ *
+ * allIsNotNull(a,b) {
+ *     this action will be executed
+ * }
+ *
+ * allIsNotNull(a,b,c) {
+ *     this action will NOT be executed
+ * }
+ *
+ */
+fun <T, R>allIsNotNull(vararg values: T, out: () -> R?): R? {
+    values.forEach {
+        if (it == null) return null
+    }
+    return out()
 }

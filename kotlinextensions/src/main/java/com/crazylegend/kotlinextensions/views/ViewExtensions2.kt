@@ -10,9 +10,12 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IntRange
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.crazylegend.kotlinextensions.context.colorWithOpacity
 import com.crazylegend.kotlinextensions.context.drawable
 import com.crazylegend.kotlinextensions.context.inputManager
+import kotlinx.coroutines.launch
 
 
 /**
@@ -67,7 +70,6 @@ fun View.asBitmap(): Bitmap {
 }
 
 
-
 /**
  * View artificial attribute that sets compound left drawable
  */
@@ -109,7 +111,6 @@ var TextView.drawableBottom: Int
     }
 
 
-
 /**
  * Convert this Drawable to Bitmap representation. Should take care of every Drawable type
  */
@@ -145,3 +146,7 @@ fun Drawable.colorFilterCompat(color: Int) {
         setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     }
 }
+
+fun View.setOnClickCoroutine(owner: LifecycleOwner, listener: suspend (view: View) -> Unit) =
+        this.setOnClickListener { owner.lifecycleScope.launch { listener(it) } }
+
