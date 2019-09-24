@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.permissionHandlers
 
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -178,9 +179,9 @@ fun Fragment.checkMultiplePermissions(
  * @param length Int
  * @param action Function0<Unit>
  */
-fun FragmentActivity.retrySnackbar(snackText: String = "", retryText: String = "Retry ?", length: Int = Snackbar.LENGTH_INDEFINITE, action: () -> Unit) {
+fun FragmentActivity.retrySnackbar(snackText: String = "", retryText: String = "Retry ?", length: Int = Snackbar.LENGTH_INDEFINITE, view: View = findViewById(android.R.id.content), action: () -> Unit) {
     val snackBar = Snackbar.make(
-            findViewById(android.R.id.content),
+            view,
             snackText,
             length
     )
