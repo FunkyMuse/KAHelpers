@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.file
 
+import android.content.ClipData
 import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
@@ -93,3 +94,26 @@ val Uri.isTelephoneLink: Boolean
 val Uri.isMailToLink: Boolean
     get() = toString().startsWith("mailto:")
 
+
+fun Uri?.readBytes(context: Context): ByteArray? {
+    return this?.let {
+        return@let context.contentResolver.openInputStream(it)?.use {
+            return@use it.readBytes()
+        }
+    }
+}
+
+fun ClipData?.multipleUriHandle(context: Context): ArrayList<ByteArray?> {
+    val resultList : ArrayList<ByteArray?> = ArrayList()
+    if (this != null) {
+        //multiple images
+        for (i in 0 until itemCount) {
+            val imageUri = getItemAt(i)?.uri
+            if (imageUri != null) {
+                resultList.add(imageUri.readBytes(context))
+            }
+        }
+    }
+
+    return resultList
+}
