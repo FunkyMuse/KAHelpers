@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.UiThread
+import androidx.core.text.parseAsHtml
 import com.crazylegend.kotlinextensions.R
 
 
@@ -122,4 +123,15 @@ fun Menu.getMenuItem(index: Int): MenuItem? {
         if (index == i) return item
     }
     return null
+}
+
+/**
+ * Usage
+ * setTitleColor(getCompatColor(R.color.colorPrimary))
+ */
+@SuppressLint("DefaultLocale")
+fun MenuItem.setTitleColor(color: Int) {
+    val hexColor = Integer.toHexString(color).toUpperCase().substring(2)
+    val html = "<font color='#$hexColor'>$title</font>"
+    this.title = html.parseAsHtml()
 }
