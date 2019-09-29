@@ -249,22 +249,22 @@ fun FragmentActivity.switchFragment(
 }
 
 fun Fragment.hide() {
-    this.fragmentManager?.hide(this)
+    this.parentFragmentManager.hide(this)
 }
 
 fun Fragment.show() {
-    this.fragmentManager?.show(this)
+    this.parentFragmentManager.show(this)
 }
 
 fun Fragment.remove() {
-    this.fragmentManager?.remove(this)
+    this.parentFragmentManager.remove(this)
 }
 
 fun Fragment.showHide(
         vararg hideFragment: Fragment,
         transaction: Int = FragmentTransaction.TRANSIT_NONE
 ) {
-    this.fragmentManager?.showHide(this, *hideFragment, transaction = transaction)
+    this.parentFragmentManager.showHide(this, *hideFragment, transaction = transaction)
 }
 
 fun FragmentManager.add(
@@ -293,7 +293,7 @@ fun FragmentManager.add(
         showIndex: Int = 0
 ) {
     val ft = this.beginTransaction()
-    for (i in 0 until addList.size) {
+    for (i in addList.indices) {
         val addFragment = addList[i]
         val tag = addFragment::class.java.name
         val fragmentByTag = this.findFragmentByTag(tag)
@@ -614,7 +614,7 @@ fun Activity.datePickerContext(): ContextWrapper {
             val r = super.getResources()
             if (wrappedResources == null) {
                 wrappedResources = object : Resources(r.assets, r.displayMetrics, r.configuration) {
-                    @Throws(Resources.NotFoundException::class)
+                    @Throws(NotFoundException::class)
                     override fun getString(id: Int, vararg formatArgs: Any): String {
                         return try {
                             super.getString(id, *formatArgs)

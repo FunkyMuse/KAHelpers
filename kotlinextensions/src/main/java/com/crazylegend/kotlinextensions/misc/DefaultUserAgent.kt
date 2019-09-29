@@ -2,37 +2,33 @@ package com.crazylegend.kotlinextensions.misc
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.JELLY_BEAN
-import android.os.Build.VERSION_CODES.JELLY_BEAN_MR1
 import android.webkit.WebSettings
 import android.webkit.WebView
+
+
 /**
- * Created by hristijan on 8/5/19 to long live and prosper !
+ * Created by hristijan on 3/29/19 to long live and prosper !
  */
 
-
+/**
+ * https://code.google.com/p/codenameone/issues/detail?id=294
+ */
 object DefaultUserAgent {
 
     fun getDefaultUserAgent(context: Context): String {
         var ua: String
-        when {
-            SDK_INT >= JELLY_BEAN_MR1 -> ua = getWebSettingsDefaultUserAgent(context)
-            SDK_INT >= JELLY_BEAN -> ua = getUserAgent(context)
-            else -> try {
-                val constructor = WebSettings::class.java.getDeclaredConstructor(
-                        Context::class.java, WebView::class.java
-                )
-                constructor.isAccessible = true
-                try {
-                    val settings = constructor.newInstance(context, null)
-                    ua = settings.userAgentString
-                } finally {
-                    constructor.isAccessible = false
-                }
-            } catch (e: Exception) {
-                ua = WebView(context).settings.userAgentString
+        try {
+            val constructor = WebSettings::class.java.getDeclaredConstructor(
+                    Context::class.java, WebView::class.java)
+            constructor.isAccessible = true
+            try {
+                val settings = constructor.newInstance(context, null)
+                ua = settings.userAgentString
+            } finally {
+                constructor.isAccessible = false
             }
+        } catch (e: Exception) {
+            ua = WebView(context).settings.userAgentString
         }
         return ua
     }
@@ -49,8 +45,7 @@ object DefaultUserAgent {
             @Suppress("UNCHECKED_CAST")
             val clz = Class.forName("android.webkit.WebSettingsClassic") as Class<out WebSettings>
             val constructor = clz.getDeclaredConstructor(
-                    Context::class.java, Class.forName("android.webkit.WebViewClassic")
-            )
+                    Context::class.java, Class.forName("android.webkit.WebViewClassic"))
             constructor.isAccessible = true
             try {
                 val settings = constructor.newInstance(context, null)

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Looper
 import androidx.annotation.RequiresPermission
 import com.crazylegend.kotlinextensions.context.shortToast
+import com.crazylegend.kotlinextensions.log.debug
 
 
 /**
@@ -87,17 +88,11 @@ inline fun LocationManager.requestSingleUpdate(
             }
 
         } else {
-
-            shortToast("No address available for location !")
-
-
+            debug("No address available for location !")
         }
     } catch (e: Exception) {
-
         e.printStackTrace()
-        this.shortToast("No address available for location !")
-
-
+        debug("No address available for location !")
     }
 
     return obtainedLocationModel

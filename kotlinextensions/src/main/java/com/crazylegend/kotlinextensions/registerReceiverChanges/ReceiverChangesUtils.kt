@@ -13,7 +13,7 @@ inline fun Service.registerVolumeChange(crossinline block: (Int) -> Unit): Broad
     return object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
-            if (action.equals("android.media.VOLUME_CHANGED_ACTION")) {
+            if (action == "android.media.VOLUME_CHANGED_ACTION") {
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
                 val currVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
                 block(currVolume)

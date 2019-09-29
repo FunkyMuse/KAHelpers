@@ -25,7 +25,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
 import com.crazylegend.kotlinextensions.context.batteryManager
-import com.crazylegend.kotlinextensions.generators.DefaultUserAgent
+import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
 import com.crazylegend.kotlinextensions.memory.bytes
 import java.io.InputStream
 import java.math.BigInteger

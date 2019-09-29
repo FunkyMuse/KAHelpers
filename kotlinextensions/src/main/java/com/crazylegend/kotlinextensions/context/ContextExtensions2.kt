@@ -100,17 +100,6 @@ fun Context.openEmail() {
     }
 }
 
-fun Context.openWebPage(url: String) {
-    try {
-        val webpage = Uri.parse(url)
-        val myIntent = Intent(Intent.ACTION_VIEW, webpage)
-        startActivity(myIntent)
-    } catch (e: ActivityNotFoundException) {
-        longToast("No application can handle this request. Please install a web browser or check your URL.")
-        e.printStackTrace()
-    }
-}
-
 fun Context.sendEmail(myEmail: String, subject: String, text: String) {
     val i = Intent(Intent.ACTION_SEND)
     i.type = "message/rfc822"

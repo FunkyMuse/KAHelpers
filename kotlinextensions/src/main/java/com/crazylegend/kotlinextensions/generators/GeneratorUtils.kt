@@ -3,8 +3,8 @@ package com.crazylegend.kotlinextensions.generators
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import com.crazylegend.kotlinextensions.generators.MathExtensions.Companion.random
-import com.crazylegend.kotlinextensions.generators.MathExtensions.Companion.randomBoolean
+import com.crazylegend.kotlinextensions.math.MathUtils.Companion.random
+import com.crazylegend.kotlinextensions.math.MathUtils.Companion.randomBoolean
 import java.text.MessageFormat.format
 import kotlin.math.roundToInt
 

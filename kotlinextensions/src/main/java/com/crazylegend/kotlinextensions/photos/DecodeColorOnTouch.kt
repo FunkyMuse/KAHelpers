@@ -13,21 +13,19 @@ import android.view.View
  */
 
 
-/**
- USAGE
 
-  img.setOnTouchListener { v, event ->
+/**
+ *  USAGE
+img.setOnTouchListener { v, event ->
 val color = decodeActionDownEvent(v,event, img.toBitmap())
 
 color.debug(color.toHexString())
 
 return@setOnTouchListener true
-}
  */
-
-fun decodeActionDownEvent(v: View, ev: MotionEvent, bitmap: Bitmap): Int {
+fun View.decodeActionDownEvent( ev: MotionEvent, bitmap: Bitmap): Int {
     val inverse = Matrix()
-    v.matrix.invert(inverse)
+    matrix.invert(inverse)
     val touchPoint = floatArrayOf(ev.x, ev.y)
     inverse.mapPoints(touchPoint)
     val xCoord = Integer.valueOf(touchPoint[0].toInt())

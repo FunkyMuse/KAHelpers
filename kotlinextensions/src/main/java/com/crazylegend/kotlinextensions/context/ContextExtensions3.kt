@@ -82,7 +82,7 @@ fun Context.isBackground(pName: String = packageName): Boolean {
     activityManager.runningAppProcesses.forEach {
         @Suppress("DEPRECATION")
         if (it.processName == pName)
-            return it.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND
+            return it.importance == IMPORTANCE_BACKGROUND
     }
     return false
 }
@@ -382,12 +382,12 @@ fun Context?.openGoogleMaps(address: String?) {
 /**
  * Hides all the views passed in the arguments
  */
-fun Context.hideViews(vararg views: View) = views.forEach { it.visibility = View.GONE }
+fun hideViews(vararg views: View) = views.forEach { it.visibility = View.GONE }
 
 /**
  * Shows all the views passed in the arguments
  */
-fun Context.showViews(vararg views: View) = views.forEach { it.visibility = View.VISIBLE }
+fun showViews(vararg views: View) = views.forEach { it.visibility = View.VISIBLE }
 
 fun Context.unRegisterReceiverSafe(broadcastReceiver: BroadcastReceiver) {
     // needs to be in try catch in order to avoid crashing on Samsung Lollipop devices https://issuetracker.google.com/issues/37001269#c3
@@ -542,11 +542,11 @@ val Context.isBackground: Boolean
     }
 
 
-val Context.isMiUi: Boolean
+val isMiUi: Boolean
     get() = getSystemProperty("ro.miui.ui.version.name").isNotEmpty()
 
 
-val Context.isEmUi: Boolean
+val isEmUi: Boolean
     get() = getSystemProperty("ro.build.version.emui").isNotEmpty()
 
 
@@ -575,7 +575,7 @@ fun Context.disableNatigation() {
     }
 }
 
-fun Context.needPermissionsFor(action : () -> Unit) = try {
+fun needPermissionsFor(action: () -> Unit) = try {
     action.invoke()
     false
 } catch (e : SecurityException) {

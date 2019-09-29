@@ -5,6 +5,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.NonNull
+import kotlin.math.abs
 
 
 /**
@@ -41,17 +42,17 @@ abstract class FlingGestureHandler @JvmOverloads constructor(
             @NonNull e1: MotionEvent, @NonNull e2: MotionEvent, velocityX: Float,
             velocityY: Float
         ): Boolean {
-            if (e1.x - e2.x > minDistance && Math.abs(velocityX) > velocityThreshold) {
+            if (e1.x - e2.x > minDistance && abs(velocityX) > velocityThreshold) {
                 onRightToLeft()
                 return true
-            } else if (e2.x - e1.x > minDistance && Math.abs(velocityX) > velocityThreshold) {
+            } else if (e2.x - e1.x > minDistance && abs(velocityX) > velocityThreshold) {
                 onLeftToRight()
                 return true
             }
-            if (e1.y - e2.y > minDistance && Math.abs(velocityY) > velocityThreshold) {
+            if (e1.y - e2.y > minDistance && abs(velocityY) > velocityThreshold) {
                 onBottomToTop()
                 return true
-            } else if (e2.y - e1.y > minDistance && Math.abs(velocityY) > velocityThreshold) {
+            } else if (e2.y - e1.y > minDistance && abs(velocityY) > velocityThreshold) {
                 onTopToBottom()
                 return true
             }

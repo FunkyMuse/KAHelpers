@@ -196,7 +196,7 @@ class NotificationsUtil(private val context: Context,
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.MAGENTA
             val notificationManager = context.getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(notificationChannel)
+            notificationManager?.createNotificationChannel(notificationChannel)
 
         }
 

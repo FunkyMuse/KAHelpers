@@ -160,7 +160,7 @@ inline fun <reified T: Any> Fragment.extraNotNull(key: String, default: T? = nul
 fun Bundle.printBundle() {
     for (key in keySet()) {
         val value = get(key)
-       log( "${value?.TAG()} $key: $value")
+        log("${value?.TAG()} $key: $value")
     }
 }
 

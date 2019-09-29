@@ -203,14 +203,6 @@ fun Activity.composeMmsMessage(message: String, attachment: Uri) {
     }
 }
 
-fun Activity.openWebPage(url: String) {
-    val webpage: Uri = Uri.parse(url)
-    val intent = Intent(Intent.ACTION_VIEW, webpage)
-    if (intent.resolveActivity(packageManager) != null) {
-        startActivity(intent)
-    }
-}
-
 fun Activity.doPhotoPrint(drawable: Int, jobName: String) {
     PrintHelper(this).apply {
         scaleMode = PrintHelper.SCALE_MODE_FIT

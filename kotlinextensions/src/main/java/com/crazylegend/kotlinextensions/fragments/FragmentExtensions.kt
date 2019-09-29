@@ -192,12 +192,12 @@ fun AppCompatActivity.clearAllFragments() {
 }
 
 fun Fragment.isFragmentPresent(tag: String): Fragment? {
-    return fragmentManager?.findFragmentByTag(tag)
+    return parentFragmentManager.findFragmentByTag(tag)
 }
 
 
 fun Fragment.isFragmentPresent(id: Int): Fragment? {
-    return fragmentManager?.findFragmentById(id)
+    return parentFragmentManager.findFragmentById(id)
 }
 
 
@@ -237,7 +237,7 @@ fun FragmentActivity.goBackToFragment(name: String, flag: Int = 0) {
  * @receiver Fragment
  */
 fun Fragment.goBackToFragment(name: String, flag: Int = 0) {
-    fragmentManager?.popBackStackImmediate(name, flag)
+    parentFragmentManager.popBackStackImmediate(name, flag)
 }
 
 
@@ -334,10 +334,10 @@ fun AppCompatActivity.addFragment(@NonNull fragment: Fragment, @Nullable tag: St
 }
 
 fun Fragment.addFragment(@NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
-    fragmentManager
-            ?.beginTransaction()
-            ?.add(layoutId, fragment, tag)
-            ?.commit()
+    parentFragmentManager
+            .beginTransaction()
+            .add(layoutId, fragment, tag)
+            .commit()
 }
 
 fun Context.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {

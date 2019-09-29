@@ -13,7 +13,7 @@ import java.util.*
  */
 
 /**
- * <receiver android:name=".services.calls.TrackingPhoneCallReceiver" android:enabled="true">
+ * <receiver android:name=".services.calls.PhoneCallReceiver" android:enabled="true">
  * <intent-filter>
  * <action android:name="android.intent.action.NEW_OUTGOING_CALL"></action>
  * <action android:name="android.intent.action.PHONE_STATE"></action>

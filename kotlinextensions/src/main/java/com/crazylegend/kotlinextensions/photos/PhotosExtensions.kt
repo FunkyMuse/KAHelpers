@@ -82,7 +82,7 @@ fun getPhotoOrientationDegree(filePath: String?): Int {
 }
 
 
-fun isRealImage(image: String): Boolean {
+fun doesImageExist(image: String): Boolean {
     return File(image).exists()
 }
 
