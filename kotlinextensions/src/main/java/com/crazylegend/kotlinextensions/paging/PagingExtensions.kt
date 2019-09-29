@@ -13,6 +13,7 @@ import retrofit2.Response
 
 fun PagingStateResult.handle(
         loading: () -> Unit,
+        loadingMore: () -> Unit,
         cantLoadMore: () -> Unit,
         emptyData: () -> Unit,
         calError: (throwable: Throwable) -> Unit = { _ -> },
@@ -23,6 +24,9 @@ fun PagingStateResult.handle(
     when (this) {
         PagingStateResult.Loading -> {
             loading()
+        }
+        PagingStateResult.LoadingMore -> {
+            loadingMore()
         }
         PagingStateResult.CantLoadMore -> {
             cantLoadMore()
@@ -122,12 +126,20 @@ fun MutableLiveData<PagingStateResult>.loading() {
     value = PagingStateResult.Loading
 }
 
+fun MutableLiveData<PagingStateResult>.loadingMore() {
+    value = PagingStateResult.LoadingMore
+}
+
 fun MutableLiveData<PagingStateResult>.emptyData() {
     value = PagingStateResult.EmptyData
 }
 
 fun MutableLiveData<PagingStateResult>.loadingPost() {
     postValue(PagingStateResult.Loading)
+}
+
+fun MutableLiveData<PagingStateResult>.loadingMorePost() {
+    postValue(PagingStateResult.LoadingMore)
 }
 
 fun MutableLiveData<PagingStateResult>.emptyDataPost() {

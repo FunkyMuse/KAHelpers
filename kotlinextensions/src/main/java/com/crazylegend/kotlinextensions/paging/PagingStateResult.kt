@@ -8,6 +8,7 @@ import okhttp3.ResponseBody
  */
 sealed class PagingStateResult {
     object Loading : PagingStateResult()
+    object LoadingMore : PagingStateResult()
     object CantLoadMore : PagingStateResult()
     object PagingSuccess : PagingStateResult()
     object EmptyData : PagingStateResult()
