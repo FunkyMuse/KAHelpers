@@ -119,10 +119,10 @@ fun Any.info(context: Any, message: () -> Any?) = info(context.tag, message())
 
 fun Any.verbose(context: Any, message: () -> Any?) = verbose(context.tag, message())
 
-inline fun <reified T> log(message: String) =
+inline fun <reified T> T.log(message: String) =
         Log.d(T::class.java.simpleName, message)
 
-inline fun <reified T> log(exc: Throwable) {
+inline fun <reified T> T.log(exc: Throwable) {
     exc.printStackTrace()
     Log.e(T::class.java.simpleName, exc.message ?: "no-message")
 }
