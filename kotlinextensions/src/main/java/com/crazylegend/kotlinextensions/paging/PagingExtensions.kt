@@ -15,7 +15,7 @@ fun PagingStateResult.handle(
         loading: () -> Unit,
         cantLoadMore: () -> Unit,
         emptyData: () -> Unit,
-        calError: (message: String, throwable: Throwable, exception: Exception?) -> Unit = { _, _, _ -> },
+        calError: (throwable: Throwable) -> Unit = { _ -> },
         apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
         success: () -> Unit
 ) {
@@ -34,7 +34,7 @@ fun PagingStateResult.handle(
             emptyData()
         }
         is PagingStateResult.Error -> {
-            calError(message, throwable, exception)
+            calError(throwable)
         }
         is PagingStateResult.ApiError -> {
             apiError(errorBody, responseCode)
@@ -93,11 +93,11 @@ fun LiveData<PagingStateResult>.onCantLoadMore(action: () -> Unit = {}) {
 }
 
 fun MutableLiveData<PagingStateResult>.callError(throwable: Throwable) {
-    value = PagingStateResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable)
+    value = PagingStateResult.Error(throwable)
 }
 
 fun MutableLiveData<PagingStateResult>.callErrorPost(throwable: Throwable) {
-    postValue(PagingStateResult.Error(throwable.message.toString(), java.lang.Exception(throwable), throwable))
+    postValue(PagingStateResult.Error(throwable))
 }
 
 fun MutableLiveData<PagingStateResult>.success() {
@@ -147,14 +147,14 @@ fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>?, inc
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
             serverResponse.body()?.apply {
-                if (includeEmptyData) {
+                value = if (includeEmptyData) {
                     if (this == null) {
-                        value = PagingStateResult.EmptyData
+                        PagingStateResult.EmptyData
                     } else {
-                        value = PagingStateResult.PagingSuccess
+                        PagingStateResult.PagingSuccess
                     }
                 } else {
-                    value = PagingStateResult.PagingSuccess
+                    PagingStateResult.PagingSuccess
                 }
             }
         } else {
@@ -189,18 +189,18 @@ fun <T> MutableLiveData<PagingStateResult>.subscribeList(response: Response<T>?,
         if (serverResponse.isSuccessful) {
             serverResponse.body()?.apply {
                 if (includeEmptyData) {
-                    if (this == null) {
-                        value = PagingStateResult.EmptyData
+                    value = if (this == null) {
+                        PagingStateResult.EmptyData
                     } else {
                         if (this is List<*>) {
                             val list = this as List<*>
                             if (list.isNullOrEmpty()) {
-                                value = PagingStateResult.EmptyData
+                                PagingStateResult.EmptyData
                             } else {
-                                value = PagingStateResult.PagingSuccess
+                                PagingStateResult.PagingSuccess
                             }
                         } else {
-                            value = PagingStateResult.PagingSuccess
+                            PagingStateResult.PagingSuccess
                         }
                     }
                 } else {

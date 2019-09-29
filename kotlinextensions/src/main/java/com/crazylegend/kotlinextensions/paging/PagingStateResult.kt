@@ -11,6 +11,6 @@ sealed class PagingStateResult {
     object CantLoadMore : PagingStateResult()
     object PagingSuccess : PagingStateResult()
     object EmptyData : PagingStateResult()
-    data class Error(val message: String, val exception: Exception? = null, val throwable: Throwable) : PagingStateResult()
+    data class Error(val throwable: Throwable) : PagingStateResult()
     data class ApiError(val responseCode: Int, val errorBody: ResponseBody?) : PagingStateResult()
 }
