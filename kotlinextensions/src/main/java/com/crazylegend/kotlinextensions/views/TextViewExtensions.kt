@@ -381,6 +381,15 @@ fun AppCompatTextView.setPrecomputedText(text:String?){
     }
 }
 
+fun AppCompatTextView.setPrecomputedTextOrHide(text:String?){
+    if (text == null){
+        gone()
+    } else {
+        visible()
+        setTextFuture(PrecomputedTextCompat.getTextFuture(text, this.textMetricsParamsCompat, null))
+
+    }
+}
 
 fun TextView.setTextStrikeThru(strikeThru: Boolean) {
     if (strikeThru) setTextStrikeThru() else setTextNotStrikeThru()
