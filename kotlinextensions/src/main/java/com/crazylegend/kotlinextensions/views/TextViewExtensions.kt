@@ -386,8 +386,7 @@ fun AppCompatTextView.setPrecomputedTextOrHide(text:String?){
         gone()
     } else {
         visible()
-        setTextFuture(PrecomputedTextCompat.getTextFuture(text, this.textMetricsParamsCompat, null))
-
+        setPrecomputedText(text)
     }
 }
 
