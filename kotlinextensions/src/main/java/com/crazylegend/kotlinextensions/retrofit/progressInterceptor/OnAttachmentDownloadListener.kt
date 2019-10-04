@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.retrofit.withProgress
+package com.crazylegend.kotlinextensions.retrofit.progressInterceptor
 
 
 /**

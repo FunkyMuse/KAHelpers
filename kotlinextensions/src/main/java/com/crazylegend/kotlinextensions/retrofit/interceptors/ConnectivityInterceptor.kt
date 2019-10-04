@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.retrofit
+package com.crazylegend.kotlinextensions.retrofit.interceptors
 
 import android.content.Context
 import com.crazylegend.kotlinextensions.context.isOnline

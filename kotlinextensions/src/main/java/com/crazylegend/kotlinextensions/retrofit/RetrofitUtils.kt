@@ -7,7 +7,8 @@ import com.crazylegend.kotlinextensions.color.randomColor
 import com.crazylegend.kotlinextensions.context.shortToast
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.isNotNullOrEmpty
-import com.crazylegend.kotlinextensions.retrofit.withProgress.OnAttachmentDownloadListener
+import com.crazylegend.kotlinextensions.retrofit.progressInterceptor.OnAttachmentDownloadListener
+import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -580,6 +581,24 @@ fun Context.errorResponseCode(responseCode: Int) {
         }
     }
 }
+
+
+/**
+ *
+ * Use as
+ * OkHttpClient.Builder().cache(cache)
+ *
+ * @receiver Context needed for obtaining the cachedir
+ * @param cacheDirName String initial is "http-cache"
+ * @param cacheSize Int initial is 10 * 1024 * 1024 // 10 MB
+ * @return Cache
+ */
+fun Context.retrofitCache(cacheDirName: String = "http-cache",
+                          cacheSize: Int = 10 * 1024 * 1024): Cache {
+    val httpCacheDirectory = File(cacheDir, cacheDirName)
+    return Cache(httpCacheDirectory, cacheSize.toLong())
+}
+
 
 /**
  *

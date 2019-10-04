@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.retrofit
 
 import android.content.Context
 import com.crazylegend.kotlinextensions.isNull
+import com.crazylegend.kotlinextensions.retrofit.interceptors.ConnectivityInterceptor
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -128,7 +129,6 @@ object RetrofitClient {
         clientBuilder.apply {
             addInterceptors(loggingInterceptor, ConnectivityInterceptor(context), connectTimeout, readTimeout, writeTimeout, connectionTimeUnit)
             okHttpClientConfig.invoke(this)
-
         }
 
         if (retrofit.isNull) {

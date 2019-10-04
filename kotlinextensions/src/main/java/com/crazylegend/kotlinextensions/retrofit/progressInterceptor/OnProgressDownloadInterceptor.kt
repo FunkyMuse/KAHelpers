@@ -1,8 +1,8 @@
-package com.crazylegend.kotlinextensions.retrofit.withProgress
+package com.crazylegend.kotlinextensions.retrofit.progressInterceptor
 
 import android.content.Context
 import com.crazylegend.kotlinextensions.context.isOnline
-import com.crazylegend.kotlinextensions.retrofit.NoConnectionException
+import com.crazylegend.kotlinextensions.retrofit.interceptors.NoConnectionException
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -23,9 +23,7 @@ class OnProgressDownloadInterceptor(private val context: Context, private val pr
 
         val originalResponse = chain.proceed(chain.request())
         return originalResponse.newBuilder()
-            .body(originalResponse.body?.let { ProgressResponseBody(it,
-                progressListenerDownload
-            ) })
+            .body(originalResponse.body?.let { ProgressResponseBody(it, progressListenerDownload) })
             .build()
     }
 }
