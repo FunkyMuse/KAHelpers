@@ -2081,3 +2081,17 @@ fun layout(vararg items: Any) {
     }
 }
 
+
+/**
+ *  Request to be laid out fullscreen tell the system to lay out our app behind the system bars
+ */
+fun View.fullScreen(){
+    systemUiVisibility =
+            // Tells the system that the window wishes the content to
+            // be laid out at the most extreme scenario. See the docs for
+            // more information on the specifics
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    // Tells the system that the window wishes the content to
+                    // be laid out as if the navigation bar was hidden
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+}
