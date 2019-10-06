@@ -8,7 +8,7 @@ import com.crazylegend.kotlinextensions.database.DBResult
 import com.crazylegend.kotlinextensions.database.getSuccess
 import com.crazylegend.kotlinextensions.reflection.firstPropertyValue
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
-import com.crazylegend.kotlinextensions.retrofit.getSuccess
+import com.crazylegend.kotlinextensions.retrofit.onSuccess
 
 
 /**
@@ -485,7 +485,7 @@ dbResultDataFiltered.performSearch(it, "title", dbResultData)
  */
 inline fun <reified T> MutableLiveData<List<T>>.performSearchAPI(searchQuery: String, fieldName: String, resultData: MutableLiveData<RetrofitResult<List<T>>>): LiveData<List<T>> {
     val applyFilteredList: ArrayList<T> = ArrayList()
-    resultData.getSuccess { list ->
+    resultData.onSuccess { list ->
         list.forEach { model ->
             val property = model?.firstPropertyValue(fieldName)
             property?.apply {
@@ -501,7 +501,7 @@ inline fun <reified T> MutableLiveData<List<T>>.performSearchAPI(searchQuery: St
 
 inline fun <reified T> LiveData<List<T>>.performSearchAPI(searchQuery: String, fieldName: String, resultData: MutableLiveData<RetrofitResult<List<T>>>, filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
     val applyFilteredList: ArrayList<T> = ArrayList()
-    resultData.getSuccess { list ->
+    resultData.onSuccess { list ->
         list.forEach { model ->
             val property = model?.firstPropertyValue(fieldName)
             property?.apply {

@@ -256,3 +256,37 @@ fun <T> MutableLiveData<PagingStateResult>.subscribeListPost(response: Response<
 }
 
 
+fun PagingStateResult.onLoading(function: () -> Unit = {}) {
+    if (this is PagingStateResult.Loading) function()
+}
+
+fun PagingStateResult.onLoadingMore(function: () -> Unit = {}) {
+    if (this is PagingStateResult.LoadingMore) function()
+}
+
+
+fun PagingStateResult.onEmptyData(function: () -> Unit = {}) {
+    if (this is PagingStateResult.EmptyData) function()
+}
+
+fun PagingStateResult.onCallError(function: (throwable: Throwable) -> Unit = { _ -> }) {
+    if (this is PagingStateResult.Error) {
+        function(throwable)
+    }
+}
+
+fun PagingStateResult.onApiError(function: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> }) {
+    if (this is PagingStateResult.ApiError) {
+        function(errorBody, responseCode)
+    }
+}
+
+fun PagingStateResult.onSuccess(function: () -> Unit = {}) {
+    if (this is PagingStateResult.PagingSuccess) function()
+
+}
+
+fun PagingStateResult.onCantLoadMore(function: () -> Unit = {}) {
+    if (this is PagingStateResult.CantLoadMore) function()
+
+}

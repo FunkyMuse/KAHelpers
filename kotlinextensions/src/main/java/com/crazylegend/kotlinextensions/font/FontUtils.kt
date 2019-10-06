@@ -29,4 +29,4 @@ object FontUtils {
 }
 
 fun Context.getFont(font: String) = FontUtils.get(this, font)
-fun Context.getFontName(typeface: Typeface) = FontUtils.getName(typeface)
+fun Typeface.getFontName() = FontUtils.getName(this)

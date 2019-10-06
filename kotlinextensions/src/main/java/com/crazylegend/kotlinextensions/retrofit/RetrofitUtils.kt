@@ -309,7 +309,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.apiErrorPost(code: Int, errorBody: Re
 
 //success
 
-fun <T> MutableLiveData<RetrofitResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) {
+fun <T> MutableLiveData<RetrofitResult<T>>.onSuccess(action: (model: T) -> Unit = { _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.Success -> {
@@ -321,7 +321,7 @@ fun <T> MutableLiveData<RetrofitResult<T>>.getSuccess(action: (model: T) -> Unit
     }
 }
 
-fun <T> LiveData<RetrofitResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) {
+fun <T> LiveData<RetrofitResult<T>>.onSuccess(action: (model: T) -> Unit = { _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.Success -> {
@@ -467,6 +467,33 @@ fun <T> LiveData<RetrofitResult<T>>.onApiError(context: Context, action: (respon
         }
     }
 }
+
+fun <T> RetrofitResult<T>.onLoading(function: () -> Unit = {}) {
+    if (this is RetrofitResult.Loading) function()
+}
+
+fun <T> RetrofitResult<T>.onEmptyData(function: () -> Unit = {}) {
+    if (this is RetrofitResult.EmptyData) function()
+}
+
+fun <T> RetrofitResult<T>.onCallError(function: (throwable: Throwable) -> Unit = { _ -> }) {
+    if (this is RetrofitResult.Error) {
+        function(throwable)
+    }
+}
+
+fun <T> RetrofitResult<T>.onApiError(function: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> }) {
+    if (this is RetrofitResult.ApiError) {
+        function(errorBody, responseCode)
+    }
+}
+
+fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }) {
+    if (this is RetrofitResult.Success) {
+        function(value)
+    }
+}
+
 
 fun progressDSL(
         onProgressStarted: () -> Unit = {},

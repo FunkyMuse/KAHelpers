@@ -91,7 +91,7 @@ import javax.security.cert.CertificateException
     }
 
     @Throws(Exception::class)
-    private fun getSecretKey(): java.security.Key {
+    private fun getSecretKey(): Key {
         return keyStore!!.getKey(KEY_ALIAS, null)
     }
 
