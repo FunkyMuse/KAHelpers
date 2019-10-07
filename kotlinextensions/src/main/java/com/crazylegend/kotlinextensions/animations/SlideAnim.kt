@@ -14,8 +14,8 @@ fun View.slideInDown(): AnimatorSet {
     val animatorSet = AnimatorSet()
     val distance = (top + height).toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationY", -distance, 0f)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 0f, 1f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationY_CONST, -distance, 0f)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
@@ -26,8 +26,8 @@ fun View.slideInLeft(): AnimatorSet {
     val parent = parent as ViewGroup
     val distance = (parent.width - left).toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationX", -distance, 0f)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 0f, 1f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationX_CONST, -distance, 0f)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
@@ -38,8 +38,8 @@ fun View.slideInRight(): AnimatorSet {
     val parent = parent as ViewGroup
     val distance = (parent.width - left).toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationX", distance, 0f)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 0f, 1f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationX_CONST, distance, 0f)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
@@ -50,8 +50,8 @@ fun View.slideInUp(): AnimatorSet {
     val parent = parent as ViewGroup
     val distance = (parent.height - top).toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationY", distance, 0f)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 0f, 1f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationY_CONST, distance, 0f)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
@@ -62,8 +62,8 @@ fun View.slideOutDown(): AnimatorSet {
     val parent = parent as ViewGroup
     val distance = (parent.height - top).toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationY", 0f, distance)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 1f, 0f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationY_CONST, 0f, distance)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
@@ -73,8 +73,8 @@ fun View.slideOutLeft(): AnimatorSet {
     val animatorSet = AnimatorSet()
     val right = right.toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationX", 0f, -right)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 1f, 0f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationX_CONST, 0f, -right)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
@@ -85,8 +85,8 @@ fun View.slideOutRight(): AnimatorSet {
     val parent = parent as ViewGroup
     val distance = (parent.width - left).toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationX", 0f, distance)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 1f, 0f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationX_CONST, 0f, distance)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
@@ -96,8 +96,8 @@ fun View.slideOutUp(): AnimatorSet {
     val animatorSet = AnimatorSet()
     val bottom = -bottom.toFloat()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, "translationY", 0f, bottom)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_alpha_CONST, 1f, 0f)
+    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationY_CONST, 0f, bottom)
 
     animatorSet.playTogether(object1, object2)
     return animatorSet
