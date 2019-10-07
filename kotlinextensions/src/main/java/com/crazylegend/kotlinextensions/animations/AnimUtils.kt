@@ -1,5 +1,9 @@
 package com.crazylegend.kotlinextensions.animations
 
+import android.animation.AnimatorSet
+import android.animation.TimeInterpolator
+import android.view.animation.AccelerateInterpolator
+
 
 /**
  * Created by hristijan on 10/7/19 to long live and prosper !
@@ -15,3 +19,11 @@ const val ANIM_pivotY_CONST = "pivotY"
 const val ANIM_rotationX_CONST = "rotationX"
 const val ANIM_rotationY_CONST = "rotationY"
 const val ANIM_rotation_CONST = "rotation"
+
+
+fun AnimatorSet.playAnimation(animationDuration: Long = 1000L, customInterpolator: TimeInterpolator = AccelerateInterpolator()): AnimatorSet {
+    interpolator = customInterpolator
+    duration = animationDuration
+    start()
+    return this
+}
