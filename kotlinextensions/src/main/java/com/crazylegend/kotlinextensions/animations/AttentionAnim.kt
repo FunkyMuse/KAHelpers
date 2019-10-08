@@ -49,10 +49,13 @@ fun View.attentionRuberband(): AnimatorSet {
 fun View.attentionShake(): AnimatorSet {
     val animatorSet = AnimatorSet()
 
-    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_scaleX_CONST, 1f, 1.25f, 0.75f, 1.15f, 1f)
-    val object2: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_scaleY_CONST, 1f, 0.75f, 1.25f, 0.85f, 1f)
+    val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationX_CONST, 0.toFloat(), 25.toFloat(),
+            (-25).toFloat(), 25.toFloat(),
+            (-25).toFloat(),15.toFloat(),
+            (-15).toFloat(), 6.toFloat(),
+            (-6).toFloat(), 0.toFloat())
 
-    animatorSet.playTogether(object1, object2)
+    animatorSet.play(object1)
     return animatorSet
 }
 
