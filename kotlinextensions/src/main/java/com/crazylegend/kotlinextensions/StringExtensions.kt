@@ -720,11 +720,11 @@ fun stringSubstring(text: String, start: Int, endInclusive: Int = text.length - 
 fun stringConcatenateArrays(first: List<Char>, second: List<Char>): List<Char> {
     var result = ArrayList<Char>(first.size + second.size)
     var j = 0
-    for (i in 0 until first.size) i.run {
+    for (i in first.indices) i.run {
         result[this] = first[this]
         j = this
     }
-    for (k in 0 until second.size) result[k + j + 1] = second[k]
+    for (k in second.indices) result[k + j + 1] = second[k]
     return result
 }
 
@@ -794,7 +794,7 @@ fun String.asArabicNumbers(): String {
         return ""
 
     val builder = StringBuilder()
-    for (i in 0 until this.length) {
+    for (i in this.indices) {
         if (Character.isDigit(this[i])) {
             builder.append(arabicChars[this[i].toInt() - 48])
         } else {
@@ -867,8 +867,8 @@ fun String.abbreviateMiddle(middle: String, length: Int): String {
 }
 
 
-private val NON_DIGIT_REGEX = Regex("[^A-Za-z0-9]")
-private val DIGIT_REGEX = Regex("[^0-9]")
+ val NON_DIGIT_REGEX = Regex("[^A-Za-z0-9]")
+ val DIGIT_REGEX = Regex("[^0-9]")
 
 fun String?.replaceNonDigit(replacement:String = "") = this?.replace(NON_DIGIT_REGEX, replacement)
 
@@ -1035,7 +1035,7 @@ inline fun <reified T> T.logString(): String {
     val sb = StringBuilder()
     sb.append(cls.simpleName)
     sb.append("[")
-    sb.append(cls.members.filter { it is KProperty1<*, *> }.joinToString {
+    sb.append(cls.members.filterIsInstance<KProperty1<*, *>>().joinToString {
         it.isAccessible = true
         @Suppress("UNCHECKED_CAST") "${it.name}: ${(it as KProperty1<T, *>).get(this)}"
     })
