@@ -331,7 +331,7 @@ fun String.toBoolean(): Boolean {
  */
 fun String.convertToCamelCase(): String {
     var titleText = ""
-    if (!this.isEmpty()) {
+    if (this.isNotEmpty()) {
         val words = this.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         words.filterNot { it.isEmpty() }
             .map { it.substring(0, 1).toUpperCase() + it.substring(1).toLowerCase() }
