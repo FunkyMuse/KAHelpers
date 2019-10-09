@@ -43,6 +43,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputLayout
+import kotlin.math.roundToInt
 
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
@@ -76,7 +77,6 @@ inline fun View.px(@DimenRes rid: Int): Int {
 }
 
 
-
 val SearchView?.getEditTextSearchView get() = this?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
 
@@ -107,7 +107,7 @@ fun collapseLayout(linearLayout: LinearLayout, imageView: ImageView, dropUPIMG: 
 
 
 fun adjustAlpha(@ColorInt color: Int, factor: Float): Int {
-    val alpha = Math.round(Color.alpha(color) * factor)
+    val alpha = (Color.alpha(color) * factor).roundToInt()
     val red = Color.red(color)
     val green = Color.green(color)
     val blue = Color.blue(color)
@@ -276,9 +276,23 @@ fun Window.addStatusBarColor(@ColorRes color: Int) {
 
 inline fun View.visibleIf(block: () -> Boolean) {
     if (visibility != View.VISIBLE && block()) {
-        visibility = View.VISIBLE
+        visible()
     }
 }
+
+
+/**
+ * Visible if condition met else gone
+ */
+
+inline fun View.visibleIfElseGone(block: () -> Boolean) {
+    if (visibility != View.VISIBLE && block()) {
+        visible()
+    } else {
+        gone()
+    }
+}
+
 
 /**
  * Invisible if condition met
@@ -286,31 +300,51 @@ inline fun View.visibleIf(block: () -> Boolean) {
 
 inline fun View.invisibleIf(block: () -> Boolean) {
     if (visibility != View.INVISIBLE && block()) {
-        visibility = View.INVISIBLE
+        invisible()
     }
 }
+
+
+/**
+ * Invisible if condition met
+ */
+
+inline fun View.invisibleIfElseVisible(block: () -> Boolean) {
+    if (visibility != View.INVISIBLE && block()) {
+        invisible()
+    } else {
+        visible()
+    }
+}
+
 
 /**
  * Gone if condition met
  */
 inline fun View.goneIf(block: () -> Boolean) {
     if (visibility != View.GONE && block()) {
-        visibility = View.GONE
+        gone()
     }
 }
 
 
 /**
- * Turns refreshing off on SwipeTo refresh layout
+ * Gone if condition met
  */
-fun SwipeRefreshLayout.turnOff() = setOnRefreshListener { isRefreshing = false }
+inline fun View.goneIfElseVisible(block: () -> Boolean) {
+    if (visibility != View.GONE && block()) {
+        gone()
+    } else {
+        visible()
+    }
+}
 
 
 /**
  * Aligns to left of the parent in relative layout
  */
 fun View.alignParentStart() {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         addRule(ALIGN_PARENT_START)
@@ -323,7 +357,7 @@ fun View.alignParentStart() {
  * Aligns to right of the parent in relative layout
  */
 fun View.alignParentEnd() {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         addRule(ALIGN_PARENT_END)
@@ -336,7 +370,7 @@ fun View.alignParentEnd() {
  * Aligns in the center of the parent in relative layout
  */
 fun View.alignInCenter() {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         addRule(CENTER_HORIZONTAL)
@@ -433,7 +467,7 @@ fun View.startLinearMargin(size: Int) {
  * Sets margins for views in Relative Layout
  */
 fun View.relativeMargins(left: Int, top: Int, right: Int, bottom: Int) {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         setMargins(left, top, right, bottom)
@@ -447,7 +481,7 @@ fun View.relativeMargins(left: Int, top: Int, right: Int, bottom: Int) {
  * Sets margins for views in Relative Layout
  */
 fun View.relativeMargins(size: Int) {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         setMargins(size)
@@ -461,7 +495,7 @@ fun View.relativeMargins(size: Int) {
  * Sets right margin for views in Relative Layout
  */
 fun View.endRelativeMargin(size: Int) {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         marginEnd = size
@@ -475,7 +509,7 @@ fun View.endRelativeMargin(size: Int) {
  * Sets bottom margin for views in Relative Layout
  */
 fun View.bottomRelativeMargin(size: Int) {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         setMargins(marginLeft, marginTop, marginRight, size)
@@ -488,7 +522,7 @@ fun View.bottomRelativeMargin(size: Int) {
  * Sets top margin for views in Relative Layout
  */
 fun View.topRelativeMargin(size: Int) {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         setMargins(marginLeft, size, marginRight, marginBottom)
@@ -502,7 +536,7 @@ fun View.topRelativeMargin(size: Int) {
  * Sets top margin for views in Relative Layout
  */
 fun View.startRelativeMargin(size: Int) {
-    val params = layoutParams as RelativeLayout.LayoutParams?
+    val params = layoutParams as LayoutParams?
 
     params?.apply {
         marginStart = size
@@ -1156,7 +1190,7 @@ fun View.hideSoftInput() {
 /**
  * Sets an on click listener for a view, but ensures the action cannot be triggered more often than [coolDown] milliseconds.
  */
-inline fun View.setOnClickListenerCooldown(coolDown: Long = 1000L, crossinline action: (view:View?) -> Unit) {
+inline fun View.setOnClickListenerCooldown(coolDown: Long = 1000L, crossinline action: (view: View?) -> Unit) {
     setOnClickListener(object : View.OnClickListener {
         var lastTime = 0L
         override fun onClick(v: View?) {
@@ -1288,8 +1322,8 @@ fun List<View>.visible() {
 
 
 @RequiresApi(Build.VERSION_CODES.Q)
-fun View.setBackgrountTint(@ColorRes colorRes: Int, blendMode: BlendMode = BlendMode.SRC_ATOP){
-    background.colorFilter = BlendModeColorFilter(context.getColorCompat(colorRes),blendMode)
+fun View.setBackgrountTint(@ColorRes colorRes: Int, blendMode: BlendMode = BlendMode.SRC_ATOP) {
+    background.colorFilter = BlendModeColorFilter(context.getColorCompat(colorRes), blendMode)
 }
 
 fun View.setBackgroundTintRes(@ColorRes colorRes: Int, tintMode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
@@ -1318,6 +1352,9 @@ fun SearchView.textListener(
 }
 
 val SearchView?.getSubmitButton get() = this?.findViewById<ImageView>(androidx.appcompat.R.id.search_go_btn)
+val SearchView?.getCloseButton get() = this?.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+val SearchView?.getVoiceButton get() = this?.findViewById<ImageView>(androidx.appcompat.R.id.search_voice_btn)
+val SearchView?.getCollapsedIcon get() = this?.findViewById<ImageView>(androidx.appcompat.R.id.search_mag_icon)
 
 
 fun BottomSheetBehavior<*>.sliderListener(
@@ -1325,10 +1362,13 @@ fun BottomSheetBehavior<*>.sliderListener(
         onStateChanged: (bottomSheet: View, newState: Int) -> Unit = { _, _ -> }
 ) {
 
-    this.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+
+    this.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             onSlide(bottomSheet, slideOffset)
         }
+
+
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             onStateChanged(bottomSheet, newState)
@@ -1913,7 +1953,7 @@ fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
             params.setMargins(left, top, right, bottom)
             this.layoutParams = params
         }
-        is RelativeLayout.LayoutParams -> {
+        is LayoutParams -> {
             params.setMargins(left, top, right, bottom)
             this.layoutParams = params
         }
@@ -2028,7 +2068,6 @@ fun View.getGoneHeight(callback: (futureHeight: Int) -> Unit) {
 }
 
 
-
 fun layout(vararg items: Any) {
     var previousMargin: Int? = null
     var previousView: View? = null
@@ -2085,7 +2124,7 @@ fun layout(vararg items: Any) {
 /**
  *  Request to be laid out fullscreen tell the system to lay out our app behind the system bars
  */
-fun View.fullScreen(){
+fun View.fullScreen() {
     systemUiVisibility =
             // Tells the system that the window wishes the content to
             // be laid out at the most extreme scenario. See the docs for

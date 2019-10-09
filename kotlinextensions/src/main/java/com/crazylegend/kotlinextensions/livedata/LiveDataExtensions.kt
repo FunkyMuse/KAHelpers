@@ -213,15 +213,15 @@ fun <T> LiveData<T>.mergeWith(vararg liveDatas: LiveData<T>): LiveData<T> {
     val mergeWithArray = mutableListOf<LiveData<T>>()
     mergeWithArray.add(this)
     mergeWithArray.addAll(liveDatas)
-    return merge(mergeWithArray)
+    return mergeWithArray.merge()
 }
 
 /**
  * Merges multiple LiveData, and emits any item that was emitted by any of them
  */
-fun <T> merge(liveDataList: List<LiveData<T>>): LiveData<T> {
+fun <T> List<LiveData<T>>.merge(): LiveData<T> {
     val finalLiveData: MediatorLiveData<T> = MediatorLiveData()
-    liveDataList.forEach { liveData ->
+    forEach { liveData ->
 
         liveData.value?.let {
             finalLiveData.value = it
