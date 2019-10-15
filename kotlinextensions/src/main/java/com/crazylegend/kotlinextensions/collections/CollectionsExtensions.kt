@@ -39,12 +39,26 @@ fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
 /**
  * Gets mid element
  */
-@Throws(NoSuchElementException::class)
-fun <T> List<T>.midElement(): T {
-    if (isEmpty())
-        throw NoSuchElementException("List is empty.")
-    return this[size / 2]
+fun <T> List<T>.midElement(): T? {
+    return if (isEmpty())
+        null
+    else
+        this[size / 2]
 }
+
+
+
+/**
+ * Gets mid element
+ */
+fun <T> ArrayList<T>.midElement(): T? {
+    return if (isEmpty())
+        null
+    else
+        this[size / 2]
+}
+
+
 
 
 /**
@@ -69,11 +83,49 @@ inline fun <T> List<T>.forEachReversedIndexed(f: (Int, T) -> Unit) {
     }
 }
 
+
+
+/**
+ * Iterate the receiver [ArrayList] backwards.
+ */
+inline fun <T> ArrayList<T>.forEachReversed(f: (T) -> Unit) {
+    var i = size - 1
+    while (i >= 0) {
+        f(get(i))
+        i--
+    }
+}
+
+/**
+ * Iterate the receiver [ArrayList] backwards.
+ */
+inline fun <T> ArrayList<T>.forEachReversedIndexed(f: (Int, T) -> Unit) {
+    var i = size - 1
+    while (i >= 0) {
+        f(i, get(i))
+        i--
+    }
+}
+
+
+
+
+
 /**
  * get mid index of a list
  */
 val <T> List<T>.midIndex: Int
     get() = if (size == 0) 0 else size / 2
+
+
+/**
+ * get mid index of a list
+ */
+val <T> ArrayList<T>.midIndex: Int
+    get() = if (size == 0) 0 else size / 2
+
+
+
 
 /**
  * Adds [E] to this list if the same doesn't exist
@@ -103,6 +155,14 @@ fun <K, E> MutableMap<K, E>.addIfNotExist(key: K, obj: E): E? = if (!this.contai
 fun <T> List<T>.randomItem(): T {
     return this[Random().nextInt(size)]
 }
+
+
+fun <T> ArrayList<T>.randomItem(): T {
+    return this[Random().nextInt(size)]
+}
+
+
+
 
 /**
  * Returns a list containing all values in a [SparseArray].
@@ -370,6 +430,17 @@ fun <T> Iterable<T?>.firstNotNull(): T = this.first { it != null } as T
  */
 fun <T> List<T?>.firstNotNull(): T = this.first { it != null } as T
 
+
+/**
+ * Returns the first element which is not null.
+ * @throws [NoSuchElementException] if there are no elements or all elements are null.
+ */
+fun <T> ArrayList<T?>.firstNotNull(): T = this.first { it != null } as T
+
+
+
+
+
 /**
  * Returns the first element which is not null,
  * or the result of calling the [defaultValue] function if there are no elements or all elements are null.
@@ -467,9 +538,9 @@ fun <T> List<T>.split(partitionSize: Int): List<List<T>> {
  */
 inline fun <T,V> List<T>.pmap(operation: (T) -> V): List<V> {
     val threads = ArrayList<Thread>()
-    val cores = Runtime.getRuntime().availableProcessors();
+    val cores = Runtime.getRuntime().availableProcessors()
     // run each thread on a partitioned block to minimize thread setup/teardown
-    val partitioned = this.split(cores + 2);
+    val partitioned = this.split(cores + 2)
     val partitionedResult = partitioned.map { partition ->
         val thread = Thread()
         threads.add(thread)
@@ -511,7 +582,7 @@ fun <T> MutableList<T>.moveAt(oldIndex: Int, newIndex: Int)  {
  * Moves all items meeting a predicate to the given index
  */
 fun <T> MutableList<T>.moveAll(newIndex: Int, predicate: (T) -> Boolean) {
-    check(newIndex in 0..(size - 1))
+    check(newIndex in 0 until size)
     val split = partition(predicate)
     clear()
     addAll(split.second)
@@ -834,9 +905,10 @@ fun <T> MutableCollection<T>.addAll(vararg items: T) {
     addAll(items)
 }
 
-val <T> Collection<T>?.isNullOrEmpty: Boolean get()  {
-    return (this == null || this.isEmpty())
-}
+
+val <T> Collection<T>?.isNotNullOrEmpty: Boolean get() = this!=null && this.isNotEmpty()
+
+
 /**
  * Checks if [element] is contained (ignoring case) by the array
  * @param element An element
@@ -1221,8 +1293,6 @@ fun <T> ArrayList<T>.second(): T? {
     }
 }
 
-
-
 /**
  * Returns an unmodifiable version of a list.
  */
@@ -1236,3 +1306,59 @@ inline fun <reified T> Set<T>.unmodifiable(): Set<T> =
         Collections.unmodifiableSet(this)
 
 
+/**
+ * Finds the first most common item
+ * @receiver List<T>
+ * @return T?
+ */
+fun <T> List<T>.mostCommon(): T? {
+    return groupingBy { it }.eachCount().maxBy { it.value }?.key
+}
+
+/**
+ * Finds the first least common item
+ * @receiver List<T>
+ * @return T?
+ */
+fun <T> List<T>.leastCommon(): T? {
+    return groupingBy { it }.eachCount().minBy { it.value }?.key
+}
+
+/**
+ * Finds the first most common item
+ * @receiver List<T>
+ * @return T?
+ */
+fun <T> ArrayList<T>.mostCommon(): T? {
+    return groupingBy { it }.eachCount().maxBy { it.value }?.key
+}
+
+
+/**
+ * Finds the first least common item
+ * @receiver List<T>
+ * @return T?
+ */
+fun <T> ArrayList<T>.leastCommon(): T? {
+    return groupingBy { it }.eachCount().minBy { it.value }?.key
+}
+
+
+/**
+ * Finds the first most common item
+ * @receiver List<T>
+ * @return T?
+ */
+fun <T> Collection<T>.mostCommon(): T? {
+    return groupingBy { it }.eachCount().maxBy { it.value }?.key
+}
+
+
+/**
+ * Finds the first least common item
+ * @receiver List<T>
+ * @return T?
+ */
+fun <T> Collection<T>.leastCommon(): T? {
+    return groupingBy { it }.eachCount().minBy { it.value }?.key
+}

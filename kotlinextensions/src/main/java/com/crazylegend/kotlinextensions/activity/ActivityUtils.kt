@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.activity
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -89,7 +88,7 @@ var Activity.brightness: Float?
 
 
 @SuppressLint("ObsoleteSdkInt")
-fun Application.initStrictMode() {
+fun initStrictMode() {
 
     StrictMode.setThreadPolicy(
         StrictMode.ThreadPolicy.Builder()
@@ -103,9 +102,9 @@ fun Application.initStrictMode() {
     StrictMode.setVmPolicy(
         StrictMode.VmPolicy.Builder()
             .apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                     detectLeakedRegistrationObjects()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                if (SDK_INT >= Build.VERSION_CODES.M)
                     detectCleartextNetwork()
             }
             .detectActivityLeaks()
