@@ -124,7 +124,6 @@ val Context.isOnline : Boolean get()  {
     if (cm != null) {
         if (Build.VERSION.SDK_INT < 23) {
             val ni = cm.activeNetworkInfo
-
             if (ni != null) {
                 return ni.isConnected && (ni.type == ConnectivityManager.TYPE_WIFI || ni.type == ConnectivityManager.TYPE_MOBILE)
             }
@@ -133,16 +132,25 @@ val Context.isOnline : Boolean get()  {
 
             if (n != null) {
                 val nc = cm.getNetworkCapabilities(n)
-
-                return nc!!.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                return if (nc == null){
+                    false
+                } else {
+                    nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                }
             }
         }
     }
-
     return false
 }
 
 
+/**
+ * 0 = no connection info available
+ * 1 = mobile data
+ * 2 = wifi
+ * @receiver Context
+ * @return Int
+ */
 @IntRange(from = 0, to = 2)
 fun Context.getConnectionType(): Int {
     var result = 0 // Returns connection type. 0: none; 1: mobile data; 2: wifi

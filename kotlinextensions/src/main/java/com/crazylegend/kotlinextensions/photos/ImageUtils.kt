@@ -14,7 +14,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresPermission
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.exifinterface.media.ExifInterface
 import java.io.File
 import java.io.IOException

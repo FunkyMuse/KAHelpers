@@ -2,7 +2,7 @@ package com.crazylegend.kotlinextensions.retrofit.progressInterceptor
 
 import android.content.Context
 import com.crazylegend.kotlinextensions.context.isOnline
-import com.crazylegend.kotlinextensions.retrofit.interceptors.NoConnectionException
+import com.crazylegend.kotlinextensions.retrofit.throwables.NoConnectionException
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException

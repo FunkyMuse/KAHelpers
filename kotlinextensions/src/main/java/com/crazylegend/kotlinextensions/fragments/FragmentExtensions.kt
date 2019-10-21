@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
@@ -50,6 +49,12 @@ fun Fragment.attribute(value: Int): TypedValue {
     requireContext().theme.resolveAttribute(value, ret, true)
     return ret
 }
+
+inline fun <reified T : Any> Fragment.launchActivityAndFinish() {
+    launch<T>()
+    finish()
+}
+
 
 /**
  * Get color from resource with fragment context.

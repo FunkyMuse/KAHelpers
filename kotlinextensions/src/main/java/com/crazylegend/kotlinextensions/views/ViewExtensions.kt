@@ -32,7 +32,6 @@ import androidx.core.view.*
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.context.actionBarItemBackgroundResource
 import com.crazylegend.kotlinextensions.context.drawable

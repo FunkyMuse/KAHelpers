@@ -9,3 +9,17 @@ interface OnAttachmentDownloadListener {
     fun onAttachmentDownloadedFinished()
     fun onAttachmentDownloadUpdate(percent: Int) // if the content is known it'll return the correct size otherwise you'll see some weird sizes
 }
+
+fun OnAttachmentDownloadListenerDSL(downloadStarted: () -> Unit = {}, downloadFinished: () -> Unit = {}, progress: (percentage: Int) -> Unit = {}) = object : OnAttachmentDownloadListener {
+    override fun onAttachmentDownloadedStarted() {
+        downloadStarted()
+    }
+
+    override fun onAttachmentDownloadedFinished() {
+      downloadFinished()
+    }
+
+    override fun onAttachmentDownloadUpdate(percent: Int) {
+        progress(percent)
+    }
+}

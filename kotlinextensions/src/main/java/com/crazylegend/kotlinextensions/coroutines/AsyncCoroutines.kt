@@ -47,10 +47,8 @@ fun <T> CoroutineScope.makeApiCallListAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
-    retrofitResult.loadingPost()
     return launch(mainDispatcher) {
         retrofitResult.loading()
-
         try {
             val task = async(ioDispatcher) {
                 response
@@ -113,7 +111,6 @@ fun <T> AndroidViewModel.makeApiCallAsync(
 
     return viewModelScope.launch(mainDispatcher) {
         retrofitResult.loading()
-
         try {
             val task = async(ioDispatcher) {
                 apiCall()
@@ -122,7 +119,6 @@ fun <T> AndroidViewModel.makeApiCallAsync(
         } catch (t: Throwable) {
             retrofitResult.callError(t)
         }
-
     }
 }
 

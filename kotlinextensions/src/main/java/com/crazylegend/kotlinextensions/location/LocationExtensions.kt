@@ -7,7 +7,6 @@ import android.location.*
 import android.os.Bundle
 import android.os.Looper
 import androidx.annotation.RequiresPermission
-import com.crazylegend.kotlinextensions.context.shortToast
 import com.crazylegend.kotlinextensions.log.debug
 
 

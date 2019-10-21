@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.bitmap
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import androidx.annotation.NonNull
+import com.crazylegend.kotlinextensions.tryOrIgnore
 
 
 /**
@@ -25,7 +26,7 @@ fun Bitmap.flipVertically(): Bitmap {
 fun createBitmapWithMatrix(@NonNull src: Bitmap, @NonNull matrix: Matrix): Bitmap {
     val dst = Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
     if (src != dst) {
-        //            src.recycle();
+        src.recycle()
     }
     return dst
 }
@@ -35,9 +36,7 @@ fun Bitmap?.freeBitmap() {
         return
     }
 
-    try {
+    tryOrIgnore {
         recycle()
-    } catch (e: Exception) {
-        e.printStackTrace()
     }
 }

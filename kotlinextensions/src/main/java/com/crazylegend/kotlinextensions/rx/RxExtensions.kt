@@ -44,6 +44,10 @@ fun <T : Any> Observable<T>.withIndex(): Observable<IndexedValue<T>> =
 val mainThreadScheduler = AndroidSchedulers.mainThread()
 val newThreadScheduler = Schedulers.newThread()
 val ioThreadScheduler = Schedulers.io()
+val computationScheduler = Schedulers.computation()
+val trampolineScheduler = Schedulers.trampoline()
+
+
 /**
  * observe on main thread
  * subscribe on new thread

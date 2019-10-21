@@ -2,8 +2,11 @@ package com.crazylegend.kotlinextensions.context
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.Activity
 import android.app.ActivityManager.RunningAppProcessInfo.*
+import android.app.Application
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.content.pm.ApplicationInfo

@@ -25,8 +25,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
 import com.crazylegend.kotlinextensions.context.batteryManager
-import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
+import com.crazylegend.kotlinextensions.helperModels.BatteryStatusModel
 import com.crazylegend.kotlinextensions.memory.bytes
+import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
 import java.io.InputStream
 import java.math.BigInteger
 import java.nio.ByteBuffer
@@ -184,7 +185,12 @@ fun RecyclerView.ViewHolder.px2dp(pxValue: Int): Float? {
     return itemView.px2dp(pxValue)
 }
 
-fun getBatteryInfo(batteryIntent: Intent): String {
+/**
+ * Use [batteryStatusIntent] for the param
+ * @param batteryIntent Intent
+ * @return BatteryStatusModel
+ */
+fun getBatteryInfo(batteryIntent: Intent): BatteryStatusModel {
     val status = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
     val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING
             || status == BatteryManager.BATTERY_STATUS_FULL
@@ -196,7 +202,7 @@ fun getBatteryInfo(batteryIntent: Intent): String {
     val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
 
     val batteryPct = level / scale.toFloat()
-    return "Battery Info: isCharging=$isCharging isUsbCharging=$usbCharge isACcharging=$acCharge batteryPct=$batteryPct"
+    return BatteryStatusModel(isCharging, usbCharge, acCharge, batteryPct)
 }
 
 
@@ -219,7 +225,11 @@ val Context.isUsbCharging get() =  isChargePlugCharging == BatteryManager.BATTER
 val Context.isACcharging get() =  isChargePlugCharging == BatteryManager.BATTERY_PLUGGED_AC
 
 
-
+/**
+ * Use [batteryStatusIntent] for the param
+ * @param batteryIntent Intent
+ * @return Float
+ */
 fun getBatteryLevel(batteryIntent: Intent): Float {
     val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
     val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)

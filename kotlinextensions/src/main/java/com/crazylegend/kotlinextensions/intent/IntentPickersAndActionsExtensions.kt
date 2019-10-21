@@ -1,6 +1,5 @@
 package com.crazylegend.kotlinextensions.intent
 
-import android.Manifest.permission.CALL_PHONE
 import android.Manifest.permission.SET_ALARM
 import android.app.Activity
 import android.app.SearchManager

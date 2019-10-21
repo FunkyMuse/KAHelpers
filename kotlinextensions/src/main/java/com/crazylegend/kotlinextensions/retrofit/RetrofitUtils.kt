@@ -523,7 +523,6 @@ fun Context.errorResponseCode(responseCode: Int) {
             shortToast("Moved permanently")
         }
 
-
         400 -> {
             // bad request
             shortToast("Bad Request")
@@ -605,6 +604,10 @@ fun Context.errorResponseCode(responseCode: Int) {
 
         511 -> {
             shortToast("Authentication required")
+        }
+
+        else ->{
+            shortToast("Something went wrong, try again")
         }
     }
 }

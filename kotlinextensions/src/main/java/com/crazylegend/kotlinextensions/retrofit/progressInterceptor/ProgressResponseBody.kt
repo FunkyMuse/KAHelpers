@@ -27,11 +27,8 @@ class ProgressResponseBody(
 
 
     override fun source(): BufferedSource {
-        return if (bufferedSource == null) {
-            source(responseBody.source()).buffer()
-        } else {
-            bufferedSource!!
-        }
+        val bsCopy = bufferedSource
+        return bsCopy ?: source(responseBody.source()).buffer()
     }
 
     private fun source(source: Source): Source {

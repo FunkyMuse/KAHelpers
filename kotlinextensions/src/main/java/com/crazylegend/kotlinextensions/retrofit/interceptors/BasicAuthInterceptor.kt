@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.retrofit.interceptors
 
 import android.content.Context
 import com.crazylegend.kotlinextensions.context.isOnline
+import com.crazylegend.kotlinextensions.retrofit.throwables.NoConnectionException
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -17,11 +18,11 @@ class BasicAuthInterceptor(user: String, password: String, private val context: 
     @Throws(NoConnectionException::class, IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        if (!context.isOnline){
+        if (!context.isOnline) {
             throw NoConnectionException()
         }
 
-        return if (context.isOnline){
+        return if (context.isOnline) {
             val request = chain.request()
             val authenticatedRequest = request.newBuilder()
                     .header("Authorization", credentials).build()
@@ -29,7 +30,6 @@ class BasicAuthInterceptor(user: String, password: String, private val context: 
         } else {
             chain.proceed(chain.request().newBuilder().build())
         }
-
 
     }
 
