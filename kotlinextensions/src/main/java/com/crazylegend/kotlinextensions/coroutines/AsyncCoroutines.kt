@@ -8,10 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.crazylegend.kotlinextensions.database.*
 import com.crazylegend.kotlinextensions.retrofit.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -27,17 +24,17 @@ fun <T> CoroutineScope.makeApiCallAsync(
 ): Job {
 
     return launch(mainDispatcher) {
-        retrofitResult.loading()
-
-        try {
-            val task = async(ioDispatcher) {
-                response
+        supervisorScope {
+            retrofitResult.loading()
+            try {
+                val task = async(ioDispatcher) {
+                    response
+                }
+                retrofitResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
-
     }
 }
 
@@ -48,16 +45,17 @@ fun <T> CoroutineScope.makeApiCallListAsync(
         includeEmptyData: Boolean = true
 ): Job {
     return launch(mainDispatcher) {
-        retrofitResult.loading()
-        try {
-            val task = async(ioDispatcher) {
-                response
+        supervisorScope {
+            retrofitResult.loading()
+            try {
+                val task = async(ioDispatcher) {
+                    response
+                }
+                retrofitResult.subscribeListPost(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribeListPost(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
-
     }
 }
 
@@ -69,17 +67,18 @@ fun <T> CoroutineScope.makeDBCallAsync(
 ): Job {
 
     return launch(mainDispatcher) {
-        dbResult.querying()
+        supervisorScope {
+            dbResult.querying()
 
-        try {
-            val task = async(ioDispatcher) {
-                queryModel
+            try {
+                val task = async(ioDispatcher) {
+                    queryModel
+                }
+                dbResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                dbResult.callError(t)
             }
-            dbResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            dbResult.callError(t)
         }
-
     }
 }
 
@@ -89,17 +88,18 @@ fun <T> CoroutineScope.makeDBCallListAsync(
         includeEmptyData: Boolean = true
 ): Job {
     return launch(mainDispatcher) {
-        dbResult.querying()
+        supervisorScope {
+            dbResult.querying()
 
-        try {
-            val task = async(ioDispatcher) {
-                queryModel
+            try {
+                val task = async(ioDispatcher) {
+                    queryModel
+                }
+                dbResult.subscribeList(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                dbResult.callError(t)
             }
-            dbResult.subscribeList(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            dbResult.callError(t)
         }
-
     }
 }
 
@@ -110,14 +110,16 @@ fun <T> AndroidViewModel.makeApiCallAsync(
         apiCall: suspend () -> Response<T>?): Job {
 
     return viewModelScope.launch(mainDispatcher) {
-        retrofitResult.loading()
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
+        supervisorScope {
+            retrofitResult.loading()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
     }
 }
@@ -128,17 +130,17 @@ fun <T> AndroidViewModel.makeApiCallListAsync(
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
     return viewModelScope.launch(mainDispatcher) {
-        retrofitResult.loading()
-
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
+        supervisorScope {
+            retrofitResult.loading()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribeList(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribeList(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
-
     }
 }
 
@@ -148,14 +150,16 @@ fun <T> AndroidViewModel.makeDBCallAsync(
         includeEmptyData: Boolean = false,
         dbCall: suspend () -> T?): Job {
     return viewModelScope.launch(mainDispatcher) {
-        dbResult.querying()
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            dbResult.querying()
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                dbResult.callError(t)
             }
-            dbResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            dbResult.callError(t)
         }
     }
 }
@@ -165,16 +169,17 @@ fun <T> AndroidViewModel.makeDBCallListAsync(
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
     return viewModelScope.launch(mainDispatcher) {
-        dbResult.querying()
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            dbResult.querying()
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribeList(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                dbResult.callError(t)
             }
-            dbResult.subscribeList(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            dbResult.callError(t)
         }
-
     }
 }
 
@@ -183,17 +188,18 @@ fun AndroidViewModel.makeDBCallAsync(
         dbCall: suspend () -> Unit): Job {
 
     return viewModelScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-        } finally {
-            onCallExecuted()
         }
-
     }
 }
 
@@ -203,18 +209,19 @@ fun AndroidViewModel.makeDBCallAsync(
         dbCall: suspend () -> Unit): Job {
 
     return viewModelScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                onErrorAction(t)
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            onErrorAction(t)
-        } finally {
-            onCallExecuted()
         }
-
     }
 }
 
@@ -223,15 +230,17 @@ fun <T> AppCompatActivity.makeApiCallAsync(
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        retrofitResult.loading()
+        supervisorScope {
+            retrofitResult.loading()
 
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
 
     }
@@ -242,15 +251,17 @@ fun <T> AppCompatActivity.makeApiCallListAsync(
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        retrofitResult.loading()
+        supervisorScope {
+            retrofitResult.loading()
 
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribeList(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribeList(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
 
     }
@@ -262,15 +273,17 @@ fun <T> AppCompatActivity.makeDBCallAsync(
         dbCall: suspend () -> T?): Job {
 
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
-            }
-            dbResult.subscribe(task.await(), includeEmptyData)
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribe(task.await(), includeEmptyData)
 
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            dbResult.callError(t)
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                dbResult.callError(t)
+            }
         }
     }
 }
@@ -281,15 +294,17 @@ fun <T> AppCompatActivity.makeDBCallListAsync(
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
-            }
-            dbResult.subscribeList(task.await(), includeEmptyData)
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribeList(task.await(), includeEmptyData)
 
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            dbResult.callError(t)
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                dbResult.callError(t)
+            }
         }
     }
 }
@@ -299,15 +314,17 @@ fun AppCompatActivity.makeDBCallAsync(
         onCallExecuted: () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-        } finally {
-            onCallExecuted()
         }
     }
 }
@@ -319,16 +336,18 @@ fun AppCompatActivity.makeDBCallAsync(
         dbCall: suspend () -> Unit): Job {
 
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                onErrorAction(t)
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            onErrorAction(t)
-        } finally {
-            onCallExecuted()
         }
     }
 }
@@ -338,17 +357,18 @@ fun <T> Fragment.makeApiCallAsync(
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        retrofitResult.loading()
+        supervisorScope {
+            retrofitResult.loading()
 
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
-
     }
 }
 
@@ -358,15 +378,17 @@ fun <T> Fragment.makeApiCallListAsync(
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        retrofitResult.loading()
+        supervisorScope {
+            retrofitResult.loading()
 
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribeList(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribeList(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
 
     }
@@ -378,15 +400,17 @@ fun <T> Fragment.makeDBCallAsync(
         includeEmptyData: Boolean = false,
         dbCall: suspend () -> T?): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
-            }
-            dbResult.subscribe(task.await(), includeEmptyData)
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribe(task.await(), includeEmptyData)
 
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            dbResult.callError(t)
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                dbResult.callError(t)
+            }
         }
     }
 }
@@ -397,15 +421,17 @@ fun <T> Fragment.makeDBCallListAsync(
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
-            }
-            dbResult.subscribeList(task.await(), includeEmptyData)
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribeList(task.await(), includeEmptyData)
 
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            dbResult.callError(t)
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                dbResult.callError(t)
+            }
         }
     }
 }
@@ -415,15 +441,17 @@ fun Fragment.makeDBCallAsync(
         onCallExecuted: () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-        } finally {
-            onCallExecuted()
         }
     }
 }
@@ -433,16 +461,18 @@ fun Fragment.makeDBCallAsync(
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Unit): Job {
     return lifecycleScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                onErrorAction(t)
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            onErrorAction(t)
-        } finally {
-            onCallExecuted()
         }
     }
 }
@@ -456,20 +486,22 @@ fun <T> AndroidViewModel.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 ): Job {
 
     return viewModelScope.launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
-            }
-            val response = task.await()
-            response?.apply {
-                if (isSuccessful) {
-                    onResponse(body())
-                } else {
-                    onUnsuccessfulCall(errorBody(), code())
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
                 }
+                val response = task.await()
+                response?.apply {
+                    if (isSuccessful) {
+                        onResponse(body())
+                    } else {
+                        onUnsuccessfulCall(errorBody(), code())
+                    }
+                }
+            } catch (t: Throwable) {
+                onError(t)
             }
-        } catch (t: Throwable) {
-            onError(t)
         }
 
     }
@@ -483,20 +515,22 @@ fun <T> CoroutineScope.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 ): Job {
 
     return launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
-            }
-            val response = task.await()
-            response?.apply {
-                if (isSuccessful) {
-                    onResponse(body())
-                } else {
-                    onUnsuccessfulCall(errorBody(), code())
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
                 }
+                val response = task.await()
+                response?.apply {
+                    if (isSuccessful) {
+                        onResponse(body())
+                    } else {
+                        onUnsuccessfulCall(errorBody(), code())
+                    }
+                }
+            } catch (t: Throwable) {
+                onError(t)
             }
-        } catch (t: Throwable) {
-            onError(t)
         }
 
     }
@@ -508,17 +542,20 @@ fun <T> CoroutineScope.makeApiCallAsync(
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
 
-    return launch(mainDispatcher) {
-        retrofitResult.loading()
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
-            }
-            retrofitResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
-        }
 
+    return launch(mainDispatcher) {
+        supervisorScope {
+            retrofitResult.loading()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
+            }
+
+        }
     }
 }
 
@@ -529,14 +566,16 @@ fun <T> CoroutineScope.makeApiCallListAsync(
     retrofitResult.loadingPost()
 
     return launch(mainDispatcher) {
-        retrofitResult.loading()
-        try {
-            val task = async(ioDispatcher) {
-                apiCall()
+        supervisorScope {
+            retrofitResult.loading()
+            try {
+                val task = async(ioDispatcher) {
+                    apiCall()
+                }
+                retrofitResult.subscribeList(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                retrofitResult.callError(t)
             }
-            retrofitResult.subscribeList(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            retrofitResult.callError(t)
         }
     }
 
@@ -548,14 +587,16 @@ fun <T> CoroutineScope.makeDBCallAsync(
         includeEmptyData: Boolean = false,
         dbCall: suspend () -> T?): Job {
     return launch(mainDispatcher) {
-        dbResult.querying()
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            dbResult.querying()
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribe(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                dbResult.callError(t)
             }
-            dbResult.subscribe(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            dbResult.callError(t)
         }
     }
 }
@@ -566,14 +607,16 @@ fun <T> CoroutineScope.makeDBCallListAsync(
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
     return launch(mainDispatcher) {
-        dbResult.querying()
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            dbResult.querying()
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                dbResult.subscribeList(task.await(), includeEmptyData)
+            } catch (t: Throwable) {
+                dbResult.callError(t)
             }
-            dbResult.subscribeList(task.await(), includeEmptyData)
-        } catch (t: Throwable) {
-            dbResult.callError(t)
         }
     }
 }
@@ -584,15 +627,17 @@ fun CoroutineScope.makeDBCallAsync(
         dbCall: suspend () -> Unit): Job {
 
     return launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-        } finally {
-            onCallExecuted()
         }
 
     }
@@ -604,16 +649,18 @@ fun CoroutineScope.makeDBCallAsync(
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Unit): Job {
     return launch(mainDispatcher) {
-        try {
-            val task = async(ioDispatcher) {
-                dbCall()
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                task.await()
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                onErrorAction(t)
+            } finally {
+                onCallExecuted()
             }
-            task.await()
-        } catch (t: Throwable) {
-            t.printStackTrace()
-            onErrorAction(t)
-        } finally {
-            onCallExecuted()
         }
     }
 }

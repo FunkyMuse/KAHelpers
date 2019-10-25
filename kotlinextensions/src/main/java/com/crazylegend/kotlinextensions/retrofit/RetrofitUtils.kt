@@ -606,7 +606,7 @@ fun Context.errorResponseCode(responseCode: Int) {
             shortToast("Authentication required")
         }
 
-        else ->{
+        else -> {
             shortToast("Something went wrong, try again")
         }
     }
