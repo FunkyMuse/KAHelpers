@@ -5,12 +5,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.liveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.livedata.compatProvider
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.setofusefulkotlinextensions.test.TestAdapter
+import com.crazylegend.setofusefulkotlinextensions.test.TestModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
@@ -19,14 +20,23 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
         compatProvider<TestAVM>()
     }
 
+    private val adapter by lazy {
+        TestAdapter()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        recycler.setHasFixedSize(false)
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = adapter
 
         testAVM.posts?.observe(this, Observer {
             when (it) {
                 is RetrofitResult.Success -> {
                     debug(it.toString())
+                    adapter.submitList(it.value.map {
+                        TestModel(it.title)
+                    })
                 }
                 RetrofitResult.Loading -> {
                     debug(it.toString())

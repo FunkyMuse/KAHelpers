@@ -14,6 +14,6 @@ interface TestApi {
     suspend fun getPosts() : Response<List<TestModel>>
 
     companion object {
-        const val API = "https://jsonplaceholdecode.com/"
+        const val API = "https://jsonplaceholder.typicode.com/"
     }
 }

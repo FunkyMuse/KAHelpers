@@ -21,6 +21,7 @@ import java.util.*
  * Created by hristijan on 3/4/19 to long live and prosper !
  */
 
+
 val <VH> RecyclerView.Adapter<VH>.isEmpty: Boolean where VH : RecyclerView.ViewHolder
     get() = itemCount == 0
 
@@ -41,6 +42,7 @@ fun RecyclerView.divider(color: Int = Color.parseColor("#CCCCCC"), size: Int = 1
 
 val RecyclerView.ViewHolder.context: Context
     get() = this.itemView.context
+
 
 fun RecyclerView.disableAnimations() {
     this.itemAnimator?.addDuration = 0
