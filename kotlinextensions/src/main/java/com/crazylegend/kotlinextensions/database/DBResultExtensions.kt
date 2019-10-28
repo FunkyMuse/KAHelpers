@@ -12,7 +12,7 @@ import com.crazylegend.kotlinextensions.exhaustive
 
 fun <T> DBResult<T>.handle(queryingDB: () -> Unit,
                            emptyDB: () -> Unit,
-                           dbError: (throwable: Throwable) -> Unit = { _-> },
+                           dbError: (throwable: Throwable) -> Unit = { _ -> },
                            success: T.() -> Unit) {
     when (this) {
         is DBResult.Success -> {
@@ -25,7 +25,7 @@ fun <T> DBResult<T>.handle(queryingDB: () -> Unit,
             emptyDB()
         }
         is DBResult.DBError -> {
-            dbError( throwable)
+            dbError(throwable)
         }
     }.exhaustive
 }
@@ -142,7 +142,7 @@ fun <T> MutableLiveData<DBResult<T>>.successPost(model: T) {
     postValue(DBResult.Success(model))
 }
 
-fun <T> MutableLiveData<DBResult<T>>.getSuccess(action: (T) -> Unit) {
+fun <T> MutableLiveData<DBResult<T>>.onSuccess(action: (T) -> Unit) {
     value?.let {
         when (it) {
             is DBResult.Success -> {
@@ -154,7 +154,7 @@ fun <T> MutableLiveData<DBResult<T>>.getSuccess(action: (T) -> Unit) {
     }
 }
 
-fun <T> LiveData<DBResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) {
+fun <T> LiveData<DBResult<T>>.onSuccess(action: (model: T) -> Unit = { _ -> }) {
     value?.let {
         when (it) {
             is DBResult.Success -> {
@@ -165,3 +165,31 @@ fun <T> LiveData<DBResult<T>>.getSuccess(action: (model: T) -> Unit = { _ -> }) 
         }
     }
 }
+
+val <T> MutableLiveData<DBResult<T>>.getSuccess: T?
+    get() {
+        return value?.let {
+            when (it) {
+                is DBResult.Success -> {
+                    it.value
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }
+
+val <T> LiveData<DBResult<T>>.getSuccess: T?
+    get() {
+        return value?.let {
+            when (it) {
+                is DBResult.Success -> {
+                    it.value
+                }
+                else -> {
+                    null
+                }
+            }
+        }
+    }

@@ -1,6 +1,8 @@
 package com.crazylegend.kotlinextensions.coroutines
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataScope
+import androidx.lifecycle.liveData
 import com.crazylegend.kotlinextensions.database.DBResult
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import kotlinx.coroutines.async

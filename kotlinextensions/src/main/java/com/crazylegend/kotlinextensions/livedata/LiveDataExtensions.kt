@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.crazylegend.kotlinextensions.database.DBResult
-import com.crazylegend.kotlinextensions.database.getSuccess
+import com.crazylegend.kotlinextensions.database.onSuccess
 import com.crazylegend.kotlinextensions.reflection.firstPropertyValue
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.retrofit.onSuccess
@@ -411,7 +411,7 @@ dbResultDataFiltered.performSearch(it, "title", dbResultData)
  */
 inline fun <reified T> MutableLiveData<List<T>>.performSearchDB(searchQuery: String, fieldName: String, dbResultData: MutableLiveData<DBResult<List<T>>>): LiveData<List<T>> {
     val applyFilteredList: ArrayList<T> = ArrayList()
-    dbResultData.getSuccess { list ->
+    dbResultData.onSuccess { list ->
         list.forEach { model ->
             val property = model?.firstPropertyValue(fieldName)
             property?.apply {
@@ -427,7 +427,7 @@ inline fun <reified T> MutableLiveData<List<T>>.performSearchDB(searchQuery: Str
 
 inline fun <reified T> LiveData<List<T>>.performSearchDB(searchQuery: String, fieldName: String, dbResultData: MutableLiveData<DBResult<List<T>>>, filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
     val applyFilteredList: ArrayList<T> = ArrayList()
-    dbResultData.getSuccess { list ->
+    dbResultData.onSuccess { list ->
         list.forEach { model ->
             val property = model?.firstPropertyValue(fieldName)
             property?.apply {

@@ -97,8 +97,8 @@ dependencies {
 
     //ui
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-    implementation 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
+    implementation 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta3'
 
 
     //coroutines
