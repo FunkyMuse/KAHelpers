@@ -5,7 +5,7 @@ import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -21,7 +21,7 @@ class RecyclerSectionItemDecoration(
 ) : RecyclerView.ItemDecoration() {
 
     private var headerView: View? = null
-    private var header: TextView? = null
+    private var header: AppCompatTextView? = null
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
@@ -38,10 +38,7 @@ class RecyclerSectionItemDecoration(
         if (headerView == null) {
             headerView = inflateHeaderView(parent)
             header = headerView!!.findViewById(headerViewID) //R.id.list_item_section_text
-            fixLayoutSize(
-                headerView!!,
-                parent
-            )
+            fixLayoutSize(headerView!!, parent)
         }
 
         var previousHeader: CharSequence = ""
@@ -73,12 +70,7 @@ class RecyclerSectionItemDecoration(
 
     //sectionheaderlayoutName e.g R.layout.section_header
     private fun inflateHeaderView(parent: RecyclerView): View {
-        return LayoutInflater.from(parent.context)
-            .inflate(
-                sectionHeaderLayoutName,
-                parent,
-                false
-            )
+        return LayoutInflater.from(parent.context).inflate(sectionHeaderLayoutName, parent, false)
     }
 
 
