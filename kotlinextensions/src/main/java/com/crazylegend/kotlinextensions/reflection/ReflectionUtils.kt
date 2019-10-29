@@ -37,6 +37,12 @@ fun Any.callMethod(methodName: String, parameterTypes: Array<Class<*>>, paramete
     return method.invoke(this, parameters)
 }
 
+@Throws(NoSuchMethodException::class, SecurityException::class, IllegalAccessException::class, IllegalArgumentException::class, InvocationTargetException::class)
+fun <T> Class<T>.getFieldByName(name:String): Field {
+    val field = getDeclaredField(name)
+    field.isAccessible = true
+    return field
+}
 
 /**
  * Get DeclaredMethod
@@ -67,9 +73,9 @@ fun Any.getDeclaredMethod(methodName: String, vararg parameterTypes: Class<*>): 
 fun Any.invokeMethod(methodName: String, parameterTypes: Array<Class<*>>,
                      parameters: Array<Any>): Any? {
     val method = getDeclaredMethod(methodName, *parameterTypes)
-    method!!.isAccessible = true
+    method?.isAccessible = true
     try {
-        return method.invoke(this, *parameters)
+        return method?.invoke(this, *parameters)
     } catch (e: IllegalArgumentException) {
         e.printStackTrace()
     } catch (e: IllegalAccessException) {
