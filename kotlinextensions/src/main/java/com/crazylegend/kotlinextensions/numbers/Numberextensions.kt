@@ -21,6 +21,8 @@ import java.text.DecimalFormatSymbols
 import java.time.Duration
 import java.util.*
 import kotlin.experimental.xor
+import kotlin.math.ln
+import kotlin.math.pow
 
 
 /**
@@ -91,7 +93,7 @@ infix fun Int.toThe(power: Number): Double {
 }
 
 infix fun Int.root(n: Number): Double {
-    return pow(1/n.toDouble())
+    return pow(1 / n.toDouble())
 }
 
 /**
@@ -100,39 +102,46 @@ infix fun Int.root(n: Number): Double {
 fun Int.twoDigitTime() = if (this < 10) "0" + toString() else toString()
 
 
-
 /**
  * Convert Celsius temperature to Fahrenheit
  */
-fun Double.celsiusToFahrenheit() : Double = (this * 1.8) + 32
+fun Double.celsiusToFahrenheit(): Double = (this * 1.8) + 32
 
 /**
  * Convert Fahrenheit temperature to Celsius
  */
-fun Double.fahrenheitToCelsius() : Double = (this - 32) * 5/9
+fun Double.fahrenheitToCelsius(): Double = (this - 32) * 5 / 9
 
 
 /**
  * Convert meters to miles
  */
-val Double.metersToMiles: Double get() {
-    return if (this != 0.0) {
-        this / 1609.344
-    } else -1.0
-}
+val Double.metersToMiles: Double
+    get() {
+        return if (this != 0.0) {
+            this / 1609.344
+        } else -1.0
+    }
 
+/**
+ * Converts meters to km
+ */
+val Double.metersToKM get() = this / 1000
 
+/**
+ * Returns kilometers to meters
+ */
+val Double.kilometersToMeters get() = this * 1000
 
 /**
  * Convert miles to meters
  */
-val Double.milesToMeters: Double get() {
-    return if (this != 0.0) {
-       this * 1609.344
-    } else -1.0
-}
-
-
+val Double.milesToMeters: Double
+    get() {
+        return if (this != 0.0) {
+            this * 1609.344
+        } else -1.0
+    }
 
 
 /**
@@ -141,27 +150,36 @@ val Double.milesToMeters: Double get() {
 fun Long.convertBytesToHumanReadableForm(si: Boolean): String {
     val unit = if (si) 1000 else 1024
     if (this < unit) return toString() + " B"
-    val exp = (Math.log(toDouble()) / Math.log(unit.toDouble())).toInt()
+    val exp = (ln(toDouble()) / ln(unit.toDouble())).toInt()
     val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"
-    return String.format("%.1f %sB", this / Math.pow(unit.toDouble(), exp.toDouble()), pre)
+    return String.format("%.1f %sB", this / unit.toDouble().pow(exp.toDouble()), pre)
 }
 
 
-/* Divides */
-
+/**
+ * Is the integer dividable
+ * @receiver Int
+ * @param other Int
+ * @return Boolean
+ */
 infix fun Int.divides(other: Int): Boolean {
     return this == other || this % other == 0
 }
 
-/* Does Not Divide */
+/**
+ * Is the integer not dividable
+ * @receiver Int
+ * @param other Int
+ * @return Boolean
+ */
 infix fun Int.doesNotDivide(other: Int): Boolean {
     return !(this divides other)
 }
 
 /**
-* Returns Zero (0) if this number is null
-*/
-val Number?.orZero: Number get() =  this ?: 0
+ * Returns Zero (0) if this number is null
+ */
+val Number?.orZero: Number get() = this ?: 0
 
 /**
  * Returns true if this number is null or zero (0)
@@ -190,7 +208,7 @@ val Double?.isNotNullAndMoreThanZero: Boolean get() = this != null && this > 0.0
 
 fun Number.round(@IntRange(from = 1L) decimalCount: Int): String {
     val expression = StringBuilder().append("#.")
-    (1..decimalCount).forEach { expression.append("#") }
+    repeat((1..decimalCount).count()) { expression.append("#") }
     val formatter = DecimalFormat(expression.toString())
     formatter.roundingMode = RoundingMode.HALF_UP
     return formatter.format(this)
@@ -201,17 +219,15 @@ fun Number.round(@IntRange(from = 1L) decimalCount: Int): String {
  *
  * @return An ordered list of each digit.
  */
-fun Int.digits() : List<Int> {
+fun Int.digits(): List<Int> {
     var value = this
     val digits = mutableListOf<Int>()
     do {
         digits.add(value % 10)
         value /= 10
-    }
-    while (value > 0 || value < 0)
+    } while (value > 0 || value < 0)
     return digits.reversed()
 }
-
 
 
 fun BigDecimal.isZero() = this == BigDecimal.ZERO
@@ -226,7 +242,7 @@ val Number.days @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofDays(this
 
 fun Number.toHexString(width: Int) = String.format("0x%0${width}X", this)
 
-inline val Long.seconds@RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofSeconds(this)
+inline val Long.seconds @RequiresApi(Build.VERSION_CODES.O) get() = Duration.ofSeconds(this)
 inline val Int.seconds get() = toLong().seconds
 
 infix fun Int.erase(n: Int): Int {
@@ -339,7 +355,6 @@ inline fun BigInteger.log(): Double {
 }
 
 
-
 inline fun Number.fibonacci(): BigInteger = toBigInteger().fibonacci()
 fun BigInteger.fibonacci(): BigInteger {
     require(this >= BigInteger.ZERO) { "Cannot compute fibonacci for negative numbers" }
@@ -383,7 +398,6 @@ inline fun <reified T : Number> Context?.dimen(@DimenRes res: Int): T =
                 else -> throw IllegalArgumentException("Unknown dimen type")
             }
         }
-
 
 
 /**
@@ -452,7 +466,6 @@ fun Long.formatBytes(): String {
         else -> "$this bytes"
     }
 }
-
 
 
 infix fun Byte.xorx(short: Short) = this xorx short.byteArray
