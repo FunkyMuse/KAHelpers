@@ -135,3 +135,45 @@ fun MenuItem.setTitleColor(color: Int) {
     val html = "<font color='#$hexColor'>$title</font>"
     this.title = html.parseAsHtml()
 }
+
+fun MenuItem?.onExpand(function: () -> Unit) {
+    this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+            function()
+            return true
+        }
+
+        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+            return true
+        }
+    })
+}
+
+fun MenuItem?.onCollapse(function: () -> Unit) {
+    this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+            return true
+        }
+
+        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+            function()
+            return true
+        }
+    })
+}
+
+
+fun MenuItem?.onActionExpand(onExpand: () -> Unit = {}, onCollapse: () -> Unit = {}) {
+    this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+            onExpand()
+            return true
+        }
+
+        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+            onCollapse()
+            return true
+        }
+    })
+}
+
