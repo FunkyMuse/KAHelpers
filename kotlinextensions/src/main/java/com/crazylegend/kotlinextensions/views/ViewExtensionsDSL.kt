@@ -56,10 +56,25 @@ private fun align(edge: Anchor, views: Array<out View>){
     }
 }
 
+fun View.returnMeasurements(
+        widthMeasureSpec: Int,
+        heightMeasureSpec: Int,
+        measurements: (widthMode: Int, heightMode: Int, widthSize: Int, heightSize: Int, initialWidth: Int, initialHeight: Int) -> Unit = { _, _, _, _, _, _ -> }
+) {
+    val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
+    val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
+    val widthSize = View.MeasureSpec.getSize(widthMeasureSpec)
+    val heightSize = View.MeasureSpec.getSize(heightMeasureSpec)
+    val initialWidth = paddingLeft + paddingRight
+    val initialHeight = paddingTop + paddingBottom
+    measurements(widthMode, heightMode, widthSize, heightSize, initialWidth, initialHeight)
+}
+
+
 // Constants
 val matchConstraint = ConstraintSet.MATCH_CONSTRAINT
-val matchParent: Int = android.view.ViewGroup.LayoutParams.MATCH_PARENT
-val wrapContent: Int = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+val matchParent: Int = ViewGroup.LayoutParams.MATCH_PARENT
+val wrapContent: Int = ViewGroup.LayoutParams.WRAP_CONTENT
 
 // Style - Colors
 
@@ -207,8 +222,7 @@ operator fun MultiplePartialConstraint.minus(view: View): Array<View> {
 fun horizontalLayout(vararg items: Any): Array<out Any> {
     var previousMargin: Int? = null
     var previousView: View? = null
-    var viewCount = 0
-    for (item in items) {
+    for ((viewCount, item) in items.withIndex()) {
 
         when (item) {
             is Int -> {
@@ -238,7 +252,6 @@ fun horizontalLayout(vararg items: Any): Array<out Any> {
                 previousView = null
             }
         }
-        viewCount++
     }
     return items
 }

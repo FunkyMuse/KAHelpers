@@ -272,12 +272,12 @@ fun Context.reboot(restartIntent: Intent? = this.packageManager.getLaunchIntentF
 }
 
 
-inline fun Context.color(@ColorRes id: Int): Int = ContextCompat.getColor(this, id)
-inline fun Context.boolean(@BoolRes id: Int): Boolean = resources.getBoolean(id)
-inline fun Context.integer(@IntegerRes id: Int): Int = resources.getInteger(id)
-inline fun Context.dimen(@DimenRes id: Int): Float = resources.getDimension(id)
-inline fun Context.dimenPixelSize(@DimenRes id: Int): Int = resources.getDimensionPixelSize(id)
-inline fun Context.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(this, id)
+fun Context.color(@ColorRes id: Int): Int = ContextCompat.getColor(this, id)
+fun Context.boolean(@BoolRes id: Int): Boolean = resources.getBoolean(id)
+fun Context.integer(@IntegerRes id: Int): Int = resources.getInteger(id)
+fun Context.dimen(@DimenRes id: Int): Float = resources.getDimension(id)
+fun Context.dimenPixelSize(@DimenRes id: Int): Int = resources.getDimensionPixelSize(id)
+fun Context.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(this, id)
 
 //Attr retrievers
 fun Context.resolveColor(@AttrRes attr: Int, @ColorInt fallback: Int = 0): Int {
@@ -658,16 +658,16 @@ fun Context.colors(@ColorRes stateListRes: Int): ColorStateList? {
     return ret
 }
 
-inline fun Context.musicVolume(): Int = audioManager
+fun Context.musicVolume(): Int = audioManager
         .getStreamVolume(AudioManager.STREAM_MUSIC)
 
-inline fun Context.propertyInAssets(propertyName: String) = Properties().also {
+fun Context.propertyInAssets(propertyName: String) = Properties().also {
     val inputStream = this.assets.open("$propertyName.properties")
     it.load(inputStream)
     inputStream.close()
 }
 
-inline fun Context.jsonInAssets(jsonName: String): String {
+fun Context.jsonInAssets(jsonName: String): String {
     StringBuilder().let {
         this.assets.open(jsonName)
                 .bufferedReader()
@@ -678,7 +678,7 @@ inline fun Context.jsonInAssets(jsonName: String): String {
     }
 }
 
-inline fun Context.xmlInAssets(xmlName: String) = this.assets.open(xmlName)
+fun Context.xmlInAssets(xmlName: String) = this.assets.open(xmlName)
 
 fun Application.isApkInDebug(): Boolean {
     return try {

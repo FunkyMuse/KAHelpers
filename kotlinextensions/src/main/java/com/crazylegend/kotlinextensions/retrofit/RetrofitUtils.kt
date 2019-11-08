@@ -17,7 +17,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import okio.ByteString
 import retrofit2.Response
-import retrofit2.Retrofit
 import java.io.File
 import kotlin.random.Random
 
@@ -26,10 +25,6 @@ import kotlin.random.Random
  * Created by Hristijan on 1/25/19 to long live and prosper !
  */
 
-
-inline fun <reified T> Retrofit?.create(): T? {
-    return this?.create(T::class.java)
-}
 
 /* example
 private  val retrofit by lazy {

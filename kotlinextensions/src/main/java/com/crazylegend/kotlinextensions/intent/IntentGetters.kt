@@ -12,7 +12,7 @@ import android.content.Intent
  * Standard [Intent.getIntExtra] but allows for null. Note that this would treat [Int.MIN_VALUE]
  * as null if you were to pass it
  */
-inline fun Intent.getIntExtra(name: String): Int? {
+fun Intent.getIntExtra(name: String): Int? {
     val value = getIntExtra(name, Int.MIN_VALUE)
     if (value == Int.MIN_VALUE) {
         return null
@@ -24,7 +24,7 @@ inline fun Intent.getIntExtra(name: String): Int? {
  * Standard [Intent.getBooleanExtra] but allows for null. Note that this would treat [Int.MIN_VALUE]
  * as null if you were to pass it
  */
-inline fun Intent.getFloatExtra(name: String): Float? {
+fun Intent.getFloatExtra(name: String): Float? {
     val value = getFloatExtra(name, Float.MIN_VALUE)
     if (value == Float.MIN_VALUE) {
         return null
@@ -36,7 +36,7 @@ inline fun Intent.getFloatExtra(name: String): Float? {
  * Standard [Intent.getLongExtra] but allows for null. Note that this would treat [Long.MIN_VALUE]
  * as null if you were to pass it
  */
-inline fun Intent.getLongExtra(name: String): Long? {
+fun Intent.getLongExtra(name: String): Long? {
     val value = getLongExtra(name, Long.MIN_VALUE)
     if (value == Long.MIN_VALUE) {
         return null
@@ -48,7 +48,7 @@ inline fun Intent.getLongExtra(name: String): Long? {
  * Standard [Intent.getDoubleExtra] but allows for null. Note that this would treat [Double.MIN_VALUE]
  * as null if you were to pass it
  */
-inline fun Intent.getDoubleExtra(name: String): Double? {
+fun Intent.getDoubleExtra(name: String): Double? {
     val value = getDoubleExtra(name, Double.MIN_VALUE)
     if (value == Double.MIN_VALUE) {
         return null

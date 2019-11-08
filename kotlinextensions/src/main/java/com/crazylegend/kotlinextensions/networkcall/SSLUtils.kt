@@ -15,7 +15,7 @@ import javax.security.cert.CertificateException
  * Created by hristijan on 3/29/19 to long live and prosper !
  */
 
-object SslUtils {
+object SSLUtils {
 
     fun getSslContextForCertificateFile(context: Context, fileName: String): SSLContext {
         try {

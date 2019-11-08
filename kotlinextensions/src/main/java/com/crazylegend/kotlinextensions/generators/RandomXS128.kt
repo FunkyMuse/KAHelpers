@@ -107,7 +107,7 @@ class RandomXS128 : Random {
      * @return the next pseudo-random `long` value between `0` (inclusive) and `n` (exclusive).
      */
     fun nextLong(n: Long): Long {
-        if (n <= 0) throw IllegalArgumentException("n must be positive")
+        require(n > 0) { "n must be positive" }
         while (true) {
             val bits = nextLong().ushr(1)
             val value = bits % n

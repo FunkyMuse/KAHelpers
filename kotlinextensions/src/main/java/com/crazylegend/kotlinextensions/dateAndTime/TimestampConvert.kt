@@ -125,7 +125,7 @@ object TimestampConvert {
      * Converts an asctime-style timestamp to a Date.
      */
     @Throws(ParseException::class)
-    fun asctimeToDate(timestamp: String): Date {
+    fun asctimeToDate(timestamp: String): Date? {
         return asctimeFormatter.parse(timestamp)
     }
 

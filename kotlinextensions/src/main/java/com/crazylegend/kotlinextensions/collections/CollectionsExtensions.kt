@@ -16,8 +16,6 @@ import kotlin.collections.ArrayList
  */
 
 
-
-
 /**
  * USAGE
  * listOf(1, 2, 3) * 4 gives you [4, 8, 12]
@@ -46,7 +44,6 @@ fun <T> List<T>.midElement(): T? {
 }
 
 
-
 /**
  * Gets mid element
  */
@@ -56,8 +53,6 @@ fun <T> ArrayList<T>.midElement(): T? {
     else
         this[size / 2]
 }
-
-
 
 
 /**
@@ -83,7 +78,6 @@ inline fun <T> List<T>.forEachReversedIndexed(f: (Int, T) -> Unit) {
 }
 
 
-
 /**
  * Iterate the receiver [ArrayList] backwards.
  */
@@ -107,9 +101,6 @@ inline fun <T> ArrayList<T>.forEachReversedIndexed(f: (Int, T) -> Unit) {
 }
 
 
-
-
-
 /**
  * get mid index of a list
  */
@@ -122,8 +113,6 @@ val <T> List<T>.midIndex: Int
  */
 val <T> ArrayList<T>.midIndex: Int
     get() = if (size == 0) 0 else size / 2
-
-
 
 
 /**
@@ -144,12 +133,16 @@ fun <T> List<List<T>>.concatToMutableList(): MutableList<T> = concat().toMutable
 /**
  * Adds [E] to this map if the same doesn't exist
  */
-fun <K, E> HashMap<K, E>.addIfNotExist(key: K, obj: E): E? = if (!this.containsKey(key)) put(key, obj) else { null }
+fun <K, E> HashMap<K, E>.addIfNotExist(key: K, obj: E): E? = if (!this.containsKey(key)) put(key, obj) else {
+    null
+}
 
 /**
  * Adds [E] to this map if the same doesn't exist
  */
-fun <K, E> MutableMap<K, E>.addIfNotExist(key: K, obj: E): E? = if (!this.containsKey(key)) put(key, obj) else { null }
+fun <K, E> MutableMap<K, E>.addIfNotExist(key: K, obj: E): E? = if (!this.containsKey(key)) put(key, obj) else {
+    null
+}
 
 fun <T> List<T>.randomItem(): T {
     return this[Random().nextInt(size)]
@@ -161,27 +154,31 @@ fun <T> ArrayList<T>.randomItem(): T {
 }
 
 
-
-
 /**
  * Returns a list containing all values in a [SparseArray].
  */
 val <T> SparseArray<T>.values: List<T>
     get() = ArrayList<T>().apply {
-        for (i in 0 until size()) { add(valueAt(i)) }
+        for (i in 0 until size()) {
+            add(valueAt(i))
+        }
     }
 
 /**
  * Sets value for specified key.
  */
-operator fun <T> SparseArray<T>.set(key: Int, value: T?) { put(key, value) }
+operator fun <T> SparseArray<T>.set(key: Int, value: T?) {
+    put(key, value)
+}
 
 /**
  * Copies keys and values from specified [SparseArray], overwriting own
  * key/value pairs.
  */
 operator fun <T> SparseArray<T>.plusAssign(array: SparseArray<T?>) {
-    for (i in 0 until array.size()) { put(array.keyAt(i), array.valueAt(i)) }
+    for (i in 0 until array.size()) {
+        put(array.keyAt(i), array.valueAt(i))
+    }
 }
 
 /**
@@ -281,20 +278,17 @@ fun <T> Iterable<T>.toDeque(): Deque<T> {
 /**
  * Returns a [Deque] filled with all elements of this collection.
  */
-fun <T> Collection<T>.toDeque(): Deque<T>
-        = ArrayDeque<T>(this)
+fun <T> Collection<T>.toDeque(): Deque<T> = ArrayDeque<T>(this)
 
 /**
  * Returns an empty new [Deque].
  */
-fun <T> dequeOf(): Deque<T>
-        = arrayDequeOf()
+fun <T> dequeOf(): Deque<T> = arrayDequeOf()
 
 /**
  * Returns an empty new [ArrayDeque].
  */
-fun <T> arrayDequeOf(): ArrayDeque<T>
-        = ArrayDeque()
+fun <T> arrayDequeOf(): ArrayDeque<T> = ArrayDeque()
 
 /**
  * Returns a new [Deque] with the given elements.
@@ -317,11 +311,11 @@ fun <T> arrayDequeOf(vararg elements: T): ArrayDeque<T> {
  * @param [arr] an array of any Comparable type.
  * @return the index of the first minimal element in the array.
  */
-fun <T: Comparable<T>> indexOfMin(arr: Array<T>) : Int {
+fun <T : Comparable<T>> indexOfMin(arr: Array<T>): Int {
     var minIndex = 0
     val minItem = arr[0]
 
-    for(i in 1 .. arr.size) {
+    for (i in 1..arr.size) {
         if (arr[minIndex] < minItem)
             minIndex = i
     }
@@ -437,9 +431,6 @@ fun <T> List<T?>.firstNotNull(): T = this.first { it != null } as T
 fun <T> ArrayList<T?>.firstNotNull(): T = this.first { it != null } as T
 
 
-
-
-
 /**
  * Returns the first element which is not null,
  * or the result of calling the [defaultValue] function if there are no elements or all elements are null.
@@ -511,18 +502,18 @@ inline fun <T> List<T?>.lastNotNullOrElse(defaultValue: () -> T): T = lastOrElse
 
 
 /**
-* splits a list into sublists
-* @param partitionSize the max size of each sublist. The last sub list may be shorter.
-* @return a List of Lists of T
-*/
+ * splits a list into sublists
+ * @param partitionSize the max size of each sublist. The last sub list may be shorter.
+ * @return a List of Lists of T
+ */
 fun <T> List<T>.split(partitionSize: Int): List<List<T>> {
-    if(this.isEmpty()) return emptyList()
-    if(partitionSize < 1) throw IllegalArgumentException("partitionSize must be positive")
+    if (this.isEmpty()) return emptyList()
+    if (partitionSize < 1) throw IllegalArgumentException("partitionSize must be positive")
 
     val result = ArrayList<List<T>>()
     var entry = ArrayList<T>(partitionSize)
     for (item in this) {
-        if(entry.size == partitionSize) {
+        if (entry.size == partitionSize) {
             result.add(entry)
             entry = ArrayList<T>()
         }
@@ -535,7 +526,7 @@ fun <T> List<T>.split(partitionSize: Int): List<List<T>> {
 /**
  * like map, but multithreaded. It uses the number of cores + 2 threads.
  */
-inline fun <T,V> List<T>.pmap(operation: (T) -> V): List<V> {
+inline fun <T, V> List<T>.pmap(operation: (T) -> V): List<V> {
     val threads = ArrayList<Thread>()
     val cores = Runtime.getRuntime().availableProcessors()
     // run each thread on a partitioned block to minimize thread setup/teardown
@@ -556,9 +547,9 @@ inline fun <T,V> List<T>.pmap(operation: (T) -> V): List<V> {
 }
 
 /**
-* Moves the given **T** item to the specified index
-*/
-fun <T> MutableList<T>.move(item: T, newIndex: Int)  {
+ * Moves the given **T** item to the specified index
+ */
+fun <T> MutableList<T>.move(item: T, newIndex: Int) {
     val currentIndex = indexOf(item)
     if (currentIndex < 0) return
     removeAt(currentIndex)
@@ -568,7 +559,7 @@ fun <T> MutableList<T>.move(item: T, newIndex: Int)  {
 /**
  * Moves the given item at the `oldIndex` to the `newIndex`
  */
-fun <T> MutableList<T>.moveAt(oldIndex: Int, newIndex: Int)  {
+fun <T> MutableList<T>.moveAt(oldIndex: Int, newIndex: Int) {
     val item = this[oldIndex]
     removeAt(oldIndex)
     if (oldIndex > newIndex)
@@ -585,7 +576,7 @@ fun <T> MutableList<T>.moveAll(newIndex: Int, predicate: (T) -> Boolean) {
     val split = partition(predicate)
     clear()
     addAll(split.second)
-    addAll(if (newIndex >= size) size else newIndex,split.first)
+    addAll(if (newIndex >= size) size else newIndex, split.first)
 }
 
 /**
@@ -623,7 +614,7 @@ fun <T> MutableList<T>.moveUp(item: T): Boolean {
     val currentIndex = indexOf(item)
     if (currentIndex == -1) return false
     val newIndex = (currentIndex - 1)
-    if (currentIndex <=0) return false
+    if (currentIndex <= 0) return false
     remove(item)
     add(newIndex, item)
     return true
@@ -638,7 +629,7 @@ fun <T> MutableList<T>.moveDown(item: T): Boolean {
     val currentIndex = indexOf(item)
     if (currentIndex == -1) return false
     val newIndex = (currentIndex + 1)
-    if (newIndex >= size)  return false
+    if (newIndex >= size) return false
     remove(item)
     add(newIndex, item)
     return true
@@ -648,26 +639,26 @@ fun <T> MutableList<T>.moveDown(item: T): Boolean {
 /**
  * Moves first element **T** up an index that satisfies the given **predicate**, unless its already at the top
  */
-inline fun <T> MutableList<T>.moveUp(crossinline predicate: (T) -> Boolean)  = find(predicate)?.let { moveUp(it) }
+inline fun <T> MutableList<T>.moveUp(crossinline predicate: (T) -> Boolean) = find(predicate)?.let { moveUp(it) }
 
 /**
  * Moves first element **T** down an index that satisfies the given **predicate**, unless its already at the bottom
  */
-inline fun <T> MutableList<T>.moveDown(crossinline predicate: (T) -> Boolean)  = find(predicate)?.let { moveDown(it) }
+inline fun <T> MutableList<T>.moveDown(crossinline predicate: (T) -> Boolean) = find(predicate)?.let { moveDown(it) }
 
 /**
  * Moves all **T** elements up an index that satisfy the given **predicate**, unless they are already at the top
  */
-inline fun <T> MutableList<T>.moveUpAll(crossinline predicate: (T) -> Boolean)  = asSequence().withIndex()
-    .filter { predicate.invoke(it.value) }
-    .forEach { moveUpAt(it.index) }
+inline fun <T> MutableList<T>.moveUpAll(crossinline predicate: (T) -> Boolean) = asSequence().withIndex()
+        .filter { predicate.invoke(it.value) }
+        .forEach { moveUpAt(it.index) }
 
 /**
  * Moves all **T** elements down an index that satisfy the given **predicate**, unless they are already at the bottom
  */
-inline fun <T> MutableList<T>.moveDownAll(crossinline predicate: (T) -> Boolean)  = asSequence().withIndex()
-    .filter { predicate.invoke(it.value) }
-    .forEach { moveDownAt(it.index) }
+inline fun <T> MutableList<T>.moveDownAll(crossinline predicate: (T) -> Boolean) = asSequence().withIndex()
+        .filter { predicate.invoke(it.value) }
+        .forEach { moveDownAt(it.index) }
 
 
 /**
@@ -677,34 +668,34 @@ fun <T> MutableList<T>.swap(itemOne: T, itemTwo: T) = swap(indexOf(itemOne), ind
 
 @JvmName("combinationsExtension")
 fun <A, B> List<A>.combinations(listB: List<B>): List<Pair<A, B>> =
-    combinations<A, B>(this, listB)
+        combinations<A, B>(this, listB)
 
 @JvmName("combinations")
 fun <A, B> combinations(listA: List<A>, listB: List<B>): List<Pair<A, B>> =
-    listA.flatMap { first -> listB.map { second -> first to second } }
+        listA.flatMap { first -> listB.map { second -> first to second } }
 
 @JvmName("combinationsExtension")
 fun <A, B, C> List<A>.combinations(listB: List<B>, listC: List<C>): List<Triple<A, B, C>> =
-    combinations<A, B, C>(this, listB, listC)
+        combinations<A, B, C>(this, listB, listC)
 
 @JvmName("combinations")
 fun <A, B, C> combinations(listA: List<A>, listB: List<B>, listC: List<C>): List<Triple<A, B, C>> =
-    listA.flatMap { first ->
-        listB.flatMap { second ->
-            listC.map { third ->
-                Triple(first, second, third)
+        listA.flatMap { first ->
+            listB.flatMap { second ->
+                listC.map { third ->
+                    Triple(first, second, third)
+                }
             }
         }
-    }
 
 fun <T> combinations(vararg listOfList: List<T>): List<List<T>> {
     return listOfList.fold(
-        initial = listOf(emptyList<T>()),
-        operation = { accumulateListOfList: List<List<T>>, elementList: List<T> ->
-            accumulateListOfList.flatMap { list: List<T> ->
-                elementList.map { element: T -> list + element }
+            initial = listOf(emptyList<T>()),
+            operation = { accumulateListOfList: List<List<T>>, elementList: List<T> ->
+                accumulateListOfList.flatMap { list: List<T> ->
+                    elementList.map { element: T -> list + element }
+                }
             }
-        }
     )
 }
 
@@ -720,7 +711,7 @@ infix fun <T> T.appendTo(list: List<T>) = list + listOf(this)
 infix fun <T> T.prependTo(list: List<T>) = listOf(this) + list
 
 fun <T> List<T>.swap(i: Int, j: Int): List<T> {
-    if (isInBounds(i) && isInBounds(j)){
+    if (isInBounds(i) && isInBounds(j)) {
         Collections.swap(this, i, j)
     }
     return this
@@ -731,35 +722,35 @@ private fun <T> List<T>.isInBounds(index: Int): Boolean {
 }
 
 
-inline fun <T> List<T>.startWith(item: T): List<T> {
+fun <T> List<T>.startWith(item: T): List<T> {
     val list = this.toMutableList()
     list.add(0, item)
     return list
 }
 
-inline fun <T> List<T>.startWith(data: List<T>): List<T> {
+fun <T> List<T>.startWith(data: List<T>): List<T> {
     val list = this.toMutableList()
     list.addAll(0, data)
     return list
 }
 
-inline fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
-    if (this.isNotEmpty()){
+fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
+    if (this.isNotEmpty()) {
         return startWith(item)
     }
     return this
 }
 
-inline fun <K, V> MutableMap<K, MutableList<V>>.deepCopy(): MutableMap<K, MutableList<V>> {
+fun <K, V> MutableMap<K, MutableList<V>>.deepCopy(): MutableMap<K, MutableList<V>> {
     val result = mutableMapOf<K, MutableList<V>>()
-    for ((key, value) in this){
+    for ((key, value) in this) {
         result[key] = value.toMutableList()
     }
     return result
 }
 
 fun <T> MutableList<T>.doIf(predicate: Boolean, action: MutableList<T>.() -> Any): MutableList<T> {
-    if (predicate){
+    if (predicate) {
         this.action()
     }
     return this
@@ -775,7 +766,7 @@ fun <T> MutableList<T>.removeFirst(predicate: (T) -> Boolean): Boolean {
     return false
 }
 
-fun <T> LongSparseArray<T>.toList(): List<T>{
+fun <T> LongSparseArray<T>.toList(): List<T> {
     val list = mutableListOf<T>()
 
     this.forEach { _, value -> list.add(value) }
@@ -783,9 +774,9 @@ fun <T> LongSparseArray<T>.toList(): List<T>{
     return list
 }
 
-fun <T> LongSparseArray<T>.toggle(key: Long, item: T){
+fun <T> LongSparseArray<T>.toggle(key: Long, item: T) {
     val current = this.get(key)
-    if (current == null){
+    if (current == null) {
         this.append(key, item)
     } else {
         this.remove(key)
@@ -813,8 +804,8 @@ inline fun <T : TypedArray?, R> T.use(block: (T) -> R): R {
 
 fun generateRandomIntegerList(size: Int, range: IntRange): MutableList<Int> {
     val resultList = ArrayList<Int>(size)
-    for (i in 1..size){
-        resultList.add( kotlin.random.Random.nextInt(range.start, range.endInclusive))
+    for (i in 1..size) {
+        resultList.add(kotlin.random.Random.nextInt(range.start, range.endInclusive))
     }
     return resultList
 }
@@ -829,13 +820,14 @@ fun <T> List<T>.getStringRepresentation(maxElements: Int = Integer.MAX_VALUE): S
     return string
 }
 
-fun <T: Comparable<T>> List<T>.isListSorted(): Boolean {
+fun <T : Comparable<T>> List<T>.isListSorted(): Boolean {
     return this == this.sorted()
 }
 
-val List<Int>.isBinarySearcheable: Boolean get()  {
-    return (this == this.distinct().sorted())
-}
+val List<Int>.isBinarySearcheable: Boolean
+    get() {
+        return (this == this.distinct().sorted())
+    }
 
 fun <K, V> Map<K, V?>.filterNotNullValues(): Map<K, V> {
     return mapNotNull { (key, nullableValue) ->
@@ -883,19 +875,19 @@ fun <T> MutableCollection<T>.replaceWith(collection: Collection<T>) {
  */
 fun <T> MutableList<T>.addOrReplace(item: T, predicate: (T) -> Boolean): Boolean {
     return this.indexOfFirst { predicate.invoke(it) }
-        .takeIf { it >= 0 }
-        ?.let { this[it] = item }
-        ?.let { true }
-        ?: this.add(item)
-            .let { false }
+            .takeIf { it >= 0 }
+            ?.let { this[it] = item }
+            ?.let { true }
+            ?: this.add(item)
+                    .let { false }
 }
 
-fun <S: MutableList<T>, T> S.addAnd(index: Int, item: T): S {
+fun <S : MutableList<T>, T> S.addAnd(index: Int, item: T): S {
     add(index, item)
     return this
 }
 
-fun <S: MutableCollection<T>, T> S.addAnd(item: T): S{
+fun <S : MutableCollection<T>, T> S.addAnd(item: T): S {
     add(item)
     return this
 }
@@ -905,7 +897,7 @@ fun <T> MutableCollection<T>.addAll(vararg items: T) {
 }
 
 
-val <T> Collection<T>?.isNotNullOrEmpty: Boolean get() = this!=null && this.isNotEmpty()
+val <T> Collection<T>?.isNotNullOrEmpty: Boolean get() = this != null && this.isNotEmpty()
 
 
 /**
@@ -940,35 +932,35 @@ fun <T> List<T>?.sizeOrZero(): Int {
 }
 
 fun <T> List<T>?.orEmptyString(string: String): String {
-    return if(this?.isEmpty() == true) "" else string
+    return if (this?.isEmpty() == true) "" else string
 }
 
 fun <T> flatten(vararg elements: List<T>): List<T> =
-    elements.flatMap { it }
+        elements.flatMap { it }
 
 fun <T> flatten(list: List<List<T>>): List<T> =
-    list.flatMap { it }
+        list.flatMap { it }
 
 inline fun <reified T> union(l: List<T>, vararg elements: T): List<T> =
-    flatten(l, elements.toList())
+        flatten(l, elements.toList())
 
 inline fun <reified T> union(l1: List<T>, l2: List<T>, vararg elements: T): List<T> =
-    flatten(l1, l2, elements.toList())
+        flatten(l1, l2, elements.toList())
 
 inline fun <reified T> union(l1: List<T>, l2: List<T>, l3: List<T>, vararg elements: T): List<T> =
-    flatten(l1, l2, l3, elements.toList())
+        flatten(l1, l2, l3, elements.toList())
 
 inline fun <reified T> union(l1: List<T>, l2: List<T>, l3: List<T>, l4: List<T>, vararg elements: T): List<T> =
-    flatten(l1, l2, l3, l4, elements.toList())
+        flatten(l1, l2, l3, l4, elements.toList())
 
 inline fun <reified T> union(l1: List<T>, l2: List<T>, l3: List<T>, l4: List<T>, l5: List<T>, vararg elements: T): List<T> =
-    flatten(l1, l2, l3, l4, l5, elements.toList())
+        flatten(l1, l2, l3, l4, l5, elements.toList())
 
 inline fun <T, R> Iterable<T>.mapToSet(transform: (T) -> R) =
-    this.map(transform).toSet()
+        this.map(transform).toSet()
 
 inline fun <T, R : Any> Iterable<T>.mapNotNullToSet(transform: (T) -> R?) =
-    this.mapNotNull(transform).toSet()
+        this.mapNotNull(transform).toSet()
 
 
 fun <T> Comparator<T>.sort(list: MutableList<T>) {
@@ -1136,7 +1128,7 @@ fun <K, V> Map<K, List<V>>.sectionKey(element: V): K? {
 }
 
 
-fun <T> T.mergeWith(items: Iterable<T>)  =
+fun <T> T.mergeWith(items: Iterable<T>) =
         mutableListOf(this).apply { addAll(items) }
 
 fun <T> T.mergeWith(vararg items: T) =
@@ -1190,30 +1182,27 @@ private fun <E> MutableList<E>.indexOfOrNull(element: E): Int? {
 }
 
 
+fun <T> Collection<T>?.isBlank(): Boolean = this == null || isEmpty()
 
-inline fun <T> Collection<T>?.isBlank(): Boolean = this == null || isEmpty()
+fun <T> Collection<T?>.anyNull(): Boolean = any { it == null }
 
-inline fun <T> Collection<T?>.anyNull(): Boolean = any { it == null }
+fun <T> Collection<T?>.allNull(): Boolean = all { it == null }
 
-inline fun <T> Collection<T?>.allNull(): Boolean = all { it == null }
+fun <T> Collection<T?>.countNulls(): Int = count { it == null }
+fun <T> Collection<T?>.countNonNulls(): Int = size - countNulls()
 
-inline fun <T> Collection<T?>.countNulls(): Int = count { it == null }
-inline fun <T> Collection<T?>.countNonNulls(): Int = size - countNulls()
+fun <T : Any> Iterable<T?>.trimNulls(): List<T> = filterNotNull()
+fun <T : Any> Iterable<T?>.trimNullsToMutableList(): MutableList<T> = filterNotNullTo(mutableListOf())
 
-inline fun <T : Any> Iterable<T?>.trimNulls(): List<T> = filterNotNull()
-inline fun <T : Any> Iterable<T?>.trimNullsToMutableList(): MutableList<T> = filterNotNullTo(mutableListOf())
+fun Iterable<String?>.trim(): List<String> = trimNulls().filterNot { it.isBlank() }
+fun Iterable<String?>.trimToMutableList(): MutableList<String> = trimNulls().filterNotTo(mutableListOf()) { it.isBlank() }
 
-inline fun Iterable<String?>.trim(): List<String> = trimNulls().filterNot { it.isBlank() }
-inline fun Iterable<String?>.trimToMutableList(): MutableList<String> = trimNulls().filterNotTo(mutableListOf()) { it.isBlank() }
+fun <T1, T2> Iterable<T1>.combine(other: Iterable<T2>): List<Pair<T1, T2>> = combine(other) { thisItem: T1, otherItem: T2 -> Pair(thisItem, otherItem) }
+fun <T1, T2> Iterable<T1>.combineToMutableList(other: Iterable<T2>): MutableList<Pair<T1, T2>> = combineToMutableList(other) { thisItem: T1, otherItem: T2 -> Pair(thisItem, otherItem) }
 
-inline fun <T1, T2> Iterable<T1>.combine(other: Iterable<T2>): List<Pair<T1, T2>> = combine(other) { thisItem: T1, otherItem: T2 -> Pair(thisItem, otherItem) }
-inline fun <T1, T2> Iterable<T1>.combineToMutableList(other: Iterable<T2>): MutableList<Pair<T1, T2>> = combineToMutableList(other) { thisItem: T1, otherItem: T2 -> Pair(thisItem, otherItem) }
+inline fun <T1, T2, R> Iterable<T1>.combine(other: Iterable<T2>, transform: (thisItem: T1, otherItem: T2) -> R): List<R> = flatMap { thisItem -> other.map { otherItem -> transform(thisItem, otherItem) } }
 
-inline fun <T1, T2, R> Iterable<T1>.combine(other: Iterable<T2>, transform: (thisItem: T1, otherItem: T2) -> R): List<R>
-        = flatMap { thisItem -> other.map { otherItem -> transform(thisItem, otherItem) } }
-
-inline fun <T1, T2, R> Iterable<T1>.combineToMutableList(other: Iterable<T2>, transform: (thisItem: T1, otherItem: T2) -> R): MutableList<R>
-        = flatMapTo(mutableListOf()) { thisItem -> other.map { otherItem -> transform(thisItem, otherItem) } }
+inline fun <T1, T2, R> Iterable<T1>.combineToMutableList(other: Iterable<T2>, transform: (thisItem: T1, otherItem: T2) -> R): MutableList<R> = flatMapTo(mutableListOf()) { thisItem -> other.map { otherItem -> transform(thisItem, otherItem) } }
 
 inline fun <T, R> Iterable<T>.mapToMutableList(transform: (T) -> R): MutableList<R> = mapTo(mutableListOf(), transform)
 inline fun <T, R> Iterable<T>.flatMapToMutableList(transform: (T) -> Iterable<R>): MutableList<R> = flatMapTo(mutableListOf(), transform)
@@ -1231,37 +1220,37 @@ fun <T> MutableList<T>.swapMutable(i: Int, j: Int): MutableList<T> {
 
 fun <T> List<T>.swapped(i: Int, j: Int): List<T> = toMutableList().swapMutable(i, j)
 
-inline fun <T> List<T>.getRandom(generator: Random = Random()): T = get(generator.nextInt(size))
+fun <T> List<T>.getRandom(generator: Random = Random()): T = get(generator.nextInt(size))
 
-inline fun <T> MutableList<T>.shuffle(generator: Random = Random()): MutableList<T> = apply { Collections.shuffle(this, generator) }
+fun <T> MutableList<T>.shuffle(generator: Random = Random()): MutableList<T> = apply { Collections.shuffle(this, generator) }
 
-inline fun <T> List<T>.shuffled(generator: Random = Random()): List<T> = toMutableList().shuffle()
+fun <T> List<T>.shuffled(generator: Random = Random()): List<T> = toMutableList().shuffle()
 
-inline fun randomIntList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt() }
-inline fun randomIntList(size: Int, bound: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt(bound) }
-inline fun randomFloatList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextFloat() }
-inline fun randomDoubleList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextDouble() }
-inline fun randomBooleanList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextBoolean() }
+fun randomIntList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt() }
+fun randomIntList(size: Int, bound: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt(bound) }
+fun randomFloatList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextFloat() }
+fun randomDoubleList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextDouble() }
+fun randomBooleanList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextBoolean() }
 
-inline fun <T> List<T>.encapsulate(): List<List<T>> = map { listOf(it) }
-inline fun <T> List<T>.encapsulateToMutableList(): MutableList<MutableList<T>> = mapToMutableList { mutableListOf(it) }
+fun <T> List<T>.encapsulate(): List<List<T>> = map { listOf(it) }
+fun <T> List<T>.encapsulateToMutableList(): MutableList<MutableList<T>> = mapToMutableList { mutableListOf(it) }
 
-inline fun <T> Collection<T>.init(): List<T> = take(size - 1)
+fun <T> Collection<T>.init(): List<T> = take(size - 1)
 
 inline val Collection<*>.half: Int get() = size / 2
 
-inline fun <T> Collection<T>.firstHalf(): List<T> = take(half)
-inline fun <T> Collection<T>.secondHalf(): List<T> = drop(half)
+fun <T> Collection<T>.firstHalf(): List<T> = take(half)
+fun <T> Collection<T>.secondHalf(): List<T> = drop(half)
 
-inline fun <T> Collection<T>.split(index: Int): Pair<List<T>, List<T>> = take(index) to drop(index)
-inline fun <T> Collection<T>.split(): Pair<List<T>, List<T>> = split(half)
+fun <T> Collection<T>.split(index: Int): Pair<List<T>, List<T>> = take(index) to drop(index)
+fun <T> Collection<T>.split(): Pair<List<T>, List<T>> = split(half)
 
-fun<K,V> Map<K, V>.keyAt(value: V): K? {
+fun <K, V> Map<K, V>.keyAt(value: V): K? {
     val entry = entries.find { it.value == value }
     return entry?.key
 }
 
-fun<K,V> Map<K, V>.valueAt(key: V): V? {
+fun <K, V> Map<K, V>.valueAt(key: V): V? {
     val entry = entries.find { it.key == key }
     return entry?.value
 }

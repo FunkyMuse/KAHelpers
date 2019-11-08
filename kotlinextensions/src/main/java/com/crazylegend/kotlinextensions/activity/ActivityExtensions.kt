@@ -169,7 +169,7 @@ inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
  * Force restart an entire application
  */
 @RequiresApi(Build.VERSION_CODES.M)
-inline fun Activity.restartApplication() {
+fun Activity.restartApplication() {
     val intent = packageManager.getLaunchIntentForPackage(packageName)
     intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
     val pending = PendingIntent.getActivity(this, 666, intent, PendingIntent.FLAG_CANCEL_CURRENT)
@@ -184,7 +184,7 @@ inline fun Activity.restartApplication() {
 
 fun Activity.finishSlideOut() {
     finish()
-    overridePendingTransition(R.anim.fade_in, R.anim.abc_fade_out)
+    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
 }
 
 
@@ -473,7 +473,7 @@ fun Activity.hideBottomBar() {
  * Sets the screen brightness. Call this before setContentView.
  * 0 is dimmest, 1 is brightest. Default value is 1
  */
-inline fun Activity.brightness(brightness: Float = 1f) {
+fun Activity.brightness(brightness: Float = 1f) {
     val params = window.attributes
     params.screenBrightness = brightness // range from 0 - 1 as per docs
     window.attributes = params
@@ -481,14 +481,14 @@ inline fun Activity.brightness(brightness: Float = 1f) {
 }
 
 
-inline fun <T> Activity.extra(key: String): Lazy<T?> {
+fun <T> Activity.extra(key: String): Lazy<T?> {
     return lazy(LazyThreadSafetyMode.NONE) {
         @Suppress("UNCHECKED_CAST")
         intent.extras?.get(key) as T
     }
 }
 
-inline fun <T> Activity.extraOrNull(key: String): Lazy<T?> {
+fun <T> Activity.extraOrNull(key: String): Lazy<T?> {
     return lazy(LazyThreadSafetyMode.NONE) {
         @Suppress("UNCHECKED_CAST")
         intent.extras?.get(key) as? T?
@@ -516,14 +516,14 @@ val View.hasNotch: Boolean
     }
 
 
-inline fun Activity.lockCurrentScreenOrientation() {
+fun Activity.lockCurrentScreenOrientation() {
     requestedOrientation = when (resources.configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         else -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
     }
 }
 
-inline fun Activity.unlockScreenOrientation() {
+fun Activity.unlockScreenOrientation() {
     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
 }
 

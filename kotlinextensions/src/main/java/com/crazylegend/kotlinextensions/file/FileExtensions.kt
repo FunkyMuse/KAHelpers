@@ -109,7 +109,8 @@ fun File.isImage(): Boolean {
 /**
  * Convert File to ByteArray
  */
-fun File.toByteArray(): ByteArray { val bos = ByteArrayOutputStream(this.length().toInt())
+fun File.toByteArray(): ByteArray {
+    val bos = ByteArrayOutputStream(this.length().toInt())
     val input = FileInputStream(this)
     val size = 1024
     val buffer = ByteArray(size)
@@ -127,7 +128,7 @@ fun File.toByteArray(): ByteArray { val bos = ByteArrayOutputStream(this.length(
  * Copies data from input stream
  */
 fun File.copyFromInputStream(inputStream: InputStream) =
-    inputStream.use { input -> outputStream().use { output -> input.copyTo(output) } }
+        inputStream.use { input -> outputStream().use { output -> input.copyTo(output) } }
 
 fun Context.deleteCache() {
     try {
@@ -154,8 +155,6 @@ fun deleteDir(@Nullable dir: File?): Boolean {
 }
 
 
-
-
 fun String.toUri(): Uri {
     return Uri.parse(this)
 }
@@ -163,7 +162,6 @@ fun String.toUri(): Uri {
 fun File.toUri(): Uri {
     return Uri.fromFile(this)
 }
-
 
 
 fun File.copyInputStreamToFile(inputStream: InputStream) {
@@ -218,8 +216,6 @@ private fun File.copyDirectory(dest: File) {
 }
 
 
-
-
 private fun File.moveDirectory(dest: File) {
     copyDirectory(dest)
     deleteAll()
@@ -233,7 +229,6 @@ fun ContentResolver.fileSize(uri: Uri): Long? {
 }
 
 
-
 /**
  * Gets the actual path of the [Uri].
  */
@@ -241,7 +236,7 @@ fun Uri.getRealPath(context: Context): String? {
 
 
     // DocumentProvider
-    if ( DocumentsContract.isDocumentUri(context, this)) {
+    if (DocumentsContract.isDocumentUri(context, this)) {
         // ExternalStorageProvider
         if (isExternalStorageDocument()) {
             val docId = DocumentsContract.getDocumentId(this)
@@ -306,8 +301,8 @@ fun Context.getDataColumn(uri: Uri, selection: String?, selectionArgs: Array<Str
     try {
         cursor = this.contentResolver.query(uri, projection, selection, selectionArgs, null)
         if (cursor != null && cursor.moveToFirst()) {
-            val column_index = cursor.getColumnIndexOrThrow(column)
-            return cursor.getString(column_index)
+            val columnIndex = cursor.getColumnIndexOrThrow(column)
+            return cursor.getString(columnIndex)
         }
     } finally {
         cursor?.close()
@@ -316,15 +311,15 @@ fun Context.getDataColumn(uri: Uri, selection: String?, selectionArgs: Array<Str
 }
 
 
-fun downloadFile(urlPath :String, localPath :String, callback :(Uri?) -> Unit = {}) :Uri? {
-    var uri :Uri? = null
+fun downloadFile(urlPath: String, localPath: String, callback: (Uri?) -> Unit = {}): Uri? {
+    var uri: Uri? = null
     val connection = URL(urlPath).openConnection() as HttpURLConnection
 
-    if(connection.responseCode == HttpURLConnection.HTTP_OK) {
+    if (connection.responseCode == HttpURLConnection.HTTP_OK) {
         uri = Uri.fromFile(connection.inputStream.outAsFile(localPath.toFile()))
     }
     connection.disconnect()
-    if(uri is Uri) {
+    if (uri is Uri) {
         callback(uri)
     } else {
         callback(null)
@@ -332,11 +327,11 @@ fun downloadFile(urlPath :String, localPath :String, callback :(Uri?) -> Unit = 
     return uri
 }
 
-fun downloadFile(urlPath :String, localPath :String, callback : OneParamInvocation<Uri>?) :Uri? {
-    var uri :Uri? = null
+fun downloadFile(urlPath: String, localPath: String, callback: OneParamInvocation<Uri>?): Uri? {
+    var uri: Uri? = null
     val connection = URL(urlPath).openConnection() as HttpURLConnection
 
-    if(connection.responseCode == HttpURLConnection.HTTP_OK) {
+    if (connection.responseCode == HttpURLConnection.HTTP_OK) {
         uri = Uri.fromFile(connection.inputStream.outAsFile(localPath.toFile()))
     }
     connection.disconnect()
@@ -346,61 +341,34 @@ fun downloadFile(urlPath :String, localPath :String, callback : OneParamInvocati
 
 fun String.toFile() = File(this)
 
-fun saveFile(fullPath :String, content :String) :File =
+fun saveFile(fullPath: String, content: String): File =
         fullPath.toFile().apply {
             writeText(content, Charset.defaultCharset())
         }
 
-fun File.readFile() :String = this.readText(Charset.defaultCharset())
+fun File.readFileText(): String = this.readText(Charset.defaultCharset())
 
-private fun getDataColumnPrivate(context :Context, uri :Uri?, selection :String?, selectionArgs :Array<String>?) :String {
+private fun getDataColumnPrivate(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String {
     uri?.let {
         context.contentResolver.query(it, arrayOf("_data"), selection, selectionArgs, null).use {
-        if(it != null && it.moveToFirst()) {
-            val columnIndex = it.getColumnIndexOrThrow("_data")
-            return it.getString(columnIndex)
+            if (it != null && it.moveToFirst()) {
+                val columnIndex = it.getColumnIndexOrThrow("_data")
+                return it.getString(columnIndex)
+            }
         }
-    }
     }
     return ""
 }
 
 
-
- fun Uri.checkAuthority(context :Context) :String? {
-    val docId = DocumentsContract.getDocumentId(this)
-    val split = docId.split(":".toRegex()).dropLastWhile {it.isEmpty()}.toTypedArray()
-
-    if("com.android.externalstorage.documents" == this.authority) {
-        val type = split[0]
-
-        if("primary".equals(type, ignoreCase = true))
-            return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
-    } else if("com.android.providers.downloads.documents" == this.authority) {
-        return getDataColumnPrivate(context, ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), docId.toLong()), null, null)
-    } else if("com.android.providers.media.documents" == this.authority) {
-        val contentUri = when(split[0]) {
-            "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            else -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        }
-
-        return getDataColumnPrivate(context, contentUri, "_id=?", arrayOf(split[1]))
-    }
-
-    return this.path
-}
-
-
- fun Context.getDataColumns(uri :Uri?, selection :String?, selectionArgs :Array<String>?) :String? {
-    var cursor :Cursor? = null
+fun Context.getDataColumns(uri: Uri?, selection: String?, selectionArgs: Array<String>?): String? {
+    var cursor: Cursor? = null
     val column = "_data"
     val projection = arrayOf(column)
 
     try {
         cursor = uri?.let { contentResolver.query(it, projection, selection, selectionArgs, null) }
-        if(cursor != null && cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             val index = cursor.getColumnIndexOrThrow(column)
             return cursor.getString(index)
         }
@@ -410,10 +378,10 @@ private fun getDataColumnPrivate(context :Context, uri :Uri?, selection :String?
     return null
 }
 
- fun isExternalStorageDocument(uri :Uri) :Boolean = "com.android.externalstorage.documents" == uri.authority
- fun isDownloadsDocument(uri :Uri) :Boolean = "com.android.providers.downloads.documents" == uri.authority
- fun isMediaDocument(uri :Uri) :Boolean = "com.android.providers.media.documents" == uri.authority
- fun isGooglePhotosUri(uri :Uri) :Boolean = "com.google.android.apps.photos.content" == uri.authority
+fun isExternalStorageDocument(uri: Uri): Boolean = "com.android.externalstorage.documents" == uri.authority
+fun isDownloadsDocument(uri: Uri): Boolean = "com.android.providers.downloads.documents" == uri.authority
+fun isMediaDocument(uri: Uri): Boolean = "com.android.providers.media.documents" == uri.authority
+fun isGooglePhotosUri(uri: Uri): Boolean = "com.google.android.apps.photos.content" == uri.authority
 
 fun InputStream.getString(): String = this.bufferedReader().use {
     it.readText()
@@ -458,12 +426,11 @@ fun Context.getUriFromFile(file: File, authority: String): Uri {
 }
 
 
-
 /**
  * Checks and returns if there's a valid directory with given path
  */
 fun String.getAsDirectory(): File? {
-    val directory = File(Environment.getExternalStorageDirectory(), this)
+    val directory = File(Environment.getRootDirectory(), this)
     return if (directory.exists()) {
         directory
     } else {
@@ -599,11 +566,11 @@ private fun File.verifiedDirectoryFiles(): Array<File> {
     }
 
     return listFiles()
-        ?: // null if security restricted
-        throw IOException("Failed to list contents of $this")
+            ?: // null if security restricted
+            throw IOException("Failed to list contents of $this")
 }
 
-fun <T: Any> T.getJarDirectory(): String? = File(this::class.java.protectionDomain?.codeSource?.location?.toURI()?.path).path
+fun <T : Any> T.getJarDirectory(): String? = File(this::class.java.protectionDomain?.codeSource?.location?.toURI()?.path.toString()).path
 
 
 fun File.extractName(): String {

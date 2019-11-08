@@ -35,8 +35,6 @@ fun doStartingFromSdk(version: Int, f: () -> Unit, `else`: () -> Unit = {}) {
 fun doStartingFromSdk(version: Int, f: () -> Unit) {
     if (Build.VERSION.SDK_INT >= version) {
         f()
-    } else {
-        /* no-op */
     }
 }
 
@@ -58,8 +56,6 @@ fun doIfSdk(version: Int, f: () -> Unit, `else`: () -> Unit = {}) {
 fun doIfSdk(version: Int, f: () -> Unit) {
     if (Build.VERSION.SDK_INT == version) {
         f()
-    } else {
-        /* no-op */
     }
 }
 
@@ -120,14 +116,9 @@ inline fun doWithLowerApi(sdkCode: Int, block: () -> Unit) {
     }
 }
 
-
-
-
 fun isLollipop(): Boolean =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
-fun isPreLollipop(): Boolean =
-        Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
 
 enum class Api(val sdkCode: Int) {
 

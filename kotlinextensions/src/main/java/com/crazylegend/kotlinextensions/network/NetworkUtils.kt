@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.network
 
 import android.content.Context
 import android.net.wifi.WifiManager
-import com.crazylegend.kotlinextensions.tryOrElse
 import com.crazylegend.kotlinextensions.tryOrNull
 import java.net.InetAddress
 import java.net.UnknownHostException

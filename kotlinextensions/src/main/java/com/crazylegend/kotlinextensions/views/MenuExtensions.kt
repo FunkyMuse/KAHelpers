@@ -50,7 +50,7 @@ import com.crazylegend.kotlinextensions.R
         // If we don't mutate the drawable, then all drawables with this id will have a color
         // filter applied to it.
         drawable.mutate()
-        drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+        drawable.colorFilterCompat(color)
 
         if (alpha > 0) {
             drawable.alpha = alpha

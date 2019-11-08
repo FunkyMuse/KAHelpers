@@ -127,6 +127,7 @@ inline fun <reified T> JobScheduler?.scheduleJob(context: Context, id: Int,
     return jobInfo
 }
 
+@Suppress("DEPRECATION")
 inline fun <reified T> Context.isJobRunning(): Boolean {
     val manager = activityManager
     for (service in manager.getRunningServices(Integer.MAX_VALUE)) {

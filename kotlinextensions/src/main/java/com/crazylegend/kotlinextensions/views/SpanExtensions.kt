@@ -19,7 +19,7 @@ import android.view.View
  */
 fun CharSequence.toColorSpan(range: IntRange, color: Int = Color.RED): SpannableString {
     return SpannableString(this).apply {
-        setSpan(ForegroundColorSpan(color), range.start, range.endInclusive, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        setSpan(ForegroundColorSpan(color), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 }
 
@@ -30,7 +30,7 @@ fun CharSequence.toColorSpan(range: IntRange, color: Int = Color.RED): Spannable
  */
 fun CharSequence.toBackgroundColorSpan(range: IntRange, color: Int = Color.RED): SpannableString {
     return SpannableString(this).apply {
-        setSpan(BackgroundColorSpan(color), range.start, range.endInclusive, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        setSpan(BackgroundColorSpan(color), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 }
 
@@ -40,7 +40,7 @@ fun CharSequence.toBackgroundColorSpan(range: IntRange, color: Int = Color.RED):
  */
 fun CharSequence.toStrikeThroughSpan(range: IntRange): SpannableString {
     return SpannableString(this).apply {
-        setSpan(StrikethroughSpan(), range.start, range.endInclusive, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        setSpan(StrikethroughSpan(), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 }
 
@@ -59,7 +59,7 @@ fun CharSequence.toClickSpan(range: IntRange, color: Int = Color.RED, isUnderlin
                 ds.isUnderlineText = isUnderlineText
             }
         }
-        setSpan(clickableSpan, range.start, range.endInclusive, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        setSpan(clickableSpan, range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 }
 
@@ -70,7 +70,7 @@ fun CharSequence.toClickSpan(range: IntRange, color: Int = Color.RED, isUnderlin
  */
 fun CharSequence.toSizeSpan(range: IntRange, scale: Float = 1.5f): SpannableString {
     return SpannableString(this).apply {
-        setSpan(RelativeSizeSpan(scale), range.start, range.endInclusive, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        setSpan(RelativeSizeSpan(scale), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }
 }
 

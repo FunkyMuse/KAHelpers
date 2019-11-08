@@ -24,7 +24,7 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
 
     private val CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE"
 
-    private  var intentFilter = IntentFilter(CONNECTIVITY_CHANGE)
+    private var intentFilter = IntentFilter(CONNECTIVITY_CHANGE)
     private var connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     private lateinit var networkCallback: NetworkCallback
 
@@ -42,7 +42,7 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager.registerDefaultNetworkCallback(networkCallback)
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
                 val builder = NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).addTransportType(
-                    NetworkCapabilities.TRANSPORT_WIFI
+                        NetworkCapabilities.TRANSPORT_WIFI
                 )
                 connectivityManager.registerNetworkCallback(builder.build(), networkCallback)
             }
@@ -69,10 +69,7 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
     }
 
     private fun updateConnection() {
-
-       /* val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-        postValue(activeNetwork?.isConnected == true)*/
-        postValue(  context.isOnline)
+        postValue(context.isOnline)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

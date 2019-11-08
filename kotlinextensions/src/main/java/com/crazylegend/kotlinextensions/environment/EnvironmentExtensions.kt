@@ -15,3 +15,9 @@ inline val Environment.isExternalStorageWritable
 
 inline val Environment.isExternalStorageReadable
     get() = Environment.getExternalStorageState() == MEDIA_MOUNTED_READ_ONLY || isExternalStorageWritable
+
+inline val dataDir get() = Environment.getDataDirectory()
+
+inline val downloadCacheDir get() = Environment.getDownloadCacheDirectory()
+
+inline val rootDir get() = Environment.getRootDirectory()

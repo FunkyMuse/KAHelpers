@@ -302,10 +302,7 @@ fun Context.dialPhoneNumber(phoneNumber: String) {
     }
 }
 
-fun Context.showTimePicker(
-         hourOfDay: Int, minute: Int, is24Hour: Boolean,
-        action: (view: TimePicker, hourOfDay: Int, minute: Int) -> Unit
-) =
+fun Context.showTimePicker(hourOfDay: Int, minute: Int, is24Hour: Boolean, action: (view: TimePicker, hourOfDay: Int, minute: Int) -> Unit) =
         TimePickerDialog(this, TimePickerDialog.OnTimeSetListener(action), hourOfDay, minute, is24Hour).show()
 
 

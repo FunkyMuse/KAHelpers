@@ -33,7 +33,7 @@ fun Context.vibrate(milliseconds: Long) {
  * Check whether device has Vibrator
  */
 val Context.hasVibrator: Boolean get() {
-        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val vibrator = this.getSystemService(VIBRATOR_SERVICE) as Vibrator
         return vibrator.hasVibrator()
 }
 

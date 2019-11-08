@@ -1,6 +1,8 @@
 package com.crazylegend.kotlinextensions.biometric
 
 import android.Manifest.permission.USE_BIOMETRIC
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
@@ -11,6 +13,7 @@ import java.util.concurrent.Executors
  * Created by hristijan on 4/2/19 to long live and prosper !
  */
 
+@RequiresApi(Build.VERSION_CODES.P)
 @RequiresPermission(allOf = [USE_BIOMETRIC])
 fun FragmentActivity.biometricAuth(
     promptInfo: BiometricPrompt.PromptInfo,

@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.ui
 import android.view.GestureDetector
 import android.view.MotionEvent
 import com.crazylegend.kotlinextensions.math.MathUtils
+import kotlin.math.abs
 
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
@@ -43,7 +44,7 @@ open class ScrollListener(val width: () -> Int, val height: () -> Int) : Gesture
         val dY = startY - (e2?.y ?: 0f)
 
         return when {
-            Math.abs(dX) <= thresholdX && Math.abs(dY) <= thresholdY -> false
+            abs(dX) <= thresholdX && abs(dY) <= thresholdY -> false
             else -> {
 
                 val percentX = (dX) / width()

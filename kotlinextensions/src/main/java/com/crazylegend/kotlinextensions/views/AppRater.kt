@@ -14,13 +14,13 @@ import androidx.appcompat.app.AlertDialog
 
 /*
 USAGE
-AppRater.app_launched(this, "Friendz", 0, 1)*/
+AppRater.app_launched(this, getString(R.string.app_name), 0, 1)*/
 
 
 object AppRater {
 
 
-    fun app_launched(context: Context, APP_TITLE:String, DAYS_UNTIL_PROMPT:Int, LAUNCHES_UNTIL_PROMPT:Int) {
+    fun app_launched(context: Context, APP_TITLE:String, DAYS_UNTIL_PROMPT:Int, LAUNCHES_UNTIL_PROMPT:Int, message:String?=null) {
         val prefs = context.getSharedPreferences("apprater", 0)
         if (prefs.getBoolean("dontshowagain", false)) {
             return
@@ -44,19 +44,19 @@ object AppRater {
         // Wait at least n days before opening
         if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
             if (System.currentTimeMillis() >= date_firstLaunch!! + DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000) {
-                showRateDialog(context, editor, APP_TITLE)
+                showRateDialog(context, editor, APP_TITLE, message)
             }
         }
 
         editor.apply()
     }
 
-    private fun showRateDialog(context: Context, editor: SharedPreferences.Editor?, APP_TITLE: String) {
+    private fun showRateDialog(context: Context, editor: SharedPreferences.Editor?, APP_TITLE: String, message: String?) {
         val dialogBuilder = AlertDialog.Builder(context)
         val dialog = dialogBuilder.create()
         dialog.setTitle("Rate $APP_TITLE")
 
-        dialog.setMessage("If you're enjoy using $APP_TITLE, please take a moment to rate it. Thanks for your support!")
+        dialog.setMessage(message?:"If you're enjoy using $APP_TITLE, please take a moment to rate it. Thanks for your support!")
 
         dialog.setButton(Dialog.BUTTON_POSITIVE, "Rate $APP_TITLE"){
             dialog, _ ->

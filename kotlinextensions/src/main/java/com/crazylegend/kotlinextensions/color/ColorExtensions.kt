@@ -18,6 +18,8 @@ import com.crazylegend.kotlinextensions.context.drawable
 import com.crazylegend.kotlinextensions.context.resolveColor
 import com.crazylegend.kotlinextensions.numbers.round
 import java.util.*
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 
 /**
@@ -77,9 +79,9 @@ fun Int.isColorVisibleOn(
     @androidx.annotation.IntRange(from = 0L, to = 255L) minAlpha: Int = 50
 ): Boolean =
     if (Color.alpha(this) < minAlpha) false
-    else !(Math.abs(Color.red(this) - Color.red(color)) < delta &&
-            Math.abs(Color.green(this) - Color.green(color)) < delta &&
-            Math.abs(Color.blue(this) - Color.blue(color)) < delta)
+    else !(abs(Color.red(this) - Color.red(color)) < delta &&
+            abs(Color.green(this) - Color.green(color)) < delta &&
+            abs(Color.blue(this) - Color.blue(color)) < delta)
 
 @ColorInt
 fun Context.getDisabledColor(): Int {
@@ -90,7 +92,7 @@ fun Context.getDisabledColor(): Int {
 
 @ColorInt
 fun Int.adjustAlpha(factor: Float): Int {
-    val alpha = Math.round(Color.alpha(this) * factor)
+    val alpha = (Color.alpha(this) * factor).roundToInt()
     return Color.argb(alpha, Color.red(this), Color.green(this), Color.blue(this))
 }
 
@@ -113,7 +115,7 @@ fun Int.withAlpha(@androidx.annotation.IntRange(from = 0, to = 0xFF) alpha: Int)
 
 @ColorInt
 fun Int.withMinAlpha(@androidx.annotation.IntRange(from = 0, to = 0xFF)alpha: Int): Int =
-    withAlpha(Math.max(alpha, this ushr 24))
+    withAlpha(alpha.coerceAtLeast(this ushr 24))
 
 @ColorInt
 private inline fun Int.colorFactor(rgbFactor: (Int) -> Float): Int {

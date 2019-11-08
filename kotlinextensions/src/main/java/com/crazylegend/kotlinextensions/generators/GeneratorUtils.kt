@@ -29,10 +29,8 @@ fun createRandomImageUrl(): String {
     )
 }
 
-@JvmOverloads
 fun generateRandomColorDrawable(alpha: Int = 255, red: Int = 255, green: Int = 255, blue: Int = 255): ColorDrawable = ColorDrawable(generateRandomColor(alpha, red, green, blue))
 
-@JvmOverloads
 fun generateRandomColor(alpha: Int = 255, red: Int = 255, green: Int = 255, blue: Int = 255): Int {
 
     var r = random(256)

@@ -58,19 +58,19 @@ fun ViewPager2.onPageScrolled(
 }
 
 
-inline fun ViewPager2.back(animate: Boolean = true) {
+fun ViewPager2.back(animate: Boolean = true) {
     setCurrentItem(currentItem - 1, animate)
 }
 
-inline fun ViewPager2.forward(animate: Boolean = true) {
+fun ViewPager2.forward(animate: Boolean = true) {
     setCurrentItem(currentItem + 1, animate)
 }
 
-inline fun ViewPager2.isOnLastPage(): Boolean {
+fun ViewPager2.isOnLastPage(): Boolean {
     return currentItem == (adapter?.itemCount ?: 0) - 1
 }
 
-inline fun ViewPager2.isOnFirstPage(): Boolean {
+fun ViewPager2.isOnFirstPage(): Boolean {
     return currentItem == 0
 }
 

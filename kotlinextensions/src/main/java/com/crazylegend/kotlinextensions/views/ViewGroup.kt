@@ -123,7 +123,7 @@ inline fun ViewGroup.eachChild(func: (view: View) -> Unit) {
 /**
  * Gets Child View at index
  */
-inline operator fun ViewGroup.get(i: Int): View? = getChildAt(i)
+operator fun ViewGroup.get(i: Int): View? = getChildAt(i)
 
 
 

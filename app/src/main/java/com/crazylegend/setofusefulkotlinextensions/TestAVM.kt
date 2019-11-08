@@ -2,17 +2,9 @@ package com.crazylegend.setofusefulkotlinextensions
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import com.crazylegend.kotlinextensions.coroutines.makeApiCallAsync
-import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveData
 import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveDataAsync
-import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveDataListAsync
-import com.crazylegend.kotlinextensions.handlers.ViewState
-import com.crazylegend.kotlinextensions.handlers.hookViewStateResult
-import com.crazylegend.kotlinextensions.livedata.liveDataOf
-import com.crazylegend.kotlinextensions.retrofit.*
+import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
+import retrofit2.create
 
 
 /**
@@ -30,7 +22,7 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
     }
 
     private val retrofit by lazy {
-        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, true).create<TestApi>()
+        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, true)?.create<TestApi>()
     }
 
 }

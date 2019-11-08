@@ -53,7 +53,7 @@ open class DividerView @JvmOverloads constructor(context: Context, attrs: Attrib
         mPaint.pathEffect = DashPathEffect(floatArrayOf(dashLength.toFloat(), dashGap.toFloat()), 0f)
     }
 
-    protected override fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas) {
         if (orientation == ORIENTATION_HORIZONTAL) {
             val center = height * .5f
             canvas.drawLine(0f, center, width.toFloat(), center, mPaint)
@@ -64,7 +64,7 @@ open class DividerView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     companion object {
-        var ORIENTATION_HORIZONTAL = 0
-        var ORIENTATION_VERTICAL = 1
+        const val ORIENTATION_HORIZONTAL = 0
+        const val ORIENTATION_VERTICAL = 1
     }
 }

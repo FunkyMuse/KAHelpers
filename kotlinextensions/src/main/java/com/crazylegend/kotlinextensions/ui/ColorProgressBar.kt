@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.widget.ProgressBar
 import androidx.annotation.ColorInt
 import com.crazylegend.kotlinextensions.R
+import com.crazylegend.kotlinextensions.views.colorFilterCompat
 
 
 /**
@@ -45,7 +46,7 @@ class ColorProgressBar : ProgressBar {
      * Set Color Dynamically
      */
     fun setColor(@ColorInt color: Int): ColorProgressBar {
-        indeterminateDrawable.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY)
+        indeterminateDrawable.colorFilterCompat(color)
         return this
     }
 }

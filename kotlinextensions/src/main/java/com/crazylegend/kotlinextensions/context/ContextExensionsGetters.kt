@@ -367,10 +367,10 @@ inline val Context.isOneHanded: Boolean get() {
 }
 
 
-inline fun Context.isPermissionGranted(permission: String): Boolean =
+fun Context.isPermissionGranted(permission: String): Boolean =
     ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 
-inline fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
+fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
     permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
 
 

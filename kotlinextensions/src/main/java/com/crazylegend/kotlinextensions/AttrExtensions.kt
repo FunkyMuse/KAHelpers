@@ -19,7 +19,7 @@ import androidx.annotation.ColorInt
  * @return the color, or [Color.TRANSPARENT] if failed to resolve
  */
 @ColorInt
-inline fun Context.themeAttrColor(@AttrRes attributeColor: Int): Int {
+fun Context.themeAttrColor(@AttrRes attributeColor: Int): Int {
     val attrs = intArrayOf(attributeColor)
     val ta = obtainStyledAttributes(attrs)
     val color = ta.getColor(0, Color.TRANSPARENT)
@@ -35,7 +35,7 @@ inline fun Context.themeAttrColor(@AttrRes attributeColor: Int): Int {
  * @param attributeDrawable the attribute drawable, ex R.attr.selectableItemBackground
  * @return the drawable, if it exists in the theme context
  */
-inline fun Context.themeAttrDrawable(@AttrRes attributeDrawable: Int): Drawable? {
+fun Context.themeAttrDrawable(@AttrRes attributeDrawable: Int): Drawable? {
     val attrs = intArrayOf(attributeDrawable)
     val ta = obtainStyledAttributes(attrs)
     val drawableFromTheme = ta.getDrawable(0)
@@ -49,7 +49,7 @@ inline fun Context.themeAttrDrawable(@AttrRes attributeDrawable: Int): Drawable?
  * @param attributeDimen the attribute dimen, ex R.attr.actionBarSize
  * @return the dimen pixel size, if it exists in the theme context. Otherwise, -1
  */
-inline fun Context.themeAttrDimen(@AttrRes attributeDimen: Int): Float {
+fun Context.themeAttrDimen(@AttrRes attributeDimen: Int): Float {
     val tv = TypedValue()
 
     var value = -1

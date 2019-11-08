@@ -1,6 +1,5 @@
 package com.crazylegend.kotlinextensions.file
 
-import android.os.Environment
 import android.webkit.MimeTypeMap
 import androidx.documentfile.provider.DocumentFile
 import com.crazylegend.kotlinextensions.containsInArray
@@ -33,7 +32,7 @@ inline val DocumentFile.isAudio: Boolean
     get() {
         val type = this.type
         return type != null && !type.isEmptyString() && (type.startsWith("audio") ||
-                type.containsInArray("application / ogg", "application/x-flac"))
+                type.containsInArray("application/ogg", "application/x-flac"))
     }
 /**
  * Determines if current [DocumentFile] is a Video
@@ -48,10 +47,6 @@ inline val DocumentFile.isVideo: Boolean
 
 val DocumentFile.hasPreview: Boolean
     get() = isImage || isVideo
-
-fun File.isStorageDir(): Boolean {
-    return this == Environment.getExternalStorageDirectory()
-}
 
 fun File.isAudioFile(): Boolean {
     return fileIsMimeType("audio/*", MimeTypeMap.getSingleton())  ||

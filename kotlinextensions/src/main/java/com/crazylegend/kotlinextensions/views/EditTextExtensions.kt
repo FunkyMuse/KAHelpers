@@ -1,8 +1,6 @@
 package com.crazylegend.kotlinextensions.views
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.PorterDuff
 import android.os.Handler
 import android.text.*
 import android.view.*
@@ -176,16 +174,12 @@ fun EditText.onTextChanged(onTextChanged: (chars: CharSequence?, start: Int, cou
 
 fun EditText.requestFocusAndKeyboard() {
     requestFocus()
-    val imm: InputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE)
-            as InputMethodManager
-    imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    context.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
 
 fun EditText.clearFocusAndKeyboard() {
     clearFocus()
-    val imm: InputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE)
-            as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, 0)
+    context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
 }
 
 /**
@@ -256,16 +250,10 @@ fun EditText.setCursorColor(color: Int) {
         fCursorDrawable.isAccessible = true
         val drawables = arrayOf(
             context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
-                this?.setColorFilter(
-                    color,
-                    PorterDuff.Mode.SRC_IN
-                )
+                this?.colorFilterCompat(color)
             },
             context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
-                this?.setColorFilter(
-                    color,
-                    PorterDuff.Mode.SRC_IN
-                )
+                this?.colorFilterCompat(color)
             }
         )
         fCursorDrawable.set(editor, drawables)
@@ -397,7 +385,7 @@ fun EditText.hideKeyboardDelayed(delayMillis: Long) =
             false
         }
         this.setTextIsSelectable(false)
-        this.customSelectionActionModeCallback = object : android.view.ActionMode.Callback {
+        this.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                 return false
             }
@@ -406,11 +394,11 @@ fun EditText.hideKeyboardDelayed(delayMillis: Long) =
                 return false
             }
 
-            override fun onCreateActionMode(mode: android.view.ActionMode, menu: Menu): Boolean {
+            override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
                 return false
             }
 
-            override fun onDestroyActionMode(mode: android.view.ActionMode) {
+            override fun onDestroyActionMode(mode: ActionMode) {
 
             }
         }

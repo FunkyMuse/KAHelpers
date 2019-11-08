@@ -29,6 +29,7 @@ import io.reactivex.schedulers.Schedulers
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlin.math.ceil
 
 
 /**
@@ -347,7 +348,7 @@ fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap 
             }
             exifInterface
         } else {
-            ExifInterface(if (inputUri.scheme == "file") inputUri.path else inputUri.getRealPath(this))
+            ExifInterface(if (inputUri.scheme == "file") inputUri.path.toString() else inputUri.getRealPath(this).toString())
         }
         val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)
         when (orientation) {
@@ -391,9 +392,7 @@ private fun saveBitmap(outputFile: File, bitmap: Bitmap, compression: Int) {
         e.printStackTrace()
     } finally {
         try {
-            if (out != null) {
-                out.close()
-            }
+            out?.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -474,8 +473,8 @@ private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int,
 
     if (height > reqHeight || width > reqWidth) {
         // Calculate ratios of height and width to requested height and width
-        val heightRatio = Math.ceil(height.toDouble() / reqHeight.toDouble()).toInt()
-        val widthRatio = Math.ceil(width.toDouble() / reqWidth.toDouble()).toInt()
+        val heightRatio = ceil(height.toDouble() / reqHeight.toDouble()).toInt()
+        val widthRatio = ceil(width.toDouble() / reqWidth.toDouble()).toInt()
 
         // Choose the smallest ratio as inSampleSize value, this will guarantee
         // a final image with both dimensions be just smaller than or equal to the
@@ -491,8 +490,8 @@ private inline fun calculateInSampleSizeMax(options: BitmapFactory.Options, maxW
 
     if (options.outHeight > maxHeight || options.outWidth > maxWidth) {
         // Calculate ratios of height and width to requested height and width
-        val heightRatio = Math.ceil(options.outHeight / maxHeight.toDouble()).toInt()
-        val widthRatio = Math.ceil(options.outWidth / maxWidth.toDouble()).toInt()
+        val heightRatio = ceil(options.outHeight / maxHeight.toDouble()).toInt()
+        val widthRatio = ceil(options.outWidth / maxWidth.toDouble()).toInt()
 
         // Choose the bigger ratio as inSampleSize value, this will guarantee
         // a final image with both dimensions smaller than or equal to the

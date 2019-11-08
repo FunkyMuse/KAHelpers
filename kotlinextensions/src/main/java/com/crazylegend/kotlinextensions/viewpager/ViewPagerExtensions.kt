@@ -71,19 +71,19 @@ fun ViewPager.listener(onPageScrollStateChanged: (state: Int) -> Unit = {_ ->},
     })
 }
 
-inline fun ViewPager.back(animate: Boolean = true) {
+fun ViewPager.back(animate: Boolean = true) {
     setCurrentItem(currentItem - 1, animate)
 }
 
-inline fun ViewPager.forward(animate: Boolean = true) {
+fun ViewPager.forward(animate: Boolean = true) {
     setCurrentItem(currentItem + 1, animate)
 }
 
-inline fun ViewPager.isOnLastPage(): Boolean {
+fun ViewPager.isOnLastPage(): Boolean {
     return currentItem == (adapter?.count ?: 0) - 1
 }
 
-inline fun ViewPager.isOnFirstPage(): Boolean {
+fun ViewPager.isOnFirstPage(): Boolean {
     return currentItem == 0
 }
 

@@ -50,7 +50,7 @@ fun createSimpleRippleDrawable(@ColorInt foregroundColor: Int, @ColorInt backgro
     return RippleDrawable(states, content, mask)
 }
 
-inline fun RippleDrawable.forceAnimation(timeInMs: Long = 200) {
+fun RippleDrawable.forceAnimation(timeInMs: Long = 200) {
     state = intArrayOf(android.R.attr.state_pressed, android.R.attr.state_enabled)
     val handler = Handler()
     handler.postDelayed({ state = intArrayOf() }, timeInMs)
@@ -59,7 +59,7 @@ inline fun RippleDrawable.forceAnimation(timeInMs: Long = 200) {
 /**
  * Sets the bounds of the drawable to be centered around the location [centerX], [centerY] based on minimum size.
  */
-inline fun Drawable.setBoundsCentered(centerX: Float, centerY: Float) = setBoundsCentered(centerX.toInt(), centerY.toInt())
+fun Drawable.setBoundsCentered(centerX: Float, centerY: Float) = setBoundsCentered(centerX.toInt(), centerY.toInt())
 
 /**
  * Sets the bounds of the drawable to be centered around the location [centerX], [centerY] based on minimum size.

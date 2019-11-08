@@ -24,14 +24,11 @@ inline infix fun <reified T> Pair<Boolean, T>.or(t: T): T = if (first) second el
 fun Boolean.onTrue(function: () -> Unit) {
     if (this) {
         function()
-    } else {
-
     }
 }
 
 fun Boolean.onFalse(function: () -> Unit) {
-    if (this) {
-    } else {
+    if (!this) {
         function()
     }
 }

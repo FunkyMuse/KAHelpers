@@ -79,7 +79,7 @@ fun Fragment.withTargetFragment(fragment: Fragment, reqCode: Int): Fragment {
     return this
 }
 
-inline fun Fragment.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(requireContext(), id)
+fun Fragment.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(requireContext(), id)
 
 /**
  * Get dimension defined by attribute [attr]

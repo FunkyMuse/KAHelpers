@@ -33,6 +33,7 @@ import javax.security.cert.CertificateException
     private val RSA_MODE = "RSA/ECB/PKCS1Padding" // RSA algorithm which has to be used for OS version less than M
     private var keyStore: KeyStore? = null
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun generateKey(context: Context) {
 
         try {

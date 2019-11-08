@@ -1,3 +1,4 @@
+
 package com.crazylegend.kotlinextensions.misc
 
 import android.os.Parcel
