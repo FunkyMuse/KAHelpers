@@ -65,13 +65,13 @@ dependencies {
 
 
     //live data
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc02'
     implementation 'android.arch.lifecycle:reactivestreams:1.1.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc01'
-    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.2.0-rc01'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc01'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc01'
-    kapt 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc02'
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.2.0-rc02'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc02'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc02'
+    kapt 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc02'
 
 
     //joda time
@@ -113,10 +113,10 @@ dependencies {
 
     //core
     implementation 'androidx.preference:preference:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.0-rc01'
-    implementation 'androidx.activity:activity-ktx:1.1.0-rc01'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0-rc02'
+    implementation 'androidx.activity:activity-ktx:1.1.0-rc02'
     implementation 'androidx.palette:palette-ktx:1.0.0'
-    implementation 'androidx.core:core-ktx:1.2.0-beta01'
+    implementation 'androidx.core:core-ktx:1.2.0-beta02'
 
     //android apis
     implementation 'androidx.viewpager2:viewpager2:1.0.0-rc01'
