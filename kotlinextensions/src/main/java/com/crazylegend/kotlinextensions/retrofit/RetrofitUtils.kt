@@ -96,7 +96,6 @@ fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
     }
 }
 
-@kotlin.contracts.ExperimentalContracts
 fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?) {
     if (pathToFile.isNotNullOrEmpty()) {
         val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
