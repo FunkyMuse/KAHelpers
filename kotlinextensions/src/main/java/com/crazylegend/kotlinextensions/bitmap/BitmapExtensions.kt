@@ -20,6 +20,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
+import androidx.core.graphics.scale
 import androidx.palette.graphics.Palette
 import com.crazylegend.kotlinextensions.file.getRealPath
 import com.crazylegend.kotlinextensions.file.outAsBitmap
@@ -30,6 +31,7 @@ import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.math.ceil
+import kotlin.math.min
 
 
 /**
@@ -104,6 +106,46 @@ fun Activity.createColoredBitmapFullScreen(color: Int): Bitmap {
 
 
     return bitmap
+}
+
+
+fun Bitmap.cropCenterSquare(sideLength: Int? = null, filter: Boolean = true): Bitmap {
+    val minLength = min(width, height)
+    val left = ((width / 2f) - (minLength / 2f)).toInt()
+    val top = ((height / 2f) - (minLength / 2f)).toInt()
+    var bitmap = Bitmap.createBitmap(this, left, top, minLength, minLength)
+    sideLength?.also {
+        bitmap = Bitmap.createScaledBitmap(bitmap, sideLength, sideLength, filter)
+        bitmap = bitmap.scale(sideLength, sideLength, filter)
+    }
+    return bitmap
+}
+
+
+fun Resources.decodeBitmap(resId: Int, options: BitmapFactory.Options? = null): Bitmap? {
+    return BitmapFactory.decodeResource(this, resId, options)
+}
+
+fun InputStream.decodeBitmap(
+        outPadding: Rect? = null,
+        options: BitmapFactory.Options? = null
+): Bitmap? {
+    return BitmapFactory.decodeStream(this, outPadding, options)
+}
+
+fun FileDescriptor.decodeBitmap(
+        outPadding: Rect? = null,
+        options: BitmapFactory.Options? = null
+): Bitmap? {
+    return BitmapFactory.decodeFileDescriptor(this, outPadding, options)
+}
+
+fun ByteArray.decodeBitmap(
+        offset: Int,
+        length: Int,
+        options: BitmapFactory.Options? = null
+): Bitmap? {
+    return BitmapFactory.decodeByteArray(this, offset, length, options)
 }
 
 

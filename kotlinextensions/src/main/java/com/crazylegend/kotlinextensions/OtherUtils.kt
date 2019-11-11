@@ -59,7 +59,7 @@ inline fun belowApi(api: Int, included: Boolean = false, block: () -> Unit) {
     }
 }
 
-inline fun AssetManager.openAsString(fileName: String): String {
+fun AssetManager.openAsString(fileName: String): String {
     val inputStream = open(fileName)
     val size = inputStream.available()
     val buffer = ByteArray(size)
@@ -604,3 +604,5 @@ fun <T, R>allIsNotNull(vararg values: T, out: () -> R?): R? {
     }
     return out()
 }
+
+

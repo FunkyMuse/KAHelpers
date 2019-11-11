@@ -4,6 +4,8 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.SystemClock
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -149,4 +151,24 @@ fun Drawable.colorFilterCompat(color: Int) {
 
 fun View.setOnClickCoroutine(owner: LifecycleOwner, listener: suspend (view: View) -> Unit) =
         this.setOnClickListener { owner.lifecycleScope.launch { listener(it) } }
+
+
+
+fun View.fakeTouch() {
+    val downTime = SystemClock.uptimeMillis()
+    val eventTime = SystemClock.uptimeMillis() + 100
+    val x = 0.0f
+    val y = 0.0f
+    val metaState = 0
+    val motionEvent = MotionEvent.obtain(
+            downTime,
+            eventTime,
+            MotionEvent.ACTION_UP,
+            x,
+            y,
+            metaState
+    )
+    dispatchTouchEvent(motionEvent)
+    motionEvent.recycle()
+}
 

@@ -445,3 +445,9 @@ fun EditText.deleteAllWhenContainsStar() {
         false
     }
 }
+
+fun EditText.setReadOnly(readOnly: Boolean, inputType: Int = InputType.TYPE_NULL) {
+    isFocusable = !readOnly
+    isFocusableInTouchMode = !readOnly
+    this.inputType = inputType
+}

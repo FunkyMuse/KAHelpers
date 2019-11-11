@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.dateAndTime
 
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -26,4 +27,18 @@ fun extractMinutes(millis: Long): Long {
 fun extractSeconds(millis: Long): Long {
     return millis / 1000 % 60
 }
+
+
+private val millis
+    get() = System.currentTimeMillis()
+
+val unixTime
+    get() = currentDate.unixTime
+
+
+val currentCalendar: Calendar
+    get() = Calendar.getInstance()
+
+val Date.unixTime
+    get() = time / 1000
 

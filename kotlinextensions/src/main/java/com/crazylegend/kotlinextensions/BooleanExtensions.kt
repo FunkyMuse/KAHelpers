@@ -34,6 +34,7 @@ fun Boolean.onFalse(function: () -> Unit) {
 }
 
 fun Boolean?.orFalse(): Boolean = this ?: false
+fun Boolean?.orTrue() : Boolean = this ?: true
 
 fun Boolean?.nullAsFalse(): Boolean {
     return this ?: false
@@ -42,3 +43,5 @@ fun Boolean?.nullAsFalse(): Boolean {
 fun Boolean?.nullAsTrue(): Boolean {
     return this ?: false
 }
+
+
