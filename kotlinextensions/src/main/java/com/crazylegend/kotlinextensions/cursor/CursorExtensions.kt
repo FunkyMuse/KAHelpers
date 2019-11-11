@@ -1,6 +1,8 @@
 package com.crazylegend.kotlinextensions.cursor
 
 import android.database.Cursor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 
 /**
@@ -126,4 +128,57 @@ inline operator fun <reified T> Cursor.get(columnIndex: Int): T? {
             else -> throw IllegalArgumentException("Unrecognized type: ${T::class.java.canonicalName}")
         }
     } as T?
+}
+
+
+
+/**
+ * Create a [Iterable] that returns all the data from the [Cursor].
+ *
+ * Each element in the iterator represents one row from the cursor as a [Map]. The key is the column
+ * name, and the value is the value of the column.
+ */
+fun Cursor.asIterable(): Iterable<Map<String, Any?>> = Iterable {
+    object : Iterator<Map<String, Any?>> {
+        override fun hasNext(): Boolean = position < count - 1
+
+        override fun next(): Map<String, Any?> {
+            moveToNext()
+            return getRow()
+        }
+    }
+}
+
+/**
+ * Create a [Sequence] that returns all the data from the [Cursor].
+ *
+ * Each element in the sequence represents one row from the cursor as a [Map]. The key is the column
+ * name, and the value is the value of the column.
+ */
+fun Cursor.asSequence(): Sequence<Map<String, Any?>> = generateSequence {
+    if (moveToNext()) getRow() else null
+}
+
+/**
+ * Create a [Flow] that returns all the data from the [Cursor].
+ *
+ * Each element in the flow represents one row from the cursor as a [Map]. The key is the column
+ * name, and the value is the value of the column.
+ */
+fun Cursor.asFlow(): Flow<Map<String, Any?>> = flow { while (moveToNext()) emit(getRow()) }
+
+private fun Cursor.getRow(): Map<String, Any?> = hashMapOf<String, Any?>().apply {
+    (0 until columnCount).forEach { index ->
+        put(
+                getColumnName(index),
+                when (getType(index)) {
+                    Cursor.FIELD_TYPE_BLOB -> getBlob(index)
+                    Cursor.FIELD_TYPE_FLOAT -> getDouble(index)
+                    Cursor.FIELD_TYPE_INTEGER -> getLong(index)
+                    Cursor.FIELD_TYPE_NULL -> null
+                    Cursor.FIELD_TYPE_STRING -> getString(index)
+                    else -> null
+                }
+        )
+    }
 }

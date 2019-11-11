@@ -1043,3 +1043,5 @@ inline fun <reified T> T.logString(): String {
     return sb.toString()
 }
 
+
+const val NEW_LINE = "\n"

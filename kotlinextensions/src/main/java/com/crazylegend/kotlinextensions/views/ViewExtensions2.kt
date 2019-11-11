@@ -171,4 +171,3 @@ fun View.fakeTouch() {
     dispatchTouchEvent(motionEvent)
     motionEvent.recycle()
 }
-

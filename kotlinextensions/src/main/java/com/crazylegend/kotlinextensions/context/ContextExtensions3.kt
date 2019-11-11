@@ -14,6 +14,7 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -688,3 +689,27 @@ fun Application.isApkInDebug(): Boolean {
         false
     }
 }
+
+val Context.isDarkTheme
+    get() = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+        Configuration.UI_MODE_NIGHT_NO,
+        Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+        else -> true
+    }
+
+/**
+ * Unwraps the [Activity] backing this [Context] if available. This is typically useful for
+ * [View] instances, as they typically return an instance of [ContextWrapper] from [View.getContext]
+ *
+ * This property will return null for [Service] and [Application] backed [ContextWrapper]
+ * instances as you would expect.
+ */
+val Context.unwrapActivity: Activity?
+    get() {
+        var wrapped = this
+        while (wrapped is ContextWrapper)
+            if (wrapped is Activity) return wrapped
+            else wrapped = wrapped.baseContext
+
+        return null
+    }

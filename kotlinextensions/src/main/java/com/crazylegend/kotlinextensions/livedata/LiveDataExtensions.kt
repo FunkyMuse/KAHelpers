@@ -9,6 +9,8 @@ import com.crazylegend.kotlinextensions.database.onSuccess
 import com.crazylegend.kotlinextensions.reflection.firstPropertyValue
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.retrofit.onSuccess
+import io.reactivex.Flowable
+import io.reactivex.Single
 
 
 /**
@@ -557,3 +559,4 @@ inline fun <reified T> LiveData<List<T>>.switchMapSearchAPI(searchQuery: Mutable
 }
 
 
+fun <T> Flowable<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this)
