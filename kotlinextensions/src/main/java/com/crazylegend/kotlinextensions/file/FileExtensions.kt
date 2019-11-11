@@ -244,7 +244,7 @@ fun Uri.getRealPath(context: Context): String? {
             val type = split[0]
 
             if ("primary".equals(type, ignoreCase = true)) {
-                return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                return Environment.getRootDirectory().toString() + "/" + split[1]
             }
 
         } else if (isDownloadsDocument()) {
@@ -491,6 +491,7 @@ fun File.lastModifiedDateTimeAsString(): String = SimpleDateFormat("dd.MM.yyyy H
 val String.fileExtension
     get() = File(this).extension
 
+@Throws(FileNotFoundException::class)
 fun File.mkdirsIfNotExist() = parentFile.exists() || parentFile.mkdirs()
 
 /**
