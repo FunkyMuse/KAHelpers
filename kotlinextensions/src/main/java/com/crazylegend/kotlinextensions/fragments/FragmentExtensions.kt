@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.TypedValue
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
@@ -591,7 +592,6 @@ fun Fragment.showKeyboard() {
 }
 
 
-
 /**
  * An extension to `postponeEnterTransition` which will resume after a timeout.
  */
@@ -599,3 +599,8 @@ fun Fragment.postponeEnterTransition(timeout: Long) {
     postponeEnterTransition()
     Handler().postDelayed({ startPostponedEnterTransition() }, timeout)
 }
+
+/**
+ * Get the activity's rootView
+ */
+val Fragment.rootView: View? get() = requireActivity().findViewById(android.R.id.content)
