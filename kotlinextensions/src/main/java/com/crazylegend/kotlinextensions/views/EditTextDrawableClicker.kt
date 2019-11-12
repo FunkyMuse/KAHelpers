@@ -2,7 +2,7 @@ package com.crazylegend.kotlinextensions.views
 
 import android.view.MotionEvent
 import android.widget.EditText
-import com.crazylegend.kotlinextensions.tryOrElse
+import androidx.core.view.doOnLayout
 
 
 /**
@@ -23,13 +23,16 @@ class EditTextDrawableClicker {
             DRAWABLE_BOTTOM
     )
 
-    fun clickListener(event: MotionEvent, editText: EditText, drawablePosition: Int, defaultDrawablePosition:Int, action: () -> Unit) {
+    fun clickListener(event: MotionEvent, editText: EditText, drawablePosition: Int, action: () -> Unit) {
         if (event.action == MotionEvent.ACTION_UP) {
-            val width = tryOrElse(defaultDrawablePosition){
-                (editText.right - editText.compoundDrawables[positions[drawablePosition]].bounds.width())
-            }
-            if (event.rawX >= width) {
-                action()
+            editText.doOnLayout {
+                if (!editText.compoundDrawables.isNullOrEmpty()) {
+                    val width = (editText.right - editText.compoundDrawables[positions[drawablePosition]].bounds.width())
+
+                    if (event.rawX >= width) {
+                        action()
+                    }
+                }
             }
         }
     }
