@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IntRange
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.crazylegend.kotlinextensions.context.colorWithOpacity
@@ -171,3 +173,59 @@ fun View.fakeTouch() {
     dispatchTouchEvent(motionEvent)
     motionEvent.recycle()
 }
+
+
+fun View.doOnApplyWindowInsets(f: (View, insets: WindowInsetsCompat, initialPadding: ViewDimensions, initialMargin: ViewDimensions) -> Unit
+) {
+    // Create a snapshot of the view's padding state
+    val initialPadding = createStateForViewPadding(this)
+    val initialMargin = createStateForViewMargin(this)
+    ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
+        f(v, insets, initialPadding, initialMargin)
+        insets
+    }
+    requestApplyInsetsWhenAttached()
+}
+
+/**
+ * Call [View.requestApplyInsets] in a safe away. If we're attached it calls it straight-away.
+ * If not it sets an [View.OnAttachStateChangeListener] and waits to be attached before calling
+ * [View.requestApplyInsets].
+ */
+fun View.requestApplyInsetsWhenAttached() {
+    if (isAttachedToWindow) {
+        requestApplyInsets()
+    } else {
+        addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {
+                v.requestApplyInsets()
+            }
+
+            override fun onViewDetachedFromWindow(v: View) = Unit
+        })
+    }
+}
+
+
+private fun createStateForViewPadding(view: View) = ViewDimensions(
+        view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom, view.paddingStart,
+        view.paddingEnd
+)
+
+private fun createStateForViewMargin(view: View): ViewDimensions {
+    return (view.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+        ViewDimensions(it.leftMargin, it.topMargin, it.rightMargin, it.bottomMargin,
+                it.marginStart, it.marginEnd)
+    } ?: ViewDimensions()
+}
+
+data class ViewDimensions(
+        val left: Int = 0,
+        val top: Int = 0,
+        val right: Int = 0,
+        val bottom: Int = 0,
+        val start: Int = 0,
+        val end: Int = 0
+)
+
+fun View.isRtl() = layoutDirection == View.LAYOUT_DIRECTION_RTL

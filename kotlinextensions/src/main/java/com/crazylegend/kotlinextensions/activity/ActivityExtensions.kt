@@ -720,3 +720,12 @@ var Activity.isLightStatusBar
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
     }
+
+
+/**
+ * An extension to `postponeEnterTransition` which will resume after a timeout.
+ */
+fun Activity.postponeEnterTransition(timeout: Long) {
+    postponeEnterTransition()
+    window.decorView.postDelayed({ startPostponedEnterTransition() }, timeout)
+}

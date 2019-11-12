@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveDataScope
 import androidx.lifecycle.liveData
 import com.crazylegend.kotlinextensions.database.DBResult
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
 import retrofit2.Response
@@ -139,3 +140,14 @@ fun <T> makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>>? {
 suspend fun <T> LiveDataScope<DBResult<T>>.subscribeDBCall(res: T) {
     emit(DBResult.Success(res))
 }
+
+/**
+ * Cancel the Job if it's active.
+ */
+fun Job?.cancelIfActive() {
+    if (this?.isActive == true) {
+        cancel()
+    }
+}
+
+

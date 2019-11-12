@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -587,4 +588,14 @@ fun Fragment.showKeyboard() {
                 view?.rootView?.apply { post { inputMethodManager.showSoftInput(this, 0) } }
                         ?: inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
             }
+}
+
+
+
+/**
+ * An extension to `postponeEnterTransition` which will resume after a timeout.
+ */
+fun Fragment.postponeEnterTransition(timeout: Long) {
+    postponeEnterTransition()
+    Handler().postDelayed({ startPostponedEnterTransition() }, timeout)
 }

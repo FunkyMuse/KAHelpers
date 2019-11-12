@@ -560,3 +560,11 @@ inline fun <reified T> LiveData<List<T>>.switchMapSearchAPI(searchQuery: Mutable
 
 
 fun <T> Flowable<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this)
+
+fun <T> MutableLiveData<T>.setValueIfNew(newValue: T) {
+    if (this.value != newValue) value = newValue
+}
+
+fun <T> MutableLiveData<T>.postValueIfNew(newValue: T) {
+    if (this.value != newValue) postValue(newValue)
+}

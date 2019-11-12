@@ -606,3 +606,10 @@ fun <T, R>allIsNotNull(vararg values: T, out: () -> R?): R? {
 }
 
 
+/**
+ * Implementation of lazy that is not thread safe. Useful when you know what thread you will be
+ * executing on and are not worried about synchronization.
+ */
+fun <T> lazyFast(operation: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) {
+    operation()
+}

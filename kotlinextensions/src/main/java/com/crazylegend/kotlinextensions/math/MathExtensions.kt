@@ -156,6 +156,14 @@ fun Int.randomStrings(): String {
     return randomStringBuilder.toString()
 }
 
+/**
+ * Linearly interpolate between two values.
+ */
+fun lerp(a: Float, b: Float, t: Float): Float {
+    return a + (b - a) * t
+}
+
+
 object FloatMath {
     val PI: Float = Math.PI.toFloat()
     val E: Float = Math.E.toFloat()

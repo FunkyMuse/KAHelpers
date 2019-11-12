@@ -1045,3 +1045,35 @@ inline fun <reified T> T.logString(): String {
 
 
 const val NEW_LINE = "\n"
+
+
+fun String.wrapInQuotes(): String {
+    var formattedConfigString: String = this
+    if (!startsWith("\"")) {
+        formattedConfigString = "\"$formattedConfigString"
+    }
+    if (!endsWith("\"")) {
+        formattedConfigString = "$formattedConfigString\""
+    }
+    return formattedConfigString
+}
+
+fun String.unwrapQuotes(): String {
+    var formattedConfigString: String = this
+    if (formattedConfigString.startsWith("\"")) {
+        if (formattedConfigString.length > 1) {
+            formattedConfigString = formattedConfigString.substring(1)
+        } else {
+            formattedConfigString = ""
+        }
+    }
+    if (formattedConfigString.endsWith("\"")) {
+        if (formattedConfigString.length > 1) {
+            formattedConfigString =
+                    formattedConfigString.substring(0, formattedConfigString.length - 1)
+        } else {
+            formattedConfigString = ""
+        }
+    }
+    return formattedConfigString
+}

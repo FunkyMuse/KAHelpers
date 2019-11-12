@@ -581,8 +581,6 @@ fun RecyclerView.withPagerSnapHelper(): RecyclerView = apply {
 }
 
 
-
-
 fun RecyclerView.isFirstChild(view: View): Boolean = getChildAdapterPosition(view) == 0
 
 fun RecyclerView.isLastChild(view: View): Boolean = getChildAdapterPosition(view) == childCount - 1
@@ -591,3 +589,12 @@ fun RecyclerView.isLastChild(view: View): Boolean = getChildAdapterPosition(view
 
 inline val RecyclerView.ViewHolder.resources: Resources
     get() = itemView.context.resources
+
+
+fun RecyclerView.clearDecorations() {
+    if (itemDecorationCount > 0) {
+        for (i in itemDecorationCount - 1 downTo 0) {
+            removeItemDecorationAt(i)
+        }
+    }
+}
