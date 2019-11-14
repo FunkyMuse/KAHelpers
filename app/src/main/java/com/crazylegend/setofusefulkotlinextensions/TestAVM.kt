@@ -21,6 +21,7 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
         retrofit?.getPosts()
     }
 
+
     private val retrofit by lazy {
         RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, true)?.create<TestApi>()
     }

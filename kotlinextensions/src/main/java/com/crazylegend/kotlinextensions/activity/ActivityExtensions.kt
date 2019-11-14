@@ -340,7 +340,7 @@ fun FragmentManager.remove(vararg removeFragment: Fragment) {
 
 fun FragmentManager.removeTo(removeTo: Fragment, isIncludeSelf: Boolean = false) {
     val ft = this.beginTransaction()
-    val fragments = this.getFmFragments()
+    val fragments = this.getFragmentManagerFragments()
     for (i in (fragments.size - 1)..0) {
         val fragment = fragments[i]
         if (fragment == removeTo && isIncludeSelf) {
@@ -354,7 +354,7 @@ fun FragmentManager.removeTo(removeTo: Fragment, isIncludeSelf: Boolean = false)
 
 
 fun FragmentManager.removeAll() {
-    val frg = getFmFragments()
+    val frg = getFragmentManagerFragments()
     if (frg.isEmpty()) return
 
     val ft = this.beginTransaction()
@@ -413,7 +413,7 @@ fun FragmentManager.switch(
         ft.add(containerId, showFragment, tag)
     }
 
-    for (tempF in this.getFmFragments()) {
+    for (tempF in this.getFragmentManagerFragments()) {
         if (tempF != fragmentByTag) {
             ft.hide(tempF)
         }
@@ -421,12 +421,12 @@ fun FragmentManager.switch(
     ft.commit()
 }
 
-fun FragmentManager.getTop(): Fragment? {
-    val frg = getFmFragments()
+fun FragmentManager.getTopFragment(): Fragment? {
+    val frg = getFragmentManagerFragments()
     return frg.ifEmpty { return null }[frg.size - 1]
 }
 
-fun FragmentManager.getFmFragments(): List<Fragment> {
+fun FragmentManager.getFragmentManagerFragments(): List<Fragment> {
     return this.fragments
 }
 
@@ -563,7 +563,7 @@ fun Context.asActivity(): Activity = when (this) {
 
 fun Context.asFragmentActivity(): FragmentActivity = when (this) {
     is FragmentActivity -> this
-    is Activity -> throw IllegalStateException("Context $this NOT support-v4 Activity")
+    is Activity -> throw IllegalStateException("Context $this NOT supported Activity")
     is ContextWrapper -> baseContext as FragmentActivity
     else -> throw IllegalStateException("Context $this NOT contains activity!")
 }

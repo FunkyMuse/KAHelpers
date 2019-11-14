@@ -10,7 +10,6 @@ import com.crazylegend.kotlinextensions.reflection.firstPropertyValue
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.retrofit.onSuccess
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 
 /**
@@ -27,13 +26,13 @@ inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(factory: Vie
 }
 
 //fragment
-inline fun <reified T : ViewModel> Fragment.fragmentProvider(): T {
+inline fun <reified T : ViewModel> Fragment.fragmentVM(): T {
 
     return ViewModelProvider(this).get()
 }
 
 
-inline fun <reified T : ViewModel> Fragment.fragmentProvider(factory: ViewModelProvider.Factory): T {
+inline fun <reified T : ViewModel> Fragment.fragmentVM(factory: ViewModelProvider.Factory): T {
     return ViewModelProvider(this, factory).get()
 }
 

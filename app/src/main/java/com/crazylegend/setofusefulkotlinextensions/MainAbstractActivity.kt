@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.crazylegend.kotlinextensions.delegates.activityVM
 import com.crazylegend.kotlinextensions.exhaustive
-import com.crazylegend.kotlinextensions.livedata.compatProvider
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.setofusefulkotlinextensions.test.TestAdapter
@@ -16,10 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private val testAVM by lazy {
-        compatProvider<TestAVM>()
-    }
-
+    private val testAVM by activityVM<TestAVM>()
     private val adapter by lazy {
         TestAdapter()
     }

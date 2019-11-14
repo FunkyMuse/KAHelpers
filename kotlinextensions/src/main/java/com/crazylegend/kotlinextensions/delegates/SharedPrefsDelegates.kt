@@ -104,6 +104,30 @@ inline fun <reified T> SharedPreferences.obj(
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) = putObject(key(property), value)
 }
 
+/**
+ * fun SharedPreferences.int(def: Int = 0, key: String? = null) =
+ * delegate(def, key, SharedPreferences::getInt, Editor::putInt)
+ * @receiver SharedPreferences
+ * @param defaultValue T
+ * @param key String?
+ * @param getter [@kotlin.ExtensionFunctionType] Function3<SharedPreferences, String, T, T>
+ * @param setter [@kotlin.ExtensionFunctionType] Function3<Editor, String, T, Editor>
+ * @return ReadWriteProperty<Any, T>
+ */
+private inline fun <T> SharedPreferences.delegate(
+        defaultValue: T,
+        key: String?,
+        crossinline getter: SharedPreferences.(String, T) -> T,
+        crossinline setter: SharedPreferences.Editor.(String, T) -> SharedPreferences.Editor
+): ReadWriteProperty<Any, T> {
+    return object : ReadWriteProperty<Any, T> {
+        override fun getValue(thisRef: Any, property: KProperty<*>) =
+                getter(key ?: property.name, defaultValue)
 
+        override fun setValue(thisRef: Any, property: KProperty<*>,
+                              value: T) =
+                edit().setter(key ?: property.name, value).apply()
+    }
+}
 
 
