@@ -181,6 +181,7 @@ fun getConstructor(className: String, parameterTypes: Array<Class<*>>): Construc
 
 /**
  * Finds first property if the name is exact as the one provided or returns an empty string if not found
+ * When using proguard keep your class object
  */
 fun Any.firstPropertyValue(equalsToFieldName: String): String {
     return try {
@@ -197,6 +198,7 @@ fun Any.firstPropertyValue(equalsToFieldName: String): String {
 
 /**
  * Finds property if the name is exact as the one provided
+ *  * When using proguard keep your class object
  */
 fun Any.fieldPropertyValue(equalsToFieldName: String): Any? {
     return tryOrNull {
