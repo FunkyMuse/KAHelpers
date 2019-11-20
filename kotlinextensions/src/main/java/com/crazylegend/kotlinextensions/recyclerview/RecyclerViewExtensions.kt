@@ -482,7 +482,7 @@ fun RecyclerView.smoothScrollTo(position: Int, callback: (() -> Unit)? = null) {
 }
 
 fun GridLayoutManager.setSpanSize(func: (Int) -> Int) {
-    spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+    spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int) = func(position)
     }
 }
@@ -521,10 +521,10 @@ fun RecyclerView.getLastVisibleItemPosition(): Int? {
 
 
 fun RecyclerView.scrollListener(
-    onScrollStateChanged :(recycler:RecyclerView, newState:Int) -> Unit = {_,_->},
-    onScrolled :(recycler:RecyclerView, scrollbyX:Int, scrollbyY:Int) -> Unit = {_,_,_->}
-){
-    this.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        onScrollStateChanged: (recycler: RecyclerView, newState: Int) -> Unit = { _, _ -> },
+        onScrolled: (recycler: RecyclerView, scrollbyX: Int, scrollbyY: Int) -> Unit = { _, _, _ -> }
+) {
+    this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             onScrollStateChanged(recyclerView, newState)
         }
@@ -546,7 +546,6 @@ fun RecyclerView.scrollListener(
 fun RecyclerView.withItemOffsetDecoration(@DimenRes dimenRes: Int): RecyclerView = apply {
     addItemDecoration(ItemOffsetDecoration(context, dimenRes))
 }
-
 
 
 /**
@@ -586,7 +585,6 @@ fun RecyclerView.isFirstChild(view: View): Boolean = getChildAdapterPosition(vie
 fun RecyclerView.isLastChild(view: View): Boolean = getChildAdapterPosition(view) == childCount - 1
 
 
-
 inline val RecyclerView.ViewHolder.resources: Resources
     get() = itemView.context.resources
 
@@ -598,3 +596,75 @@ fun RecyclerView.clearDecorations() {
         }
     }
 }
+
+
+fun RecyclerView.Adapter<*>.registerDataObserver(action: () -> Unit = {}) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    override fun onChanged() {
+        action()
+    }
+
+    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+        action()
+    }
+
+    override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+        action()
+    }
+
+    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+        action()
+    }
+
+    override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+        action()
+    }
+
+    override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+        action()
+    }
+})
+
+fun RecyclerView.Adapter<*>.onChanged(action: () -> Unit = { }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    override fun onChanged() {
+        action()
+    }
+})
+
+
+fun RecyclerView.Adapter<*>.onItemRangeRemoved(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+        action(positionStart, itemCount)
+    }
+})
+
+fun RecyclerView.Adapter<*>.onItemRangeMoved(action: (fromPosition: Int, toPosition: Int, itemCount:Int) -> Unit = { _, _,_ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+        action(fromPosition, toPosition, itemCount)
+    }
+})
+
+
+
+fun RecyclerView.Adapter<*>.onItemRangeInserted(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+        action(positionStart, itemCount)
+    }
+})
+
+
+
+fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+        action(positionStart, itemCount)
+    }
+})
+
+
+fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, itemCount: Int, payload: Any?) -> Unit = { _, _,_ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+    override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+        action(positionStart, itemCount, payload)
+    }
+})
+
+
+
