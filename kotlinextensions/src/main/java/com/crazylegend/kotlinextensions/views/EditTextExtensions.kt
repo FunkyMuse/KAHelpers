@@ -431,6 +431,10 @@ fun EditText.hideKeyboardDelayed(delayMillis: Long) =
 
 }
 
+fun EditText.clearError() {
+    error = null
+}
+
 fun deleteAllWhenContainsStar(vararg editTexts: EditText) {
     for (et in editTexts) {
         et.deleteAllWhenContainsStar()
