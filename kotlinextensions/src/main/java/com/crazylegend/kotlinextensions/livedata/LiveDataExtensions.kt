@@ -26,13 +26,13 @@ inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(factory: Vie
 }
 
 //fragment
-inline fun <reified T : ViewModel> Fragment.fragmentVM(): T {
+inline fun <reified T : ViewModel> Fragment.fragmentProvider(): T {
 
     return ViewModelProvider(this).get()
 }
 
 
-inline fun <reified T : ViewModel> Fragment.fragmentVM(factory: ViewModelProvider.Factory): T {
+inline fun <reified T : ViewModel> Fragment.fragmentProvider(factory: ViewModelProvider.Factory): T {
     return ViewModelProvider(this, factory).get()
 }
 

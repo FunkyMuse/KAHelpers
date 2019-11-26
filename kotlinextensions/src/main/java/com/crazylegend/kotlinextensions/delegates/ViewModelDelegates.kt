@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.crazylegend.kotlinextensions.livedata.compatProvider
-import com.crazylegend.kotlinextensions.livedata.fragmentVM
+import com.crazylegend.kotlinextensions.livedata.fragmentProvider
 
 
 /**
@@ -14,7 +14,7 @@ import com.crazylegend.kotlinextensions.livedata.fragmentVM
 
 
 inline fun <reified VM:ViewModel> Fragment.fragmentVM() = lazy {
-    fragmentVM<VM>()
+    fragmentProvider<VM>()
 }
 
 inline fun <reified VM:ViewModel> AppCompatActivity.activityVM() = lazy {
@@ -22,7 +22,7 @@ inline fun <reified VM:ViewModel> AppCompatActivity.activityVM() = lazy {
 }
 
 inline fun <reified VM:ViewModel> Fragment.fragmentVM(factory: ViewModelProvider.Factory) = lazy {
-    fragmentVM<VM>(factory)
+    fragmentProvider<VM>(factory)
 }
 
 inline fun <reified VM:ViewModel> AppCompatActivity.activityVM(factory: ViewModelProvider.Factory) = lazy {
