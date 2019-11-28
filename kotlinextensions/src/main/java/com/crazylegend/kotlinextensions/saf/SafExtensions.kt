@@ -67,3 +67,58 @@ fun Uri.asDocumentSingleUri(context: Context) = DocumentFile.fromSingleUri(conte
  * @return DocumentFile
  */
 fun File.asDocumentFile() = DocumentFile.fromFile(this)
+
+
+/**
+ * Recursive listing SAF files
+ * @param files Array<DocumentFile>?
+ */
+fun recursiveSAFFiles(files: Array<DocumentFile>?, fileCallback: (traversedFile: DocumentFile) -> Unit = {}) {
+    files?.apply {
+        for (file in files) {
+            if (file.isDirectory) {
+                recursiveSAFFiles(file.listFiles())
+            } else {
+                fileCallback.invoke(file)
+            }
+        }
+    }
+}
+
+/**
+ * Recursive listing SAF files
+ * @param files Array<DocumentFile>?
+ * @param callbackArray ArrayList<DocumentFile> the array that you add the items to
+ */
+fun recursiveSAFFiles(files: Array<DocumentFile>?, callbackArray:ArrayList<DocumentFile>) {
+    files?.apply {
+        for (file in files) {
+            if (file.isDirectory) {
+                recursiveSAFFiles(file.listFiles(), callbackArray)
+            } else {
+                callbackArray.add(file)
+            }
+        }
+    }
+}
+
+/**
+ * Recursive listing SAF Files and returns the list containing all the items
+ * @param files Array<DocumentFile>?
+ * @return MutableList<DocumentFile>
+ */
+fun recursiveSAFFiles(files: Array<DocumentFile>?): MutableList<DocumentFile> {
+    val callbackArray = mutableListOf<DocumentFile>()
+    files?.apply {
+        for (file in files) {
+            if (file.isDirectory) {
+                recursiveSAFFiles(file.listFiles())
+            } else {
+                callbackArray.add(file)
+            }
+        }
+    }
+
+    return callbackArray
+}
+

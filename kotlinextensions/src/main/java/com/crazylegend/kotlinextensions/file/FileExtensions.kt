@@ -585,3 +585,58 @@ fun File.extractNameWithExtension(): String {
 fun File.extractExtension(): String {
     return this.absolutePath.substringAfterLast(".")
 }
+
+/**
+ * Recursive listing [File] files
+ * @param files Array<File>?
+ * @param fileCallback Function1<[@kotlin.ParameterName] File, Unit>
+ */
+fun recursiveDirectoryListing(files: Array<File>?, fileCallback: (file: File) -> Unit = {}) {
+    files?.apply {
+        for (file in files) {
+            if (file.isDirectory) {
+                recursiveDirectoryListing(file.listFiles())
+            } else {
+                fileCallback.invoke(file)
+            }
+        }
+    }
+}
+
+/**
+ * Recursively listing [File] files
+ * @param files Array<File>?
+ * @param callbackArray ArrayList<File>
+ */
+fun recursiveDirectoryListing(files: Array<File>?, callbackArray: ArrayList<File>) {
+    files?.apply {
+        for (file in files) {
+            if (file.isDirectory) {
+                recursiveDirectoryListing(file.listFiles(), callbackArray)
+            } else {
+                callbackArray.add(file)
+            }
+        }
+    }
+}
+
+/**
+ * Recursively listing [File] files returning the list of all files
+ * @param files Array<File>?
+ * @return MutableList<File>
+ */
+fun recursiveDirectoryListing(files: Array<File>?): MutableList<File> {
+    val callbackArray = mutableListOf<File>()
+    files?.apply {
+        for (file in files) {
+            if (file.isDirectory) {
+                recursiveDirectoryListing(file.listFiles())
+            } else {
+                callbackArray.add(file)
+            }
+        }
+    }
+
+    return callbackArray
+}
+
