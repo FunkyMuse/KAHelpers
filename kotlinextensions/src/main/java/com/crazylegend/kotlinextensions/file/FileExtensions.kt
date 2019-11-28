@@ -595,7 +595,7 @@ fun recursiveDirectoryListing(files: Array<File>?, fileCallback: (file: File) ->
     files?.apply {
         for (file in files) {
             if (file.isDirectory) {
-                recursiveDirectoryListing(file.listFiles())
+                recursiveDirectoryListing(file.listFiles(), fileCallback)
             } else {
                 fileCallback.invoke(file)
             }

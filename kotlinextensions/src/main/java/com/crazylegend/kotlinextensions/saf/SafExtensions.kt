@@ -77,7 +77,7 @@ fun recursiveSAFFiles(files: Array<DocumentFile>?, fileCallback: (traversedFile:
     files?.apply {
         for (file in files) {
             if (file.isDirectory) {
-                recursiveSAFFiles(file.listFiles())
+                recursiveSAFFiles(file.listFiles(),fileCallback)
             } else {
                 fileCallback.invoke(file)
             }
