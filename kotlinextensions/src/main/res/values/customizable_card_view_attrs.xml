@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomizableCardView">
+        <attr name="ic_title" format="string" />
+        <attr name="ic_content" format="string" />
+        <attr name="ic_icon" format="reference" />
+    </declare-styleable>
+</resources>

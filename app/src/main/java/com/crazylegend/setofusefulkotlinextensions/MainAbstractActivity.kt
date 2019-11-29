@@ -1,9 +1,9 @@
 package com.crazylegend.setofusefulkotlinextensions
 
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.crazylegend.kotlinextensions.delegates.activityVM
@@ -22,6 +22,13 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        with(testCard.cardView){
+            cardElevation = 1.1f
+            useCompatPadding = true
+            setContentPadding(10,10,10,10)
+            setCardBackgroundColor(Color.YELLOW)
+        }
 
         recycler.setHasFixedSize(false)
         recycler.layoutManager = LinearLayoutManager(this)
@@ -51,9 +58,6 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
         })
     }
 
-    private fun loadingSetup(visible: Boolean) {
-        loading.isVisible = visible
-    }
 }
 
 
