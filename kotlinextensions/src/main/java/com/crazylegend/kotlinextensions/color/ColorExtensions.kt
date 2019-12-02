@@ -12,6 +12,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.context.drawable
@@ -342,3 +343,14 @@ fun Int.colorAdd(value: Float): Int {
             (Color.blue(this) + (value * 0xFF).toInt()).coerceIn(0, 255)
     )
 }
+
+
+/**
+ *
+ * @receiver @receiver:ColorInt Int
+ * @return Boolean
+ */
+fun @receiver:ColorInt Int.isDark(): Boolean =
+        ColorUtils.calculateLuminance(this) < 0.5
+
+
