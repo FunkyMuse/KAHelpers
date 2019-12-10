@@ -142,18 +142,18 @@ fun Drawable.toBitmap(): Bitmap {
  * @receiver Drawable
  * @param color Int
  */
-fun Drawable.colorFilterCompat(color: Int) {
+fun Drawable.colorFilterCompat(color: Int, porterDuff: PorterDuff.Mode = PorterDuff.Mode.SRC_ATOP, blendMode: BlendMode? = null) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         colorFilter =
-                BlendModeColorFilter(color, BlendMode.SRC_ATOP)
+                BlendModeColorFilter(color, blendMode ?: BlendMode.SRC_ATOP)
     } else {
-        setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        setColorFilter(color, porterDuff)
     }
 }
 
+
 fun View.setOnClickCoroutine(owner: LifecycleOwner, listener: suspend (view: View) -> Unit) =
         this.setOnClickListener { owner.lifecycleScope.launch { listener(it) } }
-
 
 
 fun View.fakeTouch() {

@@ -57,9 +57,9 @@ inline fun ContextWrapper.registerWifiStateChanged(crossinline callback: (Intent
     }
 }
 
-inline fun <reified T : Service> Context.startForegroundService(predicate: Context.(Intent) -> Unit = {}) {
+inline fun <reified T : Service> Context.startForegroundService(predicate: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
-    predicate.invoke(this, intent)
+    predicate(intent)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         startForegroundService(intent)
     } else {

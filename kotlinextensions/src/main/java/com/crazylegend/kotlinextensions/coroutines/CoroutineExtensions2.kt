@@ -29,8 +29,7 @@ fun <T> makeApiCallLiveData(apiCall: suspend () -> Response<T>?): LiveData<Retro
     return liveData {
         emit(RetrofitResult.Loading)
         try {
-            val res = apiCall.invoke()
-            subscribeApiCall(res)
+            subscribeApiCall(apiCall.invoke())
         } catch (t: Throwable) {
             emit(RetrofitResult.Error(t))
         }
@@ -73,8 +72,7 @@ fun <T> makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): LiveData<R
     return liveData {
         emit(RetrofitResult.Loading)
         try {
-            val res = apiCall.invoke()
-            subscribeApiCallList(res)
+            subscribeApiCallList(apiCall.invoke())
         } catch (t: Throwable) {
             emit(RetrofitResult.Error(t))
         }
@@ -129,8 +127,7 @@ fun <T> makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>>? {
     return liveData {
         emit(DBResult.Querying)
         try {
-            val res = apiCall.invoke()
-            subscribeDBCall(res)
+            subscribeDBCall(apiCall.invoke())
         } catch (t: Throwable) {
             emit(DBResult.DBError(t))
         }

@@ -42,6 +42,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputLayout
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
@@ -1261,7 +1263,7 @@ val View.centerY
  * Restricts [Int] to be within a [min] and a [max] value
  */
 fun Int.clamp(min: Int, max: Int): Int {
-    return Math.max(min, Math.min(max, this))
+    return max(min, min(max, this))
 }
 
 /**
@@ -1326,11 +1328,11 @@ fun View.setBackgrountTint(@ColorRes colorRes: Int, blendMode: BlendMode = Blend
 }
 
 fun View.setBackgroundTintRes(@ColorRes colorRes: Int, tintMode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
-    this.background.setColorFilter(context.getColorCompat(colorRes), tintMode)
+    background.colorFilterCompat(color(colorRes), porterDuff = tintMode)
 }
 
 fun View.setBackgroundTint(color: Int, tintMode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
-    this.background.setColorFilter(color, tintMode)
+    background.colorFilterCompat(color(color), porterDuff = tintMode)
 }
 
 fun SearchView.textListener(
@@ -1388,7 +1390,7 @@ fun View.disable() {
     this.isEnabled = false
 }
 
-inline fun View.toggleSelected() {
+fun View.toggleSelected() {
     this.isSelected = !this.isSelected
 }
 

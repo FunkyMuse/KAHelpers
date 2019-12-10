@@ -13,8 +13,11 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
+import com.crazylegend.kotlinextensions.gson.fromJsonTypeToken
 import com.crazylegend.kotlinextensions.interfaces.OneParamInvocation
+import com.google.gson.Gson
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -346,7 +349,6 @@ fun saveFile(fullPath: String, content: String): File =
             writeText(content, Charset.defaultCharset())
         }
 
-fun File.readFileText(): String = this.readText(Charset.defaultCharset())
 
 private fun getDataColumnPrivate(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String {
     uri?.let {
@@ -383,9 +385,7 @@ fun isDownloadsDocument(uri: Uri): Boolean = "com.android.providers.downloads.do
 fun isMediaDocument(uri: Uri): Boolean = "com.android.providers.media.documents" == uri.authority
 fun isGooglePhotosUri(uri: Uri): Boolean = "com.google.android.apps.photos.content" == uri.authority
 
-fun InputStream.getString(): String = this.bufferedReader().use {
-    it.readText()
-}
+fun InputStream.getString(): String = this.bufferedReader().readText()
 
 fun InputStream.outAsFile(file: File): File {
     file.createNewFile()
@@ -491,8 +491,7 @@ fun File.lastModifiedDateTimeAsString(): String = SimpleDateFormat("dd.MM.yyyy H
 val String.fileExtension
     get() = File(this).extension
 
-@Throws(FileNotFoundException::class)
-fun File.mkdirsIfNotExist() = parentFile.exists() || parentFile.mkdirs()
+fun File.mkdirsIfNotExist() = parentFile?.exists() ?: false || parentFile?.mkdirs() ?: false
 
 /**
  * The method is use to prevent a problem, when several threads can try to [.mkdirsIfNotExist] for the same Path simultaneously.
@@ -639,4 +638,45 @@ fun recursiveDirectoryListing(files: Array<File>?): MutableList<File> {
 
     return callbackArray
 }
+
+fun File.clearFile() {
+    writeBytes(ByteArray(0))
+}
+
+fun File.clearFileAndWriteBytes(byteArray: ByteArray) {
+    clearFile()
+    appendBytes(byteArray)
+}
+
+
+fun File.clearFileAndWriteText(text: String, charset: Charset = Charsets.UTF_8) {
+    clearFile()
+    appendText(text, charset)
+}
+
+
+fun File.deleteSafely(): Boolean {
+    return if (exists()) {
+        delete()
+    } else {
+        false
+    }
+}
+
+
+inline fun <reified T> File.asJsonFromText(charset: Charset = Charsets.UTF_8) {
+    Gson().fromJsonTypeToken<T>(readText(charset))
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+fun Context.clearDataDir() = dataDir.deleteSafely()
+
+fun Context.clearCacheDir() = cacheDir.deleteSafely()
+
+fun Context.clearObbDir() = obbDir.deleteSafely()
+
+fun Context.clearFilesDir() = filesDir.deleteSafely()
+
+
+
 

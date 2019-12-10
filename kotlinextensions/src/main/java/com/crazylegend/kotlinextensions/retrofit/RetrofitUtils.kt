@@ -143,18 +143,25 @@ val generateRetrofitImageKeyName
             "photo_${Random.nextInt(0, Int.MAX_VALUE)}"
     )
 
-fun Double.toRequestBodyForm(): RequestBody {
+fun Double?.toRequestBodyForm(): RequestBody {
     return this.toString().toRequestBody(MultipartBody.FORM)
 }
 
-fun String.toRequestBodyForm(): RequestBody {
-    return toRequestBody(MultipartBody.FORM)
+fun String?.toRequestBodyForm(): RequestBody {
+    return this.toString().toRequestBody(MultipartBody.FORM)
 }
 
-fun Any.toRequestBodyForm(): RequestBody {
+fun Int?.toRequestBodyForm(): RequestBody {
+    return this.toString().toRequestBody(MultipartBody.FORM)
+}
+
+fun Float?.toRequestBodyForm(): RequestBody {
+    return this.toString().toRequestBody(MultipartBody.FORM)
+}
+
+fun Any?.toRequestBodyForm(): RequestBody {
     return toString().toRequestBodyForm()
 }
-
 
 fun <T> MutableLiveData<RetrofitResult<T>>.loading() {
     value = RetrofitResult.Loading

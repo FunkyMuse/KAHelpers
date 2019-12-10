@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions
 
 import android.annotation.SuppressLint
+import android.app.WallpaperManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.content.IntentFilter
 import android.content.res.AssetManager
 import android.content.res.TypedArray
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Build.*
@@ -27,7 +29,6 @@ import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
 import com.crazylegend.kotlinextensions.context.batteryManager
 import com.crazylegend.kotlinextensions.helperModels.BatteryStatusModel
 import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
-import java.io.InputStream
 import java.math.BigInteger
 import java.nio.ByteBuffer
 import java.nio.charset.Charset
@@ -141,45 +142,59 @@ fun putInMemory(key: String, any: Any?) = InMemoryCache.put(key, any)
 fun Context.dp2px(dpValue: Float): Int {
     return (dpValue * resources.displayMetrics.density + 0.5f).toInt()
 }
+
 fun Context.dp2px(dpValue: Int): Int {
     return (dpValue * resources.displayMetrics.density + 0.5f).toInt()
 }
+
 fun Context.px2dp(pxValue: Int): Float {
     return pxValue / resources.displayMetrics.density + 0.5f
 }
+
 fun Context.px2dp(pxValue: Float): Float {
     return pxValue / resources.displayMetrics.density + 0.5f
 }
+
 fun Fragment.dp2px(dpValue: Float): Int {
     return requireActivity().dp2px(dpValue)
 }
+
 fun Fragment.dp2px(dpValue: Int): Int {
     return requireActivity().dp2px(dpValue)
 }
+
 fun Fragment.px2dp(pxValue: Int): Float {
     return requireActivity().px2dp(pxValue)
 }
+
 fun View.px2dp(pxValue: Float): Float? {
     return context?.px2dp(pxValue)
 }
+
 fun View.dp2px(dpValue: Float): Int? {
     return context?.dp2px(dpValue)
 }
+
 fun View.dp2px(dpValue: Int): Int? {
     return context?.dp2px(dpValue)
 }
+
 fun View.px2dp(pxValue: Int): Float? {
     return context?.px2dp(pxValue)
 }
+
 fun RecyclerView.ViewHolder.px2dp(pxValue: Float): Float? {
     return itemView.px2dp(pxValue)
 }
+
 fun RecyclerView.ViewHolder.dp2px(dpValue: Float): Int? {
     return itemView.dp2px(dpValue)
 }
+
 fun RecyclerView.ViewHolder.dp2px(dpValue: Int): Int? {
     return itemView.dp2px(dpValue)
 }
+
 fun RecyclerView.ViewHolder.px2dp(pxValue: Int): Float? {
     return itemView.px2dp(pxValue)
 }
@@ -205,23 +220,26 @@ fun getBatteryInfo(batteryIntent: Intent): BatteryStatusModel {
 }
 
 
+val Context.getBatteryPercentage get() = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
-val Context.getBatteryPercentage get() =  batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
+val Context.batteryStatusIntent: Intent?
+    get() = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
+        registerReceiver(null, ifilter)
+    }
 
-val Context.batteryStatusIntent: Intent? get() =  IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
-    registerReceiver(null, ifilter)
-}
+val Context.batteryHelperStatus: Int
+    get() = batteryStatusIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
 
-val Context.batteryHelperStatus: Int get() = batteryStatusIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
-
-val Context.isCharging get()  = batteryHelperStatus == BatteryManager.BATTERY_STATUS_CHARGING
-        || batteryHelperStatus == BatteryManager.BATTERY_STATUS_FULL
+val Context.isCharging
+    get() = batteryHelperStatus == BatteryManager.BATTERY_STATUS_CHARGING
+            || batteryHelperStatus == BatteryManager.BATTERY_STATUS_FULL
 
 // How are we charging?
-val Context.isChargePlugCharging get()  = batteryStatusIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
-val Context.isUsbCharging get() =  isChargePlugCharging == BatteryManager.BATTERY_PLUGGED_USB
-val Context.isACcharging get() =  isChargePlugCharging == BatteryManager.BATTERY_PLUGGED_AC
+val Context.isChargePlugCharging
+    get() = batteryStatusIntent?.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1) ?: -1
+val Context.isUsbCharging get() = isChargePlugCharging == BatteryManager.BATTERY_PLUGGED_USB
+val Context.isACcharging get() = isChargePlugCharging == BatteryManager.BATTERY_PLUGGED_AC
 
 
 /**
@@ -281,7 +299,7 @@ fun <V> LruCache<Long, V>.keys(): LongArray =
 inline fun <reified K, V> LruCache<K, V>.keys(): Array<K> =
         snapshot().keys.toTypedArray()
 
-val randomUUIDstring get()  = UUID.randomUUID().toString()
+val randomUUIDstring get() = UUID.randomUUID().toString()
 
 fun CharSequence.isEmptyNullOrStringNull(): Boolean {
     return isNullOrEmpty() || this == "null"
@@ -304,7 +322,6 @@ fun UUID.toLong(): Long {
     return longValue
 }
 
-fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String = bufferedReader(charset).use { it.readText() }
 
 inline fun <T> T.alsoIfTrue(boolean: Boolean, block: (T) -> Unit): T {
     if (boolean) block(this)
@@ -334,7 +351,7 @@ inline fun trySilently(block: () -> Unit) = try {
 }
 
 inline fun <T> tryOrElse(defaultValue: T, block: () -> T): T = tryOrNull(block)
-    ?: defaultValue
+        ?: defaultValue
 
 inline fun <T> T.applyIf(condition: Boolean, block: T.() -> T): T = apply {
     if (condition) {
@@ -373,13 +390,13 @@ inline fun <T, R> withIf(receiver: T, condition: Boolean, block: T.() -> R): R? 
 }
 
 /**
-* Creates a [ContentValues] by reading [pairs] - similarly to how [mapOf]
-* and similar methods work.
-*
-* Note that value types are limited to those acceptable by [ContentValues] -
-* specifically, [String], [Byte], [Short], [Int], [Long], [Float], [Double],
-* [Boolean], [ByteArray].
-*/
+ * Creates a [ContentValues] by reading [pairs] - similarly to how [mapOf]
+ * and similar methods work.
+ *
+ * Note that value types are limited to those acceptable by [ContentValues] -
+ * specifically, [String], [Byte], [Short], [Int], [Long], [Float], [Double],
+ * [Boolean], [ByteArray].
+ */
 fun contentValuesOf(vararg pairs: Pair<String, Any?>): ContentValues {
     return ContentValues().apply {
         pairs.forEach {
@@ -556,7 +573,7 @@ fun benchmarkAction(actionName: String, action: () -> Unit) {
  *
  * allIsEqual("test", "test", "test") will return true
  */
-fun <T>allIsEqual(vararg values: T): Boolean {
+fun <T> allIsEqual(vararg values: T): Boolean {
     when {
         values.isEmpty() -> return false
         values.size == 1 -> return true
@@ -587,7 +604,7 @@ fun <T>allIsEqual(vararg values: T): Boolean {
  * }
  *
  */
-fun <T, R>allIsNotNull(vararg values: T, out: () -> R?): R? {
+fun <T, R> allIsNotNull(vararg values: T, out: () -> R?): R? {
     values.forEach {
         if (it == null) return null
     }
@@ -602,3 +619,11 @@ fun <T, R>allIsNotNull(vararg values: T, out: () -> R?): R? {
 fun <T> lazyFast(operation: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) {
     operation()
 }
+
+
+/**
+ * Gets current wallpaper
+ * @receiver Context
+ * @return Drawable?
+ */
+fun Context.getWallpaperDrawable(): Drawable? = WallpaperManager.getInstance(this).peekDrawable()
