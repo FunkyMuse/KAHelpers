@@ -1,8 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
 
 android {
     compileSdkVersion 29
@@ -43,14 +42,15 @@ android {
         exclude 'META-INF/LICENSE'
     }
 
-    androidExtensions {
-        experimental = true
-    }
-
     kapt {
         correctErrorTypes = true
         useBuildCache = true
     }
+
+    androidExtensions {
+        experimental = true
+    }
+
 
 }
 
@@ -96,8 +96,8 @@ dependencies {
 
     //ui
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
-    implementation 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta4'
 
 
     //coroutines
@@ -125,6 +125,7 @@ dependencies {
 
 
 }
+
 
 repositories {
     google()
