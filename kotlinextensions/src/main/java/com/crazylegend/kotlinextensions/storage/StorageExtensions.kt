@@ -183,77 +183,109 @@ fun ContentResolver.addTakeFlags(uri: Uri) {
     takePersistableUriPermission(uri, takeFlags)
 }
 
-fun Activity.openDocument(requestCode: Int, text: String = "Open document with...") {
+fun Activity.openDocument(requestCode: Int, text: String = "Open document with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
         setURIRWPermissions()
         type = "*/*"
     }
-    startActivityForResult(Intent.createChooser(intent, text), requestCode)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), requestCode)
+    } else {
+        onCantHandleAction()
+    }
 }
 
-fun Activity.openImage(requestCode: Int, text: String = "Open image with...") {
+fun Activity.openImage(requestCode: Int, text: String = "Open image with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
         setURIRWPermissions()
         type = "image/*"
     }
-    startActivityForResult(intent, requestCode)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), requestCode)
+    } else {
+        onCantHandleAction()
+    }
 }
 
-fun Activity.openVideo(requestCode: Int, text: String = "Open video with...") {
+fun Activity.openVideo(requestCode: Int, text: String = "Open video with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
         setURIRWPermissions()
         type = "video/*"
     }
-    startActivityForResult(intent, requestCode)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), requestCode)
+    } else {
+        onCantHandleAction()
+    }
 }
 
-fun Activity.openDirectory(requestCode: Int, text: String = "Open directory with...") {
+fun Activity.openDirectory(requestCode: Int, text: String = "Open directory with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
     intent.setURIRWPermissions()
-    startActivityForResult(intent, requestCode)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), requestCode)
+    } else {
+        onCantHandleAction()
+    }
 }
 
 
-fun Activity.pickMultipleImages(requestCode: Int, text: String = "Pick images with...") {
+fun Activity.pickMultipleImages(requestCode: Int, text: String = "Pick images with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent()
     intent.type = "image/*"
     intent.setURIRWPermissions()
     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
     intent.action = Intent.ACTION_GET_CONTENT
-    startActivityForResult(Intent.createChooser(intent, text), requestCode)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), requestCode)
+    } else {
+        onCantHandleAction()
+    }
 }
 
 
-fun Activity.pickImage(PICK_PHOTO_REQUEST_CODE: Int, text: String = "Pick image with...") {
+fun Activity.pickImage(PICK_PHOTO_REQUEST_CODE: Int, text: String = "Pick image with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(
             Intent.ACTION_PICK,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     )
     intent.setURIRWPermissions()
     intent.type = "image/*"
-    startActivityForResult(Intent.createChooser(intent, text), PICK_PHOTO_REQUEST_CODE)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), PICK_PHOTO_REQUEST_CODE)
+    } else {
+        onCantHandleAction()
+    }
 }
 
 
-fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE: Int, text: String = "Open video with...") {
+fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE: Int, text: String = "Open video with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(
             Intent.ACTION_PICK,
             MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     )
     intent.setURIRWPermissions()
     intent.type = "video/*"
-    startActivityForResult(Intent.createChooser(intent, text), PICK_VIDEO_REQUEST_CODE)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), PICK_VIDEO_REQUEST_CODE)
+    } else {
+        onCantHandleAction()
+    }
 }
 
 
-fun Activity.pickPDF(PICK_PDF_CODE: Int, text: String = "Pick pdf with...") {
+fun Activity.pickPDF(PICK_PDF_CODE: Int, text: String = "Pick pdf with...", onCantHandleAction: () -> Unit = {}) {
     val intentPDF = Intent(Intent.ACTION_GET_CONTENT)
     intent.setURIRWPermissions()
     intentPDF.type = "application/pdf"
-    startActivityForResult(Intent.createChooser(intentPDF, text), PICK_PDF_CODE)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(Intent.createChooser(intent, text), PICK_PDF_CODE)
+    } else {
+        onCantHandleAction()
+    }
 }
 
 /**
@@ -294,8 +326,9 @@ fun Activity.createFile(mimeType: String, fileNameAndExtension: String, WRITE_RE
         type = mimeType
         putExtra(Intent.EXTRA_TITLE, fileNameAndExtension)
     }
-
-    startActivityForResult(intent, WRITE_REQUEST_CODE)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivityForResult(intent, WRITE_REQUEST_CODE)
+    }
 }
 
 
