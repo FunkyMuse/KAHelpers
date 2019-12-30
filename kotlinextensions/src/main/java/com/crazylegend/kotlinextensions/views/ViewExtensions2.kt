@@ -1,9 +1,9 @@
 package com.crazylegend.kotlinextensions.views
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
@@ -135,22 +135,6 @@ fun Drawable.toBitmap(): Bitmap {
     }
     return bitmap
 }
-
-
-/**
- * Usage drawable.colorFilterCompat(getColorCompat(R.color.colorAccent))
- * @receiver Drawable
- * @param color Int
- */
-fun Drawable.colorFilterCompat(color: Int, porterDuff: PorterDuff.Mode = PorterDuff.Mode.SRC_ATOP, blendMode: BlendMode? = null) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        colorFilter =
-                BlendModeColorFilter(color, blendMode ?: BlendMode.SRC_ATOP)
-    } else {
-        setColorFilter(color, porterDuff)
-    }
-}
-
 
 fun View.setOnClickCoroutine(owner: LifecycleOwner, listener: suspend (view: View) -> Unit) =
         this.setOnClickListener { owner.lifecycleScope.launch { listener(it) } }

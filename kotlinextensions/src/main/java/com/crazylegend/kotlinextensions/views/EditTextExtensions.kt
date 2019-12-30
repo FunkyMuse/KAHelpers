@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.activity.isKeyboardSubmit
 import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
@@ -250,10 +251,11 @@ fun EditText.setCursorColor(color: Int) {
         fCursorDrawable.isAccessible = true
         val drawables = arrayOf(
             context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
-                this?.colorFilterCompat(color)
+                this?.let { DrawableCompat.setTint(it, color) }
+
             },
             context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
-                this?.colorFilterCompat(color)
+                this?.let { DrawableCompat.setTint(it, color) }
             }
         )
         fCursorDrawable.set(editor, drawables)

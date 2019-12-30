@@ -1322,19 +1322,6 @@ fun List<View>.visible() {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.Q)
-fun View.setBackgrountTint(@ColorRes colorRes: Int, blendMode: BlendMode = BlendMode.SRC_ATOP) {
-    background.colorFilter = BlendModeColorFilter(context.getColorCompat(colorRes), blendMode)
-}
-
-fun View.setBackgroundTintRes(@ColorRes colorRes: Int, tintMode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
-    background.colorFilterCompat(color(colorRes), porterDuff = tintMode)
-}
-
-fun View.setBackgroundTint(color: Int, tintMode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
-    background.colorFilterCompat(color(color), porterDuff = tintMode)
-}
-
 fun SearchView.textListener(
         onQuerySubmit: (queryTextSubmit: String) -> Unit = { _ -> },
         onQueryChange: (queryTextChange: String) -> Unit = { _ -> }

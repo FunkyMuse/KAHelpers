@@ -49,9 +49,7 @@ import com.crazylegend.kotlinextensions.R
     if (drawable != null) {
         // If we don't mutate the drawable, then all drawables with this id will have a color
         // filter applied to it.
-        drawable.mutate()
-        drawable.colorFilterCompat(color)
-
+        drawable.tint(color)
         if (alpha > 0) {
             drawable.alpha = alpha
         }
