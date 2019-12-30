@@ -974,7 +974,7 @@ fun <T> listEqualsIgnoreOrder(list1: List<T>, list2: List<T>): Boolean {
 
 inline fun <T> Array<T>.firstIndexed(
         filter: (index: Int, T) -> Boolean,
-        onNext: (index: Int, T) -> Unit = { i, t -> },
+        onNext: (index: Int, T) -> Unit = { _, _ -> },
         onSuccess: () -> Unit = {},
         onFail: () -> Unit = {},
         onComplete: () -> Unit = {}
@@ -1224,7 +1224,7 @@ fun <T> List<T>.getRandom(generator: Random = Random()): T = get(generator.nextI
 
 fun <T> MutableList<T>.shuffle(generator: Random = Random()): MutableList<T> = apply { Collections.shuffle(this, generator) }
 
-fun <T> List<T>.shuffled(generator: Random = Random()): List<T> = toMutableList().shuffle()
+fun <T> List<T>.shuffled(): List<T> = toMutableList().shuffle()
 
 fun randomIntList(size: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt() }
 fun randomIntList(size: Int, bound: Int, generator: Random = Random()) = size.timesToListOf { generator.nextInt(bound) }

@@ -22,7 +22,6 @@ import com.crazylegend.kotlinextensions.version.doIfSdk
  */
 
 
-
 @RequiresPermission(allOf = [SET_ALARM])
 fun Activity.createAlarm(message: String, hour: Int, minutes: Int) {
     val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
@@ -161,37 +160,44 @@ ACTION_LOCATION_SOURCE_SETTINGS
 ACTION_INTERNAL_STORAGE_SETTINGS
 ACTION_MEMORY_CARD_SETTINGS
  */
-fun Activity.openSettingsCategory(category: String) {
+fun Activity.openSettingsCategory(category: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Activity.openSettingsCategory(category: String, resultCode: Int) {
+fun Activity.openSettingsCategory(category: String, resultCode: Int, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(intent, resultCode)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Activity.openWifiSettings() {
+fun Activity.openWifiSettings(onCantHandleAction: () -> Unit = {}) {
 
     doIfSdk(Build.VERSION_CODES.Q, {
         val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
+        } else {
+            onCantHandleAction()
         }
-    }){
+    }) {
         val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
+        } else {
+            onCantHandleAction()
         }
-        startActivity(intent)
     }
 }
 
-fun Activity.composeMmsMessage(message: String, attachment: Uri) {
+fun Activity.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         data = Uri.parse("smsto:")  // This ensures only SMS apps respond
         putExtra("sms_body", message)
@@ -199,6 +205,8 @@ fun Activity.composeMmsMessage(message: String, attachment: Uri) {
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
@@ -230,30 +238,35 @@ ACTION_LOCATION_SOURCE_SETTINGS
 ACTION_INTERNAL_STORAGE_SETTINGS
 ACTION_MEMORY_CARD_SETTINGS
  */
-fun Context.openSettingsCategory(category: String) {
+fun Context.openSettingsCategory(category: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Context.openWifiSettings() {
+fun Context.openWifiSettings(onCantHandleAction: () -> Unit = {}) {
     doIfSdk(Build.VERSION_CODES.Q, {
         val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
+        } else {
+            onCantHandleAction()
         }
-    }){
+    }) {
         val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
+        } else {
+            onCantHandleAction()
         }
-        startActivity(intent)
     }
 }
 
 
-fun Context.composeMmsMessage(message: String, attachment: Uri) {
+fun Context.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         data = Uri.parse("smsto:")  // This ensures only SMS apps respond
         putExtra("sms_body", message)
@@ -261,14 +274,18 @@ fun Context.composeMmsMessage(message: String, attachment: Uri) {
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Context.openWebPage(url: String) {
+fun Context.openWebPage(url: String, onCantHandleAction: () -> Unit = {}) {
     val webpage: Uri = Uri.parse(url)
     val intent = Intent(Intent.ACTION_VIEW, webpage)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
@@ -281,24 +298,26 @@ fun Context.doPhotoPrint(drawable: Int, jobName: String) {
     }
 }
 
-fun Context.composeMessage(phone: String, message: String = "") {
+fun Context.composeMessage(phone: String, message: String = "", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         putExtra("sms_body", message)
         data = Uri.parse("sms:$phone")
     }
-    try {
+    if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
-    } catch (e: Exception) {
-        e.printStackTrace()
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Context.dialPhoneNumber(phoneNumber: String) {
+fun Context.dialPhoneNumber(phoneNumber: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_DIAL).apply {
         data = Uri.parse("tel:$phoneNumber")
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 

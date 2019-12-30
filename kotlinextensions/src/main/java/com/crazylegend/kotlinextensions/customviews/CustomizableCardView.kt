@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.annotation.Keep
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.delegates.view.ImageViewDrawableDelegate
 import com.crazylegend.kotlinextensions.delegates.view.TextViewStringDelegate
@@ -13,20 +14,20 @@ import kotlinx.android.synthetic.main.customizable_card_view.view.*
 /**
  * Created by crazy on 11/29/19 to long live and prosper !
  */
+@Keep
 class CustomizableCardView : FrameLayout {
 
-    init {
-        inflate(context, R.layout.customizable_card_view, this)
-    }
+    private val view = inflate(context, R.layout.customizable_card_view, this)
 
-    var title: String? by TextViewStringDelegate(cc_title)
-    var content: String? by TextViewStringDelegate(cc_content)
-    var icon: Drawable? by ImageViewDrawableDelegate(cc_image)
+    val cardView get() = view.cc_card
+    val imageView get() = view.cc_image
+    val titleText get() = view.cc_title
+    val contentText get() = view.cc_content
+    val container get() = view.cc_layout
 
-    val cardView = cc_card
-    val imageView = cc_image
-    val titleText = cc_title
-    val contentText = cc_content
+    var title: String? by TextViewStringDelegate(titleText)
+    var content: String? by TextViewStringDelegate(contentText)
+    var icon: Drawable? by ImageViewDrawableDelegate(imageView)
 
     constructor(context: Context) : super(context)
 
@@ -40,7 +41,6 @@ class CustomizableCardView : FrameLayout {
 
     private fun initView(attrs: AttributeSet?) {
         attrs ?: return
-
         val attributeValues = context.obtainStyledAttributes(attrs, R.styleable.CustomizableCardView)
         with(attributeValues) {
             try {

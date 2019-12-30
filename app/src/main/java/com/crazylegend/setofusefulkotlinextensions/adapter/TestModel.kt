@@ -1,4 +1,4 @@
-package com.crazylegend.setofusefulkotlinextensions
+package com.crazylegend.setofusefulkotlinextensions.adapter
 
 
 import android.os.Parcelable

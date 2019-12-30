@@ -25,10 +25,10 @@ object RetrofitClient {
         retrofit = null
     }
 
-    var connectTimeout: Long = 60
-    var readTimeout: Long = 60
-    var writeTimeout: Long = 60
-    var connectionTimeUnit: TimeUnit = TimeUnit.SECONDS
+    var connectTimeout = 60L
+    var readTimeout = 60L
+    var writeTimeout = 60L
+    var connectionTimeUnit = TimeUnit.SECONDS
 
 
     fun gsonInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {

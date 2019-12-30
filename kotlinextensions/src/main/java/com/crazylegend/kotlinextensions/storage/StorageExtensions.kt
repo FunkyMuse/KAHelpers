@@ -14,6 +14,10 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.annotation.RequiresApi
 import com.crazylegend.kotlinextensions.cursor.getStringOrNull
+import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_DOCUMENT
+import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_IMGs
+import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_PDF
+import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_VIDEO
 import java.io.*
 
 
@@ -187,7 +191,7 @@ fun Activity.openDocument(requestCode: Int, text: String = "Open document with..
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
         setURIRWPermissions()
-        type = "*/*"
+        type = INTENT_TYPE_DOCUMENT
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(Intent.createChooser(intent, text), requestCode)
@@ -200,7 +204,7 @@ fun Activity.openImage(requestCode: Int, text: String = "Open image with...", on
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
         setURIRWPermissions()
-        type = "image/*"
+        type = INTENT_TYPE_IMGs
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(Intent.createChooser(intent, text), requestCode)
@@ -213,7 +217,7 @@ fun Activity.openVideo(requestCode: Int, text: String = "Open video with...", on
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
         addCategory(Intent.CATEGORY_OPENABLE)
         setURIRWPermissions()
-        type = "video/*"
+        type = INTENT_TYPE_VIDEO
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(Intent.createChooser(intent, text), requestCode)
@@ -235,7 +239,7 @@ fun Activity.openDirectory(requestCode: Int, text: String = "Open directory with
 
 fun Activity.pickMultipleImages(requestCode: Int, text: String = "Pick images with...", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent()
-    intent.type = "image/*"
+    intent.type = INTENT_TYPE_IMGs
     intent.setURIRWPermissions()
     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
     intent.action = Intent.ACTION_GET_CONTENT
@@ -253,7 +257,7 @@ fun Activity.pickImage(PICK_PHOTO_REQUEST_CODE: Int, text: String = "Pick image 
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
     )
     intent.setURIRWPermissions()
-    intent.type = "image/*"
+    intent.type = INTENT_TYPE_IMGs
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(Intent.createChooser(intent, text), PICK_PHOTO_REQUEST_CODE)
     } else {
@@ -268,7 +272,7 @@ fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE: Int, text: String = "Open video 
             MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     )
     intent.setURIRWPermissions()
-    intent.type = "video/*"
+    intent.type = INTENT_TYPE_VIDEO
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(Intent.createChooser(intent, text), PICK_VIDEO_REQUEST_CODE)
     } else {
@@ -280,7 +284,7 @@ fun Activity.pickVideo(PICK_VIDEO_REQUEST_CODE: Int, text: String = "Open video 
 fun Activity.pickPDF(PICK_PDF_CODE: Int, text: String = "Pick pdf with...", onCantHandleAction: () -> Unit = {}) {
     val intentPDF = Intent(Intent.ACTION_GET_CONTENT)
     intent.setURIRWPermissions()
-    intentPDF.type = "application/pdf"
+    intentPDF.type = INTENT_TYPE_PDF
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(Intent.createChooser(intent, text), PICK_PDF_CODE)
     } else {
@@ -316,7 +320,7 @@ fun Context.getDocumentNameAndSizeForUri(documentUri: Uri, callback: (size: Stri
 //
 // createFile("text/plain", "foobar.txt");
 // createFile("image/png", "mypicture.png");
-fun Activity.createFile(mimeType: String, fileNameAndExtension: String, WRITE_REQUEST_CODE: Int) {
+fun Activity.createFile(mimeType: String, fileNameAndExtension: String, WRITE_REQUEST_CODE: Int, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
         // Filter to only show results that can be "opened", such as
         // a file (as opposed to a list of contacts or timezones).
@@ -328,6 +332,8 @@ fun Activity.createFile(mimeType: String, fileNameAndExtension: String, WRITE_RE
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(intent, WRITE_REQUEST_CODE)
+    } else {
+        onCantHandleAction()
     }
 }
 

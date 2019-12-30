@@ -42,7 +42,7 @@ android:layout_alignParentBottom="true"
 app:startColor="@color/cardview_dark_background"
 android:layout_height="50dp" />
 
-<androidx.appcompat.widget.AppCompatTextView
+<com.google.android.material.textview.MaterialTextView
 android:layout_width="match_parent"
 android:padding="5dp"
 android:id="@+id/iv_movieTitle"

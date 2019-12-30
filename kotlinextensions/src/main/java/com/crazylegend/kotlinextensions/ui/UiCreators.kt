@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
-import androidx.appcompat.widget.AppCompatTextView
+import com.google.android.material.textview.MaterialTextView
 
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
@@ -170,8 +170,8 @@ inline fun Container.horizontalLayout(builder: Container.() -> Unit): LinearLayo
 }
 
 
-fun Container.textView(builder: AppCompatTextView.() -> Unit) {
-    val item = AppCompatTextView(this.context)
+fun Container.textView(builder: MaterialTextView.() -> Unit) {
+    val item = MaterialTextView(this.context)
     this.addChild(item)
     item.builder()
 }

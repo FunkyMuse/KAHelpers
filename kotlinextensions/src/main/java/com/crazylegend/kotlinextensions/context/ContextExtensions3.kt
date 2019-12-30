@@ -374,13 +374,17 @@ inline fun <reified T> Context.getAppWidgetsIdsFor(): IntArray {
 }
 
 fun Context?.openGoogleMaps(address: String?) {
+    this ?: return
     if (isEmpty(address))
         return
 
     val gmmIntentUri = Uri.parse("geo:0,0?q=${address?.trim()}")
     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
     mapIntent.`package` = "com.google.android.apps.maps"
-    this?.startActivity(mapIntent)
+
+    if (mapIntent.resolveActivity(packageManager) != null) {
+        startActivity(mapIntent)
+    }
 }
 
 /**

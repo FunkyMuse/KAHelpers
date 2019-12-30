@@ -11,6 +11,7 @@ import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 /**
  * Created by hristijan on 8/16/19 to long live and prosper !
  */
+@Suppress("UNCHECKED_CAST")
 abstract class AbstractRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(private val list: List<T>, private val viewHolder: Class<VH>) : RecyclerView.Adapter<VH>() {
 
     abstract val getLayout: Int
@@ -22,17 +23,38 @@ abstract class AbstractRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(private 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = list[position]
         bindItems(item, holder, position)
-        holder.itemView.setOnClickListenerCooldown {
-            forItemClickListener?.forItem(position, item, it)
-        }
-        holder.itemView.setOnLongClickListener {
-            it?.let { view -> onLongClickListener?.forItem(position, item, view = view) }
-            true
-        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = setViewHolder(parent.inflate(getLayout))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val holder = setViewHolder(parent.inflate(getLayout))
 
-    private fun setViewHolder(inflatedView: View): VH = viewHolder.declaredConstructors.first().newInstance(inflatedView) as VH
+        holder.itemView.setOnClickListenerCooldown {
+            val position = holder.adapterPosition
+            if (position != RecyclerView.NO_POSITION)
+                forItemClickListener?.forItem(position, list[position], it)
+        }
+        holder.itemView.setOnLongClickListener {
+            it?.let { view ->
+                val position = holder.adapterPosition
+                if (position != RecyclerView.NO_POSITION)
+                    onLongClickListener?.forItem(position, list[position], view = view)
+            }
+            true
+        }
+        return holder
+    }
+
+    private fun setViewHolder(inflatedView: View): VH {
+        val holder = viewHolder.declaredConstructors.first().newInstance(inflatedView) as VH
+        val position = holder.adapterPosition
+        holder.itemView.setOnClickListenerCooldown {
+            forItemClickListener?.forItem(position, list[position], it)
+        }
+        holder.itemView.setOnLongClickListener {
+            it?.let { view -> onLongClickListener?.forItem(position, list[position], view = view) }
+            true
+        }
+        return holder
+    }
 
 }

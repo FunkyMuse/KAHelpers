@@ -10,7 +10,6 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -21,7 +20,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.View.GONE
@@ -41,7 +39,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.packageutils.buildIsMarshmallowAndUp
-import java.util.*
 
 
 /**
@@ -605,33 +602,7 @@ fun isKeyboardSubmit(actionId: Int, event: KeyEvent?): Boolean =
                 actionId == EditorInfo.IME_ACTION_DONE ||
                 (event != null && event.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_ENTER)
 
-fun Activity.datePickerContext(): ContextWrapper {
-    return object : ContextWrapper(this) {
 
-        private var wrappedResources: Resources? = null
-
-        override fun getResources(): Resources {
-            val r = super.getResources()
-            if (wrappedResources == null) {
-                wrappedResources = object : Resources(r.assets, r.displayMetrics, r.configuration) {
-                    @Throws(NotFoundException::class)
-                    override fun getString(id: Int, vararg formatArgs: Any): String {
-                        return try {
-                            super.getString(id, *formatArgs)
-                        } catch (ifce: IllegalFormatConversionException) {
-                            Log.e("DatePickerDialogFix", "IllegalFormatConversionException Fixed!", ifce)
-                            var template = super.getString(id)
-                            template = template.replace(("%" + ifce.conversion).toRegex(), "%s")
-                            String.format(configuration.locale, template, *formatArgs)
-                        }
-
-                    }
-                }
-            }
-            return wrappedResources as Resources
-        }
-    }
-}
 
 fun Activity.enableFullScreen() {
     window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)

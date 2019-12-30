@@ -38,7 +38,7 @@ fun Any.callMethod(methodName: String, parameterTypes: Array<Class<*>>, paramete
 }
 
 @Throws(NoSuchMethodException::class, SecurityException::class, IllegalAccessException::class, IllegalArgumentException::class, InvocationTargetException::class)
-fun <T> Class<T>.getFieldByName(name:String): Field {
+fun <T> Class<T>.getFieldByName(name: String): Field {
     val field = getDeclaredField(name)
     field.isAccessible = true
     return field
@@ -179,6 +179,7 @@ fun getConstructor(className: String, parameterTypes: Array<Class<*>>): Construc
     return null
 }
 
+
 /**
  * Finds first property if the name is exact as the one provided or returns an empty string if not found
  * When using proguard keep your class object
@@ -225,14 +226,14 @@ inline fun <reified T : Any> T.getClasstype(fieldName: String): Class<out Any>? 
 inline fun <reified T : Any> T.getFieldValueByFieldName(fieldName: String): Any? {
     return tryOrNull {
         this::class.java.getField(fieldName).get(this)
-        }
+    }
 }
 
 
 inline fun <reified T : Any> T.getFieldValueBoolean(fieldName: String): Boolean? {
     return tryOrNull {
         this::class.java.getField(fieldName).getBoolean(this)
-        }
+    }
 }
 
 
@@ -317,7 +318,7 @@ inline fun <reified T : Any> T.isFieldAccessible(fieldName: String): Boolean? {
 inline fun <reified T : Any> T.setFieldAccessible(fieldName: String) {
     tryOrNull {
         this::class.java.getField(fieldName).isAccessible = true
-        }
+    }
 }
 
 
@@ -327,7 +328,7 @@ inline fun <reified T : Any> T.setFieldAccessible(fieldName: String) {
 inline fun <reified T : Any> T.setFieldValue(fieldName: String, value: String) {
     tryOrNull {
         this::class.java.getField(fieldName).set(this, value)
-        }
+    }
 }
 
 
@@ -366,6 +367,28 @@ inline fun <reified T : Any> T.isAbstract(fieldName: String): Boolean? {
         this::class.java.getField(fieldName).kotlinProperty?.isAbstract
     }
 }
+
+inline fun <reified T : Any> T.isSynthetic(fieldName: String): Boolean? {
+    return tryOrNull {
+        this::class.java.getField(fieldName).isSynthetic
+    }
+}
+
+
+inline fun <reified T : Any> T.getDeclaringClass(fieldName: String): Class<*>? {
+    return tryOrNull {
+        this::class.java.getField(fieldName).declaringClass
+    }
+}
+
+inline fun <reified T : Any> T.isDataClass(): Boolean = this::class.isData
+inline fun <reified T : Any> T.isSealed(): Boolean = this::class.isSealed
+inline fun <reified T : Any> T.isAbstract(): Boolean = this::class.isAbstract
+inline fun <reified T : Any> T.isCompanion(): Boolean = this::class.isCompanion
+inline fun <reified T : Any> T.isFinal(): Boolean = this::class.isFinal
+inline fun <reified T : Any> T.isInner(): Boolean = this::class.isInner
+inline fun <reified T : Any> T.isOpen(): Boolean = this::class.isOpen
+
 
 inline fun <reified T : Any> T.isFinal(fieldName: String): Boolean? {
     return tryOrNull {

@@ -5,8 +5,8 @@ import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textview.MaterialTextView
 
 
 /**
@@ -21,7 +21,7 @@ class RecyclerSectionItemDecoration(
 ) : RecyclerView.ItemDecoration() {
 
     private var headerView: View? = null
-    private var header: AppCompatTextView? = null
+    private var header: MaterialTextView? = null
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)

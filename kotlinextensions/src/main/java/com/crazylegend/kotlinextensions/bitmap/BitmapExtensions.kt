@@ -392,8 +392,7 @@ fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap 
         } else {
             ExifInterface(if (inputUri.scheme == "file") inputUri.path.toString() else inputUri.getRealPath(this).toString())
         }
-        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)
-        when (orientation) {
+        when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)) {
             ExifInterface.ORIENTATION_ROTATE_90 -> {
                 bitmap = initialBitmap.rotate(90)
                 initialBitmap.recycle()
