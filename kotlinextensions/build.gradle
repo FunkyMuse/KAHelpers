@@ -57,7 +57,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    testImplementation 'junit:junit:4.13-rc-2'
+    testImplementation 'junit:junit:4.13'
 
     //language features
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
