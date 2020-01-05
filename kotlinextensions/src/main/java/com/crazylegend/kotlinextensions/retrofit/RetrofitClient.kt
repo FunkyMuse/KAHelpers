@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.retrofit
 
 import android.content.Context
+import com.crazylegend.kotlinextensions.isDebugMode
 import com.crazylegend.kotlinextensions.isNull
 import com.crazylegend.kotlinextensions.retrofit.interceptors.ConnectivityInterceptor
 import io.reactivex.schedulers.Schedulers
@@ -31,7 +32,7 @@ object RetrofitClient {
     var connectionTimeUnit = TimeUnit.SECONDS
 
 
-    fun gsonInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun gsonInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = isDebugMode, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -60,7 +61,7 @@ object RetrofitClient {
     }
 
 
-    fun gsonInstanceCouroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun gsonInstanceCouroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = isDebugMode, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -88,7 +89,7 @@ object RetrofitClient {
 
     }
 
-    fun moshiInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun moshiInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = isDebugMode, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -118,7 +119,7 @@ object RetrofitClient {
     }
 
 
-    fun moshiInstanceCoroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun moshiInstanceCoroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = isDebugMode, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
 
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
