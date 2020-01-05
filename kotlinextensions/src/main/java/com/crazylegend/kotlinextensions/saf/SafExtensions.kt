@@ -4,10 +4,12 @@ import android.Manifest.permission.ACCESS_MEDIA_LOCATION
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresPermission
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
-import java.io.File
+import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_DOCUMENT
+import java.io.*
 
 
 /**
@@ -120,5 +122,65 @@ fun recursiveSAFFiles(files: Array<DocumentFile>?): MutableList<DocumentFile> {
     }
 
     return callbackArray
+}
+
+
+
+fun Context.moveFileToUri(treeUri: Uri, file: File,progress: (Long) -> Unit = {}) {
+    contentResolver.openOutputStream(treeUri)?.use { output ->
+        output as FileOutputStream
+        FileInputStream(file).use { input ->
+            output.channel.truncate(0)
+            copyStream(file.length(), input, output) {
+                progress.invoke(it)
+            }
+        }
+    }
+}
+
+fun getMimeType(filePath: String?): String? {
+    var type: String? = null
+    val extension = MimeTypeMap.getFileExtensionFromUrl(filePath)
+    if (extension != null) {
+        type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+    }
+    return type
+}
+
+fun File.getMimeType(): String? {
+    var type: String? = null
+    val extension = MimeTypeMap.getFileExtensionFromUrl(path)
+    if (extension != null) {
+        type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+    }
+    return type
+}
+
+fun File.getMimeType(fallback: String = INTENT_TYPE_DOCUMENT): String {
+    return MimeTypeMap.getFileExtensionFromUrl(toString())
+            ?.run { MimeTypeMap.getSingleton().getMimeTypeFromExtension(toLowerCase()) }
+            ?: fallback // You might set it to */*
+}
+
+fun copyStream(size: Long, inputStream: InputStream, os: OutputStream, progress: (Long) -> Unit = {}) {
+    val bufferSize = 4096
+    try {
+        val bytes = ByteArray(bufferSize)
+        var count = 0
+        var prog = 0
+        while (count != -1) {
+            count = inputStream.read(bytes)
+            if (count != -1) {
+                os.write(bytes, 0, count)
+                prog += count
+                progress(prog.toLong() * 100 / size)
+            }
+        }
+        os.flush()
+        inputStream.close()
+        os.close()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
 }
 
