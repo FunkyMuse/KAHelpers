@@ -598,73 +598,109 @@ fun RecyclerView.clearDecorations() {
 }
 
 
-fun RecyclerView.Adapter<*>.registerDataObserver(action: () -> Unit = {}) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    override fun onChanged() {
-        action()
+fun RecyclerView.Adapter<*>.registerDataObserver(action: () -> Unit = {}): RecyclerView.AdapterDataObserver {
+
+    val observer = object : RecyclerView.AdapterDataObserver() {
+        override fun onChanged() {
+            action()
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            action()
+        }
+
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            action()
+        }
+
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            action()
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+            action()
+        }
+
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            action()
+        }
     }
 
-    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-        action()
+    registerAdapterDataObserver(observer)
+    return observer
+}
+
+
+fun RecyclerView.Adapter<*>.onChanged(action: () -> Unit = { }): RecyclerView.AdapterDataObserver {
+    val observer = object : RecyclerView.AdapterDataObserver() {
+        override fun onChanged() {
+            action()
+        }
+    }
+    registerAdapterDataObserver(observer)
+    return observer
+}
+
+
+fun RecyclerView.Adapter<*>.onItemRangeRemoved(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }): RecyclerView.AdapterDataObserver {
+
+    val observer = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            action(positionStart, itemCount)
+        }
     }
 
-    override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-        action()
+    registerAdapterDataObserver(observer)
+    return observer
+
+}
+
+fun RecyclerView.Adapter<*>.onItemRangeMoved(action: (fromPosition: Int, toPosition: Int, itemCount: Int) -> Unit = { _, _, _ -> }): RecyclerView.AdapterDataObserver {
+
+    val observer = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            action(fromPosition, toPosition, itemCount)
+        }
     }
 
-    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-        action()
+    registerAdapterDataObserver(observer)
+    return observer
+}
+
+
+fun RecyclerView.Adapter<*>.onItemRangeInserted(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }): RecyclerView.AdapterDataObserver {
+    val observer = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            action(positionStart, itemCount)
+        }
     }
 
-    override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-        action()
+    registerAdapterDataObserver(observer)
+    return observer
+}
+
+
+fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }): RecyclerView.AdapterDataObserver {
+    val observer = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+            action(positionStart, itemCount)
+        }
     }
 
-    override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-        action()
+    registerAdapterDataObserver(observer)
+    return observer
+
+}
+
+
+fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, itemCount: Int, payload: Any?) -> Unit = { _, _, _ -> }): RecyclerView.AdapterDataObserver {
+    val observer = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            action(positionStart, itemCount, payload)
+        }
     }
-})
-
-fun RecyclerView.Adapter<*>.onChanged(action: () -> Unit = { }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    override fun onChanged() {
-        action()
-    }
-})
-
-
-fun RecyclerView.Adapter<*>.onItemRangeRemoved(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-        action(positionStart, itemCount)
-    }
-})
-
-fun RecyclerView.Adapter<*>.onItemRangeMoved(action: (fromPosition: Int, toPosition: Int, itemCount:Int) -> Unit = { _, _,_ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
-        action(fromPosition, toPosition, itemCount)
-    }
-})
-
-
-
-fun RecyclerView.Adapter<*>.onItemRangeInserted(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-        action(positionStart, itemCount)
-    }
-})
-
-
-
-fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, itemCount: Int) -> Unit = { _, _ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-        action(positionStart, itemCount)
-    }
-})
-
-
-fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, itemCount: Int, payload: Any?) -> Unit = { _, _,_ -> }) = registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-    override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
-        action(positionStart, itemCount, payload)
-    }
-})
-
+    registerAdapterDataObserver(observer)
+    return observer
+}
 
 
