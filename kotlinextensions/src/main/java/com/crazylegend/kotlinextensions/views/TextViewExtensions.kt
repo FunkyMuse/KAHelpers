@@ -44,6 +44,16 @@ fun TextView.deleteLine() {
     paint.isAntiAlias = true
 }
 
+
+/**
+ * Removes the bolding of a text view
+ */
+fun AppCompatTextView.unBold() {
+    paint.isFakeBoldText = false
+    paint.isAntiAlias = true
+}
+
+
 fun TextView.setAppereance(resId: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     setTextAppearance(resId)
 } else {
