@@ -57,16 +57,4 @@ fun Boolean.ifFalse(function: () -> Unit): Boolean {
 }
 
 
-fun Boolean.ifTrue(function: () -> Unit): Boolean {
-    if (this) function()
-    return this
-}
-
-
-fun Boolean.ifFalse(function: () -> Unit): Boolean {
-    if (!this) function()
-    return this
-}
-
-
 
