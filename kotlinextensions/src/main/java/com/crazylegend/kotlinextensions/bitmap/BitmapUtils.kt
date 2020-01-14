@@ -44,6 +44,7 @@ fun Bitmap?.freeBitmap() {
     }
 }
 
+
 fun Context.getBitmapFromResource(drawableRes: Int): Bitmap? {
     var bitmap: Bitmap? = null
     val drawable = getCompatDrawable(drawableRes)

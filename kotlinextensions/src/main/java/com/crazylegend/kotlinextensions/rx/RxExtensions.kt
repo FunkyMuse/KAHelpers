@@ -1838,3 +1838,7 @@ fun <T> CompositeDisposable.makeDBCallListMaybePost(result: MutableLiveData<DBRe
             ?.addTo(this)
 }
 
+fun CompositeDisposable.clearAndDispose() {
+    clear()
+    dispose()
+}
