@@ -7,6 +7,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.SigningInfo
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
@@ -24,6 +25,7 @@ import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import java.io.File
@@ -401,5 +403,58 @@ fun Context.isAppInForeground(): Boolean {
         }
     }
     return false
+}
+
+
+inline fun <reified T> Context.launchActivityClipRevealAnimation(view: View,
+                                                                 startX: Int = 0,
+                                                                 startY: Int = 0,
+                                                                 width: Int? = null,
+                                                                 height: Int? = null,
+                                                                 optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+    val activityOptions = ActivityOptionsCompat.makeClipRevealAnimation(
+            view,
+            startX,
+            startY,
+            width ?: view.width,
+            height ?: view.height)
+    optionsCallback(activityOptions)
+    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
+}
+
+inline fun <reified T> Context.launchActivityScaleUpAnimation(view: View,
+                                                              startX: Int = 0,
+                                                              startY: Int = 0,
+                                                              width: Int? = null,
+                                                              height: Int? = null,
+                                                              optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+    val activityOptions = ActivityOptionsCompat.makeScaleUpAnimation(
+            view,
+            startX,
+            startY,
+            width ?: view.width,
+            height ?: view.height)
+    optionsCallback(activityOptions)
+    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
+}
+
+inline fun <reified T> Context.launchActivityThumbnailAnimation(view: View,
+                                                                startX: Int = 0,
+                                                                startY: Int = 0,
+                                                                thumbnail: Bitmap,
+                                                                optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+    val activityOptions = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(
+            view, thumbnail, startX, startY)
+    optionsCallback(activityOptions)
+    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
+
+}
+
+inline fun <reified T> Context.launchWithCustomAnimation(enterResId: Int,
+                                                         exitResId: Int, optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+    val activityOptions = ActivityOptionsCompat.makeCustomAnimation(
+            this, enterResId, exitResId)
+    optionsCallback(activityOptions)
+    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
 }
 
