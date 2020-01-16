@@ -25,6 +25,7 @@ import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityManagerCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -404,6 +405,9 @@ fun Context.isAppInForeground(): Boolean {
     }
     return false
 }
+
+
+fun Context.isLowRamDevice() = ActivityManagerCompat.isLowRamDevice(activityManager)
 
 
 inline fun <reified T> Context.launchActivityClipRevealAnimation(view: View,
