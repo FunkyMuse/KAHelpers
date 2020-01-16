@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions
 
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
 import kotlin.experimental.xor
 
 
@@ -27,10 +26,10 @@ fun ByteArray.bigEndian(): ByteArray {
 }
 
 val ByteArray.string: String
-    get() = Arrays.toString(this)
+    get() = this.contentToString()
 
 val ByteArray.hexString: String
-    get() = map { String.format("%02X", it) }.joinToString("")
+    get() = joinToString("") { String.format("%02X", it) }
 
 
 /**
@@ -95,3 +94,39 @@ inline val Byte.sign: Int
         this > 0 -> 1
         else -> 0
     }
+
+fun ByteArray.convertToHexString(): String {
+    val stringBuilder = StringBuilder()
+    this.forEach {
+        val value = it.toInt() and 0xff
+        var hexString = Integer.toHexString(value)
+        if (hexString.length < 2) {
+            hexString = "0$hexString"
+        }
+        stringBuilder.append(hexString)
+    }
+    return stringBuilder.toString()
+}
+
+
+fun ByteArray.base64Decode(): ByteArray {
+    return if (this.isEmpty()) ByteArray(0) else android.util.Base64.decode(this, android.util.Base64.NO_WRAP)
+}
+
+
+fun ByteArray.base64EncodeToString(): String {
+    return if (this.isEmpty())
+        ""
+    else
+        android.util.Base64.encodeToString(this, android.util.Base64.NO_WRAP)
+}
+
+
+fun ByteArray.base64Encode(): ByteArray {
+    return if (this.isEmpty())
+        ByteArray(0)
+    else
+        android.util.Base64.encode(this, android.util.Base64.NO_WRAP)
+}
+
+

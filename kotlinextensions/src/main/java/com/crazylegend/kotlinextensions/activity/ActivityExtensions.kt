@@ -10,21 +10,16 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.Rect
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.util.DisplayMetrics
-import android.view.KeyEvent
-import android.view.View
+import android.view.*
 import android.view.View.GONE
-import android.view.Window
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.*
@@ -39,6 +34,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.packageutils.buildIsMarshmallowAndUp
+import com.crazylegend.kotlinextensions.views.statusBarHeight
 
 
 /**
@@ -699,4 +695,66 @@ var Activity.isLightStatusBar
 fun Activity.postponeEnterTransition(timeout: Long) {
     postponeEnterTransition()
     window.decorView.postDelayed({ startPostponedEnterTransition() }, timeout)
+}
+
+
+fun Activity.fixSoftInputLeaks() {
+    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            ?: return
+    val leakViews = arrayOf("mLastSrvView", "mCurRootView", "mServedView", "mNextServedView")
+    for (leakView in leakViews) {
+        try {
+            val leakViewField = InputMethodManager::class.java.getDeclaredField(leakView)
+                    ?: continue
+            if (!leakViewField.isAccessible) {
+                leakViewField.isAccessible = true
+            }
+            val obj = leakViewField.get(imm) as? View ?: continue
+            if (obj.rootView === this.window.decorView.rootView) {
+                leakViewField.set(imm, null)
+            }
+        } catch (ignore: Throwable) { /**/
+        }
+    }
+}
+
+fun Activity.screenShot(removeStatusBar: Boolean = false): Bitmap? {
+    val dm = DisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(dm)
+
+    val bmp = Bitmap.createBitmap(dm.widthPixels, dm.heightPixels, Bitmap.Config.RGB_565)
+    val canvas = Canvas(bmp)
+    window.decorView.draw(canvas)
+
+
+    return if (removeStatusBar) {
+        val statusBarHeight = statusBarHeight
+        Bitmap.createBitmap(
+                bmp,
+                0,
+                statusBarHeight,
+                dm.widthPixels,
+                dm.heightPixels - statusBarHeight
+        )
+    } else {
+        Bitmap.createBitmap(bmp, 0, 0, dm.widthPixels, dm.heightPixels)
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Activity.screenShot(removeStatusBar: Boolean = false, listener: (Int, Bitmap) -> Unit) {
+
+    val rect = Rect()
+    windowManager.defaultDisplay.getRectSize(rect)
+
+    if (removeStatusBar) {
+        val statusBarHeight = this.statusBarHeight
+
+        rect.set(rect.left, rect.top + statusBarHeight, rect.right, rect.bottom)
+    }
+    val bitmap = Bitmap.createBitmap(rect.width(), rect.height(), Bitmap.Config.ARGB_8888)
+
+    PixelCopy.request(this.window, rect, bitmap, {
+        listener(it, bitmap)
+    }, Handler(this.mainLooper))
 }

@@ -8,6 +8,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.text.*
+import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
 import android.text.style.StyleSpan
 import android.util.Base64
@@ -21,6 +23,7 @@ import com.crazylegend.kotlinextensions.intent.canBeHandled
 import org.intellij.lang.annotations.RegExp
 import java.io.File
 import java.io.FileOutputStream
+import java.io.UnsupportedEncodingException
 import java.net.URI
 import java.net.URL
 import java.net.URLDecoder
@@ -1035,4 +1038,78 @@ fun String.unwrapQuotes(): String {
         }
     }
     return formattedConfigString
+}
+
+
+fun CharSequence.isEmail() = isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+fun CharSequence?.orDefault(defaultValue: CharSequence): CharSequence = if (isNullOrBlank()) defaultValue else this!!
+
+
+fun String?.urlEncode(charsetName: String = "UTF-8"): String {
+    if (this.isNullOrEmpty()) return ""
+    try {
+        return URLEncoder.encode(this, charsetName)
+    } catch (e: UnsupportedEncodingException) {
+        throw AssertionError(e)
+    }
+}
+
+fun String?.urlDecode(charsetName: String = "UTF-8"): String {
+    if (this.isNullOrEmpty()) return ""
+    try {
+        return URLDecoder.decode(this, charsetName)
+    } catch (e: UnsupportedEncodingException) {
+        throw AssertionError(e)
+    }
+}
+
+
+fun charToByte(c: Char): Byte {
+    return "0123456789ABCDEF".indexOf(c).toByte()
+}
+
+fun String.convertToBytes(): ByteArray {
+    if (this == "") {
+        return ByteArray(0)
+    }
+    val newHexString = this.trim().toUpperCase()
+    val length = newHexString.length / 2
+    val hexChars = newHexString.toCharArray()
+    val d = ByteArray(length)
+    for (i in 0 until length) {
+        val pos = i * 2
+        d[i] = (charToByte(hexChars[pos]).toInt() shl 4 or charToByte(hexChars[pos + 1]).toInt()).toByte()
+    }
+    return d
+}
+
+
+fun String.base64Encode(): ByteArray {
+    return this.toByteArray().base64Encode()
+}
+
+fun String.base64EncodeToString(): String {
+    return this.toByteArray().base64EncodeToString()
+}
+
+fun String.base64Decode(): ByteArray {
+    if (this.isEmpty()) return ByteArray(0)
+    return Base64.decode(this, Base64.NO_WRAP)
+}
+
+fun CharSequence?.isMatch(regex: String): Boolean {
+    return !this.isNullOrEmpty() && Regex(regex).matches(this)
+}
+
+fun CharSequence.setBackgroundColor(color: Int): CharSequence {
+    val s = SpannableString(this)
+    s.setSpan(BackgroundColorSpan(color), 0, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return s
+}
+
+fun CharSequence.setForegroundColor(color: Int): CharSequence {
+    val s = SpannableString(this)
+    s.setSpan(ForegroundColorSpan(color), 0, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return s
 }

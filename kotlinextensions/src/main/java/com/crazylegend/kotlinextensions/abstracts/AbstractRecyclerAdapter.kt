@@ -23,38 +23,21 @@ abstract class AbstractRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(private 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = list[position]
         bindItems(item, holder, position)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val holder = setViewHolder(parent.inflate(getLayout))
-
-        holder.itemView.setOnClickListenerCooldown {
-            val position = holder.adapterPosition
-            if (position != RecyclerView.NO_POSITION)
-                forItemClickListener?.forItem(position, list[position], it)
-        }
-        holder.itemView.setOnLongClickListener {
-            it?.let { view ->
-                val position = holder.adapterPosition
-                if (position != RecyclerView.NO_POSITION)
-                    onLongClickListener?.forItem(position, list[position], view = view)
-            }
-            true
-        }
-        return holder
-    }
-
-    private fun setViewHolder(inflatedView: View): VH {
-        val holder = viewHolder.declaredConstructors.first().newInstance(inflatedView) as VH
-        val position = holder.adapterPosition
         holder.itemView.setOnClickListenerCooldown {
             forItemClickListener?.forItem(position, list[position], it)
         }
         holder.itemView.setOnLongClickListener {
-            it?.let { view -> onLongClickListener?.forItem(position, list[position], view = view) }
+            it?.let { view ->
+                onLongClickListener?.forItem(position, list[position], view = view)
+            }
             true
         }
-        return holder
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = setViewHolder(parent.inflate(getLayout))
+
+
+    private fun setViewHolder(inflatedView: View): VH = viewHolder.declaredConstructors.first().newInstance(inflatedView) as VH
+
 
 }

@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.views
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.text.*
 import android.view.*
@@ -457,3 +458,32 @@ fun EditText.setReadOnly(readOnly: Boolean, inputType: Int = InputType.TYPE_NULL
     isFocusableInTouchMode = !readOnly
     this.inputType = inputType
 }
+
+
+var EditText.compoundDrawableStart: Drawable?
+    get() = compoundDrawablesRelative[0]
+    set(value) = setCompoundDrawablesRelativeWithIntrinsicBounds(value,
+            compoundDrawablesRelative[1],
+            compoundDrawablesRelative[2],
+            compoundDrawablesRelative[3])
+
+var EditText.compoundDrawableTop: Drawable?
+    get() = compoundDrawablesRelative[1]
+    set(value) = setCompoundDrawablesRelativeWithIntrinsicBounds(compoundDrawablesRelative[0],
+            value,
+            compoundDrawablesRelative[2],
+            compoundDrawablesRelative[3])
+
+var EditText.compoundDrawableEnd: Drawable?
+    get() = compoundDrawablesRelative[2]
+    set(value) = setCompoundDrawablesRelativeWithIntrinsicBounds(compoundDrawablesRelative[0],
+            compoundDrawablesRelative[1],
+            value,
+            compoundDrawablesRelative[3])
+
+var EditText.compoundDrawableBottom: Drawable?
+    get() = compoundDrawablesRelative[3]
+    set(value) = setCompoundDrawablesRelativeWithIntrinsicBounds(compoundDrawablesRelative[0],
+            compoundDrawablesRelative[1],
+            compoundDrawablesRelative[2],
+            value)

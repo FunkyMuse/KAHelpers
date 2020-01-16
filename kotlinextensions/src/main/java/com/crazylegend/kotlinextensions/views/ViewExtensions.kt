@@ -23,6 +23,7 @@ import android.view.animation.AlphaAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.RelativeLayout.*
+import androidx.activity.ComponentActivity
 import androidx.annotation.*
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.SearchView
@@ -2123,3 +2124,107 @@ fun View.fullScreen() {
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_FULLSCREEN
 }
+
+
+fun View.dip(value: Int): Int = (value * (resources.displayMetrics.density)).toInt()
+fun View.dimen(@DimenRes resourceId: Int): Float = resources.getDimension(resourceId)
+fun View.integer(@IntegerRes resourceId: Int): Int = resources.getInteger(resourceId)
+fun View.bool(@BoolRes resourceId: Int): Boolean = resources.getBoolean(resourceId)
+fun View.colorStateList(@ColorRes resourceId: Int): ColorStateList? = ContextCompat.getColorStateList(context, resourceId)
+fun View.drawable(@DrawableRes resourceId: Int): Drawable? = ContextCompat.getDrawable(context, resourceId)
+fun View.drawable(@DrawableRes resourceId: Int, tintColorResId: Int): Drawable? =
+        ContextCompat.getDrawable(context, resourceId)?.apply {
+            setTint(color(tintColorResId))
+        }
+
+
+fun View.string(@StringRes resourceId: Int): String = resources.getString(resourceId)
+fun View.string(@StringRes resourceId: Int, vararg args: Any?): String = resources.getString(resourceId, *args)
+fun View.quantityString(@PluralsRes resourceId: Int, quantity: Int, vararg args: Any?): String = resources.getQuantityString(resourceId, quantity, quantity, *args)
+
+
+fun View.snack(msg: CharSequence, @ColorRes colorResId: Int? = null,
+               duration: Int = Snackbar.LENGTH_SHORT, build: (Snackbar.() -> Unit)? = null) {
+    val snackbar = Snackbar.make(this, msg, duration)
+    colorResId?.let { snackbar.view.setBackgroundColor(color(colorResId)) }
+    build?.let { snackbar.build() }
+    snackbar.show()
+}
+
+val View.window: Window
+    get() = activity.window
+
+
+val View.activity: ComponentActivity
+    get() = context as ComponentActivity
+
+
+fun View.setNewHeight(value: Int) {
+    val lp = layoutParams
+    lp?.let {
+        lp.height = value
+        layoutParams = lp
+    }
+}
+
+fun View.setNewWidth(value: Int) {
+    val lp = layoutParams
+    lp?.let {
+        lp.width = value
+        layoutParams = lp
+    }
+}
+
+
+inline var View.bottomMargin: Int
+    get():Int {
+        return (layoutParams as ViewGroup.MarginLayoutParams).bottomMargin
+    }
+    set(value) {
+        (layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = value
+    }
+
+inline var View.topMargin: Int
+    get():Int {
+        return (layoutParams as ViewGroup.MarginLayoutParams).topMargin
+    }
+    set(value) {
+        (layoutParams as ViewGroup.MarginLayoutParams).topMargin = value
+    }
+
+inline var View.rightMargin: Int
+    get():Int {
+        return (layoutParams as ViewGroup.MarginLayoutParams).rightMargin
+    }
+    set(value) {
+        (layoutParams as ViewGroup.MarginLayoutParams).rightMargin = value
+    }
+
+inline var View.leftMargin: Int
+    get():Int {
+        return (layoutParams as ViewGroup.MarginLayoutParams).leftMargin
+    }
+    set(value) {
+        (layoutParams as ViewGroup.MarginLayoutParams).leftMargin = value
+    }
+
+fun View.setMargin(left: Int, top: Int, right: Int, bottom: Int) {
+    (layoutParams as ViewGroup.MarginLayoutParams).setMargins(left, top, right, bottom)
+}
+
+inline var View.leftPadding: Int
+    get() = paddingLeft
+    set(value) = setPadding(value, paddingTop, paddingRight, paddingBottom)
+
+inline var View.topPadding: Int
+    get() = paddingTop
+    set(value) = setPadding(paddingLeft, value, paddingRight, paddingBottom)
+
+inline var View.rightPadding: Int
+    get() = paddingRight
+    set(value) = setPadding(paddingLeft, paddingTop, value, paddingBottom)
+
+inline var View.bottomPadding: Int
+    get() = paddingBottom
+    set(value) = setPadding(paddingLeft, paddingTop, paddingRight, value)
+

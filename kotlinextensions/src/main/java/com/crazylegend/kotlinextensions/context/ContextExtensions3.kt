@@ -717,3 +717,6 @@ val Context.unwrapActivity: Activity?
 
         return null
     }
+
+
+fun Context.getSharedPreferencesByTag(tag: String) = getSharedPreferences(tag, Context.MODE_PRIVATE)

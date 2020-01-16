@@ -1,8 +1,12 @@
 package com.crazylegend.kotlinextensions.context
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.PendingIntent
 import android.content.*
+import android.content.pm.PackageManager
+import android.content.pm.SigningInfo
+import android.content.res.ColorStateList
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
@@ -16,11 +20,13 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.IdRes
+import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import java.io.File
 
 
 /**
@@ -318,5 +324,82 @@ fun AppCompatActivity.customIndicator(drawable: Drawable?) {
 
 fun AppCompatActivity.customIndicator(drawableResource: Int) {
     supportActionBar?.setHomeAsUpIndicator(drawableResource)
+}
+
+
+fun Context.dip(value: Int): Int = (value * (resources.displayMetrics.density)).toInt()
+fun Context.bool(@BoolRes resourceId: Int): Boolean = resources.getBoolean(resourceId)
+fun Context.colorStateList(@ColorRes resourceId: Int): ColorStateList? = ContextCompat.getColorStateList(this, resourceId)
+fun Context.drawable(@DrawableRes resourceId: Int, tintColorResId: Int): Drawable? =
+        ContextCompat.getDrawable(this, resourceId)?.apply {
+            setTint(color(tintColorResId))
+        }
+
+fun Context.string(@StringRes resourceId: Int, vararg args: Any?): String = resources.getString(resourceId, *args)
+fun Context.quantityString(@PluralsRes resourceId: Int, quantity: Int): String = resources.getQuantityString(resourceId, quantity, quantity)
+
+fun Context.getAppPath(packageName: String = this.packageName): String {
+    if (packageName.isBlank()) return ""
+    return try {
+        val pm = packageManager
+        val pi = pm.getPackageInfo(packageName, 0)
+        pi?.applicationInfo?.sourceDir ?: ""
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        ""
+    }
+}
+
+
+/**
+ * {@code <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />}
+ *
+ * @receiver Context
+ * @param file File
+ */
+fun Context.installApp(file: File) {
+    if (!file.exists()) return
+    this.startActivity(getInstallAppIntent(file, true))
+}
+
+private fun Context.getInstallAppIntent(file: File, isNewTask: Boolean = false): Intent {
+    val intent = Intent(Intent.ACTION_VIEW)
+    val data: Uri
+    val type = "application/vnd.android.package-archive"
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        data = Uri.fromFile(file)
+    } else {
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        val authority = this.packageName
+        data = FileProvider.getUriForFile(this, authority, file)
+    }
+    grantUriPermission(packageName, data, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    intent.setDataAndType(data, type)
+    return if (isNewTask) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) else intent
+}
+
+@RequiresApi(Build.VERSION_CODES.P)
+fun Context.getAppSignature(packageName: String = this.packageName): SigningInfo? {
+    if (packageName.isBlank()) return null
+    return try {
+        packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)?.signingInfo
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        null
+    }
+}
+
+
+fun Context.isAppInForeground(): Boolean {
+    val am = this.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
+            ?: return false
+    val info = am.runningAppProcesses
+    if (info.isNullOrEmpty()) return false
+    for (aInfo in info) {
+        if (aInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+            return aInfo.processName == this.packageName
+        }
+    }
+    return false
 }
 

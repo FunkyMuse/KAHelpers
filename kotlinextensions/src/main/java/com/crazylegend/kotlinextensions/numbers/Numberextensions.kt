@@ -467,6 +467,21 @@ fun Long.formatBytes(): String {
     }
 }
 
+/**
+ * B\KB\MB\GB
+ * @receiver Long
+ * @return String
+ */
+fun Long.toFitMemorySize(): String {
+    return when {
+        this < 0 -> "shouldn't be less than zero!"
+        this < 1024 -> String.format(Locale.getDefault(), "%.2fB", this.toDouble())
+        this < 1048576 -> String.format(Locale.getDefault(), "%.2fKB", this.toDouble() / 1024)
+        this < 1073741824 -> String.format(Locale.getDefault(), "%.2fMB", this.toDouble() / 1048576)
+        else -> String.format(Locale.getDefault(), "%.2fGB", this.toDouble() / 1073741824)
+    }
+}
+
 
 infix fun Byte.xorx(short: Short) = this xorx short.byteArray
 
