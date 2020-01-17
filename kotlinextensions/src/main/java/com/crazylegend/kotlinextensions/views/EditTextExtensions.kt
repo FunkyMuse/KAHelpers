@@ -95,9 +95,9 @@ fun EditText.getTextDouble(): Double? {
  * @return The `TextWatcher` being added to EditText
  */
 fun EditText.addTextWatcher(
-    afterTextChanged: (text: Editable?) -> Unit = { _ -> },
-    beforeTextChanged: (text: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
-    onTextChanged: (text: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> }
+        afterTextChanged: (text: Editable?) -> Unit = { _ -> },
+        beforeTextChanged: (text: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
+        onTextChanged: (text: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> }
 ): TextWatcher {
 
     val textWatcher = object : TextWatcher {
@@ -214,6 +214,21 @@ inline fun EditText.onImeAction(crossinline action: (text: String) -> Unit) {
     }
 }
 
+
+inline fun EditText.onImeAction2(crossinline action: (view: View, text: String) -> Unit = { _, _ -> }) {
+    setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        if ((event?.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+            action(v, text.toString())
+            return@OnKeyListener true
+        }
+        false
+    })
+    setOnEditorActionListener { v, actionId, event ->
+        action(v, text.toString())
+        true
+    }
+}
+
 /**
  * Both sets the [EditText.setImeOptions] to "Done" and listens for the IME action.
  */
@@ -251,13 +266,13 @@ fun EditText.setCursorColor(color: Int) {
         val fCursorDrawable = clazz.getDeclaredField("mCursorDrawable")
         fCursorDrawable.isAccessible = true
         val drawables = arrayOf(
-            context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
-                this?.let { DrawableCompat.setTint(it, color) }
+                context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
+                    this?.let { DrawableCompat.setTint(it, color) }
 
-            },
-            context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
-                this?.let { DrawableCompat.setTint(it, color) }
-            }
+                },
+                context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
+                    this?.let { DrawableCompat.setTint(it, color) }
+                }
         )
         fCursorDrawable.set(editor, drawables)
     } catch (ignored: Throwable) {
@@ -310,7 +325,6 @@ fun EditText.pasteFromClipBoard() {
 }
 
 
-
 /**
  * Sets OnFocusChangeListener and calls specified function [block]
  * if this view become focused
@@ -361,10 +375,10 @@ fun EditText.showKeyboardDelayed(delayMillis: Long) {
  * Hides keyboard for this edit text
  */
 fun EditText.hideKeyboard() =
-    context.inputMethodManager.hideSoftInputFromWindow(
-        windowToken,
-        InputMethodManager.HIDE_NOT_ALWAYS
-    )
+        context.inputMethodManager.hideSoftInputFromWindow(
+                windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+        )
 
 /**
  * Hides keyboard for this edit text with delay
@@ -372,11 +386,11 @@ fun EditText.hideKeyboard() =
  * @param delayMillis - delay in milliseconds before keyboard will be hided
  */
 fun EditText.hideKeyboardDelayed(delayMillis: Long) =
-    Handler().postDelayed({ hideKeyboard() }, delayMillis)
+        Handler().postDelayed({ hideKeyboard() }, delayMillis)
 
 
- @SuppressLint("ClickableViewAccessibility")
- fun EditText.disableCopyAndPaste() {
+@SuppressLint("ClickableViewAccessibility")
+fun EditText.disableCopyAndPaste() {
     try {
 
         this.setOnLongClickListener { _ -> true }
@@ -412,7 +426,7 @@ fun EditText.hideKeyboardDelayed(delayMillis: Long) =
 
 }
 
- fun EditText.setInsertionDisabled() {
+fun EditText.setInsertionDisabled() {
     try {
         val editorField = TextView::class.java.getDeclaredField("mEditor")
         editorField.isAccessible = true
