@@ -415,7 +415,8 @@ inline fun <reified T> Context.launchActivityClipRevealAnimation(view: View,
                                                                  startY: Int = 0,
                                                                  width: Int? = null,
                                                                  height: Int? = null,
-                                                                 optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+                                                                 optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+                                                                 intentCallback: (Intent) -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeClipRevealAnimation(
             view,
             startX,
@@ -423,7 +424,9 @@ inline fun <reified T> Context.launchActivityClipRevealAnimation(view: View,
             width ?: view.width,
             height ?: view.height)
     optionsCallback(activityOptions)
-    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
+    val intent = Intent(this, T::class.java)
+    intentCallback.invoke(intent)
+    startActivity(intent, activityOptions.toBundle())
 }
 
 inline fun <reified T> Context.launchActivityScaleUpAnimation(view: View,
@@ -431,7 +434,8 @@ inline fun <reified T> Context.launchActivityScaleUpAnimation(view: View,
                                                               startY: Int = 0,
                                                               width: Int? = null,
                                                               height: Int? = null,
-                                                              optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+                                                              optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+                                                              intentCallback: (Intent) -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeScaleUpAnimation(
             view,
             startX,
@@ -439,26 +443,34 @@ inline fun <reified T> Context.launchActivityScaleUpAnimation(view: View,
             width ?: view.width,
             height ?: view.height)
     optionsCallback(activityOptions)
-    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
+    val intent = Intent(this, T::class.java)
+    intentCallback.invoke(intent)
+    startActivity(intent, activityOptions.toBundle())
 }
 
 inline fun <reified T> Context.launchActivityThumbnailAnimation(view: View,
                                                                 startX: Int = 0,
                                                                 startY: Int = 0,
                                                                 thumbnail: Bitmap,
-                                                                optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+                                                                optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+                                                                intentCallback: (Intent) -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(
             view, thumbnail, startX, startY)
     optionsCallback(activityOptions)
-    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
+    val intent = Intent(this, T::class.java)
+    intentCallback.invoke(intent)
+    startActivity(intent, activityOptions.toBundle())
 
 }
 
 inline fun <reified T> Context.launchWithCustomAnimation(enterResId: Int,
-                                                         exitResId: Int, optionsCallback: (ActivityOptionsCompat) -> Unit = {}) {
+                                                         exitResId: Int, optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+                                                         intentCallback: (Intent) -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeCustomAnimation(
             this, enterResId, exitResId)
     optionsCallback(activityOptions)
-    startActivity(Intent(this, T::class.java), activityOptions.toBundle())
+    val intent = Intent(this, T::class.java)
+    intentCallback.invoke(intent)
+    startActivity(intent, activityOptions.toBundle())
 }
 
