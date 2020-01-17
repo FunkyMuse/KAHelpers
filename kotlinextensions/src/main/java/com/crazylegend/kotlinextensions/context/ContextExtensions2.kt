@@ -416,7 +416,7 @@ inline fun <reified T> Context.launchActivityClipRevealAnimation(view: View,
                                                                  width: Int? = null,
                                                                  height: Int? = null,
                                                                  optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                                 intentCallback: (Intent) -> Unit = {}) {
+                                                                 noinline init: Intent.() -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeClipRevealAnimation(
             view,
             startX,
@@ -425,7 +425,7 @@ inline fun <reified T> Context.launchActivityClipRevealAnimation(view: View,
             height ?: view.height)
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
-    intentCallback.invoke(intent)
+    intent.init()
     startActivity(intent, activityOptions.toBundle())
 }
 
@@ -435,7 +435,7 @@ inline fun <reified T> Context.launchActivityScaleUpAnimation(view: View,
                                                               width: Int? = null,
                                                               height: Int? = null,
                                                               optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                              intentCallback: (Intent) -> Unit = {}) {
+                                                              noinline init: Intent.() -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeScaleUpAnimation(
             view,
             startX,
@@ -444,7 +444,7 @@ inline fun <reified T> Context.launchActivityScaleUpAnimation(view: View,
             height ?: view.height)
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
-    intentCallback.invoke(intent)
+    intent.init()
     startActivity(intent, activityOptions.toBundle())
 }
 
@@ -453,24 +453,24 @@ inline fun <reified T> Context.launchActivityThumbnailAnimation(view: View,
                                                                 startY: Int = 0,
                                                                 thumbnail: Bitmap,
                                                                 optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                                intentCallback: (Intent) -> Unit = {}) {
+                                                                noinline init: Intent.() -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(
             view, thumbnail, startX, startY)
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
-    intentCallback.invoke(intent)
+    intent.init()
     startActivity(intent, activityOptions.toBundle())
 
 }
 
 inline fun <reified T> Context.launchWithCustomAnimation(enterResId: Int,
                                                          exitResId: Int, optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                         intentCallback: (Intent) -> Unit = {}) {
+                                                         noinline init: Intent.() -> Unit = {}) {
     val activityOptions = ActivityOptionsCompat.makeCustomAnimation(
             this, enterResId, exitResId)
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
-    intentCallback.invoke(intent)
+    intent.init()
     startActivity(intent, activityOptions.toBundle())
 }
 
