@@ -10,8 +10,11 @@ import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.runDelayed
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 
 class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -28,10 +31,34 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
         adapter.forItemClickListener = forItemClickListenerDSL { position, item, _ ->
             debug("CLICKED AT ${item.title} at position $position")
         }
+        adapter.submitList(listOf(
+                TestModel("1", 1, "1", 1),
+                TestModel("1", 1, "1", 1),
+                TestModel("1", 1, "1", 1),
+                TestModel("1", 1, "1", 1),
+                TestModel("1", 1, "1", 1)
+        ))
+        runDelayed(3, TimeUnit.SECONDS) {
+            adapter.submitList(listOf(
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1),
+                    TestModel("1", 1, "1", 1)
+            ))
+        }
         testAVM.posts?.observe(this, Observer {
             when (it) {
                 is RetrofitResult.Success -> {
-                    adapter.submitList(it.value)
+                    //adapter.submitList(it.value)
                 }
                 RetrofitResult.Loading -> {
                     debug(it.toString())

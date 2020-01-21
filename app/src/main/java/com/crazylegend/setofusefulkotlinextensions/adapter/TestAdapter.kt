@@ -14,7 +14,8 @@ import com.crazylegend.setofusefulkotlinextensions.R
  * Template created by Hristijan to live long and prosper.
  */
 
-class TestAdapter : AbstractListAdapter<TestModel, TestViewHolder>(TestViewHolder::class.java) {
+class TestAdapter : AbstractListAdapter<TestModel, TestViewHolder>(
+        TestViewHolder::class.java) {
 
     override val getLayout: Int
         get() = R.layout.recycler_view_item

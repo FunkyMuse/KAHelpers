@@ -31,12 +31,14 @@ the methods, since it's using reflection to instantiate the constructor
 @Suppress("UNCHECKED_CAST")
 abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
         private val viewHolder: Class<VH>,
-        diffCallback: DiffUtil.ItemCallback<T>? = null
+        diffCallback: DiffUtil.ItemCallback<T>? = null,
+        areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
 ) :
         ListAdapter<T, VH>(diffCallback ?: object : DiffUtil.ItemCallback<T>() {
-            override fun areItemsTheSame(oldItem: T, newItem: T) = newItem == oldItem
+            override fun areItemsTheSame(oldItem: T, newItem: T) = areItemsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
             @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: T, newItem: T) = newItem == oldItem
+            override fun areContentsTheSame(oldItem: T, newItem: T) = areContentsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
         }) {
     abstract val getLayout: Int
     abstract fun bindItems(item: T, holder: VH, position: Int)
@@ -47,6 +49,16 @@ abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = getItem(position)
         bindItems(item, holder, position)
+
+        holder.itemView.setOnClickListenerCooldown {
+            forItemClickListener?.forItem(position, getItem(position), it)
+        }
+        holder.itemView.setOnLongClickListener {
+            it?.let { view ->
+                onLongClickListener?.forItem(position, getItem(position), view)
+            }
+            true
+        }
     }
 
     /**
@@ -57,31 +69,8 @@ abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
      * @param viewType Int
      * @return VH
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val holder = setViewHolder(parent.inflate(getLayout))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = setViewHolder(parent.inflate(getLayout))
 
-        holder.itemView.setOnClickListenerCooldown {
-            setListenerForValidPosition(holder) { position ->
-                forItemClickListener?.forItem(position, getItem(position), it)
-            }
-        }
-        holder.itemView.setOnLongClickListener {
-            it?.let { view ->
-                setListenerForValidPosition(holder) { position ->
-                    onLongClickListener?.forItem(position, getItem(position), view)
-                }
-            }
-            true
-        }
-        return holder
-    }
-
-    private fun setListenerForValidPosition(holder: VH, action: (position: Int) -> Unit) {
-        val position = holder.adapterPosition
-        if (position != RecyclerView.NO_POSITION) {
-            action(position)
-        }
-    }
 
     private fun setViewHolder(inflatedView: View): VH = viewHolder.declaredConstructors.first().newInstance(inflatedView) as VH
 }
