@@ -510,18 +510,28 @@ fun Fragment.removeFragmentBackstack() {
 }
 
 fun AppCompatActivity.removeFragment(fragment: Fragment) {
-    supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+    supportFragmentManager.beginTransaction().remove(fragment).commitNowAllowingStateLoss()
 }
+
+fun FragmentManager.removeFragmentWithStateLoss(fragment: Fragment) {
+    beginTransaction().remove(fragment).commitNowAllowingStateLoss()
+}
+
 
 fun Context.removeFragment(fragment: Fragment) {
     this as AppCompatActivity
-    supportFragmentManager.beginTransaction().remove(fragment).commitNow()
+    supportFragmentManager.removeFragmentWithStateLoss(fragment)
 }
 
 fun Fragment.removeFragment() {
     val activity = this.requireContext() as AppCompatActivity
-    activity.supportFragmentManager.beginTransaction().remove(this).commitNow()
+    activity.supportFragmentManager.removeFragmentWithStateLoss(this)
 }
+
+fun Fragment.removeFragmentChild() {
+    childFragmentManager.removeFragmentWithStateLoss(this)
+}
+
 
 fun AppCompatActivity.printBackStack() {
     this.debug("Fragment", "Current BackStack:  " + supportFragmentManager.backStackEntryCount)
