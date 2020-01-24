@@ -4,16 +4,15 @@ package com.crazylegend.setofusefulkotlinextensions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
+import com.crazylegend.kotlinextensions.recyclerview.initRecyclerViewAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.runDelayed
 import com.crazylegend.kotlinextensions.views.AppRater
-import com.crazylegend.kotlinextensions.views.readAttributes
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,13 +32,7 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
             buttonsBGColor = getCompatColor(R.color.colorAccent)
         }
 
-
-        recycler.readAttributes(null, IntArray(0)) {
-
-        }
-        recycler.setHasFixedSize(true)
-        recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = adapter
+        recycler.initRecyclerViewAdapter(adapter)
 
         adapter.forItemClickListener = forItemClickListenerDSL { position, item, _ ->
             debug("CLICKED AT ${item.title} at position $position")
@@ -53,6 +46,8 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
         ))
         runDelayed(3, TimeUnit.SECONDS) {
             debug("DELAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYED")
+            adapter.submitList(emptyList())
+
             testAVM.getposts()
         }
         testAVM.posts?.observe(this, Observer {

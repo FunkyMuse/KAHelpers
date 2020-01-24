@@ -711,14 +711,16 @@ fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, item
 fun <T : RecyclerView.Adapter<*>> RecyclerView.initRecyclerViewAdapter(
         yourAdapter: T,
         layoutOrientation: Int = RecyclerView.VERTICAL,
-        fixedSize: Boolean = true
+        fixedSize: Boolean = true,
+        reverseLayout: Boolean = false
 ) {
     apply {
-        layoutManager = LinearLayoutManager(this.context, layoutOrientation, false)
+        layoutManager = LinearLayoutManager(context, layoutOrientation, reverseLayout)
         adapter = yourAdapter
         setHasFixedSize(fixedSize)
     }
 }
+
 
 /**Set adapter of recyclerView
  * @param yourAdapter your adapter(must extend RecyclerView.Adapter)
