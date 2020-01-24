@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.INTERNET
 import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.ContentValues
@@ -10,6 +12,7 @@ import android.content.res.AssetManager
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.wifi.WifiManager
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Build.*
@@ -18,22 +21,32 @@ import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.telephony.TelephonyManager
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
+import androidx.annotation.RequiresPermission
 import androidx.collection.LruCache
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.basehelpers.InMemoryCache
 import com.crazylegend.kotlinextensions.context.batteryManager
+import com.crazylegend.kotlinextensions.context.telephonyManager
 import com.crazylegend.kotlinextensions.helperModels.BatteryStatusModel
 import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
 import java.math.BigInteger
+import java.net.InetAddress
+import java.net.NetworkInterface
+import java.net.SocketException
 import java.nio.ByteBuffer
 import java.nio.charset.Charset
+import java.security.SignatureException
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
 
 /**
@@ -627,3 +640,288 @@ fun <T> lazyFast(operation: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) 
  * @return Drawable?
  */
 fun Context.getWallpaperDrawable(): Drawable? = WallpaperManager.getInstance(this).peekDrawable()
+
+
+/**
+ * Returns true if the current layout direction is [View.LAYOUT_DIRECTION_RTL].
+ *
+ * @return
+ *
+ *This always returns false on versions below JELLY_BEAN_MR1.
+ */
+fun isRtlLayout() =
+        TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL
+
+
+/**
+ * Method to get Region based on SIM card
+ * i.e., it will return country region
+ *
+ * @return  two letter country code
+ */
+fun Context.getRegionFromSimCard(): String? = telephonyManager?.simCountryIso
+
+/**
+ * Method which provides boolean result for simcard
+ *
+ * @return **true** if sim card is present in device,
+ * **false** if sim card is not present in device
+ */
+fun Context.isSimPresentInDevice(): Boolean {
+    return telephonyManager?.simState != TelephonyManager.SIM_STATE_ABSENT
+}
+
+
+/**
+ * Return the MAC address.
+ *
+ * Must hold
+ * `<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />`,
+ * `<uses-permission android:name="android.permission.INTERNET" />`
+ *
+ * @return the MAC address
+ */
+@RequiresPermission(allOf = [ACCESS_WIFI_STATE, INTERNET])
+fun getMacAddress(context: Context): String {
+    return getMacAddress(
+            context,
+            *((null as Array<String>?)!!)
+    )
+}
+
+/**
+ * Return the MAC address.
+ *
+ * Must hold
+ * `<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />`,
+ * `<uses-permission android:name="android.permission.INTERNET" />`
+ *
+ * @return the MAC address
+ */
+@RequiresPermission(allOf = [ACCESS_WIFI_STATE, INTERNET])
+fun getMacAddress(context: Context, vararg excepts: String): String {
+    var macAddress =
+            getMacAddressByWifiInfo(context)
+    if (isAddressNotInExcepts(
+                    macAddress,
+                    *excepts
+            )
+    ) {
+        return macAddress
+    }
+    macAddress =
+            getMacAddressByNetworkInterface()
+    if (isAddressNotInExcepts(
+                    macAddress,
+                    *excepts
+            )
+    ) {
+        return macAddress
+    }
+    macAddress = getMacAddressByInetAddress()
+    if (isAddressNotInExcepts(
+                    macAddress,
+                    *excepts
+            )
+    ) {
+        return macAddress
+    }
+
+    return ""
+}
+
+
+private fun isAddressNotInExcepts(address: String, vararg excepts: String): Boolean {
+    if (excepts.isEmpty()) {
+        return "02:00:00:00:00:00" != address
+    }
+    for (filter in excepts) {
+        if (address == filter) {
+            return false
+        }
+    }
+    return true
+}
+
+private fun getMacAddressByNetworkInterface(): String {
+    try {
+        val nis = NetworkInterface.getNetworkInterfaces()
+        while (nis.hasMoreElements()) {
+            val ni = nis.nextElement()
+            if (ni == null || !ni.name.equals("wlan0", ignoreCase = true)) continue
+            val macBytes = ni.hardwareAddress
+            if (macBytes != null && macBytes.isNotEmpty()) {
+                val sb = StringBuilder()
+                for (b in macBytes) {
+                    sb.append(String.format("%02x:", b))
+                }
+                return sb.substring(0, sb.length - 1)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return "02:00:00:00:00:00"
+}
+
+private fun getMacAddressByInetAddress(): String {
+    try {
+        val inetAddress = getInetAddress()
+        if (inetAddress != null) {
+            val ni = NetworkInterface.getByInetAddress(inetAddress)
+            if (ni != null) {
+                val macBytes = ni.hardwareAddress
+                if (macBytes != null && macBytes.isNotEmpty()) {
+                    val sb = StringBuilder()
+                    for (b in macBytes) {
+                        sb.append(String.format("%02x:", b))
+                    }
+                    return sb.substring(0, sb.length - 1)
+                }
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return "02:00:00:00:00:00"
+}
+
+
+private fun getInetAddress(): InetAddress? {
+    try {
+        val nis = NetworkInterface.getNetworkInterfaces()
+        while (nis.hasMoreElements()) {
+            val ni = nis.nextElement()
+            // To prevent phone of xiaomi return "10.0.2.15"
+            if (!ni.isUp) continue
+            val addresses = ni.inetAddresses
+            while (addresses.hasMoreElements()) {
+                val inetAddress = addresses.nextElement()
+                if (!inetAddress.isLoopbackAddress) {
+                    val hostAddress = inetAddress.hostAddress
+                    if (hostAddress.indexOf(':') < 0) return inetAddress
+                }
+            }
+        }
+    } catch (e: SocketException) {
+        e.printStackTrace()
+    }
+
+    return null
+}
+
+
+/**
+ * Return the android id of device.
+ *
+ * @return the android id of device
+ */
+@SuppressLint("HardwareIds")
+fun Context.getAndroidID(): String {
+
+    val id = Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ANDROID_ID
+    )
+    return id ?: ""
+}
+
+
+@SuppressLint("HardwareIds", "MissingPermission")
+private fun getMacAddressByWifiInfo(context: Context): String {
+    try {
+        val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val info = wifi.connectionInfo
+        if (info != null) return info.macAddress
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return "02:00:00:00:00:00"
+}
+
+
+/**
+ * Return the manufacturer of the product/hardware.
+ *
+ * e.g. Xiaomi
+ *
+ * @return the manufacturer of the product/hardware
+ */
+fun getManufacturer(): String = MANUFACTURER
+
+/**
+ * Return the model of device.
+ *
+ * e.g. MI2SC
+ *
+ * @return the model of device
+ */
+fun getDeviceModel(): String {
+    var model: String? = MODEL
+    model = model?.trim { it <= ' ' }?.replace("\\s*".toRegex(), "") ?: ""
+    return model
+}
+
+/**
+ * Return an ordered list of ABIs supported by this device. The most preferred ABI is the first
+ * element in the list.
+ *
+ * @return an ordered list of ABIs supported by this device
+ */
+fun getSupportedABIs(): Array<String> = SUPPORTED_ABIS
+
+
+/***
+ * Computes RFC 2104-compliant HMAC signature. This can be used to sign the Amazon S3
+ * request urls
+ *
+ * @param data The data to be signed.
+ * @param key  The signing key.
+ * @return The Base64-encoded RFC 2104-compliant HMAC signature.
+ * @throws java.security.SignatureException when signature generation fails
+ */
+@Throws(SignatureException::class)
+fun getHMac(data: String?, key: String): String? {
+
+    if (data == null) {
+        throw NullPointerException("Data to be signed cannot be null")
+    }
+
+    var result: String? = null
+    try {
+
+        @Suppress("LocalVariableName") val HMAC_SHA1_ALGORITHM = "HmacSHA1"
+
+        // get an hmac_sha1 key from the raw key bytes
+        val signingKey = SecretKeySpec(key.toByteArray(), HMAC_SHA1_ALGORITHM)
+
+        // get an hmac_sha1 Mac instance &
+        // initialize with the signing key
+        val mac = Mac.getInstance(HMAC_SHA1_ALGORITHM)
+        mac.init(signingKey)
+
+        // compute the hmac on input data bytes
+        val digest = mac.doFinal(data.toByteArray())
+
+        if (digest != null) {
+            // Base 64 Encode the results
+            result = digest.base64EncodeToString()
+        }
+
+    } catch (e: Exception) {
+        throw SignatureException("Failed to generate HMAC : " + e.message)
+    }
+
+    return result
+}
+
+
+inline fun <reified T> Any?.cast() = this as? T
+
+inline fun <reified T> Any.force() = this as T
+
+fun <T> T?.ifNotNull(toBoolean: T.() -> Boolean) =
+        if (this != null) toBoolean() else false

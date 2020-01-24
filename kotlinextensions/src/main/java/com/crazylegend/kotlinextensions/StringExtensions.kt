@@ -4,16 +4,16 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.text.*
-import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StrikethroughSpan
-import android.text.style.StyleSpan
+import android.text.style.*
 import android.util.Base64
 import android.util.Patterns
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
@@ -77,14 +77,15 @@ val String.mostCommonCharacter: Char?
     }
 
 fun String.removeFirstChar(): String {
-    return if (this.isEmpty()){
+    return if (this.isEmpty()) {
         ""
     } else {
         this.substring(1)
     }
 }
+
 fun String.removeLastCharacter(): String {
-    return  if (this.isEmpty()){
+    return if (this.isEmpty()) {
         ""
     } else {
         this.substring(0, this.length - 1)
@@ -299,14 +300,14 @@ fun String.clearHtmlTags(): String {
  * and has much higher probabilities of not returning false positives per approximation.
  */
 fun String.containsExact(string: String): Boolean =
-    Pattern.compile("(?<=^|[^a-zA-Z0-9])\\Q$string\\E(?=\$|[^a-zA-Z0-9])")
-        .matcher(this)
-        .find()
+        Pattern.compile("(?<=^|[^a-zA-Z0-9])\\Q$string\\E(?=\$|[^a-zA-Z0-9])")
+                .matcher(this)
+                .find()
 
 /**
  * Converts string to integer safely otherwise returns zero
  */
-fun String.toIntOrZero() : Int {
+fun String.toIntOrZero(): Int {
     var value = 0
     tryOrIgnore {
         value = this.toInt()
@@ -333,8 +334,8 @@ fun String.convertToCamelCase(): String {
     if (this.isNotEmpty()) {
         val words = this.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         words.filterNot { it.isEmpty() }
-            .map { it.substring(0, 1).toUpperCase() + it.substring(1).toLowerCase() }
-            .forEach { titleText += "$it " }
+                .map { it.substring(0, 1).toUpperCase() + it.substring(1).toLowerCase() }
+                .forEach { titleText += "$it " }
     }
     return titleText.trim { it <= ' ' }
 }
@@ -383,43 +384,43 @@ fun Spannable.highlightSubstring(query: String, @StyleRes style: Int): Spannable
     return spannable
 }
 
-fun String.noNumbers() :Boolean {
+fun String.noNumbers(): Boolean {
     return matches(Regex(".*\\d.*"))
 }
 
-fun String.onlyNumbers() :Boolean {
+fun String.onlyNumbers(): Boolean {
     return !matches(Regex("\\d+"))
 }
 
-fun String.allUpperCase() :Boolean {
+fun String.allUpperCase(): Boolean {
     return toUpperCase() != this
 }
 
-fun String.allLowerCase() :Boolean {
+fun String.allLowerCase(): Boolean {
     return toLowerCase() != this
 }
 
-fun String.atLeastOneLowerCase() :Boolean {
+fun String.atLeastOneLowerCase(): Boolean {
     return matches(Regex("[A-Z0-9]+"))
 }
 
-fun String.atLeastOneUpperCase() :Boolean {
+fun String.atLeastOneUpperCase(): Boolean {
     return matches(Regex("[a-z0-9]+"))
 }
 
-fun String.atLeastOneNumber() :Boolean {
+fun String.atLeastOneNumber(): Boolean {
     return !matches(Regex(".*\\d.*"))
 }
 
-fun String.startsWithNonNumber() :Boolean {
+fun String.startsWithNonNumber(): Boolean {
     return Character.isDigit(this[0])
 }
 
-fun String.noSpecialCharacter() :Boolean {
+fun String.noSpecialCharacter(): Boolean {
     return !matches(Regex("[A-Za-z0-9]+"))
 }
 
-fun String.atLeastOneSpecialCharacter() :Boolean {
+fun String.atLeastOneSpecialCharacter(): Boolean {
     return matches(Regex("[A-Za-z0-9]+"))
 }
 
@@ -444,11 +445,11 @@ fun randomString(length: Int): String {
 
     return buildString {
         (1..length)
-            .forEach {
-                val selection = random.nextInt(CHARACTERS.length)
-                val character = CHARACTERS[selection]
-                append(character)
-            }
+                .forEach {
+                    val selection = random.nextInt(CHARACTERS.length)
+                    val character = CHARACTERS[selection]
+                    append(character)
+                }
     }
 }
 
@@ -470,23 +471,18 @@ fun randomBytes(length: Int): ByteArray {
     return bytes
 }
 
-fun String.occurrences(pattern: String): Int
-        = length - replace(pattern, "").length
+fun String.occurrences(pattern: String): Int = length - replace(pattern, "").length
 
 /**
  * Convenience method for creating a [URL] from a valid [String].
  */
-fun String.toURL(): URL
-        = URL(this)
+fun String.toURL(): URL = URL(this)
 
-fun String.toURI(): URI
-        = URI(this)
-
+fun String.toURI(): URI = URI(this)
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun String.toPath(): Path
-        = Paths.get(this)
+fun String.toPath(): Path = Paths.get(this)
 
 /**
  * Convenience method to clear all content from a [StringBuilder].
@@ -494,12 +490,11 @@ fun String.toPath(): Path
  * @see StringBuilder.setLength
  * @author soykdan@gmail.com
  */
-fun StringBuilder.clear(): Unit
-        = setLength(0)
+fun StringBuilder.clear(): Unit = setLength(0)
 
 
-fun String.urlencode(): String = URLEncoder.encode(this,"UTF-8")
-fun String.urldecode(): String = URLDecoder.decode(this,"UTF-8")
+fun String.urlencode(): String = URLEncoder.encode(this, "UTF-8")
+fun String.urldecode(): String = URLDecoder.decode(this, "UTF-8")
 
 /**
  * Gets extension from filePath
@@ -529,7 +524,6 @@ fun Uri.isExternalStorageDocument() = authority == "com.android.externalstorage.
 fun Uri.isDownloadDocuments() = authority == "com.android.providers.downloads.documents"
 
 fun Uri.isMediaDocument() = authority == "com.android.providers.media.documents"
-
 
 
 @TargetApi(19)
@@ -639,7 +633,8 @@ fun CharSequence.getDouble(): Double {
 }
 
 
-infix fun String?.useIfEmpty(otherString: String?) = if ((this ?: "").isEmptyString()) otherString ?: "" else (this ?: "")
+infix fun String?.useIfEmpty(otherString: String?) = if ((this ?: "").isEmptyString()) otherString
+        ?: "" else (this ?: "")
 
 fun CharSequence.isEmptyString(): Boolean {
     return this.isEmpty() || this.toString().equals("null", true)
@@ -671,7 +666,7 @@ fun stringSubstring(text: String, start: Int, endInclusive: Int = text.length - 
     val startFixed = if (start < 0) 0 else start
     val endFixed = if (endInclusive > text.length - 1) text.length - 1 else endInclusive
 
-    for (i in startFixed..endFixed){
+    for (i in startFixed..endFixed) {
         result += text[i]
         if (i + 1 >= text.length) return result
     }
@@ -696,9 +691,9 @@ fun String.searchForPattern(pattern: String): Int {
     //if the searched text is null
     if (pattern.isEmpty()) return 0
 
-    for (i in 0 until this.length - pattern.length){
+    for (i in 0 until this.length - pattern.length) {
         var j = i
-        while (this[j] == pattern[j - i]){
+        while (this[j] == pattern[j - i]) {
             if ((j - i) + 1 == pattern.length) return i
             if (j + 1 == this.length) break
             j++
@@ -768,7 +763,7 @@ fun String.asArabicNumbers(): String {
 
 fun String.parseAssetFile(): Uri = Uri.parse("file:///android_asset/$this")
 
-fun String.parseInternalStorageFile(absolutePath:String): Uri = Uri.parse("$absolutePath/$this")
+fun String.parseInternalStorageFile(absolutePath: String): Uri = Uri.parse("$absolutePath/$this")
 
 fun String.parseExternalStorageFile(): Uri = Uri.parse("${Environment.getExternalStorageDirectory()}/$this")
 
@@ -829,19 +824,19 @@ fun String.abbreviateMiddle(middle: String, length: Int): String {
 }
 
 
- val NON_DIGIT_REGEX = Regex("[^A-Za-z0-9]")
- val DIGIT_REGEX = Regex("[^0-9]")
+val NON_DIGIT_REGEX = Regex("[^A-Za-z0-9]")
+val DIGIT_REGEX = Regex("[^0-9]")
 
-fun String?.replaceNonDigit(replacement:String = "") = this?.replace(NON_DIGIT_REGEX, replacement)
+fun String?.replaceNonDigit(replacement: String = "") = this?.replace(NON_DIGIT_REGEX, replacement)
 
-fun String?.replaceDigit(replacement:String = "") = this?.replace(DIGIT_REGEX, replacement)
+fun String?.replaceDigit(replacement: String = "") = this?.replace(DIGIT_REGEX, replacement)
 
 fun String.isValidEmail() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 fun String?.isInt(): Boolean {
     if (isNullOrBlank()) return false
     return try {
-        this?.toIntOrNull()!=null
+        this?.toIntOrNull() != null
     } catch (exc: ParseException) {
         false
     }
@@ -946,7 +941,6 @@ fun String.encryptAESUtils(key: String) = EncryptionUtils.encryptAES(this, key)
 fun String.decryptAESUtils(key: String) = EncryptionUtils.decryptAES(this, key)
 
 
-
 inline val String?.doubleValue: Double
     get() = if (TextUtils.isEmpty(this)) 0.0 else try {
         this!!.toDouble()
@@ -973,7 +967,6 @@ inline val CharSequence?.intValue: Int
 
 inline val CharSequence?.floatValue: Float
     get() = toString().floatValue
-
 
 
 inline val String.isIp: Boolean
@@ -1112,4 +1105,84 @@ fun CharSequence.setForegroundColor(color: Int): CharSequence {
     val s = SpannableString(this)
     s.setSpan(ForegroundColorSpan(color), 0, s.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return s
+}
+
+fun String.safeBoolean(default: Boolean = false) = try {
+    toBoolean()
+} catch (e: Exception) {
+    default
+}
+
+fun String.safeByte(default: Byte = 0) = toByteOrNull().safe(default)
+fun String.safeShort(default: Short = 0) = toShortOrNull().safe(default)
+fun String.safeInt(default: Int = 0) = toIntOrNull().safe(default)
+fun String.safeLong(default: Long = 0L) = toLongOrNull().safe(default)
+fun String.safeFloat(default: Float = 0f) = toFloatOrNull().safe(default)
+fun String.safeDouble(default: Double = 0.0) = toDoubleOrNull().safe(default)
+
+
+inline fun <reified T> T?.safe(default: T) = this ?: default
+
+
+fun String.ifBlank(mapper: () -> String): String =
+        if (isBlank()) mapper() else this
+
+fun String.ifEmpty(mapper: () -> String): String =
+        if (isEmpty()) mapper() else this
+
+fun String?.ifNull(mapper: () -> String): String =
+        this ?: mapper()
+
+
+/**
+ * Take some text, highlight some text with a color and add a click listener to it
+ * @param source Text to click
+ * @param color Color to change too, default = null,
+ * @param onClick Callback
+ */
+fun SpannableString.onClick(source: String, shouldUnderline: Boolean = true, shouldBold: Boolean = true, color: Int? = null, textView: TextView? = null, onClick: () -> Unit): SpannableString {
+    val startIndex = this.toString().indexOf(source)
+    if (startIndex == -1) {
+        throw Exception("Cannot highlight this title as $source is not contained with $this")
+    }
+    this.setSpan(object : ClickableSpan() {
+        override fun updateDrawState(ds: TextPaint) {
+            if (color != null) {
+                ds.color = color
+                ds.bgColor = Color.TRANSPARENT
+            }
+        }
+
+        override fun onClick(widget: View) {
+            onClick()
+            textView?.clearFocus()
+            textView?.invalidate()
+        }
+    }, startIndex, startIndex + source.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    if (shouldUnderline) {
+        this.setSpan(UnderlineSpan(), startIndex, startIndex + source.length, 0)
+    }
+    if (shouldBold) {
+        this.setSpan(StyleSpan(Typeface.BOLD), startIndex, startIndex + source.length, 0)
+    }
+    return this
+}
+
+/**
+ * Highlight a given word in a string with a given colour
+ */
+fun String.highlight(source: String, color: Int): SpannableString {
+    val startIndex = this.indexOf(source)
+    if (startIndex == -1) {
+        throw Exception("Cannot highlight this title as $source is not contained with $this")
+    }
+    val spannable = SpannableString(this)
+    spannable.setSpan(object : ClickableSpan() {
+        override fun updateDrawState(ds: TextPaint) {
+            ds.color = color
+        }
+
+        override fun onClick(widget: View) {}
+    }, startIndex, startIndex + source.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return spannable
 }

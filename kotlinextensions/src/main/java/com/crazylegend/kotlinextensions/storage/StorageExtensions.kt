@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
@@ -428,3 +429,27 @@ fun Context.alterDocument(uri: Uri, bytes: ByteArray) {
     }
 }
 
+
+/**
+ * Checks if external storage is available for read and write
+ */
+fun isExternalStorageWritable(): Boolean {
+    val state = Environment.getExternalStorageState()
+    return Environment.MEDIA_MOUNTED == state
+}
+
+/**
+ * Checks if external storage is available to at least read
+ */
+fun isExternalStorageReadable(): Boolean {
+    val state = Environment.getExternalStorageState()
+    return Environment.MEDIA_MOUNTED == state || Environment.MEDIA_MOUNTED_READ_ONLY == state
+}
+
+/**
+ * Checks if [Environment].MEDIA_MOUNTED is returned by `getExternalStorageState()`
+ * and therefore external storage is read- and writable.
+ */
+fun isExtStorageAvailable(): Boolean {
+    return Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
+}

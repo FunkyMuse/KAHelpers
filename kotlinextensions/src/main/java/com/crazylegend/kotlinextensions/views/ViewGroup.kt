@@ -126,7 +126,6 @@ inline fun ViewGroup.eachChild(func: (view: View) -> Unit) {
 operator fun ViewGroup.get(i: Int): View? = getChildAt(i)
 
 
-
 fun ViewGroup.getChildren(): List<View> {
     return (0 until childCount).map {
         getChildAt(it)

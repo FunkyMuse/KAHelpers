@@ -498,3 +498,44 @@ infix fun Byte.shl(bitCount: Int) = (this shlx bitCount).toByte()
 infix fun Byte.equals(value: Int) = this == value.toByte()
 
 infix fun Byte.notEquals(value: Int) = this != value.toByte()
+
+
+val CHARACTER_POOL: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
+
+/**
+ * This method filter the value in array, which is two frequent
+ *
+ * @param input  input array to filter
+ * @param output output array to filter
+ * @param filter factor to filter input and output(best is 0.05 to 0.25)
+ * @return output array on basis of filter
+ */
+fun lowPassFilter(input: FloatArray, output: FloatArray?, filter: Float): FloatArray {
+    if (output == null) return input
+    for (i in input.indices)
+        output[i] = output[i] + filter * (input[i] - output[i])
+
+    return output
+}
+
+fun getRandomInt() = kotlin.random.Random.nextInt(0, 1000)
+
+fun getRandomDouble() = kotlin.random.Random.nextDouble(0.0, 1000.0)
+
+fun getRandomString(lengthOfString: Int = 20) = (1..lengthOfString)
+        .map { kotlin.random.Random.nextInt(0, CHARACTER_POOL.size) }
+        .map(CHARACTER_POOL::get)
+        .joinToString("")
+
+fun generateRandomNumber(fromNo: Int = 0, toNo: Int = 1000, noToBeGenerated: Int = 20) =
+        List(noToBeGenerated) { kotlin.random.Random.nextInt(fromNo, toNo) }
+
+fun generateRandomDoubleNumber(fromNo: Double = 0.0, toNo: Double = 1000.0, noToBeGenerated: Int = 20) =
+        List(noToBeGenerated) { kotlin.random.Random.nextDouble(fromNo, toNo) }
+
+
+fun Float.format(precision: Int? = null): String =
+        if (toLong().toFloat() == this)
+            toLong().toString()
+        else precision?.let { ("%." + (if (it < 0) 0 else it) + "f").format(this) } ?: toString()

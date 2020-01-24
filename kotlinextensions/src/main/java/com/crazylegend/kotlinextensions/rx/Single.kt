@@ -27,3 +27,5 @@ fun <T> Throwable.toSingle(): Single<T> = Single.error(this)
 
 @JvmName("toSingleFromThrowable")
 fun <T> (() -> Throwable).toSingle(): Single<T> = Single.error(this)
+
+

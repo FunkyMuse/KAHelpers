@@ -33,3 +33,20 @@ inline var <reified T : View> BottomSheetBehavior<T>.isHidden: Boolean
         state = if (hide) BottomSheetBehavior.STATE_HIDDEN else BottomSheetBehavior.STATE_COLLAPSED
     }
 
+fun <T : View> BottomSheetBehavior<T>.collapse() {
+    this.state = BottomSheetBehavior.STATE_COLLAPSED
+}
+
+fun <T : View> BottomSheetBehavior<T>.expand() {
+    this.state = BottomSheetBehavior.STATE_EXPANDED
+}
+
+
+fun <T : View> BottomSheetBehavior<T>.expandHalf() {
+    this.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+}
+
+
+fun <T : View> BottomSheetBehavior<T>.hidden() {
+    this.state = BottomSheetBehavior.STATE_HIDDEN
+}

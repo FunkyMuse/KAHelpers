@@ -2,13 +2,20 @@ package com.crazylegend.kotlinextensions.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.context.*
 
 
@@ -68,7 +75,7 @@ fun DialogFragment.dimen(@DimenRes dmn: Int): Float? {
     return context?.dimen(dmn)
 }
 
-fun DialogFragment.dimenInt(@DimenRes dmn: Int): Int?{
+fun DialogFragment.dimenInt(@DimenRes dmn: Int): Int? {
     return context?.dimenInt(dmn)
 }
 
@@ -148,7 +155,7 @@ inline fun Context.showDialog(themeId: Int = 0, cancelable: Boolean = false, can
  */
 @JvmOverloads
 inline fun AlertDialog.Builder.positiveButton(text: String = "OK", crossinline handleClick:
-    (i: Int) -> Unit = {}) {
+(i: Int) -> Unit = {}) {
     this.setPositiveButton(text) { _, i -> handleClick(i) }
 }
 
@@ -175,3 +182,40 @@ inline fun AlertDialog.Builder.neutralButton(text: String, crossinline handleCli
 }
 
 
+/**Method to hide keyboard in dialog only*/
+fun Dialog.hideKeyboard() {
+    val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+}
+
+/**Method to show keyboard in dialog only*/
+fun Dialog.showKeyboard() =
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+
+/**
+ * Make the background transparent of the dialog window
+ *
+ * Should be called in the `onCreateView(inflater, container, savedInstanceState)` method
+ * @receiver DialogFragment
+ */
+fun DialogFragment.transparentBackground() {
+    dialog?.window?.let {
+        it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        it.requestFeature(Window.FEATURE_NO_TITLE)
+    }
+}
+
+/**
+ * Should be called in the `onCreateView(inflater, container, savedInstanceState)` method
+ *
+ * @receiver DialogFragment
+ */
+
+fun DialogFragment.setRoundedBackground(setNoTitle: Boolean = false) {
+    dialog?.window?.let {
+        it.setBackgroundDrawable(drawable(R.drawable.rounded_bg_theme_compatible))
+        if (setNoTitle)
+            it.requestFeature(Window.FEATURE_NO_TITLE)
+    }
+}

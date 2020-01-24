@@ -5,6 +5,11 @@ package com.crazylegend.kotlinextensions.regex
  * Created by hristijan on 3/7/19 to long live and prosper !
  */
 
+/**
+ * Regex for names
+ */
+const val NAME_REGEX = "^[a-zA-Z\\s]+"
+
 
 /**
  * Regex of simple mobile.

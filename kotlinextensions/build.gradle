@@ -65,12 +65,12 @@ dependencies {
 
 
     //live data
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc03'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-rc03'
-    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.2.0-rc03'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03'
-    kapt 'androidx.lifecycle:lifecycle-common-java8:2.2.0-rc03'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    kapt 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
 
 
     //joda time
@@ -78,11 +78,11 @@ dependencies {
 
 
     //retrofit
-    implementation 'com.squareup.retrofit2:converter-moshi:2.7.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.7.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
 
     //rx
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -91,8 +91,8 @@ dependencies {
 
 
     // glide
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     //ui
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
@@ -112,14 +112,14 @@ dependencies {
 
     //core
     implementation 'androidx.preference:preference:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.0-rc04'
-    implementation 'androidx.activity:activity-ktx:1.1.0-rc03'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0'
+    implementation 'androidx.activity:activity-ktx:1.1.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.core:core-ktx:1.2.0-rc01'
 
     //android apis
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha03'
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
 

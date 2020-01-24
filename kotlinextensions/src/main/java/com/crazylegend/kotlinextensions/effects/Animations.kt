@@ -1137,6 +1137,36 @@ fun View.fadeInUp(duration: Long = 250, offset: Float? = null) {
         this.translationY = offset ?: this.height.toFloat() - (this.height / 2)
         this.alpha = 0f
         this.visible()
-        this.animate(true).translationY(0f).alpha(1f).setDuration(duration).setInterpolator(AccelerateDecelerateInterpolator())
+        this.animate(true).translationY(0f).alpha(1f).setDuration(duration).interpolator = AccelerateDecelerateInterpolator()
     }
+}
+
+fun View.circularRevealEnter() {
+    val cx = width / 2
+    val cy = height / 2
+
+    val finalRadius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+    val anim = ViewAnimationUtils.createCircularReveal(this, cx, cy, 0f, finalRadius)
+
+    visibility = View.VISIBLE
+    anim.start()
+}
+
+fun View.circularRevealExit() {
+    val cx = width / 2
+    val cy = height / 2
+
+    val initialRadius = hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+    val anim = ViewAnimationUtils.createCircularReveal(this, cx, cy, initialRadius, 0f)
+
+    anim.addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+            super.onAnimationEnd(animation)
+            visibility = View.INVISIBLE
+        }
+    })
+
+    anim.start()
 }

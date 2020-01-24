@@ -13,6 +13,7 @@ import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClick
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.runDelayed
 import com.crazylegend.kotlinextensions.views.AppRater
+import com.crazylegend.kotlinextensions.views.readAttributes
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,6 +33,10 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
             buttonsBGColor = getCompatColor(R.color.colorAccent)
         }
 
+
+        recycler.readAttributes(null, IntArray(0)) {
+
+        }
         recycler.setHasFixedSize(true)
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
@@ -47,40 +52,29 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
                 TestModel("1", 1, "1", 1)
         ))
         runDelayed(3, TimeUnit.SECONDS) {
-            adapter.submitList(listOf(
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1),
-                    TestModel("1", 1, "1", 1)
-            ))
+            debug("DELAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYED")
+            testAVM.getposts()
         }
         testAVM.posts?.observe(this, Observer {
-            when (it) {
-                is RetrofitResult.Success -> {
-                    //adapter.submitList(it.value)
-                }
-                RetrofitResult.Loading -> {
-                    debug(it.toString())
-                }
-                RetrofitResult.EmptyData -> {
-                    debug(it.toString())
-                }
-                is RetrofitResult.Error -> {
-                    debug(it.toString())
-                }
-                is RetrofitResult.ApiError -> {
-                    debug(it.toString())
-                }
-            }.exhaustive
+            it?.apply {
+                when (it) {
+                    is RetrofitResult.Success -> {
+                        adapter.submitList(it.value)
+                    }
+                    RetrofitResult.Loading -> {
+                        debug(it.toString())
+                    }
+                    RetrofitResult.EmptyData -> {
+                        debug(it.toString())
+                    }
+                    is RetrofitResult.Error -> {
+                        debug(it.toString())
+                    }
+                    is RetrofitResult.ApiError -> {
+                        debug(it.toString())
+                    }
+                }.exhaustive
+            }
         })
     }
 

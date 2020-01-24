@@ -5,9 +5,11 @@ import com.crazylegend.kotlinextensions.tryOrIgnore
 import com.crazylegend.kotlinextensions.tryOrNull
 import java.lang.reflect.*
 import kotlin.reflect.*
+import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.full.extensionReceiverParameter
 import kotlin.reflect.full.instanceParameter
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.kotlinProperty
 
 
@@ -545,3 +547,10 @@ inline fun <reified T> T.setProperty(property: String, value: Any?) {
         e.printStackTrace()
     }
 }
+
+inline fun <reified T> T.callPrivateFunction(name: String, vararg args: Any?): Any? =
+        T::class
+                .declaredMemberFunctions
+                .firstOrNull { it.name == name }
+                ?.apply { isAccessible = true }
+                ?.call(this, *args)

@@ -215,6 +215,10 @@ inline fun EditText.onImeAction(crossinline action: (text: String) -> Unit) {
 }
 
 
+fun EditText.moveCursorToEnd() = setSelection(text.length)
+
+fun EditText.moveCursorToStart() = setSelection(0)
+
 inline fun EditText.onImeAction2(crossinline action: (view: View, text: String) -> Unit = { _, _ -> }) {
     setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
         if ((event?.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {

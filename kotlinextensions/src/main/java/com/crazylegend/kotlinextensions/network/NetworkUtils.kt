@@ -2,6 +2,9 @@ package com.crazylegend.kotlinextensions.network
 
 import android.content.Context
 import android.net.wifi.WifiManager
+import android.telephony.PhoneStateListener
+import android.telephony.ServiceState
+import com.crazylegend.kotlinextensions.context.telephonyManager
 import com.crazylegend.kotlinextensions.tryOrNull
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -33,4 +36,25 @@ fun Context.getInetAddress(): InetAddress? {
 
 private fun convertIpAddress(ip: Int): ByteArray {
     return byteArrayOf((ip and 0xFF).toByte(), (ip shr 8 and 0xFF).toByte(), (ip shr 16 and 0xFF).toByte(), (ip shr 24 and 0xFF).toByte())
+}
+
+
+/**Check weather phone is in roaming or not*/
+fun Context.checkForRoaming(): Boolean {
+    var isRoaming = false
+
+    object : PhoneStateListener() {
+        override fun onServiceStateChanged(serviceState: ServiceState) {
+            super.onServiceStateChanged(serviceState)
+            // In Roaming
+            // Not in Roaming
+            isRoaming = telephonyManager?.isNetworkRoaming ?: false
+            // You can also check roaming state using this
+            // In Roaming
+            // Not in Roaming
+            isRoaming = serviceState.roaming
+        }
+    }
+
+    return isRoaming
 }

@@ -12,6 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Consumer
+import io.reactivex.processors.FlowableProcessor
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.Subject
@@ -24,6 +25,23 @@ import java.util.concurrent.TimeUnit
  * Created by hristijan on 3/5/19 to long live and prosper !
  */
 
+
+fun <T> Observable<T>?.safe(factory: (() -> T)? = null) = this
+        ?: factory?.let { Observable.just(it()) }
+        ?: Observable.empty()
+
+fun <T> Maybe<T>?.safe(factory: (() -> T)? = null) = this
+        ?: factory?.let { Maybe.just(it()) }
+        ?: Maybe.empty()
+
+
+fun <T> Flowable<T>?.safe(factory: (() -> T)? = null) = this
+        ?: factory?.let { Flowable.just(it()) }
+        ?: Flowable.empty()
+
+fun <T> Completable.toSingle(item: () -> T) = andThen(Single.just(item()))
+
+fun <T> FlowableProcessor<T>.canPublish(): Boolean = !hasComplete() && !hasThrowable()
 
 fun <T : Any> Observable<T>.joinToString(
         separator: String? = null,

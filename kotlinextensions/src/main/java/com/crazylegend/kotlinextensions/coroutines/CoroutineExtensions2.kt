@@ -1,14 +1,13 @@
 package com.crazylegend.kotlinextensions.coroutines
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataScope
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
 import com.crazylegend.kotlinextensions.database.DBResult
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
 import retrofit2.Response
+import kotlin.coroutines.CoroutineContext
 
 
 /**
@@ -25,8 +24,8 @@ retrofit?.getPosts()
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>?
  */
-fun <T> makeApiCallLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>>? {
-    return liveData {
+fun <T> ViewModel.makeApiCallLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         try {
             subscribeApiCall(apiCall.invoke())
@@ -36,8 +35,36 @@ fun <T> makeApiCallLiveData(apiCall: suspend () -> Response<T>?): LiveData<Retro
     }
 }
 
-fun <T> makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>>? {
-    return liveData {
+/**
+ * Makes the api call with mediator, saves few lines of code
+ * @receiver ViewModel
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> ViewModel.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
+        emit(RetrofitResult.Loading)
+        try {
+            subscribeApiCall(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(RetrofitResult.Error(t))
+        }
+    }
+
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+
+}
+
+/**
+ *
+ * @receiver ViewModel
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return LiveData<RetrofitResult<T>>
+ */
+fun <T> ViewModel.makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         supervisorScope {
             try {
@@ -52,8 +79,41 @@ fun <T> makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>?): LiveData<
     }
 }
 
-fun <T> makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>>? {
-    return liveData {
+
+/**
+ *
+ * @receiver ViewModel
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> ViewModel.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
+        emit(RetrofitResult.Loading)
+        supervisorScope {
+            try {
+                val res = async {
+                    apiCall.invoke()
+                }
+                subscribeApiCall(res.await())
+            } catch (t: Throwable) {
+                emit(RetrofitResult.Error(t))
+            }
+        }
+    }
+
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}
+
+/**
+ *
+ * @receiver ViewModel
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return LiveData<RetrofitResult<T>>
+ */
+fun <T> ViewModel.makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         supervisorScope {
             try {
@@ -68,8 +128,40 @@ fun <T> makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>?): LiveD
     }
 }
 
-fun <T> makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>>? {
-    return liveData {
+/**
+ *
+ * @receiver ViewModel
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> ViewModel.makeApiCallLiveDataListAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
+        emit(RetrofitResult.Loading)
+        supervisorScope {
+            try {
+                val res = async {
+                    apiCall.invoke()
+                }
+                subscribeApiCallList(res.await())
+            } catch (t: Throwable) {
+                emit(RetrofitResult.Error(t))
+            }
+        }
+    }
+
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}
+
+/**
+ *
+ * @receiver ViewModel
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return LiveData<RetrofitResult<T>>
+ */
+fun <T> ViewModel.makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         try {
             subscribeApiCallList(apiCall.invoke())
@@ -78,6 +170,29 @@ fun <T> makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): LiveData<R
         }
     }
 }
+
+/**
+ *
+ * @receiver ViewModel
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> ViewModel.makeApiCallListLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
+        emit(RetrofitResult.Loading)
+        try {
+            subscribeApiCallList(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(RetrofitResult.Error(t))
+        }
+    }
+
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+
+}
+
 
 suspend fun <T> LiveDataScope<RetrofitResult<T>>.subscribeApiCall(res: Response<T>?) {
     if (res == null) {
@@ -123,8 +238,8 @@ suspend fun <T> LiveDataScope<RetrofitResult<T>>.subscribeApiCallList(res: Respo
 }
 
 
-fun <T> makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>>? {
-    return liveData {
+fun <T> ViewModel.makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>> {
+    return liveData(viewModelScope.coroutineContext) {
         emit(DBResult.Querying)
         try {
             subscribeDBCall(apiCall.invoke())
@@ -133,6 +248,23 @@ fun <T> makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>>? {
         }
     }
 }
+
+
+fun <T> ViewModel.makeDBCallLiveData(mediatorLiveData: MediatorLiveData<DBResult<T>>, apiCall: suspend () -> T) {
+    val ld: LiveData<DBResult<T>> = liveData(viewModelScope.coroutineContext) {
+        emit(DBResult.Querying)
+        try {
+            subscribeDBCall(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(DBResult.DBError(t))
+        }
+    }
+
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}
+
 
 suspend fun <T> LiveDataScope<DBResult<T>>.subscribeDBCall(res: T) {
     emit(DBResult.Success(res))
@@ -148,3 +280,206 @@ fun Job?.cancelIfActive() {
 }
 
 
+/**
+ *
+ * @receiver CoroutineContext
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return LiveData<RetrofitResult<T>>
+ */
+fun <T> CoroutineContext.makeApiCallLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        try {
+            subscribeApiCall(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(RetrofitResult.Error(t))
+        }
+    }
+}
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> CoroutineContext.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        try {
+            subscribeApiCall(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(RetrofitResult.Error(t))
+        }
+    }
+
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}
+
+
+fun <T> CoroutineContext.makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        supervisorScope {
+            try {
+                val res = async {
+                    apiCall.invoke()
+                }
+                subscribeApiCall(res.await())
+            } catch (t: Throwable) {
+                emit(RetrofitResult.Error(t))
+            }
+        }
+    }
+}
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> CoroutineContext.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        supervisorScope {
+            try {
+                val res = async {
+                    apiCall.invoke()
+                }
+                subscribeApiCall(res.await())
+            } catch (t: Throwable) {
+                emit(RetrofitResult.Error(t))
+            }
+        }
+    }
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return LiveData<RetrofitResult<T>>
+ */
+fun <T> CoroutineContext.makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        supervisorScope {
+            try {
+                val res = async {
+                    apiCall.invoke()
+                }
+                subscribeApiCallList(res.await())
+            } catch (t: Throwable) {
+                emit(RetrofitResult.Error(t))
+            }
+        }
+    }
+}
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> CoroutineContext.makeApiCallLiveDataListAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        supervisorScope {
+            try {
+                val res = async {
+                    apiCall.invoke()
+                }
+                subscribeApiCallList(res.await())
+            } catch (t: Throwable) {
+                emit(RetrofitResult.Error(t))
+            }
+        }
+    }
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}
+
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param apiCall SuspendFunction0<Response<T>?>
+ * @return LiveData<RetrofitResult<T>>
+ */
+fun <T> CoroutineContext.makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+    return liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        try {
+            subscribeApiCallList(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(RetrofitResult.Error(t))
+        }
+    }
+}
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
+ * @param apiCall SuspendFunction0<Response<T>?>
+ */
+fun <T> CoroutineContext.makeApiCallListLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+    val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
+        emit(RetrofitResult.Loading)
+        try {
+            subscribeApiCallList(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(RetrofitResult.Error(t))
+        }
+    }
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}
+
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param apiCall SuspendFunction0<T>
+ * @return LiveData<DBResult<T>>
+ */
+fun <T> CoroutineContext.makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>> {
+    return liveData(this) {
+        emit(DBResult.Querying)
+        try {
+            subscribeDBCall(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(DBResult.DBError(t))
+        }
+    }
+}
+
+/**
+ *
+ * @receiver CoroutineContext
+ * @param mediatorLiveData MediatorLiveData<DBResult<T>>
+ * @param apiCall SuspendFunction0<T>
+ */
+fun <T> CoroutineContext.makeDBCallLiveData(mediatorLiveData: MediatorLiveData<DBResult<T>>, apiCall: suspend () -> T) {
+    val ld: LiveData<DBResult<T>> = liveData(this) {
+        emit(DBResult.Querying)
+        try {
+            subscribeDBCall(apiCall.invoke())
+        } catch (t: Throwable) {
+            emit(DBResult.DBError(t))
+        }
+    }
+
+    mediatorLiveData.addSource(ld) {
+        mediatorLiveData.postValue(it)
+    }
+}

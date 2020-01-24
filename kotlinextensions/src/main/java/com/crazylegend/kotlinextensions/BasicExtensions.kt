@@ -23,7 +23,7 @@ inline fun debugMode(block : () -> Unit) {
     }
 }
 
-inline val isDebugMode get() = BuildConfig.DEBUG
+inline val isInDebugMode get() = BuildConfig.DEBUG
 
 
 fun <T : Any> T?.orElse(item: T) =

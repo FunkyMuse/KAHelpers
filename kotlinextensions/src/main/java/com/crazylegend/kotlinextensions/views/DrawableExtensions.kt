@@ -8,7 +8,6 @@ import android.graphics.Rect
 import android.graphics.drawable.*
 import android.os.Build
 import android.os.Handler
-import android.widget.EditText
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.DrawableCompat
@@ -127,4 +126,5 @@ fun Drawable.setSize(width: Int, height : Int) {
     bounds = Rect(0, 0, width, height)
 }
 
-fun EditText.moveCursorToEnd() = setSelection(text.length)
+
+

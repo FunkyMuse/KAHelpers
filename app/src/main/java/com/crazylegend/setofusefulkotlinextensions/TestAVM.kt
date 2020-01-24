@@ -2,8 +2,12 @@ package com.crazylegend.setofusefulkotlinextensions
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveDataAsync
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveData
 import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
+import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import retrofit2.create
 
 
@@ -17,14 +21,23 @@ import retrofit2.create
 
 class TestAVM(application: Application) : AndroidViewModel(application) {
 
-    val posts = makeApiCallLiveDataAsync {
-        retrofit?.getPosts()
+    private val postsData: MediatorLiveData<RetrofitResult<List<TestModel>>> = MediatorLiveData()
+    val posts: LiveData<RetrofitResult<List<TestModel>>> = postsData
+
+
+    fun getposts() {
+        makeApiCallLiveData(postsData) { retrofit?.getPosts() }
+    }
+
+    init {
+        getposts()
     }
 
 
     private val retrofit by lazy {
-        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, true)?.create<TestApi>()
+        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API)?.create<TestApi>()
     }
+
 
 }
 

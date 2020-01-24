@@ -1,24 +1,32 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.annotation.TargetApi
+import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.SystemClock
+import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.IdRes
 import androidx.annotation.IntRange
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.crazylegend.kotlinextensions.collections.use
 import com.crazylegend.kotlinextensions.context.colorWithOpacity
 import com.crazylegend.kotlinextensions.context.drawable
 import com.crazylegend.kotlinextensions.context.inputManager
+import com.crazylegend.kotlinextensions.context.selectableItemBackgroundResource
 import kotlinx.coroutines.launch
 
 
@@ -213,3 +221,51 @@ data class ViewDimensions(
 )
 
 fun View.isRtl() = layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+fun PopupMenu.hideItem(@IdRes res: Int, hide: Boolean = true) {
+    menu.findItem(res).isVisible = !hide
+}
+
+fun android.widget.PopupMenu.hideItem(@IdRes res: Int, hide: Boolean = true) {
+    menu.findItem(res).isVisible = !hide
+}
+
+
+@TargetApi(value = Build.VERSION_CODES.M)
+fun View.resetForeground() {
+    if (canUseForeground) {
+        foreground = null
+    }
+}
+
+/**
+ * Reads the file attributes safely
+ * @receiver View
+ * @param attrs AttributeSet?
+ * @param styleableArray IntArray
+ * @param block [@kotlin.ExtensionFunctionType] Function1<TypedArray, Unit>
+ */
+inline fun View.readAttributes(
+        attrs: AttributeSet?,
+        styleableArray: IntArray,
+        block: TypedArray.() -> Unit
+) {
+    val typedArray = context.theme.obtainStyledAttributes(attrs, styleableArray, 0, 0)
+    typedArray.use {
+        it.block()
+    }  // From androidx.core
+}
+
+
+fun View.resetBackground() {
+    setBackgroundResource(context.selectableItemBackgroundResource)
+}
+
+
+fun View.unsetRippleClickAnimation() =
+        if (canUseForeground) resetForeground() else resetBackground()
+
+
+private val canUseForeground
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+

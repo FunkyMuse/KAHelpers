@@ -34,6 +34,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.crazylegend.kotlinextensions.basehelpers.DeviceRingerMode
 import com.crazylegend.kotlinextensions.toFile
 import com.crazylegend.kotlinextensions.withOpacity
 import java.io.BufferedReader
@@ -720,3 +721,21 @@ val Context.unwrapActivity: Activity?
 
 
 fun Context.getSharedPreferencesByTag(tag: String) = getSharedPreferences(tag, Context.MODE_PRIVATE)
+
+
+val Context.currentLocale: Locale
+    get() = resources.configuration.run {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> locales.get(0)
+            else -> locale
+        }
+    }
+
+
+fun Context.getDeviceRingerMode(): DeviceRingerMode {
+    return when (audioManager.ringerMode) {
+        AudioManager.RINGER_MODE_SILENT -> DeviceRingerMode.SILENT
+        AudioManager.RINGER_MODE_VIBRATE -> DeviceRingerMode.VIBRATE
+        else -> DeviceRingerMode.NORMAL
+    }
+}
