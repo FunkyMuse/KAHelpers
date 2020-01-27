@@ -1,9 +1,7 @@
 package com.crazylegend.kotlinextensions.abstracts
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
@@ -31,15 +29,10 @@ the methods, since it's using reflection to instantiate the constructor
 @Suppress("UNCHECKED_CAST")
 abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
         private val viewHolder: Class<VH>,
-        diffCallback: DiffUtil.ItemCallback<T>? = null,
-        areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
+        areItemsTheSameCallback: (old: T, new: T) -> Boolean = { _, _ -> false },
+        areContentsTheSameCallback: (old: T, new: T) -> Boolean = { _, _ -> false }
 ) :
-        ListAdapter<T, VH>(diffCallback ?: object : DiffUtil.ItemCallback<T>() {
-            override fun areItemsTheSame(oldItem: T, newItem: T) = areItemsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: T, newItem: T) = areContentsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
-        }) {
+        ListAdapter<T, VH>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
     abstract val getLayout: Int
     abstract fun bindItems(item: T, holder: VH, position: Int)
 
