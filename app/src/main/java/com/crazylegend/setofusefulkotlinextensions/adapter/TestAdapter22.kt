@@ -1,6 +1,6 @@
 package com.crazylegend.setofusefulkotlinextensions.adapter
 
-import com.crazylegend.kotlinextensions.abstracts.AbstractListAdapter
+import com.crazylegend.kotlinextensions.abstracts.AbstractListAdapter2
 import com.crazylegend.setofusefulkotlinextensions.R
 
 
@@ -14,8 +14,10 @@ import com.crazylegend.setofusefulkotlinextensions.R
  * Template created by Hristijan to live long and prosper.
  */
 
-class TestAdapter : AbstractListAdapter<TestModel, TestViewHolder>(
-        TestViewHolder::class.java) {
+class TestAdapter22 : AbstractListAdapter2<TestModel, TestViewHolder>(
+        TestViewHolder::class.java,
+        areContentsTheSameCallback = {old, new -> old.id == new.id },
+        areItemsTheSameCallback = {old, new ->old.id == new.id }) {
 
     override val getLayout: Int
         get() = R.layout.recycler_view_item

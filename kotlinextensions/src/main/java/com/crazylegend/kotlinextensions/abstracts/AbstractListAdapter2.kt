@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
+import com.crazylegend.kotlinextensions.tryOrNull
 import com.crazylegend.kotlinextensions.views.inflate
 import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 
@@ -27,7 +28,7 @@ the methods, since it's using reflection to instantiate the constructor
  * @constructor
  */
 @Suppress("UNCHECKED_CAST")
-abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
+abstract class AbstractListAdapter2<T, VH : RecyclerView.ViewHolder>(
         private val viewHolder: Class<VH>,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
@@ -53,18 +54,39 @@ abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
      * @return VH
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val holder = setViewHolder(parent.inflate(getLayout))
-
-        holder.itemView.setOnClickListenerCooldown {
-            forItemClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
+        val vh = setViewHolder(parent.inflate(getLayout))
+        vh.itemView.setOnClickListenerCooldown {
+            val position = vh.adapterPosition
+            val layoutPosition = vh.layoutPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val firstItem = tryOrNull { getItem(position) }
+                if (firstItem == null) {
+                    val secondItem = tryOrNull { getItem(layoutPosition) }
+                    if (secondItem != null) {
+                        forItemClickListener?.forItem(layoutPosition, secondItem, it)
+                    }
+                } else {
+                    forItemClickListener?.forItem(position, firstItem, it)
+                }
+            }
         }
-        holder.itemView.setOnLongClickListener {
-            it?.let { view ->
-                onLongClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), view)
+        vh.itemView.setOnLongClickListener {
+            val position = vh.adapterPosition
+            val layoutPosition = vh.layoutPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val firstItem = tryOrNull { getItem(position) }
+                if (firstItem == null) {
+                    val secondItem = tryOrNull { getItem(layoutPosition) }
+                    if (secondItem != null) {
+                        onLongClickListener?.forItem(layoutPosition, secondItem, it)
+                    }
+                } else {
+                    onLongClickListener?.forItem(position, firstItem, it)
+                }
             }
             true
         }
-        return holder
+        return vh
     }
 
 

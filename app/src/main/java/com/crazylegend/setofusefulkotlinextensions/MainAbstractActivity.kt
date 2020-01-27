@@ -13,7 +13,7 @@ import com.crazylegend.kotlinextensions.recyclerview.initRecyclerViewAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.runDelayed
 import com.crazylegend.kotlinextensions.views.AppRater
-import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter22
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
@@ -22,7 +22,7 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val testAVM by activityVM<TestAVM>()
     private val adapter by lazy {
-        TestAdapter()
+        TestAdapter22()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
