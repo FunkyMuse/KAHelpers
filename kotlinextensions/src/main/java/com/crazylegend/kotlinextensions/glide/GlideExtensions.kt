@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.BaseRequestOptions
@@ -11,12 +12,13 @@ import com.bumptech.glide.request.RequestOptions
 
 
 /**
- * Created by x on 2/5/19 to long live and prosper !
+ * Created by Crazy on 2/5/19 to long live and prosper !
  */
 
 @Throws(GlideException::class)
 fun Context.loadImg(imgUrl: Any, view: AppCompatImageView) {
-    GlideApp.with(this)
+
+    Glide.with(this)
             .load(imgUrl)
             .into(view)
 }
@@ -24,7 +26,7 @@ fun Context.loadImg(imgUrl: Any, view: AppCompatImageView) {
 
 @Throws(GlideException::class)
 fun Context.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .load(imgUrl)
             .error(error)
             .into(view)
@@ -32,7 +34,7 @@ fun Context.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable) {
 
 @Throws(GlideException::class)
 fun Context.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable, placeHolder: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .load(imgUrl)
             .placeholder(placeHolder)
             .error(error)
@@ -42,7 +44,7 @@ fun Context.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable, plac
 
 @Throws(GlideException::class)
 fun Context.loadImgNoCache(imgUrl: Any, view: AppCompatImageView) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
             .load(imgUrl)
             .into(view)
@@ -50,7 +52,7 @@ fun Context.loadImgNoCache(imgUrl: Any, view: AppCompatImageView) {
 
 @Throws(GlideException::class)
 fun Context.loadImgNoCache(imgUrl: Any, view: AppCompatImageView, error: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
             .load(imgUrl)
             .error(error)
@@ -59,7 +61,7 @@ fun Context.loadImgNoCache(imgUrl: Any, view: AppCompatImageView, error: Drawabl
 
 @Throws(GlideException::class)
 fun Context.loadImgNoCache(imgUrl: Any, view: AppCompatImageView, error: Drawable, placeHolder: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
             .load(imgUrl)
             .placeholder(placeHolder)
@@ -69,7 +71,7 @@ fun Context.loadImgNoCache(imgUrl: Any, view: AppCompatImageView, error: Drawabl
 
 @Throws(GlideException::class)
 fun AppCompatImageView.loadImgNoCache(imgUrl: Any, error: Drawable, placeHolder: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
             .load(imgUrl)
             .placeholder(placeHolder)
@@ -79,7 +81,7 @@ fun AppCompatImageView.loadImgNoCache(imgUrl: Any, error: Drawable, placeHolder:
 
 @Throws(GlideException::class)
 fun Context.loadImgWithTransformation(imgUrl: Any, view: AppCompatImageView, transformation: RequestOptions) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(transformation)
             .load(imgUrl)
             .into(view)
@@ -88,7 +90,7 @@ fun Context.loadImgWithTransformation(imgUrl: Any, view: AppCompatImageView, tra
 
 @Throws(GlideException::class)
 fun View.loadImg(imgUrl: Any, view: AppCompatImageView) {
-    GlideApp.with(this)
+    Glide.with(this)
             .load(imgUrl)
             .into(view)
 }
@@ -96,7 +98,7 @@ fun View.loadImg(imgUrl: Any, view: AppCompatImageView) {
 
 @Throws(GlideException::class)
 fun View.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .load(imgUrl)
             .error(error)
             .into(view)
@@ -104,7 +106,7 @@ fun View.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable) {
 
 @Throws(GlideException::class)
 fun View.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable, placeHolder: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .load(imgUrl)
             .placeholder(placeHolder)
             .error(error)
@@ -114,7 +116,7 @@ fun View.loadImg(imgUrl: Any, view: AppCompatImageView, error: Drawable, placeHo
 
 @Throws(GlideException::class)
 fun View.loadImgNoCache(imgUrl: Any, view: AppCompatImageView) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
             .load(imgUrl)
             .into(view)
@@ -122,7 +124,7 @@ fun View.loadImgNoCache(imgUrl: Any, view: AppCompatImageView) {
 
 @Throws(GlideException::class)
 fun View.loadImgNoCache(imgUrl: Any, view: AppCompatImageView, error: Drawable) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE))
             .load(imgUrl)
             .error(error)
@@ -131,7 +133,7 @@ fun View.loadImgNoCache(imgUrl: Any, view: AppCompatImageView, error: Drawable) 
 
 @Throws(GlideException::class)
 fun AppCompatImageView.loadImgNoCache(image: Any?) {
-    GlideApp.with(this)
+    Glide.with(this)
             .load(image)
             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
             .into(this)
@@ -140,7 +142,7 @@ fun AppCompatImageView.loadImgNoCache(image: Any?) {
 
 @Throws(GlideException::class)
 fun View.loadImgWithTransformation(imgUrl: Any, view: AppCompatImageView, transformation: RequestOptions) {
-    GlideApp.with(this)
+    Glide.with(this)
             .applyDefaultRequestOptions(transformation)
             .load(imgUrl)
             .into(view)
@@ -148,7 +150,7 @@ fun View.loadImgWithTransformation(imgUrl: Any, view: AppCompatImageView, transf
 
 @Throws(GlideException::class)
 fun AppCompatImageView.loadImgNoCache(image: Any?, options: () -> BaseRequestOptions<*>) {
-    GlideApp.with(this)
+    Glide.with(this)
             .load(image)
             .apply(options())
             .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
