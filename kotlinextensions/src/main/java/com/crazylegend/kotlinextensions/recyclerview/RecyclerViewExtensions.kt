@@ -263,6 +263,7 @@ fun <T> recyclerSwipeAndDrag(adapter: RecyclerView.Adapter<*>, isLongPressEnable
     return ItemTouchHelper(simpleItemTouchCallback)
 }
 
+
 fun <T> recyclerSwipeAndDrag(adapter: RecyclerView.Adapter<*>, isMovingItemsEnabled: Boolean, isSwipeEnabled: Boolean,
                              adapterList: MutableList<T>, context: Context, leftBackgroundColor: Int, drawableLeft: Int, rightBackgroundColor: Int, drawableRight: Int,
                              leftAction: (swipedPosition: Int) -> Unit, rightAction: (swipedPosition: Int) -> Unit, resetBackgroundColor: Int = 0, selectedItemBackgroundColor: Int = 0): ItemTouchHelper {
