@@ -35,6 +35,11 @@ fun Context.isAppEnabled(packageName: String): Boolean {
     }
 }
 
+
+fun Context.whoInstalledMyApp(packageName: String) =
+        packageManager.getInstallerPackageName(packageName)
+
+
 fun Context.showAppInfo(packageName: String) {
     try {
         //Open the specific App Info page:

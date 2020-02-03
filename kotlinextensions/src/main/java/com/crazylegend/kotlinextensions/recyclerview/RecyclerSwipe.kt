@@ -43,7 +43,7 @@ private fun swipeDirection(swipeDirection: RecyclerSwipeItemHandler.SwipeDirs): 
 
 /**
  * Don't forget to call [ItemTouchHelper.attachToRecyclerView] on this since it returns [ItemTouchHelper]
- * [ItemTouchHelper].attachToRecyclerView([RecyclerView])
+ * or use [addSwipe]
  * @param context Context
  * @param leftAction callback of the left swiped position
  * @param rightAction callback of the right swiped position
@@ -133,4 +133,18 @@ fun recyclerSwipe(context: Context,
     }
 
     return ItemTouchHelper(simpleItemTouchCallback)
+}
+
+
+/**
+ * Extension function for [recyclerSwipe]
+ * @receiver RecyclerView
+ * @param leftAction Function1<[@kotlin.ParameterName] Int, Unit>
+ * @param rightAction Function1<[@kotlin.ParameterName] Int, Unit>
+ * @param recyclerSwipeItemHandler [@kotlin.ExtensionFunctionType] Function1<RecyclerSwipeItemHandler, Unit>
+ */
+fun RecyclerView.addSwipe(leftAction: (swipedPosition: Int) -> Unit = { _ -> },
+                          rightAction: (swipedPosition: Int) -> Unit = { _ -> },
+                          recyclerSwipeItemHandler: RecyclerSwipeItemHandler.() -> Unit) {
+    recyclerSwipe(context, leftAction, rightAction, recyclerSwipeItemHandler).attachToRecyclerView(this)
 }
