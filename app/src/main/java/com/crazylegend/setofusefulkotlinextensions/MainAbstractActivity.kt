@@ -9,13 +9,13 @@ import com.crazylegend.kotlinextensions.delegates.activityVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
+import com.crazylegend.kotlinextensions.recyclerview.addDrag
+import com.crazylegend.kotlinextensions.recyclerview.addSwipe
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
 import com.crazylegend.kotlinextensions.recyclerview.initRecyclerViewAdapter
-import com.crazylegend.kotlinextensions.recyclerview.recyclerSwipe
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter22
-import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
@@ -38,31 +38,25 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
         adapter.forItemClickListener = forItemClickListenerDSL { position, item, _ ->
             debug("CLICKED AT ${item.title} at position $position")
         }
-        adapter.submitList(listOf(
-                TestModel("1", 1, "1", 1),
-                TestModel("1", 1, "1", 1),
-                TestModel("1", 1, "1", 1),
-                TestModel("1", 1, "1", 1),
-                TestModel("1", 1, "1", 1)
-        ))
 
-        recyclerSwipe(this, {
-            debug("SWIPED at left $it")
-        }, {
-            debug("SWIPED AT right $it")
-        }, {
+        recycler.addSwipe {
             swipeDirection = RecyclerSwipeItemHandler.SwipeDirs.BOTH
             drawableLeft = android.R.drawable.ic_delete
             drawLeftBackground = true
             leftBackgroundColor = R.color.colorPrimary
             drawableRight = android.R.drawable.ic_input_get
-        }).attachToRecyclerView(recycler)
+        }
 
-        testAVM.posts?.observe(this, Observer {
+
+        testAVM.posts.observe(this, Observer {
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
                         adapter.submitList(it.value)
+
+                        val wrappedList = it.value.toMutableList()
+                        recycler.addDrag(adapter, wrappedList)
+
                     }
                     RetrofitResult.Loading -> {
                         debug(it.toString())
