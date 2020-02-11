@@ -102,12 +102,24 @@ fun runDelayedOnUiThread(delay: Long, timeUnit: TimeUnit = TimeUnit.MILLISECONDS
     ContextHandler.handler.postDelayed(action, timeUnit.toMillis(delay))
 }
 
+fun runOnUiThread(action: () -> Unit) {
+    ContextHandler.handler.post {
+        action()
+    }
+}
+
+
+
 /**
  * Extension method to get the TAG name for all object
  */
 fun <T : Any> T.TAG() = this::class.simpleName
 
 val <T : Any> T.TAG get() = this::class.simpleName.toString()
+
+inline fun <reified T >tag(): String {
+    return T::class.java.simpleName
+}
 
 
 val <T> T.exhaustive: T
