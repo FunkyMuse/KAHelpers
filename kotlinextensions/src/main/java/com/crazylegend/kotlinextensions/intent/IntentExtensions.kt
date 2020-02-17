@@ -50,6 +50,10 @@ fun Intent.noHistory() = apply {
     addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
 }
 
+fun Intent.restart() = apply {
+    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+}
+
 fun Intent.singleTop() = apply {
     addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 }
@@ -123,18 +127,25 @@ fun Context.cacheImage(url: String): Observable<Boolean> {
     }
 }
 
-fun Activity.pickImage( PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images") {
+fun Activity.pickImage(PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images",
+                       onCantHandleIntent: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
             .setType("image/*")
-    startActivityForResult(Intent.createChooser(intent, title), PICK_IMAGES_CODE)
+    if (intentCanBeHandled(intent))
+        startActivityForResult(Intent.createChooser(intent, title), PICK_IMAGES_CODE)
+    else
+        onCantHandleIntent()
 }
 
-fun Activity.openFile(mimeType:String, requestCode: Int, title: String = "Select file via"){
+fun Activity.openFile(mimeType: String, requestCode: Int, title: String = "Select file via",
+                      onCantHandleIntent: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .setType(mimeType)
 
-    startActivityForResult(Intent.createChooser(intent, title   ), requestCode)
+    if (intentCanBeHandled(intent))
+        startActivityForResult(Intent.createChooser(intent, title), requestCode)
+    onCantHandleIntent()
 }

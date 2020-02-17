@@ -362,7 +362,7 @@ fun <X, Y> LiveData<X>.map(mapFunction: (value: X?) -> Y?) =
 fun <X, Y> LiveData<X>.switchMap(mapFunction: (value: X?) -> LiveData<Y>): LiveData<Y> =
         Transformations.switchMap(this, mapFunction)
 
-inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinline onEventUnhandledContent: (T) -> Unit) {
+inline fun <T> LiveData<SingleEvent<T>>.observeEvent(owner: LifecycleOwner, crossinline onEventUnhandledContent: (T) -> Unit) {
     observe(owner, Observer { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) })
 }
 
@@ -393,10 +393,10 @@ inline fun <T, L : LiveData<T>> LifecycleOwner.observe(liveData: L, crossinline 
  * Shorthand function that will observe the liveData using `this` as the [LifecycleOwner]. It uses [EventObserver] to
  * observe the emitted values.
  *
- * @param liveData the [LiveData] of [Event] to be observed
+ * @param liveData the [LiveData] of [SingleEvent] to be observed
  * @param body function to be invoked with the emitted value as a parameter
  */
-fun <T, L : LiveData<Event<T>>> LifecycleOwner.observeEvent(liveData: L, body: (T) -> Unit = {}) {
+fun <T, L : LiveData<SingleEvent<T>>> LifecycleOwner.observeEvent(liveData: L, body: (T) -> Unit = {}) {
     liveData.observe(this, EventObserver(body))
 }
 

@@ -25,11 +25,11 @@ class UrlDecodedInterceptor : Interceptor {
             requestBody = postBody.toRequestBody(original.body!!.contentType())
         }
 
-        val request = when {
-            original.method == "post" -> original.newBuilder()
+        val request = when (original.method) {
+            "post" -> original.newBuilder()
                     .method(original.method, original.body)
                     .post(requestBody!!)
-            original.method == "put" -> original.newBuilder()
+            "put" -> original.newBuilder()
                     .method(original.method, original.body)
                     .put(requestBody!!)
             else -> original.newBuilder()

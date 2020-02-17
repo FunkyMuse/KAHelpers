@@ -7,6 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 /**
  * Created by crazy on 1/27/20 to long live and prosper !
  */
+/**
+ * Use [T] as data class preferably if you don't pass anything in constructors
+ * @param T
+ * @property areItemsTheSameCallback Function2<[@kotlin.ParameterName] T, [@kotlin.ParameterName] T, Boolean?>
+ * @property areContentsTheSameCallback Function2<[@kotlin.ParameterName] T, [@kotlin.ParameterName] T, Boolean?>
+ * @constructor
+ */
 class GenericDiffUtil<T>(private val areItemsTheSameCallback: (old: T, new: T) -> Boolean?,
                          private val areContentsTheSameCallback: (old: T, new: T) -> Boolean?) : DiffUtil.ItemCallback<T>() {
 

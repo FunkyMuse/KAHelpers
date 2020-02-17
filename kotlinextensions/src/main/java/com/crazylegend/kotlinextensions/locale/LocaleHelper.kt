@@ -10,9 +10,44 @@ import java.util.*
 /**
  * Created by Hristijan on 11/6/18 to live long and prosper.
  */
+
+/**
+ *
+ * In your application level implementation
+class MainApplication : Application() {
+override fun attachBaseContext(base: Context) {
+super.attachBaseContext(LocaleHelper.onAttach(base, "en"))
+}
+
+ * Call this function when you need to set the locale [LocaleHelper.setLocale] like LocaleHelper.setLocale(context, "en")
+ * Make sure to re-create the activity once you call this function, preferably use a base(abstract) activity that has the
+ * [LocaleHelper.onAttach] so that all of your functions inherit from it, to ease your problems.
+
+ * In your activity override this function
+override fun attachBaseContext(newBase: Context?) {
+super.attachBaseContext(newBase?.let { LocaleHelper.onAttach(it) })
+
+ * If you're using Appcompat delegate or setting the locale on pre < API 24 devices make sure to use this override in activity
+ * since they haven't fixed the bug in ages
+ *
+ override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+if (overrideConfiguration != null) {
+val uiMode = overrideConfiguration.uiMode
+overrideConfiguration.setTo(baseContext.resources.configuration)
+overrideConfiguration.uiMode = uiMode
+}
+super.applyOverrideConfiguration(overrideConfiguration)
+}
+
+ * When this gets released
+ * https://android.googlesource.com/platform/frameworks/support/+/67f756b383344764f7d3539c5955fbe5f491a3ba
+ * you can remove the applyOverrideConfiguration
+}
+
+ */
 object LocaleHelper {
 
-    private val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
+    private const val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
 
     fun onAttach(context: Context): Context {
         val lang = getPersistedData(context, Locale.getDefault().language)
@@ -79,22 +114,3 @@ object LocaleHelper {
 
 
 }
-
-
-/*
- //application level
-class MainApplication : Application() {
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(LocaleHelper.onAttach(base, "en"))
-    }
-}*/
-
-//setting the locale
-//LocaleHelper.setLocale(context, "en")
-
-/* // activity
-override fun attachBaseContext(newBase: Context?) {
-    super.attachBaseContext(newBase?.let { LocaleHelper.onAttach(it) })
-}
-
-*/

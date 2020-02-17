@@ -12,6 +12,45 @@ import com.google.android.material.textview.MaterialTextView
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
+
+/**
+ *
+/*   USAGE
+val sectionItemDecoration = RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
+false, // true for sticky, false for not, R.id.list_item_section_text, R.layout.section_header
+object : RecyclerSectionItemDecoration.SectionCallback {
+
+override fun isSection(position: Int): Boolean {
+return position == 0 || list[position].name[0] != list[position-1].surname[0]
+}
+
+override fun getSectionHeader(position: Int): CharSequence {
+return list[position].name.subSequence(0, 1)
+}
+})
+recyclerView.addItemDecoration(sectionItemDecoration)
+*/
+/*
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/list_item_section_text"
+android:layout_width="match_parent"
+android:layout_height="@dimen/recycler_section_header_height"
+android:background="@android:color/black"
+android:paddingLeft="10dp"
+android:paddingRight="10dp"
+android:textColor="@android:color/white"
+android:textSize="14sp"
+/>*/
+ * @property headerOffset Int
+ * @property sticky Boolean
+ * @property sectionCallback SectionCallback
+ * @property headerViewID Int
+ * @property sectionHeaderLayoutName Int
+ * @property headerView View?
+ * @property header MaterialTextView?
+ * @constructor
+ */
 class RecyclerSectionItemDecoration(
     private val headerOffset: Int,
     private val sticky: Boolean,
@@ -106,31 +145,3 @@ class RecyclerSectionItemDecoration(
         fun getSectionHeader(position: Int): CharSequence
     }
 }
-
-/*   USAGE
- val sectionItemDecoration = RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
-            false, // true for sticky, false for not, R.id.list_item_section_text, R.layout.section_header
-            object : RecyclerSectionItemDecoration.SectionCallback {
-
-                override fun isSection(position: Int): Boolean {
-                    return position == 0 || list[position].name[0] != list[position-1].surname[0]
-                }
-
-                override fun getSectionHeader(position: Int): CharSequence {
-                    return list[position].name.subSequence(0, 1)
-                }
-            })
-        recyclerView.addItemDecoration(sectionItemDecoration)
-        */
-/*
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/list_item_section_text"
-android:layout_width="match_parent"
-android:layout_height="@dimen/recycler_section_header_height"
-android:background="@android:color/black"
-android:paddingLeft="10dp"
-android:paddingRight="10dp"
-android:textColor="@android:color/white"
-android:textSize="14sp"
-/>*/

@@ -25,8 +25,7 @@ const val SEARCH_PLACES_BY_LOCATION = "geo:%f,%f?q=%s"
  * @param name name which is shown for that marker
  * @return true if successfully opened google maps, or false if google maps not found
  */
-fun showMakerInGoogleMap(
-        context: Context,
+fun Context.showMakerInGoogleMap(
         latitude: Double?,
         longitude: Double?,
         name: String
@@ -34,8 +33,8 @@ fun showMakerInGoogleMap(
     val link = String.format(LOC_MARKER_IN_MAPS_BY_LATLONG, latitude, longitude, name)
     val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
     mapIntent.setPackage(MAPS_URL)
-    return if (mapIntent.resolveActivity(context.packageManager) != null) {
-        context.startActivity(mapIntent)
+    return if (mapIntent.resolveActivity(packageManager) != null) {
+        startActivity(mapIntent)
         true
     } else
         false
@@ -49,12 +48,12 @@ fun showMakerInGoogleMap(
  * @param address address on the basis of which search is performed, to find the address
  * @return true if successfully opened google maps, or false if google maps not found
  */
-fun showMakerInGoogleMap(context: Context, address: String): Boolean {
+fun Context.showMakerInGoogleMap(address: String): Boolean {
     val link = String.format(LOC_MARKER_IN_MAPS_BY_ADDRESS, address)
     val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
     mapIntent.setPackage(MAPS_URL)
-    return if (mapIntent.resolveActivity(context.packageManager) != null) {
-        context.startActivity(mapIntent)
+    return if (mapIntent.resolveActivity(packageManager) != null) {
+        startActivity(mapIntent)
         true
     } else
         false
@@ -65,7 +64,6 @@ fun showMakerInGoogleMap(context: Context, address: String): Boolean {
  * Show provided location maker in google maps
  * pass lat,long
  *
- * @param context context of activity
  * @param format  string format of which you will send parameters
  * @param objects objects seperated by comma, on the basis of format you defined
  *
@@ -75,12 +73,12 @@ fun showMakerInGoogleMap(context: Context, address: String): Boolean {
  * result will be "geo:0,0?q=<your provided string here>"
  * @return true if successfully opened google maps, or false if google maps not found*/
 
-fun showMakerInGoogleMap(context: Context, format: String, vararg objects: Any): Boolean {
+fun Context.showMakerInGoogleMap(format: String, vararg objects: Any): Boolean {
     val link = String.format(format, *objects)
     val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
     mapIntent.setPackage(MAPS_URL)
-    return if (mapIntent.resolveActivity(context.packageManager) != null) {
-        context.startActivity(mapIntent)
+    return if (mapIntent.resolveActivity(packageManager) != null) {
+        startActivity(mapIntent)
         true
     } else
         false
@@ -93,12 +91,12 @@ fun showMakerInGoogleMap(context: Context, format: String, vararg objects: Any):
  * @param typeOfPlace like restruant,hotel..etc
  * @return true if successfully opened google maps, or false if google maps not found
  */
-fun searchPlaces(context: Context, typeOfPlace: String): Boolean {
+fun Context.searchPlaces(typeOfPlace: String): Boolean {
     val link = String.format(SEARCH_PLACES, typeOfPlace)
     val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
     mapIntent.setPackage(MAPS_URL)
-    return if (mapIntent.resolveActivity(context.packageManager) != null) {
-        context.startActivity(mapIntent)
+    return if (mapIntent.resolveActivity(packageManager) != null) {
+        startActivity(mapIntent)
         true
     } else
         false
@@ -114,8 +112,7 @@ fun searchPlaces(context: Context, typeOfPlace: String): Boolean {
  * @param longitude   longitude
  * @return true if successfully opened google maps, or false if google maps not found
  */
-fun searchPlacesByLatLong(
-        context: Context,
+fun Context.searchPlacesByLatLong(
         latitude: Double?,
         longitude: Double?,
         typeOfPlace: String
@@ -123,8 +120,8 @@ fun searchPlacesByLatLong(
     val link = String.format(SEARCH_PLACES_BY_LOCATION, latitude, longitude, typeOfPlace)
     val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
     mapIntent.setPackage(MAPS_URL)
-    return if (mapIntent.resolveActivity(context.packageManager) != null) {
-        context.startActivity(mapIntent)
+    return if (mapIntent.resolveActivity(packageManager) != null) {
+        startActivity(mapIntent)
         true
     } else
         false
@@ -139,7 +136,7 @@ fun searchPlacesByLatLong(
  * @param markerTitle title/name of route or name
  * @return Intent
  */
-fun getMapCoordinatesIntent(latitude: Double, longitude: Double, markerTitle: String?): Intent {
+private fun getMapCoordinatesIntent(latitude: Double, longitude: Double, markerTitle: String?): Intent {
     var uri = "geo:$latitude,$longitude?q=$latitude,$longitude"
     if (markerTitle != null && markerTitle.isNotEmpty()) {
         uri += "($markerTitle)"
@@ -184,7 +181,7 @@ fun Context.showMapCoordinates(latitude: Double, longitude: Double,
  * @param latitudeTo
  * @param longitudeTo
  */
-fun getMapRouteIntent(latitudeFrom: Double, longitudeFrom: Double, latitudeTo: Double,
+private fun getMapRouteIntent(latitudeFrom: Double, longitudeFrom: Double, latitudeTo: Double,
                       longitudeTo: Double): Intent {
     val uri = Uri.parse("http://maps.google.com/maps?saddr=$latitudeFrom,$longitudeFrom&daddr=$latitudeTo,$longitudeTo")
     return Intent(Intent.ACTION_VIEW, uri)
@@ -223,3 +220,11 @@ fun Context.showMapRoute(latitudeFrom: Double, longitudeFrom: Double, latitudeTo
 
 
 }
+
+
+/* Not included since there are no Googlemap dependencies maybe in the future
+fun changeOffsetCenter(mGoogleMap: GoogleMap, latLng: LatLng, yOffset: Int = 120) {
+    val mapPoint = mGoogleMap.projection.toScreenLocation(latLng)
+    mapPoint[mapPoint.x] = mapPoint.y - yOffset
+    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(mGoogleMap.projection.fromScreenLocation(mapPoint)))
+}*/
