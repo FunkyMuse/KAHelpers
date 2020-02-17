@@ -13,29 +13,28 @@ import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
  */
 
 
-fun ViewState.onInitialState(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ ->}){
+fun ViewState.onInitialState(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ -> }) {
     if (this is ViewState.InitialState) {
         callback(isVisible, text)
     }
 }
 
 
-fun ViewState.onLoading(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ ->}){
+fun ViewState.onLoading(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ -> }) {
     if (this is ViewState.Loading) {
         callback(isVisible, text)
     }
 }
 
 
-
-fun ViewState.onFailure(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ ->}){
+fun ViewState.onFailure(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ -> }) {
     if (this is ViewState.Failure) {
         callback(isVisible, text)
     }
 }
 
 
-fun ViewState.onSuccess(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ ->}){
+fun ViewState.onSuccess(callback: (isVisible: Boolean, text: String) -> Unit = { _, _ -> }) {
     if (this is ViewState.Success) {
         callback(isVisible, text)
     }
@@ -86,7 +85,6 @@ fun ViewState.handle(initialState: (isVisible: Boolean, text: String) -> Unit,
 }
 
 
-
 fun <T> MutableLiveData<RetrofitResult<T>>.hookViewStateResult(
         loadingText: String, loadingVisibility: Boolean,
         failureText: String, failureVisibility: Boolean,
@@ -99,7 +97,6 @@ fun <T> MutableLiveData<RetrofitResult<T>>.hookViewStateResult(
 }
 
 
-
 fun <T> LiveData<RetrofitResult<T>>.hookViewStateResult(
         loadingText: String, loadingVisibility: Boolean,
         failureText: String, failureVisibility: Boolean,
@@ -110,7 +107,6 @@ fun <T> LiveData<RetrofitResult<T>>.hookViewStateResult(
         doTransformations(loadingText, loadingVisibility, failureText, failureVisibility, successText, successVisibility, it)
     }
 }
-
 
 
 private fun <T> doTransformations(

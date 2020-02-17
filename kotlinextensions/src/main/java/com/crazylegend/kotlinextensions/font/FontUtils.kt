@@ -16,12 +16,12 @@ object FontUtils {
         synchronized(sTypefaceCache) {
             if (!sTypefaceCache.containsKey(font)) {
                 val tf = Typeface.createFromAsset(
-                    context.applicationContext.assets, "fonts/$font.ttf"
+                        context.applicationContext.assets, "fonts/$font.ttf"
                 )
                 sTypefaceCache[font] = tf
             }
             return sTypefaceCache[font]
-                ?: throw IllegalArgumentException("Font error; typeface does not exist at assets/fonts$font.ttf")
+                    ?: throw IllegalArgumentException("Font error; typeface does not exist at assets/fonts$font.ttf")
         }
     }
 

@@ -599,7 +599,6 @@ fun isKeyboardSubmit(actionId: Int, event: KeyEvent?): Boolean =
                 (event != null && event.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_ENTER)
 
 
-
 fun Activity.enableFullScreen() {
     window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 }

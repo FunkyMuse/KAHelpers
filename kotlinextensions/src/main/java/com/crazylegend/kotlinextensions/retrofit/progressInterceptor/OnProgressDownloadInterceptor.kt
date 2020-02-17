@@ -11,7 +11,7 @@ import java.io.IOException
 /**
  * Created by hristijan on 3/20/19 to long live and prosper !
  */
-class OnProgressDownloadInterceptor(private val context: Context, private val progressListenerDownload:OnAttachmentDownloadListener?) : Interceptor {
+class OnProgressDownloadInterceptor(private val context: Context, private val progressListenerDownload: OnAttachmentDownloadListener?) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 
@@ -23,7 +23,7 @@ class OnProgressDownloadInterceptor(private val context: Context, private val pr
 
         val originalResponse = chain.proceed(chain.request())
         return originalResponse.newBuilder()
-            .body(originalResponse.body?.let { ProgressResponseBody(it, progressListenerDownload) })
-            .build()
+                .body(originalResponse.body?.let { ProgressResponseBody(it, progressListenerDownload) })
+                .build()
     }
 }

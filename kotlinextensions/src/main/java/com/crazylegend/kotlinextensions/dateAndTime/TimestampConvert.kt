@@ -54,7 +54,6 @@ object TimestampConvert {
     val YYYY_MM_DD_T_HH_MM_SSZZZZZ = "yyyy-MM-dd'T'HH:mm:ssZZZZZ" // works on all android versions but not in unit tests
 
 
-
     private val DATEFORMAT = "yyyy-MM-dd HH:mm:ss"
 
     fun iso8601Format(): String {

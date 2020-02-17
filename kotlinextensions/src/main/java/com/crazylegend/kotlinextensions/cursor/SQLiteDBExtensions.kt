@@ -1,4 +1,5 @@
 package com.crazylegend.kotlinextensions.cursor
+
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 

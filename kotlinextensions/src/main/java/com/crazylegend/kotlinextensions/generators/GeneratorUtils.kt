@@ -21,11 +21,11 @@ fun createRandomImageUrl(): String {
     val height = random(200, 300)
 
     return format(
-        if (endpoint)
-            "https://lorempixel.com/{0}/{1}/"
-        else
-            "https://picsum.photos/{0}/{1}/",
-        if (landscape) width else height, if (landscape) height else width
+            if (endpoint)
+                "https://lorempixel.com/{0}/{1}/"
+            else
+                "https://picsum.photos/{0}/{1}/",
+            if (landscape) width else height, if (landscape) height else width
     )
 }
 

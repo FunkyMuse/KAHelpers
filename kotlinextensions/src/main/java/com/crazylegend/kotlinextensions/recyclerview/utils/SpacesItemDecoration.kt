@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-
-
 /**
  * Created by hristijan on 3/29/19 to long live and prosper !
  */
@@ -30,7 +28,7 @@ class SpacesItemDecoration(private val leftRight: Int, private val topBottom: In
         super.onDraw(c, parent, state)
     }
 
-  override  fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         if (mEntrust == null) {
             mEntrust = getEntrust(parent.layoutManager)
         }

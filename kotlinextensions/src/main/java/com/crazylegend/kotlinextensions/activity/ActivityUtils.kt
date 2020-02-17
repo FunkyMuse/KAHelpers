@@ -91,28 +91,28 @@ var Activity.brightness: Float?
 fun initStrictMode() {
 
     StrictMode.setThreadPolicy(
-        StrictMode.ThreadPolicy.Builder()
-            .detectCustomSlowCalls()
-            .detectNetwork()
-            .penaltyLog()
-            .penaltyDeath()
-            .build()
+            StrictMode.ThreadPolicy.Builder()
+                    .detectCustomSlowCalls()
+                    .detectNetwork()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build()
     )
 
     StrictMode.setVmPolicy(
-        StrictMode.VmPolicy.Builder()
-            .apply {
-                if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                    detectLeakedRegistrationObjects()
-                if (SDK_INT >= Build.VERSION_CODES.M)
-                    detectCleartextNetwork()
-            }
-            .detectActivityLeaks()
-            .detectLeakedClosableObjects()
-            .detectLeakedSqlLiteObjects()
-            .penaltyLog()
-            .penaltyDeath()
-            .build()
+            StrictMode.VmPolicy.Builder()
+                    .apply {
+                        if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                            detectLeakedRegistrationObjects()
+                        if (SDK_INT >= Build.VERSION_CODES.M)
+                            detectCleartextNetwork()
+                    }
+                    .detectActivityLeaks()
+                    .detectLeakedClosableObjects()
+                    .detectLeakedSqlLiteObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build()
     )
 }
 

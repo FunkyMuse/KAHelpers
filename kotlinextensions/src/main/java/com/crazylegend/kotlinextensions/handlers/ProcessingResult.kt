@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.handlers
 
 
-
 /**
  * Created by hristijan on 4/1/19 to long live and prosper !
  */

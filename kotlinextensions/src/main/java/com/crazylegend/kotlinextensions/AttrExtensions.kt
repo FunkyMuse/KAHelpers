@@ -28,7 +28,6 @@ fun Context.themeAttrColor(@AttrRes attributeColor: Int): Int {
 }
 
 
-
 /**
  * Get a drawable from the attribute theme
  *

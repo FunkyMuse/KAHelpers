@@ -12,7 +12,7 @@ import com.crazylegend.kotlinextensions.math.FloatMath.clamp
  * Created by hristijan on 3/20/19 to long live and prosper !
  */
 
-fun AudioManager.dispatchEvent(keycode: Int){
+fun AudioManager.dispatchEvent(keycode: Int) {
     dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keycode))
     dispatchMediaKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keycode))
 }
@@ -58,12 +58,11 @@ fun AudioManager.increaseVolume() {
 }
 
 
-
-fun AudioManager.decreaseVolume(volume:Int) {
+fun AudioManager.decreaseVolume(volume: Int) {
     changeVolume(volume)
 }
 
-fun AudioManager.increaseVolume(volume:Int) {
+fun AudioManager.increaseVolume(volume: Int) {
     changeVolume(volume)
 }
 

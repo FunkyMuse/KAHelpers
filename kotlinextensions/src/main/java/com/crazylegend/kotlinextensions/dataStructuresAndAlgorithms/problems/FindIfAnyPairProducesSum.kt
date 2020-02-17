@@ -16,10 +16,12 @@ import com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.search.binar
 /**
  * O(n^2) worst time complexity
  */
-fun findAnyPairProducesSumNaive(t: List<Int>, sum: Int): Pair<Int, Int>{
-    t.forEachIndexed { indexA, numberA -> t.forEachIndexed { indexB, numberB ->
-        if (indexA != indexB) if (numberA + numberB == sum) return Pair(numberA, numberB)
-    } }
+fun findAnyPairProducesSumNaive(t: List<Int>, sum: Int): Pair<Int, Int> {
+    t.forEachIndexed { indexA, numberA ->
+        t.forEachIndexed { indexB, numberB ->
+            if (indexA != indexB) if (numberA + numberB == sum) return Pair(numberA, numberB)
+        }
+    }
     return Pair(-1, -1)
 }
 
@@ -27,11 +29,11 @@ fun findAnyPairProducesSumNaive(t: List<Int>, sum: Int): Pair<Int, Int>{
 /**
  * O(n log n) worst time complexity
  */
-fun findAnyPairProducesSumBinarySearch(t: List<Int>, sum: Int): Pair<Int, Int>{
+fun findAnyPairProducesSumBinarySearch(t: List<Int>, sum: Int): Pair<Int, Int> {
     t.forEachIndexed { index, element ->
         val remainder = sum - element
         val result = binarySearch(t, remainder)
-        if (result != -1 && result != index) return when (index > result){
+        if (result != -1 && result != index) return when (index > result) {
             true -> Pair(t[result], element)
             false -> Pair(element, t[result])
         }
@@ -42,13 +44,13 @@ fun findAnyPairProducesSumBinarySearch(t: List<Int>, sum: Int): Pair<Int, Int>{
 /**
  * O(n) at worst
  */
-fun findAnyPairProducesSumLinear(t: List<Int>, sum: Int): Pair<Int, Int>{
+fun findAnyPairProducesSumLinear(t: List<Int>, sum: Int): Pair<Int, Int> {
     var pointerLeft = 0
     var pointerRight = t.size - 1
-    while (pointerLeft < pointerRight){
+    while (pointerLeft < pointerRight) {
         val currentSum = t[pointerLeft] + t[pointerRight]
         if (currentSum == sum) return Pair(t[pointerLeft], t[pointerRight])
-        when (sum > currentSum){
+        when (sum > currentSum) {
             true -> pointerLeft++
             false -> pointerRight--
         }

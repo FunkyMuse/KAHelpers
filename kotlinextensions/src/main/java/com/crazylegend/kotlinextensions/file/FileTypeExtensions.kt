@@ -49,11 +49,11 @@ val DocumentFile.hasPreview: Boolean
     get() = isImage || isVideo
 
 fun File.isAudioFile(): Boolean {
-    return fileIsMimeType("audio/*", MimeTypeMap.getSingleton())  ||
+    return fileIsMimeType("audio/*", MimeTypeMap.getSingleton()) ||
             fileIsMimeType("application/ogg", MimeTypeMap.getSingleton())
 }
 
- fun File.fileIsMimeType(mimeType: String?, mimeTypeMap: MimeTypeMap): Boolean {
+fun File.fileIsMimeType(mimeType: String?, mimeTypeMap: MimeTypeMap): Boolean {
     if (mimeType == null || mimeType == "*/*") {
         return true
     } else {

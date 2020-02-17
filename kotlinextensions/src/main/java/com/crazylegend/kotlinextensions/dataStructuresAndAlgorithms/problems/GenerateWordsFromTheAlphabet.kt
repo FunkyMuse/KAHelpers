@@ -7,14 +7,14 @@ package com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.problems
 
 fun generateWordsFixedLength(length: Int, alphabet: List<Char>): List<String> {
     var result = ArrayList<String>()
-    for (i in 1..length){
+    for (i in 1..length) {
         val current = ArrayList<String>()
         if (result.isEmpty()) {
             for (char in alphabet) result.add("$char")
             continue
         }
 
-        for (string in result) for (char in alphabet)  current.add("$string$char")
+        for (string in result) for (char in alphabet) current.add("$string$char")
         result = current
     }
     return result
@@ -25,7 +25,7 @@ fun generateWordsFixedLength(length: Int, alphabet: List<Char>): List<String> {
  */
 fun generateWordsUpperBoundLength(length: Int, alphabet: List<Char>): List<String> {
     val result = ArrayList<String>()
-    for (i in 1..length){
+    for (i in 1..length) {
         val current = ArrayList<String>()
         if (result.isEmpty()) {
             for (char in alphabet) result.add("$char")

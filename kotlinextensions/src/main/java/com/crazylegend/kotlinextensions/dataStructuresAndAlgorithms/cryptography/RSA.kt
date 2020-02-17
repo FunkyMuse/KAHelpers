@@ -94,14 +94,14 @@ fun rsaEncrypt(message: Int, publicKey: RSAPublicKey): Long {
     // Modulus must be bigger than the message to encrypt.
     if (publicKey.modulus <= message) return -1
     return (raiseToPowerBig(
-        message.toLong(),
-        publicKey.exponent
+            message.toLong(),
+            publicKey.exponent
     ).mod(BigInteger.valueOf(publicKey.modulus.toLong())).toLong())
 }
 
 fun rsaEncrypt(message: String, publicKey: RSAPublicKey): Pair<String, Int> {
     var chunks = message
-        .map { char -> rsaEncrypt(char.toInt(), publicKey).toString() }
+            .map { char -> rsaEncrypt(char.toInt(), publicKey).toString() }
 
     var longest = 0
     chunks.forEach { if (it.length > longest) longest = it.length }
@@ -116,18 +116,18 @@ fun rsaEncrypt(message: String, publicKey: RSAPublicKey): Pair<String, Int> {
 
 fun rsaDecrypt(message: String, blockSize: Int, privateKey: RSAPrivateKey): String {
     val chunks = message
-        .chunked(blockSize)
-        .map {
-            if (it[0] != '0') return@map it
-            else {
-                var result = it
-                while (result[0] == '0') {
-                    result = result.substring(1)
+            .chunked(blockSize)
+            .map {
+                if (it[0] != '0') return@map it
+                else {
+                    var result = it
+                    while (result[0] == '0') {
+                        result = result.substring(1)
+                    }
+                    return@map result
                 }
-                return@map result
             }
-        }
-        .map { rsaDecrypt(it.toLong(), privateKey).toChar() }
+            .map { rsaDecrypt(it.toLong(), privateKey).toChar() }
     println() // to test
     var result = ""
     chunks.forEach { result += it.toString() }

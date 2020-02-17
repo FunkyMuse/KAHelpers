@@ -26,7 +26,6 @@ fun hideTel(tel: String): String {
 }
 
 
-
 fun hideName(name: String): String {
     return if (name.length <= 3) {
         hideData(name, name.length, 1, 0)
@@ -57,7 +56,6 @@ private fun hideData(data: String, remainLength: Int, beforeLength: Int, afterLe
     }
     return sb.toString()
 }
-
 
 
 fun splitStrWithSpace(data: String, spaceIndex: Int): String {

@@ -16,31 +16,31 @@ import androidx.annotation.RequiresPermission
  */
 
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
-fun Context.increaseVolume(){
+fun Context.increaseVolume() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND)
 }
 
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
-fun Context.decreaseVolume(){
+fun Context.decreaseVolume() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     audioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND)
 }
 
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
-fun Context.putOnSilent(){
+fun Context.putOnSilent() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     audioManager.ringerMode = AudioManager.RINGER_MODE_SILENT
 }
 
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
-fun Context.putOnVibration(){
+fun Context.putOnVibration() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     audioManager.ringerMode = AudioManager.RINGER_MODE_VIBRATE
 }
 
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
-fun Context.putOnNormal(){
+fun Context.putOnNormal() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
 }
@@ -83,14 +83,14 @@ fun Context.UnMuteAudio() {
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 @RequiresPermission(allOf = [ACCESS_NOTIFICATION_POLICY])
-fun Context.SetToSilent(){
+fun Context.SetToSilent() {
     val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted) {
 
         val intent = Intent(
-            android.provider.Settings
-                .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS
+                android.provider.Settings
+                        .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS
         )
 
         startActivity(intent)

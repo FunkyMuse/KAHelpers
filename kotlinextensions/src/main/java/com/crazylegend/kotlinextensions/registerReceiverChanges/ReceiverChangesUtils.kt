@@ -26,7 +26,6 @@ inline fun Service.registerVolumeChange(crossinline block: (Int) -> Unit): Broad
 }
 
 
-
 inline fun ContextWrapper.registerWifiStateChanged(crossinline callback: (Intent) -> Unit): BroadcastReceiver {
     val action = "android.net.wifi.WIFI_STATE_CHANGED"
     return object : BroadcastReceiver() {

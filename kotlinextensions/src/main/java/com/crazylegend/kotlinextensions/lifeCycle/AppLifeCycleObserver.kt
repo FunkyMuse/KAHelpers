@@ -30,7 +30,7 @@ appLifeCycleObserver.debug("App in Foreground")
  */
 class AppLifeCycleObserver : LifecycleObserver {
 
-    var lifeCycleCallback : LifeCycleCallBacks ? = null
+    var lifeCycleCallback: LifeCycleCallBacks? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onEnterForeground() {
@@ -38,10 +38,9 @@ class AppLifeCycleObserver : LifecycleObserver {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onEnterBackground(){
+    fun onEnterBackground() {
         lifeCycleCallback?.appInBackground()
     }
-
 
 
 }

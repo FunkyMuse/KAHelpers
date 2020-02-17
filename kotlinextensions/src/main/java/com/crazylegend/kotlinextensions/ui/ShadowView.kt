@@ -20,12 +20,14 @@ class ShadowView : View {
      * context Constructor
      */
     constructor(context: Context) : super(context)
+
     /**
      * context,attr Constructor
      */
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         parseAttr(context, attrs)
     }
+
     /**
      * context,attr,defStyle Constructor
      */
@@ -35,14 +37,14 @@ class ShadowView : View {
 
     private fun parseAttr(context: Context, attributeSet: AttributeSet) {
         val a = context.theme.obtainStyledAttributes(
-            attributeSet,
-            R.styleable.ShadowView,
-            0, 0
+                attributeSet,
+                R.styleable.ShadowView,
+                0, 0
         )
         init(
-            GradientDrawable.Orientation.values()[a.getInteger(R.styleable.ShadowView_angle, 0)],
-            a.getColor(R.styleable.ShadowView_startColor, Color.TRANSPARENT),
-            a.getColor(R.styleable.ShadowView_endColor, Color.TRANSPARENT)
+                GradientDrawable.Orientation.values()[a.getInteger(R.styleable.ShadowView_angle, 0)],
+                a.getColor(R.styleable.ShadowView_startColor, Color.TRANSPARENT),
+                a.getColor(R.styleable.ShadowView_endColor, Color.TRANSPARENT)
         )
         a.recycle()
     }

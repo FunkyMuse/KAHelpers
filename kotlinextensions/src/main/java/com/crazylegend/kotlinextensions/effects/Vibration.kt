@@ -20,7 +20,7 @@ import androidx.annotation.RequiresPermission
 fun Context.vibrate(milliseconds: Long) {
     if (Build.VERSION.SDK_INT >= 26) {
         (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(
-            VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE)
+                VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE)
         )
     } else {
         (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(milliseconds)
@@ -28,21 +28,21 @@ fun Context.vibrate(milliseconds: Long) {
 }
 
 
-
 /**
  * Check whether device has Vibrator
  */
-val Context.hasVibrator: Boolean get() {
+val Context.hasVibrator: Boolean
+    get() {
         val vibrator = this.getSystemService(VIBRATOR_SERVICE) as Vibrator
         return vibrator.hasVibrator()
-}
+    }
 
 
 /**
  * Vibrate from context with pattern and repeat
  */
 @RequiresPermission(allOf = [VIBRATE])
-fun Context.vibrate(pattern: LongArray, repeat: Int){
+fun Context.vibrate(pattern: LongArray, repeat: Int) {
     if (Build.VERSION.SDK_INT >= 26) {
         (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(VibrationEffect.createWaveform(pattern, repeat))
     } else {
@@ -54,7 +54,7 @@ fun Context.vibrate(pattern: LongArray, repeat: Int){
  * Vibrate from context with pattern, repeat and amplitudes
  */
 @RequiresPermission(allOf = [VIBRATE])
-fun Context.vibrate(pattern: LongArray, repeat: Int, amplitudes: IntArray){
+fun Context.vibrate(pattern: LongArray, repeat: Int, amplitudes: IntArray) {
     if (Build.VERSION.SDK_INT >= 26) {
         (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(VibrationEffect.createWaveform(pattern, amplitudes, repeat))
     } else {

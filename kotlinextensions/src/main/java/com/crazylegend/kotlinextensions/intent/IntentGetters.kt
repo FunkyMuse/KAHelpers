@@ -1,11 +1,11 @@
 package com.crazylegend.kotlinextensions.intent
+
 import android.content.Intent
 
 
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
  */
-
 
 
 /**

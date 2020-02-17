@@ -38,13 +38,13 @@ fun alignBottoms(vararg views: View) = align(Anchor.BOTTOM, views)
 fun alignHorizontally(vararg views: View) = align(Anchor.CENTERY, views)
 fun alignVertically(vararg views: View) = align(Anchor.CENTERX, views)
 
-private fun align(edge: Anchor, views: Array<out View>){
+private fun align(edge: Anchor, views: Array<out View>) {
     var firstView: View? = null
     views.forEachIndexed { index, view ->
         if (index == 0) {
             firstView = view
         } else {
-            when(edge) {
+            when (edge) {
                 Anchor.LEFT -> view.constrainLeftToLeftOf(firstView!!)
                 Anchor.RIGHT -> view.constrainRightToRightOf(firstView!!)
                 Anchor.TOP -> view.constrainTopToTopOf(firstView!!)
@@ -255,7 +255,6 @@ fun horizontalLayout(vararg items: Any): Array<out Any> {
     }
     return items
 }
-
 
 
 fun <T : View> T.centerInParent(): T {

@@ -16,15 +16,15 @@ package com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.cryptograph
  * Decrypting works the same way, just with the lists in a different order.
  */
 
-fun atbashEncrypt(text: String): String{
+fun atbashEncrypt(text: String): String {
     // Create a list of all the letters in the English alphabet.
     val alphabet = listOf(
-        'a', 'b', 'c', 'd', 'e',
-        'f', 'g', 'h', 'i', 'j',
-        'k', 'l', 'm', 'n', 'o',
-        'p', 'q', 'r', 's', 't',
-        'u', 'v', 'w', 'x', 'y',
-        'z')
+            'a', 'b', 'c', 'd', 'e',
+            'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y',
+            'z')
     // Reverse it and put it in a new, reversed list.
     val reversedAlphabet = alphabet.reversed()
 
@@ -36,7 +36,7 @@ fun atbashEncrypt(text: String): String{
             Otherwise (if the character is in the English alphabet), substitute it with a character on the same position
                 in the reversed list, and then append it to the result.
      */
-    text.forEach {character ->
+    text.forEach { character ->
         if (!alphabet.contains(character.toLowerCase())) resultString += character
         else {
             var newChar = reversedAlphabet[alphabet.indexOf(character.toLowerCase())]
@@ -51,18 +51,18 @@ fun atbashEncrypt(text: String): String{
 /**
  * For documentation refer above, as it works following exactly the same principle.
  */
-fun atbashDecrypt(text: String): String{
+fun atbashDecrypt(text: String): String {
     val alphabet = listOf(
-        'a', 'b', 'c', 'd', 'e',
-        'f', 'g', 'h', 'i', 'j',
-        'k', 'l', 'm', 'n', 'o',
-        'p', 'q', 'r', 's', 't',
-        'u', 'v', 'w', 'x', 'y',
-        'z')
+            'a', 'b', 'c', 'd', 'e',
+            'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y',
+            'z')
     val reversedAlphabet = alphabet.reversed()
 
     var resultString = ""
-    text.forEach {character ->
+    text.forEach { character ->
         if (!alphabet.contains(character.toLowerCase())) resultString += character
         else {
             var newChar = alphabet[reversedAlphabet.indexOf(character.toLowerCase())]

@@ -101,10 +101,10 @@ class PinPainter @JvmOverloads constructor(normalPinDrawableRes: Drawable,
     }
 
     private val View.paddingStartCompat: Int
-        get() =  paddingStart
+        get() = paddingStart
 
     private val View.paddingEndCompat: Int
-        get() =  paddingEnd
+        get() = paddingEnd
 
     data class MeasureSpecSize(val widthMeasureSpec: Int, val heightMeasureSpec: Int)
 

@@ -323,31 +323,33 @@ fun <T> MutableLiveData<RetrofitResult<T>>.onSuccess(action: (model: T) -> Unit 
     }
 }
 
-val <T> MutableLiveData<RetrofitResult<T>>.getSuccess : T?  get() {
-   return value?.let {
-        when (it) {
-            is RetrofitResult.Success -> {
-                it.value
-            }
-            else -> {
-                null
+val <T> MutableLiveData<RetrofitResult<T>>.getSuccess: T?
+    get() {
+        return value?.let {
+            when (it) {
+                is RetrofitResult.Success -> {
+                    it.value
+                }
+                else -> {
+                    null
+                }
             }
         }
     }
-}
 
-val <T> LiveData<RetrofitResult<T>>.getSuccess: T?  get() {
-    return value?.let {
-        when (it) {
-            is RetrofitResult.Success -> {
-                it.value
-            }
-            else -> {
-                null
+val <T> LiveData<RetrofitResult<T>>.getSuccess: T?
+    get() {
+        return value?.let {
+            when (it) {
+                is RetrofitResult.Success -> {
+                    it.value
+                }
+                else -> {
+                    null
+                }
             }
         }
     }
-}
 
 //Loading
 

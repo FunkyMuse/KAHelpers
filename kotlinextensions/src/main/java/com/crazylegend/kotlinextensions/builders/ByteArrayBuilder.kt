@@ -6,9 +6,9 @@ package com.crazylegend.kotlinextensions.builders
  */
 
 /**
-* Helper class to assist with building byte arrays. Works similarly to
-* [StringBuilder].
-*/
+ * Helper class to assist with building byte arrays. Works similarly to
+ * [StringBuilder].
+ */
 class ByteArrayBuilder(initialCap: Int = 128) {
 
     private var buffer = ByteArray(maxOf(initialCap, 128))

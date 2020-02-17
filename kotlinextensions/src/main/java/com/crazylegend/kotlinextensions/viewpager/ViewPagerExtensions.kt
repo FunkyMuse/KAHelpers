@@ -7,7 +7,7 @@ import androidx.viewpager.widget.ViewPager
  * Created by hristijan on 3/5/19 to long live and prosper !
  */
 
-fun ViewPager.onPageScrollStateChanged(onPageScrollStateChanged: (state: Int) -> Unit = {_ ->}) {
+fun ViewPager.onPageScrollStateChanged(onPageScrollStateChanged: (state: Int) -> Unit = { _ -> }) {
     addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {
             onPageScrollStateChanged(state)
@@ -23,7 +23,7 @@ fun ViewPager.onPageScrollStateChanged(onPageScrollStateChanged: (state: Int) ->
 }
 
 
-fun ViewPager.onPageScrolled(onPageScrolled: (position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit = {_,_,_ ->}) {
+fun ViewPager.onPageScrolled(onPageScrolled: (position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit = { _, _, _ -> }) {
     addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {
         }
@@ -38,7 +38,7 @@ fun ViewPager.onPageScrolled(onPageScrolled: (position: Int, positionOffset: Flo
     })
 }
 
-fun ViewPager.onPageSelected(onPageSelected: (position: Int) -> Unit = {_ ->}) {
+fun ViewPager.onPageSelected(onPageSelected: (position: Int) -> Unit = { _ -> }) {
     addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {
         }
@@ -53,9 +53,9 @@ fun ViewPager.onPageSelected(onPageSelected: (position: Int) -> Unit = {_ ->}) {
     })
 }
 
-fun ViewPager.listener(onPageScrollStateChanged: (state: Int) -> Unit = {_ ->},
-                       onPageSelected: (position: Int) -> Unit = {_ ->},
-                       onPageScrolled: (position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit = {_,_,_ ->}) {
+fun ViewPager.listener(onPageScrollStateChanged: (state: Int) -> Unit = { _ -> },
+                       onPageSelected: (position: Int) -> Unit = { _ -> },
+                       onPageScrolled: (position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit = { _, _, _ -> }) {
     addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {
             onPageScrollStateChanged(state)

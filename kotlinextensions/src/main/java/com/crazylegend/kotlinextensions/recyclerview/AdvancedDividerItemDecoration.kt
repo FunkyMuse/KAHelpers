@@ -26,14 +26,14 @@ class AdvancedDividerItemDecoration : RecyclerView.ItemDecoration {
 
     constructor(context: Context, attrs: AttributeSet) {
         val a = context
-            .obtainStyledAttributes(attrs, intArrayOf(android.R.attr.listDivider))
+                .obtainStyledAttributes(attrs, intArrayOf(android.R.attr.listDivider))
         mDivider = a.getDrawable(0)
         a.recycle()
     }
 
     constructor(
-        context: Context, attrs: AttributeSet, showFirstDivider: Boolean,
-        showLastDivider: Boolean
+            context: Context, attrs: AttributeSet, showFirstDivider: Boolean,
+            showLastDivider: Boolean
     ) : this(context, attrs) {
         mShowFirstDivider = showFirstDivider
         mShowLastDivider = showLastDivider
@@ -44,8 +44,8 @@ class AdvancedDividerItemDecoration : RecyclerView.ItemDecoration {
     }
 
     constructor(
-        context: Context, resId: Int, showFirstDivider: Boolean,
-        showLastDivider: Boolean
+            context: Context, resId: Int, showFirstDivider: Boolean,
+            showLastDivider: Boolean
     ) : this(context, resId) {
         mShowFirstDivider = showFirstDivider
         mShowLastDivider = showLastDivider
@@ -56,16 +56,16 @@ class AdvancedDividerItemDecoration : RecyclerView.ItemDecoration {
     }
 
     constructor(
-        divider: Drawable, showFirstDivider: Boolean,
-        showLastDivider: Boolean
+            divider: Drawable, showFirstDivider: Boolean,
+            showLastDivider: Boolean
     ) : this(divider) {
         mShowFirstDivider = showFirstDivider
         mShowLastDivider = showLastDivider
     }
 
     override fun getItemOffsets(
-        outRect: Rect, view: View, parent: RecyclerView,
-        state: RecyclerView.State
+            outRect: Rect, view: View, parent: RecyclerView,
+            state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         if (mDivider == null) {
@@ -158,7 +158,7 @@ class AdvancedDividerItemDecoration : RecyclerView.ItemDecoration {
                 mOrientation = layoutManager!!.orientation
             } else {
                 throw IllegalStateException(
-                    "DividerItemDecoration can only be used with a LinearLayoutManager."
+                        "DividerItemDecoration can only be used with a LinearLayoutManager."
                 )
             }
         }

@@ -19,54 +19,61 @@ import java.util.concurrent.TimeUnit
  */
 
 
-val DateTime.isToday : Boolean get() {
-    return this.toLocalDate() == LocalDate()
-}
+val DateTime.isToday: Boolean
+    get() {
+        return this.toLocalDate() == LocalDate()
+    }
 
-val DateTime.hoursAgo : Int get() {
-    return Hours.hoursBetween(this.toLocalDateTime(), LocalDateTime()).hours
-}
+val DateTime.hoursAgo: Int
+    get() {
+        return Hours.hoursBetween(this.toLocalDateTime(), LocalDateTime()).hours
+    }
 
-val DateTime.minutesAgo : Int get() {
-    return Minutes.minutesBetween(this.toLocalDateTime(), LocalDateTime()).minutes
-}
+val DateTime.minutesAgo: Int
+    get() {
+        return Minutes.minutesBetween(this.toLocalDateTime(), LocalDateTime()).minutes
+    }
 
-val DateTime.secondsAgo : Int get() {
-    return Seconds.secondsBetween(this.toLocalDateTime(), LocalDateTime()).seconds
-}
-
-
-val DateTime.daysAgo : Int get() {
-    return Days.daysBetween(this.toLocalDateTime(), LocalDateTime()).days
-}
-
-val DateTime.monthsAgo : Int get() {
-    return Months.monthsBetween(this.toLocalDateTime(), LocalDateTime()).months
-}
-
-val DateTime.yearsAgo : Int get() {
-    return Years.yearsBetween(this.toLocalDateTime(), LocalDateTime()).years
-}
+val DateTime.secondsAgo: Int
+    get() {
+        return Seconds.secondsBetween(this.toLocalDateTime(), LocalDateTime()).seconds
+    }
 
 
+val DateTime.daysAgo: Int
+    get() {
+        return Days.daysBetween(this.toLocalDateTime(), LocalDateTime()).days
+    }
 
-val String.parseIsBeforeNow : Boolean get() {
-    return DateTime.parse(this).isBeforeNow
-}
+val DateTime.monthsAgo: Int
+    get() {
+        return Months.monthsBetween(this.toLocalDateTime(), LocalDateTime()).months
+    }
 
-val String.parseIsAfterNow : Boolean get() {
-    return DateTime.parse(this).isAfterNow
-}
+val DateTime.yearsAgo: Int
+    get() {
+        return Years.yearsBetween(this.toLocalDateTime(), LocalDateTime()).years
+    }
 
 
-fun String.parseIsBeforeNow(dateTimeFormat: DateTimeFormatter) : Boolean {
+val String.parseIsBeforeNow: Boolean
+    get() {
+        return DateTime.parse(this).isBeforeNow
+    }
+
+val String.parseIsAfterNow: Boolean
+    get() {
+        return DateTime.parse(this).isAfterNow
+    }
+
+
+fun String.parseIsBeforeNow(dateTimeFormat: DateTimeFormatter): Boolean {
     return DateTime.parse(this, dateTimeFormat).isBeforeNow
 }
 
-fun String.parseIsAfterNow(dateTimeFormat: DateTimeFormatter) : Boolean {
+fun String.parseIsAfterNow(dateTimeFormat: DateTimeFormatter): Boolean {
     return DateTime.parse(this, dateTimeFormat).isAfterNow
 }
-
 
 
 fun Date.millisecondsSince(date: Date) = (time - date.time)
@@ -739,16 +746,16 @@ fun Context.formatTimeAccordingToDevice(date: Date): String {
     return format.format(date)
 }
 
-fun Date.getCurrentTimeString() : String {
+fun Date.getCurrentTimeString(): String {
     val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
     return timeFormat.format(this.time)
 }
 
-fun Date.getCurrentTimeHour() : Int {
+fun Date.getCurrentTimeHour(): Int {
     return this.getCurrentTimeString().split(":")[0].toInt()
 }
 
-fun Date.getCurrentTimeMinutes() : Int {
+fun Date.getCurrentTimeMinutes(): Int {
     return this.getCurrentTimeString().split(":")[1].toInt()
 }
 
@@ -763,12 +770,12 @@ fun Date.getCurrentDayString(): String {
     return dateFormat.format(this.time)
 }
 
-fun Date.getCurrentWeekdayString() : String {
+fun Date.getCurrentWeekdayString(): String {
     val weekdayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
     return weekdayFormat.format(this.time)
 }
 
-fun Date.getCurrentDateString(pattern:String) : String {
+fun Date.getCurrentDateString(pattern: String): String {
     val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
     return dateFormat.format(this.time)
 }
@@ -889,7 +896,7 @@ fun Date.isDateSameDay(compareDate: Date): Boolean {
     return this.resetHourMinSecForDate() == compareDate.resetHourMinSecForDate()
 }
 
-fun Date.format(pattern: String, locale: Locale ): String {
+fun Date.format(pattern: String, locale: Locale): String {
     return SimpleDateFormat(pattern, locale).format(this)
 }
 
@@ -939,10 +946,11 @@ fun Date.getAge(): Int {
 }
 
 
-val Date?.isTheDateToday: Boolean get()  {
-    if (this == null) return false
-    return DateUtils.isToday(this.time)
-}
+val Date?.isTheDateToday: Boolean
+    get() {
+        if (this == null) return false
+        return DateUtils.isToday(this.time)
+    }
 
 fun Date?.isDateYesterday(): Boolean {
     if (this == null) return false
@@ -1027,7 +1035,7 @@ fun Date.getMillisToNextMin(): Long {
 }
 
 
-fun Date.getCurrentDateString() : String {
+fun Date.getCurrentDateString(): String {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     return dateFormat.format(this.time)
 }
@@ -1037,21 +1045,21 @@ fun Date.getCurrentDayAndMonthString(): String {
     return dateFormat.format(this.time)
 }
 
-fun Date.getCurrentYear() : String {
+fun Date.getCurrentYear(): String {
     val dateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
     return dateFormat.format(this.time)
 }
 
-fun Date.getCurrentYearInt() : Int {
+fun Date.getCurrentYearInt(): Int {
     return Integer.parseInt(this.getCurrentYear())
 }
 
-fun Long.extractDate() : Date {
-    return Date(this*1000L)
+fun Long.extractDate(): Date {
+    return Date(this * 1000L)
 }
 
 
-fun getDateDifferense(startDate: Date, endDate: Date): Pair<String,Long>? {
+fun getDateDifferense(startDate: Date, endDate: Date): Pair<String, Long>? {
 
     var different = endDate.time - startDate.time
 

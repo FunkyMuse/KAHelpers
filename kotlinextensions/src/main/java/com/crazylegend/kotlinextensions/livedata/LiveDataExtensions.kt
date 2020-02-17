@@ -48,7 +48,6 @@ inline fun <reified T : ViewModel> Fragment.sharedProvider(factory: ViewModelPro
 }
 
 
-
 /**
  * Converts a LiveData to a SingleLiveData (exactly similar to LiveData.first()
  */
@@ -57,7 +56,7 @@ fun <T> LiveData<T>.toSingleLiveData(): SingleLiveData<T> = first()
 /**
  * Converts a LiveData to a MutableLiveData with the initial value set by this LiveData's value
  */
-fun <T> LiveData<T>.toMutableLiveData(): MutableLiveData<T>  = MutableLiveData<T>(value)
+fun <T> LiveData<T>.toMutableLiveData(): MutableLiveData<T> = MutableLiveData<T>(value)
 
 
 /**
@@ -541,7 +540,6 @@ inline fun <reified T> LiveData<List<T>>.switchMapSearchDB(searchQuery: MutableL
 }
 
 
-
 inline fun <reified T> MutableLiveData<List<T>>.switchMapSearchAPI(searchQuery: MutableLiveData<String>, fieldName: String, resultData: MutableLiveData<RetrofitResult<List<T>>>): LiveData<List<T>> {
     return Transformations.switchMap(searchQuery) {
         performSearchAPI(it, fieldName, resultData)
@@ -549,9 +547,9 @@ inline fun <reified T> MutableLiveData<List<T>>.switchMapSearchAPI(searchQuery: 
 }
 
 inline fun <reified T> LiveData<List<T>>.switchMapSearchAPI(searchQuery: MutableLiveData<String>,
-                                                           fieldName: String,
-                                                           dbResultData: MutableLiveData<RetrofitResult<List<T>>>,
-                                                           filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
+                                                            fieldName: String,
+                                                            dbResultData: MutableLiveData<RetrofitResult<List<T>>>,
+                                                            filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
     return Transformations.switchMap(searchQuery) {
         performSearchAPI(it, fieldName, dbResultData, filteredList)
     }

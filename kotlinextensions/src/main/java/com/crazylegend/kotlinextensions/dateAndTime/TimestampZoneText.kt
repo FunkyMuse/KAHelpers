@@ -9,9 +9,9 @@ import org.joda.time.DateTimeZone
  */
 open class TimestampZoneText(val dateTime: DateTime?) {
 
-    constructor(timestamp: Long, zone: DateTimeZone): this(DateTime(timestamp, zone))
+    constructor(timestamp: Long, zone: DateTimeZone) : this(DateTime(timestamp, zone))
 
-    constructor(timestamp: Long, zoneId: String): this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
+    constructor(timestamp: Long, zoneId: String) : this(DateTime(timestamp, DateTimeZone.forID(zoneId)))
 
     val timestamp: Long?
         get() = dateTime?.millis

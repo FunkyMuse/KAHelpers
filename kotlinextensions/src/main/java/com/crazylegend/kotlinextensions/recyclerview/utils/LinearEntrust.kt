@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 
 class LinearEntrust(leftRight: Int, topBottom: Int, mColor: Int) :
-    SpacesItemDecorationEntrust(leftRight, topBottom, mColor) {
+        SpacesItemDecorationEntrust(leftRight, topBottom, mColor) {
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val layoutManager = parent.layoutManager as LinearLayoutManager?

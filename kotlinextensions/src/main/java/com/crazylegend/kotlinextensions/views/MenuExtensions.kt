@@ -21,8 +21,9 @@ import com.crazylegend.kotlinextensions.R
  * Sets a color filter on all menu icons, including the overflow button (if it exists)
  */
 @UiThread
-@JvmOverloads fun colorMenu(activity: Activity, menu: Menu, @ColorInt color: Int,
-                            alpha: Int = 0) {
+@JvmOverloads
+fun colorMenu(activity: Activity, menu: Menu, @ColorInt color: Int,
+              alpha: Int = 0) {
     for (i in 0 until menu.size()) {
         val menuItem = menu.getItem(i)
         colorMenuItem(menuItem, color, alpha)
@@ -44,7 +45,8 @@ import com.crazylegend.kotlinextensions.R
  * Sets a color filter on a [MenuItem]
  */
 @UiThread
-@JvmOverloads fun colorMenuItem(menuItem: MenuItem, @ColorInt color: Int, alpha: Int = 0) {
+@JvmOverloads
+fun colorMenuItem(menuItem: MenuItem, @ColorInt color: Int, alpha: Int = 0) {
     val drawable = menuItem.icon
     if (drawable != null) {
         // If we don't mutate the drawable, then all drawables with this id will have a color
@@ -78,7 +80,7 @@ private fun setOverflowButtonColor(activity: Activity,
         override fun onGlobalLayout() {
             val outViews = ArrayList<View>()
             decorView.findViewsWithText(outViews, overflowDescription,
-                View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
+                    View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
 
             if (outViews.isEmpty()) {
                 return
@@ -88,7 +90,7 @@ private fun setOverflowButtonColor(activity: Activity,
             overflow.colorFilter = colorFilter
 
             if (alpha > 0) {
-                    overflow.imageAlpha = alpha
+                overflow.imageAlpha = alpha
 
             }
 
@@ -99,7 +101,7 @@ private fun setOverflowButtonColor(activity: Activity,
 
 private fun removeOnGlobalLayoutListener(v: View, listener: ViewTreeObserver.OnGlobalLayoutListener) {
 
-        v.viewTreeObserver.removeOnGlobalLayoutListener(listener)
+    v.viewTreeObserver.removeOnGlobalLayoutListener(listener)
 
 }
 

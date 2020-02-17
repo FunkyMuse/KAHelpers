@@ -5,8 +5,6 @@ import android.util.AttributeSet
 import androidx.viewpager.widget.ViewPager
 
 
-
-
 /**
  * Created by hristijan on 3/29/19 to long live and prosper !
  */

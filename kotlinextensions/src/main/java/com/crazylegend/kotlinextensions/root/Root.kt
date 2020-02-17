@@ -10,7 +10,6 @@ import java.io.InputStreamReader
  */
 
 
-
 fun isRooted(): Boolean {
 
     // get from build info

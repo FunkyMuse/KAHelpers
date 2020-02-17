@@ -9,12 +9,12 @@ import kotlin.random.Random
 
 fun vigenereEncrypt(text: String, key: String): String {
     val alphabet = listOf(
-        'a', 'b', 'c', 'd', 'e',
-        'f', 'g', 'h', 'i', 'j',
-        'k', 'l', 'm', 'n', 'o',
-        'p', 'q', 'r', 's', 't',
-        'u', 'v', 'w', 'x', 'y',
-        'z'
+            'a', 'b', 'c', 'd', 'e',
+            'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y',
+            'z'
     )
     var newKey = ""
     var resultString = ""
@@ -32,7 +32,7 @@ fun vigenereEncrypt(text: String, key: String): String {
     text.forEachIndexed { index, character ->
         resultString += if (alphabet.contains(character.toLowerCase())) {
             val newIndex =
-                (alphabet.indexOf(character.toLowerCase()) + alphabet.indexOf(newKey[index])) % alphabet.size
+                    (alphabet.indexOf(character.toLowerCase()) + alphabet.indexOf(newKey[index])) % alphabet.size
             val newCharacter = if (character.isUpperCase()) alphabet[newIndex].toUpperCase() else alphabet[newIndex]
             newCharacter
         } else {
@@ -44,12 +44,12 @@ fun vigenereEncrypt(text: String, key: String): String {
 
 fun vigenereDecrypt(text: String, key: String): String {
     val alphabet = listOf(
-        'a', 'b', 'c', 'd', 'e',
-        'f', 'g', 'h', 'i', 'j',
-        'k', 'l', 'm', 'n', 'o',
-        'p', 'q', 'r', 's', 't',
-        'u', 'v', 'w', 'x', 'y',
-        'z'
+            'a', 'b', 'c', 'd', 'e',
+            'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y',
+            'z'
     )
     var newKey = ""
     var resultString = ""

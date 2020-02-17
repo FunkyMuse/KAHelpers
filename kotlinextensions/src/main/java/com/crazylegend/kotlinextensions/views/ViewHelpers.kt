@@ -137,7 +137,7 @@ fun Context.getScaledDrawable(@DrawableRes resourceId: Int, scaleInDp: Int): Dra
  * AndroidX version of searchview gets the disabled icon hint
  * @receiver SearchView
  */
-fun SearchView.disableSearchIconHint(){
+fun SearchView.disableSearchIconHint() {
     try {
         val mDrawable = SearchView::class.java.getDeclaredField("mSearchHintIcon")
         mDrawable.isAccessible = true

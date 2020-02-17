@@ -12,7 +12,7 @@ fun <T> AsyncSubject(): AsyncSubject<T> = AsyncSubject.create()
 
 fun <T> BehaviorSubject(): BehaviorSubject<T> = BehaviorSubject.create()
 
-fun <T> BehaviorSubject(default : T): BehaviorSubject<T> = BehaviorSubject.createDefault(default)
+fun <T> BehaviorSubject(default: T): BehaviorSubject<T> = BehaviorSubject.createDefault(default)
 
 fun CompletableSubject(): CompletableSubject = CompletableSubject.create()
 

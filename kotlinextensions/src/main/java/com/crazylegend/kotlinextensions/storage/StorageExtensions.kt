@@ -433,23 +433,26 @@ fun Context.alterDocument(uri: Uri, bytes: ByteArray) {
 /**
  * Checks if external storage is available for read and write
  */
-fun isExternalStorageWritable(): Boolean {
-    val state = Environment.getExternalStorageState()
-    return Environment.MEDIA_MOUNTED == state
-}
+val isExternalStorageWritable
+    get() :Boolean {
+        val state = Environment.getExternalStorageState()
+        return Environment.MEDIA_MOUNTED == state
+    }
 
 /**
  * Checks if external storage is available to at least read
  */
-fun isExternalStorageReadable(): Boolean {
-    val state = Environment.getExternalStorageState()
-    return Environment.MEDIA_MOUNTED == state || Environment.MEDIA_MOUNTED_READ_ONLY == state
-}
+val isExternalStorageReadable
+    get() : Boolean {
+        val state = Environment.getExternalStorageState()
+        return Environment.MEDIA_MOUNTED == state || Environment.MEDIA_MOUNTED_READ_ONLY == state
+    }
 
 /**
  * Checks if [Environment].MEDIA_MOUNTED is returned by `getExternalStorageState()`
  * and therefore external storage is read- and writable.
  */
-fun isExtStorageAvailable(): Boolean {
-    return Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
-}
+val isExtStorageAvailable
+    get() : Boolean {
+        return Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
+    }

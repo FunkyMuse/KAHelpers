@@ -21,7 +21,7 @@ import java.util.*
  */
 
 
-fun View.createPDF(mediaDir:String, uriAuthority:String): Uri? {
+fun View.createPDF(mediaDir: String, uriAuthority: String): Uri? {
 
     val file: File?
     val uuid = UUID.randomUUID().toString()
@@ -75,7 +75,7 @@ fun View.createPDF(mediaDir:String, uriAuthority:String): Uri? {
 
 }
 
-fun View.createPDF(pdfNameWithoutDotPDF:String, mediaDir:String, uriAuthority:String): Uri? {
+fun View.createPDF(pdfNameWithoutDotPDF: String, mediaDir: String, uriAuthority: String): Uri? {
 
     val file: File?
     val directory = File(Environment.getDataDirectory(), mediaDir)
@@ -127,7 +127,7 @@ fun View.createPDF(pdfNameWithoutDotPDF:String, mediaDir:String, uriAuthority:St
     return FileProvider.getUriForFile(this.context, uriAuthority, file)
 }
 
-fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String, uriAuthority:String): Uri? {
+fun View.createPDF(pdfNameWithoutDotPDF: String, pageNumber: Int, mediaDir: String, uriAuthority: String): Uri? {
 
     val file: File?
     val directory = File(Environment.getDataDirectory(), mediaDir)
@@ -179,7 +179,7 @@ fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String,
     return FileProvider.getUriForFile(this.context, uriAuthority, file)
 }
 
-fun View.createPDF(pdfNameWithoutDotPDF:String, pageNumber:Int, mediaDir:String, uriAuthority:String, background :Int = Color.WHITE): Uri? {
+fun View.createPDF(pdfNameWithoutDotPDF: String, pageNumber: Int, mediaDir: String, uriAuthority: String, background: Int = Color.WHITE): Uri? {
 
     val file: File?
     val directory = File(Environment.getDataDirectory(), mediaDir)

@@ -22,7 +22,7 @@ import com.crazylegend.kotlinextensions.log.debug
 @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION])
 inline fun LocationManager.requestSingleUpdate(
         criteria: Criteria = Criteria(),
-        crossinline onLocationHad: (location: Location) -> Unit = {_ ->}
+        crossinline onLocationHad: (location: Location) -> Unit = { _ -> }
 ) {
     requestSingleUpdate(criteria, object : LocationListener {
         override fun onLocationChanged(location: Location) {
@@ -41,7 +41,7 @@ inline fun LocationManager.requestSingleUpdate(
 }
 
 
- fun Context.getCompleteAddressString(LATITUDE: Double, LONGITUDE: Double): ObtainedLocationModel {
+fun Context.getCompleteAddressString(LATITUDE: Double, LONGITUDE: Double): ObtainedLocationModel {
 
     val geocoder = Geocoder(this)
 

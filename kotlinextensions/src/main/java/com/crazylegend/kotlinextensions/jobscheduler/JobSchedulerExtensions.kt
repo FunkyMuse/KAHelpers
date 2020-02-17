@@ -29,8 +29,6 @@ inline fun <reified T> JobScheduler?.scheduleJob(context: Context, id: Int) {
 }
 
 
-
-
 @RequiresPermission(allOf = [RECEIVE_BOOT_COMPLETED])
 inline fun <reified T> JobScheduler?.scheduleJob(context: Context, id: Int, overrideDeadline: Long = 500, requiresDeviceIdle: Boolean = false, isPersisted: Boolean = true) {
     this?.schedule(
@@ -139,6 +137,6 @@ inline fun <reified T> Context.isJobRunning(): Boolean {
 }
 
 
-fun Context.cancelSchedulerJob(id:Int){
+fun Context.cancelSchedulerJob(id: Int) {
     this.jobScheduler?.cancel(id)
 }

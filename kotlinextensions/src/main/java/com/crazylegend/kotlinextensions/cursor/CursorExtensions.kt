@@ -131,7 +131,6 @@ inline operator fun <reified T> Cursor.get(columnIndex: Int): T? {
 }
 
 
-
 /**
  * Create a [Iterable] that returns all the data from the [Cursor].
  *

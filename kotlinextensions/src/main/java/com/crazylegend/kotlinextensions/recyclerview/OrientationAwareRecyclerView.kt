@@ -12,14 +12,14 @@ import kotlin.math.abs
  */
 
 
-class OrientationAwareRecyclerView(context: Context,  attrs: AttributeSet?,
+class OrientationAwareRecyclerView(context: Context, attrs: AttributeSet?,
                                    defStyleAttr: Int) : RecyclerView(context, attrs, defStyleAttr) {
     private var lastX = 0.0f
     private var lastY = 0.0f
     private var scrolling = false
 
     constructor(context: Context) : this(context, null)
-    constructor(context: Context,  attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
     override fun onInterceptTouchEvent(e: MotionEvent): Boolean {
         val lm = layoutManager ?: return super.onInterceptTouchEvent(e)

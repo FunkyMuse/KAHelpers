@@ -13,8 +13,7 @@ fun Path.moveTo(x: Int, y: Int) {
 }
 
 fun Path.lineTo(x: Int, y: Int) {
-    this.
-            lineTo(x.toFloat(), y.toFloat())
+    this.lineTo(x.toFloat(), y.toFloat())
 }
 
 fun Path.cubicTo(startX: Int, startY: Int, endX: Int, endY: Int, startXBias: Float = 0.5F, endXBias: Float = 0.5F) {

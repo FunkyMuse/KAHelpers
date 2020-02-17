@@ -79,7 +79,6 @@ fun ByteArray.arrayCopy(srcPos: Int = 0, des: ByteArray, desPos: Int = 0) {
 }
 
 
-
 inline val Int.byteArray: ByteArray
     get() = byteArrayOf(((this shr 24) and 0xFF).toByte(), ((this shr 16) and 0xFF).toByte(),
             ((this shr 0) and 0xFF).toByte(), this.toByte())

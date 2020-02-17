@@ -1,23 +1,24 @@
 package com.crazylegend.kotlinextensions
 
 
-
 /**
  * Created by Hristijan on 2/4/19 to long live and prosper !
  */
 
-val <T> T.isNull : Boolean get() {
-    return this == null
-}
+val <T> T.isNull: Boolean
+    get() {
+        return this == null
+    }
 
-val <T> T.isNotNull : Boolean get() {
-    return this != null
-}
+val <T> T.isNotNull: Boolean
+    get() {
+        return this != null
+    }
 
 /**
  * Debug mode code
  */
-inline fun debugMode(block : () -> Unit) {
+inline fun debugMode(block: () -> Unit) {
     if (BuildConfig.DEBUG) {
         block()
     }
@@ -54,45 +55,45 @@ fun Short?.or(short: Short?) =
         if (this != null && this != 0.toShort()) this else short
 
 
-fun Int?.orElse(int : Int) =
+fun Int?.orElse(int: Int) =
         if (this != null && this != 0) this else int
 
-fun Int?.or(int : Int?) =
+fun Int?.or(int: Int?) =
         if (this != null && this != 0) this else int
 
 
-fun Long?.orElse(long : Long) =
+fun Long?.orElse(long: Long) =
         if (this != null && this != 0L) this else long
 
-fun Long?.or(long : Long?) =
+fun Long?.or(long: Long?) =
         if (this != null && this != 0L) this else long
 
 
-fun Float?.orElse(float : Float) =
+fun Float?.orElse(float: Float) =
         if (this != null && this != 0f) this else float
 
-fun Float?.or(float : Float?) =
+fun Float?.or(float: Float?) =
         if (this != null && this != 0f) this else float
 
 
-fun Double?.orElse(double : Double) =
+fun Double?.orElse(double: Double) =
         if (this != null && this != 0.toDouble()) this else double
 
-fun Double?.or(double : Double?) =
+fun Double?.or(double: Double?) =
         if (this != null && this != 0.toDouble()) this else double
 
 
-fun <T> List<T>?.orElse(list : List<T>) =
+fun <T> List<T>?.orElse(list: List<T>) =
         if (this != null && isNotEmpty()) this else list
 
-fun <T> List<T>?.or(list : List<T>?) =
+fun <T> List<T>?.or(list: List<T>?) =
         if (this != null && isNotEmpty()) this else list
 
 
-fun <K, V> Map<K, V>?.orElse(map : Map<K, V>) =
+fun <K, V> Map<K, V>?.orElse(map: Map<K, V>) =
         if (this != null && isNotEmpty()) this else map
 
-fun <K, V> Map<K, V>?.or(map : Map<K, V>?) =
+fun <K, V> Map<K, V>?.or(map: Map<K, V>?) =
         if (this != null && isNotEmpty()) this else map
 
 fun infiniteLoop(action: () -> Unit) {

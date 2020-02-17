@@ -8,7 +8,6 @@ import android.util.LruCache
  */
 
 
-
 /**
  * Gets value with specific key from the cache. If the value is not present,
  * calls [defaultValue] to obtain a non-null value which is placed into the

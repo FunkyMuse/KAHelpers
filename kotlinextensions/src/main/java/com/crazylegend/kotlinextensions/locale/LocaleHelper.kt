@@ -30,7 +30,7 @@ super.attachBaseContext(newBase?.let { LocaleHelper.onAttach(it) })
  * If you're using Appcompat delegate or setting the locale on pre < API 24 devices make sure to use this override in activity
  * since they haven't fixed the bug in ages
  *
- override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
 if (overrideConfiguration != null) {
 val uiMode = overrideConfiguration.uiMode
 overrideConfiguration.setTo(baseContext.resources.configuration)

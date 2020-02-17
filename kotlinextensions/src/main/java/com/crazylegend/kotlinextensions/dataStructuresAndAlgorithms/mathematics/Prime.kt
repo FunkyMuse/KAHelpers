@@ -61,7 +61,7 @@ fun returnClosestCoprimes(number: Long, amount: Int, increment: Boolean = false)
 /**
  * Generates a random prime number within range, using isPrime() function to check for primality.
  */
-fun generateRandomPrime(range: IntRange): Int{
+fun generateRandomPrime(range: IntRange): Int {
     val count = range.count()
     var i = 0
     var number: Int
@@ -83,10 +83,10 @@ fun isPrime(num: Long): Boolean {
     if (num < 1) return false
     // Taking shortcuts - if a number is divisible without the remainder by small natural numbers, it is not a prime number.
     if (num > 10 && (num % 2 == 0L ||
-                num % 3 == 0L ||
-                num % 5 == 0L ||
-                num % 7 == 0L ||
-                num % 9 == 0L)) return false
+                    num % 3 == 0L ||
+                    num % 5 == 0L ||
+                    num % 7 == 0L ||
+                    num % 9 == 0L)) return false
     // If the number is belonging to small known prime numbers, return true.
     // Likewise, small known not-primes, return false.
     when (num) {

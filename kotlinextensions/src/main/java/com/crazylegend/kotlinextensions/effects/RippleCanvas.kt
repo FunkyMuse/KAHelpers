@@ -15,9 +15,9 @@ import android.view.View
  */
 
 class RippleCanvas @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
     private val paint: Paint = Paint().apply {
         isAntiAlias = true
@@ -54,11 +54,11 @@ class RippleCanvas @JvmOverloads constructor(
      * Creates a ripple effect from the given starting values
      */
     fun ripple(
-        color: Int,
-        startX: Float = 0f,
-        startY: Float = 0f,
-        duration: Long = 600L,
-        callback: (() -> Unit)? = null
+            color: Int,
+            startX: Float = 0f,
+            startY: Float = 0f,
+            duration: Long = 600L,
+            callback: (() -> Unit)? = null
     ) {
         val w = width.toFloat()
         val h = height.toFloat()
@@ -115,11 +115,11 @@ class RippleCanvas @JvmOverloads constructor(
     }
 
     internal class Ripple(
-        val color: Int,
-        val x: Float,
-        val y: Float,
-        var radius: Float,
-        val maxRadius: Float
+            val color: Int,
+            val x: Float,
+            val y: Float,
+            var radius: Float,
+            val maxRadius: Float
     )
 
     companion object {

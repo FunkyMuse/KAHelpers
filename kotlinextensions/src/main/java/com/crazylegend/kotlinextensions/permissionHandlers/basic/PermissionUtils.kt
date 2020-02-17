@@ -7,11 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
 
-
 /**
  * Created by hristijan on 8/26/19 to long live and prosper !
  */
-
 
 
 object PermissionUtils {

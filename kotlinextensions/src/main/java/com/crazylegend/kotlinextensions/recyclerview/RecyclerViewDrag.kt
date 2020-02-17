@@ -55,6 +55,6 @@ fun <T> recyclerDrag(adapter: RecyclerView.Adapter<*>,
  * @param adapter Adapter<*>
  * @param adapterList MutableList<T>
  */
-fun <T> RecyclerView.addDrag(adapter:RecyclerView.Adapter<*>,adapterList: MutableList<T>){
+fun <T> RecyclerView.addDrag(adapter: RecyclerView.Adapter<*>, adapterList: MutableList<T>) {
     recyclerDrag(adapter, adapterList).attachToRecyclerView(this)
 }

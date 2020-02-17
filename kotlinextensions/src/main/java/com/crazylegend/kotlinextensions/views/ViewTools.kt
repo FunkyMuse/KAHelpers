@@ -104,7 +104,7 @@ fun px2dip(context: Context, pxValue: Float): Int {
     return (pxValue / scale + 0.5f).toInt()
 }
 
-fun View.toggleArrow(duration:Long = 200): Boolean {
+fun View.toggleArrow(duration: Long = 200): Boolean {
     return if (rotation == 0f) {
         animate().setDuration(duration).rotation(180f)
         true

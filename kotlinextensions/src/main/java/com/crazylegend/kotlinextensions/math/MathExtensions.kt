@@ -13,6 +13,7 @@ import kotlin.random.Random
  */
 
 fun Double.sin(): Double = Math.sin(this)
+
 fun Double.cos(): Double = Math.cos(this)
 fun Double.tan(): Double = Math.tan(this)
 fun Double.asin(): Double = Math.asin(this)

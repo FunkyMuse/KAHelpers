@@ -35,34 +35,34 @@ fun ImageDecoder.Source.decodeDrawable() = ImageDecoder.decodeDrawable(this)
 
 
 @RequiresApi(Build.VERSION_CODES.P)
-fun ImageDecoder.Source.decodeBitmap() =  ImageDecoder.decodeBitmap(this)
+fun ImageDecoder.Source.decodeBitmap() = ImageDecoder.decodeBitmap(this)
 
 
 @RequiresApi(Build.VERSION_CODES.P)
-fun Resources.decodeImage(@IdRes img:Int ) = ImageDecoder.createSource(this, img)
+fun Resources.decodeImage(@IdRes img: Int) = ImageDecoder.createSource(this, img)
 
 @RequiresApi(Build.VERSION_CODES.P)
-fun ContentResolver.decodeImage(uri:Uri) = ImageDecoder.createSource(this, uri)
+fun ContentResolver.decodeImage(uri: Uri) = ImageDecoder.createSource(this, uri)
 
 @RequiresApi(Build.VERSION_CODES.P)
-fun AssetManager.decodeImage(fileName:String) = ImageDecoder.createSource(this, fileName)
+fun AssetManager.decodeImage(fileName: String) = ImageDecoder.createSource(this, fileName)
 
 @RequiresApi(Build.VERSION_CODES.P)
-fun Drawable.startAnimatedDrawable(){
-    if (this is AnimatedImageDrawable){
+fun Drawable.startAnimatedDrawable() {
+    if (this is AnimatedImageDrawable) {
         this.start()
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
-fun Drawable.stopAnimatedDrawable(){
-    if (this is AnimatedImageDrawable){
+fun Drawable.stopAnimatedDrawable() {
+    if (this is AnimatedImageDrawable) {
         this.stop()
     }
 }
 
-fun ImageDecoder.decodeImageOnWorkerthread(transform : ImageDecoder.()-> Unit){
-    GlobalScope.launch(Dispatchers.Default){
+fun ImageDecoder.decodeImageOnWorkerthread(transform: ImageDecoder.() -> Unit) {
+    GlobalScope.launch(Dispatchers.Default) {
         transform.invoke(this@decodeImageOnWorkerthread)
     }
 }

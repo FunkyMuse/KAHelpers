@@ -50,10 +50,11 @@ fun CharSequence.toStrikeThroughSpan(range: IntRange): SpannableString {
  */
 fun CharSequence.toClickSpan(range: IntRange, color: Int = Color.RED, isUnderlineText: Boolean = false, clickListener: View.OnClickListener): SpannableString {
     return SpannableString(this).apply {
-        val clickableSpan = object : ClickableSpan(){
+        val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 clickListener.onClick(widget)
             }
+
             override fun updateDrawState(ds: TextPaint) {
                 ds.color = color
                 ds.isUnderlineText = isUnderlineText

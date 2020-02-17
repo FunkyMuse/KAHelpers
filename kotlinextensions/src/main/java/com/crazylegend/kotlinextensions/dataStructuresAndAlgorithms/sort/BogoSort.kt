@@ -18,7 +18,7 @@ Space complexity: 1
 Stable: No
  *
  */
-fun <T: Comparable<T>> bogoSort(list: MutableList<T>) {
+fun <T : Comparable<T>> bogoSort(list: MutableList<T>) {
     /**
      * Returns true if the list is sorted.
      * Goes over every element and returns false if the order is not valid. In the end of the loop, in false has not

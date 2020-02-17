@@ -109,7 +109,6 @@ fun runOnUiThread(action: () -> Unit) {
 }
 
 
-
 /**
  * Extension method to get the TAG name for all object
  */
@@ -117,7 +116,7 @@ fun <T : Any> T.TAG() = this::class.simpleName
 
 val <T : Any> T.TAG get() = this::class.simpleName.toString()
 
-inline fun <reified T >tag(): String {
+inline fun <reified T> tag(): String {
     return T::class.java.simpleName
 }
 

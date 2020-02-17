@@ -128,7 +128,7 @@ fun <T> T.logError(tag: String = TAG) = apply {
 /**
  * Log stacktrace of exception as error
  */
-fun <T: Exception> T.log(tag: String = TAG) = apply {
+fun <T : Exception> T.log(tag: String = TAG) = apply {
     getStackTraceString(this).logError(tag)
 }
 

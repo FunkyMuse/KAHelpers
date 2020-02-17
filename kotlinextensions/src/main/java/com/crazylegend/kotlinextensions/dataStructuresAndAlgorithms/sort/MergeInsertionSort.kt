@@ -18,7 +18,7 @@ package com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.sort
  *
  * Space complexity: O(n) auxiliary for merging.
  */
-fun mergeInsertionSort(list: MutableList<Int>, insertionThreshold: Int = 8){
+fun mergeInsertionSort(list: MutableList<Int>, insertionThreshold: Int = 8) {
     mergeInsertionSort(list, 0, list.size - 1, insertionThreshold)
 }
 

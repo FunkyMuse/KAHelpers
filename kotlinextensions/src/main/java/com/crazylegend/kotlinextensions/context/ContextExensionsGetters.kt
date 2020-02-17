@@ -133,13 +133,13 @@ inline fun Context.notification(body: NotificationCompat.Builder.() -> Unit, cha
  * Get color from resources
  */
 fun Context.getCompatColor(@ColorRes colorInt: Int): Int =
-    ContextCompat.getColor(this, colorInt)
+        ContextCompat.getColor(this, colorInt)
 
 /**
  * Get drawable from resources
  */
 fun Context.getCompatDrawable(@DrawableRes drawableRes: Int): Drawable? =
-    ContextCompat.getDrawable(this, drawableRes)
+        ContextCompat.getDrawable(this, drawableRes)
 
 /**
  * Get ActivityManager
@@ -213,17 +213,19 @@ val Context.isPortrait get() = resources.configuration.orientation == Configurat
 /**
  * get Height of status bar
  */
-val Context.getStatusBarHeight: Int get() {
-    val resourceId = this.resources.getIdentifier("status_bar_height", "dimen", "android")
-    return this.resources.getDimensionPixelSize(resourceId)
-}
+val Context.getStatusBarHeight: Int
+    get() {
+        val resourceId = this.resources.getIdentifier("status_bar_height", "dimen", "android")
+        return this.resources.getDimensionPixelSize(resourceId)
+    }
 
-val Context.getDeviceUsableMemory: Long get() {
-    val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
-    val memoryInfo = ActivityManager.MemoryInfo()
-    am.getMemoryInfo(memoryInfo)
-    return memoryInfo.availMem / (1024 * 1024)
-}
+val Context.getDeviceUsableMemory: Long
+    get() {
+        val am = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        val memoryInfo = ActivityManager.MemoryInfo()
+        am.getMemoryInfo(memoryInfo)
+        return memoryInfo.availMem / (1024 * 1024)
+    }
 
 inline val Context.isFinishing: Boolean
     get() = (this as? Activity)?.isFinishing ?: false
@@ -231,15 +233,15 @@ inline val Context.isFinishing: Boolean
 inline val Context.isRtl: Boolean
     get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
 
-val Context.isTablet: Boolean get()  {
-    return this.resources.configuration.screenLayout and Configuration
-        .SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
-}
+val Context.isTablet: Boolean
+    get() {
+        return this.resources.configuration.screenLayout and Configuration
+                .SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
+    }
 
-fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat? {
+fun Context.getAnimatedVectorDrawable(@DrawableRes id: Int): AnimatedVectorDrawableCompat? {
     return AnimatedVectorDrawableCompat.create(this, id)
 }
-
 
 
 val Context.networkOperatorName: String?
@@ -328,7 +330,6 @@ val Context.telecomManager
     get() = getSystemService(TELECOM_SERVICE) as TelecomManager?
 
 
-
 val Context.textServicesManager
     get() = getSystemService(TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager?
 
@@ -362,16 +363,17 @@ val Context.windowManager
 inline val Context.configuration: Configuration
     get() = resources.configuration
 
-inline val Context.isOneHanded: Boolean get() {
-    return isPortrait && configuration.smallestScreenWidthDp < 600
-}
+inline val Context.isOneHanded: Boolean
+    get() {
+        return isPortrait && configuration.smallestScreenWidthDp < 600
+    }
 
 
 fun Context.isPermissionGranted(permission: String): Boolean =
-    ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 
 fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
-    permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
+        permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
 
 
 val Context.locationPowerSaveMode get() = powerManager?.locationPowerSaveMode
@@ -382,7 +384,7 @@ val Context.locationPowerSaveMode get() = powerManager?.locationPowerSaveMode
  * @param level Int
  * @return Boolean?
  */
-fun Context.isWakeLockLevelSupported (level:Int): Boolean? {
+fun Context.isWakeLockLevelSupported(level: Int): Boolean? {
     return powerManager?.isWakeLockLevelSupported(level)
 }
 
@@ -404,23 +406,26 @@ If using this to keep the screen on, you should strongly consider using WindowMa
  * @param levelFlags Int
  * @param tag String
  */
-fun Context.createNewWakeLock(levelFlags:Int, tag:String): PowerManager.WakeLock? {
-   return powerManager?.newWakeLock(levelFlags, tag)
+fun Context.createNewWakeLock(levelFlags: Int, tag: String): PowerManager.WakeLock? {
+    return powerManager?.newWakeLock(levelFlags, tag)
 }
 
-val Context.isSustainedPerformanceModeSupported @RequiresApi(Build.VERSION_CODES.N)
-get() = powerManager?.isSustainedPerformanceModeSupported
+val Context.isSustainedPerformanceModeSupported
+    @RequiresApi(Build.VERSION_CODES.N)
+    get() = powerManager?.isSustainedPerformanceModeSupported
 
 val Context.isInPowerSaveMode get() = powerManager?.isPowerSaveMode
 
 val Context.isInInteractiveState get() = powerManager?.isInteractive
 
-val Context.isIgnoringBatteryOptimization @RequiresApi(Build.VERSION_CODES.M)
-get() = powerManager?.isIgnoringBatteryOptimizations(packageName)
+val Context.isIgnoringBatteryOptimization
+    @RequiresApi(Build.VERSION_CODES.M)
+    get() = powerManager?.isIgnoringBatteryOptimizations(packageName)
 
 
-val Context.isDeviceIdle @RequiresApi(Build.VERSION_CODES.M)
-get() = powerManager?.isDeviceIdleMode
+val Context.isDeviceIdle
+    @RequiresApi(Build.VERSION_CODES.M)
+    get() = powerManager?.isDeviceIdleMode
 
 fun Context.permissionGranted(permission: String) =
         packageManager.checkPermission(permission, packageName) == PackageManager.PERMISSION_GRANTED

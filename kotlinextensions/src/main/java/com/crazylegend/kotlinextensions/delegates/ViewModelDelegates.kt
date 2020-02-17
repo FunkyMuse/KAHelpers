@@ -14,19 +14,19 @@ import com.crazylegend.kotlinextensions.livedata.sharedProvider
  */
 
 
-inline fun <reified VM:ViewModel> Fragment.fragmentVM() = lazy {
+inline fun <reified VM : ViewModel> Fragment.fragmentVM() = lazy {
     fragmentProvider<VM>()
 }
 
-inline fun <reified VM:ViewModel> AppCompatActivity.activityVM() = lazy {
+inline fun <reified VM : ViewModel> AppCompatActivity.activityVM() = lazy {
     compatProvider<VM>()
 }
 
-inline fun <reified VM:ViewModel> Fragment.fragmentVM(factory: ViewModelProvider.Factory) = lazy {
+inline fun <reified VM : ViewModel> Fragment.fragmentVM(factory: ViewModelProvider.Factory) = lazy {
     fragmentProvider<VM>(factory)
 }
 
-inline fun <reified VM:ViewModel> AppCompatActivity.activityVM(factory: ViewModelProvider.Factory) = lazy {
+inline fun <reified VM : ViewModel> AppCompatActivity.activityVM(factory: ViewModelProvider.Factory) = lazy {
     compatProvider<VM>(factory)
 }
 

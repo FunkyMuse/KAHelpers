@@ -10,7 +10,6 @@ import kotlinx.coroutines.Job
  */
 
 
-
 class AutoDisposableJob(private val view: View, private val wrapped: Job)
     : Job by wrapped, OnAttachStateChangeListener {
     override fun onViewAttachedToWindow(v: View?) = Unit
@@ -24,7 +23,7 @@ class AutoDisposableJob(private val view: View, private val wrapped: Job)
             view.isAttachedToWindow || view.windowToken != null
 
     init {
-        if(isViewAttached()) {
+        if (isViewAttached()) {
             view.addOnAttachStateChangeListener(this)
         } else {
             cancel()

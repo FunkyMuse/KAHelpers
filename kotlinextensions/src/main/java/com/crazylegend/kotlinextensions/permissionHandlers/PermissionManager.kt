@@ -52,7 +52,6 @@ if (it.requestId == REQUEST_ID) {
  */
 
 
-
 /**
  * Created by hristijan on 6/17/19 to long live and prosper !
  */

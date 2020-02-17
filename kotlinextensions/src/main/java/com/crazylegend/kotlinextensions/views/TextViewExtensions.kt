@@ -86,10 +86,10 @@ fun TextView.setColorOfSubstring(substring: String, color: Int) {
         val spannable = android.text.SpannableString(text)
         val start = text.indexOf(substring)
         spannable.setSpan(
-            ForegroundColorSpan(ContextCompat.getColor(context, color)),
-            start,
-            start + substring.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                ForegroundColorSpan(ContextCompat.getColor(context, color)),
+                start,
+                start + substring.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         text = spannable
     } catch (e: Exception) {
@@ -146,14 +146,13 @@ fun TextView.strikeThrougthSpan(str: String, range: IntRange) {
 }
 
 fun TextView.clickSpan(
-    str: String, range: IntRange,
-    color: Int = Color.RED, isUnderlineText: Boolean = false, clickListener: View.OnClickListener
+        str: String, range: IntRange,
+        color: Int = Color.RED, isUnderlineText: Boolean = false, clickListener: View.OnClickListener
 ) {
     movementMethod = LinkMovementMethod.getInstance()
     highlightColor = Color.TRANSPARENT  // remove click bg color
     text = str.toClickSpan(range, color, isUnderlineText, clickListener)
 }
-
 
 
 /**
@@ -186,23 +185,23 @@ inline var TextView.isSelectable: Boolean
 
 
 fun TextView.updateTextAppearance(@StyleRes resource: Int) =
-    TextViewCompat.setTextAppearance(this, resource)
+        TextViewCompat.setTextAppearance(this, resource)
 
 @SuppressLint("RestrictedApi")
 fun TextView.textColorAnim(from: Int, to: Int) {
     val textColorAnimator = ObjectAnimator.ofObject(
-        this,
-        "textColor",
-        ArgbEvaluator(),
-        ContextCompat.getColor(context, from),
-        ContextCompat.getColor(context, to)
+            this,
+            "textColor",
+            ArgbEvaluator(),
+            ContextCompat.getColor(context, from),
+            ContextCompat.getColor(context, to)
     )
     textColorAnimator.duration = 300
     textColorAnimator.start()
 }
 
 
-fun TextView.preComputeCurrentText(){
+fun TextView.preComputeCurrentText() {
     val textParams = TextViewCompat.getTextMetricsParams(this)
     val text = PrecomputedTextCompat.create(text, textParams)
     this.text = text
@@ -222,21 +221,21 @@ fun TextView.precomputeText(text: String): PrecomputedTextCompat {
 
 
 inline fun TextView.addTextChangedListener(
-    crossinline onBeforeTextChanged: (s: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
-    crossinline onTextChanged: (s: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> },
-    crossinline onAfterTextChanged: (s: Editable) -> Unit = { }
+        crossinline onBeforeTextChanged: (s: CharSequence?, start: Int, count: Int, after: Int) -> Unit = { _, _, _, _ -> },
+        crossinline onTextChanged: (s: CharSequence?, start: Int, before: Int, count: Int) -> Unit = { _, _, _, _ -> },
+        crossinline onAfterTextChanged: (s: Editable) -> Unit = { }
 ): TextWatcher {
     val listener = object : TextWatcher {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
-            onTextChanged(s, start, before, count)
+                onTextChanged(s, start, before, count)
 
         override fun afterTextChanged(s: Editable) = onAfterTextChanged(s)
         override fun beforeTextChanged(
-            s: CharSequence?,
-            start: Int,
-            count: Int,
-            after: Int
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
         ) = onBeforeTextChanged(s, start, count, after)
 
 
@@ -259,11 +258,9 @@ infix fun TextView.set(text: Spannable?) {
 }
 
 
-
 infix fun AppCompatTextView.set(text: String?) {
     setPrecomputedText(text)
 }
-
 
 
 fun TextInputLayout.clearError() {
@@ -279,12 +276,12 @@ val AppCompatTextView.textString: String
     get() = text.toString()
 
 
-fun TextView.setTextColorId(id: Int){
+fun TextView.setTextColorId(id: Int) {
     this.setTextColor(this.context.getColorCompat(id))
 }
 
 fun TextView.setRightDrawable(@DrawableRes resId: Int) {
-    setCompoundDrawablesWithIntrinsicBounds(0,0,resId,0)
+    setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0)
 }
 
 fun TextView.setFont(@FontRes font: Int) {
@@ -384,15 +381,14 @@ fun TextView.addDebounceChangeStateListener(delayInMillis: Long = 500, timeoutIn
 }
 
 
-
-fun AppCompatTextView.setPrecomputedText(text:String?){
+fun AppCompatTextView.setPrecomputedText(text: String?) {
     text?.let {
         setTextFuture(PrecomputedTextCompat.getTextFuture(it, this.textMetricsParamsCompat, null))
     }
 }
 
-fun AppCompatTextView.setPrecomputedTextOrHide(text:String?){
-    if (text == null){
+fun AppCompatTextView.setPrecomputedTextOrHide(text: String?) {
+    if (text == null) {
         gone()
     } else {
         visible()

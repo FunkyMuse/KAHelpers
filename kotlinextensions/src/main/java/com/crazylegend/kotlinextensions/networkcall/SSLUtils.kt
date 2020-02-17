@@ -11,6 +11,7 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import javax.net.ssl.*
 import javax.security.cert.CertificateException
+
 /**
  * Created by hristijan on 3/29/19 to long live and prosper !
  */

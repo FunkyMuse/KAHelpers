@@ -9,9 +9,9 @@ import kotlinx.android.parcel.Parcelize
  */
 
 @Parcelize
-data class ObtainedLocationModel(var address :String = "",
-                                 var city :String = "",
-                                 var state:String = "",
-                                 var country :String = "",
-                                 var postalCode :String = "",
+data class ObtainedLocationModel(var address: String = "",
+                                 var city: String = "",
+                                 var state: String = "",
+                                 var country: String = "",
+                                 var postalCode: String = "",
                                  var knownName: String = "") : Parcelable

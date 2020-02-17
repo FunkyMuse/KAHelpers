@@ -1,4 +1,3 @@
-
 package com.crazylegend.kotlinextensions.misc
 
 import android.os.Parcel
@@ -25,5 +24,5 @@ fun Parcel.readBoolean() = readByte().toInt() != 0
  * Reified version of [Parcel.readParcelable] that allows classloader
  * argument to be omitted.
  */
-inline fun <reified T: Parcelable> Parcel.readTypedParcelable(): T? =
+inline fun <reified T : Parcelable> Parcel.readTypedParcelable(): T? =
         readParcelable(T::class.java.classLoader)

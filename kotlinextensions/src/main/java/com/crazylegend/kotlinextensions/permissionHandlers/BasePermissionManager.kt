@@ -27,11 +27,12 @@ abstract class BasePermissionManager : Fragment() {
         } else if (permissions.any { shouldShowRequestPermissionRationale(it) }) {
             onPermissionResult(
                     PermissionResult.PermissionDenied(requestCode, permissions.filterIndexed { index, _ ->
-                                grantResults[index] == PackageManager.PERMISSION_DENIED })
+                        grantResults[index] == PackageManager.PERMISSION_DENIED
+                    })
             )
         } else {
             onPermissionResult(PermissionResult.PermissionDeniedPermanently(requestCode, permissions.filterIndexed { index, _ ->
-                                grantResults[index] == PackageManager.PERMISSION_DENIED
+                grantResults[index] == PackageManager.PERMISSION_DENIED
             }))
         }
     }

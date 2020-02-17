@@ -9,7 +9,8 @@ import io.reactivex.subjects.PublishSubject
  */
 object RxBus {
 
-    @PublishedApi internal val publisher = PublishSubject.create<Any>()
+    @PublishedApi
+    internal val publisher = PublishSubject.create<Any>()
 
     fun publish(event: Any) {
         publisher.onNext(event)

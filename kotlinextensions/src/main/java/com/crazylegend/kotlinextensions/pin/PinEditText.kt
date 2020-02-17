@@ -133,13 +133,13 @@ class PinEditText : AppCompatEditText {
         }
 
         pinPainter = PinPainter(
-            normalStateDrawable!!,
-            highlightStateDrawable!!,
-            this,
-            pinWidth,
-            pinHeight,
-            pinTotal,
-            pinSpace)
+                normalStateDrawable!!,
+                highlightStateDrawable!!,
+                this,
+                pinWidth,
+                pinHeight,
+                pinTotal,
+                pinSpace)
     }
 
     private fun initClickListener() {

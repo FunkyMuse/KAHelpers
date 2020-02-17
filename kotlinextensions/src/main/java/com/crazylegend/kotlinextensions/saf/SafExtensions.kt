@@ -79,7 +79,7 @@ fun recursiveSAFFiles(files: Array<DocumentFile>?, fileCallback: (traversedFile:
     files?.apply {
         for (file in files) {
             if (file.isDirectory) {
-                recursiveSAFFiles(file.listFiles(),fileCallback)
+                recursiveSAFFiles(file.listFiles(), fileCallback)
             } else {
                 fileCallback.invoke(file)
             }
@@ -92,7 +92,7 @@ fun recursiveSAFFiles(files: Array<DocumentFile>?, fileCallback: (traversedFile:
  * @param files Array<DocumentFile>?
  * @param callbackArray ArrayList<DocumentFile> the array that you add the items to
  */
-fun recursiveSAFFiles(files: Array<DocumentFile>?, callbackArray:ArrayList<DocumentFile>) {
+fun recursiveSAFFiles(files: Array<DocumentFile>?, callbackArray: ArrayList<DocumentFile>) {
     files?.apply {
         for (file in files) {
             if (file.isDirectory) {
@@ -125,8 +125,7 @@ fun recursiveSAFFiles(files: Array<DocumentFile>?): MutableList<DocumentFile> {
 }
 
 
-
-fun Context.moveFileToUri(treeUri: Uri, file: File,progress: (Long) -> Unit = {}) {
+fun Context.moveFileToUri(treeUri: Uri, file: File, progress: (Long) -> Unit = {}) {
     contentResolver.openOutputStream(treeUri)?.use { output ->
         output as FileOutputStream
         FileInputStream(file).use { input ->

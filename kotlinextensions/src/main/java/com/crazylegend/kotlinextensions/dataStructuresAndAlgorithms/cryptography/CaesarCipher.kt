@@ -12,14 +12,14 @@ package com.crazylegend.kotlinextensions.dataStructuresAndAlgorithms.cryptograph
  * The shift number is found out by computing shift % alphabet.size, where shift is the desired shift by the user and alphabet.size
  * is the number of letters in the alphabet.
  */
-fun caesarEncrypt(text: String, shift: Int): String{
+fun caesarEncrypt(text: String, shift: Int): String {
     val alphabet = listOf(
-        'a', 'b', 'c', 'd', 'e',
-        'f', 'g', 'h', 'i', 'j',
-        'k', 'l', 'm', 'n', 'o',
-        'p', 'q', 'r', 's', 't',
-        'u', 'v', 'w', 'x', 'y',
-        'z')
+            'a', 'b', 'c', 'd', 'e',
+            'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y',
+            'z')
 
     val moduledShift = shift % alphabet.size
     if (moduledShift == 0) return text
@@ -35,14 +35,14 @@ fun caesarEncrypt(text: String, shift: Int): String{
     return resultString
 }
 
-fun caesarDecrypt(text: String, shift: Int): String{
+fun caesarDecrypt(text: String, shift: Int): String {
     val alphabet = listOf(
-        'a', 'b', 'c', 'd', 'e',
-        'f', 'g', 'h', 'i', 'j',
-        'k', 'l', 'm', 'n', 'o',
-        'p', 'q', 'r', 's', 't',
-        'u', 'v', 'w', 'x', 'y',
-        'z')
+            'a', 'b', 'c', 'd', 'e',
+            'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y',
+            'z')
 
     val moduledShift = shift % alphabet.size
     if (moduledShift == 0) return text

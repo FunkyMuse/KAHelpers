@@ -26,11 +26,11 @@ import com.crazylegend.kotlinextensions.views.scaleXY
  * Created by hristijan on 3/5/19 to long live and prosper !
  */
 
-fun Context.transition(enterTransition:Int, exitTransition:Int){
-    (this as AppCompatActivity).overridePendingTransition(enterTransition,exitTransition)
+fun Context.transition(enterTransition: Int, exitTransition: Int) {
+    (this as AppCompatActivity).overridePendingTransition(enterTransition, exitTransition)
 }
 
-fun Activity.animate(intent: Intent, transitionImage: View, EXTRA_IMAGE:String){
+fun Activity.animate(intent: Intent, transitionImage: View, EXTRA_IMAGE: String) {
     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, transitionImage, EXTRA_IMAGE)
     ActivityCompat.startActivity(this, intent, options.toBundle())
 }
@@ -42,9 +42,9 @@ fun Activity.animate(intent: Intent, transitionImage: View, EXTRA_IMAGE:String){
  * If it is already shown, scaling and alpha animations will be added to the action
  */
 inline fun <T : ImageView> T.fadeScaleTransition(
-    duration: Long = 500L,
-    minScale: Float = 0.7f,
-    crossinline action: T.() -> Unit
+        duration: Long = 500L,
+        minScale: Float = 0.7f,
+        crossinline action: T.() -> Unit
 ) {
     if (!isVisible) action()
     else {
@@ -67,11 +67,11 @@ inline fun <T : ImageView> T.fadeScaleTransition(
 
 
 fun Transition.addListener(
-    onTransitionEnd: (Transition) -> Unit = {},
-    onTransitionResume: (Transition) -> Unit = {},
-    onTransitionPause: (Transition) -> Unit = {},
-    onTransitionCancel: (Transition) -> Unit = {},
-    onTransitionStart: (Transition) -> Unit = {}
+        onTransitionEnd: (Transition) -> Unit = {},
+        onTransitionResume: (Transition) -> Unit = {},
+        onTransitionPause: (Transition) -> Unit = {},
+        onTransitionCancel: (Transition) -> Unit = {},
+        onTransitionStart: (Transition) -> Unit = {}
 ) {
     addListener(object : Transition.TransitionListener {
         override fun onTransitionEnd(transition: Transition) {
@@ -97,19 +97,23 @@ fun Transition.addListener(
     })
 }
 
-fun Transition.onTransitionEnd(onTransitionEnd: (Transition) -> Unit = { _->}) {
+fun Transition.onTransitionEnd(onTransitionEnd: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionEnd = onTransitionEnd)
 }
-fun Transition.onTransitionResume(onTransitionResume: (Transition) -> Unit = { _->}) {
+
+fun Transition.onTransitionResume(onTransitionResume: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionResume = onTransitionResume)
 }
-fun Transition.onTransitionPause(onTransitionPause: (Transition) ->Unit = { _->}) {
+
+fun Transition.onTransitionPause(onTransitionPause: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionPause = onTransitionPause)
 }
-fun Transition.onTransitionCancel(onTransitionCancel: (Transition) -> Unit = { _->}) {
+
+fun Transition.onTransitionCancel(onTransitionCancel: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionCancel = onTransitionCancel)
 }
-fun Transition.onTransitionStart(onTransitionStart: (Transition) -> Unit = { _->}) {
+
+fun Transition.onTransitionStart(onTransitionStart: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionStart = onTransitionStart)
 }
 

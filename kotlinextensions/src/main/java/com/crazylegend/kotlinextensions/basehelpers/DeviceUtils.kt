@@ -14,7 +14,6 @@ import java.util.*
  */
 
 
-
 /**
  * Helper Class to Provide the Device Informations
  */
@@ -153,18 +152,18 @@ object DeviceUtils {
         get() {
             if (bean != null) return bean
             bean =
-                RomInfo()
+                    RomInfo()
             val brand = brand
             val manufacturer = manufacturer
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_HUAWEI
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_HUAWEI
+                    )
             ) {
                 bean!!.name = ROM_HUAWEI[0]
                 val version =
-                    getRomVersion(VERSION_PROPERTY_HUAWEI)
+                        getRomVersion(VERSION_PROPERTY_HUAWEI)
                 val temp = version.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 if (temp.size > 1) {
                     bean!!.version = temp[1]
@@ -174,150 +173,150 @@ object DeviceUtils {
                 return bean
             }
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_VIVO
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_VIVO
+                    )
             ) {
                 bean!!.name = ROM_VIVO[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_VIVO)
+                        getRomVersion(VERSION_PROPERTY_VIVO)
                 return bean
             }
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_XIAOMI
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_XIAOMI
+                    )
             ) {
                 bean!!.name = ROM_XIAOMI[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_XIAOMI)
+                        getRomVersion(VERSION_PROPERTY_XIAOMI)
                 return bean
             }
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_OPPO
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_OPPO
+                    )
             ) {
                 bean!!.name = ROM_OPPO[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_OPPO)
+                        getRomVersion(VERSION_PROPERTY_OPPO)
                 return bean
             }
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_LEECO
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_LEECO
+                    )
             ) {
                 bean!!.name = ROM_LEECO[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_LEECO)
+                        getRomVersion(VERSION_PROPERTY_LEECO)
                 return bean
             }
 
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_360
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_360
+                    )
             ) {
                 bean!!.name = ROM_360[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_360)
+                        getRomVersion(VERSION_PROPERTY_360)
                 return bean
             }
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_ZTE
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_ZTE
+                    )
             ) {
                 bean!!.name = ROM_ZTE[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_ZTE)
+                        getRomVersion(VERSION_PROPERTY_ZTE)
                 return bean
             }
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_ONEPLUS
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_ONEPLUS
+                    )
             ) {
                 bean!!.name = ROM_ONEPLUS[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_ONEPLUS)
+                        getRomVersion(VERSION_PROPERTY_ONEPLUS)
                 return bean
             }
             if (isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_NUBIA
-                )
+                            brand,
+                            manufacturer,
+                            *ROM_NUBIA
+                    )
             ) {
                 bean!!.name = ROM_NUBIA[0]
                 bean!!.version =
-                    getRomVersion(VERSION_PROPERTY_NUBIA)
+                        getRomVersion(VERSION_PROPERTY_NUBIA)
                 return bean
             }
 
             when {
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_COOLPAD
+                        brand,
+                        manufacturer,
+                        *ROM_COOLPAD
                 ) -> bean!!.name = ROM_COOLPAD[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_LG
+                        brand,
+                        manufacturer,
+                        *ROM_LG
                 ) -> bean!!.name = ROM_LG[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_GOOGLE
+                        brand,
+                        manufacturer,
+                        *ROM_GOOGLE
                 ) -> bean!!.name = ROM_GOOGLE[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_SAMSUNG
+                        brand,
+                        manufacturer,
+                        *ROM_SAMSUNG
                 ) -> bean!!.name = ROM_SAMSUNG[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_MEIZU
+                        brand,
+                        manufacturer,
+                        *ROM_MEIZU
                 ) -> bean!!.name = ROM_MEIZU[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_LENOVO
+                        brand,
+                        manufacturer,
+                        *ROM_LENOVO
                 ) -> bean!!.name = ROM_LENOVO[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_SMARTISAN
+                        brand,
+                        manufacturer,
+                        *ROM_SMARTISAN
                 ) -> bean!!.name = ROM_SMARTISAN[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_HTC
+                        brand,
+                        manufacturer,
+                        *ROM_HTC
                 ) -> bean!!.name = ROM_HTC[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_SONY
+                        brand,
+                        manufacturer,
+                        *ROM_SONY
                 ) -> bean!!.name = ROM_SONY[0]
                 isRightRom(
-                    brand,
-                    manufacturer,
-                    *ROM_AMIGO
+                        brand,
+                        manufacturer,
+                        *ROM_AMIGO
                 ) -> bean!!.name = ROM_AMIGO[0]
                 else -> bean!!.name = manufacturer
             }
             bean!!.version =
-                getRomVersion("")
+                    getRomVersion("")
             return bean
         }
 
@@ -412,7 +411,7 @@ object DeviceUtils {
         try {
             val prop = Properties()
             val `is` = FileInputStream(
-                File(Environment.getRootDirectory(), "build.prop")
+                    File(Environment.getRootDirectory(), "build.prop")
             )
             prop.load(`is`)
             return prop.getProperty(key, "")

@@ -24,37 +24,35 @@ import kotlin.reflect.KProperty
  */
 
 
-
-
 fun Bundle.withCustomAnimation(
-    context: Context,
-    @AnimRes enterResId: Int,
-    @AnimRes exitResId: Int
+        context: Context,
+        @AnimRes enterResId: Int,
+        @AnimRes exitResId: Int
 ) {
     this with ActivityOptions.makeCustomAnimation(
-        context,
-        enterResId, exitResId
+            context,
+            enterResId, exitResId
     ).toBundle()
 }
 
 fun Bundle.withSlideIn(context: Context) = withCustomAnimation(
-    context,
-    R.anim.slide_in_right, R.anim.fade_out
+        context,
+        R.anim.slide_in_right, R.anim.fade_out
 )
 
 fun Bundle.withSlideOut(context: Context) = withCustomAnimation(
-    context,
-    R.anim.fade_in, R.anim.abc_slide_out_top
+        context,
+        R.anim.fade_in, R.anim.abc_slide_out_top
 )
 
 fun Bundle.withFade(context: Context) = withCustomAnimation(
-    context,
-    android.R.anim.fade_in, android.R.anim.fade_out
+        context,
+        android.R.anim.fade_in, android.R.anim.fade_out
 )
 
 /**
-* Similar to [Bundle.putAll], but checks for a null insert and returns the parent bundle
-*/
+ * Similar to [Bundle.putAll], but checks for a null insert and returns the parent bundle
+ */
 infix fun Bundle.with(bundle: Bundle?): Bundle {
     if (bundle != null) putAll(bundle)
     return this
@@ -125,8 +123,8 @@ fun Bundle.extractBundle(keyValSeparator: String = ": ", newSetSeparator: String
     val keyvals = StringBuilder()
     keySet().forEach {
         keyvals.append(it).append(keyValSeparator).append(get(it)?.toString()
-            ?: "null etnry")
-            .append(newSetSeparator)
+                ?: "null etnry")
+                .append(newSetSeparator)
     }
     return keyvals.toString()
 }
@@ -142,19 +140,18 @@ fun Bundle.toMap(): Map<String, String> {
     return map
 }
 
-operator fun Bundle.contains(key: String): Boolean
-        = containsKey(key)
+operator fun Bundle.contains(key: String): Boolean = containsKey(key)
 
 
-inline fun <reified T> Bundle.obtain(key: String, noinline converter: ((Any?) -> T?) = { it as? T }): T?
-        = converter(this[key])
+inline fun <reified T> Bundle.obtain(key: String, noinline converter: ((Any?) -> T?) = { it as? T }): T? = converter(this[key])
 
 
-inline fun <reified T: Any> Fragment.extra(key: String, default: T? = null) = lazy {
+inline fun <reified T : Any> Fragment.extra(key: String, default: T? = null) = lazy {
     val value = arguments?.get(key)
     if (value is T) value else default
 }
-inline fun <reified T: Any> Fragment.extraNotNull(key: String, default: T? = null) = lazy {
+
+inline fun <reified T : Any> Fragment.extraNotNull(key: String, default: T? = null) = lazy {
     val value = arguments?.get(key)
     requireNotNull(if (value is T) value else default) { key }
 }

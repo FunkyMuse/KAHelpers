@@ -23,9 +23,9 @@ import com.crazylegend.kotlinextensions.R
 
 
 class CircularImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
 
     // Properties
@@ -74,11 +74,11 @@ class CircularImageView @JvmOverloads constructor(
         if (attributes.getBoolean(R.styleable.CircularImageView_shadow, false)) {
             shadowRadius = DEFAULT_SHADOW_RADIUS
             drawShadow(
-                attributes.getFloat(R.styleable.CircularImageView_shadow_radius, shadowRadius),
-                attributes.getColor(R.styleable.CircularImageView_shadow_color, shadowColor)
+                    attributes.getFloat(R.styleable.CircularImageView_shadow_radius, shadowRadius),
+                    attributes.getColor(R.styleable.CircularImageView_shadow_color, shadowColor)
             )
             val shadowGravityIntValue =
-                attributes.getInteger(R.styleable.CircularImageView_shadow_gravity, ShadowGravity.BOTTOM.value)
+                    attributes.getInteger(R.styleable.CircularImageView_shadow_gravity, ShadowGravity.BOTTOM.value)
             shadowGravity = ShadowGravity.fromValue(shadowGravityIntValue)
         }
 
@@ -172,10 +172,10 @@ class CircularImageView @JvmOverloads constructor(
     override fun setScaleType(scaleType: ScaleType) {
         if (scaleType != CENTER_CROP && scaleType != CENTER_INSIDE) {
             throw IllegalArgumentException(
-                String.format(
-                    "Sorry ScaleType %s not supported. It Only Supports CENTER_CROP & CENTER_INSIDE",
-                    scaleType
-                )
+                    String.format(
+                            "Sorry ScaleType %s not supported. It Only Supports CENTER_CROP & CENTER_INSIDE",
+                            scaleType
+                    )
             )
         } else {
             super.setScaleType(scaleType)
@@ -206,24 +206,24 @@ class CircularImageView @JvmOverloads constructor(
 
         // Draw Border
         canvas.drawCircle(
-            circleCenter + borderWidth,
-            circleCenter + borderWidth,
-            circleCenter + borderWidth - margeWithShadowRadius,
-            paintBorder!!
+                circleCenter + borderWidth,
+                circleCenter + borderWidth,
+                circleCenter + borderWidth - margeWithShadowRadius,
+                paintBorder!!
         )
         // Draw Circle background
         canvas.drawCircle(
-            circleCenter + borderWidth,
-            circleCenter + borderWidth,
-            circleCenter - margeWithShadowRadius,
-            paintBackground!!
+                circleCenter + borderWidth,
+                circleCenter + borderWidth,
+                circleCenter - margeWithShadowRadius,
+                paintBackground!!
         )
         // Draw CircularImageView
         canvas.drawCircle(
-            circleCenter + borderWidth,
-            circleCenter + borderWidth,
-            circleCenter - margeWithShadowRadius,
-            paint!!
+                circleCenter + borderWidth,
+                circleCenter + borderWidth,
+                circleCenter - margeWithShadowRadius,
+                paint!!
         )
     }
 
@@ -307,7 +307,8 @@ class CircularImageView @JvmOverloads constructor(
                 scale = width / image!!.width.toFloat()
                 dy = (height - image!!.height * scale) * 0.5f
             }
-            else -> {}
+            else -> {
+            }
         }
 
         val matrix = Matrix()

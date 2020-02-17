@@ -41,7 +41,7 @@ fun slideLeftRight(toHideView: View, fromView: View, toShowView: View, switchVie
             toShowView.visibility = View.VISIBLE
         }
         val params =
-            RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+                RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.LEFT_OF, toShowView.id)
         val marginLayoutParams = fromView.layoutParams as ViewGroup.MarginLayoutParams
         marginLayoutParams.setMargins(0, 0, -20, 0)
@@ -60,7 +60,7 @@ fun slideLeftRight(toHideView: View, fromView: View, toShowView: View, switchVie
         toShowView.startAnimation(translateAnimationRight)
     } else {
         val params =
-            RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+                RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
         params.addRule(RelativeLayout.LEFT_OF, toHideView.id)
         val marginLayoutParams = fromView.layoutParams as ViewGroup.MarginLayoutParams
         marginLayoutParams.setMargins(0, 0, -20, 0)
@@ -95,23 +95,22 @@ fun View.slideUp() {
 }
 
 
-fun Context.slideDown(view:View){
-    view.startAnimation( AnimationUtils.loadAnimation(this, R.anim.slide_down))
+fun Context.slideDown(view: View) {
+    view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_down))
 }
 
-fun Context.slideUp(view:View){
+fun Context.slideUp(view: View) {
     view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_up))
 }
 
 
-fun View.slideDown(context: Context){
-    this.startAnimation( AnimationUtils.loadAnimation(context, R.anim.slide_down))
+fun View.slideDown(context: Context) {
+    this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_down))
 }
 
-fun View.slideUp(context: Context){
+fun View.slideUp(context: Context) {
     this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up))
 }
-
 
 
 fun View.slideDown(second: View) {
@@ -129,41 +128,40 @@ fun View.slideDown(second: View) {
 }
 
 
-fun Context.leftToRight(view:View){
-    view.startAnimation( AnimationUtils.loadAnimation(this, R.anim.left_to_right))
+fun Context.leftToRight(view: View) {
+    view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.left_to_right))
 }
 
-fun View.animate(context: Context, animation:Int){
+fun View.animate(context: Context, animation: Int) {
     this.startAnimation(AnimationUtils.loadAnimation(context, animation))
 }
 
-fun Context.animate(view: View, animation:Int){
+fun Context.animate(view: View, animation: Int) {
     view.startAnimation(AnimationUtils.loadAnimation(this, animation))
 }
 
-fun Context.rightToLeft(view:View){
+fun Context.rightToLeft(view: View) {
     view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.right_to_left))
 }
 
 
-fun View.leftToRight(context: Context){
-    this.startAnimation( AnimationUtils.loadAnimation(context, R.anim.left_to_right))
+fun View.leftToRight(context: Context) {
+    this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.left_to_right))
 }
 
-fun View.rightToLeft(context: Context){
+fun View.rightToLeft(context: Context) {
     this.startAnimation(AnimationUtils.loadAnimation(context, R.anim.right_to_left))
 }
 
 
-
 fun View.circularReveal(
-    x: Int = 0,
-    y: Int = 0,
-    offset: Long = 0L,
-    radius: Float = -1.0f,
-    duration: Long = 500L,
-    onStart: (() -> Unit)? = null,
-    onFinish: (() -> Unit)? = null
+        x: Int = 0,
+        y: Int = 0,
+        offset: Long = 0L,
+        radius: Float = -1.0f,
+        duration: Long = 500L,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
 ) {
     if (!isAttachedToWindow) {
         onStart?.invoke()
@@ -175,8 +173,8 @@ fun View.circularReveal(
 
     val r = if (radius >= 0) radius
     else Math.max(
-        Math.hypot(x.toDouble(), y.toDouble()),
-        Math.hypot((width - x.toDouble()), (height - y.toDouble()))
+            Math.hypot(x.toDouble(), y.toDouble()),
+            Math.hypot((width - x.toDouble()), (height - y.toDouble()))
     ).toFloat()
 
     val anim = ViewAnimationUtils.createCircularReveal(this, x, y, 0f, r).setDuration(duration)
@@ -195,13 +193,13 @@ fun View.circularReveal(
 
 
 fun View.circularHide(
-    x: Int = 0,
-    y: Int = 0,
-    offset: Long = 0L,
-    radius: Float = -1.0f,
-    duration: Long = 500L,
-    onStart: (() -> Unit)? = null,
-    onFinish: (() -> Unit)? = null
+        x: Int = 0,
+        y: Int = 0,
+        offset: Long = 0L,
+        radius: Float = -1.0f,
+        duration: Long = 500L,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
 ) {
     if (!isAttachedToWindow) {
         onStart?.invoke()
@@ -230,10 +228,10 @@ fun View.circularHide(
 }
 
 fun View.fadeIn(
-    offset: Long = 0L,
-    duration: Long = 200L,
-    onStart: (() -> Unit)? = null,
-    onFinish: (() -> Unit)? = null
+        offset: Long = 0L,
+        duration: Long = 200L,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
 ) {
     if (!isAttachedToWindow) {
         onStart?.invoke()
@@ -256,10 +254,10 @@ fun View.fadeIn(
 }
 
 fun View.fadeOut(
-    offset: Long = 0L,
-    duration: Long = 200L,
-    onStart: (() -> Unit)? = null,
-    onFinish: (() -> Unit)? = null
+        offset: Long = 0L,
+        duration: Long = 200L,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
 ) {
     if (!isAttachedToWindow) {
         onStart?.invoke()
@@ -292,13 +290,13 @@ fun TextView.setTextWithFade(text: String, duration: Long = 200, onFinish: (() -
 }
 
 fun TextView.setTextWithFade(@StringRes textId: Int, duration: Long = 200, onFinish: (() -> Unit)? = null) =
-    setTextWithFade(context.getString(textId), duration, onFinish)
+        setTextWithFade(context.getString(textId), duration, onFinish)
 
 fun ViewPropertyAnimator.scaleXY(value: Float) = scaleX(value).scaleY(value)
 
 
 //easier value animator
-fun Int.animateTo(end: Int, duration: Long = 400, func: (value: Int)-> Unit){
+fun Int.animateTo(end: Int, duration: Long = 400, func: (value: Int) -> Unit) {
     ValueAnimator.ofInt(this, end).apply {
         this.duration = duration
         addUpdateListener { valueAnimator ->
@@ -309,10 +307,10 @@ fun Int.animateTo(end: Int, duration: Long = 400, func: (value: Int)-> Unit){
 }
 
 fun Animator.addListener(
-    onEnd: (Animator) -> Unit = {},
-    onStart: (Animator) -> Unit = {},
-    onCancel: (Animator) -> Unit = {},
-    onRepeat: (Animator) -> Unit = {}
+        onEnd: (Animator) -> Unit = {},
+        onStart: (Animator) -> Unit = {},
+        onCancel: (Animator) -> Unit = {},
+        onRepeat: (Animator) -> Unit = {}
 ) {
     addListener(object : Animator.AnimatorListener {
         override fun onAnimationRepeat(animator: Animator) {
@@ -351,8 +349,8 @@ fun Animator.onRepeat(onRepeat: (Animator) -> Unit) {
 
 @RequiresApi(19)
 fun Animator.addPauseListener(
-    onResume: (Animator) -> Unit = {},
-    onPause: (Animator) -> Unit = {}
+        onResume: (Animator) -> Unit = {},
+        onPause: (Animator) -> Unit = {}
 ): Animator.AnimatorPauseListener {
     val listener = object : Animator.AnimatorPauseListener {
         override fun onAnimationPause(animator: Animator) {
@@ -737,7 +735,7 @@ inline fun ViewPropertyAnimator.setAnimationListener(func: AnimatorListenerImpl.
 }
 
 class AnimatorListenerImpl(private val viewPropertyAnimator: ViewPropertyAnimator) :
-    Animator.AnimatorListener {
+        Animator.AnimatorListener {
 
     private var _onAnimationRepeat: ((viewPropertyAnimator: ViewPropertyAnimator, animation: Animator) -> Unit)? = null
     private var _onAnimationEnd: ((viewPropertyAnimator: ViewPropertyAnimator, animation: Animator) -> Unit)? = null
@@ -785,10 +783,10 @@ fun ViewGroup.startTransition(transition: TransitionSet) {
 fun View.rotate(rotation: Float, animated: Boolean = true, animationDuration: Long = 400, startDelay: Long = 0, interpolator: Interpolator = AccelerateDecelerateInterpolator()) {
     when (animated) {
         true -> this.animate().rotationBy(rotation)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(animationDuration)
-            .start()
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(animationDuration)
+                .start()
         false -> this.rotation = this.rotation + rotation
     }
 }
@@ -806,10 +804,10 @@ fun View.getLocationOnScreen(): Point {
 
 fun ViewPropertyAnimator.reset(): ViewPropertyAnimator {
     return this
-        .setListener(null)
-        .setDuration(400)
-        .setStartDelay(0)
-        .setInterpolator(LinearInterpolator())
+            .setListener(null)
+            .setDuration(400)
+            .setStartDelay(0)
+            .setInterpolator(LinearInterpolator())
 }
 
 
@@ -824,10 +822,10 @@ fun View?.fadeIn(duration: Long = 400, startDelay: Long = 0, interpolator: Inter
         }
 
         return animate(true)
-            .alpha(1.0f)
-            .setDuration(duration)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
+                .alpha(1.0f)
+                .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
 
     }
 
@@ -840,13 +838,13 @@ fun View?.fadeIn(duration: Long = 400, startDelay: Long = 0, interpolator: Inter
 fun View?.fadeOut(duration: Long = 400, startDelay: Long = 0, interpolator: Interpolator = AccelerateDecelerateInterpolator()): ViewPropertyAnimator? {
     this?.let {
         return animate(true)
-            .alpha(0.0f)
-            .setDuration(duration)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .withEndAction {
-                gone()
-            }
+                .alpha(0.0f)
+                .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .withEndAction {
+                    gone()
+                }
     }
 
     return null
@@ -858,10 +856,10 @@ fun View?.fadeOut(duration: Long = 400, startDelay: Long = 0, interpolator: Inte
 fun View?.fadeTo(alpha: Float, duration: Long = 400, startDelay: Long = 0, interpolator: Interpolator = AccelerateDecelerateInterpolator()): ViewPropertyAnimator? {
     this?.let {
         return animate(true)
-            .alpha(alpha)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .alpha(alpha)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
 
     return null
@@ -878,9 +876,9 @@ fun View?.enterFromLeft(duration: Long = 400, startDelay: Long = 0, interpolator
         this.visible()
 
         return animate(true).x(x)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
 
     return null
@@ -898,9 +896,9 @@ fun View?.enterFromRight(duration: Long = 400, startDelay: Long = 0, interpolato
         this.visible()
 
         return animate(true).x(x)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
 
     return null
@@ -917,9 +915,9 @@ fun View?.enterFromTop(duration: Long = 400, startDelay: Long = 0, interpolator:
         this.visible()
 
         return animate(true).y(y)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
     return null
 }
@@ -936,9 +934,9 @@ fun View?.enterFromBottom(duration: Long = 400, startDelay: Long = 0, interpolat
         this.visible()
 
         return animate().y(y)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
 
     return null
@@ -950,9 +948,9 @@ fun View?.enterFromBottom(duration: Long = 400, startDelay: Long = 0, interpolat
 fun View?.exitToLeft(duration: Long = 400, startDelay: Long = 0, interpolator: Interpolator = AccelerateDecelerateInterpolator()): ViewPropertyAnimator? {
     this?.let {
         return animate(true).x(0f - this.width)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
 
     return null
@@ -965,9 +963,9 @@ fun View?.exitToRight(duration: Long = 400, startDelay: Long = 0, interpolator: 
     this?.let {
         val widthPixels = Resources.getSystem().displayMetrics.widthPixels    // get device width
         return animate(true).x(widthPixels.toFloat())
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
 
     return null
@@ -980,13 +978,13 @@ fun View?.exitToTop(duration: Long = 400, startDelay: Long = 0, interpolator: In
     this?.let {
         val y = this.y    // store initial y
         return animate(true).y(0f - this.height)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration).withEndAction {
-                // reset to original pos
-                this.y = y
-                this.invisible()
-            }
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration).withEndAction {
+                    // reset to original pos
+                    this.y = y
+                    this.invisible()
+                }
     }
 
     return null
@@ -1001,12 +999,12 @@ fun View?.exitToBottom(duration: Long = 400, startDelay: Long = 0, interpolator:
         val y = this.y  // store initial y
 
         return animate(true).y(heightPixels.toFloat())
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration).withEndAction {
-                this.y = y
-                this.gone()
-            }
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration).withEndAction {
+                    this.y = y
+                    this.gone()
+                }
     }
 
     return null
@@ -1022,14 +1020,13 @@ fun View?.slideUp(duration: Long = 400, startDelay: Long = 0, interpolator: Inte
         this.visible()
 
         return animate(true)
-            .translationY(0f)
-            .setStartDelay(startDelay)
-            .setInterpolator(interpolator)
-            .setDuration(duration)
+                .translationY(0f)
+                .setStartDelay(startDelay)
+                .setInterpolator(interpolator)
+                .setDuration(duration)
     }
     return null
 }
-
 
 
 fun entryAnimationFromBottom(view: View, duration: Long = 600, finished: () -> Unit = {}) {
@@ -1098,9 +1095,6 @@ fun enterChildViewsFromBottomDelayed(
         })
     }.start()
 }
-
-
-
 
 
 /**

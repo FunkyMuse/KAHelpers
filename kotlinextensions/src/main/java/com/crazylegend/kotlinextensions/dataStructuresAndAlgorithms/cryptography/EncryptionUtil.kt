@@ -24,12 +24,12 @@ import javax.security.cert.CertificateException
  * Created by hristijan on 4/2/19 to long live and prosper !
  */
 
- object EncryptionUtil {
+object EncryptionUtil {
     private val AndroidKeyStore = "AndroidKeyStore"
     private val AES_MODE = "AES/GCM/NoPadding"
     private val FIXED_IV = "randomizemsg" // to randomize the encrypted data( give any values to randomize)
     private val KEY_ALIAS =
-        "samplekeyalias" //give any key alias based on your application. It is different from the key alias used to sign the app.
+            "samplekeyalias" //give any key alias based on your application. It is different from the key alias used to sign the app.
     private val RSA_MODE = "RSA/ECB/PKCS1Padding" // RSA algorithm which has to be used for OS version less than M
     private var keyStore: KeyStore? = null
 
@@ -45,13 +45,13 @@ import javax.security.cert.CertificateException
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore)
                     keyGenerator.init(
-                        KeyGenParameterSpec.Builder(
-                            KEY_ALIAS,
-                            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-                        )
-                            .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                            .setRandomizedEncryptionRequired(false)
-                            .build()
+                            KeyGenParameterSpec.Builder(
+                                    KEY_ALIAS,
+                                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+                            )
+                                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                                    .setRandomizedEncryptionRequired(false)
+                                    .build()
                     )
                     keyGenerator.generateKey()
                 } else {
@@ -61,13 +61,13 @@ import javax.security.cert.CertificateException
                     val end = Calendar.getInstance()
                     end.add(Calendar.YEAR, 30)
                     val spec: KeyPairGeneratorSpec? =
-                        KeyPairGeneratorSpec.Builder(context)
-                        .setAlias(KEY_ALIAS)
-                        .setSubject(X500Principal("CN=$KEY_ALIAS"))
-                        .setSerialNumber(BigInteger.TEN)
-                        .setStartDate(start.time)
-                        .setEndDate(end.time)
-                        .build()
+                            KeyPairGeneratorSpec.Builder(context)
+                                    .setAlias(KEY_ALIAS)
+                                    .setSubject(X500Principal("CN=$KEY_ALIAS"))
+                                    .setSerialNumber(BigInteger.TEN)
+                                    .setStartDate(start.time)
+                                    .setEndDate(end.time)
+                                    .build()
                     val kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, AndroidKeyStore)
                     kpg.initialize(spec)
                     kpg.generateKeyPair()
@@ -173,7 +173,7 @@ import javax.security.cert.CertificateException
         output.init(Cipher.DECRYPT_MODE, privateKeyEntry.privateKey)
         val barr = Base64.decode(encrypted, Base64.DEFAULT)
         val cipherInputStream = CipherInputStream(
-            ByteArrayInputStream(barr), output
+                ByteArrayInputStream(barr), output
         )
         val values = ArrayList<Byte>()
         cipherInputStream.reader().forEachLine {

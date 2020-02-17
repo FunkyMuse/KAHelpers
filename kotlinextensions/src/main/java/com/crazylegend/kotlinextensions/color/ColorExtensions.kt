@@ -52,7 +52,7 @@ inline val Int.isColorDark: Boolean
     get() = isColorDark(0.5f)
 
 fun Int.isColorDark(minDarkness: Float): Boolean =
-    ((0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255.0) < minDarkness
+        ((0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255.0) < minDarkness
 
 fun Int.toHexString(withAlpha: Boolean = false, withHexPrefix: Boolean = true): String {
     val hex = if (withAlpha) String.format("#%08X", this)
@@ -61,7 +61,7 @@ fun Int.toHexString(withAlpha: Boolean = false, withHexPrefix: Boolean = true): 
 }
 
 fun Int.toRgbaString(): String =
-    "rgba(${Color.red(this)}, ${Color.green(this)}, ${Color.blue(this)}, ${(Color.alpha(this) / 255f).round(3)})"
+        "rgba(${Color.red(this)}, ${Color.green(this)}, ${Color.blue(this)}, ${(Color.alpha(this) / 255f).round(3)})"
 
 fun Int.toHSV(): FloatArray {
     val hsv = FloatArray(3)
@@ -75,14 +75,14 @@ inline val Int.isColorOpaque: Boolean
 fun FloatArray.toColor(): Int = Color.HSVToColor(this)
 
 fun Int.isColorVisibleOn(
-    @ColorInt color: Int,
-    @androidx.annotation.IntRange(from = 0L, to = 255L) delta: Int = 25,
-    @androidx.annotation.IntRange(from = 0L, to = 255L) minAlpha: Int = 50
+        @ColorInt color: Int,
+        @androidx.annotation.IntRange(from = 0L, to = 255L) delta: Int = 25,
+        @androidx.annotation.IntRange(from = 0L, to = 255L) minAlpha: Int = 50
 ): Boolean =
-    if (Color.alpha(this) < minAlpha) false
-    else !(abs(Color.red(this) - Color.red(color)) < delta &&
-            abs(Color.green(this) - Color.green(color)) < delta &&
-            abs(Color.blue(this) - Color.blue(color)) < delta)
+        if (Color.alpha(this) < minAlpha) false
+        else !(abs(Color.red(this) - Color.red(color)) < delta &&
+                abs(Color.green(this) - Color.green(color)) < delta &&
+                abs(Color.blue(this) - Color.blue(color)) < delta)
 
 @ColorInt
 fun Context.getDisabledColor(): Int {
@@ -112,16 +112,16 @@ fun Int.blendWith(@ColorInt color: Int, @FloatRange(from = 0.0, to = 1.0) ratio:
 
 @ColorInt
 fun Int.withAlpha(@androidx.annotation.IntRange(from = 0, to = 0xFF) alpha: Int): Int =
-    this and 0x00FFFFFF or (alpha shl 24)
+        this and 0x00FFFFFF or (alpha shl 24)
 
 @ColorInt
-fun Int.withMinAlpha(@androidx.annotation.IntRange(from = 0, to = 0xFF)alpha: Int): Int =
-    withAlpha(alpha.coerceAtLeast(this ushr 24))
+fun Int.withMinAlpha(@androidx.annotation.IntRange(from = 0, to = 0xFF) alpha: Int): Int =
+        withAlpha(alpha.coerceAtLeast(this ushr 24))
 
 @ColorInt
 private inline fun Int.colorFactor(rgbFactor: (Int) -> Float): Int {
     val (red, green, blue) = intArrayOf(Color.red(this), Color.green(this), Color.blue(this))
-        .map { rgbFactor(it).toInt() }
+            .map { rgbFactor(it).toInt() }
     return Color.argb(Color.alpha(this), red, green, blue)
 }
 
@@ -137,11 +137,11 @@ fun Int.darken(@FloatRange(from = 0.0, to = 1.0) factor: Float = 0.1f): Int = co
 
 @ColorInt
 fun Int.colorToBackground(@FloatRange(from = 0.0, to = 1.0) factor: Float = 0.1f): Int =
-    if (isColorDark) darken(factor) else lighten(factor)
+        if (isColorDark) darken(factor) else lighten(factor)
 
 @ColorInt
 fun Int.colorToForeground(@FloatRange(from = 0.0, to = 1.0) factor: Float = 0.1f): Int =
-    if (isColorDark) lighten(factor) else darken(factor)
+        if (isColorDark) lighten(factor) else darken(factor)
 
 fun String.toColor(): Int {
     val toParse: String = if (startsWith("#") && length == 4)
@@ -155,13 +155,13 @@ fun String.toColor(): Int {
 fun Context.colorStateList(@ColorInt color: Int): ColorStateList {
     val disabledColor = color.adjustAlpha(0.3f)
     return ColorStateList(
-        arrayOf(
-            intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked),
-            intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked),
-            intArrayOf(-android.R.attr.state_enabled, -android.R.attr.state_checked),
-            intArrayOf(-android.R.attr.state_enabled, android.R.attr.state_checked)
-        ),
-        intArrayOf(color.adjustAlpha(0.8f), color, disabledColor, disabledColor)
+            arrayOf(
+                    intArrayOf(android.R.attr.state_enabled, -android.R.attr.state_checked),
+                    intArrayOf(android.R.attr.state_enabled, android.R.attr.state_checked),
+                    intArrayOf(-android.R.attr.state_enabled, -android.R.attr.state_checked),
+                    intArrayOf(-android.R.attr.state_enabled, android.R.attr.state_checked)
+            ),
+            intArrayOf(color.adjustAlpha(0.8f), color, disabledColor, disabledColor)
     )
 }
 
@@ -224,14 +224,14 @@ fun ProgressBar.tint(@ColorInt color: Int, skipIndeterminate: Boolean = false) {
 
 fun Context.textColorStateList(@ColorInt color: Int): ColorStateList {
     val states = arrayOf(
-        intArrayOf(-android.R.attr.state_enabled),
-        intArrayOf(-android.R.attr.state_pressed, -android.R.attr.state_focused),
-        intArrayOf()
+            intArrayOf(-android.R.attr.state_enabled),
+            intArrayOf(-android.R.attr.state_pressed, -android.R.attr.state_focused),
+            intArrayOf()
     )
     val colors = intArrayOf(
-        resolveColor(R.attr.colorControlNormal),
-        resolveColor(R.attr.colorControlNormal),
-        color
+            resolveColor(R.attr.colorControlNormal),
+            resolveColor(R.attr.colorControlNormal),
+            color
     )
     return ColorStateList(states, colors)
 }

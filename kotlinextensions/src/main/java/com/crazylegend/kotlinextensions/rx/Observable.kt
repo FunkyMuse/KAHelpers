@@ -22,12 +22,12 @@ fun <T> observableOf(items: Iterable<T>): Observable<T> = Observable.fromIterabl
 fun <T> observableOf(items: Array<T>): Observable<T> = Observable.fromArray(*items)
 
 fun observableOf(items: BooleanArray): Observable<Boolean> =
-    Observable.fromArray(*items.toTypedArray())
+        Observable.fromArray(*items.toTypedArray())
 
 fun observableOf(items: ByteArray): Observable<Byte> = Observable.fromArray(*items.toTypedArray())
 fun observableOf(items: CharArray): Observable<Char> = Observable.fromArray(*items.toTypedArray())
 fun observableOf(items: DoubleArray): Observable<Double> =
-    Observable.fromArray(*items.toTypedArray())
+        Observable.fromArray(*items.toTypedArray())
 
 fun observableOf(items: FloatArray): Observable<Float> = Observable.fromArray(*items.toTypedArray())
 fun observableOf(items: IntArray): Observable<Int> = Observable.fromArray(*items.toTypedArray())
@@ -46,8 +46,7 @@ fun <First, Second, Res> Observable<First>.zipWith(second: Observable<Second>, z
 fun <First, Second> Observable<First>.zipWith(second: Observable<Second>): Observable<Pair<First, Second>> =
         zipWith(second) { t1, t2 -> Pair(t1, t2) }
 
-fun <T, R> Observable<T>.mapSelf(mapper : T.() -> R) = map { it.mapper() }
-
+fun <T, R> Observable<T>.mapSelf(mapper: T.() -> R) = map { it.mapper() }
 
 
 fun <First, Second> zip(first: Observable<First>, second: Observable<Second>): Observable<Pair<First, Second>> =

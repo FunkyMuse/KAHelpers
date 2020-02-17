@@ -24,7 +24,6 @@ fun timeAsMillis(hours: Int, minutes: Int, seconds: Int): Long {
 }
 
 
-
 fun extractHours(millis: Long): Long {
     return millis / (1000 * 60 * 60)
 }

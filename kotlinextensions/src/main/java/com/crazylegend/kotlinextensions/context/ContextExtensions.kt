@@ -39,13 +39,13 @@ fun Context.shortToast(resId: Int) = Toast.makeText(this, resId, Toast.LENGTH_SH
 fun Context.longToast(resId: Int) = Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
 
 
-inline fun <reified T> Context.intent(body: Intent.() -> Unit ): Intent {
+inline fun <reified T> Context.intent(body: Intent.() -> Unit): Intent {
     val intent = Intent(this, T::class.java)
     intent.body()
     return intent
 }
 
-inline fun <reified T> Context.startActivity(body: Intent.() -> Unit ) {
+inline fun <reified T> Context.startActivity(body: Intent.() -> Unit) {
     val intent = Intent(this, T::class.java)
     intent.body()
     startActivity(intent)
@@ -67,7 +67,7 @@ fun AppCompatActivity.showToolbar() {
 fun Context.snackBar(text: String, actionText: String, length: Int, action: () -> Unit): Snackbar {
     this as AppCompatActivity
     val snackbar =
-        Snackbar.make(this.findViewById(android.R.id.content), text, length)
+            Snackbar.make(this.findViewById(android.R.id.content), text, length)
     snackbar.setAction(actionText) {
         action()
         snackbar.dismiss()
@@ -78,16 +78,15 @@ fun Context.snackBar(text: String, actionText: String, length: Int, action: () -
 }
 
 
-
 fun Context.rateUs() {
     try {
         startActivity(Intent("android.intent.action.VIEW", Uri.parse("market://details?id=$packageName")))
     } catch (e: ActivityNotFoundException) {
         startActivity(
-            Intent(
-                "android.intent.action.VIEW",
-                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-            )
+                Intent(
+                        "android.intent.action.VIEW",
+                        Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                )
         )
     }
 }
@@ -102,8 +101,7 @@ fun Context.convertDpToPixel(dp: Float): Float {
 
 val Context.isLocationEnabled: Boolean
     get() = (getSystemService(Context.LOCATION_SERVICE) as LocationManager?)?.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        ?: false
-
+            ?: false
 
 
 fun Context.convertPixelsToDp(px: Float): Float {
@@ -118,30 +116,31 @@ val Context.deviceID
     get() = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
 
 
-val Context.isOnline : Boolean get()  {
-    val cm = connectivityManager
+val Context.isOnline: Boolean
+    get() {
+        val cm = connectivityManager
 
-    if (cm != null) {
-        if (Build.VERSION.SDK_INT < 23) {
-            val ni = cm.activeNetworkInfo
-            if (ni != null) {
-                return ni.isConnected && (ni.type == ConnectivityManager.TYPE_WIFI || ni.type == ConnectivityManager.TYPE_MOBILE)
-            }
-        } else {
-            val n = cm.activeNetwork
+        if (cm != null) {
+            if (Build.VERSION.SDK_INT < 23) {
+                val ni = cm.activeNetworkInfo
+                if (ni != null) {
+                    return ni.isConnected && (ni.type == ConnectivityManager.TYPE_WIFI || ni.type == ConnectivityManager.TYPE_MOBILE)
+                }
+            } else {
+                val n = cm.activeNetwork
 
-            if (n != null) {
-                val nc = cm.getNetworkCapabilities(n)
-                return if (nc == null){
-                    false
-                } else {
-                    nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                if (n != null) {
+                    val nc = cm.getNetworkCapabilities(n)
+                    return if (nc == null) {
+                        false
+                    } else {
+                        nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                    }
                 }
             }
         }
+        return false
     }
-    return false
-}
 
 
 /**
@@ -178,7 +177,6 @@ fun Context.getConnectionType(): Int {
     }
     return result
 }
-
 
 
 fun Context.showShortToastTop(message: String) {

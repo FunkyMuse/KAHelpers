@@ -22,12 +22,14 @@ class ColorProgressBar : ProgressBar {
      * Context Constructor
      */
     constructor(context: Context) : super(context)
+
     /**
      * Context,AttributeSet Constructor
      */
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init(attrs)
     }
+
     /**
      * Context,AttributeSet,Int Constructor
      */

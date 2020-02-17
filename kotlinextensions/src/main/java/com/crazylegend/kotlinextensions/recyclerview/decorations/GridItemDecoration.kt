@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Created by hristijan on 3/4/19 to long live and prosper !
  */
-open class GridItemDecoration: RecyclerView.ItemDecoration() {
+open class GridItemDecoration : RecyclerView.ItemDecoration() {
     var gridSpacingPx: Int = 0
     var gridSize: Int = 0
     private var needSpacing = false

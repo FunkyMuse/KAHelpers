@@ -27,6 +27,7 @@ fun ImageView.setTint(color: Int) {
     ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(color))
 
 }
+
 fun ImageView.setTint(@ColorRes colorRes: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
     this.setColorFilter(context.getColorCompat(colorRes), mode)
 }
@@ -34,9 +35,9 @@ fun ImageView.setTint(@ColorRes colorRes: Int, mode: PorterDuff.Mode = PorterDuf
 fun ImageView.loadBase64Image(base64Image: String?) {
     base64Image?.let {
         Glide.with(context)
-            .asBitmap()
-            .load(Base64.decode(base64Image, Base64.DEFAULT))
-            .into(this)
+                .asBitmap()
+                .load(Base64.decode(base64Image, Base64.DEFAULT))
+                .into(this)
     }
 }
 
@@ -71,7 +72,7 @@ fun ImageView.loadImageResource(imageResource: Drawable?, skipMemoryCache: Boole
 
 private fun ImageView.loadImage(imageResource: Any, skipMemoryCache: Boolean, transformation: Transformation?) {
     var requestOptions = RequestOptions()
-        .skipMemoryCache(skipMemoryCache)
+            .skipMemoryCache(skipMemoryCache)
 
     requestOptions = when (transformation) {
         is Transformation.CenterCrop -> requestOptions.centerCrop()
@@ -80,9 +81,9 @@ private fun ImageView.loadImage(imageResource: Any, skipMemoryCache: Boolean, tr
     }
 
     Glide.with(context)
-        .load(imageResource)
-        .apply(requestOptions)
-        .into(this)
+            .load(imageResource)
+            .apply(requestOptions)
+            .into(this)
 }
 
 fun ImageView.setBase64(base64: String, flag: Int) {

@@ -16,8 +16,8 @@ import android.widget.SpinnerAdapter
  * @return Am implemented `OnItemSelectedListener` interface in case the same is needed for any other operation.
  */
 fun Spinner.onItemSelected(
-    onNothingSelect: (parent: AdapterView<*>?) -> Unit = { _ -> },
-    onItemSelect: (parent: AdapterView<*>?, view: View?, position: Int?, id: Long?) -> Unit = { _, _, _, _ -> }):
+        onNothingSelect: (parent: AdapterView<*>?) -> Unit = { _ -> },
+        onItemSelect: (parent: AdapterView<*>?, view: View?, position: Int?, id: Long?) -> Unit = { _, _, _, _ -> }):
         AdapterView.OnItemSelectedListener {
 
     val itemSelected = object : AdapterView.OnItemSelectedListener {
@@ -41,9 +41,9 @@ fun Spinner.onItemSelected(
  * @return A new `ArrayAdapter` already containing the items received by this method
  */
 fun <T> Spinner.setItems(
-    items: ArrayList<T>?,
-    layoutResource: Int = android.R.layout.simple_spinner_dropdown_item,
-    getTitle: (item: T) -> String = { a -> a.toString() }): SpinnerAdapter? {
+        items: ArrayList<T>?,
+        layoutResource: Int = android.R.layout.simple_spinner_dropdown_item,
+        getTitle: (item: T) -> String = { a -> a.toString() }): SpinnerAdapter? {
 
     val finalList: ArrayList<String> = ArrayList()
     items?.forEach {

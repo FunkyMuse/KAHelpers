@@ -8,7 +8,7 @@ package com.crazylegend.kotlinextensions
 /**
  * Converts Boolean to Int, if true then 1 else 0
  */
-fun Boolean.toInt():Int = if(this) 1 else 0
+fun Boolean.toInt(): Int = if (this) 1 else 0
 
 /**
  * Toggle the Boolean Value, if it's true then it will become false ....
@@ -34,7 +34,7 @@ fun Boolean.onFalse(function: () -> Unit) {
 }
 
 fun Boolean?.orFalse(): Boolean = this ?: false
-fun Boolean?.orTrue() : Boolean = this ?: true
+fun Boolean?.orTrue(): Boolean = this ?: true
 
 fun Boolean?.nullAsFalse(): Boolean {
     return this ?: false

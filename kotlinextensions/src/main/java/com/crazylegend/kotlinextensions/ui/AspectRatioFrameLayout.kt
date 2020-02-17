@@ -22,12 +22,14 @@ class AspectRatioFrameLayout : FrameLayout {
     constructor(context: Context) : super(context) {
         init(context, null, 0)
     }
+
     /**
      * context,attr Constructor
      */
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init(context, attrs, 0)
     }
+
     /**
      * context,attr,defStyle Constructor
      */

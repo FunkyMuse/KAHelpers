@@ -12,9 +12,9 @@ import kotlin.math.abs
  * Created by hristijan on 3/29/19 to long live and prosper !
  */
 abstract class FlingGestureHandler @JvmOverloads constructor(
-    activity: Activity,
-    private val minDistance: Int = 100,
-    private val velocityThreshold: Int = 100
+        activity: Activity,
+        private val minDistance: Int = 100,
+        private val velocityThreshold: Int = 100
 ) : View.OnTouchListener {
 
     @NonNull
@@ -39,8 +39,8 @@ abstract class FlingGestureHandler @JvmOverloads constructor(
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
-            @NonNull e1: MotionEvent, @NonNull e2: MotionEvent, velocityX: Float,
-            velocityY: Float
+                @NonNull e1: MotionEvent, @NonNull e2: MotionEvent, velocityX: Float,
+                velocityY: Float
         ): Boolean {
             if (e1.x - e2.x > minDistance && abs(velocityX) > velocityThreshold) {
                 onRightToLeft()

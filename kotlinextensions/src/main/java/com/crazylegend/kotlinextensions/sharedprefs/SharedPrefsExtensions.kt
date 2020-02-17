@@ -39,7 +39,7 @@ fun SharedPreferences.clear() {
     edit { clear() }
 }
 
-fun SharedPreferences.remove(key:String){
+fun SharedPreferences.remove(key: String) {
     edit { remove(key) }
 }
 

@@ -16,15 +16,14 @@ val gson: Gson by lazy {
 }
 
 val gsonWithDate by lazy {
-       GsonBuilder()
-                .disableHtmlEscaping()
-                .setDateFormat(TimestampConvert.iso8601Format())
-                .create()
+    GsonBuilder()
+            .disableHtmlEscaping()
+            .setDateFormat(TimestampConvert.iso8601Format())
+            .create()
 }
 
 
-
-inline fun <reified T: Any> Gson.fromJson(json: String): T = this.fromJson(json, T::class.java)
+inline fun <reified T : Any> Gson.fromJson(json: String): T = this.fromJson(json, T::class.java)
 
 val prettyJsonString: (String) -> String = { jsonStr ->
     val jsonElement = JsonParser().parse(jsonStr)
@@ -38,15 +37,15 @@ val prettyJsonObject: (JSONObject) -> String = { json ->
 
 val gsonWithoutHTMLEscaping: Gson by lazy {
     GsonBuilder()
-        .disableHtmlEscaping()
-        .create()
+            .disableHtmlEscaping()
+            .create()
 }
 
 val gsonPrettyPrinting: Gson by lazy {
     GsonBuilder()
-        .disableHtmlEscaping()
-        .setPrettyPrinting()
-        .create()
+            .disableHtmlEscaping()
+            .setPrettyPrinting()
+            .create()
 }
 
 fun Any.toJson(): String = gson.toJson(this)

@@ -25,12 +25,12 @@ object FileEncryption {
      */
 
     @Throws(NoSuchAlgorithmException::class, InvalidKeyException::class, IOException::class)
-    fun encryptToFile(secretKey:String, cypherSpecString:String, input:InputStream, output:OutputStream){
+    fun encryptToFile(secretKey: String, cypherSpecString: String, input: InputStream, output: OutputStream) {
         var out = output
         try {
             val iv = IvParameterSpec(cypherSpecString.toByteArray(Charsets.UTF_8))
             val keyspec = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8),
-                SECRET_KEY
+                    SECRET_KEY
             )
 
             val cipher = Cipher.getInstance(ENCRYPTOR)
@@ -40,23 +40,22 @@ object FileEncryption {
             val buffer = ByteArray(BUFFER_SIZE)
 
             var bytesRead: Int
-            while (input.read(buffer).also { bytesRead=it } > 0){
+            while (input.read(buffer).also { bytesRead = it } > 0) {
                 out.write(buffer, 0, bytesRead)
             }
-        }
-        finally {
+        } finally {
             out.close()
         }
     }
 
 
     @Throws(NoSuchAlgorithmException::class, InvalidKeyException::class, IOException::class)
-    fun decryptToFile(secretKey:String, cypherSpecString:String, input:InputStream, output:OutputStream){
+    fun decryptToFile(secretKey: String, cypherSpecString: String, input: InputStream, output: OutputStream) {
         var out = output
         try {
             val iv = IvParameterSpec(cypherSpecString.toByteArray(Charsets.UTF_8))
             val keyspec = SecretKeySpec(secretKey.toByteArray(Charsets.UTF_8),
-                SECRET_KEY
+                    SECRET_KEY
             )
 
             val cipher = Cipher.getInstance(ENCRYPTOR)
@@ -66,11 +65,10 @@ object FileEncryption {
             val buffer = ByteArray(BUFFER_SIZE)
 
             var bytesRead: Int
-            while (input.read(buffer).also { bytesRead=it } > 0){
+            while (input.read(buffer).also { bytesRead = it } > 0) {
                 out.write(buffer, 0, bytesRead)
             }
-        }
-        finally {
+        } finally {
             out.close()
         }
     }

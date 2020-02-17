@@ -10,7 +10,7 @@ import okhttp3.Route
 /**
  * Created by hristijan on 10/21/19 to long live and prosper !
  */
-class UnauthorizedInterceptor(private val customMessage:String? = null) : Authenticator {
+class UnauthorizedInterceptor(private val customMessage: String? = null) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
 

@@ -24,7 +24,7 @@ class RecyclerViewUtils {
         return selectedItems.size()
     }
 
-    fun clearSelectedItems(){
+    fun clearSelectedItems() {
         selectedItems.clear()
     }
 
@@ -67,7 +67,7 @@ class RecyclerViewUtils {
         selectedItems.clear()
     }
 
-    fun clearAllSelectedOnRecycler(adapter: RecyclerView.Adapter<*>){
+    fun clearAllSelectedOnRecycler(adapter: RecyclerView.Adapter<*>) {
         adapter.notifyItemRangeChanged(selectedItems.keyAt(0), adapter.itemCount)
         selectedItems.clear()
     }
@@ -89,13 +89,13 @@ class RecyclerViewUtils {
         }
     }
 
-    fun putSelectedItem(position: Int){
+    fun putSelectedItem(position: Int) {
 
         selectedItems.put(position, true)
 
     }
 
-    fun removeSelectedItem(position: Int){
+    fun removeSelectedItem(position: Int) {
 
         selectedItems.delete(position)
 
@@ -135,12 +135,12 @@ class RecyclerViewUtils {
 
 
         Snackbar.make(rootLayout, "Item removed !", Snackbar.LENGTH_LONG)
-            .setAction("Undo") {
+                .setAction("Undo") {
 
-                adapterList.add(positionForDeletion, deleted)
-                adapter.notifyItemInserted(positionForDeletion)
+                    adapterList.add(positionForDeletion, deleted)
+                    adapter.notifyItemInserted(positionForDeletion)
 
-            }.show()
+                }.show()
 
     }
 

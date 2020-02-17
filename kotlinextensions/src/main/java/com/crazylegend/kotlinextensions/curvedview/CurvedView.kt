@@ -20,7 +20,7 @@ class CurvedView(
             var endColor: Int = 0,
             var curvature: Curvature = Curvature.MEDIUM) {
 
-        fun startColor(startColor: Int) = apply { this.startColor = startColor}
+        fun startColor(startColor: Int) = apply { this.startColor = startColor }
         fun endColor(endColor: Int) = apply { this.endColor = endColor }
         fun curvature(curvature: Curvature) = apply { this.curvature = curvature }
 
@@ -65,15 +65,14 @@ fun ViewGroup.curveIt(curvedView: CurvedView) {
 
 }
 
-fun getRectCoordinates(width: Int, height: Int, curvature: CurvedView.Curvature) : RectF {
+fun getRectCoordinates(width: Int, height: Int, curvature: CurvedView.Curvature): RectF {
 
 
-
-    val multiplier : Float = when(curvature) {
+    val multiplier: Float = when (curvature) {
         CurvedView.Curvature.HIGH -> 1f
         CurvedView.Curvature.MEDIUM -> 2f
         CurvedView.Curvature.LOW -> 3f
     }
 
-    return RectF((-multiplier*width), ((-height * 2).toFloat()), ((multiplier+1)*width), height.toFloat())
+    return RectF((-multiplier * width), ((-height * 2).toFloat()), ((multiplier + 1) * width), height.toFloat())
 }

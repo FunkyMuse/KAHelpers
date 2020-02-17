@@ -8,7 +8,6 @@ import android.support.annotation.NonNull
  */
 
 
-
 fun setThreadPriority(priority: Int) {
     android.os.Process.setThreadPriority(priority)
 }

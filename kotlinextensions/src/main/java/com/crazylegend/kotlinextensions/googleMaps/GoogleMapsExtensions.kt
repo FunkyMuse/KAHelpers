@@ -182,7 +182,7 @@ fun Context.showMapCoordinates(latitude: Double, longitude: Double,
  * @param longitudeTo
  */
 private fun getMapRouteIntent(latitudeFrom: Double, longitudeFrom: Double, latitudeTo: Double,
-                      longitudeTo: Double): Intent {
+                              longitudeTo: Double): Intent {
     val uri = Uri.parse("http://maps.google.com/maps?saddr=$latitudeFrom,$longitudeFrom&daddr=$latitudeTo,$longitudeTo")
     return Intent(Intent.ACTION_VIEW, uri)
 }

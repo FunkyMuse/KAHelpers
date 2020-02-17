@@ -104,7 +104,7 @@ fun Uri?.readBytes(context: Context): ByteArray? {
 }
 
 fun ClipData?.multipleUriHandle(context: Context): ArrayList<ByteArray?> {
-    val resultList : ArrayList<ByteArray?> = ArrayList()
+    val resultList: ArrayList<ByteArray?> = ArrayList()
     if (this != null) {
         //multiple images
         for (i in 0 until itemCount) {

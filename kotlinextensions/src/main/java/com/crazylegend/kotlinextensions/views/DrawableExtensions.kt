@@ -79,7 +79,8 @@ fun Drawable.setBoundsCentered(centerX: Int, centerY: Int) {
  * *
  * @return A tinted Drawable. Wraps the Drawable in a new class - instanceof will NOT match the old type
  */
-@JvmOverloads fun createTintedDrawable(drawable: Drawable?, @ColorInt color: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_IN): Drawable? {
+@JvmOverloads
+fun createTintedDrawable(drawable: Drawable?, @ColorInt color: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_IN): Drawable? {
     if (drawable == null) {
         return null
     }
@@ -122,7 +123,7 @@ var Drawable.tint: Int
 val LayerDrawable.layers: List<Drawable>
     get() = (0 until numberOfLayers).map { getDrawable(it) }
 
-fun Drawable.setSize(width: Int, height : Int) {
+fun Drawable.setSize(width: Int, height: Int) {
     bounds = Rect(0, 0, width, height)
 }
 

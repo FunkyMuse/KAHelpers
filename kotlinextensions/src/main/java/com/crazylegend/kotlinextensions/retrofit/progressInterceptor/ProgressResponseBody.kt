@@ -11,8 +11,8 @@ import java.io.IOException
  */
 
 class ProgressResponseBody(
-    private  val responseBody: ResponseBody,
-    private val progressListener: OnAttachmentDownloadListener?
+        private val responseBody: ResponseBody,
+        private val progressListener: OnAttachmentDownloadListener?
 ) : ResponseBody() {
 
     private var bufferedSource: BufferedSource? = null
@@ -45,9 +45,9 @@ class ProgressResponseBody(
                 totalBytesRead += if (bytesRead != -1L) bytesRead else 0
 
                 val percent =
-                    if (bytesRead == -1L) 100f
-                    else
-                        totalBytesRead.toFloat() / responseBody.contentLength().toFloat() * 100
+                        if (bytesRead == -1L) 100f
+                        else
+                            totalBytesRead.toFloat() / responseBody.contentLength().toFloat() * 100
 
 
                 progressListener?.onAttachmentDownloadUpdate(percent.toInt())

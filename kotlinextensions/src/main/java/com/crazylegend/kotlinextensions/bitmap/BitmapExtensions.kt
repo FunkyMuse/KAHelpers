@@ -39,7 +39,6 @@ import kotlin.math.min
  */
 
 
-
 fun Bitmap.overlay(overlay: Bitmap): Bitmap {
     val result = Bitmap.createBitmap(width, height, config)
     val canvas = Canvas(result)
@@ -198,7 +197,7 @@ fun Bitmap.resize(newWidth: Number, newHeight: Number): Bitmap {
 }
 
 
-fun Bitmap.toRoundCorner(radius :Float) :Bitmap? {
+fun Bitmap.toRoundCorner(radius: Float): Bitmap? {
     val width = this.width
     val height = this.height
     val bitmap = Bitmap.createBitmap(width, height, this.config)
@@ -275,7 +274,7 @@ operator fun Bitmap.set(x: Int, y: Int, pixel: Int) = setPixel(x, y, pixel)
  * @return cropped #android.graphics.Bitmap
  */
 fun Bitmap.crop(r: Rect) =
-    if (Rect(0, 0, width, height).contains(r)) Bitmap.createBitmap(this, r.left, r.top, r.width(), r.height()) else null
+        if (Rect(0, 0, width, height).contains(r)) Bitmap.createBitmap(this, r.left, r.top, r.width(), r.height()) else null
 
 
 /**
@@ -542,7 +541,7 @@ private inline fun calculateInSampleSizeMax(options: BitmapFactory.Options, maxW
     return inSampleSize
 }
 
-fun File.saveBitmapToFile(bitmap :Bitmap) :File? {
+fun File.saveBitmapToFile(bitmap: Bitmap): File? {
     this.outputStream().use {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
     }
@@ -550,15 +549,14 @@ fun File.saveBitmapToFile(bitmap :Bitmap) :File? {
 }
 
 
-
-fun drawableToBitmap(drawable :Drawable) :Bitmap {
-    if(drawable is BitmapDrawable) {
+fun drawableToBitmap(drawable: Drawable): Bitmap {
+    if (drawable is BitmapDrawable) {
         return drawable.bitmap
     }
     var width = drawable.intrinsicWidth
-    width = if(width > 0) width else 1
+    width = if (width > 0) width else 1
     var height = drawable.intrinsicHeight
-    height = if(height > 0) height else 1
+    height = if (height > 0) height else 1
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
     drawable.setBounds(0, 0, canvas.width, canvas.height)
@@ -567,19 +565,19 @@ fun drawableToBitmap(drawable :Drawable) :Bitmap {
     return bitmap
 }
 
-fun Context.requestMediaScanner(url :String) {
+fun Context.requestMediaScanner(url: String) {
     val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
     val contentUri = Uri.fromFile(File(url))
     mediaScanIntent.data = contentUri
     this.sendBroadcast(mediaScanIntent)
 }
 
-fun downloadBitmap(imageUrl :String) :Bitmap? {
-    var bitmap :Bitmap? = null
+fun downloadBitmap(imageUrl: String): Bitmap? {
+    var bitmap: Bitmap? = null
     val url = URL(imageUrl)
     val conn = url.openConnection() as HttpURLConnection
 
-    if(conn.responseCode == HttpURLConnection.HTTP_OK) {
+    if (conn.responseCode == HttpURLConnection.HTTP_OK) {
         bitmap = conn.inputStream.outAsBitmap()
     }
     conn.disconnect()
@@ -642,35 +640,35 @@ infix fun ImageView.set(uri: Uri) {
 }
 
 
-fun Bitmap.resize(width :Int, height :Int, mode :ResizeMode = ResizeMode.AUTOMATIC, isExcludeAlpha :Boolean = false) :Bitmap {
+fun Bitmap.resize(width: Int, height: Int, mode: ResizeMode = ResizeMode.AUTOMATIC, isExcludeAlpha: Boolean = false): Bitmap {
     var mWidth = width
     var mHeight = height
     var mMode = mode
     val sourceWidth = this.width
     val sourceHeight = this.height
 
-    if(mode == ResizeMode.AUTOMATIC) {
+    if (mode == ResizeMode.AUTOMATIC) {
         mMode = calculateResizeMode(sourceWidth, sourceHeight)
     }
 
-    if(mMode == ResizeMode.FIT_TO_WIDTH) {
+    if (mMode == ResizeMode.FIT_TO_WIDTH) {
         mHeight = calculateHeight(sourceWidth, sourceHeight, width)
-    } else if(mMode == ResizeMode.FIT_TO_HEIGHT) {
+    } else if (mMode == ResizeMode.FIT_TO_HEIGHT) {
         mWidth = calculateWidth(sourceWidth, sourceHeight, height)
     }
-    val config = if(isExcludeAlpha) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
+    val config = if (isExcludeAlpha) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
     return Bitmap.createScaledBitmap(this, mWidth, mHeight, true).copy(config, true)
 }
 
-private fun calculateResizeMode(width :Int, height :Int) :ResizeMode =
-        if(ImageOrientation.getOrientation(width, height) === ImageOrientation.LANDSCAPE) {
+private fun calculateResizeMode(width: Int, height: Int): ResizeMode =
+        if (ImageOrientation.getOrientation(width, height) === ImageOrientation.LANDSCAPE) {
             ResizeMode.FIT_TO_WIDTH
         } else {
             ResizeMode.FIT_TO_HEIGHT
         }
 
-private fun calculateWidth(originalWidth :Int, originalHeight :Int, height :Int) :Int = Math.ceil(originalWidth / (originalHeight.toDouble() / height)).toInt()
-private fun calculateHeight(originalWidth :Int, originalHeight :Int, width :Int) :Int = Math.ceil(originalHeight / (originalWidth.toDouble() / width)).toInt()
+private fun calculateWidth(originalWidth: Int, originalHeight: Int, height: Int): Int = Math.ceil(originalWidth / (originalHeight.toDouble() / height)).toInt()
+private fun calculateHeight(originalWidth: Int, originalHeight: Int, width: Int): Int = Math.ceil(originalHeight / (originalWidth.toDouble() / width)).toInt()
 enum class ResizeMode {
     AUTOMATIC, FIT_TO_WIDTH, FIT_TO_HEIGHT, FIT_EXACT
 }
@@ -679,8 +677,8 @@ private enum class ImageOrientation {
     PORTRAIT, LANDSCAPE;
 
     companion object {
-        fun getOrientation(width :Int, height :Int) :ImageOrientation =
-                if(width >= height) LANDSCAPE else PORTRAIT
+        fun getOrientation(width: Int, height: Int): ImageOrientation =
+                if (width >= height) LANDSCAPE else PORTRAIT
     }
 }
 

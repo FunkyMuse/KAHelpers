@@ -51,7 +51,7 @@ fun View.attentionShake(): AnimatorSet {
 
     val object1: ObjectAnimator = ObjectAnimator.ofFloat(this, ANIM_translationX_CONST, 0.toFloat(), 25.toFloat(),
             (-25).toFloat(), 25.toFloat(),
-            (-25).toFloat(),15.toFloat(),
+            (-25).toFloat(), 15.toFloat(),
             (-15).toFloat(), 6.toFloat(),
             (-6).toFloat(), 0.toFloat())
 

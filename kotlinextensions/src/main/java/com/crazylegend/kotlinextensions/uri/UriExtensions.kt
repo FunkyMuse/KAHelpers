@@ -13,8 +13,8 @@ import okhttp3.internal.closeQuietly
  */
 
 fun Uri.toBytes(context: Context): ByteArray? {
-     context.contentResolver.openInputStream(this).use {
-       return it?.readBytes()
+    context.contentResolver.openInputStream(this).use {
+        return it?.readBytes()
     }
 }
 
@@ -31,16 +31,16 @@ fun ContentResolver.uriToBytes(uri: Uri): ByteArray? {
     }
 }
 
-fun ContentResolver.toBitmap(uri: Uri) : Bitmap?{
-    val pfd = openFileDescriptor(uri , "w")
+fun ContentResolver.toBitmap(uri: Uri): Bitmap? {
+    val pfd = openFileDescriptor(uri, "w")
     val fd = pfd?.fileDescriptor
     val image = BitmapFactory.decodeFileDescriptor(fd)
     pfd?.closeQuietly()
     return image
 }
 
-fun Uri.toBitmap(context: Context) : Bitmap?{
-    val pfd = context.contentResolver.openFileDescriptor(this , "w")
+fun Uri.toBitmap(context: Context): Bitmap? {
+    val pfd = context.contentResolver.openFileDescriptor(this, "w")
     val fd = pfd?.fileDescriptor
     val image = BitmapFactory.decodeFileDescriptor(fd)
     pfd?.closeQuietly()

@@ -16,7 +16,7 @@ fun OnAttachmentDownloadListenerDSL(downloadStarted: () -> Unit = {}, downloadFi
     }
 
     override fun onAttachmentDownloadedFinished() {
-      downloadFinished()
+        downloadFinished()
     }
 
     override fun onAttachmentDownloadUpdate(percent: Int) {

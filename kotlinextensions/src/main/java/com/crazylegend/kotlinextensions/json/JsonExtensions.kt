@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.json
 
 import org.json.JSONArray
 import org.json.JSONObject
+
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
  */

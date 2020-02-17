@@ -1358,7 +1358,6 @@ fun BottomSheetBehavior<*>.sliderListener(
         }
 
 
-
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             onStateChanged(bottomSheet, newState)
         }

@@ -361,7 +361,7 @@ fun AndroidViewModel.makeDBCall(
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelIOCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AndroidViewModel.viewModelIOCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(ioDispatcher) {
         action(this)
     }
@@ -374,7 +374,7 @@ fun AndroidViewModel.viewModelIOCoroutine(action: suspend (scope:CoroutineScope)
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelMainCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AndroidViewModel.viewModelMainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(mainDispatcher) {
         action(this)
     }
@@ -387,7 +387,7 @@ fun AndroidViewModel.viewModelMainCoroutine(action: suspend (scope:CoroutineScop
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelDefaultCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AndroidViewModel.viewModelDefaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(defaultDispatcher) {
         action(this)
     }
@@ -399,57 +399,57 @@ fun AndroidViewModel.viewModelDefaultCoroutine(action: suspend (scope:CoroutineS
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelUnconfinedCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AndroidViewModel.viewModelUnconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(unconfinedDispatcher) {
         action(this)
     }
 }
 
 
-fun Fragment.ioCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun Fragment.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(ioDispatcher) {
         action(this)
     }
 }
 
-fun Fragment.mainCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun Fragment.mainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(mainDispatcher) {
         action(this)
     }
 }
 
-fun Fragment.unconfinedCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun Fragment.unconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(unconfinedDispatcher) {
         action(this)
     }
 }
 
-fun Fragment.defaultCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun Fragment.defaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(defaultDispatcher) {
         action(this)
     }
 }
 
 
-fun AppCompatActivity.ioCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AppCompatActivity.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(ioDispatcher) {
         action(this)
     }
 }
 
-fun AppCompatActivity.mainCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AppCompatActivity.mainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(mainDispatcher) {
         action(this)
     }
 }
 
-fun AppCompatActivity.unconfinedCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AppCompatActivity.unconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(unconfinedDispatcher) {
         action(this)
     }
 }
 
-fun AppCompatActivity.defaultCoroutine(action: suspend (scope:CoroutineScope) -> Unit = {}): Job {
+fun AppCompatActivity.defaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(defaultDispatcher) {
         action(this)
     }
@@ -1063,7 +1063,7 @@ fun <T> AppCompatActivity.makeDBCallFlow(
     return ioCoroutine {
         try {
             val flow = dbCall()
-            flow?.collect{
+            flow?.collect {
                 dbResult.subscribePost(it, includeEmptyData)
             }
         } catch (t: Throwable) {
@@ -1107,7 +1107,6 @@ fun <T> Fragment.makeDBCallFlow(
         }
     }
 }
-
 
 
 fun <T> Fragment.makeDBCallListFlow(
@@ -1175,7 +1174,7 @@ fun <T> Fragment.makeDBCall(
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> T,
         onCalled: (model: T) -> Unit): Job {
-    return ioCoroutine{
+    return ioCoroutine {
         try {
             val call = dbCall()
             mainCoroutine {
@@ -1196,7 +1195,7 @@ fun <T> AppCompatActivity.makeDBCall(
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> T,
         onCalled: (model: T) -> Unit): Job {
-    return ioCoroutine{
+    return ioCoroutine {
         try {
             val call = dbCall()
             mainCoroutine {
@@ -1222,7 +1221,7 @@ fun <T> AndroidViewModel.makeDBCallFlow(
     return viewModelIOCoroutine {
         try {
             val call = dbCall()
-            call.collect {model->
+            call.collect { model ->
                 viewModelMainCoroutine {
                     onCalled(model)
                 }
@@ -1267,10 +1266,10 @@ fun <T> Fragment.makeDBCallFlow(
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Flow<T>,
         onCalled: (model: T) -> Unit): Job {
-    return ioCoroutine{
+    return ioCoroutine {
         try {
             val call = dbCall()
-            call.collect {model->
+            call.collect { model ->
                 mainCoroutine {
                     onCalled(model)
                 }
@@ -1291,10 +1290,10 @@ fun <T> AppCompatActivity.makeDBCallFlow(
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Flow<T>,
         onCalled: (model: T) -> Unit): Job {
-    return ioCoroutine{
+    return ioCoroutine {
         try {
             val call = dbCall()
-            call.collect {model->
+            call.collect { model ->
                 mainCoroutine {
                     onCalled(model)
                 }

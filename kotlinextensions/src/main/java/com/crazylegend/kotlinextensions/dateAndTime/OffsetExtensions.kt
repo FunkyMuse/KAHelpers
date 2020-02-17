@@ -18,4 +18,4 @@ import java.time.ZoneId
  */
 @RequiresApi(Build.VERSION_CODES.O)
 fun Instant.toOffsetDateTime(zone: ZoneId = ZoneId.systemDefault()): OffsetDateTime =
-    OffsetDateTime.ofInstant(this, zone)
+        OffsetDateTime.ofInstant(this, zone)

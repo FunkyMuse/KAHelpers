@@ -140,7 +140,7 @@ class PermissionCouroutineManager : BasePermissionManager() {
                         requestId,
                         *permissions
                 )
-                if (permissionManager.completableDeferred == null){
+                if (permissionManager.completableDeferred == null) {
                     null
                 } else {
                     permissionManager.completableDeferred?.await()
@@ -154,7 +154,7 @@ class PermissionCouroutineManager : BasePermissionManager() {
                         TAG
                 ).commitNowAllowingStateLoss()
                 permissionManager.requestPermissions(requestId, *permissions)
-                return if (permissionManager.completableDeferred == null){
+                return if (permissionManager.completableDeferred == null) {
                     null
                 } else {
                     permissionManager.completableDeferred?.await()

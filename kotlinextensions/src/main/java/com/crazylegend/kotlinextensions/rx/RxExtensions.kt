@@ -947,12 +947,12 @@ fun Completable?.makeDBCall(compositeDisposable: CompositeDisposable, onThrow: (
 
 fun CompositeDisposable.makeDBCallCompletable(onComplete: () -> Unit = {}, onThrow: (error: Throwable) -> Unit = { _ -> }, function: () -> Completable?) {
     function()?.subscribeOn(ioThreadScheduler)
-                ?.observeOn(mainThreadScheduler)
-                ?.subscribe({
-                    onComplete()
-                }, {
-                    onThrow.invoke(it)
-                })?.addTo(this@makeDBCallCompletable)
+            ?.observeOn(mainThreadScheduler)
+            ?.subscribe({
+                onComplete()
+            }, {
+                onThrow.invoke(it)
+            })?.addTo(this@makeDBCallCompletable)
 }
 
 
@@ -1474,7 +1474,7 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCallListPost(
  * @param function Function0<Flowable<Response<T>>?>
  */
 fun <T> CompositeDisposable.makeApiCallPost(result: MutableLiveData<RetrofitResult<T>>, dropBackPressure: Boolean = false,
-                                        includeEmptyData: Boolean = false, function: () -> Flowable<Response<T>>?) {
+                                            includeEmptyData: Boolean = false, function: () -> Flowable<Response<T>>?) {
     result.loadingPost()
     val disposable = function()
             ?.observeOn(mainThreadScheduler)
@@ -1501,7 +1501,7 @@ fun <T> CompositeDisposable.makeApiCallPost(result: MutableLiveData<RetrofitResu
 }
 
 fun <T> CompositeDisposable.makeApiCallListPost(result: MutableLiveData<RetrofitResult<T>>, dropBackPressure: Boolean = false,
-                                            includeEmptyData: Boolean = true, function: () -> Flowable<Response<T>>?) {
+                                                includeEmptyData: Boolean = true, function: () -> Flowable<Response<T>>?) {
     result.loadingPost()
     val disposable = function()
             ?.observeOn(mainThreadScheduler)
@@ -1536,7 +1536,7 @@ fun <T> CompositeDisposable.makeApiCallListPost(result: MutableLiveData<Retrofit
  * @param function Function0<Single<Response<T>>?>
  */
 fun <T> CompositeDisposable.makeApiCallSinglePost(result: MutableLiveData<RetrofitResult<T>>,
-                                              includeEmptyData: Boolean = false, function: () -> Single<Response<T>>?) {
+                                                  includeEmptyData: Boolean = false, function: () -> Single<Response<T>>?) {
     result.loadingPost()
     function()
             ?.observeOn(mainThreadScheduler)
@@ -1549,7 +1549,7 @@ fun <T> CompositeDisposable.makeApiCallSinglePost(result: MutableLiveData<Retrof
 }
 
 fun <T> CompositeDisposable.makeApiCallListSinglePost(result: MutableLiveData<RetrofitResult<T>>,
-                                                  includeEmptyData: Boolean = true, function: () -> Single<Response<T>>?) {
+                                                      includeEmptyData: Boolean = true, function: () -> Single<Response<T>>?) {
     result.loadingPost()
     function()
             ?.observeOn(mainThreadScheduler)
@@ -1562,7 +1562,7 @@ fun <T> CompositeDisposable.makeApiCallListSinglePost(result: MutableLiveData<Re
 }
 
 fun <T> CompositeDisposable.makeApiCallMaybePost(result: MutableLiveData<RetrofitResult<T>>,
-                                             includeEmptyData: Boolean = false, function: () -> Maybe<Response<T>>?) {
+                                                 includeEmptyData: Boolean = false, function: () -> Maybe<Response<T>>?) {
     result.loadingPost()
     function()
             ?.observeOn(mainThreadScheduler)
@@ -1575,7 +1575,7 @@ fun <T> CompositeDisposable.makeApiCallMaybePost(result: MutableLiveData<Retrofi
 }
 
 fun <T> CompositeDisposable.makeApiCallListMaybePost(result: MutableLiveData<RetrofitResult<T>>,
-                                                 includeEmptyData: Boolean = true, function: () -> Maybe<Response<T>>?) {
+                                                     includeEmptyData: Boolean = true, function: () -> Maybe<Response<T>>?) {
     result.loadingPost()
     function()
             ?.observeOn(mainThreadScheduler)
@@ -1747,7 +1747,7 @@ fun <T> Maybe<T>?.makeDBCallListPost(
 
 
 fun <T> CompositeDisposable.makeDBCallPost(result: MutableLiveData<DBResult<T>>, dropBackPressure: Boolean = false,
-                                       includeEmptyData: Boolean = false, function: () -> Flowable<T>?) {
+                                           includeEmptyData: Boolean = false, function: () -> Flowable<T>?) {
     result.queryingPost()
     val disposable = function()
             ?.subscribeOn(ioThreadScheduler)
@@ -1774,7 +1774,7 @@ fun <T> CompositeDisposable.makeDBCallPost(result: MutableLiveData<DBResult<T>>,
 }
 
 fun <T> CompositeDisposable.makeDBCallListPost(result: MutableLiveData<DBResult<T>>, dropBackPressure: Boolean = false,
-                                           includeEmptyData: Boolean = false, function: () -> Flowable<T>?) {
+                                               includeEmptyData: Boolean = false, function: () -> Flowable<T>?) {
     result.queryingPost()
     val disposable = function()
             ?.subscribeOn(ioThreadScheduler)
@@ -1801,7 +1801,7 @@ fun <T> CompositeDisposable.makeDBCallListPost(result: MutableLiveData<DBResult<
 }
 
 fun <T> CompositeDisposable.makeDBCallSinglePost(result: MutableLiveData<DBResult<T>>,
-                                             includeEmptyData: Boolean = false, function: () -> Single<T>?) {
+                                                 includeEmptyData: Boolean = false, function: () -> Single<T>?) {
     result.queryingPost()
     function()
             ?.subscribeOn(ioThreadScheduler)
@@ -1815,7 +1815,7 @@ fun <T> CompositeDisposable.makeDBCallSinglePost(result: MutableLiveData<DBResul
 }
 
 fun <T> CompositeDisposable.makeDBCallListSinglePost(result: MutableLiveData<DBResult<T>>,
-                                                 includeEmptyData: Boolean = true, function: () -> Single<T>?) {
+                                                     includeEmptyData: Boolean = true, function: () -> Single<T>?) {
     result.queryingPost()
     function()
             ?.subscribeOn(ioThreadScheduler)
@@ -1829,7 +1829,7 @@ fun <T> CompositeDisposable.makeDBCallListSinglePost(result: MutableLiveData<DBR
 }
 
 fun <T> CompositeDisposable.makeDBCallMaybePost(result: MutableLiveData<DBResult<T>>,
-                                            includeEmptyData: Boolean = false, function: () -> Maybe<T>?) {
+                                                includeEmptyData: Boolean = false, function: () -> Maybe<T>?) {
     result.queryingPost()
     function()
             ?.subscribeOn(ioThreadScheduler)
@@ -1843,7 +1843,7 @@ fun <T> CompositeDisposable.makeDBCallMaybePost(result: MutableLiveData<DBResult
 }
 
 fun <T> CompositeDisposable.makeDBCallListMaybePost(result: MutableLiveData<DBResult<T>>,
-                                                includeEmptyData: Boolean = true, function: () -> Maybe<T>?) {
+                                                    includeEmptyData: Boolean = true, function: () -> Maybe<T>?) {
     result.queryingPost()
     function()
             ?.subscribeOn(ioThreadScheduler)

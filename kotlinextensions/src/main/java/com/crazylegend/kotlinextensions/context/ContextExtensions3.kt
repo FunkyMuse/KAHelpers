@@ -53,7 +53,7 @@ import java.util.*
  * check if you can resolve the intent
  */
 fun Context.isIntentResolvable(intent: Intent) =
-    packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
+        packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
 
 
 /**
@@ -62,8 +62,8 @@ fun Context.isIntentResolvable(intent: Intent) =
  * *If App Installed ;)
  */
 fun Context.startApp(packageName: String) =
-    if (isAppInstalled(packageName)) startActivity(packageManager.getLaunchIntentForPackage(packageName)) else {
-    }
+        if (isAppInstalled(packageName)) startActivity(packageManager.getLaunchIntentForPackage(packageName)) else {
+        }
 
 
 /**
@@ -77,7 +77,6 @@ fun Context.isAppInstalled(packageName: String): Boolean {
         false
     }
 }
-
 
 
 /**
@@ -181,9 +180,9 @@ fun Context.showDatePicker(year: Int, month: Int, day: Int, onDatePicked: (year:
  * Show the Time Picker and Get the Picked Time Easily
  */
 fun Context.showTimePicker(
-    currentDate: Date = com.crazylegend.kotlinextensions.dateAndTime.currentDate,
-    is24Hour: Boolean = false,
-    onDatePicked: (hour: Int, minute: Int) -> Unit
+        currentDate: Date = com.crazylegend.kotlinextensions.dateAndTime.currentDate,
+        is24Hour: Boolean = false,
+        onDatePicked: (hour: Int, minute: Int) -> Unit
 ) {
     @Suppress("DEPRECATION")
     TimePickerDialog(this, { _, hourOfDay, minute ->
@@ -195,10 +194,11 @@ fun Context.showTimePicker(
 /**
  * get Android ID
  */
-val Context.getAndroidID: String? @SuppressLint("HardwareIds")
-get() {
-    return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-}
+val Context.getAndroidID: String?
+    @SuppressLint("HardwareIds")
+    get() {
+        return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+    }
 
 
 /**
@@ -226,20 +226,20 @@ inline fun <reified T> Activity.createShortcut(title: String, @DrawableRes icon:
         val parcelable = Intent.ShortcutIconResource.fromContext(this, icon)
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, parcelable)
         this.sendBroadcast(intent)
-       // println("added_to_homescreen")
+        // println("added_to_homescreen")
     } else {
         val shortcutManager = this.getSystemService(ShortcutManager::class.java)
         if (shortcutManager.isRequestPinShortcutSupported) {
             val pinShortcutInfo = ShortcutInfo.Builder(this, "some-shortcut-")
-                .setIntent(shortcutIntent)
-                .setIcon(Icon.createWithResource(this, icon))
-                .setShortLabel(title)
-                .build()
+                    .setIntent(shortcutIntent)
+                    .setIcon(Icon.createWithResource(this, icon))
+                    .setShortLabel(title)
+                    .build()
 
             shortcutManager.requestPinShortcut(pinShortcutInfo, null)
-           // println("added_to_homescreen")
+            // println("added_to_homescreen")
         } else {
-           // println("failed_to_add")
+            // println("failed_to_add")
         }
     }
 }
@@ -265,7 +265,7 @@ fun Context.reboot(restartIntent: Intent? = this.packageManager.getLaunchIntentF
  *               Private methods              *
  ******************************************** */
 
- fun finishAffinity(activity: Activity) {
+fun finishAffinity(activity: Activity) {
     activity.setResult(Activity.RESULT_CANCELED)
     when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> activity.finishAffinity()
@@ -357,8 +357,8 @@ fun Context.providerExists(providerName: String) = packageManager.resolveContent
 fun Context.watchYoutubeVideo(id: String) {
     val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
     val webIntent = Intent(
-        Intent.ACTION_VIEW,
-        Uri.parse("http://www.youtube.com/watch?v=$id")
+            Intent.ACTION_VIEW,
+            Uri.parse("http://www.youtube.com/watch?v=$id")
     )
     try {
         this.startActivity(appIntent)
@@ -370,7 +370,7 @@ fun Context.watchYoutubeVideo(id: String) {
 
 inline fun <reified T> Context.getAppWidgetsIdsFor(): IntArray {
     return AppWidgetManager.getInstance(this).getAppWidgetIds(
-        ComponentName(this, T::class.java)
+            ComponentName(this, T::class.java)
     )
 }
 
@@ -428,7 +428,6 @@ fun Context.getProductionApplicationId(): String {
         else -> applicationId
     }
 }
-
 
 
 fun Context.areNotificationsEnabled(): Boolean {
@@ -526,7 +525,7 @@ val DISABLE_NAVIGATION = DISABLE_HOME or DISABLE_RECENT
 
 val Context.processName: String?
     get() = activityManager.runningAppProcesses
-            .filter { it.pid ==  Process.myPid() }
+            .filter { it.pid == Process.myPid() }
             .map { it.processName }
             .firstOrNull()
 
@@ -537,7 +536,7 @@ val Context.packageVersionName: String
 
 val Context.isBackground: Boolean
     get() {
-        val appProcess = activityManager.runningAppProcesses.firstOrNull{ it.processName == packageName }
+        val appProcess = activityManager.runningAppProcesses.firstOrNull { it.processName == packageName }
         return if (appProcess == null) {
             false
         } else {
@@ -587,10 +586,9 @@ fun Context.disableNatigation() {
 fun needPermissionsFor(action: () -> Unit) = try {
     action.invoke()
     false
-} catch (e : SecurityException) {
+} catch (e: SecurityException) {
     true
 }
-
 
 
 @SuppressLint("PrivateApi", "WrongConstant")
@@ -622,7 +620,6 @@ fun Context.colorWithAlpha(@ColorRes res: Int, @IntRange(from = 0, to = 100) alp
 fun Context.colorWithOpacity(@ColorRes res: Int, @IntRange(from = 0, to = 100) opacity: Int): Int {
     return color(res).withOpacity(opacity)
 }
-
 
 
 /**
@@ -658,7 +655,7 @@ fun Context.colors(@ColorRes stateListRes: Int): ColorStateList? {
     return ContextCompat.getColorStateList(this, stateListRes)
 }
 
- fun Context.attribute(value: Int): TypedValue {
+fun Context.attribute(value: Int): TypedValue {
     val ret = TypedValue()
     theme.resolveAttribute(value, ret, true)
     return ret

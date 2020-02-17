@@ -52,11 +52,11 @@ android:textSize="14sp"
  * @constructor
  */
 class RecyclerSectionItemDecoration(
-    private val headerOffset: Int,
-    private val sticky: Boolean,
-    private val sectionCallback: SectionCallback,
-    private val headerViewID: Int,
-    private val sectionHeaderLayoutName: Int
+        private val headerOffset: Int,
+        private val sticky: Boolean,
+        private val sectionCallback: SectionCallback,
+        private val headerViewID: Int,
+        private val sectionHeaderLayoutName: Int
 ) : RecyclerView.ItemDecoration() {
 
     private var headerView: View? = null
@@ -98,7 +98,7 @@ class RecyclerSectionItemDecoration(
         c.save()
         if (sticky) {
             c.translate(
-                0f, Math.max(0, child.top - headerView!!.height).toFloat()
+                    0f, Math.max(0, child.top - headerView!!.height).toFloat()
             )
         } else {
             c.translate(0f, (child.top - headerView!!.height).toFloat())
@@ -115,23 +115,23 @@ class RecyclerSectionItemDecoration(
 
     private fun fixLayoutSize(view: View, parent: ViewGroup) {
         val widthSpec = View.MeasureSpec.makeMeasureSpec(
-            parent.width,
-            View.MeasureSpec.EXACTLY
+                parent.width,
+                View.MeasureSpec.EXACTLY
         )
         val heightSpec = View.MeasureSpec.makeMeasureSpec(
-            parent.height,
-            View.MeasureSpec.UNSPECIFIED
+                parent.height,
+                View.MeasureSpec.UNSPECIFIED
         )
 
         val childWidth = ViewGroup.getChildMeasureSpec(
-            widthSpec,
-            parent.paddingLeft + parent.paddingRight,
-            view.layoutParams.width
+                widthSpec,
+                parent.paddingLeft + parent.paddingRight,
+                view.layoutParams.width
         )
         val childHeight = ViewGroup.getChildMeasureSpec(
-            heightSpec,
-            parent.paddingTop + parent.paddingBottom,
-            view.layoutParams.height
+                heightSpec,
+                parent.paddingTop + parent.paddingBottom,
+                view.layoutParams.height
         )
 
         view.measure(childWidth, childHeight)

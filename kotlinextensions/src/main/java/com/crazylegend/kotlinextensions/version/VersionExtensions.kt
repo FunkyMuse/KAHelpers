@@ -59,8 +59,9 @@ fun doIfSdk(version: Int, f: () -> Unit) {
     }
 }
 
-val Context.getVersionCode : Long @RequiresApi(Build.VERSION_CODES.P)
-get() = packageManager.getPackageInfo(packageName, 0).longVersionCode
+val Context.getVersionCode: Long
+    @RequiresApi(Build.VERSION_CODES.P)
+    get() = packageManager.getPackageInfo(packageName, 0).longVersionCode
 
 fun Context.getVersionCode(): Int = packageManager.getPackageInfo(packageName, 0).versionCode
 
@@ -121,7 +122,6 @@ fun isLollipop(): Boolean =
 
 
 enum class Api(val sdkCode: Int) {
-
 
 
     BASE(1),

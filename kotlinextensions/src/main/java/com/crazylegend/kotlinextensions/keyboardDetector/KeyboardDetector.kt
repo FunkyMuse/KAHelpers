@@ -10,10 +10,10 @@ import io.reactivex.Observable
 
 /**
  * USAGE
-  KeyboardDetector(this@Activity).observe().subscribe({ status ->
- when(status) {
- KeyboardStatus.KEYBOARD_OPEN -> {}
- KeyboardStatus.KEYBOARD_CLOSED -> {}
+KeyboardDetector(this@Activity).observe().subscribe({ status ->
+when(status) {
+KeyboardStatus.KEYBOARD_OPEN -> {}
+KeyboardStatus.KEYBOARD_CLOSED -> {}
 }
 })
  */

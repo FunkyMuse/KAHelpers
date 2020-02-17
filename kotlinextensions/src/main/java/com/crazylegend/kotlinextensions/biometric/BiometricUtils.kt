@@ -85,9 +85,7 @@ fun AppCompatActivity.biometricAuth(
 }
 
 
-
-
-fun FragmentActivity.canAuthenticate(hardwareUnavailable:()->Unit = {}, noFingerprintsEnrolled:()->Unit = {}, canAuthenticateAction:()->Unit = {}) {
+fun FragmentActivity.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFingerprintsEnrolled: () -> Unit = {}, canAuthenticateAction: () -> Unit = {}) {
     when (BiometricManager.from(this).canAuthenticate()) {
         BIOMETRIC_SUCCESS -> {
             canAuthenticateAction()

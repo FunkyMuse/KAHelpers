@@ -11,7 +11,6 @@ import android.widget.ProgressBar
  */
 
 
-
 private var viewOriginalHeight: Int = 0
 
 fun Button.enableButtonWithLoading(progressBar: ProgressBar) {
