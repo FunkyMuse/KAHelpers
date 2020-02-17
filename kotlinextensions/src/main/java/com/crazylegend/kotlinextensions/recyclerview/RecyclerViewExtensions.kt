@@ -302,6 +302,7 @@ fun RecyclerView.getFirstVisibleItemPosition(): Int? {
         return when (manager) {
             is LinearLayoutManager -> manager.findFirstVisibleItemPosition()
             is GridLayoutManager -> manager.findFirstVisibleItemPosition()
+            is AutoFitGridLayoutManager -> manager.findFirstVisibleItemPosition()
             else -> null
         }
     }
@@ -312,6 +313,7 @@ fun RecyclerView.getLastVisibleItemPosition(): Int? {
         return when (manager) {
             is LinearLayoutManager -> manager.findLastVisibleItemPosition()
             is GridLayoutManager -> manager.findLastVisibleItemPosition()
+            is AutoFitGridLayoutManager -> manager.findLastVisibleItemPosition()
             else -> null
         }
     }
