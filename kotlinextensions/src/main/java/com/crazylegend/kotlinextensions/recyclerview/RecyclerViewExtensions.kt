@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.recyclerview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -535,5 +536,17 @@ fun <T : RecyclerView.Adapter<*>> RecyclerView.initRecyclerViewAdapter(
     }
 }
 
-
+/**
+ * To prevent the [RecyclerView] stealing touches from the bottom sheet fragment or any other fragment that scrolls, use this function
+ * If you're using other recycler views besides this one, use [OrientationAwareRecyclerView] for them
+ * @receiver RecyclerView?
+ */
+@SuppressLint("ClickableViewAccessibility")
+fun RecyclerView?.handleInsideBottomSheet() {
+    this?.setOnTouchListener { v, event ->
+        v.parent.requestDisallowInterceptTouchEvent(true)
+        v.onTouchEvent(event)
+        true
+    }
+}
 
