@@ -17,6 +17,8 @@ import com.crazylegend.kotlinextensions.context.inputMethodManager
 import com.google.android.material.textfield.TextInputEditText
 import java.net.MalformedURLException
 import java.net.URL
+import kotlin.math.max
+import kotlin.math.min
 
 
 /**
@@ -172,6 +174,30 @@ fun EditText.onTextChanged(onTextChanged: (chars: CharSequence?, start: Int, cou
 
     })
 }
+
+/**
+ * A keyboard handler for EditText that filters input by regex
+ */
+fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: Function1<String, Unit>? = null): T {
+    this.afterTextChanged {
+        val input = it?.toString() ?: ""
+        val result = input.replace(regex, "")
+        if (input != result) {
+            val pos = this.selectionStart - (input.length - result.length)
+            this.setText(result)
+            this.setSelection(max(0, min(pos, result.length)))
+        } else {
+            onTextChanged?.invoke(input)
+        }
+    }
+    return this
+}
+
+/**
+ * A keyboard handler for EditText that prohibits entering spaces, tabs, and so on
+ */
+fun <T : EditText> T.filterWhiteSpaces(onTextChanged: Function1<String, Unit>? = null) =
+        this.filterInputByRegex("\\s".toRegex(), onTextChanged)
 
 
 fun EditText.requestFocusAndKeyboard() {
