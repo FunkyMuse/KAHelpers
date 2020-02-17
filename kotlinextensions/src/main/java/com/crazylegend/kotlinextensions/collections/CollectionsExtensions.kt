@@ -4,9 +4,10 @@ package com.crazylegend.kotlinextensions.collections
 
 import android.content.res.TypedArray
 import android.os.Build
-import android.util.LongSparseArray
 import android.util.SparseArray
-import androidx.core.util.forEach
+import androidx.collection.LongSparseArray
+import androidx.collection.SparseArrayCompat
+import androidx.collection.forEach
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -783,6 +784,55 @@ fun <T> LongSparseArray<T>.toggle(key: Long, item: T) {
     }
 }
 
+inline fun <T> Iterable<T>.toSparseArray(getKey: Function1<T, Int?>): SparseArrayCompat<T> {
+    val array = SparseArrayCompat<T>()
+    for (item in this) {
+        array.append(getKey(item) ?: 0, item)
+    }
+    return array
+}
+
+inline fun <T> Iterable<T>.toLongSparseArray(getKey: Function1<T, Long?>): LongSparseArray<T> {
+    val array = LongSparseArray<T>()
+    for (item in this) {
+        array.append(getKey(item) ?: 0L, item)
+    }
+    return array
+}
+
+inline fun <T> Iterable<T>.toLongSparseArrayGrouped(getKey: Function1<T, Long?>): LongSparseArray<MutableList<T>> {
+    val array = LongSparseArray<MutableList<T>>()
+    for (item in this) {
+        val key: Long = getKey(item) ?: 0L
+        var vList = array.get(key)
+        if (vList == null) {
+            vList = java.util.ArrayList()
+            array.put(key, vList)
+        }
+        vList.add(item)
+    }
+    return array
+}
+
+inline fun <T,K> Iterable<T>.toHashMap(getKey: Function1<T, K>) = toHashMap(getKey, {it})
+
+inline fun <T,K,V> Iterable<T>.toHashMap(getKey: Function1<T, K>, getValue: Function1<T, V>): HashMap<K, V> {
+    val map = HashMap<K,V>()
+    for (item in this) {
+        map[getKey(item)] = getValue(item)
+    }
+    return map
+}
+
+inline fun <T,K> Iterable<T?>.toHashMapNullable(getKey: Function1<T?, K>) =  toHashMapNullable(getKey, {it})
+
+inline fun <T,K,V> Iterable<T?>.toHashMapNullable(getKey: Function1<T?, K>, getValue: Function1<T?, V?>): HashMap<K, V?> {
+    val map = HashMap<K,V?>()
+    for (item in this) {
+        map[getKey(item)] = getValue(item)
+    }
+    return map
+}
 
 inline fun <T : TypedArray?, R> T.use(block: (T) -> R): R {
     var recycled = false
