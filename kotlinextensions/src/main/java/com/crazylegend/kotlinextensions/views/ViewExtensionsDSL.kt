@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
@@ -114,6 +115,28 @@ var Float.dp: Float
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, metrics)
     }
     set(_) {}
+
+
+fun Number.dpToPx(context: Context? = null): Float {
+    val res = context?.resources ?: Resources.getSystem()
+    return this.toFloat() * res.displayMetrics.density
+}
+
+fun Number.pxToDp(context: Context? = null): Float {
+    val res = context?.resources ?: Resources.getSystem()
+    return this.toFloat() / res.displayMetrics.density
+}
+
+fun Number.spToPx(context: Context? = null): Float {
+    val res = context?.resources ?: Resources.getSystem()
+    return this.toFloat() * res.displayMetrics.scaledDensity
+}
+
+fun Number.pxToSp(context: Context? = null): Float {
+    val res = context?.resources ?: Resources.getSystem()
+    return this.toFloat() / res.displayMetrics.scaledDensity
+}
+
 
 
 // Events
