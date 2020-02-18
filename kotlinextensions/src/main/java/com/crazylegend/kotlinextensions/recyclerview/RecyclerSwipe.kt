@@ -139,12 +139,12 @@ fun recyclerSwipe(context: Context,
 /**
  * Extension function for [recyclerSwipe]
  * @receiver RecyclerView
- * @param context
+ * @param context we're passing separate context due to [RecyclerView] sometimes not providing context, weird I know
  * @param leftAction Function1<[@kotlin.ParameterName] Int, Unit>
  * @param rightAction Function1<[@kotlin.ParameterName] Int, Unit>
  * @param recyclerSwipeItemHandler [@kotlin.ExtensionFunctionType] Function1<RecyclerSwipeItemHandler, Unit>
  */
-fun RecyclerView.addSwipe(context: Context, leftAction: (swipedPosition: Int) -> Unit = { _ -> },
+fun RecyclerView?.addSwipe(context: Context, leftAction: (swipedPosition: Int) -> Unit = { _ -> },
                           rightAction: (swipedPosition: Int) -> Unit = { _ -> },
                           recyclerSwipeItemHandler: RecyclerSwipeItemHandler.() -> Unit) {
     recyclerSwipe(context, leftAction, rightAction, recyclerSwipeItemHandler).attachToRecyclerView(this)

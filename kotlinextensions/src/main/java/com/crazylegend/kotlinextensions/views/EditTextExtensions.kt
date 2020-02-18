@@ -178,8 +178,8 @@ fun EditText.onTextChanged(onTextChanged: (chars: CharSequence?, start: Int, cou
 /**
  * A keyboard handler for EditText that filters input by regex
  */
-fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: Function1<String, Unit>? = null): T {
-    this.afterTextChanged {
+fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: (String)->Unit = {}): T {
+    afterTextChanged {
         val input = it?.toString() ?: ""
         val result = input.replace(regex, "")
         if (input != result) {
@@ -187,7 +187,7 @@ fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: Function1<S
             this.setText(result)
             this.setSelection(max(0, min(pos, result.length)))
         } else {
-            onTextChanged?.invoke(input)
+            onTextChanged.invoke(input)
         }
     }
     return this
@@ -196,8 +196,8 @@ fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: Function1<S
 /**
  * A keyboard handler for EditText that prohibits entering spaces, tabs, and so on
  */
-fun <T : EditText> T.filterWhiteSpaces(onTextChanged: Function1<String, Unit>? = null) =
-        this.filterInputByRegex("\\s".toRegex(), onTextChanged)
+fun <T : EditText> T.filterWhiteSpaces(onTextChanged: (String)->Unit = {}) =
+        filterInputByRegex("\\s".toRegex(), onTextChanged)
 
 
 fun EditText.requestFocusAndKeyboard() {

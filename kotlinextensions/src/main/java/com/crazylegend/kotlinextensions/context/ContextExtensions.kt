@@ -190,7 +190,7 @@ fun Context.getConnectionType(): Int {
  * @return Int
  */
 @IntRange(from = 0, to = 5)
-fun Context.getDeviceTelephonyNetworkType(): Int {
+fun Context.deviceNetworkType(): Int {
     val NO_TELEPHONY = 0
     val UNKNOWN = 1
     val NET2G = 2

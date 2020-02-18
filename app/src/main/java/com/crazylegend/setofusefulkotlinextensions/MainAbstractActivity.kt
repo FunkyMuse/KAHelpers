@@ -39,7 +39,7 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
             debug("CLICKED AT ${item.title} at position $position")
         }
 
-        recycler.addSwipe {
+        recycler.addSwipe(this) {
             swipeDirection = RecyclerSwipeItemHandler.SwipeDirs.BOTH
             drawableLeft = android.R.drawable.ic_delete
             drawLeftBackground = true

@@ -103,11 +103,7 @@ val Activity.displaySizePixels: Point
         val display = this.windowManager.defaultDisplay
         return DisplayMetrics()
                 .apply {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        display.getRealMetrics(this)
-                    } else {
-                        display.getMetrics(this)
-                    }
+                    display.getRealMetrics(this)
                 }.let {
                     Point(it.widthPixels, it.heightPixels)
                 }

@@ -855,7 +855,7 @@ inline fun <T : TypedArray?, R> T.use(block: (T) -> R): R {
 fun generateRandomIntegerList(size: Int, range: IntRange): MutableList<Int> {
     val resultList = ArrayList<Int>(size)
     for (i in 1..size) {
-        resultList.add(kotlin.random.Random.nextInt(range.start, range.endInclusive))
+        resultList.add(kotlin.random.Random.nextInt(range.first, range.last))
     }
     return resultList
 }
