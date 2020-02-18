@@ -98,6 +98,20 @@ val Activity.getStatusBarHeight: Int
         return rect.top
     }
 
+val Activity.displaySizePixels: Point
+    get() {
+        val display = this.windowManager.defaultDisplay
+        return DisplayMetrics()
+                .apply {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        display.getRealMetrics(this)
+                    } else {
+                        display.getMetrics(this)
+                    }
+                }.let {
+                    Point(it.widthPixels, it.heightPixels)
+                }
+    }
 
 /**
  * Set Status Bar Color if Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
