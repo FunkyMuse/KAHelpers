@@ -15,16 +15,6 @@ val <T> T.isNotNull: Boolean
         return this != null
     }
 
-/**
- * Debug mode code
- */
-inline fun debugMode(block: () -> Unit) {
-    if (BuildConfig.DEBUG) {
-        block()
-    }
-}
-
-inline val isInDebugMode get() = BuildConfig.DEBUG
 
 
 fun <T : Any> T?.orElse(item: T) =

@@ -8,6 +8,7 @@ import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveData
 import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 
@@ -35,7 +36,11 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
 
 
     private val retrofit by lazy {
-        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API)?.create<TestApi>()
+        RetrofitClient.customInstance(application, TestApi.API, false, {
+        }){
+            addConverterFactory(MoshiConverterFactory.create())
+            this
+        }?.create<TestApi>()
     }
 
 
