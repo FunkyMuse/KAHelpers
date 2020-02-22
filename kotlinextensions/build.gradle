@@ -112,7 +112,7 @@ dependencies {
 
     //core
     implementation 'androidx.preference:preference:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.1'
+    implementation 'androidx.fragment:fragment-ktx:1.2.2'
     implementation 'androidx.activity:activity-ktx:1.1.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.core:core-ktx:1.2.0'
@@ -122,6 +122,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha04'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 
 
 }
