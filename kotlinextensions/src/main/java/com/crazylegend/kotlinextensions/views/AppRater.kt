@@ -89,7 +89,7 @@ object AppRater {
 
     @Parcelize
     class AppRaterModelSetup(
-            var appTitle: String = "My app",
+            var appTitle: String = "Rate my app",
             var content: String = "If you're enjoying using this application, please take a moment to rate it.\nThanks for your support !",
             var buttonsCornerRadius: Int? = null,
             var contentTextSize: Float? = null,
@@ -99,7 +99,6 @@ object AppRater {
             var backgroundButtonsResource: Int? = null, //use 0 to remove background and also removes the button too
             var buttonsBGColor: Int? = null) : Parcelable {
 
-        val title get() = "Rate $appTitle"
 
         operator fun invoke(callback: AppRaterModelSetup.() -> Unit = {}) {
             callback.invoke(this)
@@ -121,7 +120,7 @@ object AppRater {
             val argumentModel: AppRaterModelSetup? = arguments?.getParcelable(argumentModel)
             argumentModel ?: return
             view.dar_content?.setPrecomputedText(argumentModel.content)
-            view.dar_title?.setPrecomputedText(argumentModel.title)
+            view.dar_title?.setPrecomputedText(argumentModel.appTitle)
 
             argumentModel.contentTextSize?.apply {
                 view.dar_content?.textSize = this
