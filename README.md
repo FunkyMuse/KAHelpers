@@ -50,7 +50,7 @@ dependencies {
     }
     
     viewBinding {
-	    enabled = true
+	enabled = true
     }
 
     androidExtensions {
