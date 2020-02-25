@@ -14,32 +14,37 @@ import com.crazylegend.kotlinextensions.recyclerview.addSwipe
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
 import com.crazylegend.kotlinextensions.recyclerview.initRecyclerViewAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter22
-import kotlinx.android.synthetic.main.activity_main.*
+import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 
-class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
+class MainAbstractActivity : AppCompatActivity() {
 
     private val testAVM by activityVM<TestAVM>()
     private val adapter by lazy {
         TestAdapter22()
     }
 
+    private val activityMainBinding by viewBinding (ActivityMainBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(activityMainBinding.root)
+
 
         AppRater.appLaunched(this, supportFragmentManager, 0, 0) {
             appTitle = getString(R.string.app_name)
             buttonsBGColor = getCompatColor(R.color.colorAccent)
         }
 
-        recycler.initRecyclerViewAdapter(adapter)
+        activityMainBinding.recycler.initRecyclerViewAdapter(adapter)
 
         adapter.forItemClickListener = forItemClickListenerDSL { position, item, _ ->
             debug("CLICKED AT ${item.title} at position $position")
         }
 
-        recycler.addSwipe(this) {
+        activityMainBinding.recycler.addSwipe(this) {
             swipeDirection = RecyclerSwipeItemHandler.SwipeDirs.BOTH
             drawableLeft = android.R.drawable.ic_delete
             drawLeftBackground = true
@@ -55,7 +60,7 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
                         adapter.submitList(it.value)
 
                         val wrappedList = it.value.toMutableList()
-                        recycler.addDrag(adapter, wrappedList)
+                        activityMainBinding.recycler.addDrag(adapter, wrappedList)
 
                     }
                     RetrofitResult.Loading -> {
@@ -74,6 +79,7 @@ class MainAbstractActivity : AppCompatActivity(R.layout.activity_main) {
             }
         })
     }
+
 
 }
 

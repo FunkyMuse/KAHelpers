@@ -58,7 +58,7 @@ fun Activity.hideSoftKeyboard() {
 /**
  * Returns the Activity's content (root) view.
  */
-val Activity.rootView: View?
+val Activity.rootView: View
     get() = findViewById(android.R.id.content)
 
 /**
