@@ -1,4 +1,5 @@
 
+
 # Set Of Useful Kotlin Extensions and Helpers
 
 ### Android extensions and helper classes for easier Kotlin development
@@ -47,19 +48,23 @@ dependencies {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/LICENSE'
     }
+    
+    viewBinding {
+	    enabled = true
+    }
 
     androidExtensions {
         experimental = true
     }
 ```
 4. Additionally you can include
-```
- kapt {
-        correctErrorTypes = true
+```gradle
+	kapt {
+		correctErrorTypes = true
         useBuildCache = true
     }
     
-     buildTypes {
+ buildTypes {
         debug {
         // useful if you're using crashlytics
             ext.enableCrashlytics = false
@@ -72,23 +77,22 @@ dependencies {
             
             crunchPngs false
         }
-
-    }
+	  }
     
-    defaultConfig {
-        vectorDrawables.useSupportLibrary = true
+	defaultConfig {
+		 vectorDrawables.useSupportLibrary = true
     }
     
     
 ```  
 5. Inside gradle.properties
 
-```
+```gradle
 kapt.incremental.apt=true
 ```
 Informational
 1. Proguard crashlytics 
-```
+```gradle
 -keepattributes SourceFile,LineNumberTable  
 -keep public class * extends java.lang.Exception  
 -keep class com.google.firebase.crashlytics.** { *; }  
