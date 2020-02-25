@@ -59,28 +59,28 @@ dependencies {
 ```
 4. Additionally you can include
 ```gradle
-	kapt {
-		correctErrorTypes = true
+    kapt {	
+	correctErrorTypes = true
         useBuildCache = true
     }
     
- buildTypes {
+    buildTypes {
         debug {
         // useful if you're using crashlytics
-            ext.enableCrashlytics = false
-            ext.alwaysUpdateBuildId = false
-            firebaseCrashlytics {
+          ext.enableCrashlytics = false
+          ext.alwaysUpdateBuildId = false
+          firebaseCrashlytics {
                 mappingFileUploadEnabled false
-            }
-            manifestPlaceholders = [crashlytics: "false"]
-            // end of crashlytics region
+          }
+          manifestPlaceholders = [crashlytics: "false"]
+        // end of crashlytics region
             
-            crunchPngs false
+          crunchPngs false
         }
-	  }
+}
     
-	defaultConfig {
-		 vectorDrawables.useSupportLibrary = true
+     defaultConfig {
+     	 vectorDrawables.useSupportLibrary = true
     }
     
     
