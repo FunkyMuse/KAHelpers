@@ -2,11 +2,11 @@
 <resources>
 
     <declare-styleable name="PinEditText">
-        <attr name="pinNormalStateDrawable" format="reference"/>
-        <attr name="pinHighlightStateDrawable" format="reference"/>
-        <attr name="pinWidth" format="dimension|reference"/>
-        <attr name="pinHeight" format="dimension|reference"/>
-        <attr name="pinSpace" format="dimension|reference"/>
+        <attr name="pinNormalStateDrawable" format="reference" />
+        <attr name="pinHighlightStateDrawable" format="reference" />
+        <attr name="pinWidth" format="dimension|reference" />
+        <attr name="pinHeight" format="dimension|reference" />
+        <attr name="pinSpace" format="dimension|reference" />
     </declare-styleable>
 
 
@@ -44,8 +44,8 @@
             <enum name="LeftToRight" value="6" />
             <enum name="topLeftToBottomRight" value="7" />
         </attr>
-        <attr name="startColor" format="color"/>
-        <attr name="endColor" format="color"/>
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
     </declare-styleable>
     <declare-styleable name="CircularButton">
         <attr name="shadowColor" format="color" />
@@ -73,4 +73,5 @@
             <flag name="end" value="5" />
         </attr>
     </declare-styleable>
+
 </resources>
