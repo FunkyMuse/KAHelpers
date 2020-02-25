@@ -48,6 +48,15 @@ inline fun <reified T : ViewModel> Fragment.sharedProvider(factory: ViewModelPro
 }
 
 
+fun <T> LiveData<T>.observeOnce(observer: Observer<T>) {
+    observeForever(object : Observer<T> {
+        override fun onChanged(t: T?) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
+}
+
 /**
  * Converts a LiveData to a SingleLiveData (exactly similar to LiveData.first()
  */

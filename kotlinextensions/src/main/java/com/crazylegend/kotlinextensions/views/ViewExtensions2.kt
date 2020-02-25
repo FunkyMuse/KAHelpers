@@ -12,6 +12,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.OvershootInterpolator
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -269,3 +271,42 @@ fun View.unsetRippleClickAnimation() =
 private val canUseForeground
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
+
+fun View.visibleIfTrueGoneOtherwise(condition:Boolean){
+    if (condition){
+        visible()
+    } else {
+        gone()
+    }
+}
+
+fun View.visibleIfTrueGoneOtherwise(condition:()->Boolean){
+    if (condition()){
+        visible()
+    } else {
+        gone()
+    }
+}
+
+/**
+ * Animates the view to rotate, can be refactored for more abstraction if needed
+ *
+ * @param rotation Value of rotation to be applied to view
+ * @param duration Duration in millis of the rotation animation
+ */
+fun View.rotateAnimation(rotation: Float, duration: Long) {
+    val interpolator = OvershootInterpolator()
+    isActivated = if (!isActivated) {
+        ViewCompat.animate(this).rotation(rotation).withLayer().setDuration(duration).setInterpolator(interpolator).start()
+        !isActivated
+    } else {
+        ViewCompat.animate(this).rotation(0f).withLayer().setDuration(duration).setInterpolator(interpolator).start()
+        !isActivated
+    }
+}
+
+fun View.blink(duration: Long) {
+    val anim = AlphaAnimation(0.3f, 1.0f)
+    anim.duration = duration
+    startAnimation(anim)
+}

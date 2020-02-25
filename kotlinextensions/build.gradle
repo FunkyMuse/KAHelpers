@@ -87,6 +87,9 @@ dependencies {
     //joda time
     implementation 'net.danlew:android.joda:2.10.3'
 
+    //moshi
+    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
+
 
     //retrofit
     def retrofit_version = "2.7.1"

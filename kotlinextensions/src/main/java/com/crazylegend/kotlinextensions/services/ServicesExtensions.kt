@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions.services
 
+import android.app.Activity
+import android.app.ActivityManager
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothProfile
@@ -65,4 +67,18 @@ inline fun <reified T : Service> Context.startForegroundService(predicate: Inten
     } else {
         startService(intent)
     }
+}
+
+@Suppress("DEPRECATION")
+inline fun <reified T: Service> Context.isServiceRunning(): Boolean {
+    (this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?)?.run {
+        for (service in getRunningServices(Integer.MAX_VALUE)) {
+            if (T::class.java.name == service.service.className) return true //service.foreground
+        }
+    }
+    return false
+}
+
+inline fun <reified T: Service> Activity.startServiceUnlessRunning(predicate: Intent.() -> Unit = {}) {
+    if (!this.isServiceRunning<T>()) this.startForegroundService<T>(predicate)
 }

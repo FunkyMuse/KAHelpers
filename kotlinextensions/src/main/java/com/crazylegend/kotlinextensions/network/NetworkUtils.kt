@@ -1,9 +1,13 @@
 package com.crazylegend.kotlinextensions.network
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
 import android.telephony.PhoneStateListener
 import android.telephony.ServiceState
+import com.crazylegend.kotlinextensions.context.connectivityManager
 import com.crazylegend.kotlinextensions.context.telephonyManager
 import com.crazylegend.kotlinextensions.tryOrNull
 import java.net.InetAddress
