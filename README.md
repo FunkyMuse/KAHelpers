@@ -77,13 +77,11 @@ dependencies {
             
           crunchPngs false
         }
-}
+      }
     
      defaultConfig {
      	 vectorDrawables.useSupportLibrary = true
     }
-    
-    
 ```  
 5. Inside gradle.properties
 
