@@ -5,6 +5,10 @@ Latest version
 
 [![](https://jitpack.io/v/CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers.svg)](https://jitpack.io/#CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers)
 
+Minimum Android API 28
+
+Compiled Android API 29
+
 ## Usage
 1. Add JitPack to your project build.gradle
 
