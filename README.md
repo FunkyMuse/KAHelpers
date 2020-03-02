@@ -28,6 +28,13 @@ allprojects {
 ```gradle
 dependencies {
     implementation 'com.github.CraZyLegenD:Set-Of-Useful-Kotlin-Extensions-and-Helpers:version'
+    
+    // for biometrics use
+    implementation 'com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:biometrics:version'
+    
+    // for androidX security use
+    implementation 'com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:security:version'
+
   }
 ```
 
