@@ -4,9 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.onItemClickListener
-import com.crazylegend.kotlinextensions.tryOrNull
 import com.crazylegend.kotlinextensions.views.inflate
 import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 
@@ -58,11 +56,13 @@ abstract class AbstractListAdapter2<T, VH : RecyclerView.ViewHolder>(
         val vh = setViewHolder(parent.inflate(getLayout))
         vh.itemView.setOnClickListenerCooldown {
             val position = vh.adapterPosition
-            forItemClickListener?.onItem(position, it)
+            if (position != RecyclerView.NO_POSITION)
+                forItemClickListener?.onItem(position, it)
         }
         vh.itemView.setOnLongClickListener {
             val position = vh.adapterPosition
-            onLongClickListener?.onItem(position, it)
+            if (position != RecyclerView.NO_POSITION)
+                onLongClickListener?.onItem(position, it)
             true
         }
         return vh

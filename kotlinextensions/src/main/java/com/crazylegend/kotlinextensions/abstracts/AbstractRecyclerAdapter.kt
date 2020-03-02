@@ -25,12 +25,12 @@ abstract class AbstractRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(private 
         bindItems(item, holder, position)
 
         holder.itemView.setOnClickListenerCooldown {
-            forItemClickListener?.forItem(position, list[position], it)
+            if (position != RecyclerView.NO_POSITION)
+                forItemClickListener?.forItem(position, list[position], it)
         }
         holder.itemView.setOnLongClickListener {
-            it?.let { view ->
-                onLongClickListener?.forItem(position, list[position], view = view)
-            }
+            if (position != RecyclerView.NO_POSITION)
+                onLongClickListener?.forItem(position, list[position], view = it)
             true
         }
     }

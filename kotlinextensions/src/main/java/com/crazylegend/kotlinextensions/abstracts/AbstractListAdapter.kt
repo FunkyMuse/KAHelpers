@@ -56,12 +56,12 @@ abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
         val holder = setViewHolder(parent.inflate(getLayout))
 
         holder.itemView.setOnClickListenerCooldown {
-            forItemClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
+            if (holder.adapterPosition != RecyclerView.NO_POSITION)
+                forItemClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
         }
         holder.itemView.setOnLongClickListener {
-            it?.let { view ->
-                onLongClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), view)
-            }
+            if (holder.adapterPosition != RecyclerView.NO_POSITION)
+                onLongClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
             true
         }
         return holder
