@@ -4,7 +4,6 @@ package com.crazylegend.setofusefulkotlinextensions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityVM
 import com.crazylegend.kotlinextensions.exhaustive
@@ -32,7 +31,6 @@ class MainAbstractActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
-
 
         AppRater.appLaunched(this, supportFragmentManager, 0, 0) {
             appTitle = getString(R.string.app_name)

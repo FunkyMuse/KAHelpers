@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.crypto
+package com.crazylegend.security
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build

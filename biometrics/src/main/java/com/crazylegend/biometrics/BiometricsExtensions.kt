@@ -1,6 +1,6 @@
-package com.crazylegend.kotlinextensions.biometric
+package com.crazylegend.biometrics
 
-import android.Manifest.permission.USE_BIOMETRIC
+import android.Manifest
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -13,15 +13,16 @@ import java.util.concurrent.Executors
 
 
 /**
- * Created by hristijan on 4/2/19 to long live and prosper !
+ * Created by crazy on 3/2/20 to long live and prosper !
  */
+
 
 /**
  * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
  * if you get a weird result code that you forgot to handle, peace.
  */
 @RequiresApi(Build.VERSION_CODES.P)
-@RequiresPermission(allOf = [USE_BIOMETRIC])
+@RequiresPermission(allOf = [Manifest.permission.USE_BIOMETRIC])
 fun FragmentActivity.biometricAuth(
         promptInfo: BiometricPrompt.PromptInfo,
         onAuthFailed: () -> Unit,
@@ -55,7 +56,7 @@ fun FragmentActivity.biometricAuth(
  * if you get a weird result code that you forgot to handle, peace.
  */
 @RequiresApi(Build.VERSION_CODES.P)
-@RequiresPermission(allOf = [USE_BIOMETRIC])
+@RequiresPermission(allOf = [Manifest.permission.USE_BIOMETRIC])
 fun AppCompatActivity.biometricAuth(
         promptInfo: BiometricPrompt.PromptInfo,
         onAuthFailed: () -> Unit,
@@ -83,7 +84,6 @@ fun AppCompatActivity.biometricAuth(
     biometricPrompt.authenticate(promptInfo)
     return biometricPrompt
 }
-
 
 fun FragmentActivity.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFingerprintsEnrolled: () -> Unit = {}, canAuthenticateAction: () -> Unit = {}) {
     when (BiometricManager.from(this).canAuthenticate()) {
