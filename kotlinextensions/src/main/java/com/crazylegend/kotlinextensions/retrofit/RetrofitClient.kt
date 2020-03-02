@@ -3,6 +3,8 @@ package com.crazylegend.kotlinextensions.retrofit
 import android.content.Context
 import com.crazylegend.kotlinextensions.isNull
 import com.crazylegend.kotlinextensions.retrofit.interceptors.ConnectivityInterceptor
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -32,7 +34,8 @@ object RetrofitClient {
     }
 
     private val moshiConverter by lazy {
-        MoshiConverterFactory.create()
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        MoshiConverterFactory.create(moshi)
     }
 
     private val rxJavaAdapter by lazy {
