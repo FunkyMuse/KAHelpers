@@ -18,8 +18,10 @@ import java.security.KeyPairGenerator
 
 
 
-
+@RequiresApi(Build.VERSION_CODES.M)
 val aes256KeySpec = MasterKeys.AES256_GCM_SPEC
+
+@RequiresApi(Build.VERSION_CODES.M)
 val aes256KeyAlias = MasterKeys.getOrCreate(aes256KeySpec)
 
 
@@ -30,6 +32,7 @@ val aes256KeyAlias = MasterKeys.getOrCreate(aes256KeySpec)
  * @param keyAlias [aes256KeyAlias] or your custom, if not provided it will be used aes256
  * @param bytesToWrite the content that needs to be written to the file
  */
+@RequiresApi(Build.VERSION_CODES.M)
 fun Context.encryptDataToStorage(fileToWrite: File, keyAlias: String? = null, bytesToWrite: ByteArray) {
     buildEncryptedFile(fileToWrite, keyAlias).openFileOutput().use {
         it.write(bytesToWrite)
@@ -44,6 +47,7 @@ fun Context.encryptDataToStorage(fileToWrite: File, keyAlias: String? = null, by
  * @param keyAlias String?
  * @param bytesRead Callback with the bytes input
  */
+@RequiresApi(Build.VERSION_CODES.M)
 fun Context.decryptDataFromStorage(fileToDecrypt: File, keyAlias: String? = null, bytesRead: (byteArray: ByteArray) -> Unit = {}) {
     buildEncryptedFile(fileToDecrypt, keyAlias).openFileInput().use {
         bytesRead(it.readBytes())
@@ -124,6 +128,7 @@ fun keyPairGenerator(keystoreAlias: String, provider:String = "AndroidKeyStore",
  * @param prefsName String
  * @return SharedPreferences
  */
+@RequiresApi(Build.VERSION_CODES.M)
 fun Context.encryptedSharedPreferences(myMasterKeyAlias:String = aes256KeyAlias, prefsName:String): SharedPreferences {
     return EncryptedSharedPreferences.create(
             prefsName,
@@ -135,6 +140,7 @@ fun Context.encryptedSharedPreferences(myMasterKeyAlias:String = aes256KeyAlias,
 }
 
 // private funs
+@RequiresApi(Build.VERSION_CODES.M)
 private fun Context.buildEncryptedFile(file: File, keyAlias: String? = null): EncryptedFile {
     return EncryptedFile.Builder(
             file,
