@@ -35,7 +35,7 @@ object RetrofitClient {
 
     private val moshiConverter by lazy {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        MoshiConverterFactory.create(moshi)
+        MoshiConverterFactory.create(moshi).withNullSerialization()
     }
 
     private val rxJavaAdapter by lazy {
