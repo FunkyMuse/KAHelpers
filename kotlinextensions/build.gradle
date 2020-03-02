@@ -139,10 +139,6 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.1.0'
 
-    //crypto
-    implementation "androidx.security:security-crypto:1.0.0-alpha02"
-
-
 }
 
 
