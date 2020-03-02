@@ -59,7 +59,9 @@ abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
             forItemClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
         }
         holder.itemView.setOnLongClickListener {
-            onLongClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
+            it?.let { view ->
+                onLongClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), view)
+            }
             true
         }
         return holder

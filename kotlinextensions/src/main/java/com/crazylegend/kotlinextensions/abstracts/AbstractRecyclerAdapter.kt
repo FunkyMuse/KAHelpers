@@ -28,7 +28,9 @@ abstract class AbstractRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(private 
             forItemClickListener?.forItem(position, list[position], it)
         }
         holder.itemView.setOnLongClickListener {
-            onLongClickListener?.forItem(position, list[position], view = it)
+            it?.let { view ->
+                onLongClickListener?.forItem(position, list[position], view = view)
+            }
             true
         }
     }
