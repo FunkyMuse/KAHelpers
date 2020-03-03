@@ -89,7 +89,7 @@ dependencies {
 kapt.incremental.apt=true
 ```
 Informational
-1. Proguard crashlytics 
+1. Proguard configs 
 ```gradle
 -keepattributes SourceFile,LineNumberTable  
 -keep public class * extends java.lang.Exception  
