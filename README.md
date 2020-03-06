@@ -72,6 +72,11 @@ dependencies {
           firebaseCrashlytics {
                 mappingFileUploadEnabled false
           }
+	  
+	  FirebasePerformance {
+          instrumentationEnabled false
+	  }
+	  
           manifestPlaceholders = [crashlytics: "false"]
         // end of crashlytics region
             
