@@ -88,6 +88,7 @@ dependencies {
 ```gradle
 kapt.incremental.apt=true
 org.gradle.parallel=true
+org.gradle.caching=true
 ```
 Informational
 1. Proguard configs 
