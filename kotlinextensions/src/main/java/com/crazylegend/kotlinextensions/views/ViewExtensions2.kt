@@ -323,7 +323,7 @@ val View.innermostFocusedChild: View?
     }
 
 
-fun View.visibilityChangeListener(onVisibility: (isVisible:Boolean)->Unit ) {
+fun View.visibilityChangeListener(onVisibility: (isVisible: Boolean) -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener {
         onVisibility(isVisible)
     }
