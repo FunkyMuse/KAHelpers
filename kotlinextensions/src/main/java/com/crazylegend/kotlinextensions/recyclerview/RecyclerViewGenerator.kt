@@ -78,6 +78,28 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateVertic
     return adapter
 }
 
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateVerticalAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        hasFixedSize: Boolean = false,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): AbstractListAdapter<T, VH> {
+
+    val adapter = object : AbstractListAdapter<T, VH>(viewHolder, areItemsTheSameCallback, areContentsTheSameCallback) {
+        override val getLayout: Int
+            get() = layout
+
+        override fun bindItems(item: T, holder: VH, position: Int) {
+            binder(item, holder, position)
+        }
+    }
+    initRecyclerViewAdapter(adapter, RecyclerView.VERTICAL, hasFixedSize)
+    return adapter
+}
+
+
+
 /**
  * private val generatedAdapter by lazy {
 activityMainBinding.recycler.generateHorizontalAdapter<TestModel, TestViewHolder>(
@@ -113,6 +135,29 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateHorizo
     initRecyclerViewAdapter(adapter, RecyclerView.HORIZONTAL)
     return adapter
 }
+
+
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateHorizontalAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        hasFixedSize:Boolean = false,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): AbstractListAdapter<T, VH> {
+
+    val adapter = object : AbstractListAdapter<T, VH>(viewHolder, areItemsTheSameCallback, areContentsTheSameCallback) {
+        override val getLayout: Int
+            get() = layout
+
+        override fun bindItems(item: T, holder: VH, position: Int) {
+            binder(item, holder, position)
+        }
+    }
+    initRecyclerViewAdapter(adapter, RecyclerView.HORIZONTAL, hasFixedSize)
+    return adapter
+}
+
+
 
 
 /**
