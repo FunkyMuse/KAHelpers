@@ -4,7 +4,6 @@ package com.crazylegend.setofusefulkotlinextensions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.viewpager2.widget.ViewPager2.ORIENTATION_HORIZONTAL
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityVM
 import com.crazylegend.kotlinextensions.exhaustive
@@ -13,21 +12,27 @@ import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
 import com.crazylegend.kotlinextensions.recyclerview.addDrag
 import com.crazylegend.kotlinextensions.recyclerview.addSwipe
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
-import com.crazylegend.kotlinextensions.recyclerview.initRecyclerViewAdapter
+import com.crazylegend.kotlinextensions.recyclerview.generateVerticalAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
-import com.crazylegend.setofusefulkotlinextensions.adapter.TestAdapter22
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolder
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 
 class MainAbstractActivity : AppCompatActivity() {
 
     private val testAVM by activityVM<TestAVM>()
-    private val adapter by lazy {
-        TestAdapter22()
+
+    private val generatedAdapter by lazy {
+        activityMainBinding.recycler.generateVerticalAdapter<TestModel, TestViewHolder>(
+                layout = R.layout.recycler_view_item,
+                viewHolder = TestViewHolder::class.java) { item, holder, _ ->
+            holder.bind(item)
+        }
     }
 
-    private val activityMainBinding by viewBinding (ActivityMainBinding::inflate)
+    private val activityMainBinding by viewBinding(ActivityMainBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +44,9 @@ class MainAbstractActivity : AppCompatActivity() {
             buttonsBGColor = getCompatColor(R.color.colorAccent)
         }
 
-        activityMainBinding.recycler.initRecyclerViewAdapter(adapter)
-
-        adapter.forItemClickListener = forItemClickListenerDSL { position, item, _ ->
-            debug("CLICKED AT ${item.title} at position $position")
+        generatedAdapter.forItemClickListener = forItemClickListenerDSL { position, item, view ->
+            debug("SADLY CLICKED HERE $item")
         }
-
         activityMainBinding.recycler.addSwipe(this) {
             swipeDirection = RecyclerSwipeItemHandler.SwipeDirs.BOTH
             drawableLeft = android.R.drawable.ic_delete
@@ -58,10 +60,10 @@ class MainAbstractActivity : AppCompatActivity() {
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
-                        adapter.submitList(it.value)
+                        generatedAdapter.submitList(it.value)
 
                         val wrappedList = it.value.toMutableList()
-                        activityMainBinding.recycler.addDrag(adapter, wrappedList)
+                        activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
 
                     }
                     RetrofitResult.Loading -> {
