@@ -509,7 +509,7 @@ fun RecyclerView.Adapter<*>.onItemRangeChanged(action: (positionStart: Int, item
 fun <T : RecyclerView.Adapter<*>> RecyclerView.initRecyclerViewAdapter(
         yourAdapter: T,
         layoutOrientation: Int = RecyclerView.VERTICAL,
-        fixedSize: Boolean = true,
+        fixedSize: Boolean = false,
         reverseLayout: Boolean = false
 ) {
     apply {
@@ -527,7 +527,7 @@ fun <T : RecyclerView.Adapter<*>> RecyclerView.initRecyclerViewAdapter(
 fun <T : RecyclerView.Adapter<*>> RecyclerView.initRecyclerViewAdapter(
         yourAdapter: T,
         yourLayoutManager: RecyclerView.LayoutManager,
-        fixedSize: Boolean = true
+        fixedSize: Boolean = false
 ) {
     apply {
         layoutManager = yourLayoutManager

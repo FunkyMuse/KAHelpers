@@ -78,6 +78,42 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateVertic
     return adapter
 }
 
+/**
+ * private val generatedAdapter by lazy {
+activityMainBinding.recycler.generateHorizontalAdapter<TestModel, TestViewHolder>(
+layout = R.layout.recycler_view_item,
+viewHolder = TestViewHolder::class.java) { item, holder, _ ->
+holder.bind(item)
+}
+}
+ * make sure you have added a proguard rule see [AbstractListAdapter.onCreateViewHolder]
+ * @receiver RecyclerView
+ * @param layout Int the layout res id
+ * @param viewHolder Class<VH> this one is used for reflection to instantiate the [RecyclerView.ViewHolder]
+ * @param areItemsTheSameCallback callback invocation as a function parameter that returns Boolean as a condition whether items are the same
+ * @param areContentsTheSameCallback callback invocation as a function parameter that returns Boolean as a condition whether contents of the items are the same
+ * @param binder just as you would call [RecyclerView.Adapter.onBindViewHolder]
+ * @return AbstractListAdapter<T, VH>
+ */
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateHorizontalAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): AbstractListAdapter<T, VH> {
+
+    val adapter = object : AbstractListAdapter<T, VH>(viewHolder, areItemsTheSameCallback, areContentsTheSameCallback) {
+        override val getLayout: Int
+            get() = layout
+
+        override fun bindItems(item: T, holder: VH, position: Int) {
+            binder(item, holder, position)
+        }
+    }
+    initRecyclerViewAdapter(adapter, RecyclerView.HORIZONTAL)
+    return adapter
+}
+
 
 /**
  * The same as the function above, except it receives a layout manager and fixed size for [initRecyclerViewAdapter]
