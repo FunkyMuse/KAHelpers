@@ -22,6 +22,7 @@ import androidx.annotation.IntRange
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.crazylegend.kotlinextensions.collections.use
@@ -272,16 +273,16 @@ private val canUseForeground
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
 
-fun View.visibleIfTrueGoneOtherwise(condition:Boolean){
-    if (condition){
+fun View.visibleIfTrueGoneOtherwise(condition: Boolean) {
+    if (condition) {
         visible()
     } else {
         gone()
     }
 }
 
-fun View.visibleIfTrueGoneOtherwise(condition:()->Boolean){
-    if (condition()){
+fun View.visibleIfTrueGoneOtherwise(condition: () -> Boolean) {
+    if (condition()) {
         visible()
     } else {
         gone()
@@ -320,3 +321,11 @@ val View.innermostFocusedChild: View?
         val focused = focusedChild
         return focused?.innermostFocusedChild ?: focused
     }
+
+
+fun View.visibilityChangeListener(onVisibility: (isVisible:Boolean)->Unit ) {
+    viewTreeObserver.addOnGlobalLayoutListener {
+        onVisibility(isVisible)
+    }
+}
+
