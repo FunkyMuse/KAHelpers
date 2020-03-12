@@ -363,6 +363,14 @@ inline fun <T> tryOrNull(block: () -> T): T? = try {
     null
 }
 
+
+inline fun <T> tryOrNullPrint(block: () -> T): T? = try {
+    block()
+} catch (e: Exception) {
+    e.printStackTrace()
+    null
+}
+
 inline fun tryOrPrint(block: () -> Unit) = try {
     block()
 } catch (e: Exception) {
