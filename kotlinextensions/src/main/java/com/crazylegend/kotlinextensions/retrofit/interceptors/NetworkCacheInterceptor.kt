@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 
 /**
- * In order to cache the response build cache see {@see Context#retrofitCache()}
+ * In order to cache the response build cache see [@see Context.retrofitCache()]
  *
  *  OkHttpClient.Builder().cache(cache).addNetworkInterceptor(networkCacheInterceptor)
  *
