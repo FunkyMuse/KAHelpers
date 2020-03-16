@@ -99,7 +99,7 @@ private fun setOverflowButtonColor(activity: Activity,
     })
 }
 
-private fun removeOnGlobalLayoutListener(v: View, listener: ViewTreeObserver.OnGlobalLayoutListener) {
+fun removeOnGlobalLayoutListener(v: View, listener: ViewTreeObserver.OnGlobalLayoutListener) {
 
     v.viewTreeObserver.removeOnGlobalLayoutListener(listener)
 

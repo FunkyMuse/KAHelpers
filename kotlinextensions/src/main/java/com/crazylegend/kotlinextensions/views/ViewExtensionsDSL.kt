@@ -73,9 +73,9 @@ fun View.returnMeasurements(
 
 
 // Constants
-val matchConstraint = ConstraintSet.MATCH_CONSTRAINT
-val matchParent: Int = ViewGroup.LayoutParams.MATCH_PARENT
-val wrapContent: Int = ViewGroup.LayoutParams.WRAP_CONTENT
+const val matchConstraint = ConstraintSet.MATCH_CONSTRAINT
+const val matchParent: Int = ViewGroup.LayoutParams.MATCH_PARENT
+const val wrapContent: Int = ViewGroup.LayoutParams.WRAP_CONTENT
 
 // Style - Colors
 
@@ -136,19 +136,6 @@ fun Number.pxToSp(context: Context? = null): Float {
     val res = context?.resources ?: Resources.getSystem()
     return this.toFloat() / res.displayMetrics.scaledDensity
 }
-
-
-
-// Events
-
-//fun View.onClick(context: CoroutineContext = Dispatchers.Main,
-//                 handler: suspend CoroutineScope.(v: android.view.View?) -> Unit) {
-//    setOnClickListener { v ->
-//        GlobalScope.launch(context, CoroutineStart.DEFAULT) {
-//            handler(v)
-//        }
-//    }
-//}
 
 // Layout - Helpers
 
@@ -449,11 +436,9 @@ fun <T : View> T.constrainBottomToBottomOf(viewId: Int, margin: Int = 0): T {
 // Center Y
 
 // This is made possible by creating a "GONE" guideline and center on the guideline instead :)
-// TODO: use android guideline instead?
 fun <T : View> T.constrainCenterYToBottomOf(view: View): T {
     (parent as? ConstraintLayout)?.let { constraintLayout ->
         constraintLayout.addConstraints {
-            // TODO: use android guideline instead?
             val guideline = View(context)
             guideline.id = View.generateViewId()
             constraintLayout.addView(guideline)

@@ -16,6 +16,8 @@ import com.crazylegend.kotlinextensions.recyclerview.generateVerticalAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
+import com.crazylegend.kotlinextensions.views.toggleVisibility
+import com.crazylegend.kotlinextensions.views.visibilityChangeListener
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolder
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
@@ -38,6 +40,13 @@ class MainAbstractActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
 
+        activityMainBinding.recycler.visibilityChangeListener {
+            debug("IS VISIBLE ?$it")
+        }
+
+        activityMainBinding.test.setOnClickListener {
+            activityMainBinding.recycler.toggleVisibility()
+        }
 
         AppRater.appLaunched(this, supportFragmentManager, 0, 0) {
             appTitle = getString(R.string.app_name)
