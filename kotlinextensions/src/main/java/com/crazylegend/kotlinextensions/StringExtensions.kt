@@ -1186,3 +1186,18 @@ fun String.highlight(source: String, color: Int): SpannableString {
     }, startIndex, startIndex + source.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     return spannable
 }
+
+
+/**
+ * If the string is a HTTP URL (ie. Starts with http:// or https://)
+ */
+fun String.isHttp(): Boolean {
+    return this.matches(Regex("(http|https)://[^\\s]*"))
+}
+
+/**
+ * Convert any string value into it's enum value by a given property of the enum
+ */
+inline fun <reified T : Enum<T>> String.toEnum(by: (enum: T) -> String = { it.name }): T? {
+    return enumValues<T>().firstOrNull { by(it) == this }
+}

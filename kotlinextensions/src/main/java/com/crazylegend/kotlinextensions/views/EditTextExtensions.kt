@@ -178,7 +178,7 @@ fun EditText.onTextChanged(onTextChanged: (chars: CharSequence?, start: Int, cou
 /**
  * A keyboard handler for EditText that filters input by regex
  */
-fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: (String)->Unit = {}): T {
+fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: (String) -> Unit = {}): T {
     afterTextChanged {
         val input = it?.toString() ?: ""
         val result = input.replace(regex, "")
@@ -196,7 +196,7 @@ fun <T : EditText> T.filterInputByRegex(regex: Regex, onTextChanged: (String)->U
 /**
  * A keyboard handler for EditText that prohibits entering spaces, tabs, and so on
  */
-fun <T : EditText> T.filterWhiteSpaces(onTextChanged: (String)->Unit = {}) =
+fun <T : EditText> T.filterWhiteSpaces(onTextChanged: (String) -> Unit = {}) =
         filterInputByRegex("\\s".toRegex(), onTextChanged)
 
 
@@ -531,3 +531,63 @@ var EditText.compoundDrawableBottom: Drawable?
             compoundDrawablesRelative[1],
             compoundDrawablesRelative[2],
             value)
+
+
+/**
+ * Set the text for an EditText if the EditText doesn't already
+ * have focus
+ *
+ * @param text
+ */
+fun EditText.textIfNotFocus(text: String) {
+    if (!this.hasFocus() && this.text.toString() != text) {
+        this.setText(text)
+    }
+}
+
+/**
+ * Refocus an edit text when the focus is lost
+ */
+fun EditText.refocusWhenLost(delay: Long = 200) {
+    onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) {
+            postDelayed({
+                if (!this.hasFocus()) {
+                    requestFocus()
+                }
+            }, delay)
+        }
+    }
+}
+
+/**
+ * Refocus an edit text when the focus is lost
+ */
+fun EditText.unfocusIfEmpty(delay: Long = 200) {
+    onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) {
+            postDelayed({
+                if (this.textString.isBlank()) {
+                    clearFocus()
+                }
+            }, delay)
+        }
+    }
+}
+
+/**
+ * Refocus an edit text when the focus is lost
+ */
+fun EditText.unfocusIfEmptyAndKeyboard(delay: Long = 200) {
+    onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        if (hasFocus) {
+            postDelayed({
+                if (this.textString.isBlank()) {
+                    clearFocusAndKeyboard()
+                }
+            }, delay)
+        }
+    }
+}
+
+

@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.googleMaps
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import com.crazylegend.kotlinextensions.intent.canBeHandled
 
@@ -219,6 +220,23 @@ fun Context.showMapRoute(latitudeFrom: Double, longitudeFrom: Double, latitudeTo
     }
 
 
+}
+
+/**Returns true if Google Maps is present in your device.*/
+fun Context.isGoogleMapsInstalled(): Boolean {
+    return try {
+        packageManager.getApplicationInfo("com.google.android.apps.maps", 0)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}
+
+fun Context.openMapAppsChooser(latitude: Double, longitude: Double){
+    val uri = Uri.parse("geo:${latitude},${longitude}")
+    val intent = Intent(Intent.ACTION_VIEW, uri)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    startActivity(intent)
 }
 
 

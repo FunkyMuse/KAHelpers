@@ -1,6 +1,9 @@
 package com.crazylegend.kotlinextensions.viewpager
 
+import androidx.annotation.Px
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import kotlin.math.roundToInt
 
 
 /**
@@ -121,10 +124,54 @@ fun ViewPager2.next(lastCallback: () -> Unit) {
     }
 }
 
+val ViewPager2.recyclerView: RecyclerView
+    get() = getChildAt(0) as RecyclerView
+
 fun ViewPager2.nextCircular() {
     if (!isLastView) {
         currentItem += 1
     } else {
         currentItem = 0
     }
+}
+
+
+/**
+ * Set the page width for view pager 2 content
+ */
+fun ViewPager2.setPageWidth(@Px size: Float) {
+    post {
+        val paddingSize = (width - (width * size)).roundToInt()/2
+        recyclerView.setPadding(paddingSize, 0, paddingSize, 0)
+        recyclerView.clipToPadding = false
+    }
+}
+
+/**
+ * Sync scrolling with another viewpager by a specific multiplier
+ */
+fun ViewPager2.syncScrolling(other: ViewPager2, multiplier: Float = 1f) {
+    registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrollStateChanged(state: Int) {
+            when(state) {
+                ViewPager2.SCROLL_STATE_IDLE -> {
+                    other.endFakeDrag()
+                    other.currentItem = currentItem
+                }
+                ViewPager2.SCROLL_STATE_DRAGGING -> {
+                    other.beginFakeDrag()
+                }
+                ViewPager2.SCROLL_STATE_SETTLING -> {
+
+                }
+            }
+        }
+    })
+
+    recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            other.fakeDragBy(-dx.toFloat()/multiplier)
+        }
+    })
 }

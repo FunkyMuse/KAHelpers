@@ -219,3 +219,4 @@ fun DialogFragment.setRoundedBackground(setNoTitle: Boolean = false) {
             it.requestFeature(Window.FEATURE_NO_TITLE)
     }
 }
+

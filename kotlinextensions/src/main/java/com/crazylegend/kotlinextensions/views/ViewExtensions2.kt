@@ -6,23 +6,28 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.ViewParent
 import android.view.animation.AlphaAnimation
 import android.view.animation.OvershootInterpolator
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.annotation.IntRange
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -31,7 +36,11 @@ import com.crazylegend.kotlinextensions.context.colorWithOpacity
 import com.crazylegend.kotlinextensions.context.drawable
 import com.crazylegend.kotlinextensions.context.inputManager
 import com.crazylegend.kotlinextensions.context.selectableItemBackgroundResource
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 
 /**
@@ -329,4 +338,155 @@ fun View.visibilityChangeListener(onVisibility: (isVisible: Boolean) -> Unit) {
         onVisibility(isVisible)
     }
 }
+
+
+fun AppBarLayout.disableDragging() {
+    val layoutParams = layoutParams as CoordinatorLayout.LayoutParams
+    val behavior = layoutParams.behavior as AppBarLayout.Behavior?
+    if (behavior != null) {
+        behavior.setDragCallback(DisabledDragCallback)
+    } else {
+        doOnLayout {
+            (layoutParams.behavior as AppBarLayout.Behavior).setDragCallback(DisabledDragCallback)
+        }
+    }
+}
+
+fun AppBarLayout.invalidateScrollRanges() {
+    invalidateScrollRangesMethod(this)
+}
+
+inline fun TabLayout.doOnTabReselected(crossinline action: (TabLayout.Tab) -> Unit) {
+    addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab) {
+        }
+
+        override fun onTabReselected(tab: TabLayout.Tab) {
+            action(tab)
+        }
+    })
+}
+
+inline fun TabLayout.doOnTabSelected(crossinline action: (TabLayout.Tab) -> Unit) {
+    addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            action(tab)
+
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab) {
+        }
+
+        override fun onTabReselected(tab: TabLayout.Tab) {
+        }
+    })
+}
+
+
+inline fun TabLayout.doOnTabUnSelected(crossinline action: (TabLayout.Tab) -> Unit) {
+    addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab) {
+            action(tab)
+        }
+
+        override fun onTabReselected(tab: TabLayout.Tab) {
+        }
+    })
+}
+
+
+inline fun <reified T : ViewParent> View.findParentOfType(): T? {
+    return findParentOfType(T::class.java)
+}
+
+fun <T : ViewParent> View.findParentOfType(type: Class<T>): T? {
+    var p = parent
+    while (p != null) {
+        if (type.isInstance(p)) {
+            return type.cast(p)
+        }
+        p = p.parent
+    }
+    return null
+}
+
+
+fun Toolbar.setTitleOnClickListener(onClickListener: View.OnClickListener) {
+    var titleView = toolbarTitleField.get(this) as View?
+    if (titleView == null) {
+        val title = title
+        this.title = " " // Force Toolbar to create mTitleTextView
+        this.title = title
+        titleView = toolbarTitleField.get(this) as View
+    }
+    titleView.setOnClickListener(onClickListener)
+}
+
+fun Toolbar.setSubtitleOnClickListener(onClickListener: View.OnClickListener) {
+    var subtitleView = toolbarSubtitleField.get(this) as View?
+    if (subtitleView == null) {
+        val subtitle = subtitle
+        this.subtitle = " " // Force Toolbar to create mSubtitleTextView
+        this.subtitle = subtitle
+        subtitleView = toolbarSubtitleField.get(this) as View
+    }
+    subtitleView.setOnClickListener(onClickListener)
+}
+
+inline fun <reified T : CoordinatorLayout.Behavior<*>> View.getLayoutBehavior(): T {
+    val layoutParams = layoutParams as CoordinatorLayout.LayoutParams
+    return layoutParams.behavior as T
+}
+
+private val toolbarTitleField: Field by lazy(LazyThreadSafetyMode.NONE) {
+    Toolbar::class.java.getDeclaredField("mTitleTextView").apply { isAccessible = true }
+}
+
+private val toolbarSubtitleField: Field by lazy(LazyThreadSafetyMode.NONE) {
+    Toolbar::class.java.getDeclaredField("mSubtitleTextView").apply { isAccessible = true }
+}
+
+
+private object DisabledDragCallback : AppBarLayout.Behavior.DragCallback() {
+    override fun canDrag(appBarLayout: AppBarLayout): Boolean = false
+}
+
+private val invalidateScrollRangesMethod: Method by lazy(LazyThreadSafetyMode.NONE) {
+    AppBarLayout::class.java.getDeclaredMethod("invalidateScrollRanges").apply { isAccessible = true }
+}
+
+fun TabLayout.addMarginInTabLayout(color: Int, width: Int, height: Int, paddingFromDivider: Int) {
+    val linearLayout = getChildAt(0) as LinearLayout
+    linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
+    val drawable = GradientDrawable()
+    drawable.setColor(color)
+    drawable.setSize(width, height)
+    linearLayout.dividerPadding = paddingFromDivider
+    linearLayout.dividerDrawable = drawable
+}
+
+fun View.forceScrollGestures() {
+    setOnTouchListener { v, event ->
+        when (event.action) {
+            MotionEvent.ACTION_DOWN ->
+                // Disallow ScrollView to intercept touch events.
+                v.parent.requestDisallowInterceptTouchEvent(true)
+
+            MotionEvent.ACTION_UP ->
+                // Allow ScrollView to intercept touch events.
+                v.parent.requestDisallowInterceptTouchEvent(false)
+        }
+
+        v.onTouchEvent(event)
+        true
+    }
+}
+
+
 

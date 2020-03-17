@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DimenRes
@@ -25,6 +26,23 @@ import com.google.android.material.snackbar.Snackbar
 
 val <VH> RecyclerView.Adapter<VH>.isEmpty: Boolean where VH : RecyclerView.ViewHolder
     get() = itemCount == 0
+
+
+val <VH> RecyclerView.Adapter<VH>.isNotEmpty: Boolean where VH : RecyclerView.ViewHolder
+    get() = !isEmpty
+
+/**
+ * Disable all user input to a recyclerview, passing touch events out
+ */
+fun RecyclerView.disableTouch() {
+    this.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
+        override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+            return true
+        }
+    })
+}
+
+
 
 fun RecyclerView.divider(color: Int = Color.parseColor("#CCCCCC"), size: Int = 1): RecyclerView {
     val decoration = DividerItemDecoration(context, orientation)

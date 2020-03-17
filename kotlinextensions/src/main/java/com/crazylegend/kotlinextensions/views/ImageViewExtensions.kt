@@ -28,6 +28,10 @@ fun ImageView.setTint(color: Int) {
 
 }
 
+fun ImageView.clear() {
+    setImageDrawable(null)
+}
+
 fun ImageView.setTint(@ColorRes colorRes: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
     this.setColorFilter(context.getColorCompat(colorRes), mode)
 }

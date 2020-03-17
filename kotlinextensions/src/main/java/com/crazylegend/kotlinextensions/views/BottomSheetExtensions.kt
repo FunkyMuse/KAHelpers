@@ -47,6 +47,6 @@ fun <T : View> BottomSheetBehavior<T>.expandHalf() {
 }
 
 
-fun <T : View> BottomSheetBehavior<T>.hidden() {
+fun <T : View> BottomSheetBehavior<T>.hide() {
     this.state = BottomSheetBehavior.STATE_HIDDEN
 }

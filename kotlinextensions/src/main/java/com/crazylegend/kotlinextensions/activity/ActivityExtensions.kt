@@ -767,3 +767,21 @@ fun Activity.screenShot(removeStatusBar: Boolean = false, listener: (Int, Bitmap
         listener(it, bitmap)
     }, Handler(this.mainLooper))
 }
+
+
+/**
+ * Set the action bar title
+ * @param title String res of the title
+ */
+fun AppCompatActivity.setToolbarTitle(@StringRes title: Int) {
+    supportActionBar?.setTitle(title)
+}
+
+
+/**
+ * Set the action bar title
+ * @param title String value of the title
+ */
+fun AppCompatActivity.setToolbarTitle(title: String) {
+    supportActionBar?.title = title
+}

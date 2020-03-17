@@ -81,5 +81,11 @@ fun <T, E> List<Pair<T, E>>.valueSet(): Set<E> {
             .toSet()
 }
 
+inline fun <reified T> Collection<T>.removeDuplicates(): MutableList<T> {
+    return this.toSet().toMutableList()
+}
 
+inline fun <reified T> Collection<T>.onDuplicatesRemoved(noDups: (collection: Set<T>) -> Unit = {}) {
+    noDups(toSet())
+}
 

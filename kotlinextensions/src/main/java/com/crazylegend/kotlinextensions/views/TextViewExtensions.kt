@@ -1,9 +1,11 @@
 package com.crazylegend.kotlinextensions.views
 
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -12,9 +14,12 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import androidx.annotation.*
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
@@ -512,5 +517,82 @@ var TextView.compoundDrawableBottom: Drawable?
             compoundDrawablesRelative[1],
             compoundDrawablesRelative[2],
             value)
+
+
+/**
+ * Measuring TextView width. Use this extension after view rendered
+ */
+fun TextView.measureWidth(): Int {
+    val bound = Rect()
+    this.paint.getTextBounds(this.text.toString(), 0, this.text.toString().length, bound)
+    return bound.width()
+}
+
+/**
+ * Measuring TextView height. Use this extension after view rendered
+ */
+fun TextView.measureHeight(): Int {
+    val bound = Rect()
+    this.paint.getTextBounds(this.text.toString(), 0, this.text.toString().length, bound)
+    return bound.height()
+}
+
+
+
+/**
+ * Setting new text to TextView with something like fade to alpha animation
+ *
+ * @property text - text to set to TextView
+ * @property duration - animation final duration
+ */
+fun TextView.setTextWithAnimation(text: String, duration: Long) {
+    val stepDuration = duration/2
+    this.animate()
+            .alpha(0f)
+            .setDuration(stepDuration)
+            .withEndAction {
+                this.text = text
+                this.animate()
+                        .alpha(1f)
+                        .setDuration(stepDuration)
+                        .start()
+            }.start()
+}
+
+/**
+ * Setting new text to TextView with something like width transition animation
+ *
+ * @property text - text to set to TextView
+ * @property duration - animation final duration
+ */
+fun TextView.setTextWithTransition(text: String, animDuration: Long) {
+    val with = this.width
+    val thisText = this
+    val textLayoutParams = this.layoutParams
+    ValueAnimator.ofInt(with, 0).apply {
+        addUpdateListener { valueAnimator ->
+            val value = valueAnimator.animatedValue as Int
+            val layoutParams: ViewGroup.LayoutParams = textLayoutParams
+            layoutParams.width = value
+            thisText.layoutParams = layoutParams
+        }
+        doOnEnd {
+            thisText.text = text
+            thisText.measure(0,0)
+            ValueAnimator.ofInt(0, thisText.measuredWidth).apply {
+                addUpdateListener { valueAnimator ->
+                    val value = valueAnimator.animatedValue as Int
+                    val layoutParams: ViewGroup.LayoutParams = textLayoutParams
+                    layoutParams.width = value
+                    thisText.layoutParams = layoutParams
+                }
+                duration = animDuration
+                interpolator = AccelerateDecelerateInterpolator()
+            }.start()
+        }
+        duration = animDuration
+        interpolator = AccelerateDecelerateInterpolator()
+    }.start()
+}
 
 

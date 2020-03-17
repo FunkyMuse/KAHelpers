@@ -29,6 +29,42 @@ fun createRandomImageUrl(): String {
     )
 }
 
+fun createRandomImageUrl(width: Int, height: Int): String {
+
+    val landscape = randomBoolean()
+    val endpoint = randomBoolean()
+
+    return format(
+            if (endpoint)
+                "https://lorempixel.com/{0}/{1}/"
+            else
+                "https://picsum.photos/{0}/{1}/",
+            if (landscape) width else height, if (landscape) height else width
+    )
+}
+
+fun createRandomImageUrl(width: Int, height: Int, isLandscape: Boolean): String {
+    val endpoint = randomBoolean()
+    return format(
+            if (endpoint)
+                "https://lorempixel.com/{0}/{1}/"
+            else
+                "https://picsum.photos/{0}/{1}/",
+            if (isLandscape) width else height, if (isLandscape) height else width
+    )
+}
+
+fun createRandomImageUrl(width: Int, height: Int, isLandscape: Boolean, endpoint: Boolean = true): String {
+    return format(
+            if (endpoint)
+                "https://lorempixel.com/{0}/{1}/"
+            else
+                "https://picsum.photos/{0}/{1}/",
+            if (isLandscape) width else height, if (isLandscape) height else width
+    )
+}
+
+
 fun generateRandomColorDrawable(alpha: Int = 255, red: Int = 255, green: Int = 255, blue: Int = 255): ColorDrawable = ColorDrawable(generateRandomColor(alpha, red, green, blue))
 
 fun generateRandomColor(alpha: Int = 255, red: Int = 255, green: Int = 255, blue: Int = 255): Int {
