@@ -41,7 +41,7 @@ fun Boolean?.nullAsFalse(): Boolean {
 }
 
 fun Boolean?.nullAsTrue(): Boolean {
-    return this ?: false
+    return this ?: true
 }
 
 
