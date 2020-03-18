@@ -4,6 +4,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
 import com.crazylegend.kotlinextensions.rx.newThreadScheduler
+import com.jakewharton.rxbinding3.material.dismisses
 import com.jakewharton.rxbinding3.view.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -36,14 +37,14 @@ fun View.focusChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.M
 
 
 fun View.layoutChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                             callback: (focus: Unit) -> Unit = {}) {
+                             callback: (focus: View) -> Unit = {}) {
     val changes = layoutChanges()
 
     changes.debounce(debounce, debounceTime)
             .subscribeOn(newThreadScheduler)
             .observeOn(mainThreadScheduler)
             .subscribe({
-                callback(it)
+                callback(this)
             }, {
                 it.printStackTrace()
             }).addTo(compositeDisposable)
@@ -80,3 +81,31 @@ fun View.scrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.
 
 
 
+fun View.systemUiVisibilityChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
+                             callback: (systemUiVisibilityChanges: Int) -> Unit = {}) {
+    val changes = systemUiVisibilityChanges()
+    changes.debounce(debounce, debounceTime)
+            .subscribeOn(newThreadScheduler)
+            .observeOn(mainThreadScheduler)
+            .subscribe({
+                callback(it)
+            }, {
+                it.printStackTrace()
+            }).addTo(compositeDisposable)
+}
+
+
+
+fun View.dismissChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
+                            callback: (state: View) -> Unit = {}) {
+
+    val changes = dismisses()
+    changes.debounce(debounce, debounceTime)
+            .subscribeOn(newThreadScheduler)
+            .observeOn(mainThreadScheduler)
+            .subscribe({
+                callback(it)
+            }, {
+                it.printStackTrace()
+            }).addTo(compositeDisposable)
+}
