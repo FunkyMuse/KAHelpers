@@ -78,6 +78,36 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateVertic
     return adapter
 }
 
+
+/**
+ * lazily [generateVerticalAdapter]
+ */
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.verticalAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): Lazy<AbstractListAdapter<T, VH>> = lazy {
+     generateVerticalAdapter(layout, viewHolder, areItemsTheSameCallback, areContentsTheSameCallback, binder)
+}
+
+
+/**
+ * lazily [generateRecycler]
+ */
+inline fun <reified T, VH : RecyclerView.ViewHolder> recyclerAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): Lazy<AbstractListAdapter<T, VH>> = lazy {
+     generateRecycler(layout, viewHolder, areItemsTheSameCallback, areContentsTheSameCallback, binder)
+}
+
+
+/**
+ * same as the other but this initializes the recycler view with has fixed size [generateVerticalAdapter]
+ */
 inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateVerticalAdapter(
         layout: Int,
         viewHolder: Class<VH>,
@@ -96,6 +126,20 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateVertic
     }
     initRecyclerViewAdapter(adapter, RecyclerView.VERTICAL, hasFixedSize)
     return adapter
+}
+
+
+/**
+ * lazily [generateVerticalAdapter]
+ */
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.verticalAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        hasFixedSize: Boolean = false,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): Lazy<AbstractListAdapter<T, VH>> = lazy {
+    generateVerticalAdapter(layout, viewHolder, hasFixedSize, areItemsTheSameCallback, areContentsTheSameCallback, binder)
 }
 
 
@@ -136,6 +180,20 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateHorizo
     return adapter
 }
 
+/**
+ * lazily [generateHorizontalAdapter]
+ */
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.horizontalAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): Lazy<AbstractListAdapter<T, VH>> = lazy {
+    generateHorizontalAdapter(layout, viewHolder, areItemsTheSameCallback, areContentsTheSameCallback, binder)
+}
+
+
+
 
 inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateHorizontalAdapter(
         layout: Int,
@@ -155,6 +213,16 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateHorizo
     }
     initRecyclerViewAdapter(adapter, RecyclerView.HORIZONTAL, hasFixedSize)
     return adapter
+}
+
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.horizontalAdapter(
+        layout: Int,
+        viewHolder: Class<VH>,
+        hasFixedSize:Boolean = false,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): Lazy<AbstractListAdapter<T, VH>> = lazy {
+    generateHorizontalAdapter(layout, viewHolder, hasFixedSize, areItemsTheSameCallback, areContentsTheSameCallback, binder)
 }
 
 
@@ -192,4 +260,17 @@ inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.generateAdapte
     return adapter
 }
 
+
+/**
+ * [generateAdapter] but lazily
+ */
+inline fun <reified T, VH : RecyclerView.ViewHolder> RecyclerView.adapter(
+        layoutManager: RecyclerView.LayoutManager, fixedSize: Boolean = false,
+        layout: Int,
+        viewHolder: Class<VH>,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int) -> Unit): Lazy<AbstractListAdapter<T, VH>> = lazy {
+   generateAdapter(layoutManager, fixedSize, layout, viewHolder, areItemsTheSameCallback, areContentsTheSameCallback, binder)
+}
 
