@@ -6,7 +6,6 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import java.lang.reflect.Constructor
 
 
 /**
@@ -22,7 +21,7 @@ class ParametrizedAVMSavedStateFactory(private val application: Application,
 
     override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
         val type = param::class.javaPrimitiveType ?: param::class.java
-        val constructor: Constructor<T> = modelClass.getDeclaredConstructor(application::class.java, handle::class.java, type)
+        val constructor= modelClass.getDeclaredConstructor(application::class.java, handle::class.java, type)
         return constructor.newInstance(application, handle, param)
     }
 }
