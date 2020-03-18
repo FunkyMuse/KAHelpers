@@ -35,6 +35,9 @@ abstract class AbstractRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(private 
         }
     }
 
+    /**
+     * keep the view holder's constructor with { public <init>(...); }
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = setViewHolder(parent.inflate(getLayout))
 
 

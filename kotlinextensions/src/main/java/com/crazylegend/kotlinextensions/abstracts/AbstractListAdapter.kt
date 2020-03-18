@@ -46,7 +46,7 @@ abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
 
     /**
      * Use proguard rule as the following
-    -keep public class mypackagename.ViewHolder {<methods>;}
+    -keep public class mypackagename.ViewHolder { public <init>(...); }
      * or annotate it with the @Keep method from androidX
      * @param parent ViewGroup
      * @param viewType Int
