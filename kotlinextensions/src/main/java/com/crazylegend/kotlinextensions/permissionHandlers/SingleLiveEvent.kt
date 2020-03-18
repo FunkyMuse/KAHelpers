@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.permissionHandlers
 
-import android.support.annotation.MainThread
 import android.util.Log
+import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer

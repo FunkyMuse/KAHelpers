@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.NonNull
+
 import kotlin.math.abs
 
 
@@ -17,14 +17,14 @@ abstract class FlingGestureHandler @JvmOverloads constructor(
         private val velocityThreshold: Int = 100
 ) : View.OnTouchListener {
 
-    @NonNull
+
     private val gestureDetector: GestureDetector
 
     init {
         gestureDetector = GestureDetector(activity, GestureListener())
     }
 
-    override fun onTouch(v: View, @NonNull event: MotionEvent): Boolean {
+    override fun onTouch(v: View,  event: MotionEvent): Boolean {
         return !gestureDetector.onTouchEvent(event)
     }
 
@@ -39,7 +39,7 @@ abstract class FlingGestureHandler @JvmOverloads constructor(
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
-                @NonNull e1: MotionEvent, @NonNull e2: MotionEvent, velocityX: Float,
+                 e1: MotionEvent,  e2: MotionEvent, velocityX: Float,
                 velocityY: Float
         ): Boolean {
             if (e1.x - e2.x > minDistance && abs(velocityX) > velocityThreshold) {

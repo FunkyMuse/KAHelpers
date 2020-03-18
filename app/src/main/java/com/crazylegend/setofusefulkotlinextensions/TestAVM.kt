@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveData
+import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
@@ -20,7 +21,7 @@ import retrofit2.create
  * Template created by Hristijan to live long and prosper.
  */
 
-class TestAVM(application: Application) : AndroidViewModel(application) {
+class TestAVM(application: Application, testModel: TestModel, key:Int, string: String) : AndroidViewModel(application) {
 
     private val postsData: MediatorLiveData<RetrofitResult<List<TestModel>>> = MediatorLiveData()
     val posts: LiveData<RetrofitResult<List<TestModel>>> = postsData
@@ -31,6 +32,9 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
     }
 
     init {
+        debug("KEY $testModel")
+        debug("KEY $key")
+        debug("KEY $string")
         getposts()
     }
 

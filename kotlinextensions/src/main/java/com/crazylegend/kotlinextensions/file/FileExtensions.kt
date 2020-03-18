@@ -12,7 +12,7 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
-import androidx.annotation.NonNull
+
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
@@ -144,7 +144,7 @@ fun Context.deleteCache() {
         if (dir != null && dir.isDirectory) {
             deleteDir(dir)
         }
-    } catch (@NonNull e: Exception) {
+    } catch ( e: Exception) {
     }
 
 }

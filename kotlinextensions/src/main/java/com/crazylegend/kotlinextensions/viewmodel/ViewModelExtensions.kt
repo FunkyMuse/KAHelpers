@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -9,11 +11,15 @@ import androidx.lifecycle.ViewModelProvider
  */
 
 
-inline fun <T> viewModelFactory() {
-    TODO()
-    val factory = object : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            TODO("Not yet implemented")
-        }
-    }
+inline fun <reified T : ViewModel> viewModelFactory(crossinline viewModel: () -> T) = object : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T = viewModel() as T
 }
+
+
+inline fun <reified T : AndroidViewModel> androidViewModelFactory(application: Application, crossinline viewModel: () -> T) = object :
+        ViewModelProvider.AndroidViewModelFactory(application) {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T = viewModel() as T
+}
+

@@ -333,21 +333,21 @@ fun Context.isFragmentWithTagVisible(tag: String): Boolean {
     }
 }
 
-fun AppCompatActivity.addFragment(@NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.addFragment( fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .add(layoutId, fragment, tag)
             .commit()
 }
 
-fun Fragment.addFragment(@NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.addFragment( fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     parentFragmentManager
             .beginTransaction()
             .add(layoutId, fragment, tag)
             .commit()
 }
 
-fun Context.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Context.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
             .supportFragmentManager
             .beginTransaction()
@@ -358,7 +358,7 @@ fun Context.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, 
     }
 }
 
-fun Context.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Context.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
             .supportFragmentManager
             .beginTransaction()
@@ -371,7 +371,7 @@ fun Context.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragmen
     }
 }
 
-fun Context.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Context.addFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
             .supportFragmentManager
             .beginTransaction()
@@ -402,7 +402,7 @@ fun Fragment.isFragmentWithTagVisible(tag: String): Boolean {
     }
 }
 
-fun Fragment.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
@@ -414,7 +414,7 @@ fun Fragment.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment,
     }
 }
 
-fun Fragment.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
@@ -428,7 +428,7 @@ fun Fragment.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragme
     }
 }
 
-fun Fragment.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.addFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
@@ -457,7 +457,7 @@ fun AppCompatActivity.isFragmentWithTagVisible(tag: String): Boolean {
     }
 }
 
-fun AppCompatActivity.replaceFragment(@StringRes title: Int, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .replace(layoutId, fragment, tag)
@@ -467,7 +467,7 @@ fun AppCompatActivity.replaceFragment(@StringRes title: Int, @NonNull fragment: 
     }
 }
 
-fun AppCompatActivity.replaceFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .replace(layoutId, fragment, tag)
@@ -479,7 +479,7 @@ fun AppCompatActivity.replaceFragment(@Nullable title: String?, @NonNull fragmen
     }
 }
 
-fun AppCompatActivity.addFragment(@Nullable title: String?, @NonNull fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.addFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .add(layoutId, fragment, tag)

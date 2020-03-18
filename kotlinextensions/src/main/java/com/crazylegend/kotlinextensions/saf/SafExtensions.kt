@@ -3,8 +3,10 @@ package com.crazylegend.kotlinextensions.saf
 import android.Manifest.permission.ACCESS_MEDIA_LOCATION
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
@@ -23,6 +25,7 @@ import java.io.*
  * @param uri Uri
  * @param latNLongCallBack Function1<[@kotlin.ParameterName] DoubleArray, Unit>
  */
+@RequiresApi(Build.VERSION_CODES.Q)
 @RequiresPermission(ACCESS_MEDIA_LOCATION)
 fun Context.getLocationFromImages(uri: Uri, latNLongCallBack: (latNLong: DoubleArray) -> Unit = { _ -> }) {
     val photoUri = MediaStore.setRequireOriginal(uri)

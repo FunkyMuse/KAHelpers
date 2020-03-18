@@ -1,6 +1,6 @@
 package com.crazylegend.kotlinextensions.misc
 
-import android.support.annotation.NonNull
+
 
 
 /**
@@ -21,6 +21,6 @@ fun safeSleep(millisecond: Int) {
 
 }
 
-fun startNewThread(@NonNull runnable: Runnable) {
+fun startNewThread( runnable: Runnable) {
     Thread(runnable).start()
 }

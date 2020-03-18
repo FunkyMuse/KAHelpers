@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
-import androidx.annotation.NonNull
+
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.tryOrIgnore
 
@@ -26,7 +26,7 @@ fun Bitmap.flipVertically(): Bitmap {
     return createBitmapWithMatrix(this, matrix)
 }
 
-fun createBitmapWithMatrix(@NonNull src: Bitmap, @NonNull matrix: Matrix): Bitmap {
+fun createBitmapWithMatrix( src: Bitmap,  matrix: Matrix): Bitmap {
     val dst = Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
     if (src != dst) {
         src.recycle()

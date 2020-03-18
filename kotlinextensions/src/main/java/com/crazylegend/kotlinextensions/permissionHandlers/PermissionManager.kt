@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.permissionHandlers
 
 import android.content.Context
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
