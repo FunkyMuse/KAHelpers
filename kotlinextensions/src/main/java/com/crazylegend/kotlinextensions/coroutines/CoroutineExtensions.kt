@@ -31,6 +31,10 @@ suspend inline fun <T, R> T.onDefault(crossinline block: (T) -> R): R {
     return withContext(Dispatchers.Default) { this@onDefault.let(block) }
 }
 
+suspend inline fun <T, R> T.nonCancellable(crossinline block: (T) -> R): R {
+    return withContext(NonCancellable) { this@nonCancellable.let(block) }
+}
+
 suspend inline fun <T> onDefault(crossinline block: CoroutineScope.() -> T): T {
     return withContext(Dispatchers.Default) { block.invoke(this@withContext) }
 }
@@ -95,6 +99,12 @@ suspend fun <T> withDefaultContext(block: suspend () -> T): T {
 
 suspend fun <T> withUnconfinedContext(block: suspend () -> T): T {
     return withContext(Dispatchers.Unconfined) {
+        block()
+    }
+}
+
+suspend fun <T> withNonCancellableContext(block: suspend () -> T): T {
+    return withContext(NonCancellable) {
         block()
     }
 }
@@ -405,6 +415,19 @@ fun AndroidViewModel.viewModelUnconfinedCoroutine(action: suspend (scope: Corout
     }
 }
 
+/**
+ *
+ * @receiver ViewModel
+ * @param action SuspendFunction0<Unit>
+ * @return Job
+ */
+fun AndroidViewModel.viewModelNonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return viewModelScope.launch(NonCancellable) {
+        action(this)
+    }
+}
+
+
 
 fun Fragment.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(ioDispatcher) {
@@ -430,6 +453,13 @@ fun Fragment.defaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = 
     }
 }
 
+fun Fragment.nonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return lifecycleScope.launch(NonCancellable) {
+        action(this)
+    }
+}
+
+
 
 fun AppCompatActivity.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(ioDispatcher) {
@@ -454,6 +484,13 @@ fun AppCompatActivity.defaultCoroutine(action: suspend (scope: CoroutineScope) -
         action(this)
     }
 }
+
+fun AppCompatActivity.nonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return lifecycleScope.launch(NonCancellable) {
+        action(this)
+    }
+}
+
 
 
 /**
