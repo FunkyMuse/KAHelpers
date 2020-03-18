@@ -46,7 +46,7 @@ fun Context.putOnNormal() {
 }
 
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
-fun Context.MuteAudio() {
+fun Context.muteAudio() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0)
@@ -64,7 +64,7 @@ fun Context.MuteAudio() {
 }
 
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
-fun Context.UnMuteAudio() {
+fun Context.unMuteAudio() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         audioManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0)
@@ -83,7 +83,7 @@ fun Context.UnMuteAudio() {
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 @RequiresPermission(allOf = [ACCESS_NOTIFICATION_POLICY])
-fun Context.SetToSilent() {
+fun Context.setToSilent() {
     val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted) {
