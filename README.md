@@ -92,8 +92,10 @@ dependencies {
 
 ```gradle
 kapt.incremental.apt=true
-org.gradle.parallel=true
+org.gradle.parallel=true // if you're modularizing your projects
 org.gradle.caching=true
+room.incremental = true // if you're using room
+
 ```
 Informational
 1. Proguard configs 
