@@ -67,11 +67,11 @@ dependencies {
     buildTypes {
         debug {
         // useful if you're using crashlytics
-	**In your manifest file
+	/**In your manifest file
 	 <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${crashlytics}" />
-	**
+	*/
           ext.enableCrashlytics = false
           ext.alwaysUpdateBuildId = false
           firebaseCrashlytics {
