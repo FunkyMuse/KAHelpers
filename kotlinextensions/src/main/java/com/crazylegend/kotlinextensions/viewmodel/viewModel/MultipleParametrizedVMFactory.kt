@@ -11,13 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 class MultipleParametrizedVMFactory(private val constructorParams: Array<out Any>) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return when (constructorParams.size) {
-            0 -> modelClass.newInstance()
-            else -> {
-                val parameterClasses=
-                        constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
-                modelClass.getConstructor(*parameterClasses).newInstance(*constructorParams)
-            }
-        }
+        val parameterClasses=
+                constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
+        return modelClass.getConstructor(*parameterClasses).newInstance(*constructorParams)
     }
 }

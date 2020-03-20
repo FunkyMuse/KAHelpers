@@ -13,14 +13,7 @@ class MultipleParametrizedAVMFactory(private val constructorParams: Array<out An
                                      private val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return when (constructorParams.size) {
-            0 -> modelClass.newInstance()
-            1 -> modelClass.getConstructor(application::class.java).newInstance(application)
-            else -> {
-                val parameterClasses =
-                        constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
-                modelClass.getConstructor(application::class.java, *parameterClasses).newInstance(application, *constructorParams)
-            }
-        }
+        val parameterClasses = constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
+        return modelClass.getConstructor(application::class.java, *parameterClasses).newInstance(application, *constructorParams)
     }
 }
