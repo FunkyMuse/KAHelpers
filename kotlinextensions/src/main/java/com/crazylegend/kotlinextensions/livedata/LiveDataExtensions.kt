@@ -105,6 +105,11 @@ inline fun <reified T : AndroidViewModel> Fragment.fragmentProviderAVM(param: An
     return ViewModelProvider(this, ParametrizedAVMFactory(requireActivity().application, param)).get()
 }
 
+inline fun <reified T : AndroidViewModel> Fragment.fragmentProviderAVM(constructorParams: Array<out Any> = emptyArray()): T {
+    return ViewModelProvider(this, MultipleParametrizedAVMFactory(constructorParams, requireActivity().application)).get()
+}
+
+
 inline fun <reified T : AndroidViewModel> Fragment.fragmentProviderAVM(constructorParams: Array<out Any> = emptyArray(),
                                                                               defaultArgs: Bundle? = null): T {
     return ViewModelProvider(this, MultipleParametrizedAVMSavedStateFactory(constructorParams, requireActivity().application, this, defaultArgs)).get()

@@ -97,7 +97,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
 
     //rx
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -139,7 +139,7 @@ dependencies {
 
     //core
     implementation 'androidx.preference:preference:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.2'
+    implementation 'androidx.fragment:fragment-ktx:1.2.3'
     implementation 'androidx.activity:activity-ktx:1.1.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.core:core-ktx:1.2.0'
