@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 class ParametrizedAVMFactory(private val application: Application, private val param: Any) : ViewModelProvider.AndroidViewModelFactory(application) {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val type = param::class.javaPrimitiveType ?: param::class.java
-        val constructor = modelClass.getDeclaredConstructor(application::class.java, type)
+        val constructor = modelClass.getDeclaredConstructor(Application::class.java, type)
         return constructor.newInstance(application, param)
     }
 }

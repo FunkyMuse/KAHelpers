@@ -14,6 +14,6 @@ class MultipleParametrizedAVMFactory(private val constructorParams: Array<out An
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val parameterClasses = constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
-        return modelClass.getConstructor(application::class.java, *parameterClasses).newInstance(application, *constructorParams)
+        return modelClass.getConstructor(Application::class.java, *parameterClasses).newInstance(application, *constructorParams)
     }
 }
