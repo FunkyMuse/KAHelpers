@@ -4,6 +4,7 @@ package com.crazylegend.setofusefulkotlinextensions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.transition.TransitionManager
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
@@ -11,6 +12,7 @@ import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.recyclerview.*
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.kotlinextensions.views.toggleVisibility
@@ -64,10 +66,14 @@ class MainAbstractActivity : AppCompatActivity() {
         }
 
 
+        val stagger = StaggerTransition()
+
         testAVM.posts.observe(this, Observer {
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
+                        TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
+
                         generatedAdapter.submitList(it.value)
 
                         val wrappedList = it.value.toMutableList()

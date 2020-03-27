@@ -2,4 +2,12 @@
 <resources>
     <dimen name="default_badge_border_size">15dp</dimen>
     <dimen name="default_badge_size">15dp</dimen>
+
+
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="pick_up_elevation">8dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
 </resources>

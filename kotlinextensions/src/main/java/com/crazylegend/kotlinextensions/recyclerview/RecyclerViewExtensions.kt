@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.recyclerview
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
@@ -12,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DimenRes
+import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.*
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
@@ -578,4 +580,47 @@ fun RecyclerView.getSnapPosition(snapHelper: SnapHelper): Int {
     val layoutManager = layoutManager ?: return RecyclerView.NO_POSITION
     val snapView = snapHelper.findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
     return layoutManager.getPosition(snapView)
+}
+
+/**
+ * Usage
+
+override fun getItemCount(): Int {
+return Int.MAX_VALUE
+} // then update it when the correct size comes
+
+override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+val item: Item? = getItem(position)
+if (item == null) {
+holder.showPlaceholder()
+} else {
+holder.bind(item)
+}
+}
+
+val animation = shimmerAnimation()
+
+fun showPlaceholder() {
+// Shift the timing of fade-in/out for each item by its adapter position. We use the
+// elapsed real time to make this independent from the timing of method call.
+animation.currentPlayTime =
+(SystemClock.elapsedRealtime() - adapterPosition * 30L) % FADE_DURATION
+animation.start()
+// Show the placeholder UI.
+image.setImageResource(R.drawable.image_placeholder)
+name.text = null
+name.setBackgroundResource(R.drawable.text_placeholder)
+}
+
+ whenever you bind your items make sure you call
+ animation.end()
+
+ */
+fun RecyclerView.ViewHolder.shimmerAnimation(FADE_DURATION:Long = 1000L): ObjectAnimator {
+    return ObjectAnimator.ofFloat(itemView, View.ALPHA, 1f, 0f, 1f).apply {
+        repeatCount = ObjectAnimator.INFINITE
+        duration = FADE_DURATION
+        // Reset the alpha on animation end.
+        doOnEnd { itemView.alpha = 1f }
+    }
 }
