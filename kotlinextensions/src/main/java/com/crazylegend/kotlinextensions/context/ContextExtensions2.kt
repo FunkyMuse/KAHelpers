@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Spanned
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ import androidx.core.app.ActivityManagerCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.crazylegend.kotlinextensions.resources.toHtmlSpan
 import java.io.File
 
 
@@ -474,3 +476,10 @@ inline fun <reified T> Context.launchWithCustomAnimation(enterResId: Int,
     startActivity(intent, activityOptions.toBundle())
 }
 
+fun Context.getHtmlSpannedString(@StringRes id: Int): Spanned = getString(id).toHtmlSpan()
+
+fun Context.getHtmlSpannedString(@StringRes id: Int, vararg formatArgs: Any): Spanned = getString(id, *formatArgs).toHtmlSpan()
+
+fun Context.getQuantityHtmlSpannedString(@PluralsRes id: Int, quantity: Int): Spanned = resources.getQuantityString(id, quantity).toHtmlSpan()
+
+fun Context.getQuantityHtmlSpannedString(@PluralsRes id: Int, quantity: Int, vararg formatArgs: Any): Spanned = resources.getQuantityString(id, quantity, *formatArgs).toHtmlSpan()

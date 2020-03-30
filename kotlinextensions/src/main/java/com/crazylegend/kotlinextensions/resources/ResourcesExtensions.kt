@@ -2,8 +2,13 @@ package com.crazylegend.kotlinextensions.resources
 
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.util.TypedValue
 import androidx.annotation.DimenRes
+import androidx.annotation.PluralsRes
+import androidx.annotation.StringRes
 import java.io.InputStream
 
 
@@ -31,3 +36,18 @@ fun Context.getRaw(rawId: Int, inputStream: InputStream.() -> Unit) = resources.
 
 
 fun Context.getTypedArray(typedArrayID: Int) = resources.obtainTypedArray(typedArrayID)
+
+fun Resources.getHtmlSpannedString(@StringRes id: Int): Spanned = getString(id).toHtmlSpan()
+
+fun Resources.getHtmlSpannedString(@StringRes id: Int, vararg formatArgs: Any): Spanned = getString(id, *formatArgs).toHtmlSpan()
+
+fun Resources.getQuantityHtmlSpannedString(@PluralsRes id: Int, quantity: Int): Spanned = getQuantityString(id, quantity).toHtmlSpan()
+
+fun Resources.getQuantityHtmlSpannedString(@PluralsRes id: Int, quantity: Int, vararg formatArgs: Any): Spanned = getQuantityString(id, quantity, *formatArgs).toHtmlSpan()
+
+@Suppress("DEPRECATION")
+fun String.toHtmlSpan(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
+} else {
+    Html.fromHtml(this)
+}
