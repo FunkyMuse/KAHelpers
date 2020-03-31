@@ -882,8 +882,8 @@ inline fun View.setOnSingleTapListener(crossinline onSingleTap: (v: View, event:
     }
 }
 
-fun BottomSheetBehavior<*>.onSlide(onSlide: (bottomSheet: View, slideOffset: Float) -> Unit = { _, _ -> }) {
-    setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+fun BottomSheetBehavior<*>.onSlide(onSlide: (bottomSheet: View, slideOffset: Float) -> Unit = { _, _ -> }): BottomSheetBehavior.BottomSheetCallback {
+    val listener = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             onSlide(bottomSheet, slideOffset)
         }
@@ -891,11 +891,13 @@ fun BottomSheetBehavior<*>.onSlide(onSlide: (bottomSheet: View, slideOffset: Flo
         override fun onStateChanged(bottomSheet: View, newState: Int) {
         }
 
-    })
+    }
+    addBottomSheetCallback(listener)
+    return listener
 }
 
-fun BottomSheetBehavior<*>.onStateChanged(onStateChanged: (bottomSheet: View, newState: Int) -> Unit = { _, _ -> }) {
-    setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+fun BottomSheetBehavior<*>.onStateChanged(onStateChanged: (bottomSheet: View, newState: Int) -> Unit = { _, _ -> }): BottomSheetBehavior.BottomSheetCallback {
+    val listener = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
         }
 
@@ -903,7 +905,9 @@ fun BottomSheetBehavior<*>.onStateChanged(onStateChanged: (bottomSheet: View, ne
             onStateChanged(bottomSheet, newState)
         }
 
-    })
+    }
+    addBottomSheetCallback(listener)
+    return listener
 }
 
 fun View.getLocationOnScreen() = IntArray(2).apply { getLocationOnScreen(this) }
