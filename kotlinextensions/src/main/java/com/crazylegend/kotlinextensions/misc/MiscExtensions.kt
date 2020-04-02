@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.misc
 
 import androidx.fragment.app.Fragment
+import java.util.*
 
 
 /**
@@ -11,3 +12,7 @@ import androidx.fragment.app.Fragment
  * Creates an [AutoClearedValue] associated with this fragment.
  */
 fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
+
+
+fun getCountryCode(countryName: String) =
+        Locale.getISOCountries().find { Locale("", it).displayCountry == countryName }
