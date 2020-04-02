@@ -4,19 +4,32 @@ package com.crazylegend.setofusefulkotlinextensions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.Transition
+import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.log.debug
-import com.crazylegend.kotlinextensions.recyclerview.*
+import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
+import com.crazylegend.kotlinextensions.recyclerview.addDrag
+import com.crazylegend.kotlinextensions.recyclerview.addSwipe
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
+import com.crazylegend.kotlinextensions.recyclerview.generateVerticalAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.runDelayed
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
+import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
+import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
+import com.crazylegend.kotlinextensions.transition.utils.plusAssign
+import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
 import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.kotlinextensions.views.toggleVisibility
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolder
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 
@@ -24,7 +37,9 @@ class MainAbstractActivity : AppCompatActivity() {
 
     private val testAVM by activityAVM<TestAVM>(arrayOf(TestModel("", 1, "", 2), 1, ""))
 
-
+    private val testPlaceHolderAdapter by lazy {
+        TestPlaceHolderAdapter()
+    }
     private val generatedAdapter by lazy {
         activityMainBinding.recycler.generateVerticalAdapter<TestModel, TestViewHolder>(
                 layout = R.layout.recycler_view_item,
@@ -33,13 +48,22 @@ class MainAbstractActivity : AppCompatActivity() {
         }
     }
 
-    private val adapter by recyclerAdapter<TestModel, TestViewHolder>(
-            layout = R.layout.recycler_view_item,
-            viewHolder = TestViewHolder::class.java) { item, holder, _ ->
-        holder.bind(item)
-    }
-
     private val activityMainBinding by viewBinding(ActivityMainBinding::inflate)
+    private var savedItemAnimator: RecyclerView.ItemAnimator? = null
+
+    private val fade = transitionSequential {
+        duration = LARGE_EXPAND_DURATION
+        interpolator = FAST_OUT_SLOW_IN
+        this += Fade(Fade.OUT)
+        this += Fade(Fade.IN)
+        addListener(object : TransitionListenerAdapter() {
+            override fun onTransitionEnd(transition: Transition) {
+                if (savedItemAnimator != null) {
+                    activityMainBinding.recycler.itemAnimator = savedItemAnimator
+                }
+            }
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,15 +96,22 @@ class MainAbstractActivity : AppCompatActivity() {
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
-                        TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
 
-                        generatedAdapter.submitList(it.value)
-
-                        val wrappedList = it.value.toMutableList()
-                        activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
-
+                        runDelayed(5000){ // simulating delay scenarion, this delay shouldn't be written
+                            TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
+                            if (activityMainBinding.recycler.adapter != generatedAdapter) {
+                                activityMainBinding.recycler.adapter = generatedAdapter
+                                savedItemAnimator = activityMainBinding.recycler.itemAnimator
+                                activityMainBinding.recycler.itemAnimator = null
+                                TransitionManager.beginDelayedTransition(activityMainBinding.recycler, fade)
+                            }
+                            generatedAdapter.submitList(it.value)
+                            val wrappedList = it.value.toMutableList()
+                            activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
+                        }
                     }
                     RetrofitResult.Loading -> {
+                        activityMainBinding.recycler.adapter = testPlaceHolderAdapter
                         debug(it.toString())
                     }
                     RetrofitResult.EmptyData -> {
