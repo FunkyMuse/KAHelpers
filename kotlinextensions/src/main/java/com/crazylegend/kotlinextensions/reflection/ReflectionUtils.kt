@@ -548,6 +548,21 @@ inline fun <reified T> T.setProperty(property: String, value: Any?) {
     }
 }
 
+/**
+ * Traverses current class and all the super classes (parents)
+ */
+fun getAllFieldsList(cls: Class<*>?): List<Field?>? {
+    val allFields: ArrayList<Field?> = ArrayList()
+    var currentClass = cls
+    while (currentClass != null) {
+        val declaredFields = currentClass.declaredFields
+        allFields.addAll(declaredFields)
+        currentClass = currentClass.superclass
+    }
+    return allFields
+}
+
+
 inline fun <reified T> T.callPrivateFunction(name: String, vararg args: Any?): Any? =
         T::class
                 .declaredMemberFunctions
