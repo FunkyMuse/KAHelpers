@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.reflection
 
+import android.annotation.SuppressLint
 import com.crazylegend.kotlinextensions.isNull
 import com.crazylegend.kotlinextensions.tryOrIgnore
 import com.crazylegend.kotlinextensions.tryOrNull
@@ -110,20 +111,19 @@ fun Any.getDeclaredField(fieldName: String): Field? {
 }
 
 
+@SuppressLint("DefaultLocale")
 fun Any.setFieldValue(fieldName: String, value: Any) {
-
     val field = getDeclaredField(fieldName)
-
     field?.isAccessible = true
-
     try {
-        field?.set(this, value)
+        if (field?.name?.toLowerCase() == fieldName.toLowerCase()){
+            field.set(this, value)
+        }
     } catch (e: IllegalArgumentException) {
         e.printStackTrace()
     } catch (e: IllegalAccessException) {
         e.printStackTrace()
     }
-
 }
 
 
@@ -323,15 +323,6 @@ inline fun <reified T : Any> T.setFieldAccessible(fieldName: String) {
     }
 }
 
-
-/**
- * Should call setFieldAccessible first
- */
-inline fun <reified T : Any> T.setFieldValue(fieldName: String, value: String) {
-    tryOrNull {
-        this::class.java.getField(fieldName).set(this, value)
-    }
-}
 
 
 inline fun <reified T : Any> T.getGenericType(fieldName: String): Type? {
