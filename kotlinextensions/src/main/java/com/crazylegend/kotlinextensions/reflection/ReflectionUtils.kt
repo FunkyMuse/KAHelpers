@@ -111,14 +111,11 @@ fun Any.getDeclaredField(fieldName: String): Field? {
 }
 
 
-@SuppressLint("DefaultLocale")
 fun Any.setFieldValue(fieldName: String, value: Any) {
     val field = getDeclaredField(fieldName)
     field?.isAccessible = true
     try {
-        if (field?.name?.toLowerCase() == fieldName.toLowerCase()){
-            field.set(this, value)
-        }
+        field?.set(this, value)
     } catch (e: IllegalArgumentException) {
         e.printStackTrace()
     } catch (e: IllegalAccessException) {
@@ -126,20 +123,25 @@ fun Any.setFieldValue(fieldName: String, value: Any) {
     }
 }
 
+/**
+ * Setting the field values by their names ignoring caps, lower cases and such, in case of API shit show
+ * when mapping is needed
+ */
+@SuppressLint("DefaultLocale")
+fun Any.setFieldPropertyValue(fieldName: String, fieldValue: Any) {
+    val field = this::class.memberProperties.find { it.name.toLowerCase() == fieldName.toLowerCase() }?.name //finding the property name from a kotlin class
+    setFieldValue(field ?: "", fieldValue)
+}
+
 
 fun Any.getFieldValue(fieldName: String): Any? {
-
     val field = getDeclaredField(fieldName)
-
     field?.isAccessible = true
-
     try {
         return field?.get(this)
-
     } catch (e: Exception) {
         e.printStackTrace()
     }
-
     return null
 }
 
@@ -322,7 +324,6 @@ inline fun <reified T : Any> T.setFieldAccessible(fieldName: String) {
         this::class.java.getField(fieldName).isAccessible = true
     }
 }
-
 
 
 inline fun <reified T : Any> T.getGenericType(fieldName: String): Type? {
