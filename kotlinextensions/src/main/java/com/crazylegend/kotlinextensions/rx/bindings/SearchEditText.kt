@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.leanback.widget.SearchEditText
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.leanback.keyboardDismisses
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.disposables.CompositeDisposable
@@ -20,7 +19,7 @@ fun SearchEditText.keyboardDismissChanges(debounce: Long = 300L, debounceTime: T
 
     val changes = keyboardDismisses()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(this)
@@ -40,7 +39,7 @@ fun SearchEditText.textChanges(debounce: Long = 300L, debounceTime: TimeUnit = T
 
     changes.debounce(debounce, debounceTime)
             .map { it.toString() }
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it.toString())

@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.viewpager2.widget.ViewPager2
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.viewpager2.PageScrollEvent
 import com.jakewharton.rxbinding3.viewpager2.pageScrollEvents
 import com.jakewharton.rxbinding3.viewpager2.pageScrollStateChanges
@@ -20,7 +19,7 @@ fun ViewPager2.scrollStateChanges(debounce: Long = 300L, debounceTime: TimeUnit 
                                   callback: (pageScrollStateChanges: Int) -> Unit = {}) {
     val changes = pageScrollStateChanges()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -39,7 +38,7 @@ fun ViewPager2.pageSelectionsChanges(debounce: Long = 300L, debounceTime: TimeUn
         changes.skipInitialValue()
     }
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -54,7 +53,7 @@ fun ViewPager2.pageScrollChanges(debounce: Long = 300L, debounceTime: TimeUnit =
                                 callback: (viewPagerPageScrollEvent: PageScrollEvent) -> Unit = {}) {
     val changes = pageScrollEvents()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

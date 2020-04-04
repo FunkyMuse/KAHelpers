@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.appcompat.widget.SearchView
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.appcompat.queryTextChanges
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -23,7 +22,6 @@ fun SearchView.textChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeU
 
     changes.debounce(debounce, debounceTime)
             .map { it.toString() }
-            .subscribeOn(newThreadScheduler)
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it.toString())

@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.rx.bindings
 
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding3.material.TabLayoutSelectionEvent
 import com.jakewharton.rxbinding3.material.selectionEvents
@@ -20,7 +19,7 @@ fun TabLayout.selectionChanges(debounce: Long = 300L, debounceTime: TimeUnit = T
     val changes = selections()
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -34,7 +33,7 @@ fun TabLayout.selectionEventChanges(debounce: Long = 300L, debounceTime: TimeUni
     val changes = selectionEvents()
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

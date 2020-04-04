@@ -2,7 +2,9 @@ package com.crazylegend.setofusefulkotlinextensions
 
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
@@ -20,6 +22,8 @@ import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClick
 import com.crazylegend.kotlinextensions.recyclerview.generateVerticalAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.runDelayed
+import com.crazylegend.kotlinextensions.rx.bindings.textChanges
+import com.crazylegend.kotlinextensions.rx.clearAndDispose
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
@@ -32,6 +36,7 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolder
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
+import io.reactivex.disposables.CompositeDisposable
 
 class MainAbstractActivity : AppCompatActivity() {
 
@@ -46,6 +51,11 @@ class MainAbstractActivity : AppCompatActivity() {
                 viewHolder = TestViewHolder::class.java) { item, holder, _ ->
             holder.bind(item)
         }
+    }
+
+
+    private val compositeDisposable by lazy {
+        CompositeDisposable()
     }
 
     private val activityMainBinding by viewBinding(ActivityMainBinding::inflate)
@@ -126,8 +136,37 @@ class MainAbstractActivity : AppCompatActivity() {
                 }.exhaustive
             }
         })
+
+        testAVM.filteredPosts.observe(this, Observer {
+            generatedAdapter.submitList(it)
+        })
     }
 
+    private var searchView: SearchView? = null
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        val searchItem = menu?.findItem(R.id.app_bar_search)
+
+        searchItem?.apply {
+            searchView = this.actionView as SearchView?
+        }
+
+        searchView?.queryHint = "Search by title"
+
+        searchView?.textChanges(debounce = 1000L, compositeDisposable = compositeDisposable){
+            testAVM.filterBy(it)
+        }
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clearAndDispose()
+    }
 
 }
 

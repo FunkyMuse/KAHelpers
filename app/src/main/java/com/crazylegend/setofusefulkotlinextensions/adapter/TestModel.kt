@@ -6,8 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TestModel(
-    var body: String,
-    var id: Int,
-    var title: String,
-    var userId: Int
+    val body: String,
+    val id: Int,
+    val title: String,
+    val userId: Int
 ) : Parcelable

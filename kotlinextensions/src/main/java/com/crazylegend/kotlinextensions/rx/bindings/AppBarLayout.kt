@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.rx.bindings
 
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.google.android.material.appbar.AppBarLayout
 import com.jakewharton.rxbinding3.material.offsetChanges
 import io.reactivex.disposables.CompositeDisposable
@@ -19,7 +18,7 @@ fun AppBarLayout.offsetChanges(debounce: Long = 300L, debounceTime: TimeUnit = T
 
     val changes = offsetChanges()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

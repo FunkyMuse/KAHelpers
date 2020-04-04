@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.drawerlayout.widget.DrawerLayout
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.drawerlayout.drawerOpen
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -23,7 +22,7 @@ fun DrawerLayout.drawerOpenChanges(debounce: Long = 300L, debounceTime: TimeUnit
         changes.skipInitialValue()
     }
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

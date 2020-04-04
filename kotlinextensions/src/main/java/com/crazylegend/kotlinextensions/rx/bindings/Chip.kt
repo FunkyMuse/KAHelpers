@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.rx.bindings
 
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.google.android.material.chip.Chip
 import com.jakewharton.rxbinding3.material.closeIconClicks
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +17,7 @@ fun Chip.closeIconChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUn
 
     val changes = closeIconClicks()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(this)

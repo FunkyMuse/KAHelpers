@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import android.widget.TextView
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -24,7 +23,7 @@ fun TextView.textChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUni
 
     changes.debounce(debounce, debounceTime)
             .map { it.toString() }
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it.toString())

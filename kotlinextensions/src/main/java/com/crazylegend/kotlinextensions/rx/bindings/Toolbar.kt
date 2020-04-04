@@ -4,7 +4,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.appcompat.itemClicks
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import com.jakewharton.rxbinding3.material.dismisses
@@ -23,7 +22,7 @@ fun Toolbar.clickChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUni
 
     val changes = itemClicks()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -37,7 +36,7 @@ fun Toolbar.navigationClickChanges(debounce: Long = 300L, debounceTime: TimeUnit
 
     val changes = navigationClicks()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(this)
@@ -52,7 +51,7 @@ fun Toolbar.dismissChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeU
 
     val changes = dismisses()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

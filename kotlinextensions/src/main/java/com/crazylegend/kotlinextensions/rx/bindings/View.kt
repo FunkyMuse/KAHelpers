@@ -3,7 +3,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 import android.view.MotionEvent
 import android.view.View
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.material.dismisses
 import com.jakewharton.rxbinding3.view.*
 import io.reactivex.disposables.CompositeDisposable
@@ -26,7 +25,7 @@ fun View.focusChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.M
     }
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -41,7 +40,7 @@ fun View.layoutChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.
     val changes = layoutChanges()
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(this)
@@ -56,7 +55,7 @@ fun View.hoverChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.M
     val changes = hovers()
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -70,7 +69,7 @@ fun View.scrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.
                              callback: (viewScrollChangeEvent: ViewScrollChangeEvent) -> Unit = {}) {
     val changes = scrollChangeEvents()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -85,7 +84,7 @@ fun View.systemUiVisibilityChanges(debounce: Long = 300L, debounceTime: TimeUnit
                              callback: (systemUiVisibilityChanges: Int) -> Unit = {}) {
     val changes = systemUiVisibilityChanges()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -101,7 +100,7 @@ fun View.dismissChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit
 
     val changes = dismisses()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

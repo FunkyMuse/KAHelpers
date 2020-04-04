@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.leanback.widget.SearchBar
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.leanback.SearchBarSearchQueryEvent
 import com.jakewharton.rxbinding3.leanback.searchQueryChangeEvents
 import com.jakewharton.rxbinding3.leanback.searchQueryChanges
@@ -21,7 +20,7 @@ fun SearchBar.queryTextChanges(debounce: Long = 300L, debounceTime: TimeUnit = T
     val changes = searchQueryChanges()
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -36,7 +35,7 @@ fun SearchBar.queryEventChanges(debounce: Long = 300L, debounceTime: TimeUnit = 
     val changes = searchQueryChangeEvents()
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

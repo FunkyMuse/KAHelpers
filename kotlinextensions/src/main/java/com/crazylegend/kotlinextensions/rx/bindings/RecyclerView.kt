@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.recyclerview.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -19,7 +18,7 @@ fun RecyclerView.scrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = T
 
     val changes = scrollEvents()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -34,7 +33,7 @@ fun RecyclerView.flingChanges(debounce: Long = 300L, debounceTime: TimeUnit = Ti
 
     val changes = flingEvents()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -48,7 +47,7 @@ fun RecyclerView.childAttachStateChanges(debounce: Long = 300L, debounceTime: Ti
 
     val changes = childAttachStateChangeEvents()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -62,7 +61,7 @@ fun RecyclerView.scrollStateChanges(debounce: Long = 300L, debounceTime: TimeUni
 
     val changes = scrollStateChanges()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -81,7 +80,7 @@ fun RecyclerView.Adapter<*>.dataChanges(debounce: Long = 300L, debounceTime: Tim
         changes.skipInitialValue()
     }
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

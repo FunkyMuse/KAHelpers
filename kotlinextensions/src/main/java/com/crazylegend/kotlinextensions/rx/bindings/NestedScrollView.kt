@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.core.widget.NestedScrollView
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.core.scrollChangeEvents
 import com.jakewharton.rxbinding3.view.ViewScrollChangeEvent
 import io.reactivex.disposables.CompositeDisposable
@@ -19,7 +18,7 @@ fun NestedScrollView.scrollChanges(debounce: Long = 300L, debounceTime: TimeUnit
 
     val changes = scrollChangeEvents()
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)

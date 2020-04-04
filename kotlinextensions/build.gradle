@@ -135,7 +135,7 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.0.1'
 
     //util
-    implementation 'androidx.exifinterface:exifinterface:1.1.0'
+    implementation 'androidx.exifinterface:exifinterface:1.2.0'
 
     //core
     implementation 'androidx.preference:preference:1.1.0'

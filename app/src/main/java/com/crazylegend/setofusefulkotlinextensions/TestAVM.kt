@@ -4,10 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveData
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.retrofit.getSuccess
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -26,9 +28,19 @@ class TestAVM(application: Application, testModel: TestModel, key:Int, string: S
     private val postsData: MediatorLiveData<RetrofitResult<List<TestModel>>> = MediatorLiveData()
     val posts: LiveData<RetrofitResult<List<TestModel>>> = postsData
 
+     private val filteredPostsData: MutableLiveData<List<TestModel>> = MutableLiveData()
+    val filteredPosts: LiveData<List<TestModel>> = filteredPostsData
+
+
 
     fun getposts() {
         makeApiCallLiveData(postsData) { retrofit?.getPosts() }
+    }
+
+    fun filterBy(query: String) {
+        filteredPostsData.value = postsData.getSuccess?.filter {
+            it.title.contains(query, true)
+        }
     }
 
     init {
@@ -40,11 +52,7 @@ class TestAVM(application: Application, testModel: TestModel, key:Int, string: S
 
 
     private val retrofit by lazy {
-        RetrofitClient.customInstance(application, TestApi.API, false, {
-        }){
-            addConverterFactory(MoshiConverterFactory.create())
-            this
-        }?.create<TestApi>()
+        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, false)?.create<TestApi>()
     }
 
 

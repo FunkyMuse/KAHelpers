@@ -2,7 +2,6 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.rx.newThreadScheduler
 import com.jakewharton.rxbinding3.slidingpanelayout.panelOpens
 import com.jakewharton.rxbinding3.slidingpanelayout.panelSlides
 import io.reactivex.disposables.CompositeDisposable
@@ -23,7 +22,7 @@ fun SlidingPaneLayout.panelOpenChanges(debounce: Long = 300L, debounceTime: Time
     }
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
@@ -38,7 +37,7 @@ fun SlidingPaneLayout.panelSlideChanges(debounce: Long = 300L, debounceTime: Tim
     val changes = panelSlides()
 
     changes.debounce(debounce, debounceTime)
-            .subscribeOn(newThreadScheduler)
+
             .observeOn(mainThreadScheduler)
             .subscribe({
                 callback(it)
