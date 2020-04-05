@@ -1,39 +1,26 @@
 package com.crazylegend.kotlinextensions.abstracts
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.onItemClickListener
-import com.crazylegend.kotlinextensions.views.inflate
+import com.crazylegend.kotlinextensions.views.inflater
 import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 
 
 /**
- * Created by hristijan on 8/16/19 to long live and prosper !
+ * Created by crazy on 4/5/20 to long live and prosper !
  */
-
-
-/**
- * It's recommended that you use a Kotlin data class so that diff util can work out of the box
- * Also you should add proguard rules if you're optimizing with R8/Proguard for the viewholder to contain
-the methods, since it's using reflection to instantiate the constructor
- * @param T
- * @param VH : RecyclerView.ViewHolder
- * @property viewHolder Class<VH>
- * @property getLayout Int
- * @property forItemClickListener onItemClickListener?
- * @property onLongClickListener onItemClickListener?
- * @constructor
- */
-@Suppress("UNCHECKED_CAST")
-abstract class AbstractListAdapter2<T, VH : RecyclerView.ViewHolder>(
+abstract class AbstractViewBindingAdapter2<T, VH : RecyclerView.ViewHolder, VB : ViewBinding>(
         private val viewHolder: Class<VH>,
+        private val bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
 ) :
         ListAdapter<T, VH>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
-    abstract val getLayout: Int
     abstract fun bindItems(item: T, holder: VH, position: Int)
 
     var forItemClickListener: onItemClickListener? = null
@@ -53,7 +40,9 @@ abstract class AbstractListAdapter2<T, VH : RecyclerView.ViewHolder>(
      * @return VH
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val holder = setViewHolder(parent.inflate(getLayout))
+        val binding = bindingInflater.invoke(parent.inflater, parent, false)
+        val holder = setViewHolder(binding)
+
         holder.itemView.setOnClickListenerCooldown {
             val position = holder.adapterPosition
             if (position != RecyclerView.NO_POSITION)
@@ -69,5 +58,5 @@ abstract class AbstractListAdapter2<T, VH : RecyclerView.ViewHolder>(
     }
 
 
-    private fun setViewHolder(inflatedView: View): VH = viewHolder.declaredConstructors.first().newInstance(inflatedView) as VH
+    private fun setViewHolder(binding: ViewBinding): VH = viewHolder.declaredConstructors.first().newInstance(binding) as VH
 }

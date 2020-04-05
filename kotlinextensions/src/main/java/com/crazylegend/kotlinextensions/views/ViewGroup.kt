@@ -27,6 +27,9 @@ fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)
 }
 
+val ViewGroup.inflater: LayoutInflater get() = LayoutInflater.from(context)
+
+
 fun ViewGroup.getFirstChildOrNull(): View? {
     if (childCount == 0) return null
     return getChildAt(0)

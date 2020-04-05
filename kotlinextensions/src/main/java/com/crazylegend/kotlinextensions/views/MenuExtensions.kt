@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.UiThread
+import androidx.appcompat.widget.SearchView
 import androidx.core.text.parseAsHtml
 import com.crazylegend.kotlinextensions.R
 
@@ -178,3 +179,4 @@ fun MenuItem?.onActionExpand(onExpand: () -> Unit = {}, onCollapse: () -> Unit =
 }
 
 
+fun MenuItem?.asSearchView() = this?.actionView as? SearchView

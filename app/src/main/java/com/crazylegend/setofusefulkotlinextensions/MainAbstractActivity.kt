@@ -34,6 +34,7 @@ import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.kotlinextensions.views.toggleVisibility
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolder
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import io.reactivex.disposables.CompositeDisposable
@@ -46,11 +47,7 @@ class MainAbstractActivity : AppCompatActivity() {
         TestPlaceHolderAdapter()
     }
     private val generatedAdapter by lazy {
-        activityMainBinding.recycler.generateVerticalAdapter<TestModel, TestViewHolder>(
-                layout = R.layout.recycler_view_item,
-                viewHolder = TestViewHolder::class.java) { item, holder, _ ->
-            holder.bind(item)
-        }
+        TestViewBindingAdapter()
     }
 
 
@@ -106,8 +103,6 @@ class MainAbstractActivity : AppCompatActivity() {
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
-
-                        runDelayed(5000){ // simulating delay scenarion, this delay shouldn't be written
                             TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
                             if (activityMainBinding.recycler.adapter != generatedAdapter) {
                                 activityMainBinding.recycler.adapter = generatedAdapter
@@ -118,7 +113,6 @@ class MainAbstractActivity : AppCompatActivity() {
                             generatedAdapter.submitList(it.value)
                             val wrappedList = it.value.toMutableList()
                             activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
-                        }
                     }
                     RetrofitResult.Loading -> {
                         activityMainBinding.recycler.adapter = testPlaceHolderAdapter
