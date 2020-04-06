@@ -34,14 +34,14 @@ abstract class AbstractListAdapter2<T, VH : RecyclerView.ViewHolder>(
 ) :
         ListAdapter<T, VH>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
     abstract val getLayout: Int
-    abstract fun bindItems(item: T, holder: VH, position: Int)
+    abstract fun bindItems(item: T, holder: VH, position: Int, itemCount: Int)
 
     var forItemClickListener: onItemClickListener? = null
     var onLongClickListener: onItemClickListener? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = getItem(holder.adapterPosition)
-        bindItems(item, holder, holder.adapterPosition)
+        bindItems(item, holder, holder.adapterPosition, itemCount)
     }
 
     /**

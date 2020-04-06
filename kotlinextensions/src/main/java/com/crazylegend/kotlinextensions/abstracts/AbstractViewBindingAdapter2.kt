@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.onItemClickListener
 import com.crazylegend.kotlinextensions.views.inflater
 import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
@@ -21,14 +20,14 @@ abstract class AbstractViewBindingAdapter2<T, VH : RecyclerView.ViewHolder, VB :
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
 ) :
         ListAdapter<T, VH>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
-    abstract fun bindItems(item: T, holder: VH, position: Int)
+    abstract fun bindItems(item: T, holder: VH, position: Int, itemCount: Int)
 
     var forItemClickListener: onItemClickListener? = null
     var onLongClickListener: onItemClickListener? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = getItem(holder.adapterPosition)
-        bindItems(item, holder, holder.adapterPosition)
+        bindItems(item, holder, holder.adapterPosition, itemCount)
     }
 
     /**

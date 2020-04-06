@@ -1,6 +1,7 @@
 package com.crazylegend.setofusefulkotlinextensions.adapter
 
 import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapter
+import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.setofusefulkotlinextensions.databinding.RecyclerViewItemBinding
 
 
@@ -10,7 +11,8 @@ import com.crazylegend.setofusefulkotlinextensions.databinding.RecyclerViewItemB
 class TestViewBindingAdapter : AbstractViewBindingAdapter<TestModel, TestViewHolderBinding, RecyclerViewItemBinding>(TestViewHolderBinding::class.java,
         RecyclerViewItemBinding::inflate) {
 
-    override fun bindItems(item: TestModel, holder: TestViewHolderBinding, position: Int) {
+    override fun bindItems(item: TestModel, holder: TestViewHolderBinding, position: Int, itemCount: Int) {
         holder.bind(item)
+        debug("ITEM COUNT $itemCount")
     }
 }

@@ -15,14 +15,14 @@ import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 abstract class AbstractRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(private val list: List<T>, private val viewHolder: Class<VH>) : RecyclerView.Adapter<VH>() {
 
     abstract val getLayout: Int
-    abstract fun bindItems(item: T, holder: VH, position: Int)
+    abstract fun bindItems(item: T, holder: VH, position: Int, itemCount: Int)
 
     var forItemClickListener: forItemClickListener<T>? = null
     var onLongClickListener: forItemClickListener<T>? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = list[position]
-        bindItems(item, holder, position)
+        bindItems(item, holder, position, list.count())
 
         holder.itemView.setOnClickListenerCooldown {
             if (position != RecyclerView.NO_POSITION)
