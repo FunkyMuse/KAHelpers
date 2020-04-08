@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.retrofit
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,16 +9,21 @@ import com.crazylegend.kotlinextensions.context.shortToast
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.isNotNullOrEmpty
 import com.crazylegend.kotlinextensions.retrofit.progressInterceptor.OnAttachmentDownloadListener
-import okhttp3.Cache
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import okio.ByteString
 import retrofit2.Response
 import java.io.File
+import java.security.SecureRandom
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 import kotlin.random.Random
 
 
@@ -667,3 +673,39 @@ fun postNewWaterMeterMeasurementWithImages(@Header("Authorization") token: Strin
 
  *
  */
+
+
+/**
+ * Sets the retrofit to accept all untrusted/unsafe communications, USE WITH CAUTION!
+ * @receiver OkHttpClient.Builder
+ * @throws CertificateException
+ */
+fun OkHttpClient.Builder.setUnSafeOkHttpClient() {
+    try {
+        // Create a trust manager that does not validate certificate chains
+        val trustAllCerts: Array<TrustManager> = arrayOf(
+                object : X509TrustManager {
+                    @SuppressLint("TrustAllX509TrustManager")
+                    @Throws(CertificateException::class)
+                    override fun checkClientTrusted(chain: Array<X509Certificate?>?, authType: String?) {
+                    }
+
+                    @SuppressLint("TrustAllX509TrustManager")
+                    @Throws(CertificateException::class)
+                    override fun checkServerTrusted(chain: Array<X509Certificate?>?, authType: String?) {
+                    }
+
+                    override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+                }
+        )
+        // Install the all-trusting trust manager
+        val sslContext: SSLContext = SSLContext.getInstance("SSL")
+        sslContext.init(null, trustAllCerts, SecureRandom())
+        // Create an ssl socket factory with our all-trusting manager
+        val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
+        sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
+        hostnameVerifier(HostnameVerifier { _, _ -> true })
+    } catch (e: Exception) {
+        throw RuntimeException(e)
+    }
+}
