@@ -53,9 +53,12 @@ fun TextView.deleteLine() {
 /**
  * Removes the bolding of a text view
  */
-fun AppCompatTextView.unBold() {
-    paint.isFakeBoldText = false
-    paint.isAntiAlias = true
+fun TextView.unBold() {
+    setTypeface(null, Typeface.NORMAL)
+}
+
+fun TextView.normal() {
+    setTypeface(null, Typeface.NORMAL)
 }
 
 
@@ -70,9 +73,19 @@ fun TextView.setAppereance(resId: Int) = if (Build.VERSION.SDK_INT >= Build.VERS
  * Bold the TextView.
  */
 fun TextView.bold() {
-    paint.isFakeBoldText = true
-    paint.isAntiAlias = true
+    setTypeface(null, Typeface.BOLD)
 }
+
+fun TextView.boldItalic() {
+    setTypeface(null, Typeface.BOLD_ITALIC)
+}
+
+
+fun TextView.italic() {
+    setTypeface(null, Typeface.ITALIC)
+}
+
+
 
 
 /**
@@ -563,7 +576,7 @@ fun TextView.setTextWithAnimation(text: String, duration: Long) {
  * Setting new text to TextView with something like width transition animation
  *
  * @property text - text to set to TextView
- * @property duration - animation final duration
+ * @property animDuration - animation final duration
  */
 fun TextView.setTextWithTransition(text: String, animDuration: Long) {
     val with = this.width

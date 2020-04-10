@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.view.MotionEvent
 import android.view.View
+import kotlin.math.roundToInt
 
 
 /**
@@ -45,9 +46,9 @@ fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeig
 
     if (height > reqHeight || width > reqWidth) {
         inSampleSize = if (width > height) {
-            Math.round(height.toFloat() / reqHeight.toFloat())
+            (height.toFloat() / reqHeight.toFloat()).roundToInt()
         } else {
-            Math.round(width.toFloat() / reqWidth.toFloat())
+            (width.toFloat() / reqWidth.toFloat()).roundToInt()
         }
     }
     return inSampleSize

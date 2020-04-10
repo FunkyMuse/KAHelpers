@@ -5,15 +5,15 @@ import android.os.SystemClock
 import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.RecyclerView
+import com.crazylegend.kotlinextensions.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.setPrecomputedText
 import com.crazylegend.setofusefulkotlinextensions.R
-import com.crazylegend.setofusefulkotlinextensions.databinding.RecyclerViewItemBinding
 
 class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val FADE_DURATION = 1000L
-    private val card by viewBinding(RecyclerViewItemBinding::bind)
+    private val binding by viewBinding(CustomizableCardViewBinding::bind)
 
     private val animation = ObjectAnimator.ofFloat(itemView, View.ALPHA, 1f, 0f, 1f).apply {
         repeatCount = ObjectAnimator.INFINITE
@@ -23,18 +23,19 @@ class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     init {
-        with(card.card) {
+        binding.content
+        with(binding.card) {
             setContentPadding(10, 10, 10, 10)
         }
     }
 
     fun bind(item: TestModel) {
         animation.end()
-        card.content.setBackgroundResource(0)
-        card.title.setBackgroundResource(0)
-        card.image.setImageResource(R.drawable.pin_code_highlight_state)
-        card.content.setPrecomputedText(item.body)
-        card.title.setPrecomputedText(item.title)
+        binding.content.setBackgroundResource(0)
+        binding.title.setBackgroundResource(0)
+        binding.image.setImageResource(R.drawable.pin_code_highlight_state)
+        binding.content.setPrecomputedText(item.body)
+        binding.title.setPrecomputedText(item.title)
     }
 
     fun showPlaceHolder() {
@@ -44,10 +45,10 @@ class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 (SystemClock.elapsedRealtime() - adapterPosition * 30L) % FADE_DURATION
         animation.start()
         // Show the placeholder UI.
-        card.image.setImageResource(R.drawable.image_placeholder)
-        card.title.text = null
-        card.content.text = null
-        card.content.setBackgroundResource(R.drawable.text_placeholder)
-        card.title.setBackgroundResource(R.drawable.text_placeholder)
+        binding.image.setImageResource(R.drawable.image_placeholder)
+        binding.title.text = null
+        binding.content.text = null
+        binding.content.setBackgroundResource(R.drawable.text_placeholder)
+        binding.title.setBackgroundResource(R.drawable.text_placeholder)
     }
 }
