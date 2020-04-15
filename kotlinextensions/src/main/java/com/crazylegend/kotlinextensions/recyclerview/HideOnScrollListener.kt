@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by crazy on 4/15/20 to long live and prosper !
  */
 abstract class HideOnScrollListener(private val HIDE_THRESHOLD: Int = 20) : RecyclerView.OnScrollListener() {
-    
+
     private var scrolledDistance = 0
     private var controlsVisible = true
 
