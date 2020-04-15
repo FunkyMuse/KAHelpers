@@ -15,13 +15,12 @@ import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.log.debug
+import com.crazylegend.kotlinextensions.recyclerview.HideOnScrollListener
 import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
 import com.crazylegend.kotlinextensions.recyclerview.addDrag
 import com.crazylegend.kotlinextensions.recyclerview.addSwipe
 import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
-import com.crazylegend.kotlinextensions.recyclerview.generateVerticalAdapter
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
-import com.crazylegend.kotlinextensions.runDelayed
 import com.crazylegend.kotlinextensions.rx.bindings.textChanges
 import com.crazylegend.kotlinextensions.rx.clearAndDispose
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
@@ -35,7 +34,6 @@ import com.crazylegend.kotlinextensions.views.toggleVisibility
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
-import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolder
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import io.reactivex.disposables.CompositeDisposable
 
@@ -80,6 +78,15 @@ class MainAbstractActivity : AppCompatActivity() {
             activityMainBinding.recycler.toggleVisibility()
         }
 
+        activityMainBinding.recycler.addOnScrollListener(object : HideOnScrollListener(5){
+            override fun onHide() {
+                activityMainBinding.test.hide()
+            }
+
+            override fun onShow() {
+                activityMainBinding.test.show()
+            }
+        })
         AppRater.appLaunched(this, supportFragmentManager, 0, 0) {
             appTitle = getString(R.string.app_name)
             buttonsBGColor = getCompatColor(R.color.colorAccent)
