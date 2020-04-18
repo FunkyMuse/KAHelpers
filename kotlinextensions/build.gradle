@@ -13,7 +13,6 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -69,20 +68,18 @@ dependencies {
 
     //live data
 
-    def lifecycle_version ="2.2.0"
-
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
 
     //joda time
     implementation 'net.danlew:android.joda:2.10.3'
@@ -92,12 +89,11 @@ dependencies {
 
 
     //retrofit
-    def retrofit_version = '2.8.1'
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
 
     //rx
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -105,31 +101,31 @@ dependencies {
 
 
     //bindings
-    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-drawerlayout:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-leanback:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-recyclerview:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-viewpager:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-viewpager2:3.1.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.1.0'
+    implementation "com.jakewharton.rxbinding3:rxbinding-core:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-drawerlayout:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-leanback:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-viewpager2:$rxBindings"
+    implementation "com.jakewharton.rxbinding3:rxbinding-material:$rxBindings"
 
 
     // glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation "com.github.bumptech.glide:glide:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
 
     //ui
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
-    implementation 'androidx.constraintlayout:constraintlayout-solver:2.0.0-beta4'
 
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
+    implementation "androidx.constraintlayout:constraintlayout-solver:$constraint_layout"
 
     //coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5-native-mt'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5-native-mt'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
     //auth
     implementation 'androidx.biometric:biometric:1.0.1'
@@ -138,18 +134,20 @@ dependencies {
     implementation 'androidx.exifinterface:exifinterface:1.2.0'
 
     //core
-    implementation 'androidx.preference:preference:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.3'
+    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.fragment:fragment-ktx:1.2.4'
     implementation 'androidx.activity:activity-ktx:1.1.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.core:core-ktx:1.2.0'
 
     //android apis
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.google.android.material:material:1.2.0-alpha06'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat-resources:1.1.0'
 
 }
 

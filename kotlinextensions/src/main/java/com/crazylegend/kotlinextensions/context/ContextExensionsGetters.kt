@@ -49,9 +49,11 @@ import android.view.textservice.TextServicesManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.crazylegend.kotlinextensions.tryOrElse
 
 
 /**
@@ -139,7 +141,9 @@ fun Context.getCompatColor(@ColorRes colorInt: Int): Int =
  * Get drawable from resources
  */
 fun Context.getCompatDrawable(@DrawableRes drawableRes: Int): Drawable? =
-        ContextCompat.getDrawable(this, drawableRes)
+        tryOrElse(AppCompatResources.getDrawable(this, drawableRes)){
+            ContextCompat.getDrawable(this, drawableRes)
+        }
 
 /**
  * Get ActivityManager
@@ -376,7 +380,8 @@ fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
         permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
 
 
-val Context.locationPowerSaveMode get() = powerManager?.locationPowerSaveMode
+val Context.locationPowerSaveMode @RequiresApi(Build.VERSION_CODES.P)
+get() = powerManager?.locationPowerSaveMode
 
 /**
  *

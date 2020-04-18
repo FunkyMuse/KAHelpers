@@ -2,6 +2,8 @@ package com.crazylegend.kotlinextensions.resources
 
 import android.content.Context
 import android.content.res.Resources
+import android.content.res.TypedArray
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
@@ -9,6 +11,8 @@ import android.util.TypedValue
 import androidx.annotation.DimenRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
+import androidx.annotation.StyleableRes
+import androidx.appcompat.content.res.AppCompatResources
 import java.io.InputStream
 
 
@@ -50,4 +54,12 @@ fun String.toHtmlSpan(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CO
     Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY)
 } else {
     Html.fromHtml(this)
+}
+
+fun TypedArray.getDrawableCompat(context: Context, @StyleableRes id: Int): Drawable? {
+    val resource = getResourceId(id, 0)
+    if (resource != 0) {
+        return AppCompatResources.getDrawable(context, resource)
+    }
+    return null
 }
