@@ -89,3 +89,19 @@ inline fun <reified T> Collection<T>.onDuplicatesRemoved(noDups: (collection: Se
     noDups(toSet())
 }
 
+
+fun <T> Collection<T>?.onNullOrEmpty(onNotNullOrEmpty: () -> Unit = {}, function: () -> Unit) {
+    if (this.isNullOrEmpty()) function() else onNotNullOrEmpty()
+}
+
+fun <T> Collection<T>?.onNull(onNotNull: () -> Unit = {}, function: () -> Unit) {
+    if (this == null) function() else onNotNull()
+}
+
+fun <T> Collection<T>?.onNotNullOrEmpty(onNullOrEmpty: () -> Unit = {}, function: Collection<T>.() -> Unit) {
+    if (this.isNullOrEmpty()) onNullOrEmpty() else this.function()
+}
+
+fun <T> Collection<T>?.onNotNull(onNull: () -> Unit = {}, function: Collection<T>.() -> Unit) {
+    if (this == null) onNull() else this.function()
+}
