@@ -2,10 +2,7 @@ package com.crazylegend.kotlinextensions.coroutines
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 /**
@@ -19,8 +16,8 @@ import kotlinx.coroutines.launch
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun ViewModel.viewModelIOCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
-    return viewModelScope.launch(ioDispatcher) {
+fun ViewModel.viewModelIOCoroutine(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return viewModelScope.launch(ioDispatcher, coroutineStart) {
         action(this)
     }
 }
@@ -32,8 +29,8 @@ fun ViewModel.viewModelIOCoroutine(action: suspend (scope: CoroutineScope) -> Un
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun ViewModel.viewModelMainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
-    return viewModelScope.launch(mainDispatcher) {
+fun ViewModel.viewModelMainCoroutine(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return viewModelScope.launch(mainDispatcher, coroutineStart) {
         action(this)
     }
 }
@@ -45,8 +42,8 @@ fun ViewModel.viewModelMainCoroutine(action: suspend (scope: CoroutineScope) -> 
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun ViewModel.viewModelDefaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
-    return viewModelScope.launch(defaultDispatcher) {
+fun ViewModel.viewModelDefaultCoroutine(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return viewModelScope.launch(defaultDispatcher, coroutineStart) {
         action(this)
     }
 }
@@ -57,8 +54,8 @@ fun ViewModel.viewModelDefaultCoroutine(action: suspend (scope: CoroutineScope) 
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun ViewModel.viewModelUnconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
-    return viewModelScope.launch(unconfinedDispatcher) {
+fun ViewModel.viewModelUnconfinedCoroutine(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return viewModelScope.launch(unconfinedDispatcher, coroutineStart) {
         action(this)
     }
 }
@@ -69,9 +66,39 @@ fun ViewModel.viewModelUnconfinedCoroutine(action: suspend (scope: CoroutineScop
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun ViewModel.viewModelNonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
-    return viewModelScope.launch(NonCancellable) {
+fun ViewModel.viewModelNonCancellableCoroutine(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+    return viewModelScope.launch(NonCancellable, coroutineStart) {
         action(this)
     }
 }
 
+
+fun CoroutineScope.main(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+    launch(mainDispatcher, coroutineStart) {
+        function()
+    }
+}
+
+fun CoroutineScope.io(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+    launch(ioDispatcher, coroutineStart) {
+        function()
+    }
+}
+
+fun CoroutineScope.default(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+    launch(defaultDispatcher, coroutineStart) {
+        function()
+    }
+}
+
+fun CoroutineScope.unconfined(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+    launch(unconfinedDispatcher, coroutineStart) {
+        function()
+    }
+}
+
+fun CoroutineScope.nonCancellable(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+    launch(NonCancellable, coroutineStart) {
+        function()
+    }
+}

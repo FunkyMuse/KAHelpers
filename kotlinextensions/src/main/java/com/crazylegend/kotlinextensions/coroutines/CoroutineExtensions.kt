@@ -20,15 +20,15 @@ import retrofit2.Response
  */
 
 suspend inline fun <T, R> T.onMain(crossinline block: (T) -> R): R {
-    return withContext(Dispatchers.Main) { this@onMain.let(block) }
+    return withContext(mainDispatcher) { this@onMain.let(block) }
 }
 
 suspend inline fun <T> onMain(crossinline block: CoroutineScope.() -> T): T {
-    return withContext(Dispatchers.Main) { block.invoke(this@withContext) }
+    return withContext(mainDispatcher) { block.invoke(this@withContext) }
 }
 
 suspend inline fun <T, R> T.onDefault(crossinline block: (T) -> R): R {
-    return withContext(Dispatchers.Default) { this@onDefault.let(block) }
+    return withContext(defaultDispatcher) { this@onDefault.let(block) }
 }
 
 suspend inline fun <T, R> T.nonCancellable(crossinline block: (T) -> R): R {
@@ -36,15 +36,15 @@ suspend inline fun <T, R> T.nonCancellable(crossinline block: (T) -> R): R {
 }
 
 suspend inline fun <T> onDefault(crossinline block: CoroutineScope.() -> T): T {
-    return withContext(Dispatchers.Default) { block.invoke(this@withContext) }
+    return withContext(defaultDispatcher) { block.invoke(this@withContext) }
 }
 
 suspend inline fun <T, R> T.onIO(crossinline block: (T) -> R): R {
-    return withContext(Dispatchers.IO) { this@onIO.let(block) }
+    return withContext(ioDispatcher) { this@onIO.let(block) }
 }
 
 suspend inline fun <T> onIO(crossinline block: CoroutineScope.() -> T): T {
-    return withContext(Dispatchers.IO) { block.invoke(this@withContext) }
+    return withContext(ioDispatcher) { block.invoke(this@withContext) }
 }
 
 val mainDispatcher = Dispatchers.Main
@@ -53,45 +53,45 @@ val unconfinedDispatcher = Dispatchers.Unconfined
 val ioDispatcher = Dispatchers.IO
 
 
-fun <T> ioCoroutineGlobal(block: suspend () -> T): Job {
-    return GlobalScope.launch(Dispatchers.IO) {
+fun <T> ioCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+    return GlobalScope.launch(ioDispatcher, coroutineStart) {
         block()
     }
 }
 
-fun <T> mainCoroutineGlobal(block: suspend () -> T): Job {
-    return GlobalScope.launch(Dispatchers.Main) {
+fun <T> mainCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+    return GlobalScope.launch(mainDispatcher, coroutineStart) {
         block()
     }
 }
 
-fun <T> defaultCoroutineGlobal(block: suspend () -> T): Job {
-    return GlobalScope.launch(Dispatchers.Default) {
+fun <T> defaultCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+    return GlobalScope.launch(defaultDispatcher, coroutineStart) {
         block()
     }
 }
 
-fun <T> unconfinedCoroutineGlobal(block: suspend () -> T): Job {
-    return GlobalScope.launch(Dispatchers.Unconfined) {
+fun <T> unconfinedCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+    return GlobalScope.launch(unconfinedDispatcher, coroutineStart) {
         block()
     }
 }
 
 suspend fun <T> withMainContext(block: suspend () -> T): T {
-    return withContext(Dispatchers.Main) {
+    return withContext(mainDispatcher) {
         block()
     }
 }
 
 suspend fun <T> withIOContext(block: suspend () -> T): T {
-    return withContext(Dispatchers.IO) {
+    return withContext(ioDispatcher) {
         block()
     }
 }
 
 
 suspend fun <T> withDefaultContext(block: suspend () -> T): T {
-    return withContext(Dispatchers.Default) {
+    return withContext(defaultDispatcher) {
         block()
     }
 }
@@ -130,7 +130,7 @@ fun <T> CoroutineScope.makeApiCall(
         includeEmptyData: Boolean = false
 ): Job {
     retrofitResult.loadingPost()
-    return launch(Dispatchers.IO) {
+    return launch(ioDispatcher) {
         try {
             retrofitResult.subscribePost(response, includeEmptyData)
         } catch (t: Throwable) {
@@ -146,7 +146,7 @@ fun <T> CoroutineScope.makeApiCallList(
         includeEmptyData: Boolean = true
 ): Job {
     retrofitResult.loadingPost()
-    return launch(Dispatchers.IO) {
+    return launch(ioDispatcher) {
         try {
             retrofitResult.subscribeListPost(response, includeEmptyData)
         } catch (t: Throwable) {
@@ -177,7 +177,7 @@ fun <T> CoroutineScope.makeDBCall(
         includeEmptyData: Boolean = false
 ): Job {
     dbResult.queryingPost()
-    return launch(Dispatchers.IO) {
+    return launch(ioDispatcher) {
         try {
             dbResult.subscribePost(queryModel, includeEmptyData)
         } catch (t: Throwable) {
@@ -207,7 +207,7 @@ fun <T> CoroutineScope.makeDBCallList(
         includeEmptyData: Boolean = true
 ): Job {
     dbResult.queryingPost()
-    return launch(Dispatchers.IO) {
+    return launch(ioDispatcher) {
         try {
             dbResult.subscribeListPost(queryModel, includeEmptyData)
         } catch (t: Throwable) {
@@ -1020,7 +1020,7 @@ fun <T> CoroutineScope.makeDBCallFlow(
         includeEmptyData: Boolean = false
 ): Job {
     dbResult.queryingPost()
-    return launch(Dispatchers.IO) {
+    return launch(ioDispatcher) {
         try {
 
             val call = queryModel
@@ -1041,7 +1041,7 @@ fun <T> CoroutineScope.makeDBCallListFlow(
         includeEmptyData: Boolean = true
 ): Job {
     dbResult.queryingPost()
-    return launch(Dispatchers.IO) {
+    return launch(ioDispatcher) {
         try {
             val call = queryModel
 
