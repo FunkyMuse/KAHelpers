@@ -65,3 +65,11 @@ fun Preference?.disableCopying() {
 fun Preference?.enableCopying() {
     this?.isCopyingEnabled = true
 }
+
+fun TwoStatePreference?.unCheck() {
+    this?.isChecked = false
+}
+
+fun TwoStatePreference?.check() {
+    this?.isChecked = true
+}
