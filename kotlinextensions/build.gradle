@@ -131,7 +131,7 @@ dependencies {
     implementation 'androidx.exifinterface:exifinterface:1.2.0'
 
     //core
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.fragment:fragment-ktx:1.2.4'
     implementation 'androidx.activity:activity-ktx:1.1.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
