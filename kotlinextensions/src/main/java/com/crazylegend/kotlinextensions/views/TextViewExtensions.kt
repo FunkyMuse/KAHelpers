@@ -616,7 +616,7 @@ private fun AppCompatTextView.setTextAndShowOrGone(textString: String?) {
     }
 }
 
-fun AppCompatTextView.setTextAndShowOrGone(stringRes: Int, vararg params: Any? = null) {
+fun AppCompatTextView.setTextAndShowOrGone(stringRes: Int, vararg params: Any? = emptyArray()) {
     val string = context.getString(stringRes, params)
     text = if (params.isNullOrEmpty()) {
         gone()
@@ -627,7 +627,7 @@ fun AppCompatTextView.setTextAndShowOrGone(stringRes: Int, vararg params: Any? =
     }
 }
 
-fun AppCompatTextView.setTextAndShowOrInvisible(stringRes: Int, vararg params: Any? = null) {
+fun AppCompatTextView.setTextAndShowOrInvisible(stringRes: Int, vararg params: Any? = emptyArray()) {
     val string = context.getString(stringRes, params)
     text = if (params.isNullOrEmpty()) {
         invisible()
