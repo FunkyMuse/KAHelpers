@@ -606,7 +606,7 @@ fun TextView.setTextWithTransition(text: String, animDuration: Long) {
 }
 
 
-private fun AppCompatTextView.setTextAndShowOrGone(textString: String?) {
+fun AppCompatTextView.setTextAndShowOrGone(textString: String?) {
     text = if (textString.isNullOrEmpty()) {
         gone()
         null
