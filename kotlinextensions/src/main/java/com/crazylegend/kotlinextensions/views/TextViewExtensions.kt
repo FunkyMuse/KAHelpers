@@ -86,8 +86,6 @@ fun TextView.italic() {
 }
 
 
-
-
 /**
  * Set font for TextView.
  */
@@ -551,7 +549,6 @@ fun TextView.measureHeight(): Int {
 }
 
 
-
 /**
  * Setting new text to TextView with something like fade to alpha animation
  *
@@ -559,7 +556,7 @@ fun TextView.measureHeight(): Int {
  * @property duration - animation final duration
  */
 fun TextView.setTextWithAnimation(text: String, duration: Long) {
-    val stepDuration = duration/2
+    val stepDuration = duration / 2
     this.animate()
             .alpha(0f)
             .setDuration(stepDuration)
@@ -591,7 +588,7 @@ fun TextView.setTextWithTransition(text: String, animDuration: Long) {
         }
         doOnEnd {
             thisText.text = text
-            thisText.measure(0,0)
+            thisText.measure(0, 0)
             ValueAnimator.ofInt(0, thisText.measuredWidth).apply {
                 addUpdateListener { valueAnimator ->
                     val value = valueAnimator.animatedValue as Int
@@ -609,3 +606,44 @@ fun TextView.setTextWithTransition(text: String, animDuration: Long) {
 }
 
 
+fun AppCompatTextView.setTextAndShowOrGone(textString: String?) {
+    text = if (textString.isNullOrEmpty()) {
+        gone()
+        null
+    } else {
+        visible()
+        textString
+    }
+}
+
+fun AppCompatTextView.setTextAndShowOrGone(stringRes: Int, vararg params: Any? = emptyArray()) {
+    val string = context.getString(stringRes, params)
+    text = if (params.isNullOrEmpty()) {
+        gone()
+        null
+    } else {
+        visible()
+        string
+    }
+}
+
+fun AppCompatTextView.setTextAndShowOrInvisible(stringRes: Int, vararg params: Any? = emptyArray()) {
+    val string = context.getString(stringRes, params)
+    text = if (params.isNullOrEmpty()) {
+        invisible()
+        null
+    } else {
+        visible()
+        string
+    }
+}
+
+fun AppCompatTextView.setTextAndShowOrInvisible(textString: String?) {
+    text = if (textString.isNullOrEmpty()) {
+        invisible()
+        null
+    } else {
+        visible()
+        textString
+    }
+}
