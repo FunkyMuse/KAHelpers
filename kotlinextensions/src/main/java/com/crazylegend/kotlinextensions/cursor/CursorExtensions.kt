@@ -13,6 +13,13 @@ fun <T : Any> Cursor.mapToList(cursorPredicate: (Cursor) -> T): List<T> = genera
     if (moveToNext()) cursorPredicate(this) else null
 }.toList()
 
+fun Cursor.getSafeColumn(column: String): Int? {
+    return try {
+        getColumnIndexOrThrow(column)
+    } catch (e: Exception) {
+        null
+    }
+}
 
 /**
  * Same as [Cursor.getShort], but returns [defaultValue] when the column
