@@ -9,30 +9,9 @@ import kotlinx.coroutines.flow.flow
  * Created by hristijan on 3/20/19 to long live and prosper !
  */
 
-
-fun Cursor.getInt(columnName: String): Int {
-    return this.getInt(this.getColumnIndex(columnName))
-}
-
-fun Cursor.getLong(columnName: String): Long {
-    return this.getLong(this.getColumnIndex(columnName))
-}
-
-fun Cursor.getString(columnName: String): String {
-    return this.getString(this.getColumnIndex(columnName))
-}
-
-fun Cursor.getIntOrNull(columnName: String): Int? {
-    return this.getInt(this.getColumnIndex(columnName))
-}
-
-fun Cursor.getLongOrNull(columnName: String): Long? {
-    return this.getLong(this.getColumnIndex(columnName))
-}
-
-fun Cursor.getStringOrNull(columnName: String): String? {
-    return this.getString(this.getColumnIndex(columnName))
-}
+fun <T : Any> Cursor.mapToList(cursorPredicate: (Cursor) -> T): List<T> = generateSequence {
+    if (moveToNext()) cursorPredicate(this) else null
+}.toList()
 
 
 /**
