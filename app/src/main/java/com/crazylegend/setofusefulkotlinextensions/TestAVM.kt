@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveData
+import com.crazylegend.kotlinextensions.livedata.context
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
@@ -34,6 +35,7 @@ class TestAVM(application: Application, testModel: TestModel, key:Int, string: S
 
 
     fun getposts() {
+        context
         makeApiCallLiveData(postsData) { retrofit?.getPosts() }
     }
 

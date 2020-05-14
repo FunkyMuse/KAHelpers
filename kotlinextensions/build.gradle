@@ -79,7 +79,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
 
     //joda time
-    implementation 'net.danlew:android.joda:2.10.3'
+    implementation 'net.danlew:android.joda:2.10.6'
 
     //moshi
     implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
@@ -132,8 +132,8 @@ dependencies {
 
     //core
     implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.fragment:fragment-ktx:1.2.4'
-    implementation 'androidx.activity:activity-ktx:1.1.0'
+    implementation 'androidx.activity:activity-ktx:1.2.0-alpha04'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-alpha04'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.core:core-ktx:1.2.0'
 

@@ -14,6 +14,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.annotation.RequiresApi
+import androidx.core.database.getStringOrNull
 import com.crazylegend.kotlinextensions.cursor.getStringOrNull
 import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_DOCUMENT
 import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_IMGs

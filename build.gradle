@@ -4,8 +4,8 @@ buildscript {
     ext.retrofit = "2.8.1"
     ext.rxBindings = "3.1.0"
     ext.glide = "4.11.0"
-    ext.constraint_layout = "2.0.0-beta4"
-    ext.coroutines = "1.3.5"
+    ext.constraint_layout = '2.0.0-beta6'
+    ext.coroutines = '1.3.6'
     repositories {
         google()
         jcenter()

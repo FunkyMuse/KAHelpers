@@ -167,3 +167,27 @@ private fun Cursor.getRow(): Map<String, Any?> = hashMapOf<String, Any?>().apply
         )
     }
 }
+
+fun Cursor.getInt(columnName: String): Int {
+    return this.getInt(this.getColumnIndex(columnName))
+}
+
+fun Cursor.getLong(columnName: String): Long {
+    return this.getLong(this.getColumnIndex(columnName))
+}
+
+fun Cursor.getString(columnName: String): String {
+    return this.getString(this.getColumnIndex(columnName))
+}
+
+fun Cursor.getIntOrNull(columnName: String): Int? {
+    return this.getInt(this.getColumnIndex(columnName))
+}
+
+fun Cursor.getLongOrNull(columnName: String): Long? {
+    return this.getLong(this.getColumnIndex(columnName))
+}
+
+fun Cursor.getStringOrNull(columnName: String): String? {
+    return this.getString(this.getColumnIndex(columnName))
+}
