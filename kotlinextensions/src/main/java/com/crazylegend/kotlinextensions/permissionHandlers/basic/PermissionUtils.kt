@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
  */
 
 
+@Deprecated("This is gonna be removed in the next release", ReplaceWith("ActivityResultContract"))
 object PermissionUtils {
 
     const val PERMISSION_REQUEST_CODE = 222

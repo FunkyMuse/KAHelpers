@@ -60,6 +60,7 @@ is PermissionResult.ShowRationale -> {
  * and suspends the coroutines until result is available.
  * A simple [Fragment] subclass.
  */
+@Deprecated("This is gonna be removed in the next release", ReplaceWith("ActivityResultContract"))
 class PermissionCouroutineManager : BasePermissionManager() {
 
     private var completableDeferred: CompletableDeferred<PermissionResult>? = null

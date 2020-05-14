@@ -55,7 +55,7 @@ if (it.requestId == REQUEST_ID) {
 /**
  * Created by hristijan on 6/17/19 to long live and prosper !
  */
-
+@Deprecated("This is gonna be removed in the next release", ReplaceWith("ActivityResultContract"))
 class PermissionManager : BasePermissionManager() {
 
     private val permissionResultLiveEvent: SingleLiveEvent<PermissionResult> by lazy {
