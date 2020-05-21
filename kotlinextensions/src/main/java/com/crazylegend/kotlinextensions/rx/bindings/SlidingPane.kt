@@ -2,10 +2,10 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.slidingpanelayout.panelOpens
-import com.jakewharton.rxbinding3.slidingpanelayout.panelSlides
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.slidingpanelayout.panelOpens
+import com.jakewharton.rxbinding4.slidingpanelayout.panelSlides
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 
@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit
  */
 
 fun SlidingPaneLayout.panelOpenChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, skipInitialValue: Boolean = true,
-                                  compositeDisposable: CompositeDisposable,
-                                  callback: (state: Boolean) -> Unit = {}) {
+                                       compositeDisposable: CompositeDisposable,
+                                       callback: (state: Boolean) -> Unit = {}) {
     val changes = panelOpens()
     if (skipInitialValue) {
         changes.skipInitialValue()

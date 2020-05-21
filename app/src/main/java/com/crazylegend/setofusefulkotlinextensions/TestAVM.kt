@@ -5,14 +5,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.crazylegend.kotlinextensions.coroutines.makeApiCallLiveData
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
 import com.crazylegend.kotlinextensions.retrofit.getSuccess
 import com.crazylegend.kotlinextensions.rx.clearAndDispose
+import com.crazylegend.kotlinextensions.rx.makeApiCallListSingle
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import retrofit2.create
 
 
@@ -36,10 +36,10 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
 
 
     fun getposts() {
-       /* compositeDisposable.makeApiCallListSingle(postsData, true) {
+        compositeDisposable.makeApiCallListSingle(postsData, true) {
             retrofit2?.getPostsRx()
-        }*/
-        makeApiCallLiveData(postsData) { retrofit?.getPosts() }
+        }
+        //makeApiCallLiveData(postsData) { retrofit?.getPosts() }
     }
 
     fun filterBy(query: String) {
@@ -57,9 +57,9 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     private val retrofit by lazy {
         RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, false)?.create<TestApi>()
     }
-    /*private val retrofit2 by lazy {
-        RetrofitClient.moshiInstanceRxJava3(application, TestApi.API, false)?.create<TestApi>()
-    }*/
+    private val retrofit2 by lazy {
+        RetrofitClient.moshiInstanceRxJava(application, TestApi.API, false)?.create<TestApi>()
+    }
 
 
     init {

@@ -3,10 +3,10 @@ package com.crazylegend.kotlinextensions.rx.bindings
 import android.view.MotionEvent
 import android.view.View
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.material.dismisses
-import com.jakewharton.rxbinding3.view.*
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.material.dismisses
+import com.jakewharton.rxbinding4.view.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 
@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit
 
 
 fun View.focusChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, skipInitialValue: Boolean = true,
-                     compositeDisposable: CompositeDisposable,
-                     callback: (focus: Boolean) -> Unit = {}) {
+                      compositeDisposable: CompositeDisposable,
+                      callback: (focus: Boolean) -> Unit = {}) {
     val changes = focusChanges()
     if (skipInitialValue) {
         changes.skipInitialValue()

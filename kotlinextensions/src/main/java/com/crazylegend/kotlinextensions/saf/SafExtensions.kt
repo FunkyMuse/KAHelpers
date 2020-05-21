@@ -27,7 +27,7 @@ import java.io.*
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 @RequiresPermission(ACCESS_MEDIA_LOCATION)
-fun Context.getLocationFromImages(uri: Uri, latNLongCallBack: (latNLong: DoubleArray) -> Unit = { _ -> }) {
+inline fun Context.getLocationFromImages(uri: Uri, latNLongCallBack: (latNLong: DoubleArray) -> Unit = { _ -> }) {
     val photoUri = MediaStore.setRequireOriginal(uri)
     contentResolver.openInputStream(photoUri).use { stream ->
         stream?.let {
@@ -39,6 +39,31 @@ fun Context.getLocationFromImages(uri: Uri, latNLongCallBack: (latNLong: DoubleA
         }
     }
 }
+
+@RequiresApi(Build.VERSION_CODES.Q)
+fun Context.flipImageHorizontally(uri: Uri) {
+    val photoUri = MediaStore.setRequireOriginal(uri)
+    contentResolver.openInputStream(photoUri).use { stream ->
+        stream?.let {
+            ExifInterface(it).run {
+                flipHorizontally()
+            }
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+fun Context.flipImageVertically(uri: Uri) {
+    val photoUri = MediaStore.setRequireOriginal(uri)
+    contentResolver.openInputStream(photoUri).use { stream ->
+        stream?.let {
+            ExifInterface(it).run {
+                flipVertically()
+            }
+        }
+    }
+}
+
 
 /**
  * Create a [DocumentFile] representing the document tree rooted at
@@ -128,7 +153,7 @@ fun recursiveSAFFiles(files: Array<DocumentFile>?): MutableList<DocumentFile> {
 }
 
 
-fun Context.moveFileToUri(treeUri: Uri, file: File, progress: (Long) -> Unit = {}) {
+inline fun Context.moveFileToUri(treeUri: Uri, file: File, crossinline progress: (Long) -> Unit = {}) {
     contentResolver.openOutputStream(treeUri)?.use { output ->
         output as FileOutputStream
         FileInputStream(file).use { input ->
@@ -164,8 +189,7 @@ fun File.getMimeType(fallback: String = INTENT_TYPE_DOCUMENT): String {
             ?: fallback // You might set it to */*
 }
 
-fun copyStream(size: Long, inputStream: InputStream, os: OutputStream, progress: (Long) -> Unit = {}) {
-    val bufferSize = 4096
+inline fun copyStream(size: Long, inputStream: InputStream, os: OutputStream, bufferSize: Int = 4096, progress: (Long) -> Unit = {}) {
     try {
         val bytes = ByteArray(bufferSize)
         var count = 0
@@ -180,6 +204,28 @@ fun copyStream(size: Long, inputStream: InputStream, os: OutputStream, progress:
         }
         os.flush()
         inputStream.close()
+        os.close()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+}
+
+
+inline fun InputStream.copyStream(size: Long, os: OutputStream, bufferSize: Int = 4096, progress: (Long) -> Unit = {}) {
+    try {
+        val bytes = ByteArray(bufferSize)
+        var count = 0
+        var prog = 0
+        while (count != -1) {
+            count = read(bytes)
+            if (count != -1) {
+                os.write(bytes, 0, count)
+                prog += count
+                progress(prog.toLong() * 100 / size)
+            }
+        }
+        os.flush()
+        close()
         os.close()
     } catch (ex: Exception) {
         ex.printStackTrace()

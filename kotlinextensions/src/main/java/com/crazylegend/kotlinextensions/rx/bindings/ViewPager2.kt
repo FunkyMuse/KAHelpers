@@ -2,12 +2,13 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.viewpager2.widget.ViewPager2
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.viewpager2.PageScrollEvent
-import com.jakewharton.rxbinding3.viewpager2.pageScrollEvents
-import com.jakewharton.rxbinding3.viewpager2.pageScrollStateChanges
-import com.jakewharton.rxbinding3.viewpager2.pageSelections
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.viewpager2.PageScrollEvent
+import com.jakewharton.rxbinding4.viewpager2.pageScrollEvents
+import com.jakewharton.rxbinding4.viewpager2.pageScrollStateChanges
+import com.jakewharton.rxbinding4.viewpager2.pageSelections
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
+
 import java.util.concurrent.TimeUnit
 
 

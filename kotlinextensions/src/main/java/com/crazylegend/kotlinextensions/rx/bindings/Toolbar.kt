@@ -4,11 +4,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.appcompat.itemClicks
-import com.jakewharton.rxbinding3.appcompat.navigationClicks
-import com.jakewharton.rxbinding3.material.dismisses
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.appcompat.itemClicks
+import com.jakewharton.rxbinding4.appcompat.navigationClicks
+import com.jakewharton.rxbinding4.material.dismisses
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 
 fun Toolbar.clickChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                           callback: (state: MenuItem) -> Unit = {}) {
+                         callback: (state: MenuItem) -> Unit = {}) {
 
     val changes = itemClicks()
     changes.debounce(debounce, debounceTime)

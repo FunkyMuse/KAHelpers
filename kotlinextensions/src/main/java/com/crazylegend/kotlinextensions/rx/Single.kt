@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.rx
 
-import io.reactivex.Single
-import io.reactivex.SingleEmitter
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleEmitter
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 

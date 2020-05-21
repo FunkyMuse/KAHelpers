@@ -35,7 +35,7 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainAbstractActivity : AppCompatActivity() {
 

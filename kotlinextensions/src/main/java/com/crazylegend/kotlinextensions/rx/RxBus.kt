@@ -1,8 +1,7 @@
 package com.crazylegend.kotlinextensions.rx
 
+import io.reactivex.rxjava3.core.Observable
 
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
@@ -10,7 +9,7 @@ import io.reactivex.subjects.PublishSubject
 object RxBus {
 
     @PublishedApi
-    internal val publisher = PublishSubject.create<Any>()
+    internal val publisher = PublishSubject<Any>()
 
     fun publish(event: Any) {
         publisher.onNext(event)

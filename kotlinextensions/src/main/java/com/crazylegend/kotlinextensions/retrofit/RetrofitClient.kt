@@ -5,13 +5,12 @@ import com.crazylegend.kotlinextensions.isNull
 import com.crazylegend.kotlinextensions.retrofit.interceptors.ConnectivityInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -38,13 +37,9 @@ object RetrofitClient {
         MoshiConverterFactory.create(moshi).withNullSerialization()
     }
 
-    private val rxJava2Adapter by lazy {
-        RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io())
-    }
-
-    /*private val rxJava3Adapter by lazy {
+    private val rxJavaAdapter by lazy {
         RxJava3CallAdapterFactory.create()
-    }*/
+    }
 
 
     fun removeRetrofitInstance() {
@@ -54,7 +49,7 @@ object RetrofitClient {
     fun customInstanceFactory(context: Context, baseUrl: String, factory: Converter.Factory, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
         val clientBuilder = buildClient(context, enableInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, factory, rxJava2Adapter)
+            retrofit = buildRetrofit(baseUrl, clientBuilder, factory, rxJavaAdapter)
         }
         return retrofit
     }
@@ -70,22 +65,14 @@ object RetrofitClient {
     }
 
 
-    fun gsonInstanceRxJava2(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun gsonInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
         val clientBuilder = buildClient(context, enableInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, gsonConverter, rxJava2Adapter)
+            retrofit = buildRetrofit(baseUrl, clientBuilder, gsonConverter, rxJavaAdapter)
         }
         return retrofit
     }
 
-    /*fun gsonInstanceRxJava3(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
-        val clientBuilder = buildClient(context, enableInterceptor, okHttpClientConfig)
-        doesRetrofitNeedsBuild(baseUrl) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, gsonConverter, rxJava3Adapter)
-        }
-        return retrofit
-    }
-*/
 
     fun gsonInstanceCouroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
         val clientBuilder = buildClient(context, enableInterceptor, okHttpClientConfig)
@@ -95,21 +82,13 @@ object RetrofitClient {
         return retrofit
     }
 
-    fun moshiInstanceRxJava2(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
+    fun moshiInstanceRxJava(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
         val clientBuilder = buildClient(context, enableInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, moshiConverter, rxJava2Adapter)
+            retrofit = buildRetrofit(baseUrl, clientBuilder, moshiConverter, rxJavaAdapter)
         }
         return retrofit
     }
-
-   /* fun moshiInstanceRxJava3(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
-        val clientBuilder = buildClient(context, enableInterceptor, okHttpClientConfig)
-        doesRetrofitNeedsBuild(baseUrl) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, moshiConverter, rxJava3Adapter)
-        }
-        return retrofit
-    }*/
 
 
     fun moshiInstanceCoroutines(context: Context, baseUrl: String, enableInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit? {
@@ -137,7 +116,7 @@ object RetrofitClient {
                 .build()
     }
 
-    private inline fun buildRetrofit(baseUrl: String, okHttpClient: OkHttpClient.Builder,
+    private fun buildRetrofit(baseUrl: String, okHttpClient: OkHttpClient.Builder,
                               builderCallback: Retrofit.Builder.() -> Retrofit.Builder = { this }): Retrofit? {
         return Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -154,7 +133,7 @@ object RetrofitClient {
         writeTimeout(writeTimeout, connectionTimeUnit)
     }
 
-    private inline fun doesRetrofitNeedsBuild(baseUrl: String, function: () -> Unit) {
+    private fun doesRetrofitNeedsBuild(baseUrl: String, function: () -> Unit) {
         if (retrofit.isNull) {
             function()
         } else {
@@ -164,7 +143,7 @@ object RetrofitClient {
         }
     }
 
-    private inline fun buildClient(context: Context, enableInterceptor: Boolean, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient.Builder {
+    private fun buildClient(context: Context, enableInterceptor: Boolean, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient.Builder {
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level =

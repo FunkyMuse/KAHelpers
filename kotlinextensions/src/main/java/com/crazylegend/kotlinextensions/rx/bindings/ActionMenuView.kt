@@ -4,10 +4,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.ActionMenuView
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.appcompat.itemClicks
-import com.jakewharton.rxbinding3.material.dismisses
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.appcompat.itemClicks
+import com.jakewharton.rxbinding4.material.dismisses
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 

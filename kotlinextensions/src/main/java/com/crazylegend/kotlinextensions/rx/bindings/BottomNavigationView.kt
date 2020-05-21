@@ -3,9 +3,9 @@ package com.crazylegend.kotlinextensions.rx.bindings
 import android.view.MenuItem
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.jakewharton.rxbinding3.material.itemSelections
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.material.itemSelections
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 

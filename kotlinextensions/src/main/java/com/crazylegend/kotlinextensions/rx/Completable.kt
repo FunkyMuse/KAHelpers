@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.rx
 
-import io.reactivex.Completable
-import io.reactivex.CompletableEmitter
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.CompletableEmitter
 
 
 /**

@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.rx
 
-import io.reactivex.Maybe
-import io.reactivex.MaybeEmitter
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.MaybeEmitter
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 

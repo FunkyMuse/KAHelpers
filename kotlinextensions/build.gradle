@@ -88,31 +88,25 @@ dependencies {
     //retrofit
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.7.1'
 
     //rx
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
-
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
-
-
     //bindings
-    implementation "com.jakewharton.rxbinding3:rxbinding-core:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-drawerlayout:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-leanback:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-viewpager2:$rxBindings"
-    implementation "com.jakewharton.rxbinding3:rxbinding-material:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-core:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-appcompat:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-drawerlayout:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-leanback:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-viewpager:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-viewpager2:$rxBindings"
+    implementation "com.jakewharton.rxbinding4:rxbinding-material:$rxBindings"
 
 
     // glide

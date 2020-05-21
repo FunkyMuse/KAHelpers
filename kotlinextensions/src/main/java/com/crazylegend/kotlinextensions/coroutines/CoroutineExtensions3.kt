@@ -73,31 +73,31 @@ fun ViewModel.viewModelNonCancellableCoroutine(coroutineStart: CoroutineStart = 
 }
 
 
-fun CoroutineScope.main(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+inline fun CoroutineScope.main(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
     launch(mainDispatcher, coroutineStart) {
         function()
     }
 }
 
-fun CoroutineScope.io(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+inline fun CoroutineScope.io(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
     launch(ioDispatcher, coroutineStart) {
         function()
     }
 }
 
-fun CoroutineScope.default(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+inline fun CoroutineScope.default(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
     launch(defaultDispatcher, coroutineStart) {
         function()
     }
 }
 
-fun CoroutineScope.unconfined(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+inline fun CoroutineScope.unconfined(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
     launch(unconfinedDispatcher, coroutineStart) {
         function()
     }
 }
 
-fun CoroutineScope.nonCancellable(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, function: suspend () -> Unit) {
+inline fun CoroutineScope.nonCancellable(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
     launch(NonCancellable, coroutineStart) {
         function()
     }

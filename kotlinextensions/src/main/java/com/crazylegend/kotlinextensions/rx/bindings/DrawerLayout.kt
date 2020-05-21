@@ -2,9 +2,9 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.drawerlayout.widget.DrawerLayout
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.drawerlayout.drawerOpen
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.drawerlayout.drawerOpen
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 

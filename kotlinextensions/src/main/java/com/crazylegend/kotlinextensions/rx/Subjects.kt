@@ -1,6 +1,6 @@
 package com.crazylegend.kotlinextensions.rx
 
-import io.reactivex.subjects.*
+import io.reactivex.rxjava3.subjects.*
 
 
 /**

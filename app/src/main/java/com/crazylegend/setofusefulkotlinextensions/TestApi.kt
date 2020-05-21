@@ -1,6 +1,7 @@
 package com.crazylegend.setofusefulkotlinextensions
 
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
+import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import retrofit2.http.GET
 
@@ -15,7 +16,7 @@ interface TestApi {
     suspend fun getPosts(): Response<List<TestModel>>
 
     @GET("posts")
-    fun getPostsRx(): io.reactivex.rxjava3.core.Single<Response<List<TestModel>>>
+    fun getPostsRx(): Single<Response<List<TestModel>>>
 
 
     companion object {

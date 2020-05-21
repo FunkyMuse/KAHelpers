@@ -22,11 +22,13 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.graphics.scale
 import androidx.palette.graphics.Palette
+import com.crazylegend.kotlinextensions.coroutines.onIO
 import com.crazylegend.kotlinextensions.file.getRealPath
 import com.crazylegend.kotlinextensions.file.outAsBitmap
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.crazylegend.kotlinextensions.rx.computationScheduler
+import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
+import com.crazylegend.kotlinextensions.tryOrNull
+import io.reactivex.rxjava3.core.Single
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -80,7 +82,7 @@ fun Bitmap.toByteArray(compressFormat: Bitmap.CompressFormat, quality: Int): Sin
     return Single.fromCallable {
         this.compress(compressFormat, quality, bos)
         bos.toByteArray()
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread()).doAfterSuccess {
+    }.subscribeOn(computationScheduler).observeOn(mainThreadScheduler).doAfterSuccess {
         bos.flush()
         bos.close()
     }
@@ -169,8 +171,14 @@ fun ByteArray.toBitmap(): Single<Bitmap>? {
 
     return Single.fromCallable {
         BitmapFactory.decodeByteArray(this, 0, this.size)
-    }.subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
+    }.subscribeOn(computationScheduler).observeOn(mainThreadScheduler)
 
+}
+
+suspend fun ByteArray.toBitmapSuspend(): Bitmap? {
+    return onIO {
+            return@onIO tryOrNull { BitmapFactory.decodeByteArray(this, 0, size) }
+        }
 }
 
 

@@ -1,8 +1,9 @@
 package com.crazylegend.kotlinextensions.rx
 
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.functions.*
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.functions.*
+
 
 /**
  * Created by hristijan on 3/1/19 to long live and prosper !

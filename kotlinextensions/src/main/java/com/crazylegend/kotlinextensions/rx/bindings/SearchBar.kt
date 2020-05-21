@@ -2,11 +2,11 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.leanback.widget.SearchBar
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.leanback.SearchBarSearchQueryEvent
-import com.jakewharton.rxbinding3.leanback.searchQueryChangeEvents
-import com.jakewharton.rxbinding3.leanback.searchQueryChanges
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.leanback.SearchBarSearchQueryEvent
+import com.jakewharton.rxbinding4.leanback.searchQueryChangeEvents
+import com.jakewharton.rxbinding4.leanback.searchQueryChanges
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 

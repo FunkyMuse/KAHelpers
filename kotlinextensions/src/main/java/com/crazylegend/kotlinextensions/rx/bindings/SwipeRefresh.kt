@@ -2,9 +2,9 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.swiperefreshlayout.refreshes
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 
 fun SwipeRefreshLayout.refreshChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                                    callback: (onRefresh: Unit) -> Unit = {}) {
+                                      callback: (onRefresh: Unit) -> Unit = {}) {
     val changes = refreshes()
 
     changes.debounce(debounce, debounceTime)

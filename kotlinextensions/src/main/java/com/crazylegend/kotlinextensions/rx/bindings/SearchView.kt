@@ -2,9 +2,9 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import androidx.appcompat.widget.SearchView
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.jakewharton.rxbinding3.appcompat.queryTextChanges
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.appcompat.queryTextChanges
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 

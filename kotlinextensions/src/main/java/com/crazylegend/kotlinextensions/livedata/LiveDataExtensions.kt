@@ -18,7 +18,7 @@ import com.crazylegend.kotlinextensions.viewmodel.viewModel.MultipleParametrized
 import com.crazylegend.kotlinextensions.viewmodel.viewModel.ParametrizedVMFactory
 import com.crazylegend.kotlinextensions.viewmodel.viewModel.savedState.MultipleParametrizedVMSavedStateFactory
 import com.crazylegend.kotlinextensions.viewmodel.viewModel.savedState.ParametrizedVMSavedStateFactory
-import io.reactivex.Flowable
+import io.reactivex.rxjava3.core.Flowable
 
 
 /**

@@ -2,9 +2,9 @@ package com.crazylegend.kotlinextensions.rx.bindings
 
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
 import com.google.android.material.chip.Chip
-import com.jakewharton.rxbinding3.material.closeIconClicks
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
+import com.jakewharton.rxbinding4.material.closeIconClicks
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 
 
