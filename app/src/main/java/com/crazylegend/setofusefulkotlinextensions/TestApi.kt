@@ -12,7 +12,11 @@ interface TestApi {
 
 
     @GET("posts")
-    suspend fun getPosts() : Response<List<TestModel>>
+    suspend fun getPosts(): Response<List<TestModel>>
+
+    @GET("posts")
+    fun getPostsRx(): io.reactivex.rxjava3.core.Single<Response<List<TestModel>>>
+
 
     companion object {
         const val API = "https://jsonplaceholder.typicode.com/"

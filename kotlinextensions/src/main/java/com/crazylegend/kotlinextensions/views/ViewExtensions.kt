@@ -51,7 +51,6 @@ import kotlin.math.roundToInt
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
 
-private var viewOriginalHeight: Int = 0
 
 fun View.visible() {
     this.visibility = View.VISIBLE
@@ -66,15 +65,15 @@ fun View.invisible() {
 }
 
 
-inline fun TextView.setTextSizeRes(@DimenRes rid: Int) {
+fun TextView.setTextSizeRes(@DimenRes rid: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_PX, this.context.resources.getDimension(rid))
 }
 
-inline fun AppCompatTextView.setTextSizeRes(@DimenRes rid: Int) {
+fun AppCompatTextView.setTextSizeRes(@DimenRes rid: Int) {
     setTextSize(TypedValue.COMPLEX_UNIT_PX, this.context.resources.getDimension(rid))
 }
 
-inline fun View.px(@DimenRes rid: Int): Int {
+fun View.px(@DimenRes rid: Int): Int {
     return this.context.resources.getDimensionPixelOffset(rid)
 }
 

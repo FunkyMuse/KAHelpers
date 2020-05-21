@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.views
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
@@ -616,7 +617,7 @@ fun AppCompatTextView.setTextAndShowOrGone(textString: String?) {
     }
 }
 
-fun AppCompatTextView.setTextAndShowOrGone(stringRes: Int, vararg params: Any? = emptyArray()) {
+fun AppCompatTextView.setTextAndShowOrGone(context:Context, stringRes: Int, vararg params: Any? = emptyArray()) {
     val string = context.getString(stringRes, params)
     text = if (params.isNullOrEmpty()) {
         gone()
@@ -627,7 +628,7 @@ fun AppCompatTextView.setTextAndShowOrGone(stringRes: Int, vararg params: Any? =
     }
 }
 
-fun AppCompatTextView.setTextAndShowOrInvisible(stringRes: Int, vararg params: Any? = emptyArray()) {
+fun AppCompatTextView.setTextAndShowOrInvisible(context:Context, stringRes: Int, vararg params: Any? = emptyArray()) {
     val string = context.getString(stringRes, params)
     text = if (params.isNullOrEmpty()) {
         invisible()

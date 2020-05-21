@@ -45,6 +45,7 @@ fun Context.putOnNormal() {
     audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
 }
 
+@Suppress("DEPRECATION")
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
 fun Context.muteAudio() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -63,6 +64,7 @@ fun Context.muteAudio() {
     }
 }
 
+@Suppress("DEPRECATION")
 @RequiresPermission(allOf = [MODIFY_AUDIO_SETTINGS])
 fun Context.unMuteAudio() {
     val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
