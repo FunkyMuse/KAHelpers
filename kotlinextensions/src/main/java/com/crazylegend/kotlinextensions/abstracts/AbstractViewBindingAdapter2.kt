@@ -27,7 +27,7 @@ abstract class AbstractViewBindingAdapter2<T, VH : RecyclerView.ViewHolder, VB :
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = getItem(holder.adapterPosition)
-        bindItems(item, holder, holder.adapterPosition, itemCount)
+        bindItems(item, holder, position, itemCount)
     }
 
     /**

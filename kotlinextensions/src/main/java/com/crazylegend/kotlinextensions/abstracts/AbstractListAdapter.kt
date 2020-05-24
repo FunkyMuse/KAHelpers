@@ -40,8 +40,8 @@ abstract class AbstractListAdapter<T, VH : RecyclerView.ViewHolder>(
     var onLongClickListener: forItemClickListener<T>? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val item: T = getItem(holder.adapterPosition)
-        bindItems(item, holder, holder.adapterPosition,itemCount)
+        val item: T = getItem(position)
+        bindItems(item, holder, position, itemCount)
     }
 
     /**
