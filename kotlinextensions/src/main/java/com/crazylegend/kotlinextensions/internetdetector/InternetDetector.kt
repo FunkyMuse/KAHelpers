@@ -41,9 +41,10 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager.registerDefaultNetworkCallback(networkCallback)
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
-                val builder = NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).addTransportType(
-                        NetworkCapabilities.TRANSPORT_WIFI
-                )
+                val builder = NetworkRequest.Builder()
+                        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                        .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
                 connectivityManager.registerNetworkCallback(builder.build(), networkCallback)
             }
             else -> {

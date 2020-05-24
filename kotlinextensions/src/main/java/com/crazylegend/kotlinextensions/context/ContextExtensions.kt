@@ -123,19 +123,19 @@ val Context.isOnline: Boolean
 
         if (cm != null) {
             if (Build.VERSION.SDK_INT < 23) {
-                val ni = cm.activeNetworkInfo
-                if (ni != null) {
-                    return ni.isConnected && (ni.type == ConnectivityManager.TYPE_WIFI || ni.type == ConnectivityManager.TYPE_MOBILE)
+                val networkInfo = cm.activeNetworkInfo
+                if (networkInfo != null) {
+                    return networkInfo.isConnected && (networkInfo.type == ConnectivityManager.TYPE_WIFI || networkInfo.type == ConnectivityManager.TYPE_MOBILE || networkInfo.type == ConnectivityManager.TYPE_VPN)
                 }
             } else {
-                val n = cm.activeNetwork
+                val network = cm.activeNetwork
 
-                if (n != null) {
-                    val nc = cm.getNetworkCapabilities(n)
+                if (network != null) {
+                    val nc = cm.getNetworkCapabilities(network)
                     return if (nc == null) {
                         false
                     } else {
-                        nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                        nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || nc.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
                     }
                 }
             }
@@ -148,30 +148,43 @@ val Context.isOnline: Boolean
  * 0 = no connection info available
  * 1 = mobile data
  * 2 = wifi
+ * 3 = vpn
  * @receiver Context
  * @return Int
  */
-@IntRange(from = 0, to = 2)
+@IntRange(from = 0, to = 3)
 fun Context.getConnectionType(): Int {
-    var result = 0 // Returns connection type. 0: none; 1: mobile data; 2: wifi
+    var result = 0 // Returns connection type. 0: none; 1: mobile data; 2: wifi; 3: vpn
     val cm = connectivityManager
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         cm?.run {
-            cm.getNetworkCapabilities(cm.activeNetwork)?.run {
-                if (hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    result = 2
-                } else if (hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    result = 1
+            getNetworkCapabilities(cm.activeNetwork)?.run {
+                when {
+                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        result = 2
+                    }
+                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        result = 1
+                    }
+                    hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> {
+                        result = 3
+                    }
                 }
             }
         }
     } else {
         cm?.run {
-            cm.activeNetworkInfo?.run {
-                if (type == ConnectivityManager.TYPE_WIFI) {
-                    result = 2
-                } else if (type == ConnectivityManager.TYPE_MOBILE) {
-                    result = 1
+            activeNetworkInfo?.run {
+                when (type) {
+                    ConnectivityManager.TYPE_WIFI -> {
+                        result = 2
+                    }
+                    ConnectivityManager.TYPE_MOBILE -> {
+                        result = 1
+                    }
+                    ConnectivityManager.TYPE_VPN -> {
+                        result = 3
+                    }
                 }
             }
         }
