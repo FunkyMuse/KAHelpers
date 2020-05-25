@@ -79,26 +79,26 @@ inline fun CoroutineScope.main(coroutineStart: CoroutineStart = CoroutineStart.D
     }
 }
 
-inline fun CoroutineScope.io(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
-    launch(ioDispatcher, coroutineStart) {
+inline fun CoroutineScope.io(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit): Job {
+    return launch(ioDispatcher, coroutineStart) {
         function()
     }
 }
 
-inline fun CoroutineScope.default(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
-    launch(defaultDispatcher, coroutineStart) {
+inline fun CoroutineScope.default(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) : Job {
+    return launch(defaultDispatcher, coroutineStart) {
         function()
     }
 }
 
-inline fun CoroutineScope.unconfined(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
-    launch(unconfinedDispatcher, coroutineStart) {
+inline fun CoroutineScope.unconfined(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) : Job {
+    return launch(unconfinedDispatcher, coroutineStart) {
         function()
     }
 }
 
-inline fun CoroutineScope.nonCancellable(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) {
-    launch(NonCancellable, coroutineStart) {
+inline fun CoroutineScope.nonCancellable(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, crossinline function: suspend () -> Unit) : Job {
+    return launch(NonCancellable, coroutineStart) {
         function()
     }
 }
