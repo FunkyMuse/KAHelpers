@@ -164,6 +164,53 @@ fun <T> AndroidViewModel.makeDBCallAsync(
     }
 }
 
+
+fun <T> AndroidViewModel.makeDBCallAsync(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+
+    return viewModelScope.launch(mainDispatcher) {
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                onCalled(task.await())
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                onErrorAction(t)
+            } finally {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeDBCallAsync(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+
+    return launch(mainDispatcher) {
+        supervisorScope {
+            try {
+                val task = async(ioDispatcher) {
+                    dbCall()
+                }
+                onCalled(task.await())
+            } catch (t: Throwable) {
+                t.printStackTrace()
+                onErrorAction(t)
+            } finally {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
 fun <T> AndroidViewModel.makeDBCallListAsync(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
