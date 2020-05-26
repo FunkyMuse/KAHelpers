@@ -21,17 +21,6 @@ inline fun <reified T> Boolean.either(t: T): Pair<Boolean, T> = Pair(this, t)
 
 inline infix fun <reified T> Pair<Boolean, T>.or(t: T): T = if (first) second else t
 
-fun Boolean.onTrue(function: () -> Unit) {
-    if (this) {
-        function()
-    }
-}
-
-fun Boolean.onFalse(function: () -> Unit) {
-    if (!this) {
-        function()
-    }
-}
 
 fun Boolean?.orFalse(): Boolean = this ?: false
 fun Boolean?.orTrue(): Boolean = this ?: true
@@ -45,16 +34,24 @@ fun Boolean?.nullAsTrue(): Boolean {
 }
 
 
-fun Boolean.ifTrue(function: () -> Unit): Boolean {
+inline fun Boolean.ifTrue(function: () -> Unit): Boolean {
     if (this) function()
     return this
 }
 
 
-fun Boolean.ifFalse(function: () -> Unit): Boolean {
+inline fun Boolean.ifFalse(function: () -> Unit): Boolean {
     if (!this) function()
     return this
 }
 
 
+inline fun Boolean.ifTrue(falseFunction: () -> Unit = {}, trueFunction: () -> Unit): Boolean {
+    if (this) trueFunction() else falseFunction()
+    return this
+}
 
+inline fun Boolean.ifFalse(trueFunction: () -> Unit = {}, falseFunction: () -> Unit): Boolean {
+    if (this) trueFunction() else falseFunction()
+    return this
+}
