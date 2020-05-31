@@ -72,8 +72,8 @@ fun getTimeFromMillis(date_time_millisecond: String, dateFormat: String): String
  * @param formatSpecifier pass format specifier like(:, -, /)
  * @return minutes as String
  */
-fun getDifferenceHHmmSS(startTime: Long?, endTime: Long?, formatSpecifier: String): String {
-    val difference = endTime!! - startTime!!
+fun getDifferenceHHmmSS(startTime: Long, endTime: Long, formatSpecifier: String): String {
+    val difference = endTime - startTime
     val days = (difference / (1000 * 60 * 60 * 24)).toInt()
     val hours = ((difference - 1000 * 60 * 60 * 24 * days) / (1000 * 60 * 60)).toInt()
     val min = (difference - (1000 * 60 * 60 * 24 * days).toLong() - (1000 * 60 * 60 * hours).toLong()).toInt() / (1000 * 60)
@@ -113,8 +113,8 @@ fun convertDate(date: String, defaultFormat: String, formatWanted: String): Stri
  * @param endTime   provide end time in millis
  * @return minutes as Integer
  */
-fun getDifferenceInMin(startTime: Long?, endTime: Long?): Int? {
-    val difference = endTime!! - startTime!!
+fun getDifferenceInMin(startTime: Long, endTime: Long): Int {
+    val difference = endTime - startTime
     val days = (difference / (1000 * 60 * 60 * 24)).toInt()
     val hours = ((difference - 1000 * 60 * 60 * 24 * days) / (1000 * 60 * 60)).toInt()
     val min = (difference - (1000 * 60 * 60 * 24 * days).toLong() - (1000 * 60 * 60 * hours).toLong()).toInt() / (1000 * 60)

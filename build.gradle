@@ -5,7 +5,8 @@ buildscript {
     ext.rxBindings = "4.0.0"
     ext.glide = "4.11.0"
     ext.constraint_layout = '2.0.0-beta4'
-    ext.coroutines = '1.3.6'
+    ext.coroutines = '1.3.7'
+    ext.coreDesugaring = '1.0.5'
     repositories {
         google()
         jcenter()
@@ -13,7 +14,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }

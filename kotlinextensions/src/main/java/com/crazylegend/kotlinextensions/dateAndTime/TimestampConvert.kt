@@ -158,19 +158,19 @@ object TimestampConvert {
         }
     }
 
-    fun GetUTCDateTimeAsDate(date: Date): Date? {
+    fun getUTCDateTimeAsDate(date: Date): Date? {
         //note: doesn't check for null
-        return StringDateToDate(GetUTCDateTimeAsString(date))
+        return stringDateToDate(getUTCDateTimeAsString(date))
     }
 
-    fun GetUTCDateTimeAsString(date: Date): String {
+    fun getUTCDateTimeAsString(date: Date): String {
         val sdf = SimpleDateFormat(DATEFORMAT)
         sdf.timeZone = TimeZone.getTimeZone("UTC")
 
         return sdf.format(date)
     }
 
-    fun StringDateToDate(StrDate: String): Date? {
+    fun stringDateToDate(StrDate: String): Date? {
         var dateToReturn: Date? = null
         val dateFormat = SimpleDateFormat(DATEFORMAT)
         dateFormat.timeZone = TimeZone.getTimeZone("UTC")

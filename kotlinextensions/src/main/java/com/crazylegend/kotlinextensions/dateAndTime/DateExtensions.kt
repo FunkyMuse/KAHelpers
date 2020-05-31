@@ -323,7 +323,6 @@ fun DateTime.toIsoFormatTimeNoMillisString(): String = ISODateTimeFormat.timeNoM
 /** Convert [DateTime] to ISO DateTime Format String without millis (YYYY-MM-DD hh:nn:ss) */
 fun DateTime.toIsoFormatHMSString(): String = ISODateTimeFormat.dateHourMinuteSecond().print(this)
 
-fun DateTime.toTimestampZoneText(): TimestampZoneText = TimestampZoneText(this)
 
 infix fun <T : ReadableInstant> T.min(that: T): T {
     return if (this < that) this else that
