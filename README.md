@@ -37,6 +37,10 @@ dependencies {
    compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
+	
+	//if you're using the desugaring library
+	coreLibraryDesugaringEnabled true
+
     }
 
     kotlinOptions {
