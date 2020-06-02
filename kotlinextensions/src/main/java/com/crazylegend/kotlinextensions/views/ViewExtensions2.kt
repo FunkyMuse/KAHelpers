@@ -291,11 +291,11 @@ fun View.visibleIfTrueGoneOtherwise(condition: Boolean) {
     }
 }
 
-fun View.visibleIfTrueGoneOtherwise(condition: () -> Boolean) {
+fun View.goneIfTrueVisibleOtherwise(condition: () -> Boolean) {
     if (condition()) {
-        visible()
-    } else {
         gone()
+    } else {
+        visible()
     }
 }
 
