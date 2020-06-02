@@ -316,7 +316,7 @@ fun View.rotateAnimation(rotation: Float, duration: Long) {
     }
 }
 
-fun View.blink(duration: Long) {
+fun View.blink(duration: Long = 300L) {
     val anim = AlphaAnimation(0.3f, 1.0f)
     anim.duration = duration
     startAnimation(anim)
