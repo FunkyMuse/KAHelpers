@@ -11,6 +11,7 @@ import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
+import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapterRxBus
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
@@ -19,8 +20,8 @@ import com.crazylegend.kotlinextensions.recyclerview.HideOnScrollListener
 import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
 import com.crazylegend.kotlinextensions.recyclerview.addDrag
 import com.crazylegend.kotlinextensions.recyclerview.addSwipe
-import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListenerDSL
 import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.rx.RxBus
 import com.crazylegend.kotlinextensions.rx.bindings.textChanges
 import com.crazylegend.kotlinextensions.rx.clearAndDispose
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
@@ -74,6 +75,16 @@ class MainAbstractActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
 
+        RxBus.listen<AbstractViewBindingAdapterRxBus.LongClick<TestModel>>().subscribe {
+            val longClickedModel = it.data
+            debug("LONG CLICKED MODEL $longClickedModel")
+        }
+         RxBus.listen<AbstractViewBindingAdapterRxBus.SingleClick<TestModel>>().subscribe {
+            val longClickedModel = it.data
+            debug("CLICKED MODEL $longClickedModel")
+        }
+
+
         activityMainBinding.test.setOnClickListener {
             activityMainBinding.recycler.toggleVisibility()
         }
@@ -92,9 +103,9 @@ class MainAbstractActivity : AppCompatActivity() {
             buttonsBGColor = getCompatColor(R.color.colorAccent)
         }
 
-        generatedAdapter.forItemClickListener = forItemClickListenerDSL { position, item, view ->
+        /*generatedAdapter.forItemClickListener = forItemClickListenerDSL { position, item, view ->
             debug("SADLY CLICKED HERE $item")
-        }
+        }*/
         activityMainBinding.recycler.addSwipe(this) {
             swipeDirection = RecyclerSwipeItemHandler.SwipeDirs.BOTH
             drawableLeft = android.R.drawable.ic_delete
