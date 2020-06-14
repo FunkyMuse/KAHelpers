@@ -20,7 +20,6 @@ fun getCountryCode(countryName: String) =
         Locale.getISOCountries().find { Locale("", it).displayCountry == countryName }
 
 
-
 /**
  * https://android.googlesource.com/platform/cts/+/2b87267/tests/tests/graphics/src/android/opengl/cts/OpenGlEsVersionTest.java
  */
@@ -47,3 +46,9 @@ private fun getMajorVersion(glEsVersion: Int): Int {
     return glEsVersion and -0x10000 shr 16
 }
 
+
+inline fun <T, R> T.ifThis(predicate: T.() -> Boolean, trueFun: () -> R, elseFun: () -> R) = if (predicate()) {
+    trueFun()
+} else {
+    elseFun()
+}
