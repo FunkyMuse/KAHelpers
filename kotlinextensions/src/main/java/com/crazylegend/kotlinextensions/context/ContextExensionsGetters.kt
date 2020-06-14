@@ -141,7 +141,7 @@ fun Context.getCompatColor(@ColorRes colorInt: Int): Int =
  * Get drawable from resources
  */
 fun Context.getCompatDrawable(@DrawableRes drawableRes: Int): Drawable? =
-        tryOrElse(AppCompatResources.getDrawable(this, drawableRes)){
+        tryOrElse(AppCompatResources.getDrawable(this, drawableRes)) {
             ContextCompat.getDrawable(this, drawableRes)
         }
 
@@ -380,8 +380,9 @@ fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
         permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
 
 
-val Context.locationPowerSaveMode @RequiresApi(Build.VERSION_CODES.P)
-get() = powerManager?.locationPowerSaveMode
+val Context.locationPowerSaveMode
+    @RequiresApi(Build.VERSION_CODES.P)
+    get() = powerManager?.locationPowerSaveMode
 
 /**
  *
@@ -434,3 +435,10 @@ val Context.isDeviceIdle
 
 fun Context.permissionGranted(permission: String) =
         packageManager.checkPermission(permission, packageName) == PackageManager.PERMISSION_GRANTED
+
+val Context.getExitReason
+    @RequiresApi(Build.VERSION_CODES.R)
+    get() = activityManager.getHistoricalProcessExitReasons(packageName, 0, 1)
+
+@RequiresApi(Build.VERSION_CODES.R)
+fun Context.getExitReasons(pid: Int = 0, maxRes: Int = 1) = activityManager.getHistoricalProcessExitReasons(packageName, pid, maxRes)

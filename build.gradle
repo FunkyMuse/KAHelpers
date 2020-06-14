@@ -1,12 +1,18 @@
 buildscript {
     ext.kotlin_version = '1.3.72'
-    ext.lifecycle ='2.3.0-alpha03'
+    ext.lifecycle ='2.3.0-alpha04'
     ext.retrofit = "2.9.0"
     ext.rxBindings = "4.0.0"
     ext.glide = "4.11.0"
-    ext.constraint_layout = '2.0.0-beta4'
+    ext.constraint_layout = '2.0.0-beta7'
     ext.coroutines = '1.3.7'
     ext.coreDesugaring = '1.0.5'
+
+    //compilation
+    ext.compileVersion = 30
+    ext.minVersion = 21
+    ext.verCode = 1
+    ext.verName = "1.0.0"
     repositories {
         google()
         jcenter()
