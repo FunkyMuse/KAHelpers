@@ -9,7 +9,7 @@
 
 Minimum Android API 21
 
-Compiled Android API 29
+Compiled Android API 30
 
 ## Usage
 1. Add JitPack to your project build.gradle
