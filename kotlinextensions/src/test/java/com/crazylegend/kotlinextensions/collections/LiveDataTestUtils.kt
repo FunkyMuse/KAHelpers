@@ -7,12 +7,6 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-
-/**
- * Created by crazy on 6/14/20 to long live and prosper !
- */
-
-
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
 fun <T> LiveData<T>.getOrAwaitValue(
         time: Long = 2,
