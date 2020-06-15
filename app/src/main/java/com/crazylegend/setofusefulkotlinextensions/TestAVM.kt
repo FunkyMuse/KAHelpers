@@ -38,12 +38,10 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
             retrofit2.getPostsRx()
         }*/
 
-        debug("AYOOOOOOOOO")
         viewModelScope.launch {
             val value =  apiCallList(true){
                 Response.success<List<TestModel>>(emptyList())
             }
-            debug(value)
             postsData.value = value
         }
 
