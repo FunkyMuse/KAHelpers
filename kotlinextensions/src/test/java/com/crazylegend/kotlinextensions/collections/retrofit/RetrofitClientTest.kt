@@ -31,6 +31,6 @@ class RetrofitClientTest {
 
     @Test
     fun getRetrofitInstance() {
-        assert(retrofit!=null)
+        assert(retrofit != null)
     }
 }
