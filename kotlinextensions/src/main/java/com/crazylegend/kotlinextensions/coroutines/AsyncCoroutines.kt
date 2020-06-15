@@ -6,8 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.crazylegend.kotlinextensions.database.*
-import com.crazylegend.kotlinextensions.retrofit.*
+import com.crazylegend.kotlinextensions.databaseResult.*
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.*
 import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -30,7 +30,7 @@ fun <T> CoroutineScope.makeApiCallAsync(
                 val task = async(ioDispatcher) {
                     response
                 }
-                retrofitResult.subscribe(task.await(), includeEmptyData)
+                retrofitResult.subscribe(task.await())
             } catch (t: Throwable) {
                 retrofitResult.callError(t)
             }
@@ -116,7 +116,7 @@ fun <T> AndroidViewModel.makeApiCallAsync(
                 val task = async(ioDispatcher) {
                     apiCall()
                 }
-                retrofitResult.subscribe(task.await(), includeEmptyData)
+                retrofitResult.subscribe(task.await())
             } catch (t: Throwable) {
                 retrofitResult.callError(t)
             }
@@ -284,7 +284,7 @@ fun <T> AppCompatActivity.makeApiCallAsync(
                 val task = async(ioDispatcher) {
                     apiCall()
                 }
-                retrofitResult.subscribe(task.await(), includeEmptyData)
+                retrofitResult.subscribe(task.await())
             } catch (t: Throwable) {
                 retrofitResult.callError(t)
             }
@@ -411,7 +411,7 @@ fun <T> Fragment.makeApiCallAsync(
                 val task = async(ioDispatcher) {
                     apiCall()
                 }
-                retrofitResult.subscribe(task.await(), includeEmptyData)
+                retrofitResult.subscribe(task.await())
             } catch (t: Throwable) {
                 retrofitResult.callError(t)
             }
@@ -597,7 +597,7 @@ fun <T> CoroutineScope.makeApiCallAsync(
                 val task = async(ioDispatcher) {
                     apiCall()
                 }
-                retrofitResult.subscribe(task.await(), includeEmptyData)
+                retrofitResult.subscribe(task.await())
             } catch (t: Throwable) {
                 retrofitResult.callError(t)
             }

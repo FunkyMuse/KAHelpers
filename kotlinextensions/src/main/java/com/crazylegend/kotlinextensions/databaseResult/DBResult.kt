@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.database
+package com.crazylegend.kotlinextensions.databaseResult
 
 
 /**

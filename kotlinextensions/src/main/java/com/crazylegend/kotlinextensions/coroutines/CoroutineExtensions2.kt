@@ -1,8 +1,8 @@
 package com.crazylegend.kotlinextensions.coroutines
 
 import androidx.lifecycle.*
-import com.crazylegend.kotlinextensions.database.DBResult
-import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.databaseResult.DBResult
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
@@ -41,7 +41,7 @@ fun <T> ViewModel.makeApiCallLiveData(apiCall: suspend () -> Response<T>?): Live
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> ViewModel.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> ViewModel.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         try {
@@ -54,6 +54,8 @@ fun <T> ViewModel.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<Retrofi
     mediatorLiveData.addSource(ld) {
         mediatorLiveData.postValue(it)
     }
+
+    return ld
 
 }
 

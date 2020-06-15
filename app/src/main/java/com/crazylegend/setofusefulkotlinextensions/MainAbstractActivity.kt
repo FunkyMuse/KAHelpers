@@ -20,7 +20,7 @@ import com.crazylegend.kotlinextensions.recyclerview.HideOnScrollListener
 import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
 import com.crazylegend.kotlinextensions.recyclerview.addDrag
 import com.crazylegend.kotlinextensions.recyclerview.addSwipe
-import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.kotlinextensions.rx.RxBus
 import com.crazylegend.kotlinextensions.rx.bindings.textChanges
 import com.crazylegend.kotlinextensions.rx.clearAndDispose
@@ -31,7 +31,6 @@ import com.crazylegend.kotlinextensions.transition.utils.plusAssign
 import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
 import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
-import com.crazylegend.kotlinextensions.views.toggleVisibility
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
@@ -84,10 +83,10 @@ class MainAbstractActivity : AppCompatActivity() {
             debug("CLICKED MODEL $longClickedModel")
         }
 
-
         activityMainBinding.test.setOnClickListener {
-            activityMainBinding.recycler.toggleVisibility()
+            testAVM.getposts()
         }
+
 
         activityMainBinding.recycler.addOnScrollListener(object : HideOnScrollListener(5){
             override fun onHide() {

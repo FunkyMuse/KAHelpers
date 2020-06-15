@@ -4,8 +4,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
-import com.crazylegend.kotlinextensions.database.*
-import com.crazylegend.kotlinextensions.retrofit.*
+import com.crazylegend.kotlinextensions.databaseResult.*
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -410,7 +410,7 @@ fun <T : Response<R>, R> Flowable<T>?.makeApiCall(
         }
         call.observeOn(mainThreadScheduler)
                 .subscribe({
-                    result.subscribe(it, includeEmptyData)
+                    result.subscribe(it)
                 }, {
                     result.callError(it)
                 }).addTo(compositeDisposable)
@@ -456,7 +456,7 @@ fun <T : Response<R>, R> Single<T>?.makeApiCall(
 ) {
     result.loading()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -470,7 +470,7 @@ fun <T : Response<R>, R> Single<T>?.makeApiCallList(
 ) {
     result.loading()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -491,7 +491,7 @@ fun <T : Response<R>, R> Observable<T>?.makeApiCall(
 ) {
     result.loading()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -505,7 +505,7 @@ fun <T : Response<R>, R> Observable<T>?.makeApiCallList(
 ) {
     result.loading()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -526,7 +526,7 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCall(
 ) {
     result.loading()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -540,7 +540,7 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCallList(
 ) {
     result.loading()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -565,7 +565,7 @@ fun <T> CompositeDisposable.makeApiCall(result: MutableLiveData<RetrofitResult<T
     if (dropBackPressure) {
         disposable?.onBackpressureDrop()
                 ?.subscribe({
-                    result.subscribe(it, includeEmptyData)
+                    result.subscribe(it)
                 }, {
                     result.callError(it)
                 })
@@ -573,7 +573,7 @@ fun <T> CompositeDisposable.makeApiCall(result: MutableLiveData<RetrofitResult<T
     } else {
         disposable
                 ?.subscribe({
-                    result.subscribe(it, includeEmptyData)
+                    result.subscribe(it)
                 }, {
                     result.callError(it)
                 })
@@ -623,7 +623,7 @@ fun <T> CompositeDisposable.makeApiCallSingle(result: MutableLiveData<RetrofitRe
     function()
             ?.observeOn(mainThreadScheduler)
             ?.subscribe({
-                result.subscribe(it, includeEmptyData)
+                result.subscribe(it)
             }, {
                 result.callError(it)
             })
@@ -649,7 +649,7 @@ fun <T> CompositeDisposable.makeApiCallMaybe(result: MutableLiveData<RetrofitRes
     function()
             ?.observeOn(mainThreadScheduler)
             ?.subscribe({
-                result.subscribe(it, includeEmptyData)
+                result.subscribe(it)
             }, {
                 result.callError(it)
             })
@@ -1328,7 +1328,7 @@ fun <T : Response<R>, R> Flowable<T>?.makeApiCallPost(
         }
         call.observeOn(mainThreadScheduler)
                 .subscribe({
-                    result.subscribePost(it, includeEmptyData)
+                    result.subscribePost(it)
                 }, {
                     result.callErrorPost(it)
                 }).addTo(compositeDisposable)
@@ -1374,7 +1374,7 @@ fun <T : Response<R>, R> Single<T>?.makeApiCallPost(
 ) {
     result.loadingPost()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -1388,7 +1388,7 @@ fun <T : Response<R>, R> Single<T>?.makeApiCallListPost(
 ) {
     result.loadingPost()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -1409,7 +1409,7 @@ fun <T : Response<R>, R> Observable<T>?.makeApiCallPost(
 ) {
     result.loadingPost()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -1423,7 +1423,7 @@ fun <T : Response<R>, R> Observable<T>?.makeApiCallListPost(
 ) {
     result.loadingPost()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -1444,7 +1444,7 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCallPost(
 ) {
     result.loadingPost()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -1458,7 +1458,7 @@ fun <T : Response<R>, R> Maybe<T>?.makeApiCallListPost(
 ) {
     result.loadingPost()
     this?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -1483,7 +1483,7 @@ fun <T> CompositeDisposable.makeApiCallPost(result: MutableLiveData<RetrofitResu
     if (dropBackPressure) {
         disposable?.onBackpressureDrop()
                 ?.subscribe({
-                    result.subscribePost(it, includeEmptyData)
+                    result.subscribePost(it)
                 }, {
                     result.callErrorPost(it)
                 })
@@ -1491,7 +1491,7 @@ fun <T> CompositeDisposable.makeApiCallPost(result: MutableLiveData<RetrofitResu
     } else {
         disposable
                 ?.subscribe({
-                    result.subscribe(it, includeEmptyData)
+                    result.subscribe(it)
                 }, {
                     result.callError(it)
                 })
@@ -1541,7 +1541,7 @@ fun <T> CompositeDisposable.makeApiCallSinglePost(result: MutableLiveData<Retrof
     function()
             ?.observeOn(mainThreadScheduler)
             ?.subscribe({
-                result.subscribePost(it, includeEmptyData)
+                result.subscribePost(it)
             }, {
                 result.callErrorPost(it)
             })
@@ -1567,7 +1567,7 @@ fun <T> CompositeDisposable.makeApiCallMaybePost(result: MutableLiveData<Retrofi
     function()
             ?.observeOn(mainThreadScheduler)
             ?.subscribe({
-                result.subscribePost(it, includeEmptyData)
+                result.subscribePost(it)
             }, {
                 result.callErrorPost(it)
             })

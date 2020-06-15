@@ -2,12 +2,12 @@ package com.crazylegend.kotlinextensions.coroutines
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.crazylegend.kotlinextensions.database.*
-import com.crazylegend.kotlinextensions.retrofit.*
+import com.crazylegend.kotlinextensions.databaseResult.*
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -53,25 +53,25 @@ val unconfinedDispatcher = Dispatchers.Unconfined
 val ioDispatcher = Dispatchers.IO
 
 
-fun <T> ioCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+fun <T> ioCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, block: suspend () -> T): Job {
     return GlobalScope.launch(ioDispatcher, coroutineStart) {
         block()
     }
 }
 
-fun <T> mainCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+fun <T> mainCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, block: suspend () -> T): Job {
     return GlobalScope.launch(mainDispatcher, coroutineStart) {
         block()
     }
 }
 
-fun <T> defaultCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+fun <T> defaultCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, block: suspend () -> T): Job {
     return GlobalScope.launch(defaultDispatcher, coroutineStart) {
         block()
     }
 }
 
-fun <T> unconfinedCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,block: suspend () -> T): Job {
+fun <T> unconfinedCoroutineGlobal(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, block: suspend () -> T): Job {
     return GlobalScope.launch(unconfinedDispatcher, coroutineStart) {
         block()
     }
@@ -132,7 +132,7 @@ fun <T> CoroutineScope.makeApiCall(
     retrofitResult.loadingPost()
     return launch(ioDispatcher) {
         try {
-            retrofitResult.subscribePost(response, includeEmptyData)
+            retrofitResult.subscribePost(response)
         } catch (t: Throwable) {
             retrofitResult.callErrorPost(t)
         }
@@ -234,14 +234,14 @@ retrofitClient?.apiCall()
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return Job
  */
-fun <T> AndroidViewModel.makeApiCall(
+fun <T> ViewModel.makeApiCall(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
     retrofitResult.loadingPost()
     return viewModelIOCoroutine {
         try {
-            retrofitResult.subscribePost(apiCall(), includeEmptyData)
+            retrofitResult.subscribePost(apiCall())
         } catch (t: Throwable) {
             retrofitResult.callErrorPost(t)
         }
@@ -260,7 +260,7 @@ retrofitClient?.makeApiCallList()
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return Job
  */
-fun <T> AndroidViewModel.makeApiCallList(
+fun <T> ViewModel.makeApiCallList(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
@@ -285,7 +285,7 @@ db?.getDBSomething()
  * @param dbCall SuspendFunction0<T?>
  * @return Job
  */
-fun <T> AndroidViewModel.makeDBCall(
+fun <T> ViewModel.makeDBCall(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
         dbCall: suspend () -> T?): Job {
@@ -307,7 +307,7 @@ fun <T> AndroidViewModel.makeDBCall(
  * @param dbCall SuspendFunction0<T?>
  * @return Job
  */
-fun <T> AndroidViewModel.makeDBCallList(
+fun <T> ViewModel.makeDBCallList(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
@@ -331,7 +331,7 @@ db?.getDBSomething()
  * @return Job
  */
 
-fun AndroidViewModel.makeDBCall(
+fun ViewModel.makeDBCall(
         onCallExecuted: () -> Unit = {},
         dbCall: suspend () -> Unit): Job {
     return viewModelIOCoroutine {
@@ -340,14 +340,14 @@ fun AndroidViewModel.makeDBCall(
         } catch (t: Throwable) {
             t.printStackTrace()
         } finally {
-            viewModelMainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
     }
 }
 
-fun AndroidViewModel.makeDBCall(
+fun ViewModel.makeDBCall(
         onCallExecuted: () -> Unit = {},
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Unit): Job {
@@ -357,7 +357,7 @@ fun AndroidViewModel.makeDBCall(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            viewModelMainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -371,7 +371,7 @@ fun AndroidViewModel.makeDBCall(
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelIOCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+fun ViewModel.viewModelIOCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(ioDispatcher) {
         action(this)
     }
@@ -384,7 +384,7 @@ fun AndroidViewModel.viewModelIOCoroutine(action: suspend (scope: CoroutineScope
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelMainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+fun ViewModel.viewModelMainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(mainDispatcher) {
         action(this)
     }
@@ -397,7 +397,7 @@ fun AndroidViewModel.viewModelMainCoroutine(action: suspend (scope: CoroutineSco
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelDefaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+fun ViewModel.viewModelDefaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(defaultDispatcher) {
         action(this)
     }
@@ -409,7 +409,7 @@ fun AndroidViewModel.viewModelDefaultCoroutine(action: suspend (scope: Coroutine
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelUnconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+fun ViewModel.viewModelUnconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(unconfinedDispatcher) {
         action(this)
     }
@@ -421,12 +421,11 @@ fun AndroidViewModel.viewModelUnconfinedCoroutine(action: suspend (scope: Corout
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun AndroidViewModel.viewModelNonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
+fun ViewModel.viewModelNonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return viewModelScope.launch(NonCancellable) {
         action(this)
     }
 }
-
 
 
 fun Fragment.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
@@ -460,7 +459,6 @@ fun Fragment.nonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> 
 }
 
 
-
 fun AppCompatActivity.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
     return lifecycleScope.launch(ioDispatcher) {
         action(this)
@@ -492,7 +490,6 @@ fun AppCompatActivity.nonCancellableCoroutine(action: suspend (scope: CoroutineS
 }
 
 
-
 /**
  * Appcompat activity coroutine extensions
  * Must include the view model androidX for coroutines to provide view model scope
@@ -517,7 +514,7 @@ fun <T> AppCompatActivity.makeApiCall(
     retrofitResult.loadingPost()
     return ioCoroutine {
         try {
-            retrofitResult.subscribePost(apiCall(), includeEmptyData)
+            retrofitResult.subscribePost(apiCall())
         } catch (t: Throwable) {
             retrofitResult.callErrorPost(t)
         }
@@ -616,7 +613,7 @@ fun AppCompatActivity.makeDBCall(
         } catch (t: Throwable) {
             t.printStackTrace()
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -633,7 +630,7 @@ fun AppCompatActivity.makeDBCall(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -665,7 +662,7 @@ fun <T> Fragment.makeApiCall(
     retrofitResult.loadingPost()
     return ioCoroutine {
         try {
-            retrofitResult.subscribePost(apiCall(), includeEmptyData)
+            retrofitResult.subscribePost(apiCall())
         } catch (t: Throwable) {
             retrofitResult.callErrorPost(t)
         }
@@ -764,7 +761,7 @@ fun Fragment.makeDBCall(
         } catch (t: Throwable) {
             t.printStackTrace()
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -781,7 +778,7 @@ fun Fragment.makeDBCall(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -790,10 +787,10 @@ fun Fragment.makeDBCall(
 
 
 //Api call without wrappers
-fun <T> AndroidViewModel.makeApiCall(apiCall: suspend () -> Response<T>?,
-                                     onError: (throwable: Throwable) -> Unit = { _ -> },
-                                     onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
-                                     onResponse: (response: T?) -> Unit
+fun <T> ViewModel.makeApiCall(apiCall: suspend () -> Response<T>?,
+                              onError: (throwable: Throwable) -> Unit = { _ -> },
+                              onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+                              onResponse: (response: T?) -> Unit
 ): Job {
 
     return viewModelIOCoroutine {
@@ -855,7 +852,7 @@ fun <T> CoroutineScope.makeApiCall(
     retrofitResult.loadingPost()
     return launch(ioDispatcher) {
         try {
-            retrofitResult.subscribePost(apiCall(), includeEmptyData)
+            retrofitResult.subscribePost(apiCall())
         } catch (t: Throwable) {
             retrofitResult.callErrorPost(t)
 
@@ -994,16 +991,18 @@ fun CoroutineScope.makeDBCall(
 
 //flow
 
-fun <T> CoroutineScope.makeDBCallListFlow(
+inline fun <T> CoroutineScope.makeDBCallListFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        dbCall: suspend () -> Flow<T>?): Job {
+        crossinline onFlow: Flow<T>?.() -> Unit = {},
+        crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
 
     return launch(ioDispatcher) {
         try {
 
             val result = dbCall()
+            result.onFlow()
             result?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }
@@ -1014,38 +1013,37 @@ fun <T> CoroutineScope.makeDBCallListFlow(
     }
 }
 
-fun <T> CoroutineScope.makeDBCallFlow(
+inline fun <T> CoroutineScope.makeDBCallFlow(
         queryModel: Flow<T>?,
         dbResult: MutableLiveData<DBResult<T>>,
-        includeEmptyData: Boolean = false
+        includeEmptyData: Boolean = false,
+        crossinline onFlow: Flow<T>?.() -> Unit = {}
+
 ): Job {
     dbResult.queryingPost()
     return launch(ioDispatcher) {
         try {
-
-            val call = queryModel
-
-            call?.collect {
+            queryModel.onFlow()
+            queryModel?.collect {
                 dbResult.subscribePost(it, includeEmptyData)
             }
-
         } catch (t: Throwable) {
             dbResult.callErrorPost(t)
         }
     }
 }
 
-fun <T> CoroutineScope.makeDBCallListFlow(
+inline fun <T> CoroutineScope.makeDBCallListFlow(
         queryModel: Flow<T>?,
         dbResult: MutableLiveData<DBResult<T>>,
-        includeEmptyData: Boolean = true
+        includeEmptyData: Boolean = true,
+        crossinline onFlow: Flow<T>?.() -> Unit = {}
 ): Job {
     dbResult.queryingPost()
     return launch(ioDispatcher) {
         try {
-            val call = queryModel
-
-            call?.collect {
+            queryModel.onFlow()
+            queryModel?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }
         } catch (t: Throwable) {
@@ -1056,14 +1054,16 @@ fun <T> CoroutineScope.makeDBCallListFlow(
 }
 
 
-fun <T> AndroidViewModel.makeDBCallFlow(
+inline fun <T> ViewModel.makeDBCallFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
-        dbCall: suspend () -> Flow<T>?): Job {
+        crossinline onFlow: Flow<T>?.() -> Unit = {},
+        crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return viewModelIOCoroutine {
         try {
             val flow = dbCall()
+            flow.onFlow()
             flow?.collect {
                 dbResult.subscribePost(it, includeEmptyData)
             }
@@ -1074,14 +1074,16 @@ fun <T> AndroidViewModel.makeDBCallFlow(
 }
 
 
-fun <T> AndroidViewModel.makeDBCallListFlow(
+inline fun <T> ViewModel.makeDBCallListFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        dbCall: suspend () -> Flow<T>?): Job {
+        crossinline onFlow: Flow<T>?.() -> Unit = {},
+        crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return viewModelIOCoroutine {
         try {
             val flow = dbCall()
+            flow.onFlow()
             flow?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }
@@ -1092,14 +1094,16 @@ fun <T> AndroidViewModel.makeDBCallListFlow(
 }
 
 
-fun <T> AppCompatActivity.makeDBCallFlow(
+inline fun <T> AppCompatActivity.makeDBCallFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
-        dbCall: suspend () -> Flow<T>?): Job {
+        crossinline onFlow: Flow<T>?.() -> Unit = {},
+        crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return ioCoroutine {
         try {
             val flow = dbCall()
+            flow.onFlow()
             flow?.collect {
                 dbResult.subscribePost(it, includeEmptyData)
             }
@@ -1110,14 +1114,16 @@ fun <T> AppCompatActivity.makeDBCallFlow(
 }
 
 
-fun <T> AppCompatActivity.makeDBCallListFlow(
+inline fun <T> AppCompatActivity.makeDBCallListFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        dbCall: suspend () -> Flow<T>?): Job {
+        crossinline onFlow: Flow<T>?.() -> Unit = {},
+        crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return ioCoroutine {
         try {
             val flow = dbCall()
+            flow.onFlow()
             flow?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }
@@ -1128,14 +1134,16 @@ fun <T> AppCompatActivity.makeDBCallListFlow(
 }
 
 
-fun <T> Fragment.makeDBCallFlow(
+inline fun <T> Fragment.makeDBCallFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
-        dbCall: suspend () -> Flow<T>?): Job {
+        crossinline onFlow: Flow<T>?.() -> Unit = {},
+        crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return ioCoroutine {
         try {
             val flow = dbCall()
+            flow.onFlow()
             flow?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }
@@ -1146,14 +1154,16 @@ fun <T> Fragment.makeDBCallFlow(
 }
 
 
-fun <T> Fragment.makeDBCallListFlow(
+inline fun <T> Fragment.makeDBCallListFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        dbCall: suspend () -> Flow<T>?): Job {
+        crossinline onFlow: Flow<T>?.() -> Unit = {},
+        crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return ioCoroutine {
         try {
             val flow = dbCall()
+            flow.onFlow()
             flow?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }
@@ -1164,7 +1174,7 @@ fun <T> Fragment.makeDBCallListFlow(
 }
 
 // no wrappers getting the result straight up
-fun <T> AndroidViewModel.makeDBCall(
+fun <T> ViewModel.makeDBCall(
         onCallExecuted: () -> Unit = {},
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> T,
@@ -1178,7 +1188,7 @@ fun <T> AndroidViewModel.makeDBCall(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            viewModelMainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -1220,7 +1230,7 @@ fun <T> Fragment.makeDBCall(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -1241,7 +1251,7 @@ fun <T> AppCompatActivity.makeDBCall(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -1250,7 +1260,7 @@ fun <T> AppCompatActivity.makeDBCall(
 
 // no wrappers getting the result straight up for flow
 
-fun <T> AndroidViewModel.makeDBCallFlow(
+fun <T> ViewModel.makeDBCallFlow(
         onCallExecuted: () -> Unit = {},
         onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
         dbCall: suspend () -> Flow<T>,
@@ -1259,7 +1269,7 @@ fun <T> AndroidViewModel.makeDBCallFlow(
         try {
             val call = dbCall()
             call.collect { model ->
-                viewModelMainCoroutine {
+                withMainContext {
                     onCalled(model)
                 }
             }
@@ -1267,7 +1277,7 @@ fun <T> AndroidViewModel.makeDBCallFlow(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            viewModelMainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -1283,7 +1293,7 @@ fun <T> CoroutineScope.makeDBCallFlow(
         try {
             val call = dbCall()
             call.collect {
-                launch(mainDispatcher) {
+                withMainContext {
                     onCalled(it)
                 }
             }
@@ -1307,7 +1317,7 @@ fun <T> Fragment.makeDBCallFlow(
         try {
             val call = dbCall()
             call.collect { model ->
-                mainCoroutine {
+                withMainContext {
                     onCalled(model)
                 }
             }
@@ -1315,7 +1325,7 @@ fun <T> Fragment.makeDBCallFlow(
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }
@@ -1331,14 +1341,14 @@ fun <T> AppCompatActivity.makeDBCallFlow(
         try {
             val call = dbCall()
             call.collect { model ->
-                mainCoroutine {
+                withMainContext {
                     onCalled(model)
                 }
             }
         } catch (t: Throwable) {
             onErrorAction(t)
         } finally {
-            mainCoroutine {
+            withMainContext {
                 onCallExecuted()
             }
         }

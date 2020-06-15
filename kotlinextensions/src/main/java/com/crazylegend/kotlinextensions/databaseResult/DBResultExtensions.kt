@@ -1,7 +1,8 @@
-package com.crazylegend.kotlinextensions.database
+package com.crazylegend.kotlinextensions.databaseResult
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.crazylegend.kotlinextensions.collections.isListAndNotNullOrEmpty
 import com.crazylegend.kotlinextensions.exhaustive
 
 
@@ -9,11 +10,41 @@ import com.crazylegend.kotlinextensions.exhaustive
  * Created by hristijan on 7/18/19 to long live and prosper !
  */
 
+fun databaseError(throwable: Throwable) = DBResult.DBError(throwable)
+fun <T> databaseSuccess(value: T) = DBResult.Success(value)
+val databaseQuerying get() = DBResult.Querying
+val databaseEmptyDB get() = DBResult.EmptyDB
 
-fun <T> DBResult<T>.handle(queryingDB: () -> Unit,
-                           emptyDB: () -> Unit,
-                           dbError: (throwable: Throwable) -> Unit = { _ -> },
-                           success: T.() -> Unit) {
+fun <T> databaseSubscribe(response: T?): DBResult<T> = if (response == null) databaseEmptyDB else databaseSuccess<T>(response)
+
+
+fun <T> databaseSubscribeList(response: T?, includeEmptyData: Boolean = false): DBResult<T> {
+    when {
+        response == null -> {
+            return databaseEmptyDB
+        }
+        includeEmptyData -> {
+            return if (includeEmptyData) {
+                return response.isListAndNotNullOrEmpty<T?, DBResult<T>>(actionFalse = {
+                    databaseEmptyDB
+                }, actionTrue = {
+                    databaseSubscribe<T>(response)
+                })
+            } else {
+                databaseSubscribe<T>(response)
+            }
+        }
+        else -> {
+            return databaseSubscribe(response)
+        }
+    }
+}
+
+
+inline fun <T> DBResult<T>.handle(queryingDB: () -> Unit,
+                                  emptyDB: () -> Unit,
+                                  dbError: (throwable: Throwable) -> Unit = { _ -> },
+                                  success: T.() -> Unit) {
     when (this) {
         is DBResult.Success -> {
             success.invoke(value)
@@ -32,32 +63,32 @@ fun <T> DBResult<T>.handle(queryingDB: () -> Unit,
 
 
 fun <T> MutableLiveData<DBResult<T>>.querying() {
-    value = DBResult.Querying
+    value = databaseQuerying
 }
 
 fun <T> MutableLiveData<DBResult<T>>.queryingPost() {
-    postValue(DBResult.Querying)
+    postValue(databaseQuerying)
 }
 
 fun <T> MutableLiveData<DBResult<T>>.emptyData() {
-    value = DBResult.EmptyDB
+    value = databaseEmptyDB
 }
 
 fun <T> MutableLiveData<DBResult<T>>.emptyDataPost() {
-    postValue(DBResult.EmptyDB)
+    postValue(databaseEmptyDB)
 }
 
 
 fun <T> MutableLiveData<DBResult<T>>.subscribe(queryModel: T?, includeEmptyData: Boolean = false) {
     if (includeEmptyData) {
         if (queryModel == null) {
-            value = DBResult.EmptyDB
+            value = databaseEmptyDB
         } else {
-            value = DBResult.Success(queryModel)
+            value = databaseSuccess(queryModel)
         }
     } else {
         queryModel?.apply {
-            value = DBResult.Success(this)
+            value = databaseSuccess(this)
         }
     }
 }
@@ -66,13 +97,13 @@ fun <T> MutableLiveData<DBResult<T>>.subscribe(queryModel: T?, includeEmptyData:
 fun <T> MutableLiveData<DBResult<T>>.subscribePost(queryModel: T?, includeEmptyData: Boolean = false) {
     if (includeEmptyData) {
         if (queryModel == null) {
-            postValue(DBResult.EmptyDB)
+            postValue(databaseEmptyDB)
         } else {
-            postValue(DBResult.Success(queryModel))
+            postValue(databaseSuccess(queryModel))
         }
     } else {
         queryModel?.apply {
-            postValue(DBResult.Success(this))
+            postValue(databaseSuccess(this))
         }
     }
 }
@@ -81,22 +112,22 @@ fun <T> MutableLiveData<DBResult<T>>.subscribePost(queryModel: T?, includeEmptyD
 fun <T> MutableLiveData<DBResult<T>>.subscribeList(queryModel: T?, includeEmptyData: Boolean = false) {
     if (includeEmptyData) {
         if (queryModel == null) {
-            value = DBResult.EmptyDB
+            value = databaseEmptyDB
         } else {
             if (this is List<*>) {
                 val list = this as List<*>
                 if (list.isNullOrEmpty()) {
-                    value = DBResult.EmptyDB
+                    value = databaseEmptyDB
                 } else {
-                    value = DBResult.Success(queryModel)
+                    value = databaseSuccess(queryModel)
                 }
             } else {
-                value = DBResult.Success(queryModel)
+                value = databaseSuccess(queryModel)
             }
         }
     } else {
         queryModel?.apply {
-            value = DBResult.Success(this)
+            value = databaseSuccess(this)
         }
     }
 }
@@ -105,41 +136,41 @@ fun <T> MutableLiveData<DBResult<T>>.subscribeList(queryModel: T?, includeEmptyD
 fun <T> MutableLiveData<DBResult<T>>.subscribeListPost(queryModel: T?, includeEmptyData: Boolean = false) {
     if (includeEmptyData) {
         if (queryModel == null) {
-            postValue(DBResult.EmptyDB)
+            postValue(databaseEmptyDB)
         } else {
             if (this is List<*>) {
                 val list = this as List<*>
                 if (list.isNullOrEmpty()) {
-                    postValue(DBResult.EmptyDB)
+                    postValue(databaseEmptyDB)
                 } else {
-                    postValue(DBResult.Success(queryModel))
+                    postValue(databaseSuccess(queryModel))
                 }
             } else {
-                postValue(DBResult.Success(queryModel))
+                postValue(databaseSuccess(queryModel))
             }
         }
     } else {
         queryModel?.apply {
-            postValue(DBResult.Success(this))
+            postValue(databaseSuccess(this))
         }
     }
 }
 
 fun <T> MutableLiveData<DBResult<T>>.callError(throwable: Throwable) {
-    value = DBResult.DBError(throwable)
+    value = databaseError(throwable)
 }
 
 fun <T> MutableLiveData<DBResult<T>>.callErrorPost(throwable: Throwable) {
-    postValue(DBResult.DBError(throwable))
+    postValue(databaseError(throwable))
 }
 
 
 fun <T> MutableLiveData<DBResult<T>>.success(model: T) {
-    value = DBResult.Success(model)
+    value = databaseSuccess(model)
 }
 
 fun <T> MutableLiveData<DBResult<T>>.successPost(model: T) {
-    postValue(DBResult.Success(model))
+    postValue(databaseSuccess(model))
 }
 
 fun <T> MutableLiveData<DBResult<T>>.onSuccess(action: (T) -> Unit) {

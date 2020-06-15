@@ -5,11 +5,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import com.crazylegend.kotlinextensions.database.DBResult
-import com.crazylegend.kotlinextensions.database.onSuccess
+import com.crazylegend.kotlinextensions.databaseResult.DBResult
+import com.crazylegend.kotlinextensions.databaseResult.onSuccess
 import com.crazylegend.kotlinextensions.reflection.firstPropertyValue
-import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
-import com.crazylegend.kotlinextensions.retrofit.onSuccess
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.onSuccess
 import com.crazylegend.kotlinextensions.viewmodel.androidViewModel.MultipleParametrizedAVMFactory
 import com.crazylegend.kotlinextensions.viewmodel.androidViewModel.ParametrizedAVMFactory
 import com.crazylegend.kotlinextensions.viewmodel.androidViewModel.savedState.MultipleParametrizedAVMSavedStateFactory

@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.viewBinding
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty

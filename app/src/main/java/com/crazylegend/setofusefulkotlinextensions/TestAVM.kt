@@ -1,18 +1,17 @@
 package com.crazylegend.setofusefulkotlinextensions
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import com.crazylegend.kotlinextensions.coroutines.apiCallList
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.retrofit.RetrofitClient
-import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
-import com.crazylegend.kotlinextensions.retrofit.getSuccess
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.getSuccess
 import com.crazylegend.kotlinextensions.rx.clearAndDispose
-import com.crazylegend.kotlinextensions.rx.makeApiCallListSingle
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
+import retrofit2.Response
 import retrofit2.create
 
 
@@ -34,11 +33,20 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
 
     private val compositeDisposable = CompositeDisposable()
 
-
     fun getposts() {
-        compositeDisposable.makeApiCallListSingle(postsData, true) {
+        /*compositeDisposable.makeApiCallListSingle(postsData, true) {
             retrofit2.getPostsRx()
+        }*/
+
+        debug("AYOOOOOOOOO")
+        viewModelScope.launch {
+            val value =  apiCallList(true){
+                Response.success<List<TestModel>>(emptyList())
+            }
+            debug(value)
+            postsData.value = value
         }
+
         //makeApiCallLiveData(postsData) { retrofit?.getPosts() }
     }
 

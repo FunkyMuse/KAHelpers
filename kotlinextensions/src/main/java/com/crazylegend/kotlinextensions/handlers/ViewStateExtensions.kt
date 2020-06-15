@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.crazylegend.kotlinextensions.livedata.liveDataOf
-import com.crazylegend.kotlinextensions.retrofit.RetrofitResult
+import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
 
 
 /**

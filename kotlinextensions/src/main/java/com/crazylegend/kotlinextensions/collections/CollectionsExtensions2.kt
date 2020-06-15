@@ -6,7 +6,7 @@ package com.crazylegend.kotlinextensions.collections
  */
 
 
-fun <K, V> MutableMap<K, V>.putAllIfNotNull(
+inline fun <K, V> MutableMap<K, V>.putAllIfNotNull(
         vararg data: Pair<K, V?>,
         predicate: (V) -> Boolean = { true }
 ) {
@@ -33,7 +33,7 @@ fun <K, V> Map<K, V>?.safeMutable(default: MutableMap<K, V> = mutableMapOf()): M
         (if (this is MutableMap<K, V>) this else this?.toMutableMap()) ?: default
 
 
-fun <T> Array<T>.resize(newSize: Int, creator: (Int) -> T): Array<T?> {
+inline fun <T> Array<T>.resize(newSize: Int, creator: (Int) -> T): Array<T?> {
     val copiedArray = this.copyOf(newSize)
     for (i in size until newSize) {
         copiedArray[i] = creator(i)
@@ -90,18 +90,26 @@ inline fun <reified T> Collection<T>.onDuplicatesRemoved(noDups: (collection: Se
 }
 
 
-fun <T> Collection<T>?.onNullOrEmpty(onNotNullOrEmpty: () -> Unit = {}, function: () -> Unit) {
+inline fun <T> Collection<T>?.onNullOrEmpty(onNotNullOrEmpty: () -> Unit = {}, function: () -> Unit) {
     if (this.isNullOrEmpty()) function() else onNotNullOrEmpty()
 }
 
-fun <T> Collection<T>?.onNull(onNotNull: () -> Unit = {}, function: () -> Unit) {
+inline fun <T> Collection<T>?.onNull(onNotNull: () -> Unit = {}, function: () -> Unit) {
     if (this == null) function() else onNotNull()
 }
 
-fun <T> Collection<T>?.onNotNullOrEmpty(onNullOrEmpty: () -> Unit = {}, function: Collection<T>.() -> Unit) {
+inline fun <T> Collection<T>?.onNotNullOrEmpty(onNullOrEmpty: () -> Unit = {}, function: Collection<T>.() -> Unit) {
     if (this.isNullOrEmpty()) onNullOrEmpty() else this.function()
 }
 
-fun <T> Collection<T>?.onNotNull(onNull: () -> Unit = {}, function: Collection<T>.() -> Unit) {
+inline fun <T> Collection<T>?.onNotNull(onNull: () -> Unit = {}, function: Collection<T>.() -> Unit) {
     if (this == null) onNull() else this.function()
 }
+
+
+inline fun <T, R> T.isListAndNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
+        if (this is List<*> && this.isNullOrEmpty()) actionTrue() else actionFalse()
+
+
+inline fun <T, R> T.isListAndNotNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
+        if (this is List<*> && !this.isNullOrEmpty()) actionTrue() else actionFalse()

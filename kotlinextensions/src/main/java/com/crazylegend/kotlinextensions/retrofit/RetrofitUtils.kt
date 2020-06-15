@@ -2,28 +2,23 @@ package com.crazylegend.kotlinextensions.retrofit
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.crazylegend.kotlinextensions.color.randomColor
 import com.crazylegend.kotlinextensions.context.shortToast
-import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.isNotNullOrEmpty
 import com.crazylegend.kotlinextensions.retrofit.progressInterceptor.OnAttachmentDownloadListener
-import okhttp3.*
+import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.ByteString
-import retrofit2.Response
 import java.io.File
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
+import javax.net.ssl.*
 import kotlin.random.Random
 
 
@@ -31,64 +26,6 @@ import kotlin.random.Random
  * Created by Hristijan on 1/25/19 to long live and prosper !
  */
 
-
-/* example
-private  val retrofit by lazy {
-    RetrofitClient.gsonInstanceRxJava(context, BASE_URL).create<RetrofitInterface>()
-}*/
-
-/**
- *
- * handle api call dsl
- * USAGE
- *
- *
-retrofitResult.handle({
-//loading
-
-}, {
-//empty data
-
-}, { // call error
-message, throwable, exception ->
-
-}, { // api error
-errorBody, responseCode ->
-
-}, {
-//success handle
-
-})
- *
- *
- */
-
-fun <T> RetrofitResult<T>.handle(
-        loading: () -> Unit,
-        emptyData: () -> Unit,
-        calError: (throwable: Throwable) -> Unit = { _ -> },
-        apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
-        success: T.() -> Unit
-) {
-
-    when (this) {
-        is RetrofitResult.Success -> {
-            success.invoke(value)
-        }
-        RetrofitResult.Loading -> {
-            loading()
-        }
-        RetrofitResult.EmptyData -> {
-            emptyData()
-        }
-        is RetrofitResult.Error -> {
-            calError(throwable)
-        }
-        is RetrofitResult.ApiError -> {
-            apiError(errorBody, responseCode)
-        }
-    }.exhaustive
-}
 
 
 const val multiPartContentType = "multipart/form-data"
@@ -102,24 +39,24 @@ fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
     }
 }
 
-fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?, photoIndexNumber: Int = randomColor) {
     if (pathToFile.isNotNullOrEmpty()) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
         this[key] = File(pathToFile.toString()).asRequestBody(multiPartContentType.toMediaType())
     }
 }
 
 
-fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?, photoIndexNumber: Int = randomColor) {
     if (image != null) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
         this[key] = image.toRequestBody(multiPartContentType.toMediaType())
     }
 }
 
-fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteString?) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteString?, photoIndexNumber: Int = randomColor) {
     if (image != null) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$randomColor")
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
         this[key] = image.toRequestBody(multiPartContentType.toMediaType())
     }
 }
@@ -149,6 +86,18 @@ val generateRetrofitImageKeyName
             "photo_${Random.nextInt(0, Int.MAX_VALUE)}"
     )
 
+fun generateRetrofitImageKeyName(photoName: String = "photo_${Random.nextInt(0, Int.MAX_VALUE)}") = String.format(
+        "%1\$s\"; filename=\"%1\$s",
+        photoName
+)
+
+
+fun generateRetrofitImageKeyName(photoIndexNumber: Int = Random.nextInt(0, Int.MAX_VALUE)) = String.format(
+        "%1\$s\"; filename=\"%1\$s",
+        "photo_${photoIndexNumber}"
+)
+
+
 fun Double?.toRequestBodyForm(): RequestBody {
     return this.toString().toRequestBody(MultipartBody.FORM)
 }
@@ -167,355 +116,6 @@ fun Float?.toRequestBodyForm(): RequestBody {
 
 fun Any?.toRequestBodyForm(): RequestBody {
     return toString().toRequestBodyForm()
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.loading() {
-    value = RetrofitResult.Loading
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.emptyData() {
-    value = RetrofitResult.EmptyData
-}
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.loadingPost() {
-    postValue(RetrofitResult.Loading)
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.emptyDataPost() {
-    postValue(RetrofitResult.EmptyData)
-}
-
-
-inline fun <reified T> isGenericInstanceOf(obj: Any): Boolean = obj is T
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
-                if (includeEmptyData) {
-                    if (this == null) {
-                        value = RetrofitResult.EmptyData
-                    } else {
-                        value = RetrofitResult.Success(this)
-                    }
-                } else {
-                    value = RetrofitResult.Success(this)
-                }
-            }
-        } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
-        }
-    }
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
-                if (includeEmptyData) {
-                    if (this == null) {
-                        postValue(RetrofitResult.EmptyData)
-                    } else {
-                        postValue(RetrofitResult.Success(this))
-                    }
-                } else {
-                    postValue(RetrofitResult.Success(this))
-                }
-            }
-        } else {
-            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
-        }
-    }
-}
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
-                if (includeEmptyData) {
-                    if (this == null) {
-                        value = RetrofitResult.EmptyData
-                    } else {
-                        if (this is List<*>) {
-                            val list = this as List<*>
-                            if (list.isNullOrEmpty()) {
-                                value = RetrofitResult.EmptyData
-                            } else {
-                                value = RetrofitResult.Success(this)
-                            }
-                        } else {
-                            value = RetrofitResult.Success(this)
-                        }
-                    }
-                } else {
-                    value = RetrofitResult.Success(this)
-                }
-            }
-        } else {
-            value = RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody())
-        }
-    }
-
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
-                if (includeEmptyData) {
-                    if (this == null) {
-                        postValue(RetrofitResult.EmptyData)
-                    } else {
-                        if (this is List<*>) {
-                            val list = this as List<*>
-                            if (list.isNullOrEmpty()) {
-                                postValue(RetrofitResult.EmptyData)
-                            } else {
-                                postValue(RetrofitResult.Success(this))
-                            }
-                        } else {
-                            postValue(RetrofitResult.Success(this))
-                        }
-                    }
-                } else {
-                    postValue(RetrofitResult.Success(this))
-                }
-            }
-        } else {
-            postValue(RetrofitResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
-        }
-    }
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.callError(throwable: Throwable) {
-    value = RetrofitResult.Error(throwable)
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.callErrorPost(throwable: Throwable) {
-    postValue(RetrofitResult.Error(throwable))
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.success(model: T) {
-    value = RetrofitResult.Success(model)
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.successPost(model: T) {
-    postValue(RetrofitResult.Success(model))
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.apiError(code: Int, errorBody: ResponseBody?) {
-    value = RetrofitResult.ApiError(code, errorBody)
-}
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.apiErrorPost(code: Int, errorBody: ResponseBody?) {
-    postValue(RetrofitResult.ApiError(code, errorBody))
-}
-
-//success
-
-fun <T> MutableLiveData<RetrofitResult<T>>.onSuccess(action: (model: T) -> Unit = { _ -> }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.Success -> {
-                action(it.value)
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-val <T> MutableLiveData<RetrofitResult<T>>.getSuccess: T?
-    get() {
-        return value?.let {
-            when (it) {
-                is RetrofitResult.Success -> {
-                    it.value
-                }
-                else -> {
-                    null
-                }
-            }
-        }
-    }
-
-val <T> LiveData<RetrofitResult<T>>.getSuccess: T?
-    get() {
-        return value?.let {
-            when (it) {
-                is RetrofitResult.Success -> {
-                    it.value
-                }
-                else -> {
-                    null
-                }
-            }
-        }
-    }
-
-//Loading
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.onLoading(action: () -> Unit = { }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.Loading -> {
-                action()
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> LiveData<RetrofitResult<T>>.onLoading(action: () -> Unit = { }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.Loading -> {
-                action()
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-
-// Empty data
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.onEmptyData(action: () -> Unit = { }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.EmptyData -> {
-                action()
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> LiveData<RetrofitResult<T>>.onEmptyData(action: () -> Unit = { }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.EmptyData -> {
-                action()
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-// on call error on your side
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.onCallError(action: (throwable: Throwable) -> Unit = { _ -> }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.Error -> {
-                action(it.throwable)
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> LiveData<RetrofitResult<T>>.onCallError(action: (throwable: Throwable) -> Unit = { _ -> }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.Error -> {
-                action(it.throwable)
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-// on api error on server side
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.ApiError -> {
-                action(it.responseCode, it.errorBody)
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> LiveData<RetrofitResult<T>>.onApiError(action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.ApiError -> {
-                action(it.responseCode, it.errorBody)
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(context: Context, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.ApiError -> {
-                context.errorResponseCode(it.responseCode)
-                action(it.responseCode, it.errorBody)
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> LiveData<RetrofitResult<T>>.onApiError(context: Context, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
-    value?.let {
-        when (it) {
-            is RetrofitResult.ApiError -> {
-                context.errorResponseCode(it.responseCode)
-                action(it.responseCode, it.errorBody)
-            }
-            else -> {
-            }
-        }
-    }
-}
-
-fun <T> RetrofitResult<T>.onLoading(function: () -> Unit = {}) {
-    if (this is RetrofitResult.Loading) function()
-}
-
-fun <T> RetrofitResult<T>.onEmptyData(function: () -> Unit = {}) {
-    if (this is RetrofitResult.EmptyData) function()
-}
-
-fun <T> RetrofitResult<T>.onCallError(function: (throwable: Throwable) -> Unit = { _ -> }) {
-    if (this is RetrofitResult.Error) {
-        function(throwable)
-    }
-}
-
-fun <T> RetrofitResult<T>.onApiError(function: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> }) {
-    if (this is RetrofitResult.ApiError) {
-        function(errorBody, responseCode)
-    }
-}
-
-fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }) {
-    if (this is RetrofitResult.Success) {
-        function(value)
-    }
 }
 
 

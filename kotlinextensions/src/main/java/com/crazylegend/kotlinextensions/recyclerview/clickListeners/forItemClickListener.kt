@@ -10,10 +10,10 @@ interface forItemClickListener<T> {
     fun forItem(position: Int, item: T, view: View)
 }
 
-fun <T> forItemClickListenerDSL(callback: (position: Int, item: T, view: View) -> Unit = { _, _, _ -> }): forItemClickListener<T> {
-    return object : forItemClickListener<T> {
-        override fun forItem(position: Int, item: T, view: View) {
-            callback(position, item, view)
+inline fun <T> forItemClickListenerDSL(crossinline callback: (position: Int, item: T, view: View) -> Unit = { _, _, _ -> }) =
+        object : forItemClickListener<T> {
+            override fun forItem(position: Int, item: T, view: View) {
+                callback(position, item, view)
+            }
         }
-    }
-}
+
