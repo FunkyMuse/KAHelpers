@@ -3,11 +3,16 @@ package com.crazylegend.kotlinextensions.location
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
-import android.location.*
-import android.os.Bundle
+import android.location.Criteria
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
+import android.os.Build
 import android.os.Looper
 import androidx.annotation.RequiresPermission
 import com.crazylegend.kotlinextensions.log.debug
+import java.util.concurrent.Executors
+import java.util.function.Consumer
 
 
 /**
@@ -19,25 +24,17 @@ import com.crazylegend.kotlinextensions.log.debug
  *
  * This function does assume we have permission already.
  */
+@Suppress("DEPRECATION")
 @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION])
 inline fun LocationManager.requestSingleUpdate(
         criteria: Criteria = Criteria(),
         crossinline onLocationHad: (location: Location) -> Unit = { _ -> }
 ) {
-    requestSingleUpdate(criteria, object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            onLocationHad(location)
-        }
-
-        override fun onProviderDisabled(p0: String?) {
-        }
-
-        override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
-        }
-
-        override fun onProviderEnabled(p0: String?) {
-        }
-    }, Looper.getMainLooper())
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        getCurrentLocation("gps", null, Executors.newSingleThreadExecutor(), Consumer { location -> onLocationHad(location) })
+    } else {
+        requestSingleUpdate(criteria, { location -> onLocationHad(location) }, Looper.getMainLooper())
+    }
 }
 
 

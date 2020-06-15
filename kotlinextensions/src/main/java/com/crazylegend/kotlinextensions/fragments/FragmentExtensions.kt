@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -73,14 +74,6 @@ inline fun <reified T : Fragment> T.withArguments(args: Bundle): T {
 }
 
 
-/**
- * Set target fragment with request code and return current instance
- */
-fun Fragment.withTargetFragment(fragment: Fragment, reqCode: Int): Fragment {
-    setTargetFragment(fragment, reqCode)
-    return this
-}
-
 fun Fragment.drawable(@DrawableRes id: Int): Drawable? = ContextCompat.getDrawable(requireContext(), id)
 
 /**
@@ -104,17 +97,6 @@ fun Fragment.attrDrawable(attr: Int): Drawable? {
 fun Fragment.shortToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_SHORT).show()
 fun Fragment.longToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_LONG).show()
 
-inline fun <reified T : Any> Fragment.launchActivity(
-        requestCode: Int = -1,
-        options: Bundle? = null,
-        noinline init: Intent.() -> Unit = {}
-) {
-    val intent = newIntent<T>(requireContext())
-    intent.init()
-
-    startActivityForResult(intent, requestCode, options)
-
-}
 
 inline fun <reified T : Any> Fragment.launchActivity(
         options: Bundle? = null,
@@ -124,18 +106,6 @@ inline fun <reified T : Any> Fragment.launchActivity(
     intent.init()
     startActivity(intent, options)
 
-}
-
-inline fun <reified T> Fragment.startActivityForResult(
-        requestCode: Int,
-        bundleBuilder: Bundle.() -> Unit = {},
-        intentBuilder: Intent.() -> Unit = {}
-) {
-    val intent = Intent(requireContext(), T::class.java)
-    intent.intentBuilder()
-    val bundle = Bundle()
-    bundle.bundleBuilder()
-    startActivityForResult(intent, requestCode, if (bundle.isEmpty) null else bundle)
 }
 
 fun Fragment.finish() {
@@ -259,18 +229,7 @@ inline fun <reified T : Activity> Fragment.startActivity(flags: Int = 0,
                                                          extras: Bundle? = null) = this.startActivity(
         getIntent<T>(flags, extras, data))
 
-/**
- * Calls `startActivityForResult` using given flags, bundles and url
- * @param[flags] Flags to pass to the intent
- * @param[data] Uri to pass to intent
- * @param[extras] Extra to pass to intent
- */
-inline fun <reified T : Activity> Fragment.startActivityForResult(
-        flags: Int = 0,
-        data: Uri? = null,
-        extras: Bundle? = null, requestCode: Int) = this.startActivityForResult(getIntent<T>
-(flags, extras, data),
-        requestCode)
+
 
 /**
  * Generates intent from Fragment
@@ -607,7 +566,7 @@ fun Fragment.showKeyboard() {
  */
 fun Fragment.postponeEnterTransition(timeout: Long) {
     postponeEnterTransition()
-    Handler().postDelayed({ startPostponedEnterTransition() }, timeout)
+    Handler(Looper.getMainLooper()).postDelayed({ startPostponedEnterTransition() }, timeout)
 }
 
 /**

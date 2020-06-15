@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.crazylegend.kotlinextensions.effects
 
 import android.Manifest.permission.VIBRATE

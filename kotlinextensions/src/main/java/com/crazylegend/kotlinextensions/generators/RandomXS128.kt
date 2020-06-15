@@ -155,7 +155,7 @@ class RandomXS128 : Random {
      * This implementation uses [.nextLong] internally.
      */
     override fun nextBytes(bytes: ByteArray) {
-        var n = 0
+        var n: Int
         var i = bytes.size
         while (i != 0) {
             n = if (i < 8) i else 8 // min(i, 8);
@@ -215,14 +215,14 @@ class RandomXS128 : Random {
         private val NORM_FLOAT = 1.0 / (1L shl 24)
 
         private fun murmurHash3(x: Long): Long {
-            var x = x
-            x = x xor x.ushr(33)
-            x *= -0xae502812aa7333L
-            x = x xor x.ushr(33)
-            x *= -0x3b314601e57a13adL
-            x = x xor x.ushr(33)
+            var xTemp = x
+            xTemp = xTemp xor xTemp.ushr(33)
+            xTemp *= -0xae502812aa7333L
+            xTemp = xTemp xor xTemp.ushr(33)
+            xTemp *= -0x3b314601e57a13adL
+            xTemp = xTemp xor xTemp.ushr(33)
 
-            return x
+            return xTemp
         }
     }
 

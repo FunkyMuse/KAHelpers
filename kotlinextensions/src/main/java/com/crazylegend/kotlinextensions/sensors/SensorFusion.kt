@@ -146,8 +146,7 @@ open class SensorFusion (context: Context) : SensorEventListener {
 
         // initialisation of the gyroscope based rotation matrix
         if (initState) {
-            var initMatrix = FloatArray(9)
-            initMatrix = getRotationMatrixFromOrientation(accMagOrientation)
+            val initMatrix: FloatArray = getRotationMatrixFromOrientation(accMagOrientation)
             val test = FloatArray(3)
             SensorManager.getOrientation(initMatrix, test)
             gyroMatrix = matrixMultiplication(gyroMatrix, initMatrix)

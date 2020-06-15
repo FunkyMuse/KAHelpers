@@ -20,24 +20,24 @@ class AspectRatioFrameLayout : FrameLayout {
      * context Constructor
      */
     constructor(context: Context) : super(context) {
-        init(context, null, 0)
+        init(context, null)
     }
 
     /**
      * context,attr Constructor
      */
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context, attrs, 0)
+        init(context, attrs)
     }
 
     /**
      * context,attr,defStyle Constructor
      */
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
-        init(context, attrs, defStyle)
+        init(context, attrs)
     }
 
-    private fun init(context: Context, attrs: AttributeSet?, defStyle: Int) {
+    private fun init(context: Context, attrs: AttributeSet?) {
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.AspectRatioFrameLayout, 0, 0)
         try {
             xRatio = a.getInt(R.styleable.AspectRatioFrameLayout_xRatio, DEFAULT_XRATIO)

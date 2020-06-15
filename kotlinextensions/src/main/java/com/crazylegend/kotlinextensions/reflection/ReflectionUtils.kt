@@ -475,7 +475,7 @@ inline fun <reified T : Any> T.getObjectHashCode(fieldName: String): Int? {
 /**
  * 0-based index of this parameter in the parameter list of its containing callable.
  */
-inline fun KParameter?.getParameterIndex(): Int? {
+fun KParameter?.getParameterIndex(): Int? {
     return this?.index
 }
 
@@ -487,7 +487,7 @@ inline fun KParameter?.getParameterIndex(): Int? {
  * 1. The default value is provided at the declaration of this parameter.
  * 2. The parameter is declared in a member function and one of the corresponding parameters in the super functions is optional.
  */
-inline fun KParameter?.isOptional(): Boolean? {
+fun KParameter?.isOptional(): Boolean? {
     return this?.isOptional
 }
 
@@ -496,7 +496,7 @@ inline fun KParameter?.isOptional(): Boolean? {
  * See the [Kotlin language documentation](https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs)
  * for more information.
  */
-inline fun KParameter?.isVararg(): Boolean? {
+fun KParameter?.isVararg(): Boolean? {
     return this?.isVararg
 }
 
@@ -512,7 +512,7 @@ EXTENSION_RECEIVER,
 /** Ordinary named value parameter. */
 VALUE,
  */
-inline fun KParameter?.getParameterKind(): KParameter.Kind? {
+fun KParameter?.getParameterKind(): KParameter.Kind? {
     return this?.kind
 }
 
@@ -521,7 +521,7 @@ inline fun KParameter?.getParameterKind(): KParameter.Kind? {
  * Type of this parameter. For a `vararg` parameter, this is the type of the corresponding array,
  * not the individual element.
  */
-inline fun KParameter?.getParameterType(): KType? {
+fun KParameter?.getParameterType(): KType? {
     return this?.type
 }
 

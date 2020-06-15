@@ -5,7 +5,7 @@ package com.crazylegend.kotlinextensions.memory
  * Created by crazy on 2/24/19 to long live and prosper !
  */
 
-fun getMemoryUsage(transform: (Long, Long, Long, Long, Int) -> String = { total, free, max, usage, percent -> "$usage / $max MB in use ($percent%)" }): Pair<Int, String> {
+fun getMemoryUsage(transform: (Long, Long, Long, Long, Int) -> String = { _, _, max, usage, percent -> "$usage / $max MB in use ($percent%)" }): Pair<Int, String> {
     val total = Runtime.getRuntime().totalMemory()
     val free = Runtime.getRuntime().freeMemory()
     val max = Runtime.getRuntime().maxMemory()

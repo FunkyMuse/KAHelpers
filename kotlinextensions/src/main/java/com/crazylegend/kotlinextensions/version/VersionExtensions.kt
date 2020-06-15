@@ -63,7 +63,12 @@ val Context.getVersionCode: Long
     @RequiresApi(Build.VERSION_CODES.P)
     get() = packageManager.getPackageInfo(packageName, 0).longVersionCode
 
-fun Context.getVersionCode(): Int = packageManager.getPackageInfo(packageName, 0).versionCode
+fun Context.getVersionCodeCompat(): Long = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    packageManager.getPackageInfo(packageName, 0).longVersionCode
+} else {
+    @Suppress("DEPRECATION")
+    packageManager.getPackageInfo(packageName, 0).versionCode.toLong()
+}
 
 fun Context.getVersionName(): String = packageManager.getPackageInfo(packageName, 0).versionName
 

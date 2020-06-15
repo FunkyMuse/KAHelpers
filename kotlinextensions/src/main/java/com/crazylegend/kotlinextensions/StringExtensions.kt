@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.text.*
 import android.text.style.*
 import android.util.Base64
@@ -765,7 +764,6 @@ fun String.parseAssetFile(): Uri = Uri.parse("file:///android_asset/$this")
 
 fun String.parseInternalStorageFile(absolutePath: String): Uri = Uri.parse("$absolutePath/$this")
 
-fun String.parseExternalStorageFile(): Uri = Uri.parse("${Environment.getExternalStorageDirectory()}/$this")
 
 fun String.parseFile(): Uri = Uri.fromFile(File(this))
 

@@ -227,14 +227,14 @@ fun EditText.resetCursorColor() {
  * Listens for either the enter key to be pressed or the soft keyboard's editor action to activate.
  */
 inline fun EditText.onImeAction(crossinline action: (text: String) -> Unit) {
-    setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+    setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
         if ((event?.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
             action(text.toString())
             return@OnKeyListener true
         }
         false
     })
-    setOnEditorActionListener { v, actionId, event ->
+    setOnEditorActionListener { _, _, _ ->
         action(text.toString())
         true
     }

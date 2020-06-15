@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.graphics.drawable.*
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.DrawableCompat
@@ -49,9 +50,9 @@ fun createSimpleRippleDrawable(@ColorInt foregroundColor: Int, @ColorInt backgro
     return RippleDrawable(states, content, mask)
 }
 
-fun RippleDrawable.forceAnimation(timeInMs: Long = 200) {
+fun RippleDrawable.forceAnimation(timeInMs: Long = 200, looper: Looper) {
     state = intArrayOf(android.R.attr.state_pressed, android.R.attr.state_enabled)
-    val handler = Handler()
+    val handler = Handler(looper)
     handler.postDelayed({ state = intArrayOf() }, timeInMs)
 }
 

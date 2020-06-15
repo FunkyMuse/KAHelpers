@@ -15,13 +15,13 @@ class MagiskDetector(context: Context) {
             val appInfo = pkg.applicationInfo
             if (pkgName == ORIGINAL_PACKAGE) return true
 
-            val label = pm.getApplicationLabel(appInfo)?.toString()
+            val label = pm.getApplicationLabel(appInfo).toString()
             if (label.equals(ORIGINAL_LABEL, true)) return true
 
             if (pkgName.startsWith(
                             SCREAMBLED_PACKAGE_PREFIX,
                             true
-                    ) && !PACKAGE_NOT.any { pkgName.contains(it) } && label?.contains(RENAMED_LABEL, true) == true
+                    ) && !PACKAGE_NOT.any { pkgName.contains(it) } && label.contains(RENAMED_LABEL, true)
             ) {
                 // Getting in here alone is a 90% guarantee it is magisk
                 if (DEBUG_LOG) {

@@ -117,6 +117,7 @@ val Context.deviceID
     get() = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
 
 
+@Suppress("DEPRECATION")
 val Context.isOnline: Boolean
     get() {
         val cm = connectivityManager

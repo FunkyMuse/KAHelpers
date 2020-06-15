@@ -85,7 +85,7 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.6'
 
     //moshi
-    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.9.3'
 
 
     //retrofit

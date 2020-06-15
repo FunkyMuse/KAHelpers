@@ -76,11 +76,11 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 
     class NetworkCallback(private val liveData: InternetDetector) : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network?) {
+        override fun onAvailable(network: Network) {
             liveData.postValue(true)
         }
 
-        override fun onLost(network: Network?) {
+        override fun onLost(network: Network) {
             liveData.postValue(false)
         }
     }

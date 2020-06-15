@@ -23,7 +23,6 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.scale
 import androidx.palette.graphics.Palette
 import com.crazylegend.kotlinextensions.coroutines.onIO
-import com.crazylegend.kotlinextensions.file.getRealPath
 import com.crazylegend.kotlinextensions.file.outAsBitmap
 import com.crazylegend.kotlinextensions.rx.computationScheduler
 import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
@@ -388,17 +387,16 @@ fun Uri.toDrawable(context: Context): Drawable {
  * Corrects the rotation of a bitmap based on the EXIF tags in the file as specified by the URI
  */
 @SuppressLint("NewApi")
-fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap {
+fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap? {
     var bitmap = initialBitmap
     try {
-        val exif = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val exifInterface = contentResolver.openInputStream(inputUri).use { inputStream ->
-                ExifInterface(inputStream)
-            }
-            exifInterface
-        } else {
-            ExifInterface(if (inputUri.scheme == "file") inputUri.path.toString() else inputUri.getRealPath(this).toString())
+        val exif = contentResolver.openInputStream(inputUri).use { inputStream ->
+            inputStream?:return@use null
+            ExifInterface(inputStream)
         }
+
+        exif?:return null
+
         when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)) {
             ExifInterface.ORIENTATION_ROTATE_90 -> {
                 bitmap = initialBitmap.rotate(90)

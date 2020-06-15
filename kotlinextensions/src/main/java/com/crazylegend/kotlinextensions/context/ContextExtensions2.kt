@@ -309,6 +309,7 @@ fun Context.getBroadcastPendingIntent(
         flags: Int = PendingIntent.FLAG_ONE_SHOT
 ): PendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, flags)
 
+@Suppress("DEPRECATION")
 fun Toolbar?.changeNavigateUpColor(@IdRes color: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 

@@ -57,5 +57,6 @@ abstract class AbstractViewBindingAdapterRxBus<T, VH : RecyclerView.ViewHolder, 
     }
 
 
+    @Suppress("UNCHECKED_CAST")
     private fun setViewHolder(binding: ViewBinding): VH = viewHolder.declaredConstructors.first().newInstance(binding) as VH
 }

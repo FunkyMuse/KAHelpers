@@ -37,7 +37,11 @@ fun Context.isAppEnabled(packageName: String): Boolean {
 
 
 fun Context.whoInstalledMyApp(packageName: String) =
-        packageManager.getInstallerPackageName(packageName)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+           packageManager.getInstallSourceInfo(packageName).installingPackageName
+        } else {
+            packageManager.getInstallerPackageName(packageName)
+        }
 
 
 fun Context.showAppInfo(packageName: String) {
@@ -67,7 +71,7 @@ const val INSTALLER_GOOGLE_PLAY_VENDING = "com.android.vending"
 const val INSTALLER_GOOGLE_PLAY_FEEDBACK = "com.google.android.feedback"
 
 inline val Context.installerPackageName: String?
-    get() = packageManager.getInstallerPackageName(packageName)
+    get() = whoInstalledMyApp(packageName)
 
 inline val Context.isFromGooglePlay: Boolean
     get() {

@@ -37,7 +37,7 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
 
     fun getposts() {
         compositeDisposable.makeApiCallListSingle(postsData, true) {
-            retrofit2?.getPostsRx()
+            retrofit2.getPostsRx()
         }
         //makeApiCallLiveData(postsData) { retrofit?.getPosts() }
     }
@@ -55,10 +55,10 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     }
 
     private val retrofit by lazy {
-        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, false)?.create<TestApi>()
+        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, false).create<TestApi>()
     }
     private val retrofit2 by lazy {
-        RetrofitClient.moshiInstanceRxJava(application, TestApi.API, false)?.create<TestApi>()
+        RetrofitClient.moshiInstanceRxJava(application, TestApi.API, false).create<TestApi>()
     }
 
 

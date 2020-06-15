@@ -325,10 +325,12 @@ fun Context.showTimePicker(hourOfDay: Int, minute: Int, is24Hour: Boolean, actio
         TimePickerDialog(this, TimePickerDialog.OnTimeSetListener(action), hourOfDay, minute, is24Hour).show()
 
 
+@Suppress("DEPRECATION")
 inline var TimePicker.hourCompat: Int
     set(value) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) hour = value else currentHour = value
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) hour else currentHour
 
+@Suppress("DEPRECATION")
 inline var TimePicker.minuteCompat: Int
     set(value) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) minute = value else currentMinute = value
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) minute else currentMinute

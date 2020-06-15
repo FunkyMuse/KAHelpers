@@ -658,7 +658,7 @@ val View.getActivity: Activity?
  * Gives focus to the passed view once the view has been completely inflated
  */
 fun Fragment.setFocusToView(view: View) {
-    val handler = Handler(this.activity?.mainLooper)
+    val handler = Handler(this.requireActivity().mainLooper)
     handler.post { view.requestFocus() }
 }
 
@@ -676,7 +676,7 @@ fun Activity.setTouchFocusToView(view: View) {
  * inflated using `view.requestFocusFromTouch`
  */
 fun Fragment.setTouchFocusToView(view: View) {
-    val handler = Handler(this.activity?.mainLooper)
+    val handler = Handler(this.requireActivity().mainLooper)
     handler.post { view.requestFocusFromTouch() }
 }
 

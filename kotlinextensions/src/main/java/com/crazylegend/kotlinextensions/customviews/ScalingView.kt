@@ -51,7 +51,7 @@ class ScalingView : FrameLayout, GestureDetector.OnGestureListener,
         gestureDetectorCompat.setOnDoubleTapListener(this)
 
 
-        setOnTouchListener { view: View, event: MotionEvent ->
+        setOnTouchListener { _: View, event: MotionEvent ->
 
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {

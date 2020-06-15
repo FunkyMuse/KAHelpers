@@ -213,7 +213,7 @@ private constructor() {
          * Returns a random number between start (inclusive) and end (inclusive).
          */
         fun random(start: Long, end: Long): Long {
-            return start + (random.nextDouble() * (end - start)) as Long
+            return start + (random.nextDouble() * (end - start)).toLong()
         }
 
         /**
@@ -303,15 +303,15 @@ private constructor() {
          * Returns the next power of two. Returns the specified value if the value is already a power of two.
          */
         fun nextPowerOfTwo(value: Int): Int {
-            var value = value
-            if (value == 0) return 1
-            value--
-            value = value or (value shr 1)
-            value = value or (value shr 2)
-            value = value or (value shr 4)
-            value = value or (value shr 8)
-            value = value or (value shr 16)
-            return value + 1
+            var tempValue = value
+            if (tempValue == 0) return 1
+            tempValue--
+            tempValue = tempValue or (tempValue shr 1)
+            tempValue = tempValue or (tempValue shr 2)
+            tempValue = tempValue or (tempValue shr 4)
+            tempValue = tempValue or (tempValue shr 8)
+            tempValue = tempValue or (tempValue shr 16)
+            return tempValue + 1
         }
 
         fun isPowerOfTwo(value: Int): Boolean {

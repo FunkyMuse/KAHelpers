@@ -211,15 +211,9 @@ fun SeekBar.tint(@ColorInt color: Int) {
 
 fun ProgressBar.tint(@ColorInt color: Int, skipIndeterminate: Boolean = false) {
     val sl = ColorStateList.valueOf(color)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        progressTintList = sl
-        secondaryProgressTintList = sl
-        if (!skipIndeterminate) indeterminateTintList = sl
-    } else {
-        val mode: PorterDuff.Mode = PorterDuff.Mode.SRC_IN
-        indeterminateDrawable?.setColorFilter(color, mode)
-        progressDrawable?.setColorFilter(color, mode)
-    }
+    progressTintList = sl
+    secondaryProgressTintList = sl
+    if (!skipIndeterminate) indeterminateTintList = sl
 }
 
 fun Context.textColorStateList(@ColorInt color: Int): ColorStateList {

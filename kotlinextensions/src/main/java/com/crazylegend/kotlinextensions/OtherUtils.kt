@@ -92,7 +92,7 @@ inline val isMainThread: Boolean get() = Looper.myLooper() == Looper.getMainLoop
  * Extension method to run block of code after specific Delay.
  */
 fun runDelayed(delay: Long, timeUnit: TimeUnit = TimeUnit.MILLISECONDS, action: () -> Unit) {
-    Handler().postDelayed(action, timeUnit.toMillis(delay))
+    Handler(Looper.getMainLooper()).postDelayed(action, timeUnit.toMillis(delay))
 }
 
 /**

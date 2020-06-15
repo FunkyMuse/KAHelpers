@@ -26,6 +26,7 @@ fun Any.toUnsafeInt(): Int {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 fun <T> Any.asType(): T? {
     return (this as? T)
 }
