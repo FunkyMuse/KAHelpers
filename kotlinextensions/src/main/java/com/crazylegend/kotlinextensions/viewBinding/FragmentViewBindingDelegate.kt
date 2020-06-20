@@ -11,7 +11,7 @@ import com.crazylegend.kotlinextensions.fragments.observeLifecycleOwnerThroughLi
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class FragmentViewBindingDelegate<T : ViewBinding>(val fragment: Fragment, val viewBinder: (View) -> T) : ReadOnlyProperty<Fragment, T>, LifecycleObserver {
+class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragment, private val viewBinder: (View) -> T) : ReadOnlyProperty<Fragment, T>, LifecycleObserver {
 
     private var fragmentBinding: T? = null
 
