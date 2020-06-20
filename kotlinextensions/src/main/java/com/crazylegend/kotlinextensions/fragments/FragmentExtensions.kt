@@ -591,13 +591,117 @@ inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreation(crossinline vi
     })
 }
 
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnCreate(crossinline onCreateAction: (LifecycleOwner) -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onCreate(owner: LifecycleOwner) {
+                    onCreateAction(owner)
+                }
+            })
+        }
+    })
+}
 
-inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnDestroy(crossinline onDestroyAction: () -> Unit) {
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnResume(crossinline onResumeAction: (LifecycleOwner) -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onResume(owner: LifecycleOwner) {
+                    onResumeAction(owner)
+                }
+            })
+        }
+    })
+}
+
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnPause(crossinline onPauseAction: (LifecycleOwner) -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onPause(owner: LifecycleOwner) {
+                    onPauseAction(owner)
+                }
+            })
+        }
+    })
+}
+
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnStart(crossinline onStartAction: (LifecycleOwner) -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onStart(owner: LifecycleOwner) {
+                    onStartAction(owner)
+                }
+            })
+        }
+    })
+}
+
+
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnStop(crossinline onStopAction: (LifecycleOwner) -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onStop(owner: LifecycleOwner) {
+                    onStopAction(owner)
+                }
+            })
+        }
+    })
+}
+
+
+
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnDestroy(crossinline onDestroyAction: (LifecycleOwner) -> Unit) {
     lifecycle.addObserver(object : DefaultLifecycleObserver {
         override fun onCreate(owner: LifecycleOwner) {
             viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
                 override fun onDestroy(owner: LifecycleOwner) {
-                    onDestroyAction()
+                    onDestroyAction(owner)
+                }
+            })
+        }
+    })
+}
+
+
+
+
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreation(
+        crossinline onCreateAction: (LifecycleOwner) -> Unit = {},
+        crossinline onResumeAction: (LifecycleOwner) -> Unit = {},
+        crossinline onPauseAction: (LifecycleOwner) -> Unit = {},
+        crossinline onStartAction: (LifecycleOwner) -> Unit = {},
+        crossinline onStopAction: (LifecycleOwner) -> Unit = {},
+        crossinline onDestroyAction: (LifecycleOwner) -> Unit = {}
+) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onCreate(owner: LifecycleOwner) {
+                    onCreateAction(owner)
+                }
+
+                override fun onResume(owner: LifecycleOwner) {
+                    onResumeAction(owner)
+                }
+
+                override fun onPause(owner: LifecycleOwner) {
+                    onPauseAction(owner)
+                }
+
+                override fun onStart(owner: LifecycleOwner) {
+                    onStartAction(owner)
+                }
+
+                override fun onStop(owner: LifecycleOwner) {
+                    onStopAction(owner)
+                }
+
+                override fun onDestroy(owner: LifecycleOwner) {
+                    onDestroyAction(owner)
                 }
             })
         }
