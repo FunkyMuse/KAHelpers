@@ -21,6 +21,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.*
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.observe
 import com.crazylegend.kotlinextensions.activity.newIntent
 import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.crazylegend.kotlinextensions.context.getIntent
@@ -230,7 +233,6 @@ inline fun <reified T : Activity> Fragment.startActivity(flags: Int = 0,
         getIntent<T>(flags, extras, data))
 
 
-
 /**
  * Generates intent from Fragment
  * @return: Generated intent from Flags, Data and Bundle.
@@ -292,21 +294,21 @@ fun Context.isFragmentWithTagVisible(tag: String): Boolean {
     }
 }
 
-fun AppCompatActivity.addFragment( fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.addFragment(fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .add(layoutId, fragment, tag)
             .commit()
 }
 
-fun Fragment.addFragment( fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.addFragment(fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     parentFragmentManager
             .beginTransaction()
             .add(layoutId, fragment, tag)
             .commit()
 }
 
-fun Context.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Context.replaceFragment(@StringRes title: Int, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
             .supportFragmentManager
             .beginTransaction()
@@ -317,7 +319,7 @@ fun Context.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullabl
     }
 }
 
-fun Context.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Context.replaceFragment(@Nullable title: String?, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
             .supportFragmentManager
             .beginTransaction()
@@ -330,7 +332,7 @@ fun Context.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Null
     }
 }
 
-fun Context.addFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Context.addFragment(@Nullable title: String?, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     (this as AppCompatActivity)
             .supportFragmentManager
             .beginTransaction()
@@ -361,7 +363,7 @@ fun Fragment.isFragmentWithTagVisible(tag: String): Boolean {
     }
 }
 
-fun Fragment.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.replaceFragment(@StringRes title: Int, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
@@ -373,7 +375,7 @@ fun Fragment.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullab
     }
 }
 
-fun Fragment.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.replaceFragment(@Nullable title: String?, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
@@ -387,7 +389,7 @@ fun Fragment.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Nul
     }
 }
 
-fun Fragment.addFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun Fragment.addFragment(@Nullable title: String?, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     val activity = this.requireContext() as AppCompatActivity
 
     activity.supportFragmentManager
@@ -416,7 +418,7 @@ fun AppCompatActivity.isFragmentWithTagVisible(tag: String): Boolean {
     }
 }
 
-fun AppCompatActivity.replaceFragment(@StringRes title: Int,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.replaceFragment(@StringRes title: Int, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .replace(layoutId, fragment, tag)
@@ -426,7 +428,7 @@ fun AppCompatActivity.replaceFragment(@StringRes title: Int,  fragment: Fragment
     }
 }
 
-fun AppCompatActivity.replaceFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.replaceFragment(@Nullable title: String?, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .replace(layoutId, fragment, tag)
@@ -438,7 +440,7 @@ fun AppCompatActivity.replaceFragment(@Nullable title: String?,  fragment: Fragm
     }
 }
 
-fun AppCompatActivity.addFragment(@Nullable title: String?,  fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
+fun AppCompatActivity.addFragment(@Nullable title: String?, fragment: Fragment, @Nullable tag: String, @IdRes layoutId: Int) {
     supportFragmentManager
             .beginTransaction()
             .add(layoutId, fragment, tag)
@@ -573,3 +575,33 @@ fun Fragment.postponeEnterTransition(timeout: Long) {
  * Get the activity's rootView
  */
 val Fragment.rootView: View? get() = requireActivity().findViewById(android.R.id.content)
+
+/**
+ * Get the lifecycle of the viewLifecycle owner
+ */
+val Fragment.viewLifecycleOwnerLifecycle get() = viewLifecycleOwner.lifecycle
+
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreation(crossinline viewOwner: LifecycleOwner.() -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwnerLiveData.observe(this@observeLifecycleOwnerThroughLifecycleCreation) { viewLifecycleOwner ->
+                viewLifecycleOwner.viewOwner()
+            }
+        }
+    })
+}
+
+
+inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnDestroy(crossinline onDestroyAction: () -> Unit) {
+    lifecycle.addObserver(object : DefaultLifecycleObserver {
+        override fun onCreate(owner: LifecycleOwner) {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onDestroy(owner: LifecycleOwner) {
+                    onDestroyAction()
+                }
+            })
+        }
+    })
+}
+
+

@@ -19,4 +19,8 @@ class TestDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
 }
