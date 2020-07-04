@@ -30,7 +30,7 @@ task clean(type: Delete) {
 
 ext {
 
-    lifecycle = '2.3.0-alpha04'
+    lifecycle = '2.3.0-alpha05'
     retrofit = "2.9.0"
     rxBindings = "4.0.0"
     glide = "4.11.0"
