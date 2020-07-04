@@ -23,7 +23,7 @@ import com.crazylegend.kotlinextensions.version.doIfSdk
 
 
 @RequiresPermission(allOf = [SET_ALARM])
-fun Activity.createAlarm(message: String, hour: Int, minutes: Int) {
+inline fun Activity.createAlarm(message: String, hour: Int, minutes: Int, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
         putExtra(AlarmClock.EXTRA_MESSAGE, message)
         putExtra(AlarmClock.EXTRA_HOUR, hour)
@@ -31,11 +31,13 @@ fun Activity.createAlarm(message: String, hour: Int, minutes: Int) {
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
 @RequiresPermission(allOf = [SET_ALARM])
-fun Activity.startTimer(message: String, seconds: Int) {
+inline fun Activity.startTimer(message: String, seconds: Int, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(AlarmClock.ACTION_SET_TIMER).apply {
         putExtra(AlarmClock.EXTRA_MESSAGE, message)
         putExtra(AlarmClock.EXTRA_LENGTH, seconds)
@@ -43,11 +45,13 @@ fun Activity.startTimer(message: String, seconds: Int) {
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
 
-fun Activity.addEvent(title: String, location: String, begin: Long, end: Long) {
+inline fun Activity.addEvent(title: String, location: String, begin: Long, end: Long, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_INSERT).apply {
         data = CalendarContract.Events.CONTENT_URI
         putExtra(CalendarContract.Events.TITLE, title)
@@ -57,30 +61,36 @@ fun Activity.addEvent(title: String, location: String, begin: Long, end: Long) {
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
 
-fun Activity.selectContact(REQUEST_SELECT_CONTACT: Int) {
+inline fun Activity.selectContact(REQUEST_SELECT_CONTACT: Int, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_PICK).apply {
         type = ContactsContract.Contacts.CONTENT_TYPE
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(intent, REQUEST_SELECT_CONTACT)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Activity.editContact(contactUri: Uri, email: String) {
+inline fun Activity.editContact(contactUri: Uri, email: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_EDIT).apply {
         data = contactUri
         putExtra(ContactsContract.Intents.Insert.EMAIL, email)
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Activity.insertContact(name: String, email: String) {
+inline fun Activity.insertContact(name: String, email: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_INSERT).apply {
         type = ContactsContract.Contacts.CONTENT_TYPE
         putExtra(ContactsContract.Intents.Insert.NAME, name)
@@ -88,28 +98,35 @@ fun Activity.insertContact(name: String, email: String) {
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Activity.showMap(geoLocation: Uri) {
+inline fun Activity.showMap(geoLocation: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
         data = geoLocation
     }
     if (intent.resolveActivity(packageManager) != null) {
+
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Activity.playMedia(file: Uri) {
+inline fun Activity.playMedia(file: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
         data = file
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-fun Activity.playSearchArtist(artist: String) {
+inline fun Context.playSearchArtist(artist: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH).apply {
         putExtra(MediaStore.EXTRA_MEDIA_FOCUS, MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE)
         putExtra(MediaStore.EXTRA_MEDIA_ARTIST, artist)
@@ -117,27 +134,20 @@ fun Activity.playSearchArtist(artist: String) {
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
-/*
-fun Activity.createNote(subject: String, text: String) {
-    val intent = Intent(NoteIntents.ACTION_CREATE_NOTE).apply {
-        putExtra(NoteIntents.EXTRA_NAME, subject)
-        putExtra(NoteIntents.EXTRA_TEXT, text)
-    }
-    if (intent.resolveActivity(packageManager) != null) {
-        startActivity(intent)
-    }
-}*/
 
-
-fun Activity.searchWeb(query: String) {
+inline fun Context.searchWeb(query: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
         putExtra(SearchManager.QUERY, query)
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
+    } else {
+        onCantHandleAction()
     }
 }
 
@@ -160,7 +170,7 @@ ACTION_LOCATION_SOURCE_SETTINGS
 ACTION_INTERNAL_STORAGE_SETTINGS
 ACTION_MEMORY_CARD_SETTINGS
  */
-fun Activity.openSettingsCategory(category: String, onCantHandleAction: () -> Unit = {}) {
+inline fun Activity.openSettingsCategory(category: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
@@ -169,7 +179,7 @@ fun Activity.openSettingsCategory(category: String, onCantHandleAction: () -> Un
     }
 }
 
-fun Activity.openSettingsCategory(category: String, resultCode: Int, onCantHandleAction: () -> Unit = {}) {
+inline fun Activity.openSettingsCategory(category: String, resultCode: Int, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
         startActivityForResult(intent, resultCode)
@@ -178,24 +188,7 @@ fun Activity.openSettingsCategory(category: String, resultCode: Int, onCantHandl
     }
 }
 
-fun Activity.openWifiSettings(onCantHandleAction: () -> Unit = {}) {
 
-    doIfSdk(Build.VERSION_CODES.Q, {
-        val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        } else {
-            onCantHandleAction()
-        }
-    }) {
-        val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity(intent)
-        } else {
-            onCantHandleAction()
-        }
-    }
-}
 
 fun Activity.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SEND).apply {
@@ -238,7 +231,7 @@ ACTION_LOCATION_SOURCE_SETTINGS
 ACTION_INTERNAL_STORAGE_SETTINGS
 ACTION_MEMORY_CARD_SETTINGS
  */
-fun Context.openSettingsCategory(category: String, onCantHandleAction: () -> Unit = {}) {
+inline fun Context.openSettingsCategory(category: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(category)
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(intent)
@@ -247,7 +240,7 @@ fun Context.openSettingsCategory(category: String, onCantHandleAction: () -> Uni
     }
 }
 
-fun Context.openWifiSettings(onCantHandleAction: () -> Unit = {}) {
+inline fun Context.openWifiSettings(crossinline onCantHandleAction: () -> Unit = {}) {
     doIfSdk(Build.VERSION_CODES.Q, {
         val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
         if (intent.resolveActivity(packageManager) != null) {
@@ -266,7 +259,7 @@ fun Context.openWifiSettings(onCantHandleAction: () -> Unit = {}) {
 }
 
 
-fun Context.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
+inline fun Context.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         data = Uri.parse("smsto:")  // This ensures only SMS apps respond
         putExtra("sms_body", message)
@@ -279,7 +272,7 @@ fun Context.composeMmsMessage(message: String, attachment: Uri, onCantHandleActi
     }
 }
 
-fun Context.openWebPage(url: String, onCantHandleAction: () -> Unit = {}) {
+inline fun Context.openWebPage(url: String, onCantHandleAction: () -> Unit = {}) {
     val webpage: Uri = Uri.parse(url)
     val intent = Intent(Intent.ACTION_VIEW, webpage)
     if (intent.resolveActivity(packageManager) != null) {
