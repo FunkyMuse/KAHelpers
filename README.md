@@ -103,6 +103,8 @@ org.gradle.parallel=true // if you're modularizing your projects
 org.gradle.caching=true
 room.incremental = true // if you're using room
 kapt.use.worker.api = true
+org.gradle.unsafe.watch-fs=true
+org.gradle.configureondemand=true
 ```
 Informational
 1. Proguard configs 
