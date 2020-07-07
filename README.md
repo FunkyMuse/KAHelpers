@@ -74,8 +74,6 @@ dependencies {
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${crashlytics}" />
 	*/
-          ext.enableCrashlytics = false
-          ext.alwaysUpdateBuildId = false
           firebaseCrashlytics {
                 mappingFileUploadEnabled false
           }
@@ -98,7 +96,6 @@ dependencies {
 5. Inside gradle.properties
 
 ```gradle
-kapt.incremental.apt=true
 org.gradle.parallel=true // if you're modularizing your projects
 org.gradle.caching=true
 room.incremental = true // if you're using room
