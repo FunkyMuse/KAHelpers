@@ -419,6 +419,8 @@ fun Context.createNewWakeLock(levelFlags: Int, tag: String): PowerManager.WakeLo
     return powerManager?.newWakeLock(levelFlags, tag)
 }
 
+val Context.isTV get() = uiModeManager?.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
+
 val Context.isSustainedPerformanceModeSupported
     @RequiresApi(Build.VERSION_CODES.N)
     get() = powerManager?.isSustainedPerformanceModeSupported
