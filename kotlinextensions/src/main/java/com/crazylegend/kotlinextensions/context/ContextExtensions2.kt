@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.context
 
+import android.Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.PendingIntent
@@ -15,6 +16,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.text.Spanned
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -485,3 +487,24 @@ fun Context.getHtmlSpannedString(@StringRes id: Int, vararg formatArgs: Any): Sp
 fun Context.getQuantityHtmlSpannedString(@PluralsRes id: Int, quantity: Int): Spanned = resources.getQuantityString(id, quantity).toHtmlSpan()
 
 fun Context.getQuantityHtmlSpannedString(@PluralsRes id: Int, quantity: Int, vararg formatArgs: Any): Spanned = resources.getQuantityString(id, quantity, *formatArgs).toHtmlSpan()
+
+/**
+ * Or you can manually configure the whitelist in Settings > Battery > Battery Optimization
+ * @receiver Context
+ */
+@RequiresApi(Build.VERSION_CODES.M)
+@RequiresPermission(REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+fun Context.whiteListAppForBatteryOptimizations() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+        val powerManager = powerManager ?: return
+        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+            val intent = with(Intent()) {
+                action = ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                data = Uri.parse("package:$packageName")
+                this
+            }
+            startActivity(intent)
+        }
+    }
+}
