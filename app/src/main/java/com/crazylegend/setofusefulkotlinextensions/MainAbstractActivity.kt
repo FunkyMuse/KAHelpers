@@ -12,6 +12,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapterRxBus
+import com.crazylegend.kotlinextensions.context.fullScreenGestureNavigationActivity
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
@@ -113,6 +114,7 @@ class MainAbstractActivity : AppCompatActivity() {
             drawableRight = android.R.drawable.ic_input_get
         }
 
+        fullScreenGestureNavigationActivity()
 
         val stagger = StaggerTransition()
 
