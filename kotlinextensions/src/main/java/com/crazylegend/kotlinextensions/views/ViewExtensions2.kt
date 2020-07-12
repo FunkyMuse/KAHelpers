@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -488,5 +489,17 @@ fun View.forceScrollGestures() {
     }
 }
 
+
+fun View.addWidthEdgeExclusions(exclusionWidth: Int = 40) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val exclusions = with(this) {
+            listOf(
+                    Rect(0, 0, exclusionWidth, height),
+                    Rect(width - exclusionWidth, 0, width, height)
+            )
+        }
+        systemGestureExclusionRects = exclusions
+    }
+}
 
 
