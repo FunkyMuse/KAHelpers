@@ -518,9 +518,8 @@ fun Context.whiteListAppForBatteryOptimizations() {
  * @receiver Context
  * @return Boolean
  */
-fun Context.isGestureNavigationEnabled(): Boolean {
-    return Settings.Secure.getInt(contentResolver, "navigation_mode", 0) == 2
-}
+fun Context.isGestureNavigationEnabled() = Settings.Secure.getInt(contentResolver, "navigation_mode", 0) == 2
+
 
 /**
  *  0 = 3 button
