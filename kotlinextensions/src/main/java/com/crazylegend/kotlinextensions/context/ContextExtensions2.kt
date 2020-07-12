@@ -8,14 +8,12 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.SigningInfo
 import android.content.res.ColorStateList
-import android.graphics.Bitmap
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.PorterDuff
+import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.text.Spanned
 import android.util.DisplayMetrics
@@ -32,6 +30,9 @@ import androidx.core.app.ActivityManagerCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.resources.toHtmlSpan
 import java.io.File
 
@@ -505,6 +506,93 @@ fun Context.whiteListAppForBatteryOptimizations() {
                 this
             }
             startActivity(intent)
+        }
+    }
+}
+
+/**
+ * Navigation bar mode.
+ *  0 = 3 button
+ *  1 = 2 button
+ *  2 = fully gestural
+ * @receiver Context
+ * @return Boolean
+ */
+fun Context.isGestureNavigationEnabled(): Boolean {
+    return Settings.Secure.getInt(contentResolver, "navigation_mode", 0) == 2
+}
+
+/**
+ *  0 = 3 button
+ *  1 = 2 button
+ *  2 = fully gestural
+ * @receiver Context
+ * @return Int
+ */
+fun Context.whichNavigationIsUsed() = Settings.Secure.getInt(contentResolver, "navigation_mode", 0)
+
+
+fun FragmentActivity.fullScreenGestureNavigationActivity() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (isGestureNavigationEnabled()) {
+            // Extends the PhotoView in the whole screen
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            // Hides StatusBar and Navigation bar, you have to tap to appear
+            // window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            // Fixes the Full Screen black bar in screen with notch
+            window.attributes.layoutInDisplayCutoutMode =
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
+    }
+}
+
+fun RecyclerView.fullScreenGestureNavigation(fragmentActivity: FragmentActivity) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (context.isGestureNavigationEnabled()) {
+            // Disable clipping of the RecyclerView content when we use padding
+            clipToPadding = false
+
+            // Make the Gesture Navigation Bar transparent
+            fragmentActivity.window.navigationBarColor = Color.TRANSPARENT
+
+            // Expand the Views (RecyclerView) under the gesture navigation bar and toolbar
+            fragmentActivity.window.decorView.systemUiVisibility =
+                    (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+
+            // Set padding for the Views (RecyclerView and Relative Layout) from the System Views (Gesture Navigation Bar, Toolbar)
+            setOnApplyWindowInsetsListener { _, insets ->
+                val topPadding = insets.systemWindowInsetTop
+                val bottomPadding = insets.systemWindowInsetBottom
+                setPadding(0, topPadding, 0, 0)
+                setPadding(0, 0, 0, bottomPadding)
+                insets.consumeSystemWindowInsets()
+            }
+        }
+    }
+}
+
+
+fun RecyclerView.fullScreenGestureNavigation(fragment: Fragment) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (context.isGestureNavigationEnabled()) {
+            // Disable clipping of the RecyclerView content when we use padding
+            clipToPadding = false
+
+            // Make the Gesture Navigation Bar transparent
+            fragment.requireActivity().window.navigationBarColor = Color.TRANSPARENT
+
+            // Expand the Views (RecyclerView) under the gesture navigation bar and toolbar
+            fragment.requireActivity().window.decorView.systemUiVisibility =
+                    (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+
+            // Set padding for the Views (RecyclerView and Relative Layout) from the System Views (Gesture Navigation Bar, Toolbar)
+            setOnApplyWindowInsetsListener { _, insets ->
+                val topPadding = insets.systemWindowInsetTop
+                val bottomPadding = insets.systemWindowInsetBottom
+                setPadding(0, topPadding, 0, 0)
+                setPadding(0, 0, 0, bottomPadding)
+                insets.consumeSystemWindowInsets()
+            }
         }
     }
 }
