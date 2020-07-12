@@ -30,6 +30,8 @@ import androidx.core.app.ActivityManagerCompat
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -559,7 +561,7 @@ fun AppCompatActivity.fullScreenGestureNavigationActivity() {
     }
 }
 
-fun RecyclerView.fullScreenGestureNavigation(fragmentActivity: FragmentActivity) {
+fun RecyclerView.fullScreenGestureNavigation(fragmentActivity: FragmentActivity, topInset: Int = 200, bottomInset: Int = 40) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         if (context.isGestureNavigationEnabled()) {
             // Disable clipping of the RecyclerView content when we use padding
@@ -572,13 +574,12 @@ fun RecyclerView.fullScreenGestureNavigation(fragmentActivity: FragmentActivity)
             fragmentActivity.window.decorView.systemUiVisibility =
                     (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
 
-            // Set padding for the Views (RecyclerView and Relative Layout) from the System Views (Gesture Navigation Bar, Toolbar)
-            setOnApplyWindowInsetsListener { _, insets ->
-                val topPadding = insets.systemWindowInsetTop
-                val bottomPadding = insets.systemWindowInsetBottom
-                setPadding(0, topPadding, 0, 0)
-                setPadding(0, 0, 0, bottomPadding)
-                insets.consumeSystemWindowInsets()
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+                view.updatePadding(
+                        top = insets.systemGestureInsets.top + topInset,
+                        bottom = insets.systemGestureInsets.bottom + bottomInset
+                )
+                insets
             }
         }
     }

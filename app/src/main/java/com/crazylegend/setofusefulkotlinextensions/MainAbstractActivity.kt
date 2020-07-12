@@ -12,8 +12,10 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapterRxBus
+import com.crazylegend.kotlinextensions.context.fullScreenGestureNavigation
 import com.crazylegend.kotlinextensions.context.fullScreenGestureNavigationActivity
 import com.crazylegend.kotlinextensions.context.getCompatColor
+import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.log.debug
@@ -79,7 +81,7 @@ class MainAbstractActivity : AppCompatActivity() {
             val longClickedModel = it.data
             debug("LONG CLICKED MODEL $longClickedModel")
         }
-         RxBus.listen<AbstractViewBindingAdapterRxBus.SingleClick<TestModel>>().subscribe {
+        RxBus.listen<AbstractViewBindingAdapterRxBus.SingleClick<TestModel>>().subscribe {
             val longClickedModel = it.data
             debug("CLICKED MODEL $longClickedModel")
         }
@@ -89,7 +91,7 @@ class MainAbstractActivity : AppCompatActivity() {
         }
 
 
-        activityMainBinding.recycler.addOnScrollListener(object : HideOnScrollListener(5){
+        activityMainBinding.recycler.addOnScrollListener(object : HideOnScrollListener(5) {
             override fun onHide() {
                 activityMainBinding.test.hide()
             }
@@ -114,7 +116,10 @@ class MainAbstractActivity : AppCompatActivity() {
             drawableRight = android.R.drawable.ic_input_get
         }
 
-        fullScreenGestureNavigationActivity()
+        if (isGestureNavigationEnabled()) {
+            activityMainBinding.recycler.fullScreenGestureNavigation(this@MainAbstractActivity)
+            fullScreenGestureNavigationActivity()
+        }
 
         val stagger = StaggerTransition()
 
@@ -122,16 +127,16 @@ class MainAbstractActivity : AppCompatActivity() {
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
-                            TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
-                            if (activityMainBinding.recycler.adapter != generatedAdapter) {
-                                activityMainBinding.recycler.adapter = generatedAdapter
-                                savedItemAnimator = activityMainBinding.recycler.itemAnimator
-                                activityMainBinding.recycler.itemAnimator = null
-                                TransitionManager.beginDelayedTransition(activityMainBinding.recycler, fade)
-                            }
-                            generatedAdapter.submitList(it.value)
-                            val wrappedList = it.value.toMutableList()
-                            activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
+                        TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
+                        if (activityMainBinding.recycler.adapter != generatedAdapter) {
+                            activityMainBinding.recycler.adapter = generatedAdapter
+                            savedItemAnimator = activityMainBinding.recycler.itemAnimator
+                            activityMainBinding.recycler.itemAnimator = null
+                            TransitionManager.beginDelayedTransition(activityMainBinding.recycler, fade)
+                        }
+                        generatedAdapter.submitList(it.value)
+                        val wrappedList = it.value.toMutableList()
+                        activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
                     }
                     RetrofitResult.Loading -> {
                         activityMainBinding.recycler.adapter = testPlaceHolderAdapter
@@ -169,7 +174,7 @@ class MainAbstractActivity : AppCompatActivity() {
 
         searchView?.queryHint = "Search by title"
 
-        searchView?.textChanges(debounce = 1000L, compositeDisposable = compositeDisposable){
+        searchView?.textChanges(debounce = 1000L, compositeDisposable = compositeDisposable) {
             testAVM.filterBy(it)
         }
 

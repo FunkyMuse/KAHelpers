@@ -23,7 +23,6 @@ class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     init {
-        binding.content
         with(binding.card) {
             setContentPadding(10, 10, 10, 10)
         }

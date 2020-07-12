@@ -18,6 +18,7 @@ import android.view.ViewParent
 import android.view.animation.AlphaAnimation
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -489,17 +490,36 @@ fun View.forceScrollGestures() {
     }
 }
 
+fun SeekBar.updateGestureExclusion() {
+    val gestureExclusionRects = mutableListOf<Rect>()
 
-fun View.addWidthEdgeExclusions(exclusionWidth: Int = 40) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        val exclusions = with(this) {
-            listOf(
-                    Rect(0, 0, exclusionWidth, height),
-                    Rect(width - exclusionWidth, 0, width, height)
-            )
-        }
-        systemGestureExclusionRects = exclusions
+    // Skip this call if we're not running on Android 10+
+    if (Build.VERSION.SDK_INT < 29) return
+
+    // First, lets clear out any existing rectangles
+    gestureExclusionRects.clear()
+
+    // Now lets work out which areas should be excluded. For a SeekBar this will
+    // be the bounds of the thumb drawable.
+
+    thumb?.also { t ->
+        gestureExclusionRects += t.copyBounds()
     }
+
+    // If we had other elements in this view near the edges, we could exclude them
+    // here too, by adding their bounds to the list
+
+    // Finally pass our updated list of rectangles to the system
+    systemGestureExclusionRects = gestureExclusionRects
 }
+
+
+fun View.updateGestureExclusion(gestureExclusionRects: List<Rect>) {
+    // Skip this call if we're not running on Android 10+
+    if (Build.VERSION.SDK_INT < 29) return
+    // Finally pass our updated list of rectangles to the system
+    systemGestureExclusionRects = gestureExclusionRects
+}
+
 
 

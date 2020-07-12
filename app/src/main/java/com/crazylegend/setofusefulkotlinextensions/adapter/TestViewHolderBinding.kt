@@ -21,7 +21,6 @@ class TestViewHolderBinding(private val binding: CustomizableCardViewBinding) : 
     }
 
     init {
-        binding.content
         with(binding.card) {
             setContentPadding(10, 10, 10, 10)
         }

@@ -113,3 +113,16 @@ inline fun <T, R> T.isListAndNullOrEmpty(actionFalse: () -> R, actionTrue: () ->
 
 inline fun <T, R> T.isListAndNotNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
         if (this is List<*> && !this.isNullOrEmpty()) actionTrue() else actionFalse()
+
+
+/**
+ * This function uses a trick by a famous mathematician, Fredrick Gauss.
+ * Algorithm is O(1).
+ * @param n Int
+ * @return Int
+ */
+fun sumFromOne(n: Int) = n * (n + 1) / 2
+fun sumFromOne(n: Float) = n * (n + 1) / 2
+fun sumFromOne(n: Double) = n * (n + 1) / 2
+fun sumFromOne(n: Short) = n * (n + 1) / 2
+fun sumFromOne(n: Long) = n * (n + 1) / 2
