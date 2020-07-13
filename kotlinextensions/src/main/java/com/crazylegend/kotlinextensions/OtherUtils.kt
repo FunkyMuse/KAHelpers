@@ -20,6 +20,7 @@ import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Handler
 import android.os.Looper
+import android.os.Process.killProcess
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
@@ -944,3 +945,8 @@ inline fun <reified T> Any.force() = this as T
 
 fun <T> T?.ifNotNull(toBoolean: T.() -> Boolean) =
         if (this != null) toBoolean() else false
+
+inline fun killProcess(cleanUps: () -> Unit = {}) {
+    cleanUps()
+    killProcess(android.os.Process.myPid())
+}
