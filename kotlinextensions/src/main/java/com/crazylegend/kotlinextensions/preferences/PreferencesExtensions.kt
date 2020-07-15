@@ -9,7 +9,7 @@ import androidx.preference.TwoStatePreference
  * Created by crazy on 4/30/20 to long live and prosper !
  */
 
-fun TwoStatePreference?.booleanChangeListener(action: (preference: Preference, newValue: Boolean) -> Unit = { _, _ -> }) {
+inline fun TwoStatePreference?.booleanChangeListener(crossinline action: (preference: Preference, newValue: Boolean) -> Unit = { _, _ -> }) {
     this?.setOnPreferenceChangeListener { pref, value ->
         value as Boolean
         action(pref, value)
@@ -17,7 +17,7 @@ fun TwoStatePreference?.booleanChangeListener(action: (preference: Preference, n
     }
 }
 
-fun DialogPreference?.stringChangeListener(action: (preference: Preference, newValue: String) -> Unit = { _, _ -> }) {
+inline fun DialogPreference?.stringChangeListener(crossinline action: (preference: Preference, newValue: String) -> Unit = { _, _ -> }) {
     this?.setOnPreferenceChangeListener { pref, value ->
         value as String
         action(pref, value)
@@ -25,7 +25,7 @@ fun DialogPreference?.stringChangeListener(action: (preference: Preference, newV
     }
 }
 
-fun DialogPreference?.booleanChangeListener(action: (preference: Preference, newValue: Boolean) -> Unit = { _, _ -> }) {
+inline fun DialogPreference?.booleanChangeListener(crossinline action: (preference: Preference, newValue: Boolean) -> Unit = { _, _ -> }) {
     this?.setOnPreferenceChangeListener { pref, value ->
         value as Boolean
         action(pref, value)
@@ -33,7 +33,7 @@ fun DialogPreference?.booleanChangeListener(action: (preference: Preference, new
     }
 }
 
-fun Preference?.onClick(action: () -> Unit = {}) {
+inline fun Preference?.onClick(crossinline action: () -> Unit = {}) {
     this?.setOnPreferenceClickListener {
         action()
         true
