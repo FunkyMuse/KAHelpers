@@ -83,7 +83,7 @@ fun Context.hideKeyboard() {
 }
 
 
-fun Context.openEmail() {
+inline fun Context.openEmail(title: String = "Select an email client", onCantHandleAction: () -> Unit = {}) {
     try {
         val emailClientNames = ArrayList<String>()
         val emailClientPackageNames = ArrayList<String>()
@@ -92,7 +92,7 @@ fun Context.openEmail() {
                 Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abc@gmail.com", null)
         )
         val packages = packageManager.queryIntentActivities(intent, 0)
-        if (!packages.isEmpty()) {
+        if (packages.isNotEmpty()) {
             for (resolveInfo in packages) {
                 // finding the package name
                 val packageName = resolveInfo.activityInfo.packageName
@@ -101,7 +101,7 @@ fun Context.openEmail() {
             }
             // a selection dialog  for the email clients
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Select email client")
+            builder.setTitle(title)
             builder.setItems(emailClientNames.toTypedArray()) { _, which ->
                 // on click we launch the right package
                 val theIntent = packageManager.getLaunchIntentForPackage(emailClientPackageNames[which])
@@ -112,11 +112,11 @@ fun Context.openEmail() {
         }
     } catch (e: ActivityNotFoundException) {
         // Show error message
-        shortToast("No email clients available")
+        onCantHandleAction()
     }
 }
 
-fun Context.sendEmail(myEmail: String, subject: String, text: String) {
+inline fun Context.sendEmail(myEmail: String, subject: String, text: String, title: String = "Send an e-mail...", onCantHandleAction: () -> Unit = {}) {
     val i = Intent(Intent.ACTION_SEND)
     i.type = "message/rfc822"
     i.putExtra(Intent.EXTRA_EMAIL, arrayOf(myEmail))
@@ -124,13 +124,13 @@ fun Context.sendEmail(myEmail: String, subject: String, text: String) {
     i.putExtra(Intent.EXTRA_SUBJECT, subject)
 
     try {
-        startActivity(Intent.createChooser(i, "Send e-mail..."))
-    } catch (ex: android.content.ActivityNotFoundException) {
-        shortToast("There are no email clients installed.")
+        startActivity(Intent.createChooser(i, title))
+    } catch (ex: ActivityNotFoundException) {
+        onCantHandleAction()
     }
 }
 
-fun Context.sendEmail(emails: Array<String>, subject: String, text: String) {
+inline fun Context.sendEmail(emails: Array<String>, subject: String, text: String, title: String = "Send an e-mail...", onCantHandleAction: () -> Unit = {}) {
     val i = Intent(Intent.ACTION_SEND)
     i.type = "message/rfc822"
     i.putExtra(Intent.EXTRA_EMAIL, emails)
@@ -138,9 +138,9 @@ fun Context.sendEmail(emails: Array<String>, subject: String, text: String) {
     i.putExtra(Intent.EXTRA_SUBJECT, subject)
 
     try {
-        startActivity(Intent.createChooser(i, "Send e-mail..."))
-    } catch (ex: android.content.ActivityNotFoundException) {
-        shortToast("There are no email clients installed.")
+        startActivity(Intent.createChooser(i, title))
+    } catch (ex: ActivityNotFoundException) {
+        onCantHandleAction()
     }
 }
 
