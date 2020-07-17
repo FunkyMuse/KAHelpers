@@ -244,14 +244,52 @@ fun getBatteryInfo(batteryIntent: Intent): BatteryStatusModel {
     return BatteryStatusModel(isCharging, usbCharge, acCharge, batteryPct)
 }
 
+val Context.actualPackageName: String?
+    get() = applicationContext.javaClass.`package`?.name
+
+val Context.flavor: String?
+    get() = getBuildConfigValue(actualPackageName, "FLAVOR") as String?
+
+val Context.appName: String?
+    get() {
+        val applicationInfo = applicationContext.applicationInfo
+        val stringId = applicationInfo.labelRes
+        return if (stringId == 0) {
+            applicationInfo.nonLocalizedLabel.toString()
+        } else {
+            applicationContext.getString(stringId)
+        }
+    }
+
+/**
+ * Gets a field from the project's BuildConfig. This is useful when, for example, flavors
+ * are used at the project level to set custom fields.
+ * @param fieldName The name of the field-to-access
+ * @return The value of the field, or `null` if the field is not found.
+ */
+fun getBuildConfigValue(packageName: String?, fieldName: String): Any? {
+    val buildConfigClassName = "$packageName.BuildConfig"
+    return try {
+        val clazz = Class.forName(buildConfigClassName)
+        val field = clazz.getField(fieldName)
+        field.get(null)
+    } catch (e: ClassNotFoundException) {
+        null
+    } catch (e: NoSuchFieldException) {
+        null
+    } catch (e: IllegalAccessException) {
+        null
+    }
+}
+
+val Context.shortAppName: String?
+    get() = actualPackageName?.substringAfterLast('.')
 
 val Context.getBatteryPercentage get() = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
 
 val Context.batteryStatusIntent: Intent?
-    get() = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
-        registerReceiver(null, ifilter)
-    }
+    get() = registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
 val Context.batteryHelperStatus: Int
     get() = batteryStatusIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
