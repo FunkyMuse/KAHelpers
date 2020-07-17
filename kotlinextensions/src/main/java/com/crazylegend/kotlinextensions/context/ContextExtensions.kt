@@ -251,6 +251,11 @@ fun Context.deviceNetworkType(): Int {
     }
 }
 
+/**
+ * Gets the number of unallocated bytes that are available for the application to utilize
+ */
+val Context.freePhoneStorageSpace get() = filesDir.freeSpace
+
 
 fun Context.showShortToastTop(message: String) {
     val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)

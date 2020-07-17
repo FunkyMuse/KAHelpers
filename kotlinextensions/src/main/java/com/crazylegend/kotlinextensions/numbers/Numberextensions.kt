@@ -467,6 +467,12 @@ fun Long.formatBytes(): String {
     }
 }
 
+
+fun getFileSizeInMB(size: Long): Long {
+    val sizeInKb = size / 1024
+    return sizeInKb / 1024
+}
+
 /**
  * B\KB\MB\GB
  * @receiver Long
