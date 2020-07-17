@@ -625,7 +625,7 @@ fun Context.createDeviceBuild(): Map<String, String> {
  * @property actionName - String to define action name in logcat
  * @property action - action to measure
  */
-fun benchmarkAction(actionName: String, action: () -> Unit) {
+inline fun benchmarkAction(actionName: String, action: () -> Unit) {
     Log.i("BENCHMARK", "___________________________________")
     Log.i("BENCHMARK", "Action name: $actionName")
     val startTime = System.currentTimeMillis()
