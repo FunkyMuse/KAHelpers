@@ -16,6 +16,7 @@ import android.view.Gravity
 import android.widget.Toast
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -256,6 +257,8 @@ fun Context.deviceNetworkType(): Int {
  */
 val Context.freePhoneStorageSpace get() = filesDir.freeSpace
 
+
+val Context.defaultPrefs get() = PreferenceManager.getDefaultSharedPreferences(this)
 
 fun Context.showShortToastTop(message: String) {
     val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)

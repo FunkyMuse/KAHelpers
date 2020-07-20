@@ -976,7 +976,6 @@ fun getHMac(data: String?, key: String): String? {
     return result
 }
 
-
 inline fun <reified T> Any?.cast() = this as? T
 
 inline fun <reified T> Any.force() = this as T
