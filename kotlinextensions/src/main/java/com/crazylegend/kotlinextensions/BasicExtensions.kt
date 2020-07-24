@@ -49,8 +49,9 @@ fun <K, V> Map<K, V>?.orElse(map: Map<K, V>) =
 fun <K, V> Map<K, V>?.or(map: Map<K, V>?) =
         if (this != null && isNotEmpty()) this else map
 
-fun infiniteLoop(action: () -> Unit) {
+inline fun infiniteLoop(action: () -> Unit) {
     while (true) {
         action()
     }
 }
+
