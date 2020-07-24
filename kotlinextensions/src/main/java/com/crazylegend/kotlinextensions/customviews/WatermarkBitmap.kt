@@ -11,12 +11,41 @@ import android.graphics.Paint.DITHER_FLAG
 import androidx.annotation.ColorInt
 
 
-fun addWatermark(
+fun addWatermarkToBitmap(
         bitmap: Bitmap,
         watermarkText: String,
         options: WatermarkOptions = WatermarkOptions()
 ): Bitmap {
     val result = bitmap.copy(bitmap.config, true)
+    val canvas = Canvas(result)
+    val paint = Paint(ANTI_ALIAS_FLAG or DITHER_FLAG)
+    paint.textAlign = when (options.corner) {
+        Corner.TOP_LEFT,
+        Corner.BOTTOM_LEFT -> Paint.Align.LEFT
+        Corner.TOP_RIGHT,
+        Corner.BOTTOM_RIGHT -> Paint.Align.RIGHT
+    }
+    val textSize = result.width * options.textSizeToWidthRatio
+    paint.textSize = textSize
+    paint.color = options.textColor
+    if (options.shadowColor != null) {
+        paint.setShadowLayer(textSize / 2, 0f, 0f, options.shadowColor)
+    }
+    if (options.typeface != null) {
+        paint.typeface = options.typeface
+    }
+    val padding = result.width * options.paddingToWidthRatio
+    val coordinates =
+            calculateCoordinates(watermarkText, paint, options, canvas.width, canvas.height, padding)
+    canvas.drawText(watermarkText, coordinates.x, coordinates.y, paint)
+    return result
+}
+
+fun Bitmap.addWatermark(
+        watermarkText: String,
+        options: WatermarkOptions = WatermarkOptions()
+): Bitmap {
+    val result = copy(config, true)
     val canvas = Canvas(result)
     val paint = Paint(ANTI_ALIAS_FLAG or DITHER_FLAG)
     paint.textAlign = when (options.corner) {
