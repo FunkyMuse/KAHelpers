@@ -1,5 +1,6 @@
 package com.crazylegend.kotlinextensions.context
 
+import android.Manifest.permission.READ_PHONE_STATE
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -15,6 +16,7 @@ import android.util.DisplayMetrics
 import android.view.Gravity
 import android.widget.Toast
 import androidx.annotation.IntRange
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
@@ -205,6 +207,7 @@ fun Context.getConnectionType(): Int {
  * @return Int
  */
 @IntRange(from = 0, to = 5)
+@RequiresPermission(READ_PHONE_STATE)
 fun Context.deviceNetworkType(): Int {
     val NO_TELEPHONY = 0
     val UNKNOWN = 1
@@ -212,22 +215,28 @@ fun Context.deviceNetworkType(): Int {
     val NET3G = 3
     val NET4G = 4
     val NET5G = 5
-    val mTelephonyManager = telephonyManager ?: return NO_TELEPHONY
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-            && mTelephonyManager.networkType == TelephonyManager.NETWORK_TYPE_NR) { //New Radio
-        return NET5G
-    }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-        when (mTelephonyManager.networkType) {
-            TelephonyManager.NETWORK_TYPE_IWLAN      //Industrial Wireless Local Area Network, transfer IP data between a mobile device and operator’s core network through a Wi-Fi access
-            -> return NET4G
-            TelephonyManager.NETWORK_TYPE_TD_SCDMA   //3G Time division synchronous code division multiple access, China-Mobile standard
-            -> return NET3G
-            TelephonyManager.NETWORK_TYPE_GSM        // Global System for Mobile Communications, standard for 2g
-            -> return NET2G
+    val telephonyManager = telephonyManager ?: return NO_TELEPHONY
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        return telephonyManager.dataNetworkType
+    } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                && telephonyManager.networkType == TelephonyManager.NETWORK_TYPE_NR) { //New Radio
+            return NET5G
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            when (telephonyManager.networkType) {
+                TelephonyManager.NETWORK_TYPE_IWLAN      //Industrial Wireless Local Area Network, transfer IP data between a mobile device and operator’s core network through a Wi-Fi access
+                -> return NET4G
+                TelephonyManager.NETWORK_TYPE_TD_SCDMA   //3G Time division synchronous code division multiple access, China-Mobile standard
+                -> return NET3G
+                TelephonyManager.NETWORK_TYPE_GSM        // Global System for Mobile Communications, standard for 2g
+                -> return NET2G
+            }
         }
     }
-    return when (mTelephonyManager.networkType) {
+
+    return when (telephonyManager.networkType) {
         TelephonyManager.NETWORK_TYPE_GPRS,     //2G(2.5) General Packet Radio Service 114 kbps
         TelephonyManager.NETWORK_TYPE_EDGE,     //2G(2.75G) Enhanced Data Rate for GSM Evolution 384 kbps
         TelephonyManager.NETWORK_TYPE_CDMA,     //2G Code Division Multiple Access  ~ 14-64 kbps
