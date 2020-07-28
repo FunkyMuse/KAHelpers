@@ -1,5 +1,8 @@
 package com.crazylegend.kotlinextensions.locale
 
+import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
 import java.util.*
@@ -14,3 +17,17 @@ val defaultLocale: Locale
 
 infix fun Locale.equals(locale: Locale): Boolean =
         if (this == locale) true else country == locale.country && language == locale.language
+
+
+fun Context.getLocalizedString(requestedLocale: Locale, resourceId: Int): String {
+    val config = Configuration(resources.configuration)
+    config.setLocale(requestedLocale)
+    return createConfigurationContext(config).getText(resourceId).toString()
+}
+
+
+fun Context.getLocalizedResources(requestedLocale: Locale): Resources {
+    val config = Configuration(resources.configuration)
+    config.setLocale(requestedLocale)
+    return createConfigurationContext(config).resources
+}

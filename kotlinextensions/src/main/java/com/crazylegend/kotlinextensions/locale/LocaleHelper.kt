@@ -2,6 +2,8 @@ package com.crazylegend.kotlinextensions.locale
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import androidx.preference.PreferenceManager
 import java.util.*
@@ -112,5 +114,20 @@ object LocaleHelper {
         return context
     }
 
+    fun getLocalizedString(context: Context, resourceId: Int): String? {
+        val savedLanguage = getLanguage(context) ?: return null
+        val requestedLocale = Locale(savedLanguage)
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(requestedLocale)
+        return context.createConfigurationContext(config).getText(resourceId).toString()
+    }
+
+    fun getLocalizedResources(context: Context): Resources? {
+        val savedLanguage = getLanguage(context) ?: return null
+        val requestedLocale = Locale(savedLanguage)
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(requestedLocale)
+        return context.createConfigurationContext(config).resources
+    }
 
 }
