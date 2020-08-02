@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.crazylegend.kotlinextensions.runDelayed
 import com.crazylegend.kotlinextensions.tryOrIgnore
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -175,7 +176,9 @@ private fun BottomNavigationView.setupDeepLinks(
         // Handle Intent
         if (navHostFragment.navController.handleDeepLink(intent)
                 && selectedItemId != navHostFragment.navController.graph.id) {
-            this.selectedItemId = navHostFragment.navController.graph.id
+            runDelayed(500) {
+                this.selectedItemId = navHostFragment.navController.graph.id
+            }
         }
     }
 }
