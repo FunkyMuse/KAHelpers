@@ -20,6 +20,7 @@ import android.content.Intent
 import android.util.SparseArray
 import androidx.annotation.AnimatorRes
 import androidx.core.util.set
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
@@ -44,9 +45,10 @@ fun BottomNavigationView.setupWithNavController(
         @AnimatorRes enter: Int,
         @AnimatorRes exit: Int,
         @AnimatorRes popEnter: Int,
-        @AnimatorRes popExit: Int
+        @AnimatorRes popExit: Int,
+        defaultItemIndex: Int = 0
 ): LiveData<NavController> {
-
+    this.selectedItemId = this.menu[defaultItemIndex].itemId
     // Map of tags
     val graphIdToTagMap = SparseArray<String>()
     // Result. Mutable live data with the selected controlled
@@ -68,7 +70,7 @@ fun BottomNavigationView.setupWithNavController(
         // Obtain its id
         val graphId = navHostFragment.navController.graph.id
 
-        if (index == 0) {
+        if (index == defaultItemIndex) {
             firstFragmentGraphId = graphId
         }
 
@@ -79,7 +81,7 @@ fun BottomNavigationView.setupWithNavController(
         if (this.selectedItemId == graphId) {
             // Update livedata with the selected graph
             selectedNavController.value = navHostFragment.navController
-            attachNavHostFragment(fragmentManager, navHostFragment, index == 0)
+            attachNavHostFragment(fragmentManager, navHostFragment, index == defaultItemIndex)
         } else {
             detachNavHostFragment(fragmentManager, navHostFragment)
         }
