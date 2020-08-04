@@ -4,6 +4,7 @@ import android.Manifest.permission.WRITE_SETTINGS
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
+import android.app.AppOpsManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
@@ -33,7 +34,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.crazylegend.kotlinextensions.R
+import com.crazylegend.kotlinextensions.context.appOpsManager
 import com.crazylegend.kotlinextensions.packageutils.buildIsMarshmallowAndUp
+import com.crazylegend.kotlinextensions.tryOrElse
 import com.crazylegend.kotlinextensions.views.statusBarHeight
 
 
@@ -788,4 +791,17 @@ fun AppCompatActivity.setToolbarTitle(@StringRes title: Int) {
  */
 fun AppCompatActivity.setToolbarTitle(title: String) {
     supportActionBar?.title = title
+}
+
+fun Activity.hasPipPermission(): Boolean {
+    val appOps = appOpsManager
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            appOps?.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, android.os.Process.myUid(), packageName) == AppOpsManager.MODE_ALLOWED
+        } else {
+            appOps?.checkOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, android.os.Process.myUid(), packageName) == AppOpsManager.MODE_ALLOWED
+        }
+    } else {
+        tryOrElse(false) { supportsPictureInPicture }
+    }
 }

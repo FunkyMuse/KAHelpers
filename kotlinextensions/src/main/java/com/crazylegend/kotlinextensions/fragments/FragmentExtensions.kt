@@ -1,11 +1,14 @@
 package com.crazylegend.kotlinextensions.fragments
 
 import android.app.Activity
+import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,11 +28,13 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.observe
 import com.crazylegend.kotlinextensions.activity.newIntent
+import com.crazylegend.kotlinextensions.context.appOpsManager
 import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.crazylegend.kotlinextensions.context.getIntent
 import com.crazylegend.kotlinextensions.context.notification
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.orFalse
+import com.crazylegend.kotlinextensions.tryOrElse
 
 
 /**
@@ -709,3 +714,20 @@ inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreation(
 }
 
 
+val Fragment.supportsPictureInPicture: Boolean
+    get() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && requireContext().packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+    }
+
+fun Fragment.hasPipPermission(): Boolean {
+    val appOps = requireContext().appOpsManager
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            appOps?.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, android.os.Process.myUid(), requireContext().packageName) == AppOpsManager.MODE_ALLOWED
+        } else {
+            appOps?.checkOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, android.os.Process.myUid(), requireContext().packageName) == AppOpsManager.MODE_ALLOWED
+        }
+    } else {
+        tryOrElse(false) { supportsPictureInPicture }
+    }
+}
