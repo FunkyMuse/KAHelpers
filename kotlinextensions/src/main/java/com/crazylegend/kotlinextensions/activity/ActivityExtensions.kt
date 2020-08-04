@@ -519,6 +519,10 @@ val View.hasNotch: Boolean
     }
 
 
+fun Activity.lockOrientation() {
+    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_NOSENSOR
+}
+
 fun Activity.lockCurrentScreenOrientation() {
     requestedOrientation = when (resources.configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
