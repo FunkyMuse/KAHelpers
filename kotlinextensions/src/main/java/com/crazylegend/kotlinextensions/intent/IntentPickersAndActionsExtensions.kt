@@ -317,6 +317,14 @@ fun Context.dialPhoneNumber(phoneNumber: String, onCantHandleAction: () -> Unit 
 fun Context.showTimePicker(hourOfDay: Int, minute: Int, is24Hour: Boolean, action: (view: TimePicker, hourOfDay: Int, minute: Int) -> Unit) =
         TimePickerDialog(this, TimePickerDialog.OnTimeSetListener(action), hourOfDay, minute, is24Hour).show()
 
+inline fun Context.applicationDetailsIntent(onCantHandleAction: () -> Unit = {}) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    intent.data = Uri.parse("package:$packageName")
+    if (intent.canBeHandled(this))
+        startActivity(intent)
+    else
+        onCantHandleAction()
+}
 
 @Suppress("DEPRECATION")
 inline var TimePicker.hourCompat: Int
