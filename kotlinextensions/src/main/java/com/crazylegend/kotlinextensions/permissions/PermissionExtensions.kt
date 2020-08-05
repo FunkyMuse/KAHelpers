@@ -61,6 +61,7 @@ inline fun Fragment.enableGPS(crossinline onDenied: () -> Unit = {}, crossinline
         enableLocationRetryCount++
     } else {
         onDenied()
+        enableLocationRetryCount = 1
     }
 }
 
@@ -70,6 +71,7 @@ inline fun FragmentActivity.enableGPS(crossinline onDenied: () -> Unit = {}, cro
         enableLocationRetryCount++
     } else {
         onDenied()
+        enableLocationRetryCount = 1
     }
 }
 //endregion
@@ -123,4 +125,11 @@ inline fun FragmentActivity.getBackgroundLocationPermission(crossinline onDenied
         }
 //endregion
 
+//region camera permission
+inline fun Fragment.getCameraPermission(crossinline onDenied: () -> Unit = {}, crossinline onGranted: () -> Unit = {}) =
+        askForSinglePermission(onDenied, onGranted).launch(CAMERA)
 
+
+inline fun FragmentActivity.getCameraPermission(crossinline onDenied: () -> Unit = {}, crossinline onGranted: () -> Unit = {}) =
+        askForSinglePermission(onDenied, onGranted).launch(CAMERA)
+//endregion
