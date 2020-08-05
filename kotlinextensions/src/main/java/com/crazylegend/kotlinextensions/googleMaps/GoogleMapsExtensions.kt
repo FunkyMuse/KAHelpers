@@ -232,7 +232,7 @@ fun Context.isGoogleMapsInstalled(): Boolean {
     }
 }
 
-fun Context.openMapAppsChooser(latitude: Double, longitude: Double){
+fun Context.openMapAppsChooser(latitude: Double, longitude: Double) {
     val uri = Uri.parse("geo:${latitude},${longitude}")
     val intent = Intent(Intent.ACTION_VIEW, uri)
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

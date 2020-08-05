@@ -67,7 +67,6 @@ fun Intent.canBeHandled(context: Context) = this.resolveActivity(context.package
 fun Context.intentCanBeHandled(intent: Intent) = intent.resolveActivity(packageManager) != null
 
 
-
 fun Context.getActivityPendingIntent(requestCode: Int = 0, intent: Intent, flags: Int = PendingIntent.FLAG_ONE_SHOT): PendingIntent =
         PendingIntent.getActivity(this, requestCode, intent, flags)
 

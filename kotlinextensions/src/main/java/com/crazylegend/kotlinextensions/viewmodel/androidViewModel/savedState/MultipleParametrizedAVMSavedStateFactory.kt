@@ -19,7 +19,9 @@ class MultipleParametrizedAVMSavedStateFactory(private val constructorParams: Ar
 
     override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
         val parameterClasses =
-                constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
+                constructorParams.map { param ->
+                    param::class.javaPrimitiveType ?: param::class.java
+                }.toList().toTypedArray()
         return modelClass.getConstructor(Application::class.java, handle::class.java, *parameterClasses).newInstance(application, handle, *constructorParams)
     }
 }

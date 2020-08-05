@@ -47,7 +47,7 @@ inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(constructorP
 
 
 inline fun <reified T : ViewModel> AppCompatActivity.compatProvider(constructorParams: Array<out Any> = emptyArray(),
-                                                                              defaultArgs: Bundle? = null): T {
+                                                                    defaultArgs: Bundle? = null): T {
     return ViewModelProvider(this, MultipleParametrizedVMSavedStateFactory(constructorParams, this, defaultArgs)).get()
 }
 
@@ -96,7 +96,7 @@ inline fun <reified T : ViewModel> Fragment.fragmentProvider(param: Any,
 
 
 inline fun <reified T : ViewModel> Fragment.fragmentProvider(constructorParams: Array<out Any> = emptyArray(),
-                                                                              defaultArgs: Bundle? = null): T {
+                                                             defaultArgs: Bundle? = null): T {
     return ViewModelProvider(this, MultipleParametrizedVMSavedStateFactory(constructorParams, this, defaultArgs)).get()
 }
 
@@ -111,7 +111,7 @@ inline fun <reified T : AndroidViewModel> Fragment.fragmentProviderAVM(construct
 
 
 inline fun <reified T : AndroidViewModel> Fragment.fragmentProviderAVM(constructorParams: Array<out Any> = emptyArray(),
-                                                                              defaultArgs: Bundle? = null): T {
+                                                                       defaultArgs: Bundle? = null): T {
     return ViewModelProvider(this, MultipleParametrizedAVMSavedStateFactory(constructorParams, requireActivity().application, this, defaultArgs)).get()
 }
 
@@ -141,7 +141,7 @@ inline fun <reified T : ViewModel> Fragment.sharedProvider(constructorParams: Ar
 }
 
 inline fun <reified T : ViewModel> Fragment.sharedProvider(constructorParams: Array<out Any> = emptyArray(),
-                                                                              defaultArgs: Bundle? = null): T {
+                                                           defaultArgs: Bundle? = null): T {
     return ViewModelProvider(requireActivity(), MultipleParametrizedVMSavedStateFactory(constructorParams, this, defaultArgs)).get()
 }
 
@@ -152,7 +152,7 @@ inline fun <reified T : AndroidViewModel> Fragment.sharedProviderAVM(param: Any,
 }
 
 inline fun <reified T : AndroidViewModel> Fragment.sharedProviderAVM(constructorParams: Array<out Any> = emptyArray(),
-                                                                              defaultArgs: Bundle? = null): T {
+                                                                     defaultArgs: Bundle? = null): T {
     return ViewModelProvider(requireActivity(), MultipleParametrizedAVMSavedStateFactory(constructorParams, requireActivity().application, this, defaultArgs)).get()
 }
 

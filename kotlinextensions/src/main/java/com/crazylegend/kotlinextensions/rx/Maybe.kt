@@ -31,6 +31,7 @@ fun <T : Any> Future<T>.toMaybe(): Maybe<T> = Maybe.fromFuture(this)
 fun <T : Any> Callable<T>.toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 fun <T : Any> (() -> T).toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 fun <T> Throwable.toMaybe(): Maybe<T> = Maybe.error(this)
+
 @JvmName("toMaybeFromThrowable")
 fun <T> (() -> Throwable).toMaybe(): Maybe<T> = Maybe.error(this)
 

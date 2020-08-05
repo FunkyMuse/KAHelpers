@@ -15,7 +15,8 @@ import com.google.android.material.card.MaterialCardView
 class CustomizableCardView : MaterialCardView {
 
     private val view = inflate(context, R.layout.customizable_card_view, this)
-    val binding get() =  CustomizableCardViewBinding.bind(view)
+    val binding get() = CustomizableCardViewBinding.bind(view)
+
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {

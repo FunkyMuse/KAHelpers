@@ -29,8 +29,8 @@ abstract class AbstractViewBindingAdapterRxBus<T, VH : RecyclerView.ViewHolder, 
         bindItems(item, holder, position, itemCount)
     }
 
-    class LongClick <T>(val data:T)
-    class SingleClick <T>(val data:T)
+    class LongClick<T>(val data: T)
+    class SingleClick<T>(val data: T)
 
     /**
      * Use proguard rule as the following

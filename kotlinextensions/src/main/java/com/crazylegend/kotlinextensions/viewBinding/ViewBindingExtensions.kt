@@ -21,4 +21,4 @@ fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
 fun <T : ViewBinding> globalViewBinding(viewBindingFactory: (View) -> T) =
         GlobalViewBindingDelegate(viewBindingFactory)
 
-fun <T: ViewBinding>RecyclerView.ViewHolder.viewBinding(viewBindingFactory: (View) -> T) = RecyclerViewBindingDelegate(viewBindingFactory)
+fun <T : ViewBinding> RecyclerView.ViewHolder.viewBinding(viewBindingFactory: (View) -> T) = RecyclerViewBindingDelegate(viewBindingFactory)

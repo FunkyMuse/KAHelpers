@@ -145,7 +145,7 @@ fun recyclerSwipe(context: Context,
  * @param recyclerSwipeItemHandler [@kotlin.ExtensionFunctionType] Function1<RecyclerSwipeItemHandler, Unit>
  */
 fun RecyclerView?.addSwipe(context: Context, leftAction: (swipedPosition: Int) -> Unit = { _ -> },
-                          rightAction: (swipedPosition: Int) -> Unit = { _ -> },
-                          recyclerSwipeItemHandler: RecyclerSwipeItemHandler.() -> Unit) {
+                           rightAction: (swipedPosition: Int) -> Unit = { _ -> },
+                           recyclerSwipeItemHandler: RecyclerSwipeItemHandler.() -> Unit) {
     recyclerSwipe(context, leftAction, rightAction, recyclerSwipeItemHandler).attachToRecyclerView(this)
 }

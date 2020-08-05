@@ -24,7 +24,7 @@ abstract class FlingGestureHandler @JvmOverloads constructor(
         gestureDetector = GestureDetector(activity, GestureListener())
     }
 
-    override fun onTouch(v: View,  event: MotionEvent): Boolean {
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
         return !gestureDetector.onTouchEvent(event)
     }
 
@@ -39,7 +39,7 @@ abstract class FlingGestureHandler @JvmOverloads constructor(
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
-                 e1: MotionEvent,  e2: MotionEvent, velocityX: Float,
+                e1: MotionEvent, e2: MotionEvent, velocityX: Float,
                 velocityY: Float
         ): Boolean {
             if (e1.x - e2.x > minDistance && abs(velocityX) > velocityThreshold) {

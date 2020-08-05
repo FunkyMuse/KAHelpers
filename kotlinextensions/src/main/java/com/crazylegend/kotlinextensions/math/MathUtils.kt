@@ -58,6 +58,7 @@ private constructor() {
          */
         val radiansToDegrees = 180f / PI
         val radDeg = radiansToDegrees
+
         /**
          * multiply by this to convert from degrees to radians
          */

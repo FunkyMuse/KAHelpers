@@ -31,8 +31,10 @@ class DrawableBadge private constructor(val context: Context,
     class Builder(private val context: Context) {
         @ColorInt
         private var textColor: Int? = null
+
         @ColorInt
         private var badgeColor: Int? = null
+
         @ColorInt
         private var badgeBorderColor: Int? = null
         private var badgeBorderSize: Float? = null

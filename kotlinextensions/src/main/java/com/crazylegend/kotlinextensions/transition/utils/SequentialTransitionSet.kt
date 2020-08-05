@@ -45,7 +45,7 @@ class SequentialTransitionSet : TransitionSet() {
     override fun setOrdering(ordering: Int): TransitionSet {
         if (ordering != ORDERING_SEQUENTIAL) {
             throw IllegalArgumentException(
-                "SequentialTransitionSet only supports ORDERING_SEQUENTIAL"
+                    "SequentialTransitionSet only supports ORDERING_SEQUENTIAL"
             )
         }
         return super.setOrdering(ordering)

@@ -34,6 +34,7 @@ inline val DocumentFile.isAudio: Boolean
         return type != null && !type.isEmptyString() && (type.startsWith("audio") ||
                 type.containsInArray("application/ogg", "application/x-flac"))
     }
+
 /**
  * Determines if current [DocumentFile] is a Video
  * Courtesy: Code of Amaze file manager

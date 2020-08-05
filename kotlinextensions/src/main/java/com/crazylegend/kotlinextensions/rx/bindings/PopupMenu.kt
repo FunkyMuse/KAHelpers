@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 
 fun PopupMenu.clickChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                                callback: (state: MenuItem) -> Unit = {}) {
+                           callback: (state: MenuItem) -> Unit = {}) {
 
     val changes = itemClicks()
     changes.debounce(debounce, debounceTime)
@@ -31,7 +31,7 @@ fun PopupMenu.clickChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeU
 
 
 fun PopupMenu.dismissChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                                  callback: (state: PopupMenu) -> Unit = {}) {
+                             callback: (state: PopupMenu) -> Unit = {}) {
 
     val changes = dismisses()
     changes.debounce(debounce, debounceTime)

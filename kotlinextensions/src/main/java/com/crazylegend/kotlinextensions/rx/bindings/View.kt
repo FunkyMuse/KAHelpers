@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit
  */
 
 
-
 fun View.focusChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, skipInitialValue: Boolean = true,
                       compositeDisposable: CompositeDisposable,
                       callback: (focus: Boolean) -> Unit = {}) {
@@ -36,7 +35,7 @@ fun View.focusChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.M
 
 
 fun View.layoutChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                             callback: (focus: View) -> Unit = {}) {
+                       callback: (focus: View) -> Unit = {}) {
     val changes = layoutChanges()
 
     changes.debounce(debounce, debounceTime)
@@ -51,7 +50,7 @@ fun View.layoutChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.
 
 
 fun View.hoverChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                     callback: (hover: MotionEvent) -> Unit = {}) {
+                      callback: (hover: MotionEvent) -> Unit = {}) {
     val changes = hovers()
 
     changes.debounce(debounce, debounceTime)
@@ -66,7 +65,7 @@ fun View.hoverChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.M
 
 
 fun View.scrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                             callback: (viewScrollChangeEvent: ViewScrollChangeEvent) -> Unit = {}) {
+                       callback: (viewScrollChangeEvent: ViewScrollChangeEvent) -> Unit = {}) {
     val changes = scrollChangeEvents()
     changes.debounce(debounce, debounceTime)
 
@@ -79,9 +78,8 @@ fun View.scrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.
 }
 
 
-
 fun View.systemUiVisibilityChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                             callback: (systemUiVisibilityChanges: Int) -> Unit = {}) {
+                                   callback: (systemUiVisibilityChanges: Int) -> Unit = {}) {
     val changes = systemUiVisibilityChanges()
     changes.debounce(debounce, debounceTime)
 
@@ -94,9 +92,8 @@ fun View.systemUiVisibilityChanges(debounce: Long = 300L, debounceTime: TimeUnit
 }
 
 
-
 fun View.dismissChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                            callback: (state: View) -> Unit = {}) {
+                        callback: (state: View) -> Unit = {}) {
 
     val changes = dismisses()
     changes.debounce(debounce, debounceTime)

@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 
 fun BottomNavigationView.selectionChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                                      callback: (state: MenuItem) -> Unit = {}) {
+                                          callback: (state: MenuItem) -> Unit = {}) {
 
     val changes = itemSelections()
     changes.debounce(debounce, debounceTime)

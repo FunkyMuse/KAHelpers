@@ -141,7 +141,7 @@ fun ViewPager2.nextCircular() {
  */
 fun ViewPager2.setPageWidth(@Px size: Float) {
     post {
-        val paddingSize = (width - (width * size)).roundToInt()/2
+        val paddingSize = (width - (width * size)).roundToInt() / 2
         recyclerView.setPadding(paddingSize, 0, paddingSize, 0)
         recyclerView.clipToPadding = false
     }
@@ -153,7 +153,7 @@ fun ViewPager2.setPageWidth(@Px size: Float) {
 fun ViewPager2.syncScrolling(other: ViewPager2, multiplier: Float = 1f) {
     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
-            when(state) {
+            when (state) {
                 ViewPager2.SCROLL_STATE_IDLE -> {
                     other.endFakeDrag()
                     other.currentItem = currentItem
@@ -171,7 +171,7 @@ fun ViewPager2.syncScrolling(other: ViewPager2, multiplier: Float = 1f) {
     recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            other.fakeDragBy(-dx.toFloat()/multiplier)
+            other.fakeDragBy(-dx.toFloat() / multiplier)
         }
     })
 }

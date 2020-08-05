@@ -12,12 +12,14 @@ import androidx.savedstate.SavedStateRegistryOwner
  * You should keep the fields when using proguard, on the calling class
  */
 class MultipleParametrizedVMSavedStateFactory(private val constructorParams: Array<out Any>,
-                                               owner: SavedStateRegistryOwner, defaultArgs: Bundle? = null) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+                                              owner: SavedStateRegistryOwner, defaultArgs: Bundle? = null) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
 
     override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
         val parameterClasses =
-                constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
+                constructorParams.map { param ->
+                    param::class.javaPrimitiveType ?: param::class.java
+                }.toList().toTypedArray()
         return modelClass.getConstructor(handle::class.java, *parameterClasses).newInstance(handle, *constructorParams)
     }
 }

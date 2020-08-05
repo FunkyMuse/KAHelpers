@@ -7,11 +7,10 @@ import android.text.style.*
 import androidx.annotation.ColorInt
 
 
-
 /**
  * Credit: [https://gist.github.com/Trikke/90efd4432fc09aaadf3e](https://gist.github.com/Trikke/90efd4432fc09aaadf3e)
  */
-class StringMakeup( input: String) {
+class StringMakeup(input: String) {
 
 
     private val sb: Spannable

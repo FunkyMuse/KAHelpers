@@ -16,7 +16,6 @@ val <T> T.isNotNull: Boolean
     }
 
 
-
 fun <T : Any> T?.orElse(item: T) =
         this ?: item
 
@@ -30,10 +29,10 @@ fun <T : CharSequence> T?.orElse(item: T) =
 fun <T : CharSequence> T?.or(item: T?) =
         if (this != null && isNotBlank()) this else item
 
-fun <T: Number> T?.orElse(number: T) =
+fun <T : Number> T?.orElse(number: T) =
         if (this != null && this != 0) this else number
 
-fun <T: Number> T?.or(number: T?) =
+fun <T : Number> T?.or(number: T?) =
         if (this != null && this == 0) this else number
 
 fun <T> List<T>?.orElse(list: List<T>) =

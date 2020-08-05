@@ -398,18 +398,22 @@ class CircularImageView @JvmOverloads constructor(
          * Center Gravity
          */
         CENTER,
+
         /**
          * Top Gravity
          */
         TOP,
+
         /**
          * Bottom Gravity
          */
         BOTTOM,
+
         /**
          * Start Gravity
          */
         START,
+
         /**
          * ENd Gravity
          */

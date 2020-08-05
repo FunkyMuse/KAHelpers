@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 
 fun SearchEditText.keyboardDismissChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                                    callback: (state: SearchEditText) -> Unit = {}) {
+                                          callback: (state: SearchEditText) -> Unit = {}) {
 
     val changes = keyboardDismisses()
     changes.debounce(debounce, debounceTime)
@@ -30,8 +30,8 @@ fun SearchEditText.keyboardDismissChanges(debounce: Long = 300L, debounceTime: T
 
 
 fun SearchEditText.textChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, skipInitialValue: Boolean = true,
-                         compositeDisposable: CompositeDisposable,
-                         callback: (text: String) -> Unit = {}) {
+                               compositeDisposable: CompositeDisposable,
+                               callback: (text: String) -> Unit = {}) {
     val changes = textChanges()
     if (skipInitialValue) {
         changes.skipInitialValue()

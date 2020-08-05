@@ -11,7 +11,7 @@ interface onItemClickListener {
 }
 
 inline fun onItemClickListenerDSL(crossinline callback: (position: Int, view: View) -> Unit = { _, _ -> }) = object :
-        onItemClickListener{
+        onItemClickListener {
     override fun onItem(atPosition: Int, view: View) {
         callback(atPosition, view)
     }

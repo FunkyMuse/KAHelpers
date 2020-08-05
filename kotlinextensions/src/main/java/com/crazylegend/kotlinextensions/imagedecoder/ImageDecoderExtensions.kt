@@ -75,14 +75,14 @@ suspend inline fun ImageDecoder.decodeImageOnDefault(crossinline transform: Imag
     }
 }
 
-inline fun ImageDecoder.decodeImageIO(scope:CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) {
+inline fun ImageDecoder.decodeImageIO(scope: CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) {
     scope.io {
         transform(this@decodeImageIO)
     }
 }
 
 
-inline fun ImageDecoder.decodeImageOnDefault(scope:CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) {
+inline fun ImageDecoder.decodeImageOnDefault(scope: CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) {
     scope.default {
         transform(this@decodeImageOnDefault)
     }

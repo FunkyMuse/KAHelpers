@@ -27,15 +27,15 @@ import androidx.recyclerview.widget.RecyclerView
  *  @param spacing The width of spaces.
  */
 class SpaceDecoration(
-    @Px
-    private val spacing: Int
+        @Px
+        private val spacing: Int
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
     ) {
         outRect.set(spacing, spacing, spacing, spacing)
     }

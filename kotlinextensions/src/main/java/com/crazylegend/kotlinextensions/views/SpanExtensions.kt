@@ -82,7 +82,7 @@ fun CharSequence.toNormalSpan(range: IntRange = IntRange(0, length)): SpannableS
  * Set the span to a styled one from Typeface
  * @param style one of [Typeface.NORMAL] etc..
  */
-fun CharSequence.toStyleSpan(style:Int, range: IntRange = IntRange(0, length)): SpannableString {
+fun CharSequence.toStyleSpan(style: Int, range: IntRange = IntRange(0, length)): SpannableString {
     return SpannableString(this).apply {
         setSpan(StyleSpan(style), range.first, range.last, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
     }

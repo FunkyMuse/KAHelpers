@@ -144,7 +144,7 @@ fun Context.deleteCache() {
         if (dir != null && dir.isDirectory) {
             deleteDir(dir)
         }
-    } catch ( e: Exception) {
+    } catch (e: Exception) {
     }
 
 }

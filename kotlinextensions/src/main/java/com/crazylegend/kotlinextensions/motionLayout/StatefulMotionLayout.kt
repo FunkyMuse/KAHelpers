@@ -12,7 +12,7 @@ import androidx.core.os.bundleOf
  * Created by crazy on 5/31/20 to long live and prosper !
  */
 class StatefulMotionLayout @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : MotionLayout(context, attrs, defStyleAttr) {
 
     companion object {
@@ -21,7 +21,7 @@ class StatefulMotionLayout @JvmOverloads constructor(
     }
 
     override fun onSaveInstanceState() =
-        bundleOf(Pair(SUPER_STATE, super.onSaveInstanceState()), Pair(PROGRESS_STATE, progress))
+            bundleOf(Pair(SUPER_STATE, super.onSaveInstanceState()), Pair(PROGRESS_STATE, progress))
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         var restoredState = state

@@ -94,7 +94,7 @@ inline fun Fragment.getBackgroundLocationPermission(crossinline onDenied: () -> 
                 getForegroundLocationPermission(onDenied, onLocationGranted)
             }
             Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> {
-                getForegroundLocationPermission(onDenied){
+                getForegroundLocationPermission(onDenied) {
                     askForSinglePermission(onDenied, onLocationGranted).launch(ACCESS_BACKGROUND_LOCATION)
                 }
             }
@@ -113,7 +113,7 @@ inline fun FragmentActivity.getBackgroundLocationPermission(crossinline onDenied
                 getForegroundLocationPermission(onDenied, onLocationGranted)
             }
             Build.VERSION.SDK_INT == Build.VERSION_CODES.R -> {
-                getForegroundLocationPermission(onDenied){
+                getForegroundLocationPermission(onDenied) {
                     askForSinglePermission(onDenied, onLocationGranted).launch(ACCESS_BACKGROUND_LOCATION)
                 }
             }

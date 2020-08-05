@@ -11,6 +11,7 @@ package com.crazylegend.kotlinextensions.basehelpers
  */
 object InMemoryCache {
     private val map = HashMap<String, Any?>()
+
     /**
      * put [key] & [value] where
      *

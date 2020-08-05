@@ -29,7 +29,7 @@ fun TabLayout.selectionChanges(debounce: Long = 300L, debounceTime: TimeUnit = T
 }
 
 fun TabLayout.selectionEventChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                               callback: (tab: TabLayoutSelectionEvent) -> Unit = {}) {
+                                    callback: (tab: TabLayoutSelectionEvent) -> Unit = {}) {
     val changes = selectionEvents()
 
     changes.debounce(debounce, debounceTime)

@@ -13,7 +13,9 @@ class MultipleParametrizedAVMFactory(private val constructorParams: Array<out An
                                      private val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        val parameterClasses = constructorParams.map { param -> param::class.javaPrimitiveType ?: param::class.java }.toList().toTypedArray()
+        val parameterClasses = constructorParams.map { param ->
+            param::class.javaPrimitiveType ?: param::class.java
+        }.toList().toTypedArray()
         return modelClass.getConstructor(Application::class.java, *parameterClasses).newInstance(application, *constructorParams)
     }
 }

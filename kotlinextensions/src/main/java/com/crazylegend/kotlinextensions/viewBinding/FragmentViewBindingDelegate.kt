@@ -16,7 +16,7 @@ class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragmen
     private var fragmentBinding: T? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun disposeBinding(){
+    fun disposeBinding() {
         fragmentBinding = null
     }
 

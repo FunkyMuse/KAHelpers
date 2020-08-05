@@ -32,7 +32,7 @@ fun Toolbar.clickChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUni
 }
 
 fun Toolbar.navigationClickChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                           callback: (state: Toolbar) -> Unit = {}) {
+                                   callback: (state: Toolbar) -> Unit = {}) {
 
     val changes = navigationClicks()
     changes.debounce(debounce, debounceTime)
@@ -47,7 +47,7 @@ fun Toolbar.navigationClickChanges(debounce: Long = 300L, debounceTime: TimeUnit
 
 
 fun Toolbar.dismissChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                             callback: (state: View) -> Unit = {}) {
+                           callback: (state: View) -> Unit = {}) {
 
     val changes = dismisses()
     changes.debounce(debounce, debounceTime)

@@ -35,7 +35,7 @@ import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
 // slide-up effect to it.
 /**
 
- Usage
+Usage
 
 // This is the transition for the stagger effect.
 val stagger = StaggerTransition()
@@ -64,18 +64,18 @@ class StaggerTransition : Fade(IN) {
     }
 
     override fun createAnimator(
-        sceneRoot: ViewGroup,
-        startValues: TransitionValues?,
-        endValues: TransitionValues?
+            sceneRoot: ViewGroup,
+            startValues: TransitionValues?,
+            endValues: TransitionValues?
     ): Animator? {
         val view = startValues?.view ?: endValues?.view ?: return null
         // The parent can create an Animator for the fade-in.
         val fadeAnimator = super.createAnimator(sceneRoot, startValues, endValues) ?: return null
         return AnimatorSet().apply {
             playTogether(
-                fadeAnimator,
-                // We make the view to slide up a little as it fades in.
-                ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.height * 0.5f, 0f)
+                    fadeAnimator,
+                    // We make the view to slide up a little as it fades in.
+                    ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.height * 0.5f, 0f)
             )
         }
     }

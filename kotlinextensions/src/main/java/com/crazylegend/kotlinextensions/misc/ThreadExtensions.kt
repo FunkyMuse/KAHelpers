@@ -1,8 +1,6 @@
 package com.crazylegend.kotlinextensions.misc
 
 
-
-
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
  */
@@ -21,6 +19,6 @@ fun safeSleep(millisecond: Int) {
 
 }
 
-fun startNewThread( runnable: Runnable) {
+fun startNewThread(runnable: Runnable) {
     Thread(runnable).start()
 }

@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit
  */
 
 fun EditText.textChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, skipInitialValue: Boolean = true,
-                        compositeDisposable: CompositeDisposable,
-                        callback: (text: String) -> Unit = {}) {
+                         compositeDisposable: CompositeDisposable,
+                         callback: (text: String) -> Unit = {}) {
     val changes = textChanges()
     if (skipInitialValue) {
         changes.skipInitialValue()

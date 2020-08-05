@@ -13,7 +13,7 @@ import kotlin.math.sqrt
 /**
  * Created by crazy on 4/10/20 to long live and prosper !
  */
-open class SensorFusion (context: Context) : SensorEventListener {
+open class SensorFusion(context: Context) : SensorEventListener {
 
     private val sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -36,7 +36,7 @@ open class SensorFusion (context: Context) : SensorEventListener {
     private val accMagOrientation: FloatArray = FloatArray(3)
 
     // final orientation angles from sensor fusion
-     val fusedOrientation = FloatArray(3)
+    val fusedOrientation = FloatArray(3)
 
     // accelerometer and magnetometer based rotation matrix
     private val rotationMatrix = FloatArray(9)
@@ -254,10 +254,10 @@ open class SensorFusion (context: Context) : SensorEventListener {
             // azimuth
             if (gyroOrientation[0] < -0.5 * Math.PI && accMagOrientation[0] > 0.0) {
                 fusedOrientation[0] = (FILTER_COEFFICIENT * (gyroOrientation[0] + 2.0 * Math.PI) + oneMinusCoeff * accMagOrientation[0]).toFloat()
-                fusedOrientation[0] .minus(if (fusedOrientation[0] > Math.PI) 2.0 * Math.PI else 0.toDouble())
+                fusedOrientation[0].minus(if (fusedOrientation[0] > Math.PI) 2.0 * Math.PI else 0.toDouble())
             } else if (accMagOrientation[0] < -0.5 * Math.PI && gyroOrientation[0] > 0.0) {
                 fusedOrientation[0] = (FILTER_COEFFICIENT * gyroOrientation[0] + oneMinusCoeff * (accMagOrientation[0] + 2.0 * Math.PI)).toFloat()
-                fusedOrientation[0] .minus(if (fusedOrientation[0] > Math.PI) 2.0 * Math.PI else 0.toDouble())
+                fusedOrientation[0].minus(if (fusedOrientation[0] > Math.PI) 2.0 * Math.PI else 0.toDouble())
             } else {
                 fusedOrientation[0] = FILTER_COEFFICIENT * gyroOrientation[0] + oneMinusCoeff * accMagOrientation[0]
             }
@@ -265,10 +265,10 @@ open class SensorFusion (context: Context) : SensorEventListener {
             // pitch
             if (gyroOrientation[1] < -0.5 * Math.PI && accMagOrientation[1] > 0.0) {
                 fusedOrientation[1] = (FILTER_COEFFICIENT * (gyroOrientation[1] + 2.0 * Math.PI) + oneMinusCoeff * accMagOrientation[1]).toFloat()
-                fusedOrientation[1] .minus(if (fusedOrientation[1] > Math.PI) 2.0 * Math.PI else 0.toDouble())
+                fusedOrientation[1].minus(if (fusedOrientation[1] > Math.PI) 2.0 * Math.PI else 0.toDouble())
             } else if (accMagOrientation[1] < -0.5 * Math.PI && gyroOrientation[1] > 0.0) {
                 fusedOrientation[1] = (FILTER_COEFFICIENT * gyroOrientation[1] + oneMinusCoeff * (accMagOrientation[1] + 2.0 * Math.PI)).toFloat()
-                fusedOrientation[1] .minus(if (fusedOrientation[1] > Math.PI) 2.0 * Math.PI else 0.toDouble())
+                fusedOrientation[1].minus(if (fusedOrientation[1] > Math.PI) 2.0 * Math.PI else 0.toDouble())
             } else {
                 fusedOrientation[1] = FILTER_COEFFICIENT * gyroOrientation[1] + oneMinusCoeff * accMagOrientation[1]
             }
@@ -277,10 +277,10 @@ open class SensorFusion (context: Context) : SensorEventListener {
             if (gyroOrientation[2] < -0.5 * Math.PI && accMagOrientation[2] > 0.0) {
                 fusedOrientation[2] = (FILTER_COEFFICIENT * (gyroOrientation[2] + 2.0 * Math.PI) + oneMinusCoeff * accMagOrientation[2]).toFloat()
 
-                fusedOrientation[2] .minus(if (fusedOrientation[2] > Math.PI) 2.0 * Math.PI else 0.toDouble())
+                fusedOrientation[2].minus(if (fusedOrientation[2] > Math.PI) 2.0 * Math.PI else 0.toDouble())
             } else if (accMagOrientation[2] < -0.5 * Math.PI && gyroOrientation[2] > 0.0) {
                 fusedOrientation[2] = (FILTER_COEFFICIENT * gyroOrientation[2] + oneMinusCoeff * (accMagOrientation[2] + 2.0 * Math.PI)).toFloat()
-                fusedOrientation[2] .minus(if (fusedOrientation[2] > Math.PI) 2.0 * Math.PI else 0.toDouble())
+                fusedOrientation[2].minus(if (fusedOrientation[2] > Math.PI) 2.0 * Math.PI else 0.toDouble())
             } else {
                 fusedOrientation[2] = FILTER_COEFFICIENT * gyroOrientation[2] + oneMinusCoeff * accMagOrientation[2]
             }

@@ -26,7 +26,7 @@ fun Bitmap.flipVertically(): Bitmap {
     return createBitmapWithMatrix(this, matrix)
 }
 
-fun createBitmapWithMatrix( src: Bitmap,  matrix: Matrix): Bitmap {
+fun createBitmapWithMatrix(src: Bitmap, matrix: Matrix): Bitmap {
     val dst = Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
     if (src != dst) {
         src.recycle()

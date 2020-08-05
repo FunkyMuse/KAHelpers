@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
  */
 
 fun NestedScrollView.scrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                               callback: (event: ViewScrollChangeEvent) -> Unit = {}) {
+                                   callback: (event: ViewScrollChangeEvent) -> Unit = {}) {
 
     val changes = scrollChangeEvents()
     changes.debounce(debounce, debounceTime)

@@ -27,7 +27,6 @@ import kotlin.random.Random
  */
 
 
-
 const val multiPartContentType = "multipart/form-data"
 
 fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {

@@ -31,11 +31,11 @@ fun ViewPager2.scrollStateChanges(debounce: Long = 300L, debounceTime: TimeUnit 
 
 
 fun ViewPager2.pageSelectionsChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS,
-                                    skipInitialValue:Boolean = true,
-                                    compositeDisposable: CompositeDisposable,
-                                    callback: (pageSelections: Int) -> Unit = {}) {
+                                     skipInitialValue: Boolean = true,
+                                     compositeDisposable: CompositeDisposable,
+                                     callback: (pageSelections: Int) -> Unit = {}) {
     val changes = pageSelections()
-    if (skipInitialValue){
+    if (skipInitialValue) {
         changes.skipInitialValue()
     }
     changes.debounce(debounce, debounceTime)
@@ -50,8 +50,8 @@ fun ViewPager2.pageSelectionsChanges(debounce: Long = 300L, debounceTime: TimeUn
 
 
 fun ViewPager2.pageScrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS,
-                                compositeDisposable: CompositeDisposable,
-                                callback: (viewPagerPageScrollEvent: PageScrollEvent) -> Unit = {}) {
+                                 compositeDisposable: CompositeDisposable,
+                                 callback: (viewPagerPageScrollEvent: PageScrollEvent) -> Unit = {}) {
     val changes = pageScrollEvents()
     changes.debounce(debounce, debounceTime)
 

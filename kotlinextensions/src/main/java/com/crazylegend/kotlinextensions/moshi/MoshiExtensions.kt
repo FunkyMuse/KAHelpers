@@ -10,19 +10,17 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
  */
 
 
-inline fun <reified T: Any> T.toJson(customBuilder: Moshi.Builder = Moshi.Builder()): String
-        = customBuilder
+inline fun <reified T : Any> T.toJson(customBuilder: Moshi.Builder = Moshi.Builder()): String = customBuilder
         .add(KotlinJsonAdapterFactory()).build()
         .adapter<T>(T::class.java).toJson(this)
 
 
-inline fun <reified T: Any> String.fromJson(customBuilder: Moshi.Builder = Moshi.Builder()): T?
-        = customBuilder
+inline fun <reified T : Any> String.fromJson(customBuilder: Moshi.Builder = Moshi.Builder()): T? = customBuilder
         .add(KotlinJsonAdapterFactory()).build()
         .adapter(T::class.java).fromJson(this)
 
 
-inline fun <reified T: Any> String.toJsonObjectList(customBuilder: Moshi.Builder = Moshi.Builder()): List<T>? {
+inline fun <reified T : Any> String.toJsonObjectList(customBuilder: Moshi.Builder = Moshi.Builder()): List<T>? {
     return Types.newParameterizedType(List::class.java, T::class.java).let { type ->
         customBuilder
                 .add(KotlinJsonAdapterFactory()).build()
@@ -31,7 +29,7 @@ inline fun <reified T: Any> String.toJsonObjectList(customBuilder: Moshi.Builder
 }
 
 
-inline fun <reified T: Any> String.toJsonObjectArrayList(customBuilder: Moshi.Builder = Moshi.Builder()): ArrayList<T>? {
+inline fun <reified T : Any> String.toJsonObjectArrayList(customBuilder: Moshi.Builder = Moshi.Builder()): ArrayList<T>? {
     return Types.newParameterizedType(ArrayList::class.java, T::class.java).let { type ->
         customBuilder
                 .add(KotlinJsonAdapterFactory()).build()
@@ -40,7 +38,7 @@ inline fun <reified T: Any> String.toJsonObjectArrayList(customBuilder: Moshi.Bu
 }
 
 
-inline fun <reified T: Any> String.toJsonObjectMutableList(customBuilder: Moshi.Builder = Moshi.Builder()): MutableList<T>? {
+inline fun <reified T : Any> String.toJsonObjectMutableList(customBuilder: Moshi.Builder = Moshi.Builder()): MutableList<T>? {
     return Types.newParameterizedType(MutableList::class.java, T::class.java).let { type ->
         customBuilder
                 .add(KotlinJsonAdapterFactory()).build()

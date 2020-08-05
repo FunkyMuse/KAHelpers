@@ -822,20 +822,20 @@ inline fun <T> Iterable<T>.toLongSparseArrayGrouped(getKey: Function1<T, Long?>)
     return array
 }
 
-inline fun <T,K> Iterable<T>.toHashMap(getKey: Function1<T, K>) = toHashMap(getKey, {it})
+inline fun <T, K> Iterable<T>.toHashMap(getKey: Function1<T, K>) = toHashMap(getKey, { it })
 
-inline fun <T,K,V> Iterable<T>.toHashMap(getKey: Function1<T, K>, getValue: Function1<T, V>): HashMap<K, V> {
-    val map = HashMap<K,V>()
+inline fun <T, K, V> Iterable<T>.toHashMap(getKey: Function1<T, K>, getValue: Function1<T, V>): HashMap<K, V> {
+    val map = HashMap<K, V>()
     for (item in this) {
         map[getKey(item)] = getValue(item)
     }
     return map
 }
 
-inline fun <T,K> Iterable<T?>.toHashMapNullable(getKey: Function1<T?, K>) =  toHashMapNullable(getKey, {it})
+inline fun <T, K> Iterable<T?>.toHashMapNullable(getKey: Function1<T?, K>) = toHashMapNullable(getKey, { it })
 
-inline fun <T,K,V> Iterable<T?>.toHashMapNullable(getKey: Function1<T?, K>, getValue: Function1<T?, V?>): HashMap<K, V?> {
-    val map = HashMap<K,V?>()
+inline fun <T, K, V> Iterable<T?>.toHashMapNullable(getKey: Function1<T?, K>, getValue: Function1<T?, V?>): HashMap<K, V?> {
+    val map = HashMap<K, V?>()
     for (item in this) {
         map[getKey(item)] = getValue(item)
     }

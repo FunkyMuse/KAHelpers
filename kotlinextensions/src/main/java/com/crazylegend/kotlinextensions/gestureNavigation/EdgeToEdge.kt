@@ -57,7 +57,7 @@ insets
 }
 
 
- Ex2
+Ex2
 
 ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
 fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
@@ -107,7 +107,7 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
     override fun setUpRoot(root: ViewGroup) {
         root.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
 
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
@@ -115,8 +115,8 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
             appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
             toolbar.updatePadding(
-                left = toolbarPadding + windowInsets.systemWindowInsetLeft,
-                right = windowInsets.systemWindowInsetRight
+                    left = toolbarPadding + windowInsets.systemWindowInsetLeft,
+                    right = windowInsets.systemWindowInsetRight
             )
             windowInsets
         }
@@ -128,9 +128,9 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         val originalPaddingBottom = scrollingContent.paddingBottom
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
             scrollingContent.updatePadding(
-                left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
-                right = originalPaddingRight + windowInsets.systemWindowInsetRight,
-                bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
+                    left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
+                    right = originalPaddingRight + windowInsets.systemWindowInsetRight,
+                    bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
             )
             windowInsets
         }

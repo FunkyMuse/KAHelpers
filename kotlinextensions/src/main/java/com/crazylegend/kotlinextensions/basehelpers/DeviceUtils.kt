@@ -50,101 +50,121 @@ object DeviceUtils {
     private val UNKNOWN = "unknown"
 
     private var bean: RomInfo? = null
+
     /**
      * If Device is a Huawei Device
      */
     val isHuawei: Boolean
         get() = ROM_HUAWEI[0] == romInfo!!.name
+
     /**
      * If Device is a Vivo Device
      */
     val isVivo: Boolean
         get() = ROM_VIVO[0] == romInfo!!.name
+
     /**
      * If Device is a Xiaomi Device
      */
     val isXiaomi: Boolean
         get() = ROM_XIAOMI[0] == romInfo!!.name
+
     /**
      * If Device is a Oppo Device
      */
     val isOppo: Boolean
         get() = ROM_OPPO[0] == romInfo!!.name
+
     /**
      * If Device is a LeEco Device
      */
     val isLeeco: Boolean
         get() = ROM_LEECO[0] == romInfo!!.name
+
     /**
      * If Device is a 360 Device
      */
     val is360: Boolean
         get() = ROM_360[0] == romInfo!!.name
+
     /**
      * If Device is a Zte Device
      */
     val isZte: Boolean
         get() = ROM_ZTE[0] == romInfo!!.name
+
     /**
      * If Device is a Oneplus Device
      */
     val isOneplus: Boolean
         get() = ROM_ONEPLUS[0] == romInfo!!.name
+
     /**
      * If Device is a Nubia Device
      */
     val isNubia: Boolean
         get() = ROM_NUBIA[0] == romInfo!!.name
+
     /**
      * If Device is a Coolpad Device
      */
     val isCoolpad: Boolean
         get() = ROM_COOLPAD[0] == romInfo!!.name
+
     /**
      * If Device is a LG Device
      */
     val isLg: Boolean
         get() = ROM_LG[0] == romInfo!!.name
+
     /**
      * If Device is a Google Device
      */
     val isGoogle: Boolean
         get() = ROM_GOOGLE[0] == romInfo!!.name
+
     /**
      * If Device is a Samsung Device
      */
     val isSamsung: Boolean
         get() = ROM_SAMSUNG[0] == romInfo!!.name
+
     /**
      * If Device is a Meizu Device
      */
     val isMeizu: Boolean
         get() = ROM_MEIZU[0] == romInfo!!.name
+
     /**
      * If Device is a Lenovo Device
      */
     val isLenovo: Boolean
         get() = ROM_LENOVO[0] == romInfo!!.name
+
     /**
      * If Device is a Smartisan Device
      */
     val isSmartisan: Boolean
         get() = ROM_SMARTISAN[0] == romInfo!!.name
+
     /**
      * If Device is a hTc Device
      */
     val isHtc: Boolean
         get() = ROM_HTC[0] == romInfo!!.name
+
     /**
      * If Device is a Sony Device
      */
     val isSony: Boolean
         get() = ROM_SONY[0] == romInfo!!.name
+
     /**
      * If Device is a Amigo Device
      */
     val isAmigo: Boolean
         get() = ROM_AMIGO[0] == romInfo!!.name
+
     /**
      * Provides the custom or Stock Rom Information
      */
@@ -440,6 +460,7 @@ object DeviceUtils {
          * The Name of the ROM
          */
         var name: String? = null
+
         /**
          * The Version of the ROM
          */

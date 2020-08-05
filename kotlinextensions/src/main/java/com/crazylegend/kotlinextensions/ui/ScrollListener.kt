@@ -13,6 +13,7 @@ import kotlin.math.abs
 open class ScrollListener(val width: () -> Int, val height: () -> Int) : GestureDetector.SimpleOnGestureListener() {
 
     var onScroll: ((percentX: Float, percentY: Float) -> Unit)? = null
+
     /**
      * Min Swipe X-Distance
      */

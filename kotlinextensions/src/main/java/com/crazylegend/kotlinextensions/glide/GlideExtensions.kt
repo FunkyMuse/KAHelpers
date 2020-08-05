@@ -105,7 +105,6 @@ fun AppCompatImageView.loadImgNoCache(imgUrl: Any?, error: Int, placeHolder: Int
 }
 
 
-
 fun Context.loadImgWithTransformation(imgUrl: Any?, view: AppCompatImageView, transformation: RequestOptions) {
     Glide.with(this)
             .applyDefaultRequestOptions(transformation)

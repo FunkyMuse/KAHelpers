@@ -70,16 +70,16 @@ class DissolveTransition : Transition() {
     }
 
     private fun captureValues(transitionValues: TransitionValues) {
-            // Store the current appearance of the view as a Bitmap.
-            transitionValues.values[PROPNAME_BITMAP] = transitionValues.view.drawToBitmap()
+        // Store the current appearance of the view as a Bitmap.
+        transitionValues.values[PROPNAME_BITMAP] = transitionValues.view.drawToBitmap()
     }
 
     override fun createAnimator(
-        sceneRoot: ViewGroup,
-        startValues: TransitionValues?,
-        endValues: TransitionValues?
+            sceneRoot: ViewGroup,
+            startValues: TransitionValues?,
+            endValues: TransitionValues?
     ): Animator? {
-        if (startValues == null || endValues == null ) {
+        if (startValues == null || endValues == null) {
             return null
         }
         val startBitmap = startValues.values[PROPNAME_BITMAP] as Bitmap
@@ -102,14 +102,14 @@ class DissolveTransition : Transition() {
 
         // Fade out the start bitmap.
         return ObjectAnimator
-            // Use [BitmapDrawable#setAlpha(int)] to animate the alpha value.
-            .ofInt(startDrawable, "alpha", 255, 0).apply {
-                doOnEnd {
-                    // Remove the start state from the overlay when the animation is over.
-                    // The drawable is completely transparent at this point, but we don't want to
-                    // leave it there.
-                    overlay.remove(startDrawable)
+                // Use [BitmapDrawable#setAlpha(int)] to animate the alpha value.
+                .ofInt(startDrawable, "alpha", 255, 0).apply {
+                    doOnEnd {
+                        // Remove the start state from the overlay when the animation is over.
+                        // The drawable is completely transparent at this point, but we don't want to
+                        // leave it there.
+                        overlay.remove(startDrawable)
+                    }
                 }
-            }
     }
 }

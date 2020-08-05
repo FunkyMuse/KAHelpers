@@ -38,7 +38,7 @@ fun Context.isAppEnabled(packageName: String): Boolean {
 
 fun Context.whoInstalledMyApp(packageName: String) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-           packageManager.getInstallSourceInfo(packageName).installingPackageName
+            packageManager.getInstallSourceInfo(packageName).installingPackageName
         } else {
             packageManager.getInstallerPackageName(packageName)
         }

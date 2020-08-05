@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit
  */
 
 
-
 fun ViewPager.scrollStateChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
                                  callback: (pageScrollStateChanges: Int) -> Unit = {}) {
     val changes = pageScrollStateChanges()
@@ -32,11 +31,11 @@ fun ViewPager.scrollStateChanges(debounce: Long = 300L, debounceTime: TimeUnit =
 
 
 fun ViewPager.pageSelectionsChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS,
-                                    skipInitialValue:Boolean = true,
+                                    skipInitialValue: Boolean = true,
                                     compositeDisposable: CompositeDisposable,
-                                 callback: (pageSelections: Int) -> Unit = {}) {
+                                    callback: (pageSelections: Int) -> Unit = {}) {
     val changes = pageSelections()
-    if (skipInitialValue){
+    if (skipInitialValue) {
         changes.skipInitialValue()
     }
     changes.debounce(debounce, debounceTime)
@@ -51,8 +50,8 @@ fun ViewPager.pageSelectionsChanges(debounce: Long = 300L, debounceTime: TimeUni
 
 
 fun ViewPager.pageScrollChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS,
-                                    compositeDisposable: CompositeDisposable,
-                                 callback: (viewPagerPageScrollEvent: ViewPagerPageScrollEvent) -> Unit = {}) {
+                                compositeDisposable: CompositeDisposable,
+                                callback: (viewPagerPageScrollEvent: ViewPagerPageScrollEvent) -> Unit = {}) {
     val changes = pageScrollEvents()
     changes.debounce(debounce, debounceTime)
 

@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
  */
 
 fun Chip.closeIconChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                               callback: (state: Chip) -> Unit = {}) {
+                          callback: (state: Chip) -> Unit = {}) {
 
     val changes = closeIconClicks()
     changes.debounce(debounce, debounceTime)

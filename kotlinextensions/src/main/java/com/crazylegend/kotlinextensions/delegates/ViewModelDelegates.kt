@@ -58,7 +58,6 @@ inline fun <reified VM : ViewModel> Fragment.fragmentVM(constructorParams: Array
 }
 
 
-
 inline fun <reified VM : AndroidViewModel> Fragment.fragmentAVM(param: Any) = lazy {
     fragmentProviderAVM<VM>(param)
 }
@@ -91,7 +90,6 @@ inline fun <reified VM : ViewModel> Fragment.sharedVM(param: Any) = lazy {
 inline fun <reified VM : ViewModel> Fragment.sharedVM(constructorParams: Array<out Any>) = lazy {
     sharedProvider<VM>(constructorParams)
 }
-
 
 
 inline fun <reified VM : AndroidViewModel> Fragment.sharedAVM(param: Any) = lazy {

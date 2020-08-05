@@ -189,7 +189,6 @@ inline fun Activity.openSettingsCategory(category: String, resultCode: Int, onCa
 }
 
 
-
 fun Activity.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         data = Uri.parse("smsto:")  // This ensures only SMS apps respond

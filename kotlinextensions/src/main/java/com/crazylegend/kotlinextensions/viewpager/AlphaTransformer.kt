@@ -8,7 +8,7 @@ import kotlin.math.abs
 /**
  * Created by crazy on 2/22/20 to long live and prosper !
  */
-class AlphaTransformer  : ViewPager2.PageTransformer {
+class AlphaTransformer : ViewPager2.PageTransformer {
     override fun transformPage(page: View, position: Float) {
         val absPos = abs(position)
         page.apply {

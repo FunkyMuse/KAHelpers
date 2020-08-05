@@ -380,8 +380,9 @@ fun Context.arePermissionsGranted(vararg permissions: String): Boolean =
         permissions.all { ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED }
 
 
-val Context.thermalStatus @RequiresApi(Build.VERSION_CODES.Q)
-get() = powerManager?.currentThermalStatus
+val Context.thermalStatus
+    @RequiresApi(Build.VERSION_CODES.Q)
+    get() = powerManager?.currentThermalStatus
 
 val Context.locationPowerSaveMode
     @RequiresApi(Build.VERSION_CODES.P)

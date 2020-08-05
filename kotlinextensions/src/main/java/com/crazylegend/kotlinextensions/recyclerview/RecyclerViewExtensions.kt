@@ -45,7 +45,6 @@ fun RecyclerView.disableTouch() {
 }
 
 
-
 fun RecyclerView.divider(color: Int = Color.parseColor("#CCCCCC"), size: Int = 1): RecyclerView {
     val decoration = DividerItemDecoration(context, orientation)
     decoration.setDrawable(GradientDrawable().apply {
@@ -612,11 +611,11 @@ name.text = null
 name.setBackgroundResource(R.drawable.text_placeholder)
 }
 
- whenever you bind your items make sure you call
- animation.end()
+whenever you bind your items make sure you call
+animation.end()
 
  */
-fun RecyclerView.ViewHolder.shimmerAnimation(FADE_DURATION:Long = 1000L): ObjectAnimator {
+fun RecyclerView.ViewHolder.shimmerAnimation(FADE_DURATION: Long = 1000L): ObjectAnimator {
     return ObjectAnimator.ofFloat(itemView, View.ALPHA, 1f, 0f, 1f).apply {
         repeatCount = ObjectAnimator.INFINITE
         duration = FADE_DURATION

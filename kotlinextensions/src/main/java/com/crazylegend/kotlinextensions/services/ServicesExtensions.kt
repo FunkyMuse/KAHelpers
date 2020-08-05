@@ -70,7 +70,7 @@ inline fun <reified T : Service> Context.startForegroundService(predicate: Inten
 }
 
 @Suppress("DEPRECATION")
-inline fun <reified T: Service> Context.isServiceRunning(): Boolean {
+inline fun <reified T : Service> Context.isServiceRunning(): Boolean {
     (this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?)?.run {
         for (service in getRunningServices(Integer.MAX_VALUE)) {
             if (T::class.java.name == service.service.className) return true //service.foreground
@@ -79,6 +79,6 @@ inline fun <reified T: Service> Context.isServiceRunning(): Boolean {
     return false
 }
 
-inline fun <reified T: Service> Activity.startServiceUnlessRunning(predicate: Intent.() -> Unit = {}) {
+inline fun <reified T : Service> Activity.startServiceUnlessRunning(predicate: Intent.() -> Unit = {}) {
     if (!this.isServiceRunning<T>()) this.startForegroundService<T>(predicate)
 }

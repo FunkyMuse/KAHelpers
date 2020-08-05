@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 
 fun AppBarLayout.offsetChanges(debounce: Long = 300L, debounceTime: TimeUnit = TimeUnit.MILLISECONDS, compositeDisposable: CompositeDisposable,
-                           callback: (state: Int) -> Unit = {}) {
+                               callback: (state: Int) -> Unit = {}) {
 
     val changes = offsetChanges()
     changes.debounce(debounce, debounceTime)

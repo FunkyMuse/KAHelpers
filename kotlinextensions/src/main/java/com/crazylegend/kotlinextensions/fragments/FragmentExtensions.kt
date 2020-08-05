@@ -658,7 +658,6 @@ inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnStop(crossinl
 }
 
 
-
 inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnDestroy(crossinline onDestroyAction: (LifecycleOwner) -> Unit) {
     lifecycle.addObserver(object : DefaultLifecycleObserver {
         override fun onCreate(owner: LifecycleOwner) {
@@ -670,8 +669,6 @@ inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreationOnDestroy(cross
         }
     })
 }
-
-
 
 
 inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreation(

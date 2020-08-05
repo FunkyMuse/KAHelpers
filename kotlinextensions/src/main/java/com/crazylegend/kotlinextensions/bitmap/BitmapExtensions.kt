@@ -176,8 +176,8 @@ fun ByteArray.toBitmap(): Single<Bitmap>? {
 
 suspend fun ByteArray.toBitmapSuspend(): Bitmap? {
     return onIO {
-            return@onIO tryOrNull { BitmapFactory.decodeByteArray(this, 0, size) }
-        }
+        return@onIO tryOrNull { BitmapFactory.decodeByteArray(this, 0, size) }
+    }
 }
 
 
@@ -391,11 +391,11 @@ fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap?
     var bitmap = initialBitmap
     try {
         val exif = contentResolver.openInputStream(inputUri).use { inputStream ->
-            inputStream?:return@use null
+            inputStream ?: return@use null
             ExifInterface(inputStream)
         }
 
-        exif?:return null
+        exif ?: return null
 
         when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1)) {
             ExifInterface.ORIENTATION_ROTATE_90 -> {
