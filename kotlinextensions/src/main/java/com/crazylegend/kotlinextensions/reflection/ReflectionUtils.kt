@@ -375,13 +375,13 @@ inline fun <reified T : Any> T.getDeclaringClass(fieldName: String): Class<*>? {
     }
 }
 
-inline fun <reified T : Any> T.isDataClass(): Boolean = this::class.isData
-inline fun <reified T : Any> T.isSealed(): Boolean = this::class.isSealed
-inline fun <reified T : Any> T.isAbstract(): Boolean = this::class.isAbstract
-inline fun <reified T : Any> T.isCompanion(): Boolean = this::class.isCompanion
-inline fun <reified T : Any> T.isFinal(): Boolean = this::class.isFinal
-inline fun <reified T : Any> T.isInner(): Boolean = this::class.isInner
-inline fun <reified T : Any> T.isOpen(): Boolean = this::class.isOpen
+inline fun <reified T : KClass<T>> T.isDataClass(): Boolean = this::class.isData
+inline fun <reified T : KClass<T>> T.isSealed(): Boolean = this::class.isSealed
+inline fun <reified T : KClass<T>> T.isAbstract(): Boolean = this::class.isAbstract
+inline fun <reified T : KClass<T>> T.isCompanion(): Boolean = this::class.isCompanion
+inline fun <reified T : KClass<T>> T.isFinal(): Boolean = this::class.isFinal
+inline fun <reified T : KClass<T>> T.isInner(): Boolean = this::class.isInner
+inline fun <reified T : KClass<T>> T.isOpen(): Boolean = this::class.isOpen
 
 
 inline fun <reified T : Any> T.isFinal(fieldName: String): Boolean? {
