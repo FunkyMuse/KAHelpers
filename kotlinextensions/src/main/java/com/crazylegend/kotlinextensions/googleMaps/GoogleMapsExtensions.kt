@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import com.crazylegend.kotlinextensions.intent.canBeHandled
 
@@ -240,9 +241,32 @@ fun Context.openMapAppsChooser(latitude: Double, longitude: Double) {
 }
 
 
-/* Not included since there are no Googlemap dependencies maybe in the future
-fun changeOffsetCenter(mGoogleMap: GoogleMap, latLng: LatLng, yOffset: Int = 120) {
-    val mapPoint = mGoogleMap.projection.toScreenLocation(latLng)
-    mapPoint[mapPoint.x] = mapPoint.y - yOffset
-    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(mGoogleMap.projection.fromScreenLocation(mapPoint)))
-}*/
+fun List<Location>.googleMapDirectionsIntent(): Intent {
+    val intentList = this.mapIndexed { index, it ->
+        "${it.latitude}:${it.longitude}" + if (index == lastIndex) "" else "/"
+    }.toString().removePrefix("[").removeSuffix("]")
+            .replace(" ", "")
+            .replace(",", "")
+            .replace(":", ",")
+    val url = "https://www.google.com/maps/dir/$intentList"
+
+    val intent = Intent(Intent.ACTION_VIEW,
+            Uri.parse(url))
+    intent.setPackage("com.google.android.apps.maps")
+    return intent
+}
+
+fun googleMapDirectionsIntentForList(list: List<Location>): Intent {
+    val intentList = list.mapIndexed { index, it ->
+        "${it.latitude}:${it.longitude}" + if (index == list.lastIndex) "" else "/"
+    }.toString().removePrefix("[").removeSuffix("]")
+            .replace(" ", "")
+            .replace(",", "")
+            .replace(":", ",")
+    val url = "https://www.google.com/maps/dir/$intentList"
+
+    val intent = Intent(Intent.ACTION_VIEW,
+            Uri.parse(url))
+    intent.setPackage("com.google.android.apps.maps")
+    return intent
+}
