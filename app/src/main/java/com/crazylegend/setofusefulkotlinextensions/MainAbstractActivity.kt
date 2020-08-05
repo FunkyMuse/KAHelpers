@@ -27,6 +27,9 @@ import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.kotlinextensions.rx.RxBus
 import com.crazylegend.kotlinextensions.rx.bindings.textChanges
 import com.crazylegend.kotlinextensions.rx.clearAndDispose
+import com.crazylegend.kotlinextensions.security.encryptFileSafely
+import com.crazylegend.kotlinextensions.security.getEncryptedFile
+import com.crazylegend.kotlinextensions.security.readText
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
@@ -39,6 +42,7 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapte
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import java.io.File
 
 class MainAbstractActivity : AppCompatActivity() {
 
@@ -158,6 +162,12 @@ class MainAbstractActivity : AppCompatActivity() {
         testAVM.filteredPosts.observe(this, Observer {
             generatedAdapter.submitList(it)
         })
+
+        val testFile = File(filesDir, "testfile.txt")
+        encryptFileSafely(testFile, fileContent = "JETPACK SECURITY".toByteArray())
+        val file = getEncryptedFile(testFile)
+        debug("TEXT DECRYPTED ${file.readText()}")
+        debug("TEXT ENCRYPTED ${testFile.readText()}")
     }
 
     private var searchView: SearchView? = null
