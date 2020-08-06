@@ -12,12 +12,11 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapterRxBus
-import com.crazylegend.kotlinextensions.context.fullScreenGestureNavigation
-import com.crazylegend.kotlinextensions.context.fullScreenGestureNavigationActivity
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
+import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.recyclerview.HideOnScrollListener
 import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
@@ -121,8 +120,8 @@ class MainAbstractActivity : AppCompatActivity() {
         }
 
         if (isGestureNavigationEnabled()) {
-            activityMainBinding.recycler.fullScreenGestureNavigation(this@MainAbstractActivity)
-            fullScreenGestureNavigationActivity()
+            EdgeToEdge.setUpRoot(activityMainBinding.root)
+            EdgeToEdge.setUpScrollingContent(activityMainBinding.recycler)
         }
 
         val stagger = StaggerTransition()
