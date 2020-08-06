@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:id="@+id/dialogText"
+        android:textSize="23sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:layout_width="match_parent"
+        android:layout_marginStart="16dp"
+        android:padding="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@id/dialogText"
+        android:id="@+id/dontShowAgain"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_below="@id/dontShowAgain"
+        android:layout_width="match_parent"
+        android:weightSum="1"
+        android:paddingBottom="20dp"
+        android:clipToPadding="false"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_weight="0.5"
+            app:cornerRadius="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:id="@+id/cancelButton"
+            android:layout_marginEnd="4dp"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
+            app:cornerRadius="16dp"
+            app:backgroundTint="?attr/colorAccent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:id="@+id/confirmButton"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

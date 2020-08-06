@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
@@ -12,6 +13,8 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapterRxBus
+import com.crazylegend.kotlinextensions.autoStart.AutoStartHelper
+import com.crazylegend.kotlinextensions.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.delegates.activityAVM
@@ -118,6 +121,12 @@ class MainAbstractActivity : AppCompatActivity() {
             leftBackgroundColor = R.color.colorPrimary
             drawableRight = android.R.drawable.ic_input_get
         }
+
+        AutoStartHelper.checkAutoStart(this, dialogBundle = bundleOf(
+                Pair(ConfirmationDialogAutoStart.CANCEL_TEXT, "Dismiss"),
+                Pair(ConfirmationDialogAutoStart.CONFIRM_TEXT, "Allow"),
+                Pair(ConfirmationDialogAutoStart.DO_NOT_SHOW_AGAIN_VISIBILITY, true)
+        ))
 
         if (isGestureNavigationEnabled()) {
             EdgeToEdge.setUpRoot(activityMainBinding.root)
