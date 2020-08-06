@@ -20,6 +20,9 @@ import com.crazylegend.kotlinextensions.sharedprefs.putBoolean
 
 /**
  * Created by crazy on 8/6/20 to long live and prosper !
+ *
+ * adb shell "dumpsys activity activities | grep mResumedActivity"
+ * to contribute
  */
 object AutoStartHelper {
 
@@ -32,6 +35,7 @@ object AutoStartHelper {
 
     private val POWER_MANAGER_INTENTS = arrayOf(
             Intent().setComponent(ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
+            Intent().setComponent(ComponentName("com.miui.securitycenter", "com.miui.powercenter.PowerSettings")),
             Intent().setComponent(ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")),
             Intent().setComponent(ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity")),
             Intent().setComponent(ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")),
@@ -46,7 +50,9 @@ object AutoStartHelper {
             Intent().setComponent(ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")),
             Intent().setComponent(ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity")),
             Intent().setComponent(ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.powersaver.PowerSaverSettings")),
+            Intent().setComponent(ComponentName("com.samsung.android.lool", "com.samsung.android.sm.ui.battery.BatteryActivity")),
             Intent().setComponent(ComponentName("com.transsion.phonemanager", "com.itel.autobootmanager.activity.AutoBootMgrActivity")),
+            Intent().setComponent(ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListActivity")),
             Intent().setComponent(ComponentName("com.evenwell.powersaving.g3", "com.evenwell.powersaving.g3.exception.PowerSaverExceptionActivity"))
     )
 
@@ -59,11 +65,11 @@ object AutoStartHelper {
 
     fun checkAutoStart(context: Context, dialogBundle: Bundle = defaultBundle) {
         context.isDialogShown.ifFalse {
-            showAlert(context, dialogBundle) {
-                for (intent in POWER_MANAGER_INTENTS) if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            for (intent in POWER_MANAGER_INTENTS) if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                showAlert(context, dialogBundle) {
                     context.startActivity(intent)
-                    break
                 }
+                break
             }
         }
     }
