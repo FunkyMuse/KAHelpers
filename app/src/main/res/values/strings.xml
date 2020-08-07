@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SetOfUsefulKotlinExtensions</string>
+    <string name="touch_listener_single_touch">Single Touch</string>
+    <string name="touch_listener_multi_touch">Multi Touch</string>
+    <string name="touch_listener_gesture_detector">Gesture Detector</string>
+    <string name="touch_listener_scale_gesture_detector">Scale Gesture Detector</string>
+    <string name="touch_listener_default">Default</string>
 </resources>

@@ -648,3 +648,11 @@ fun AppCompatTextView.setTextAndShowOrInvisible(textString: String?) {
         textString
     }
 }
+
+fun TextView.clear() {
+    text = ""
+}
+
+fun AppCompatTextView.clear() {
+    text = ""
+}
