@@ -3,6 +3,8 @@ package com.crazylegend.kotlinextensions.packageutils
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -81,4 +83,19 @@ inline val Context.isFromGooglePlay: Boolean
 
 fun PackageManager.isIntentSafe(intent: Intent): Boolean {
     return queryIntentActivities(intent, 0).isNotEmpty()
+}
+
+/**
+ * Return whether the given PackageInfo represents a system package or not.
+ * User-installed packages (Market or otherwise) should not be denoted as
+ * system packages.
+ *
+ * @param pkgInfo
+ * @return
+ */
+fun isSystemPackage(pkgInfo: PackageInfo) = pkgInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+
+fun Context.launchAnApp(packageName: String) {
+    val launchApp = packageManager.getLaunchIntentForPackage(packageName)
+    startActivity(launchApp)
 }
