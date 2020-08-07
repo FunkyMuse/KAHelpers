@@ -11,10 +11,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.SystemClock
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
+import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
@@ -38,6 +35,7 @@ import com.crazylegend.kotlinextensions.context.colorWithOpacity
 import com.crazylegend.kotlinextensions.context.drawable
 import com.crazylegend.kotlinextensions.context.inputManager
 import com.crazylegend.kotlinextensions.context.selectableItemBackgroundResource
+import com.crazylegend.kotlinextensions.view.ScaleListener
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
@@ -522,4 +520,16 @@ fun View.updateGestureExclusion(gestureExclusionRects: List<Rect>) {
 }
 
 
+/**
+ * Declare a variable
+private var gestureDetector: ScaleGestureDetector? = null
 
+override fun onTouchEvent(event: MotionEvent?): Boolean {
+gestureDetector?.onTouchEvent(event)
+return true
+}
+ * @receiver View
+ * @param scaleFactor Float
+ * @return ScaleGestureDetector
+ */
+fun View.pinchToZoom(scaleFactor: Float = 1.0f) = ScaleGestureDetector(context, ScaleListener(scaleFactor, this))
