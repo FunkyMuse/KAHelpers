@@ -9,7 +9,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
-import com.crazylegend.kotlinextensions.context.isIgnoringBatteryOptimization
+import com.crazylegend.kotlinextensions.power.isIgnoringBatteryOptimization
 import java.util.*
 
 
