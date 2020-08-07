@@ -1,8 +1,15 @@
 package com.crazylegend.kotlinextensions.misc
 
+import android.Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.content.Context
+import android.content.Intent
 import android.content.pm.FeatureInfo
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
+import com.crazylegend.kotlinextensions.context.isIgnoringBatteryOptimization
 import java.util.*
 
 
@@ -51,4 +58,17 @@ inline fun <T, R> T.ifThis(predicate: T.() -> Boolean, trueFun: () -> R, elseFun
     trueFun()
 } else {
     elseFun()
+}
+
+@RequiresPermission(REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+fun Context.requestBatteryOptimizations() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val intent = Intent()
+        val ignoring = isIgnoringBatteryOptimization ?: false
+        if (!ignoring) {
+            intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+            intent.data = Uri.parse("package:$packageName")
+            startActivity(intent)
+        }
+    }
 }
