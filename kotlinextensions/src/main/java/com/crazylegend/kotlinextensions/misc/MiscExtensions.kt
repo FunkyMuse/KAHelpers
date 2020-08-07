@@ -63,11 +63,12 @@ inline fun <T, R> T.ifThis(predicate: T.() -> Boolean, trueFun: () -> R, elseFun
 @RequiresPermission(REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
 fun Context.requestBatteryOptimizations() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val intent = Intent()
         val ignoring = isIgnoringBatteryOptimization ?: false
         if (!ignoring) {
-            intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-            intent.data = Uri.parse("package:$packageName")
+            val intent = Intent().apply {
+                action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                data = Uri.parse("package:$packageName")
+            }
             startActivity(intent)
         }
     }
