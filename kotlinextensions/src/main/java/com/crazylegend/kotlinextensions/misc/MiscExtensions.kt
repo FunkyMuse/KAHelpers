@@ -4,11 +4,13 @@ import android.Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.content.Context
 import android.content.Intent
 import android.content.pm.FeatureInfo
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
+import com.crazylegend.kotlinextensions.context.uiModeManager
 import com.crazylegend.kotlinextensions.power.isIgnoringBatteryOptimization
 import java.util.*
 
@@ -52,6 +54,8 @@ fun Context.getOpenGLVersion(): Int {
 private fun getMajorVersion(glEsVersion: Int): Int {
     return glEsVersion and -0x10000 shr 16
 }
+
+val Context.isTV get() = uiModeManager?.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
 
 
 inline fun <T, R> T.ifThis(predicate: T.() -> Boolean, trueFun: () -> R, elseFun: () -> R) = if (predicate()) {

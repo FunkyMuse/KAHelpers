@@ -2,12 +2,10 @@ package com.crazylegend.kotlinextensions.power
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.os.Build
 import android.os.PowerManager
 import androidx.annotation.RequiresApi
 import com.crazylegend.kotlinextensions.context.powerManager
-import com.crazylegend.kotlinextensions.context.uiModeManager
 
 
 /**
@@ -56,7 +54,6 @@ fun Context.createNewWakeLock(levelFlags: Int, tag: String): PowerManager.WakeLo
     return powerManager?.newWakeLock(levelFlags, tag)
 }
 
-val Context.isTV get() = uiModeManager?.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
 
 val Context.isSustainedPerformanceModeSupported
     @RequiresApi(Build.VERSION_CODES.N)
