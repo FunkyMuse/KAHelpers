@@ -8,6 +8,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.annotation.RawRes
 import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
 import com.crazylegend.kotlinextensions.context.uiModeManager
@@ -77,3 +78,5 @@ fun Context.requestBatteryOptimizations() {
         }
     }
 }
+
+fun Context.getRawURI(@RawRes raw: Int) = Uri.parse("android.resource://$packageName/$raw")
