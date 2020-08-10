@@ -56,6 +56,8 @@ fun File.deleteAll() {
     }
 }
 
+fun File.doesNotExist() = !exists()
+
 /**
  * Read File data as String and Returns the Result
  */
