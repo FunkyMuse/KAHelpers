@@ -8,4 +8,3 @@ inline fun String.ifIsNullOrEmpty(action: () -> Unit) {
 inline fun String.ifIsNotNullOrEmpty(action: () -> Unit) {
     if (!isNullOrEmpty()) action()
 }
-
