@@ -296,6 +296,8 @@ fun Bitmap.rotateTo(angle: Float, recycle: Boolean = true): Bitmap {
     return newBitmap
 }
 
+fun Bitmap.isNotRecycled() = !isRecycled
+
 
 /**
  * Greyscale the Image.
