@@ -533,3 +533,9 @@ return true
  * @return ScaleGestureDetector
  */
 fun View.pinchToZoom(scaleFactor: Float = 1.0f) = ScaleGestureDetector(context, ScaleListener(scaleFactor, this))
+
+fun View?.removeSelf() {
+    this ?: return
+    val parentView = parent as? ViewGroup ?: return
+    parentView.removeView(this)
+}
