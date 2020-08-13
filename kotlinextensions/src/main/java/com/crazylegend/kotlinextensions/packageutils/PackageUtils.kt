@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -99,3 +100,31 @@ fun Context.launchAnApp(packageName: String) {
     val launchApp = packageManager.getLaunchIntentForPackage(packageName)
     startActivity(launchApp)
 }
+
+fun PackageManager.getAppInfoFromPackageName(packageName: String): ResolveInfo? {
+    val intent = Intent()
+    intent.`package` = packageName
+    intent.addCategory(Intent.CATEGORY_LAUNCHER)
+    return resolveActivity(intent, 0)
+}
+
+fun PackageManager.getAvailableApplications(): MutableList<ResolveInfo> {
+
+    val mainIntent = Intent(Intent.ACTION_MAIN, null)
+    mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+
+    return queryIntentActivities(mainIntent, 0)
+}
+
+fun Context.openAppInfo(packageName: String) {
+    try {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.parse("package:$packageName")
+        startActivity(intent)
+
+    } catch (e: ActivityNotFoundException) {
+        val intent = Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS)
+        startActivity(intent)
+    }
+}
+
