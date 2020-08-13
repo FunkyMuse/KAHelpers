@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.sharedprefs
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.lifecycle.LifecycleOwner
 import com.crazylegend.kotlinextensions.gson.gson
 import com.crazylegend.kotlinextensions.gson.toJson
 
@@ -72,3 +73,10 @@ inline fun <reified T : Any> SharedPreferences.get(key: String, defaultValue: T)
             is String -> getString(key, defaultValue) as? T? ?: defaultValue
             else -> throw UnsupportedOperationException("Class not supported by SharedPreferences.put()")
         }
+
+fun SharedPreferences.registerSharedPreferenceChangeListener(
+        owner: LifecycleOwner,
+        listener: (SharedPreferences, String) -> Unit
+) {
+    owner.lifecycle.addObserver(SharedPreferenceChangeListener(this, listener))
+}

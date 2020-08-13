@@ -3,7 +3,6 @@ package com.crazylegend.kotlinextensions.sharedprefs
 import android.content.SharedPreferences
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
 
@@ -30,9 +29,4 @@ class SharedPreferenceChangeListener(
     }
 }
 
-fun SharedPreferences.registerSharedPreferenceChangeListener(
-        owner: LifecycleOwner,
-        listener: (SharedPreferences, String) -> Unit
-) {
-    owner.lifecycle.addObserver(SharedPreferenceChangeListener(this, listener))
-}
+
