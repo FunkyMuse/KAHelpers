@@ -1,6 +1,7 @@
 package com.crazylegend.kotlinextensions.context
 
 import android.Manifest
+import android.Manifest.permission.REBOOT
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager.RunningAppProcessInfo.*
@@ -492,6 +493,7 @@ fun Context.getResourceIdAttribute(@AttrRes attribute: Int): Int {
     return typedValue.resourceId
 }
 
+@RequiresPermission(REBOOT)
 fun Context.reboot(reason: String?) {
     powerManager?.reboot(reason)
 }

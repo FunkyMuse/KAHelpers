@@ -8,8 +8,10 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.annotation.ColorInt
 import androidx.annotation.RawRes
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.crazylegend.kotlinextensions.context.uiModeManager
 import com.crazylegend.kotlinextensions.power.isIgnoringBatteryOptimization
@@ -80,3 +82,9 @@ fun Context.requestBatteryOptimizations() {
 }
 
 fun Context.getRawURI(@RawRes raw: Int) = Uri.parse("android.resource://$packageName/$raw")
+
+
+fun Toolbar.setNavigationIconColor(@ColorInt color: Int) = navigationIcon?.mutate()?.let {
+    it.setTint(color)
+    this.navigationIcon = it
+}
