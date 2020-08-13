@@ -12,6 +12,7 @@ import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
+import com.crazylegend.kotlinextensions.RunCodeEveryXLaunchOnAppOpened
 import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapterRxBus
 import com.crazylegend.kotlinextensions.autoStart.AutoStartHelper
 import com.crazylegend.kotlinextensions.autoStart.ConfirmationDialogAutoStart
@@ -96,6 +97,9 @@ class MainAbstractActivity : AppCompatActivity() {
             testAVM.getposts()
         }
 
+        RunCodeEveryXLaunchOnAppOpened.runCode(this, 2) {
+            debug("TEST RUN AT 2 LAUNCHES")
+        }
 
         activityMainBinding.recycler.addOnScrollListener(object : HideOnScrollListener(5) {
             override fun onHide() {
