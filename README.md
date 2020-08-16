@@ -103,7 +103,7 @@ kapt.use.worker.api = true
 org.gradle.unsafe.watch-fs=true
 org.gradle.configureondemand=true
 ```
-Informational
+Informational/optinal
 1. Proguard configs 
 ```gradle
 -keepattributes SourceFile,LineNumberTable  
@@ -111,7 +111,9 @@ Informational
 -keep class com.google.firebase.crashlytics.** { *; }  
 -dontwarn com.google.firebase.crashlytics.**
 -dontwarn org.jetbrains.annotations.**
+# these are if you're using crashlytics and don't want to receive obfuscated crashes
 
+# these below are if you're using Retrofit with Moshi using reflection to make conversions from and to json
 -dontwarn okhttp3.**
 -dontwarn retrofit2.Platform$Java8
 -dontwarn okio.**
