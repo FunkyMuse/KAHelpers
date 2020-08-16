@@ -9,6 +9,9 @@
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
 
+## If you found this repo helpful 
+<a href="https://www.buymeacoffee.com/crazylegend" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
 ## Usage
 1. Add JitPack to your project build.gradle
 
