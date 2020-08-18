@@ -18,14 +18,13 @@ import com.crazylegend.kotlinextensions.autoStart.AutoStartHelper
 import com.crazylegend.kotlinextensions.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
+import com.crazylegend.kotlinextensions.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
-import com.crazylegend.kotlinextensions.recyclerview.HideOnScrollListener
-import com.crazylegend.kotlinextensions.recyclerview.RecyclerSwipeItemHandler
-import com.crazylegend.kotlinextensions.recyclerview.addDrag
-import com.crazylegend.kotlinextensions.recyclerview.addSwipe
+import com.crazylegend.kotlinextensions.recyclerview.*
+import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.kotlinextensions.rx.RxBus
 import com.crazylegend.kotlinextensions.rx.bindings.textChanges
@@ -43,6 +42,7 @@ import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderBinding
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.io.File
@@ -58,6 +58,12 @@ class MainAbstractActivity : AppCompatActivity() {
         TestViewBindingAdapter()
     }
 
+    private val exampleGeneratedAdapter by lazy {
+        generateRecycler<TestModel, TestViewHolderBinding, CustomizableCardViewBinding>(TestViewHolderBinding::class.java,
+                CustomizableCardViewBinding::inflate) { item, holder, _, _ ->
+            holder.bind(item)
+        }
+    }
 
     private val compositeDisposable by lazy {
         CompositeDisposable()
@@ -99,6 +105,10 @@ class MainAbstractActivity : AppCompatActivity() {
 
         RunCodeEveryXLaunchOnAppOpened.runCode(this, 2) {
             debug("TEST RUN AT 2 LAUNCHES")
+        }
+
+        exampleGeneratedAdapter.forItemClickListener = forItemClickListener { _, _, _ ->
+
         }
 
         activityMainBinding.recycler.addOnScrollListener(object : HideOnScrollListener(5) {
