@@ -30,7 +30,7 @@ task clean(type: Delete) {
 
 ext {
 
-    lifecycle = '2.3.0-alpha06'
+    lifecycle = '2.3.0-alpha07'
     retrofit = "2.9.0"
     rxBindings = "4.0.0"
     glide = "4.11.0"
@@ -47,7 +47,7 @@ ext {
     androidXTestRulesVersion = '1.2.0-beta01'
     robolectricVersion = '4.3.1'
     archTestingVersion = '2.1.0'
-    espressoVersion = '3.3.0-rc02'
+    espressoVersion = '3.3.0-rc03'
 
     //compilation
     compileVersion = 30
