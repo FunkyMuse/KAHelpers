@@ -19,8 +19,7 @@ import retrofit2.Response
 
 fun <T> CoroutineScope.makeApiCallAsync(
         response: Response<T>?,
-        retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        includeEmptyData: Boolean = false
+        retrofitResult: MutableLiveData<RetrofitResult<T>>
 ): Job {
 
     return launch(mainDispatcher) {
@@ -106,7 +105,6 @@ fun <T> CoroutineScope.makeDBCallListAsync(
 
 fun <T> AndroidViewModel.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
 
     return viewModelScope.launch(mainDispatcher) {
@@ -274,7 +272,6 @@ fun AndroidViewModel.makeDBCallAsync(
 
 fun <T> AppCompatActivity.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
     return lifecycleScope.launch(mainDispatcher) {
         supervisorScope {
@@ -401,7 +398,6 @@ fun AppCompatActivity.makeDBCallAsync(
 
 fun <T> Fragment.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
     return lifecycleScope.launch(mainDispatcher) {
         supervisorScope {
@@ -586,7 +582,6 @@ fun <T> CoroutineScope.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 
 fun <T> CoroutineScope.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        includeEmptyData: Boolean = false,
         apiCall: suspend () -> Response<T>?): Job {
 
 
