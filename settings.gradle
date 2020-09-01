@@ -1,2 +1,7 @@
+include ':rxbindings'
+include ':rx'
+include ':coroutines'
+include ':database'
+include ':retrofit'
 include ':security'
 include ':app', ':kotlinextensions'

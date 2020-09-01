@@ -5,13 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import io.reactivex.rxjava3.core.Observable
-import java.io.File
 
 
 /**
@@ -94,38 +87,6 @@ fun Context?.openGoogleMaps(query: String, placeId: String) {
         }
     }
 
-}
-
-fun Context.cacheImage(url: String): Observable<Boolean> {
-    return Observable.create {
-
-        if (url.isEmpty()) {
-            it.onNext(false)
-        } else {
-            Glide.with(applicationContext)
-                    .downloadOnly()
-                    .load(url)
-                    .listener(object : RequestListener<File> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<File>?, isFirstResource: Boolean): Boolean {
-
-                            if (e != null) {
-                                it.onNext(false)
-                            }
-                            return false
-
-                        }
-
-                        override fun onResourceReady(resource: File?, model: Any?, target: Target<File>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            it.onNext(true)
-                            return false
-                        }
-
-
-                    })
-                    .submit()
-        }
-
-    }
 }
 
 fun Activity.pickImage(PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images",

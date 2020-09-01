@@ -37,6 +37,7 @@ import com.crazylegend.kotlinextensions.context.batteryManager
 import com.crazylegend.kotlinextensions.context.telephonyManager
 import com.crazylegend.kotlinextensions.helperModels.BatteryStatusModel
 import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
+import java.io.Closeable
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -986,4 +987,13 @@ fun <T> T?.ifNotNull(toBoolean: T.() -> Boolean) =
 inline fun killProcess(cleanUps: () -> Unit = {}) {
     cleanUps()
     killProcess(android.os.Process.myPid())
+}
+
+fun Closeable.closeQuietly() {
+    try {
+        close()
+    } catch (rethrown: RuntimeException) {
+        throw rethrown
+    } catch (_: Exception) {
+    }
 }

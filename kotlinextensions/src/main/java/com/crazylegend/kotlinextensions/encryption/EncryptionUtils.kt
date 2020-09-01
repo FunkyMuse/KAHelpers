@@ -1,8 +1,8 @@
 package com.crazylegend.kotlinextensions.encryption
 
 import android.util.Base64
+import com.crazylegend.kotlinextensions.and
 import com.crazylegend.kotlinextensions.shr
-import okhttp3.internal.and
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException

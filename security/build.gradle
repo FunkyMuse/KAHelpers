@@ -8,7 +8,6 @@ android {
         targetSdkVersion compileVersion
         versionCode verCode
         versionName verName
-        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,5 +23,5 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     //security
-    implementation "androidx.security:security-crypto:1.1.0-alpha02"
+    api "androidx.security:security-crypto:1.1.0-alpha02"
 }

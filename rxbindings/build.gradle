@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion compileVersion
+
+    defaultConfig {
+        minSdkVersion minVersion
+        targetSdkVersion compileVersion
+        versionCode verCode
+        versionName verName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation project(path: ':rx')
+
+    implementation "com.google.android.material:material:$material"
+
+    //bindings
+    api "com.jakewharton.rxbinding4:rxbinding-core:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-appcompat:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-drawerlayout:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-leanback:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-viewpager:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-viewpager2:$rxBindings"
+    api "com.jakewharton.rxbinding4:rxbinding-material:$rxBindings"
+
+}

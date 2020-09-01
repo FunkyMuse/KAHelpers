@@ -5,7 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import okhttp3.internal.closeQuietly
+import com.crazylegend.kotlinextensions.closeQuietly
 
 
 /**

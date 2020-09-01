@@ -26,12 +26,12 @@ val gsonWithDate by lazy {
 inline fun <reified T : Any> Gson.fromJson(json: String): T = this.fromJson(json, T::class.java)
 
 val prettyJsonString: (String) -> String = { jsonStr ->
-    val jsonElement = JsonParser().parse(jsonStr)
+    val jsonElement = JsonParser.parseString(jsonStr)
     GsonBuilder().setPrettyPrinting().create().toJson(jsonElement)
 }
 
 val prettyJsonObject: (JSONObject) -> String = { json ->
-    val jso = JsonParser().parse(json.toString()).asJsonObject
+    val jso = JsonParser.parseString(json.toString()).asJsonObject
     GsonBuilder().setPrettyPrinting().create().toJson(jso)
 }
 
@@ -52,4 +52,4 @@ fun Any.toJson(): String = gson.toJson(this)
 
 fun Any.toJsonPrettyPrinting(): String = gsonPrettyPrinting.toJson(this)
 
-inline fun <reified T> Gson.fromJsonTypeToken(json: String): T = this.fromJson<T>(json, object : TypeToken<T>() {}.type)
+inline fun <reified T> Gson.fromJsonTypeToken(json: String): T = this.fromJson(json, object : TypeToken<T>() {}.type)
