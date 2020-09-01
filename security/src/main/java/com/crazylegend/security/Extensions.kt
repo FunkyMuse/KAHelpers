@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.security
+package com.crazylegend.security
 
 import android.content.Context
 import android.os.Build
@@ -7,10 +7,9 @@ import androidx.annotation.RequiresApi
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.crazylegend.kotlinextensions.inputstream.readBytesAndClose
-import com.crazylegend.kotlinextensions.inputstream.readTextAndClose
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
 import java.nio.charset.Charset
 
 
@@ -20,9 +19,7 @@ import java.nio.charset.Charset
 
 
 /** Proguard
--keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite {
-<fields>;
-}
+
  */
 
 /**
@@ -96,3 +93,5 @@ const val ENCRYPTED_PREFS_DEFAULT_NAME = "_encryptedPrefsDefaultFileName_"
 fun Context.encryptedSharedPreferences(fileName: String = ENCRYPTED_PREFS_DEFAULT_NAME, masterKey: MasterKey = getMasterKeyDefaultAlias) =
         EncryptedSharedPreferences.create(this, fileName, masterKey, EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV, EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
 
+internal fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String = bufferedReader(charset).use { it.readText() }
+internal fun InputStream.readBytesAndClose(): ByteArray = bufferedReader().use { readBytes() }

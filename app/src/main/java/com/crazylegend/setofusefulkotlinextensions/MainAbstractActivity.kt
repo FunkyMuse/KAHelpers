@@ -29,9 +29,6 @@ import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.kotlinextensions.rx.RxBus
 import com.crazylegend.kotlinextensions.rx.bindings.textChanges
 import com.crazylegend.kotlinextensions.rx.clearAndDispose
-import com.crazylegend.kotlinextensions.security.encryptFileSafely
-import com.crazylegend.kotlinextensions.security.getEncryptedFile
-import com.crazylegend.kotlinextensions.security.readText
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
@@ -39,6 +36,9 @@ import com.crazylegend.kotlinextensions.transition.utils.plusAssign
 import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
 import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
+import com.crazylegend.security.encryptFileSafely
+import com.crazylegend.security.getEncryptedFile
+import com.crazylegend.security.readText
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter

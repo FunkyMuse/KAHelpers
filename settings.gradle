@@ -1,1 +1,2 @@
+include ':security'
 include ':app', ':kotlinextensions'

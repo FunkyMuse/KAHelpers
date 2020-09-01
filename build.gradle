@@ -1,5 +1,4 @@
 buildscript {
-
     ext.kotlin_version = '1.4.0'
 
     repositories {
@@ -14,12 +13,12 @@ buildscript {
     }
 }
 
+
 allprojects {
     repositories {
         google()
         jcenter()
         mavenCentral()
-
     }
 }
 
@@ -29,7 +28,6 @@ task clean(type: Delete) {
 
 
 ext {
-
     lifecycle = '2.3.0-alpha07'
     retrofit = "2.9.0"
     rxBindings = "4.0.0"

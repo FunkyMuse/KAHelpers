@@ -30,8 +30,6 @@ android {
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
-        coreLibraryDesugaringEnabled true
-
     }
 
     kotlinOptions {
@@ -91,9 +89,6 @@ dependencies {
     //language features
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-    //desugaring
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$coreDesugaring"
 
     //live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
@@ -175,9 +170,6 @@ dependencies {
 
     //nav
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-
-    //security
-    implementation "androidx.security:security-crypto:1.1.0-alpha02"
 
 }
 

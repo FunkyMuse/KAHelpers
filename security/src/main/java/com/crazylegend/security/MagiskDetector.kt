@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.security
+package com.crazylegend.security
 
 import android.content.Context
 import android.content.pm.PackageManager

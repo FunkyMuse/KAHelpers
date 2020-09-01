@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.security
+package com.crazylegend.security
 
 
 /**
