@@ -97,31 +97,25 @@ fun generateRetrofitImageKeyName(photoIndexNumber: Int = Random.nextInt(0, Int.M
 )
 
 
-fun Double?.toRequestBodyForm(): RequestBody {
-    return this.toString().toRequestBody(MultipartBody.FORM)
-}
-
-fun String?.toRequestBodyForm(): RequestBody {
-    return this.toString().toRequestBody(MultipartBody.FORM)
-}
-
-fun Int?.toRequestBodyForm(): RequestBody {
-    return this.toString().toRequestBody(MultipartBody.FORM)
-}
-
-fun Float?.toRequestBodyForm(): RequestBody {
-    return this.toString().toRequestBody(MultipartBody.FORM)
-}
-
-fun Any?.toRequestBodyForm(): RequestBody {
-    return toString().toRequestBodyForm()
-}
+fun Double?.toRequestBodyForm(): RequestBody = toString().toRequestBody(MultipartBody.FORM)
 
 
-fun progressDSL(
-        onProgressStarted: () -> Unit = {},
-        onProgressFinished: () -> Unit = {},
-        onProgressChanged: (percent: Int) -> Unit = { _ -> }
+fun String?.toRequestBodyForm(): RequestBody = toString().toRequestBody(MultipartBody.FORM)
+
+
+fun Int?.toRequestBodyForm(): RequestBody = toString().toRequestBody(MultipartBody.FORM)
+
+
+fun Float?.toRequestBodyForm(): RequestBody = toString().toRequestBody(MultipartBody.FORM)
+
+
+fun Any?.toRequestBodyForm(): RequestBody = toString().toRequestBodyForm()
+
+
+inline fun progressDSL(
+        crossinline onProgressStarted: () -> Unit = {},
+        crossinline onProgressFinished: () -> Unit = {},
+        crossinline onProgressChanged: (percent: Int) -> Unit = { _ -> }
 ): OnAttachmentDownloadListener {
     return object : OnAttachmentDownloadListener {
         override fun onAttachmentDownloadedStarted() {
@@ -140,99 +134,100 @@ fun progressDSL(
 }
 
 fun Context.errorResponseCode(responseCode: Int) {
-    when (responseCode) {
-
+    val textError = when (responseCode) {
         301 -> {
-            shortToast("Moved permanently")
+            "Moved permanently"
         }
 
         400 -> {
             // bad request
-            shortToast("Bad Request")
+            "Bad Request"
         }
 
         401 -> {
             // unauthorized
-            shortToast("Unauthorized")
+            "Unauthorized"
         }
 
         403 -> {
-            shortToast("Forbidden")
+            "Forbidden"
         }
 
         404 -> {
             // not found
-            shortToast("Not found")
+            "Not found"
         }
 
         405 -> {
-            shortToast("Method not allowed")
+            "Method not allowed"
         }
 
         406 -> {
-            shortToast("Not acceptable")
+            "Not acceptable"
         }
 
         407 -> {
-            shortToast("Proxy authentication required")
+            "Proxy authentication required"
         }
 
         408 -> {
             // time out
-            shortToast("Time out")
+            "Time out"
         }
 
         409 -> {
-            shortToast("Conflict error")
+            "Conflict error"
         }
 
         410 -> {
-            shortToast("Request permanently deleted")
+            "Request permanently deleted"
         }
 
         413 -> {
-            shortToast("Request too large")
+            "Request too large"
         }
 
         422 -> {
             // account exists
-            shortToast("Account with that email already exists")
+            "Account with that email already exists"
         }
 
         425 -> {
-            shortToast("Server is busy")
+            "Server is busy"
         }
 
         429 -> {
-            shortToast("Too many requests, slow down")
+            "Too many requests, slow down"
         }
 
         500 -> {
             // internal server error
-            shortToast("Server error")
+            "Server error"
         }
 
         501 -> {
-            shortToast("Not implemented")
+            "Not implemented"
         }
 
         502 -> {
             // bad gateway
-            shortToast("Bad gateway")
+            "Bad gateway"
         }
         504 -> {
             // gateway timeout
-            shortToast("Gateway timeout")
+            "Gateway timeout"
         }
 
         511 -> {
-            shortToast("Authentication required")
+            "Authentication required"
         }
 
         else -> {
-            shortToast("Something went wrong, try again")
+            "Something went wrong, try again"
         }
     }
+    shortToast(textError)
+
 }
 
 
