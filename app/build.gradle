@@ -1,6 +1,7 @@
 android {
     compileSdkVersion compileVersion
     defaultConfig {
+
         applicationId "com.crazylegend.setofusefulkotlinextensions"
         minSdkVersion minVersion
         targetSdkVersion compileVersion
@@ -53,7 +54,6 @@ android {
 }
 
 dependencies {
-
     implementation project(path: ':kotlinextensions')
     implementation project(path: ':security')
     implementation project(path: ':retrofit')
@@ -65,7 +65,6 @@ dependencies {
 
     //language features
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     //live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
@@ -84,8 +83,8 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.6'
 
     //moshi
-    implementation 'com.squareup.moshi:moshi-kotlin:1.10.0'
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.10.0")
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi"
 
 
     // glide

@@ -1,6 +1,4 @@
 dependencies {
-    
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(path: ':coroutines')
     implementation project(path: ':rx')
 

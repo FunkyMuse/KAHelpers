@@ -9,6 +9,7 @@ ext {
     nav_version = '2.3.0'
     rx = '3.0.0'
     material = "1.3.0-alpha02"
+    moshi = "1.10.0"
 
     //tests
     junitVersion = '4.13'
@@ -80,7 +81,6 @@ subprojects {
             }
 
             buildFeatures {
-                viewBinding = true
 
                 // Determines whether to generate binder classes for your AIDL files.
                 aidl = false
@@ -99,6 +99,19 @@ subprojects {
 
         dependencies {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+            // Dependencies for local unit tests
+            testImplementation "junit:junit:$junitVersion"
+            testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+            testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+            testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+            testImplementation "org.robolectric:robolectric:$robolectricVersion"
+            testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+            testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
+
+            // AndroidX Test - Instrumented testing
+            androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+            androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
         }
 
     } else  {
@@ -106,6 +119,11 @@ subprojects {
         apply plugin: 'kotlin-android'
         apply plugin: 'kotlin-kapt'
         apply plugin: 'kotlin-android-extensions'
+
+        dependencies {
+            implementation fileTree(dir: 'libs', include: ['*.jar'])
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        }
     }
 }
 

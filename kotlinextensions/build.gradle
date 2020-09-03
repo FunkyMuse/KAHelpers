@@ -4,28 +4,12 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/LICENSE'
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-
-
-    // Dependencies for local unit tests
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
-    testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
-    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
-
-    // AndroidX Test - Instrumented testing
-    androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-
-
-    //language features
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
     //live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle"
