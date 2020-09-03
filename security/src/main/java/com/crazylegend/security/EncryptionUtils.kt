@@ -1,8 +1,6 @@
-package com.crazylegend.kotlinextensions.encryption
+package com.crazylegend.security
 
 import android.util.Base64
-import com.crazylegend.kotlinextensions.and
-import com.crazylegend.kotlinextensions.shr
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -341,6 +339,9 @@ object EncryptionUtils {
         }
         return String(ret)
     }
+
+    private infix fun Byte.and(that: Int): Int = this.toInt().and(that)
+    private infix fun Byte.shr(that: Int): Int = this.toInt().shr(that)
 
     /**
      * AES, key length must be 16

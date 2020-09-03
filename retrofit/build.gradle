@@ -1,28 +1,5 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
-android {
-    compileSdkVersion compileVersion
-
-    defaultConfig {
-        minSdkVersion minVersion
-        targetSdkVersion compileVersion
-        versionCode verCode
-        versionName verName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(path: ':coroutines')
     implementation project(path: ':rx')

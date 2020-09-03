@@ -23,3 +23,6 @@ class GenericDiffUtil<T>(private val areItemsTheSameCallback: (old: T, new: T) -
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean = areContentsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
 
 }
+
+fun <T> diffUtilDSL(areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+                    areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }) = GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)

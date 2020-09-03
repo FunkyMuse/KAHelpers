@@ -1,3 +1,4 @@
+include ':biometrics'
 include ':reflection'
 include ':rxbindings'
 include ':rx'

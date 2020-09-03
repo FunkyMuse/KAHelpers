@@ -1,76 +1,13 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-
 android {
-    compileSdkVersion compileVersion
-
-    defaultConfig {
-        minSdkVersion minVersion
-        targetSdkVersion compileVersion
-        versionCode verCode
-        versionName verName
-        vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-    }
-
-    buildTypes {
-
-        debug {
-            crunchPngs false
-        }
-
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/LICENSE'
     }
-
-    kapt {
-        correctErrorTypes = true
-        useBuildCache = true
-    }
-
-    androidExtensions {
-        experimental = true
-    }
-
-    buildFeatures {
-        viewBinding = true
-
-        // Determines whether to generate binder classes for your AIDL files.
-        aidl = false
-        // Determines whether to support RenderScript.
-        renderScript = false
-        // Determines whether to support injecting custom variables into the module’s R class.
-        resValues = false
-        // Determines whether to support shader AOT compilation.
-        shaders = false
-    }
-
-    testOptions.unitTests {
-        includeAndroidResources = true
-    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$junitVersion"
@@ -111,16 +48,12 @@ dependencies {
 
     // glide
     implementation "com.github.bumptech.glide:glide:$glide"
-    kapt "com.github.bumptech.glide:compiler:$glide"
 
     //ui
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
 
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation "androidx.constraintlayout:constraintlayout-solver:$constraint_layout"
-
-    //auth
-    implementation 'androidx.biometric:biometric:1.0.1'
 
     //util
     implementation 'androidx.exifinterface:exifinterface:1.2.0'
