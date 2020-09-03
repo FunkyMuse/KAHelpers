@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.basehelpers.DeviceRingerMode
+import com.crazylegend.kotlinextensions.ifTrue
 import com.crazylegend.kotlinextensions.toFile
 import com.crazylegend.kotlinextensions.withOpacity
 import java.io.BufferedReader
@@ -62,10 +63,7 @@ fun Context.isIntentResolvable(intent: Intent) =
  *
  * *If App Installed ;)
  */
-fun Context.startApp(packageName: String) =
-        if (isAppInstalled(packageName)) startActivity(packageManager.getLaunchIntentForPackage(packageName)) else {
-        }
-
+fun Context.startApp(packageName: String) = isAppInstalled(packageName).ifTrue { startActivity(packageManager.getLaunchIntentForPackage(packageName)) }
 
 /**
  * Check if an App is Installed on the user device.
@@ -262,10 +260,6 @@ fun Context.reboot(restartIntent: Intent? = this.packageManager.getLaunchIntentF
     }
 }
 
-/* ********************************************
- *               Private methods              *
- ******************************************** */
-
 fun finishAffinity(activity: Activity) {
     activity.setResult(Activity.RESULT_CANCELED)
     when {
@@ -392,12 +386,12 @@ fun Context?.openGoogleMaps(address: String?) {
 /**
  * Hides all the views passed in the arguments
  */
-fun hideViews(vararg views: View) = views.forEach { it.visibility = View.GONE }
+fun hideViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.GONE }
 
 /**
  * Shows all the views passed in the arguments
  */
-fun showViews(vararg views: View) = views.forEach { it.visibility = View.VISIBLE }
+fun showViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.VISIBLE }
 
 fun Context.unRegisterReceiverSafe(broadcastReceiver: BroadcastReceiver) {
     // needs to be in try catch in order to avoid crashing on Samsung Lollipop devices https://issuetracker.google.com/issues/37001269#c3
@@ -437,19 +431,6 @@ fun Context.areNotificationsEnabled(): Boolean {
 
 fun Context.createInputStreamFromUri(uri: Uri): InputStream? {
     return contentResolver.openInputStream(uri)
-}
-
-fun Context.locale(): Locale? {
-    try {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            resources.configuration.locales.get(0)
-        } else {
-            resources.configuration.locale
-        }
-    } catch (e: Exception) {
-
-    }
-    return null
 }
 
 
@@ -574,7 +555,7 @@ private fun getSystemProperty(propName: String): String {
   * Note: System signature is required and the system UID is shared
   */
 @SuppressLint("WrongConstant", "PrivateApi")
-fun Context.disableNatigation() {
+fun Context.disableNavigation() {
     try {
         val service = getSystemService("statusbar")
         val statusbarManager = Class.forName("android.app.StatusBarManager")
@@ -603,16 +584,6 @@ fun Context.disableNotificationBar() {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-}
-
-
-/**
- * Get color from resources with alpha
- */
-@ColorInt
-@Deprecated(message = "Use new [colorWithOpacity] extension", replaceWith = ReplaceWith("colorWithOpacity(res, alphaPercent)"))
-fun Context.colorWithAlpha(@ColorRes res: Int, @IntRange(from = 0, to = 100) alphaPercent: Int): Int {
-    return colorWithOpacity(res, alphaPercent)
 }
 
 /**

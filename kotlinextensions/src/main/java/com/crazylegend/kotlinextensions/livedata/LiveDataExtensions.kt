@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import com.crazylegend.kotlinextensions.reflection.firstPropertyValue
 import com.crazylegend.kotlinextensions.viewmodel.androidViewModel.MultipleParametrizedAVMFactory
 import com.crazylegend.kotlinextensions.viewmodel.androidViewModel.ParametrizedAVMFactory
 import com.crazylegend.kotlinextensions.viewmodel.androidViewModel.savedState.MultipleParametrizedAVMSavedStateFactory
@@ -517,40 +516,6 @@ inline fun <T, L : LiveData<T>> LifecycleOwner.observe(liveData: L, crossinline 
 fun <T, L : LiveData<SingleEvent<T>>> LifecycleOwner.observeEvent(liveData: L, body: (T) -> Unit = {}) {
     liveData.observe(this, EventObserver(body))
 }
-
-
-
-inline fun <reified T> LiveData<List<T>>.performSearch(searchQuery: String, fieldName: String, dbResultData: List<T>, filteredList: MutableLiveData<List<T>>): LiveData<List<T>> {
-    val applyFilteredList: ArrayList<T> = ArrayList()
-    dbResultData.forEach { model ->
-        val property = model?.firstPropertyValue(fieldName)
-        property?.apply {
-            if (toLowerCase().contains(searchQuery, true)) {
-                applyFilteredList.add(model)
-            }
-        }
-    }
-    filteredList.value = applyFilteredList
-    return this
-}
-
-
-inline fun <reified T> MutableLiveData<List<T>>.performSearch(searchQuery: String, fieldName: String, dbResultData: List<T>): LiveData<List<T>> {
-    val applyFilteredList: ArrayList<T> = ArrayList()
-    dbResultData.forEach { model ->
-        val property = model?.firstPropertyValue(fieldName)
-        property?.apply {
-            if (toLowerCase().contains(searchQuery, true)) {
-                applyFilteredList.add(model)
-            }
-        }
-    }
-    this.value = applyFilteredList
-    return this
-}
-
-
-
 
 fun <T> MutableLiveData<T>.setValueIfNew(newValue: T) {
     if (this.value != newValue) value = newValue

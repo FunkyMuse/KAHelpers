@@ -26,7 +26,7 @@ import com.crazylegend.kotlinextensions.sharedprefs.putBoolean
  */
 object AutoStartHelper {
 
-    private val Context.doNotShowAgainPrefs get() = getSharedPreferencesByTag(TAG)
+    private val Context.doNotShowAgainPrefs get() = getSharedPreferencesByTag(DIALOG_TAG)
 
     private const val DIALOG_SHOWN_TAG = "isAutoStartDialogShown"
     private val Context.isDialogShown get() = doNotShowAgainPrefs.getBoolean(DIALOG_SHOWN_TAG, false)
@@ -75,7 +75,7 @@ object AutoStartHelper {
     }
 
     private lateinit var confirmationDialogAutoStart: ConfirmationDialogAutoStart
-    private const val TAG = "dialogAutoStartTag"
+    const val DIALOG_TAG = "dialogAutoStartTag"
 
     private fun showAlert(context: Context, bundle: Bundle, action: () -> Unit) {
         when (context) {
@@ -94,7 +94,7 @@ object AutoStartHelper {
 
     private inline fun showDialog(fragmentManager: FragmentManager, lifecycleOwner: LifecycleOwner, context: Context, bundle: Bundle, crossinline action: () -> Unit) {
         fragmentManager.apply {
-            findFragmentByTag(TAG)?.remove()
+            findFragmentByTag(DIALOG_TAG)?.remove()
             confirmationDialogAutoStart = ConfirmationDialogAutoStart()
             confirmationDialogAutoStart.arguments = bundle
             setFragmentResultListener(ConfirmationDialogAutoStart.REQ_KEY, lifecycleOwner) { _, result ->
@@ -105,7 +105,7 @@ object AutoStartHelper {
                     context.setDialogShown()
                 }
             }
-            confirmationDialogAutoStart.show(this, TAG)
+            confirmationDialogAutoStart.show(this, DIALOG_TAG)
         }
     }
 

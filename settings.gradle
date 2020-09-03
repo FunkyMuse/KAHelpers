@@ -1,3 +1,4 @@
+include ':reflection'
 include ':rxbindings'
 include ':rx'
 include ':coroutines'

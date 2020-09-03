@@ -141,7 +141,7 @@ private object ContextHandler {
 /**
  * try the code in [runnable], If it runs then its perfect if its not, It won't crash your app.
  */
-fun tryOrIgnore(runnable: () -> Unit) = try {
+inline fun tryOrIgnore(runnable: () -> Unit) = try {
     runnable()
 } catch (e: Exception) {
     e.printStackTrace()

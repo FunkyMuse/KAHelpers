@@ -1,9 +1,6 @@
-package com.crazylegend.kotlinextensions.reflection
+package com.crazylegend.reflection
 
 import android.annotation.SuppressLint
-import com.crazylegend.kotlinextensions.isNull
-import com.crazylegend.kotlinextensions.tryOrIgnore
-import com.crazylegend.kotlinextensions.tryOrNull
 import java.lang.reflect.*
 import kotlin.reflect.*
 import kotlin.reflect.full.declaredMemberFunctions
@@ -413,7 +410,7 @@ inline fun <reified T : Any> T.isSuspend(fieldName: String): Boolean? {
 
 inline fun <reified T : Any> T.isFieldNull(fieldName: String): Boolean? {
     return tryOrNull {
-        this::class.java.getField(fieldName).kotlinProperty?.isNull
+        this::class.java.getField(fieldName).kotlinProperty == null
     }
 }
 
@@ -570,3 +567,20 @@ inline fun <reified T> T.callPrivateFunction(name: String, vararg args: Any?): A
                 .firstOrNull { it.name == name }
                 ?.apply { isAccessible = true }
                 ?.call(this, *args)
+
+
+
+inline  fun <T> tryOrNull(block: () -> T): T? = try {
+    block()
+} catch (e: Exception) {
+    null
+}
+
+/**
+ * try the code in [runnable], If it runs then its perfect if its not, It won't crash your app.
+ */
+inline  fun tryOrIgnore(runnable: () -> Unit) = try {
+    runnable()
+} catch (e: Exception) {
+    e.printStackTrace()
+}
