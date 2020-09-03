@@ -29,7 +29,6 @@ import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_I
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
 import com.crazylegend.kotlinextensions.transition.utils.plusAssign
 import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
-import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.rx.clearAndDispose
@@ -42,6 +41,7 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapte
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderBinding
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
+import com.crazylegend.viewbinding.viewBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.io.File
 

@@ -8,24 +8,24 @@ package com.crazylegend.kotlinextensions.generators
 
 class SynchronizedValue<T> {
 
-    private var t: T? = null
+    private var value: T? = null
     private val lock = Any()
 
-    fun set(t: T) {
+    fun set(data: T) {
         synchronized(lock) {
-            this.t = t
+            value = data
         }
     }
 
     fun get(): T? {
         synchronized(lock) {
-            return t
+            return value
         }
     }
 
     override fun toString(): String {
         return "SynchronizedValue{" +
-                "t=" + get() +
+                "value=" + get() +
                 '}'.toString()
     }
 
@@ -34,14 +34,13 @@ class SynchronizedValue<T> {
         if (other == null || javaClass != other.javaClass) return false
 
         val that = other as SynchronizedValue<*>?
-
-        if (if (t != null) t != that!!.t else that!!.t != null) return false
+        if (if (value != null) value != that!!.value else that!!.value != null) return false
         return lock == that.lock
 
     }
 
     override fun hashCode(): Int {
-        var result = if (t != null) t!!.hashCode() else 0
+        var result = value?.hashCode() ?: 0
         result = 31 * result + lock.hashCode()
         return result
     }

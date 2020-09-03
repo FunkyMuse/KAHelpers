@@ -8,8 +8,8 @@ import androidx.fragment.app.setFragmentResult
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.databinding.DialogConfirmationAutoStartHelperBinding
 import com.crazylegend.kotlinextensions.ifTrue
-import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.visibleIfTrueGoneOtherwise
+import com.crazylegend.viewbinding.viewBinding
 
 
 /**

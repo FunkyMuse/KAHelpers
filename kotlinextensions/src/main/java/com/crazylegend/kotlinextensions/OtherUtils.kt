@@ -943,11 +943,7 @@ fun getSupportedABIs(): Array<String> = SUPPORTED_ABIS
  * @throws java.security.SignatureException when signature generation fails
  */
 @Throws(SignatureException::class)
-fun getHMac(data: String?, key: String): String? {
-
-    if (data == null) {
-        throw NullPointerException("Data to be signed cannot be null")
-    }
+fun getHMac(data: String, key: String): String? {
 
     var result: String? = null
     try {
@@ -981,7 +977,7 @@ inline fun <reified T> Any?.cast() = this as? T
 
 inline fun <reified T> Any.force() = this as T
 
-fun <T> T?.ifNotNull(toBoolean: T.() -> Boolean) =
+inline fun <T> T?.ifNotNull(toBoolean: T.() -> Boolean) =
         if (this != null) toBoolean() else false
 
 inline fun killProcess(cleanUps: () -> Unit = {}) {

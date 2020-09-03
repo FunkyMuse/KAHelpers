@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
  */
 
 
-fun <T> ViewModel.makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>> {
+inline fun <T> ViewModel.makeDBCallLiveData(crossinline apiCall: suspend () -> T): LiveData<DBResult<T>> {
     return liveData(viewModelScope.coroutineContext) {
         emit(DBResult.Querying)
         try {
@@ -26,7 +26,7 @@ fun <T> ViewModel.makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResul
 }
 
 
-fun <T> ViewModel.makeDBCallLiveData(mediatorLiveData: MediatorLiveData<DBResult<T>>, apiCall: suspend () -> T) {
+inline fun <T> ViewModel.makeDBCallLiveData(mediatorLiveData: MediatorLiveData<DBResult<T>>, crossinline apiCall: suspend () -> T) {
     val ld: LiveData<DBResult<T>> = liveData(viewModelScope.coroutineContext) {
         emit(DBResult.Querying)
         try {
@@ -53,7 +53,7 @@ suspend fun <T> LiveDataScope<DBResult<T>>.subscribeDBCall(res: T) {
  * @param apiCall SuspendFunction0<T>
  * @return LiveData<DBResult<T>>
  */
-fun <T> CoroutineContext.makeDBCallLiveData(apiCall: suspend () -> T): LiveData<DBResult<T>> {
+inline fun <T> CoroutineContext.makeDBCallLiveData(crossinline apiCall: suspend () -> T): LiveData<DBResult<T>> {
     return liveData(this) {
         emit(DBResult.Querying)
         try {
@@ -70,7 +70,7 @@ fun <T> CoroutineContext.makeDBCallLiveData(apiCall: suspend () -> T): LiveData<
  * @param mediatorLiveData MediatorLiveData<DBResult<T>>
  * @param apiCall SuspendFunction0<T>
  */
-fun <T> CoroutineContext.makeDBCallLiveData(mediatorLiveData: MediatorLiveData<DBResult<T>>, apiCall: suspend () -> T) {
+inline fun <T> CoroutineContext.makeDBCallLiveData(mediatorLiveData: MediatorLiveData<DBResult<T>>, crossinline apiCall: suspend () -> T) {
     val ld: LiveData<DBResult<T>> = liveData(this) {
         emit(DBResult.Querying)
         try {
@@ -191,10 +191,10 @@ inline fun <T> ViewModel.makeDBCallListFlow(
 }
 
 
-fun <T> CoroutineScope.makeDBCallAsync(
+inline fun <T> CoroutineScope.makeDBCallAsync(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
-        dbCall: suspend () -> T?): Job {
+        crossinline dbCall: suspend () -> T?): Job {
     return launch(mainDispatcher) {
         supervisorScope {
             dbResult.querying()
@@ -211,10 +211,10 @@ fun <T> CoroutineScope.makeDBCallAsync(
 }
 
 
-fun <T> CoroutineScope.makeDBCallListAsync(
+inline fun <T> CoroutineScope.makeDBCallListAsync(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        dbCall: suspend () -> T?): Job {
+        crossinline dbCall: suspend () -> T?): Job {
     return launch(mainDispatcher) {
         supervisorScope {
             dbResult.querying()
@@ -231,10 +231,10 @@ fun <T> CoroutineScope.makeDBCallListAsync(
 }
 
 
-fun <T> AndroidViewModel.makeDBCallListAsync(
+inline fun <T> AndroidViewModel.makeDBCallListAsync(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        dbCall: suspend () -> T?): Job {
+        crossinline dbCall: suspend () -> T?): Job {
     return viewModelScope.launch(mainDispatcher) {
         supervisorScope {
             dbResult.querying()
@@ -251,10 +251,10 @@ fun <T> AndroidViewModel.makeDBCallListAsync(
 }
 
 
-fun <T> AndroidViewModel.makeDBCallAsync(
+inline fun <T> AndroidViewModel.makeDBCallAsync(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
-        dbCall: suspend () -> T?): Job {
+        crossinline dbCall: suspend () -> T?): Job {
     return viewModelScope.launch(mainDispatcher) {
         supervisorScope {
             dbResult.querying()
@@ -316,9 +316,9 @@ fun <T> CoroutineScope.makeDBCallAsync(
 }
 
 
-suspend fun <T> dbCallList(
+suspend inline fun <T> dbCallList(
         includeEmptyData: Boolean = false,
-        dbCall: suspend () -> T?): DBResult<T> {
+        crossinline dbCall: suspend () -> T?): DBResult<T> {
 
     return withIOContext {
         try {
@@ -331,7 +331,7 @@ suspend fun <T> dbCallList(
     }
 }
 
-suspend fun <T> dbCall(dbCall: suspend () -> T?): DBResult<T> {
+suspend inline fun <T> dbCall(crossinline dbCall: suspend () -> T?): DBResult<T> {
     return withIOContext {
         try {
             databaseSubscribe(dbCall())

@@ -9,17 +9,17 @@ import kotlinx.coroutines.*
  * Created by hristijan on 8/26/19 to long live and prosper !
  */
 
-fun <T> AndroidViewModel.makeDBCallAsync(
-        onCallExecuted: () -> Unit = {},
-        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
-        dbCall: suspend () -> T,
-        onCalled: (model: T) -> Unit): Job {
+inline fun <T> AndroidViewModel.makeIOCall(
+        crossinline onCallExecuted: () -> Unit = {},
+        crossinline onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        crossinline ioCall: suspend () -> T,
+        crossinline onCalled: (model: T) -> Unit): Job {
 
     return viewModelScope.launch(mainDispatcher) {
         supervisorScope {
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    ioCall()
                 }
                 onCalled(task.await())
             } catch (t: Throwable) {
@@ -32,17 +32,17 @@ fun <T> AndroidViewModel.makeDBCallAsync(
     }
 }
 
-fun <T> CoroutineScope.makeDBCallAsync(
-        onCallExecuted: () -> Unit = {},
-        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
-        dbCall: suspend () -> T,
-        onCalled: (model: T) -> Unit): Job {
+inline fun <T> CoroutineScope.makeIOCall(
+        crossinline onCallExecuted: () -> Unit = {},
+        crossinline onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        crossinline ioCall: suspend () -> T,
+        crossinline onCalled: (model: T) -> Unit): Job {
 
     return launch(mainDispatcher) {
         supervisorScope {
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    ioCall()
                 }
                 onCalled(task.await())
             } catch (t: Throwable) {
@@ -56,15 +56,15 @@ fun <T> CoroutineScope.makeDBCallAsync(
 }
 
 
-fun AndroidViewModel.makeDBCallAsync(
-        onCallExecuted: () -> Unit = {},
-        dbCall: suspend () -> Unit): Job {
+inline fun AndroidViewModel.makeIOCall(
+        crossinline onCallExecuted: () -> Unit = {},
+        crossinline ioCall: suspend () -> Unit): Job {
 
     return viewModelScope.launch(mainDispatcher) {
         supervisorScope {
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    ioCall()
                 }
                 task.await()
             } catch (t: Throwable) {
@@ -76,16 +76,16 @@ fun AndroidViewModel.makeDBCallAsync(
     }
 }
 
-fun AndroidViewModel.makeDBCallAsync(
-        onCallExecuted: () -> Unit = {},
-        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
-        dbCall: suspend () -> Unit): Job {
+inline fun AndroidViewModel.makeIOCall(
+        crossinline onCallExecuted: () -> Unit = {},
+        crossinline onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        crossinline ioCall: suspend () -> Unit): Job {
 
     return viewModelScope.launch(mainDispatcher) {
         supervisorScope {
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    ioCall()
                 }
                 task.await()
             } catch (t: Throwable) {
@@ -99,16 +99,15 @@ fun AndroidViewModel.makeDBCallAsync(
 }
 
 
-
-fun CoroutineScope.makeDBCallAsync(
-        onCallExecuted: () -> Unit = {},
-        dbCall: suspend () -> Unit): Job {
+inline fun CoroutineScope.makeIOCall(
+        crossinline onCallExecuted: () -> Unit = {},
+        crossinline ioCall: suspend () -> Unit): Job {
 
     return launch(mainDispatcher) {
         supervisorScope {
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    ioCall()
                 }
                 task.await()
             } catch (t: Throwable) {
@@ -122,15 +121,15 @@ fun CoroutineScope.makeDBCallAsync(
 }
 
 
-fun CoroutineScope.makeDBCallAsync(
-        onCallExecuted: () -> Unit = {},
-        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
-        dbCall: suspend () -> Unit): Job {
+inline fun CoroutineScope.makeIOCall(
+        crossinline onCallExecuted: () -> Unit = {},
+        crossinline onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        crossinline ioCall: suspend () -> Unit): Job {
     return launch(mainDispatcher) {
         supervisorScope {
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    ioCall()
                 }
                 task.await()
             } catch (t: Throwable) {

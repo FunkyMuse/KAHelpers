@@ -1,0 +1,10 @@
+android {
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation "androidx.fragment:fragment-ktx:$fragment"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
+}

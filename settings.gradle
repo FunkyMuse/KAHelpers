@@ -1,3 +1,5 @@
+include ':viewbinding'
+include ':navigation'
 include ':biometrics'
 include ':reflection'
 include ':rxbindings'

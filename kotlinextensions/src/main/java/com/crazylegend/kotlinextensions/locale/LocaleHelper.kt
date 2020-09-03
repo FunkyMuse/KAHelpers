@@ -130,4 +130,41 @@ object LocaleHelper {
         return context.createConfigurationContext(config).resources
     }
 
+    /**
+    override fun attachBaseContext(newBase: Context?) {
+    super.attachBaseContext(newBase)
+    val config = Configuration()
+    applyOverrideConfiguration(config)
+    }
+
+
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+    overrideConfiguration?.apply {
+    val oldUIMode = uiMode
+    setTo(baseContext.resources.configuration)
+    uiMode = oldUIMode
+    }
+    super.applyOverrideConfiguration(overrideConfiguration?.let { updateConfigurationIfSupported(it) })
+    }
+     * @param context Context
+     * @param config Configuration
+     * @param defaultLanguage String
+     * @return Configuration?
+     */
+    fun updateConfigurationIfSupported(context: Context, config: Configuration, defaultLanguage: String): Configuration? {
+        config.setLocale(Locale.forLanguageTag(getLanguage(context) ?: defaultLanguage))
+
+        // Configuration.getLocales is added after 24 and Configuration.locale is deprecated in 24
+        if (Build.VERSION.SDK_INT >= 24) {
+            if (!config.locales.isEmpty) {
+                return config
+            }
+        } else {
+            if (config.locale != null) {
+                return config
+            }
+        }
+        return config
+    }
+
 }

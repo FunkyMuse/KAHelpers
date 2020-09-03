@@ -171,7 +171,7 @@ fun <T> MutableLiveData<DBResult<T>>.successPost(model: T) {
     postValue(databaseSuccess(model))
 }
 
-fun <T> MutableLiveData<DBResult<T>>.onSuccess(action: (T) -> Unit) {
+inline fun <T> MutableLiveData<DBResult<T>>.onSuccess(action: (T) -> Unit) {
     value?.let {
         when (it) {
             is DBResult.Success -> {
@@ -183,7 +183,7 @@ fun <T> MutableLiveData<DBResult<T>>.onSuccess(action: (T) -> Unit) {
     }
 }
 
-fun <T> LiveData<DBResult<T>>.onSuccess(action: (model: T) -> Unit = { _ -> }) {
+inline fun <T> LiveData<DBResult<T>>.onSuccess(action: (model: T) -> Unit = { _ -> }) {
     value?.let {
         when (it) {
             is DBResult.Success -> {
@@ -195,7 +195,7 @@ fun <T> LiveData<DBResult<T>>.onSuccess(action: (model: T) -> Unit = { _ -> }) {
     }
 }
 
-val <T> MutableLiveData<DBResult<T>>.getSuccess: T?
+inline val <T> MutableLiveData<DBResult<T>>.getSuccess: T?
     get() {
         return value?.let {
             when (it) {
@@ -209,7 +209,7 @@ val <T> MutableLiveData<DBResult<T>>.getSuccess: T?
         }
     }
 
-val <T> LiveData<DBResult<T>>.getSuccess: T?
+inline val <T> LiveData<DBResult<T>>.getSuccess: T?
     get() {
         return value?.let {
             when (it) {

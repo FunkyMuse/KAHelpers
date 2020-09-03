@@ -6,14 +6,12 @@ import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.kotlinextensions.databinding.CustomizableCardViewBinding
-import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.setPrecomputedText
 import com.crazylegend.setofusefulkotlinextensions.R
 
-class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class TestViewHolder(private val binding: CustomizableCardViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
     private val FADE_DURATION = 1000L
-    private val binding by viewBinding(CustomizableCardViewBinding::bind)
 
     private val animation = ObjectAnimator.ofFloat(itemView, View.ALPHA, 1f, 0f, 1f).apply {
         repeatCount = ObjectAnimator.INFINITE
