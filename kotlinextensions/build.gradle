@@ -7,8 +7,6 @@ android {
 
 dependencies {
     //live data
-    implementation project(path: ':viewbinding')
-
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
@@ -18,15 +16,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
-
-    //moshi
-    implementation 'com.squareup.moshi:moshi-kotlin:1.10.0'
-
-    //gson
-    implementation 'com.google.code.gson:gson:2.8.6'
-
-    // glide
-    implementation "com.github.bumptech.glide:glide:$glide"
 
     //ui
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
@@ -43,7 +32,6 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation 'androidx.core:core-ktx:1.5.0-alpha02'
-
 
     //android apis
     implementation "com.google.android.material:material:$material"

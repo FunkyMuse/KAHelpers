@@ -579,8 +579,21 @@ inline  fun <T> tryOrNull(block: () -> T): T? = try {
 /**
  * try the code in [runnable], If it runs then its perfect if its not, It won't crash your app.
  */
-inline  fun tryOrIgnore(runnable: () -> Unit) = try {
+inline fun tryOrIgnore(runnable: () -> Unit) = try {
     runnable()
 } catch (e: Exception) {
     e.printStackTrace()
+}
+
+inline fun <reified T> T.logString(): String {
+    val cls = T::class
+    val sb = StringBuilder()
+    sb.append(cls.simpleName)
+    sb.append("[")
+    sb.append(cls.members.filterIsInstance<KProperty1<*, *>>().joinToString {
+        it.isAccessible = true
+        @Suppress("UNCHECKED_CAST") "${it.name}: ${(it as KProperty1<T, *>).get(this)}"
+    })
+    sb.append("]")
+    return sb.toString()
 }

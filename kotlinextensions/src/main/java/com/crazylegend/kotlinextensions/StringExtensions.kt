@@ -39,8 +39,6 @@ import java.util.*
 import java.util.regex.Pattern
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
-import kotlin.reflect.KProperty1
-import kotlin.reflect.jvm.isAccessible
 
 
 /**
@@ -960,18 +958,6 @@ fun stringPairOf(vararg pair: Pair<String, Any?>): String {
     return strList.joinToString()
 }
 
-inline fun <reified T> T.logString(): String {
-    val cls = T::class
-    val sb = StringBuilder()
-    sb.append(cls.simpleName)
-    sb.append("[")
-    sb.append(cls.members.filterIsInstance<KProperty1<*, *>>().joinToString {
-        it.isAccessible = true
-        @Suppress("UNCHECKED_CAST") "${it.name}: ${(it as KProperty1<T, *>).get(this)}"
-    })
-    sb.append("]")
-    return sb.toString()
-}
 
 
 const val NEW_LINE = "\n"

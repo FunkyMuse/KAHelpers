@@ -214,7 +214,7 @@ fun DialogFragment.transparentBackground() {
 
 fun DialogFragment.setRoundedBackground(setNoTitle: Boolean = false) {
     dialog?.window?.let {
-        it.setBackgroundDrawable(drawable(R.drawable.rounded_bg_theme_compatible))
+        it.setBackgroundDrawable(drawable(R.drawable.round_bg_theme_compatible))
         if (setNoTitle)
             it.requestFeature(Window.FEATURE_NO_TITLE)
     }

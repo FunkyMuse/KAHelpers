@@ -12,10 +12,11 @@ import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
+import com.crazylegend.customviews.AppRater
+import com.crazylegend.customviews.autoStart.AutoStartHelper
+import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.RunCodeEveryXLaunchOnAppOpened
-import com.crazylegend.kotlinextensions.autoStart.AutoStartHelper
-import com.crazylegend.kotlinextensions.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.delegates.activityAVM
@@ -29,7 +30,6 @@ import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_I
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
 import com.crazylegend.kotlinextensions.transition.utils.plusAssign
 import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
-import com.crazylegend.kotlinextensions.views.AppRater
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.rxbindings.textChanges

@@ -1,0 +1,3 @@
+dependencies {
+    api 'com.squareup.moshi:moshi-kotlin:1.10.0'
+}

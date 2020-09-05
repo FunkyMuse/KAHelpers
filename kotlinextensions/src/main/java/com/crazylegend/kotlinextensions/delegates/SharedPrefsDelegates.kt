@@ -1,7 +1,10 @@
 package com.crazylegend.kotlinextensions.delegates
 
 import android.content.SharedPreferences
-import com.crazylegend.kotlinextensions.sharedprefs.*
+import com.crazylegend.kotlinextensions.sharedprefs.putBoolean
+import com.crazylegend.kotlinextensions.sharedprefs.putFloat
+import com.crazylegend.kotlinextensions.sharedprefs.putInt
+import com.crazylegend.kotlinextensions.sharedprefs.putString
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -88,20 +91,6 @@ fun SharedPreferences.boolean(
     override fun getValue(thisRef: Any, property: KProperty<*>) = getBoolean(key(property), defaultValue)
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: Boolean) = putBoolean(key(property), value)
-}
-
-/**
- * Use sharedPreferences.obj( key = { "MY_KEY" } )
- * @receiver SharedPreferences
- * @param key Function1<KProperty<*>, String>
- * @return ReadWriteProperty<Any, T?>
- */
-inline fun <reified T> SharedPreferences.obj(
-        crossinline key: (KProperty<*>) -> String = KProperty<*>::name
-): ReadWriteProperty<Any, T?> = object : ReadWriteProperty<Any, T?> {
-    override fun getValue(thisRef: Any, property: KProperty<*>): T? = getObject(key(property))
-
-    override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) = putObject(key(property), value)
 }
 
 /**

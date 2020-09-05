@@ -5,13 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.util.Base64
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.core.widget.ImageViewCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.crazylegend.kotlinextensions.context.getColorCompat
 import java.io.FileOutputStream
 
@@ -34,60 +31,6 @@ fun ImageView.clear() {
 
 fun ImageView.setTint(@ColorRes colorRes: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
     this.setColorFilter(context.getColorCompat(colorRes), mode)
-}
-
-fun ImageView.loadBase64Image(base64Image: String?) {
-    base64Image?.let {
-        Glide.with(context)
-                .asBitmap()
-                .load(Base64.decode(base64Image, Base64.DEFAULT))
-                .into(this)
-    }
-}
-
-sealed class Transformation {
-    object CenterCrop : Transformation()
-    object Circle : Transformation()
-}
-
-fun ImageView.loadImageResource(imageResource: String?, skipMemoryCache: Boolean = false, transformation: Transformation? = null) {
-    imageResource?.let {
-        loadImage(it, skipMemoryCache, transformation)
-    }
-}
-
-fun ImageView.loadImageResource(imageResource: Int?, skipMemoryCache: Boolean = false, transformation: Transformation? = null) {
-    imageResource?.let {
-        loadImage(it, skipMemoryCache, transformation)
-    }
-}
-
-fun ImageView.loadImageResource(imageResource: Bitmap?, skipMemoryCache: Boolean = false, transformation: Transformation? = null) {
-    imageResource?.let {
-        loadImage(it, skipMemoryCache, transformation)
-    }
-}
-
-fun ImageView.loadImageResource(imageResource: Drawable?, skipMemoryCache: Boolean = false, transformation: Transformation? = null) {
-    imageResource?.let {
-        loadImage(it, skipMemoryCache, transformation)
-    }
-}
-
-private fun ImageView.loadImage(imageResource: Any, skipMemoryCache: Boolean, transformation: Transformation?) {
-    var requestOptions = RequestOptions()
-            .skipMemoryCache(skipMemoryCache)
-
-    requestOptions = when (transformation) {
-        is Transformation.CenterCrop -> requestOptions.centerCrop()
-        is Transformation.Circle -> requestOptions.circleCrop()
-        else -> requestOptions // Do nothing
-    }
-
-    Glide.with(context)
-            .load(imageResource)
-            .apply(requestOptions)
-            .into(this)
 }
 
 fun ImageView.setBase64(base64: String, flag: Int) {

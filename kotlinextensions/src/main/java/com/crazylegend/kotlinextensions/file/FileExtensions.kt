@@ -15,9 +15,7 @@ import android.webkit.MimeTypeMap
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
-import com.crazylegend.kotlinextensions.gson.fromJsonTypeToken
 import com.crazylegend.kotlinextensions.log.debug
-import com.google.gson.Gson
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -657,10 +655,6 @@ fun File.deleteSafely(): Boolean {
     }
 }
 
-
-inline fun <reified T> File.asJsonFromText(charset: Charset = Charsets.UTF_8) {
-    Gson().fromJsonTypeToken<T>(readText(charset))
-}
 
 @RequiresApi(Build.VERSION_CODES.N)
 fun Context.clearDataDir() = dataDir.deleteSafely()

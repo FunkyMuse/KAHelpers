@@ -1,3 +1,6 @@
+include ':glide'
+include ':moshi'
+include ':gson'
 include ':customviews'
 include ':jodaDateTime'
 include ':viewbinding'
