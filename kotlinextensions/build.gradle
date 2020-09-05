@@ -1,9 +1,5 @@
 android {
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/LICENSE'
-    }
+
     buildFeatures {
         viewBinding = true
     }
@@ -22,9 +18,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
-
-    //joda time
-    implementation 'net.danlew:android.joda:2.10.6'
 
     //moshi
     implementation 'com.squareup.moshi:moshi-kotlin:1.10.0'

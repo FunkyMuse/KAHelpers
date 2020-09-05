@@ -17,10 +17,7 @@ import android.provider.Settings
 import android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.text.Spanned
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
@@ -532,6 +529,11 @@ fun Context.isGestureNavigationEnabled() = Settings.Secure.getInt(contentResolve
  */
 fun Context.whichNavigationIsUsed() = Settings.Secure.getInt(contentResolver, "navigation_mode", 0)
 
+fun Context.inflate(
+        @LayoutRes layoutId: Int,
+        root: ViewGroup? = null,
+        attachToRoot: Boolean = false
+): View? = layoutInflater?.inflate(layoutId, root, attachToRoot)
 
 fun FragmentActivity.fullScreenGestureNavigationActivity() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

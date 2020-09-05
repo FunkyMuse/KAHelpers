@@ -5,7 +5,7 @@ import android.os.SystemClock
 import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.RecyclerView
-import com.crazylegend.kotlinextensions.databinding.CustomizableCardViewBinding
+import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.views.setPrecomputedText
 import com.crazylegend.setofusefulkotlinextensions.R
 

@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
  */
 abstract class PlaceholderAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
-    override fun getItemCount(): Int {
-        return Int.MAX_VALUE
-    }
+    override fun getItemCount() = Int.MAX_VALUE
 
 }

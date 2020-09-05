@@ -12,12 +12,10 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
-
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.crazylegend.kotlinextensions.gson.fromJsonTypeToken
-import com.crazylegend.kotlinextensions.interfaces.OneParamInvocation
 import com.crazylegend.kotlinextensions.log.debug
 import com.google.gson.Gson
 import java.io.*
@@ -337,17 +335,6 @@ fun downloadFile(urlPath: String, localPath: String, callback: (Uri?) -> Unit = 
     return uri
 }
 
-fun downloadFile(urlPath: String, localPath: String, callback: OneParamInvocation<Uri>?): Uri? {
-    var uri: Uri? = null
-    val connection = URL(urlPath).openConnection() as HttpURLConnection
-
-    if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-        uri = Uri.fromFile(connection.inputStream.outAsFile(localPath.toFile()))
-    }
-    connection.disconnect()
-    callback?.invoke(uri!!)
-    return uri
-}
 
 fun String.toFile() = File(this)
 

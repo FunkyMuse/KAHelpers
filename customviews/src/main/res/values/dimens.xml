@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_badge_border_size">15dp</dimen>
+    <dimen name="default_badge_size">15dp</dimen>
+
+</resources>

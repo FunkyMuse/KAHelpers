@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PinEditText">
+        <attr name="pinNormalStateDrawable" format="reference" />
+        <attr name="pinHighlightStateDrawable" format="reference" />
+        <attr name="pinWidth" format="dimension|reference" />
+        <attr name="pinHeight" format="dimension|reference" />
+        <attr name="pinSpace" format="dimension|reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="DividerView">
+        <attr name="color" format="color" />
+        <attr name="dashLength" format="dimension" />
+        <attr name="dashGap" format="dimension" />
+        <attr name="dashThickness" format="dimension" />
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="AspectRatioFrameLayout">
+        <attr name="xRatio" format="integer" />
+        <attr name="yRatio" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ColorProgressBar">
+        <attr name="progressColor" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ShadowView">
+        <attr name="angle" format="enum">
+            <enum name="topToBottom" value="0" />
+            <enum name="topRightToBottomLeft" value="1" />
+            <enum name="rightToLeft" value="2" />
+            <enum name="bottomRightToTopLeft" value="3" />
+            <enum name="bottomToTop" value="4" />
+            <enum name="bottomLeftToTopRight" value="5" />
+            <enum name="LeftToRight" value="6" />
+            <enum name="topLeftToBottomRight" value="7" />
+        </attr>
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="CircularImageView">
+        <attr name="border" format="boolean" />
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="background_color" format="color" />
+        <attr name="shadow" format="boolean" />
+        <attr name="shadow_color" format="color" />
+        <attr name="shadow_radius" format="float" />
+        <attr name="shadow_gravity">
+            <flag name="center" value="1" />
+            <flag name="top" value="2" />
+            <flag name="bottom" value="3" />
+            <flag name="start" value="4" />
+            <flag name="end" value="5" />
+        </attr>
+    </declare-styleable>
+
+</resources>

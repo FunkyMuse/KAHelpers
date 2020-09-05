@@ -661,4 +661,4 @@ private enum class ImageOrientation {
     }
 }
 
-val Bitmap.getPallete get() = Palette.from(this).generate()
+val Bitmap.getPalette get() = Palette.from(this).generate()

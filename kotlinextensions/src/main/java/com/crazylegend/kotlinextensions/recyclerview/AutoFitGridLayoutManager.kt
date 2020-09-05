@@ -36,7 +36,7 @@ android:scaleType="fitXY"
 android:id="@+id/iv_movieImage"
 android:layout_height="match_parent" />
 
-<com.crazylegend.kotlinextensions.ui.ShadowView
+<com.crazylegend.customviews.ui.ShadowView
 android:layout_width="match_parent"
 android:layout_alignParentBottom="true"
 app:startColor="@color/cardview_dark_background"

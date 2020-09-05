@@ -41,7 +41,7 @@ object InMemoryCache {
     /**
      * Clear all the InMemoryCache
      */
-    fun clear() = map.clear()::class.java.getDeclaredMethod("", null, null)
+    fun clear() = map.clear()
 
     /**
      * get All The InMemoryCache

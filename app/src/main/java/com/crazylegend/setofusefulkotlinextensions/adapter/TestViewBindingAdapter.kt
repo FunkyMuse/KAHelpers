@@ -1,7 +1,7 @@
 package com.crazylegend.setofusefulkotlinextensions.adapter
 
+import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapter
-import com.crazylegend.kotlinextensions.databinding.CustomizableCardViewBinding
 
 
 /**
