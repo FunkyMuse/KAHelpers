@@ -6,7 +6,6 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.Transition
@@ -23,13 +22,13 @@ import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
-import com.crazylegend.kotlinextensions.recyclerview.*
-import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
 import com.crazylegend.kotlinextensions.transition.utils.plusAssign
 import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
+import com.crazylegend.recyclerview.*
+import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.rxbindings.textChanges
@@ -169,7 +168,7 @@ class MainAbstractActivity : AppCompatActivity() {
             }
         })
 
-        testAVM.filteredPosts.observe(this, Observer {
+        testAVM.filteredPosts.observe(this, {
             generatedAdapter.submitList(it)
         })
 

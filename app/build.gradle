@@ -62,6 +62,7 @@ dependencies {
     implementation project(path: ':rxbindings')
     implementation project(path: ':viewbinding')
     implementation project(path: ':customviews')
+    implementation project(path: ':recyclerview')
 
     testImplementation 'junit:junit:4.13'
 

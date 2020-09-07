@@ -10,9 +10,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Looper
 import androidx.annotation.RequiresPermission
-import com.crazylegend.kotlinextensions.log.debug
 import java.util.concurrent.Executors
-import java.util.function.Consumer
 
 
 /**
@@ -31,14 +29,14 @@ inline fun LocationManager.requestSingleUpdate(
         crossinline onLocationHad: (location: Location) -> Unit = { _ -> }
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        getCurrentLocation("gps", null, Executors.newSingleThreadExecutor(), Consumer { location -> onLocationHad(location) })
+        getCurrentLocation("gps", null, Executors.newSingleThreadExecutor(), { location -> onLocationHad(location) })
     } else {
         requestSingleUpdate(criteria, { location -> onLocationHad(location) }, Looper.getMainLooper())
     }
 }
 
 
-fun Context.getCompleteAddressString(LATITUDE: Double, LONGITUDE: Double): ObtainedLocationModel {
+inline fun Context.getCompleteAddressString(LATITUDE: Double, LONGITUDE: Double, onNotAvailable: () -> Unit = {}): ObtainedLocationModel {
 
     val geocoder = Geocoder(this)
 
@@ -84,11 +82,11 @@ fun Context.getCompleteAddressString(LATITUDE: Double, LONGITUDE: Double): Obtai
             }
 
         } else {
-            debug("No address available for location !")
+            onNotAvailable()
         }
     } catch (e: Exception) {
         e.printStackTrace()
-        debug("No address available for location !")
+        onNotAvailable()
     }
 
     return obtainedLocationModel

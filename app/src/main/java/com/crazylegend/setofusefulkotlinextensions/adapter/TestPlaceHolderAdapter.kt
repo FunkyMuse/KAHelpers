@@ -2,8 +2,8 @@ package com.crazylegend.setofusefulkotlinextensions.adapter
 
 import android.view.ViewGroup
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
-import com.crazylegend.kotlinextensions.recyclerview.PlaceholderAdapter
 import com.crazylegend.kotlinextensions.views.inflater
+import com.crazylegend.recyclerview.PlaceholderAdapter
 
 
 /**

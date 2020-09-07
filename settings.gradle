@@ -1,3 +1,4 @@
+include ':recyclerview'
 include ':glide'
 include ':moshi'
 include ':gson'
