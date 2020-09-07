@@ -15,7 +15,9 @@ import android.webkit.MimeTypeMap
 import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
+import androidx.core.net.toFile
 import com.crazylegend.kotlinextensions.log.debug
+import com.crazylegend.kotlinextensions.tryOrIgnore
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -331,6 +333,42 @@ fun downloadFile(urlPath: String, localPath: String, callback: (Uri?) -> Unit = 
         callback(null)
     }
     return uri
+}
+
+fun downloadFileWithProgress(urlPath: String, localPath: String, onError: () -> Unit = {}, progress: (Int) -> Unit = {}, callback: (Uri?) -> Unit = {}) {
+    val uri = localPath.toFile().toUri()
+    val connection = URL(urlPath).openConnection() as HttpURLConnection
+    val input = connection.inputStream
+    val output = FileOutputStream(uri.toFile())
+    try {
+        connection.connect()
+
+        if (connection.responseCode != HttpURLConnection.HTTP_OK) {
+            onError()
+            return
+        }
+
+        val fileLength = connection.contentLength
+        val data = ByteArray(4096)
+        var total: Long = 0
+        var count: Int
+        while (input.read(data).also { count = it } != -1) {
+            total += count.toLong()
+            if (fileLength > 0)
+                progress((total * 100 / fileLength).toInt())
+            output.write(data, 0, count)
+        }
+    } catch (e: Exception) {
+        onError()
+        return
+    } finally {
+        tryOrIgnore {
+            output.close()
+            input?.close()
+        }
+        connection.disconnect()
+    }
+    callback(uri)
 }
 
 
