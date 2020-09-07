@@ -8,27 +8,26 @@ import kotlinx.coroutines.CoroutineScope
  */
 
 
-suspend inline fun ImageDecoder.decodeImageOnIO(crossinline transform: ImageDecoder.() -> Unit) {
-    withIOContext {
-        transform(this@decodeImageOnIO)
-    }
-}
-
-suspend inline fun ImageDecoder.decodeImageOnDefault(crossinline transform: ImageDecoder.() -> Unit) {
-    withDefaultContext {
-        transform(this@decodeImageOnDefault)
-    }
-}
-
-inline fun ImageDecoder.decodeImageIO(scope: CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) {
-    scope.io {
-        transform(this@decodeImageIO)
-    }
-}
+suspend inline fun ImageDecoder.decodeImageOnIO(crossinline transform: ImageDecoder.() -> Unit) =
+        withIOContext {
+            transform(this@decodeImageOnIO)
+        }
 
 
-inline fun ImageDecoder.decodeImageOnDefault(scope: CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) {
-    scope.default {
-        transform(this@decodeImageOnDefault)
-    }
-}
+suspend inline fun ImageDecoder.decodeImageOnDefault(crossinline transform: ImageDecoder.() -> Unit) =
+        withDefaultContext {
+            transform(this@decodeImageOnDefault)
+        }
+
+
+inline fun ImageDecoder.decodeImageIO(scope: CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) =
+        scope.io {
+            transform(this@decodeImageIO)
+        }
+
+
+inline fun ImageDecoder.decodeImageOnDefault(scope: CoroutineScope, crossinline transform: ImageDecoder.() -> Unit) =
+        scope.default {
+            transform(this@decodeImageOnDefault)
+        }
+

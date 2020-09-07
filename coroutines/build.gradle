@@ -1,7 +1,7 @@
 dependencies {
     //coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
     //live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
