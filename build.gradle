@@ -50,7 +50,11 @@ buildscript {
     }
 }
 
+
 allprojects {
+
+    group = "io.github.crazylegend"
+    
     repositories {
         google()
         jcenter()
