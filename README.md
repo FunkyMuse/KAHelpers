@@ -113,31 +113,6 @@ Informational/optinal
 -dontwarn org.jetbrains.annotations.**
 # these are if you're using crashlytics and don't want to receive obfuscated crashes
 
-# these below are if you're using Retrofit with Moshi using reflection to make conversions from and to json
--dontwarn okhttp3.**
--dontwarn retrofit2.Platform$Java8
--dontwarn okio.**
--dontwarn javax.annotation.**
--keepclasseswithmembers class * {
-    @retrofit2.http.* <methods>;
-}
--keepclasseswithmembers class * {
-    @com.squareup.moshi.* <methods>;
-}
--keep @com.squareup.moshi.JsonQualifier interface *
--dontwarn org.jetbrains.annotations.**
--keep class kotlin.Metadata { *; }
--keepclassmembers class kotlin.Metadata {
-    public <methods>;
-}
--keepclassmembers class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator CREATOR;
-}
--keepclassmembers class * {
-    @com.squareup.moshi.FromJson <methods>;
-    @com.squareup.moshi.ToJson <methods>;
-}
-
 ```
 
 ## Contributing
