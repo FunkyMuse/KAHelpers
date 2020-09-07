@@ -12,14 +12,11 @@ import android.appwidget.AppWidgetManager
 import android.content.*
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
@@ -36,7 +33,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.basehelpers.DeviceRingerMode
-import com.crazylegend.kotlinextensions.toFile
+import com.crazylegend.kotlinextensions.ifTrue
+import com.crazylegend.kotlinextensions.string.toFile
 import com.crazylegend.kotlinextensions.withOpacity
 import java.io.BufferedReader
 import java.io.File
@@ -62,10 +60,7 @@ fun Context.isIntentResolvable(intent: Intent) =
  *
  * *If App Installed ;)
  */
-fun Context.startApp(packageName: String) =
-        if (isAppInstalled(packageName)) startActivity(packageManager.getLaunchIntentForPackage(packageName)) else {
-        }
-
+fun Context.startApp(packageName: String) = isAppInstalled(packageName).ifTrue { startActivity(packageManager.getLaunchIntentForPackage(packageName)) }
 
 /**
  * Check if an App is Installed on the user device.
@@ -213,37 +208,7 @@ val Context.getAndroidID: String?
 fun Context.getIMEI() = telephonyManager?.imei
 
 
-/**
- * Creates shortcut launcher for pre/post oreo devices
- */
-@Suppress("DEPRECATION")
-inline fun <reified T> Activity.createShortcut(title: String, @DrawableRes icon: Int) {
-    val shortcutIntent = Intent(this, T::class.java)
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) { // code for adding shortcut on pre oreo device
-        val intent = Intent("com.android.launcher.action.INSTALL_SHORTCUT")
-        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title)
-        intent.putExtra("duplicate", false)
-        val parcelable = Intent.ShortcutIconResource.fromContext(this, icon)
-        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, parcelable)
-        this.sendBroadcast(intent)
-        // println("added_to_homescreen")
-    } else {
-        val shortcutManager = this.getSystemService(ShortcutManager::class.java)
-        if (shortcutManager.isRequestPinShortcutSupported) {
-            val pinShortcutInfo = ShortcutInfo.Builder(this, "some-shortcut-")
-                    .setIntent(shortcutIntent)
-                    .setIcon(Icon.createWithResource(this, icon))
-                    .setShortLabel(title)
-                    .build()
 
-            shortcutManager.requestPinShortcut(pinShortcutInfo, null)
-            // println("added_to_homescreen")
-        } else {
-            // println("failed_to_add")
-        }
-    }
-}
 
 
 /**
@@ -261,10 +226,6 @@ fun Context.reboot(restartIntent: Intent? = this.packageManager.getLaunchIntentF
         this.startActivity(restartIntent)
     }
 }
-
-/* ********************************************
- *               Private methods              *
- ******************************************** */
 
 fun finishAffinity(activity: Activity) {
     activity.setResult(Activity.RESULT_CANCELED)
@@ -389,15 +350,6 @@ fun Context?.openGoogleMaps(address: String?) {
     }
 }
 
-/**
- * Hides all the views passed in the arguments
- */
-fun hideViews(vararg views: View) = views.forEach { it.visibility = View.GONE }
-
-/**
- * Shows all the views passed in the arguments
- */
-fun showViews(vararg views: View) = views.forEach { it.visibility = View.VISIBLE }
 
 fun Context.unRegisterReceiverSafe(broadcastReceiver: BroadcastReceiver) {
     // needs to be in try catch in order to avoid crashing on Samsung Lollipop devices https://issuetracker.google.com/issues/37001269#c3
@@ -437,19 +389,6 @@ fun Context.areNotificationsEnabled(): Boolean {
 
 fun Context.createInputStreamFromUri(uri: Uri): InputStream? {
     return contentResolver.openInputStream(uri)
-}
-
-fun Context.locale(): Locale? {
-    try {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            resources.configuration.locales.get(0)
-        } else {
-            resources.configuration.locale
-        }
-    } catch (e: Exception) {
-
-    }
-    return null
 }
 
 
@@ -560,7 +499,7 @@ val isEmUi: Boolean
     get() = getSystemProperty("ro.build.version.emui").isNotEmpty()
 
 
-private fun getSystemProperty(propName: String): String {
+fun getSystemProperty(propName: String): String {
     val process = Runtime.getRuntime().exec("getprop $propName")
     val input = BufferedReader(InputStreamReader(process.inputStream), 1024)
     val line = input.readLine()
@@ -574,7 +513,7 @@ private fun getSystemProperty(propName: String): String {
   * Note: System signature is required and the system UID is shared
   */
 @SuppressLint("WrongConstant", "PrivateApi")
-fun Context.disableNatigation() {
+fun Context.disableNavigation() {
     try {
         val service = getSystemService("statusbar")
         val statusbarManager = Class.forName("android.app.StatusBarManager")
@@ -585,12 +524,6 @@ fun Context.disableNatigation() {
     }
 }
 
-fun needPermissionsFor(action: () -> Unit) = try {
-    action.invoke()
-    false
-} catch (e: SecurityException) {
-    true
-}
 
 
 @SuppressLint("PrivateApi", "WrongConstant")
@@ -603,16 +536,6 @@ fun Context.disableNotificationBar() {
     } catch (e: Exception) {
         e.printStackTrace()
     }
-}
-
-
-/**
- * Get color from resources with alpha
- */
-@ColorInt
-@Deprecated(message = "Use new [colorWithOpacity] extension", replaceWith = ReplaceWith("colorWithOpacity(res, alphaPercent)"))
-fun Context.colorWithAlpha(@ColorRes res: Int, @IntRange(from = 0, to = 100) alphaPercent: Int): Int {
-    return colorWithOpacity(res, alphaPercent)
 }
 
 /**

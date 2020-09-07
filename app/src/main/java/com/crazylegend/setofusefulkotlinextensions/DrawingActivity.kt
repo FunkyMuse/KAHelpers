@@ -7,9 +7,9 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import androidx.appcompat.app.AppCompatActivity
 import com.crazylegend.kotlinextensions.motionEvent.isNewGesture
-import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.clear
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityDrawingBinding
+import com.crazylegend.viewbinding.viewBinding
 
 
 /**

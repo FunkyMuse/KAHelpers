@@ -1,0 +1,12 @@
+android {
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+    }
+}
+
+dependencies {
+    //joda time
+    implementation 'net.danlew:android.joda:2.10.6'
+}

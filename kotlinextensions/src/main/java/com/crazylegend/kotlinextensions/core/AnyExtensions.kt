@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions.core
 
+import com.crazylegend.kotlinextensions.tryOrNull
+
 
 /**
  * Created by hristijan on 6/7/19 to long live and prosper !
@@ -48,8 +50,8 @@ fun Any.toNumberOrNull(): Number? {
     }
 }
 
-fun Any.toBooleanOrNull() = when {
-    this is String -> {
+fun Any.toBooleanOrNull() = when (this) {
+    is String -> {
         when {
             this.equals("true", true) -> true
             this.equals("false", true) -> false
@@ -58,8 +60,8 @@ fun Any.toBooleanOrNull() = when {
             else -> null
         }
     }
-    this is Boolean -> this
-    this is Number -> {
+    is Boolean -> this
+    is Number -> {
         when {
             this == 1 -> true
             this == 0 -> false
@@ -69,11 +71,5 @@ fun Any.toBooleanOrNull() = when {
     else -> null
 }
 
-inline fun <reified T : Enum<T>> enumSafeValueOf(name: String): T? {
-    return try {
-        enumValueOf<T>(name)
-    } catch (e: Exception) {
-        null
-    }
-}
+inline fun <reified T : Enum<T>> enumSafeValueOf(name: String): T? = tryOrNull { enumValueOf<T>(name) }
 

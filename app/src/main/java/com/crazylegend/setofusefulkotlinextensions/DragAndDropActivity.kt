@@ -2,9 +2,9 @@ package com.crazylegend.setofusefulkotlinextensions
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.crazylegend.kotlinextensions.dragAndDrop.DragAndDropListener
-import com.crazylegend.kotlinextensions.viewBinding.viewBinding
+import com.crazylegend.customviews.dragAndDrop.DragAndDropListener
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityDragAndDropBinding
+import com.crazylegend.viewbinding.viewBinding
 
 
 /**

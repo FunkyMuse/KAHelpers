@@ -3,8 +3,6 @@ package com.crazylegend.kotlinextensions.sharedprefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.lifecycle.LifecycleOwner
-import com.crazylegend.kotlinextensions.gson.gson
-import com.crazylegend.kotlinextensions.gson.toJson
 
 
 /**
@@ -52,16 +50,6 @@ fun <T> SharedPreferences.put(key: String, t: T) {
         is String -> putString(key, t)
         is Boolean -> putBoolean(key, t)
     }
-}
-
-fun SharedPreferences.putObject(key: String, obj: Any?) {
-    putString(key, obj?.toJson() ?: "")
-}
-
-inline fun <reified T> SharedPreferences.getObject(key: String): T? {
-    val string = getString(key, null)
-    if (string == null || string.isEmpty()) return null
-    return gson.fromJson(getString(key, null), T::class.java)
 }
 
 inline fun <reified T : Any> SharedPreferences.get(key: String, defaultValue: T): T =

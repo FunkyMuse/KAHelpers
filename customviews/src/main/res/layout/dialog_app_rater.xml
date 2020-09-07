@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:textSize="18sp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/content"
+        android:padding="15dp"
+        android:textSize="16sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            app:cornerRadius="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end"
+            android:id="@+id/rate"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_height="wrap_content"
+            android:text="Rate" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:id="@+id/doNotShowAgain"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            app:cornerRadius="16dp"
+            android:text="Don't show again" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/remindMeLater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:cornerRadius="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="end"
+            android:text="Remind me later" />
+
+    </LinearLayout>
+
+</RelativeLayout>

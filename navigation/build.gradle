@@ -1,0 +1,6 @@
+dependencies {
+    //nav
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "com.google.android.material:material:$material"
+
+}

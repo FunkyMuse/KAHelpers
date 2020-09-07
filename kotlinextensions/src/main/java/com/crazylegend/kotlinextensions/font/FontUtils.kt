@@ -15,9 +15,7 @@ object FontUtils {
     fun get(context: Context, font: String): Typeface {
         synchronized(sTypefaceCache) {
             if (!sTypefaceCache.containsKey(font)) {
-                val tf = Typeface.createFromAsset(
-                        context.applicationContext.assets, "fonts/$font.ttf"
-                )
+                val tf = Typeface.createFromAsset(context.applicationContext.assets, "fonts/$font.ttf")
                 sTypefaceCache[font] = tf
             }
             return sTypefaceCache[font]

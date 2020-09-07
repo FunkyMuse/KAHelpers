@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import androidx.appcompat.app.AppCompatActivity
-import com.crazylegend.kotlinextensions.viewBinding.viewBinding
 import com.crazylegend.kotlinextensions.views.pinchToZoom
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityPinchToZoomBinding
+import com.crazylegend.viewbinding.viewBinding
 
 
 /**

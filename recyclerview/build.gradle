@@ -1,0 +1,12 @@
+android {
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.core:core-ktx:$coreKTX"
+
+}

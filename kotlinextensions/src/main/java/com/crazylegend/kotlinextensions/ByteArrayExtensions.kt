@@ -12,7 +12,6 @@ import kotlin.experimental.xor
  * Xor two bytes array together, byte per byte.
  */
 infix fun ByteArray.xor(other: ByteArray): ByteArray {
-    assert(size == other.size)
     val out = ByteArray(size)
     for (i in indices) out[i] = (this[i].toInt() xor other[i].toInt()).toByte()
     return out

@@ -16,12 +16,21 @@
 
 package com.crazylegend.kotlinextensions.gestureNavigation
 
+import android.app.Activity
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowInsets
+import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.crazylegend.kotlinextensions.R
+import com.crazylegend.kotlinextensions.activity.setNavigationBarColor
+import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.google.android.material.appbar.AppBarLayout
 
 /**
@@ -75,7 +84,7 @@ insets
 
  */
 object EdgeToEdge
-    : EdgeToEdgeImpl by EdgeToEdgeApi21()
+    : EdgeToEdgeImpl by if (Build.VERSION.SDK_INT >= 21) EdgeToEdgeApi21() else EdgeToEdgeBase()
 
 private interface EdgeToEdgeImpl {
 
@@ -84,6 +93,10 @@ private interface EdgeToEdgeImpl {
      * @param root A root view of an Activity.
      */
     fun setUpRoot(root: ViewGroup) {}
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun setUpRoot(activity: Activity, root: ViewGroup, @ColorRes navBarColor: Int = android.R.color.transparent) {
+    }
 
     /**
      * Configures an app bar and a toolbar for edge-to-edge display.
@@ -99,27 +112,57 @@ private interface EdgeToEdgeImpl {
      * the screen.
      */
     fun setUpScrollingContent(scrollingContent: ViewGroup) {}
+
+    /**
+     * Tell the window that we want to handle/fit any system windows
+     */
+    fun setDecorFitsSystemWindows(window: Window, setDecor: Boolean = true) {}
 }
 
+private class EdgeToEdgeBase : EdgeToEdgeImpl
 
 @RequiresApi(21)
 private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
     override fun setUpRoot(root: ViewGroup) {
-        root.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            root.windowInsetsController?.hide(WindowInsetsCompat.Type.systemGestures())
+        } else {
+            root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun setUpRoot(activity: Activity, root: ViewGroup, @ColorRes navBarColor: Int) {
+        activity.window.setDecorFitsSystemWindows(true)
+        activity.setNavigationBarColor(activity.getColorCompat(navBarColor))
+        setUpRoot(root)
     }
 
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
         val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
-            appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
-            toolbar.updatePadding(
-                    left = toolbarPadding + windowInsets.systemWindowInsetLeft,
-                    right = windowInsets.systemWindowInsetRight
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val insets = windowInsets.getInsets(WindowInsets.Type.systemBars())
+                appBar.updatePadding(top = insets.top)
+                toolbar.updatePadding(
+                        left = toolbarPadding + insets.left,
+                        right = insets.right
+                )
+            } else {
+                appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
+                toolbar.updatePadding(
+                        left = toolbarPadding + windowInsets.systemWindowInsetLeft,
+                        right = windowInsets.systemWindowInsetRight
+                )
+            }
+
             windowInsets
         }
+    }
+
+    override fun setDecorFitsSystemWindows(window: Window, setDecor: Boolean) {
+        WindowCompat.setDecorFitsSystemWindows(window, setDecor)
     }
 
     override fun setUpScrollingContent(scrollingContent: ViewGroup) {
@@ -127,11 +170,20 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         val originalPaddingRight = scrollingContent.paddingRight
         val originalPaddingBottom = scrollingContent.paddingBottom
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
-            scrollingContent.updatePadding(
-                    left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
-                    right = originalPaddingRight + windowInsets.systemWindowInsetRight,
-                    bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val insets = windowInsets.getInsets(WindowInsets.Type.systemBars())
+                scrollingContent.updatePadding(
+                        left = originalPaddingLeft + insets.left,
+                        right = originalPaddingRight + insets.right,
+                        bottom = originalPaddingBottom + insets.bottom
+                )
+            } else {
+                scrollingContent.updatePadding(
+                        left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
+                        right = originalPaddingRight + windowInsets.systemWindowInsetRight,
+                        bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
+                )
+            }
             windowInsets
         }
     }

@@ -1,0 +1,11 @@
+android {
+    buildFeatures {
+        viewBinding = true
+    }
+}
+dependencies {
+    implementation project(path: ':viewbinding')
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.core:core-ktx:$coreKTX"
+    implementation "androidx.fragment:fragment-ktx:$fragment"
+}

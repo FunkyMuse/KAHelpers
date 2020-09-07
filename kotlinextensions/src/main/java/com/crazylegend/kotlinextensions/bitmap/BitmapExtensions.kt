@@ -10,7 +10,6 @@ import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
@@ -21,13 +20,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.graphics.scale
+import androidx.exifinterface.media.ExifInterface
 import androidx.palette.graphics.Palette
-import com.crazylegend.kotlinextensions.coroutines.onIO
 import com.crazylegend.kotlinextensions.file.outAsBitmap
-import com.crazylegend.kotlinextensions.rx.computationScheduler
-import com.crazylegend.kotlinextensions.rx.mainThreadScheduler
-import com.crazylegend.kotlinextensions.tryOrNull
-import io.reactivex.rxjava3.core.Single
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -74,19 +69,7 @@ fun Bitmap.toIcon(): Icon = Icon.createWithBitmap(this)
 fun Bitmap.toDrawable(resources: Resources) = BitmapDrawable(resources, this)
 
 
-fun Bitmap.toByteArray(compressFormat: Bitmap.CompressFormat, quality: Int): Single<ByteArray>? {
 
-    val bos = ByteArrayOutputStream()
-
-    return Single.fromCallable {
-        this.compress(compressFormat, quality, bos)
-        bos.toByteArray()
-    }.subscribeOn(computationScheduler).observeOn(mainThreadScheduler).doAfterSuccess {
-        bos.flush()
-        bos.close()
-    }
-
-}
 
 fun Activity.createColoredBitmapFullScreen(color: Int): Bitmap {
 
@@ -166,19 +149,7 @@ fun Activity.createColoredBitmap(color: Int, width: Int, height: Int): Bitmap {
 }
 
 
-fun ByteArray.toBitmap(): Single<Bitmap>? {
 
-    return Single.fromCallable {
-        BitmapFactory.decodeByteArray(this, 0, this.size)
-    }.subscribeOn(computationScheduler).observeOn(mainThreadScheduler)
-
-}
-
-suspend fun ByteArray.toBitmapSuspend(): Bitmap? {
-    return onIO {
-        return@onIO tryOrNull { BitmapFactory.decodeByteArray(this, 0, size) }
-    }
-}
 
 
 @Throws(FileNotFoundException::class, IllegalArgumentException::class)
@@ -690,4 +661,4 @@ private enum class ImageOrientation {
     }
 }
 
-val Bitmap.getPallete get() = Palette.from(this).generate()
+val Bitmap.getPalette get() = Palette.from(this).generate()

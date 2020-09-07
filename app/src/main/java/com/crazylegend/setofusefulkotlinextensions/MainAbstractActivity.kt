@@ -6,44 +6,41 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
-import com.crazylegend.kotlinextensions.RunCodeEveryXLaunchOnAppOpened
-import com.crazylegend.kotlinextensions.abstracts.AbstractViewBindingAdapterRxBus
-import com.crazylegend.kotlinextensions.autoStart.AutoStartHelper
-import com.crazylegend.kotlinextensions.autoStart.ConfirmationDialogAutoStart
+import com.crazylegend.customviews.AppRater
+import com.crazylegend.customviews.autoStart.AutoStartHelper
+import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
+import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
-import com.crazylegend.kotlinextensions.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
-import com.crazylegend.kotlinextensions.recyclerview.*
-import com.crazylegend.kotlinextensions.recyclerview.clickListeners.forItemClickListener
-import com.crazylegend.kotlinextensions.retrofit.retrofitResult.RetrofitResult
-import com.crazylegend.kotlinextensions.rx.RxBus
-import com.crazylegend.kotlinextensions.rx.bindings.textChanges
-import com.crazylegend.kotlinextensions.rx.clearAndDispose
-import com.crazylegend.kotlinextensions.security.encryptFileSafely
-import com.crazylegend.kotlinextensions.security.getEncryptedFile
-import com.crazylegend.kotlinextensions.security.readText
+import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunchOnAppOpened
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
 import com.crazylegend.kotlinextensions.transition.utils.plusAssign
 import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
-import com.crazylegend.kotlinextensions.viewBinding.viewBinding
-import com.crazylegend.kotlinextensions.views.AppRater
+import com.crazylegend.recyclerview.*
+import com.crazylegend.recyclerview.clickListeners.forItemClickListener
+import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.rx.clearAndDispose
+import com.crazylegend.rxbindings.textChanges
+import com.crazylegend.security.encryptFileSafely
+import com.crazylegend.security.getEncryptedFile
+import com.crazylegend.security.readText
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderBinding
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
+import com.crazylegend.viewbinding.viewBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.io.File
 
@@ -89,15 +86,8 @@ class MainAbstractActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
+        setSupportActionBar(activityMainBinding.toolbar)
 
-        RxBus.listen<AbstractViewBindingAdapterRxBus.LongClick<TestModel>>().subscribe {
-            val longClickedModel = it.data
-            debug("LONG CLICKED MODEL $longClickedModel")
-        }
-        RxBus.listen<AbstractViewBindingAdapterRxBus.SingleClick<TestModel>>().subscribe {
-            val longClickedModel = it.data
-            debug("CLICKED MODEL $longClickedModel")
-        }
 
         activityMainBinding.test.setOnClickListener {
             testAVM.getposts()
@@ -125,9 +115,6 @@ class MainAbstractActivity : AppCompatActivity() {
             buttonsBGColor = getCompatColor(R.color.colorAccent)
         }
 
-        /*generatedAdapter.forItemClickListener = forItemClickListenerDSL { position, item, view ->
-            debug("SADLY CLICKED HERE $item")
-        }*/
         activityMainBinding.recycler.addSwipe(this) {
             swipeDirection = RecyclerSwipeItemHandler.SwipeDirs.BOTH
             drawableLeft = android.R.drawable.ic_delete
@@ -143,13 +130,19 @@ class MainAbstractActivity : AppCompatActivity() {
         ))
 
         if (isGestureNavigationEnabled()) {
-            EdgeToEdge.setUpRoot(activityMainBinding.root)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                EdgeToEdge.setUpRoot(this, activityMainBinding.root)
+            } else {
+                EdgeToEdge.setUpRoot(activityMainBinding.root)
+            }
+            EdgeToEdge.setUpAppBar(activityMainBinding.appBar, activityMainBinding.toolbar)
             EdgeToEdge.setUpScrollingContent(activityMainBinding.recycler)
         }
 
         val stagger = StaggerTransition()
 
-        testAVM.posts.observe(this, Observer {
+        testAVM.posts.observe(this, {
+            debug("STATE $it")
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
@@ -181,7 +174,7 @@ class MainAbstractActivity : AppCompatActivity() {
             }
         })
 
-        testAVM.filteredPosts.observe(this, Observer {
+        testAVM.filteredPosts.observe(this, {
             generatedAdapter.submitList(it)
         })
 

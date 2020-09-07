@@ -1,35 +1,4 @@
-buildscript {
-
-    ext.kotlin_version = '1.4.0'
-
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-
 ext {
-
     lifecycle = '2.3.0-alpha07'
     retrofit = "2.9.0"
     rxBindings = "4.0.0"
@@ -38,6 +7,15 @@ ext {
     coroutines = '1.3.9-native-mt'
     coreDesugaring = '1.0.10'
     nav_version = '2.3.0'
+    rx = '3.0.0'
+    material = "1.3.0-alpha02"
+    moshi = "1.10.0"
+    fragment  = "1.3.0-alpha08"
+    activity = "1.2.0-alpha08"
+    appCompat = "1.2.0"
+    coreKTX = "1.5.0-alpha02"
+    securityVersion = "1.1.0-alpha02"
+
 
     //tests
     junitVersion = '4.13'
@@ -54,5 +32,107 @@ ext {
     minVersion = 21
     verCode = 1
     verName = "1.0.0"
+    testRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+}
+
+buildscript {
+    ext.kotlin_version = '1.4.0'
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    if (it.name != 'app') {
+        //setup gradle for libraries
+        apply plugin: 'com.android.library'
+        apply plugin: 'kotlin-android'
+        apply plugin: 'kotlin-android-extensions'
+
+        dependencies {
+            implementation fileTree(dir: 'libs', include: ['*.jar'])
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+            // Dependencies for local unit tests
+            testImplementation "junit:junit:$junitVersion"
+            testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+            testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+            testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+            testImplementation "org.robolectric:robolectric:$robolectricVersion"
+            testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+            testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
+
+            // AndroidX Test - Instrumented testing
+            androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+            androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+        }
+
+    } else  {
+        apply plugin: 'com.android.application'
+        apply plugin: 'kotlin-android'
+        apply plugin: 'kotlin-kapt'
+        apply plugin: 'kotlin-android-extensions'
+
+        dependencies {
+            implementation fileTree(dir: 'libs', include: ['*.jar'])
+            implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        }
+    }
+
+
+    android {
+        compileSdkVersion compileVersion
+
+        defaultConfig {
+            minSdkVersion minVersion
+            targetSdkVersion compileVersion
+            versionCode verCode
+            versionName verName
+            testInstrumentationRunner testRunner
+        }
+
+        compileOptions {
+            sourceCompatibility = 1.8
+            targetCompatibility = 1.8
+        }
+
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+
+        buildFeatures {
+
+            // Determines whether to generate binder classes for your AIDL files.
+            aidl = false
+            // Determines whether to support RenderScript.
+            renderScript = false
+            // Determines whether to support injecting custom variables into the module’s R class.
+            resValues = false
+            // Determines whether to support shader AOT compilation.
+            shaders = false
+        }
+
+        testOptions.unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

@@ -1,6 +1,8 @@
 package com.crazylegend.kotlinextensions.context
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 
 /**
@@ -12,6 +14,7 @@ import android.content.Context
  * Thermal listener
  * @receiver Context
  */
+@RequiresApi(Build.VERSION_CODES.Q)
 fun Context.thermalListener(onThermalChange: (thermal: Int) -> Unit = { _ -> }) {
 
     /*public static final int THERMAL_STATUS_NONE = 0;
