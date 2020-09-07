@@ -1,5 +1,7 @@
 package com.crazylegend.datastructuresandalgorithms.sort
 
+import com.crazylegend.datastructuresandalgorithms.swapAt
+
 
 /**
  * Created by hristijan on 3/29/19 to long live and prosper !
@@ -27,5 +29,23 @@ fun <T : Comparable<T>> selectionSort(list: MutableList<T>) {
             list[i] = list[minIndex]
             list[minIndex] = tmp
         }
+    }
+}
+
+fun <T : Comparable<T>> MutableList<T>.selectionSort(showPasses: Boolean = false) {
+
+    if (size < 2) return
+
+    for (current in 0 until (size - 1)) {
+        var lowest = current
+        for (other in (current + 1) until size) {
+            if (this[lowest] > this[other]) {
+                lowest = other
+            }
+        }
+        if (lowest != current) {
+            this.swapAt(lowest, current)
+        }
+        if (showPasses) println(this)
     }
 }

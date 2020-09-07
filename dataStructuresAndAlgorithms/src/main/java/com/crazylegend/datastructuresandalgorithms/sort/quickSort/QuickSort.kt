@@ -1,4 +1,4 @@
-package com.crazylegend.datastructuresandalgorithms.sort
+package com.crazylegend.datastructuresandalgorithms.sort.quickSort
 
 import com.crazylegend.datastructuresandalgorithms.swap
 
