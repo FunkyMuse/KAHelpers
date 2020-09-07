@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.crazylegend.kotlinextensions.livedata.*
+import com.crazylegend.kotlinextensions.viewmodel.*
 
 
 /**
