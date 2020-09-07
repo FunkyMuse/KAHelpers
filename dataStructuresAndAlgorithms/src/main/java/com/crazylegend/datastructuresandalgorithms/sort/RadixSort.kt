@@ -84,5 +84,5 @@ private fun msdRadixSorted(list: MutableList<Int>, position: Int): MutableList<I
 }
 
 private fun List<Int>.maxDigits(): Int {
-    return this.max()?.digits() ?: 0
+    return this.maxOrNull()?.digits() ?: 0
 }
