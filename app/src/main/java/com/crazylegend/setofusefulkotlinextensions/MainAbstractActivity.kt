@@ -86,6 +86,7 @@ class MainAbstractActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
+        setSupportActionBar(activityMainBinding.toolbar)
 
 
         activityMainBinding.test.setOnClickListener {
@@ -129,7 +130,12 @@ class MainAbstractActivity : AppCompatActivity() {
         ))
 
         if (isGestureNavigationEnabled()) {
-            EdgeToEdge.setUpRoot(activityMainBinding.root)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                EdgeToEdge.setUpRoot(this, activityMainBinding.root)
+            } else {
+                EdgeToEdge.setUpRoot(activityMainBinding.root)
+            }
+            EdgeToEdge.setUpAppBar(activityMainBinding.appBar, activityMainBinding.toolbar)
             EdgeToEdge.setUpScrollingContent(activityMainBinding.recycler)
         }
 

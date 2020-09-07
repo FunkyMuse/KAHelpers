@@ -1,15 +1,7 @@
 android {
-    compileSdkVersion compileVersion
     defaultConfig {
-
         applicationId "com.crazylegend.setofusefulkotlinextensions"
-        minSdkVersion minVersion
-        targetSdkVersion compileVersion
-        versionCode verCode
-        versionName verName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-
     }
     buildTypes {
         release {
@@ -22,15 +14,6 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 
     packagingOptions {

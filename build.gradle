@@ -65,43 +65,6 @@ subprojects {
         apply plugin: 'kotlin-android'
         apply plugin: 'kotlin-android-extensions'
 
-        android {
-            compileSdkVersion compileVersion
-
-            defaultConfig {
-                minSdkVersion minVersion
-                targetSdkVersion compileVersion
-                versionCode verCode
-                versionName verName
-                testInstrumentationRunner testRunner
-            }
-
-            compileOptions {
-                sourceCompatibility = 1.8
-                targetCompatibility = 1.8
-            }
-
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-
-            buildFeatures {
-
-                // Determines whether to generate binder classes for your AIDL files.
-                aidl = false
-                // Determines whether to support RenderScript.
-                renderScript = false
-                // Determines whether to support injecting custom variables into the module’s R class.
-                resValues = false
-                // Determines whether to support shader AOT compilation.
-                shaders = false
-            }
-
-            testOptions.unitTests {
-                includeAndroidResources = true
-            }
-        }
-
         dependencies {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
             implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -128,6 +91,44 @@ subprojects {
         dependencies {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
             implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        }
+    }
+
+
+    android {
+        compileSdkVersion compileVersion
+
+        defaultConfig {
+            minSdkVersion minVersion
+            targetSdkVersion compileVersion
+            versionCode verCode
+            versionName verName
+            testInstrumentationRunner testRunner
+        }
+
+        compileOptions {
+            sourceCompatibility = 1.8
+            targetCompatibility = 1.8
+        }
+
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+
+        buildFeatures {
+
+            // Determines whether to generate binder classes for your AIDL files.
+            aidl = false
+            // Determines whether to support RenderScript.
+            renderScript = false
+            // Determines whether to support injecting custom variables into the module’s R class.
+            resValues = false
+            // Determines whether to support shader AOT compilation.
+            shaders = false
+        }
+
+        testOptions.unitTests {
+            includeAndroidResources = true
         }
     }
 }
