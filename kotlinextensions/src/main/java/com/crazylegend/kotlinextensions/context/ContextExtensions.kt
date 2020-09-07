@@ -55,19 +55,6 @@ inline fun <reified T> Context.startActivity(body: Intent.() -> Unit) {
     startActivity(intent)
 }
 
-fun AppCompatActivity.showBackButton() {
-    this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-}
-
-fun AppCompatActivity.hideToolbar() {
-    this.supportActionBar?.hide()
-}
-
-fun AppCompatActivity.showToolbar() {
-    this.supportActionBar?.show()
-}
-
-
 fun Context.snackBar(text: String, actionText: String, length: Int, action: () -> Unit): Snackbar {
     this as AppCompatActivity
     val snackbar =

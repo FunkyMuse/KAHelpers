@@ -12,14 +12,11 @@ import android.appwidget.AppWidgetManager
 import android.content.*
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.content.pm.ShortcutInfo
-import android.content.pm.ShortcutManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.Icon
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
@@ -211,37 +208,7 @@ val Context.getAndroidID: String?
 fun Context.getIMEI() = telephonyManager?.imei
 
 
-/**
- * Creates shortcut launcher for pre/post oreo devices
- */
-@Suppress("DEPRECATION")
-inline fun <reified T> Activity.createShortcut(title: String, @DrawableRes icon: Int) {
-    val shortcutIntent = Intent(this, T::class.java)
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) { // code for adding shortcut on pre oreo device
-        val intent = Intent("com.android.launcher.action.INSTALL_SHORTCUT")
-        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
-        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title)
-        intent.putExtra("duplicate", false)
-        val parcelable = Intent.ShortcutIconResource.fromContext(this, icon)
-        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, parcelable)
-        this.sendBroadcast(intent)
-        // println("added_to_homescreen")
-    } else {
-        val shortcutManager = this.getSystemService(ShortcutManager::class.java)
-        if (shortcutManager.isRequestPinShortcutSupported) {
-            val pinShortcutInfo = ShortcutInfo.Builder(this, "some-shortcut-")
-                    .setIntent(shortcutIntent)
-                    .setIcon(Icon.createWithResource(this, icon))
-                    .setShortLabel(title)
-                    .build()
 
-            shortcutManager.requestPinShortcut(pinShortcutInfo, null)
-            // println("added_to_homescreen")
-        } else {
-            // println("failed_to_add")
-        }
-    }
-}
 
 
 /**
@@ -383,15 +350,6 @@ fun Context?.openGoogleMaps(address: String?) {
     }
 }
 
-/**
- * Hides all the views passed in the arguments
- */
-fun hideViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.GONE }
-
-/**
- * Shows all the views passed in the arguments
- */
-fun showViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.VISIBLE }
 
 fun Context.unRegisterReceiverSafe(broadcastReceiver: BroadcastReceiver) {
     // needs to be in try catch in order to avoid crashing on Samsung Lollipop devices https://issuetracker.google.com/issues/37001269#c3
@@ -541,7 +499,7 @@ val isEmUi: Boolean
     get() = getSystemProperty("ro.build.version.emui").isNotEmpty()
 
 
-private fun getSystemProperty(propName: String): String {
+fun getSystemProperty(propName: String): String {
     val process = Runtime.getRuntime().exec("getprop $propName")
     val input = BufferedReader(InputStreamReader(process.inputStream), 1024)
     val line = input.readLine()
@@ -566,12 +524,6 @@ fun Context.disableNavigation() {
     }
 }
 
-fun needPermissionsFor(action: () -> Unit) = try {
-    action.invoke()
-    false
-} catch (e: SecurityException) {
-    true
-}
 
 
 @SuppressLint("PrivateApi", "WrongConstant")

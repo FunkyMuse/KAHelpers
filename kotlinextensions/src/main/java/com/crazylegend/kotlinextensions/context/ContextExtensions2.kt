@@ -21,7 +21,6 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityManagerCompat
 import androidx.core.app.ActivityOptionsCompat
@@ -32,6 +31,7 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.crazylegend.kotlinextensions.activity.isActivityFinishing
 import com.crazylegend.kotlinextensions.resources.toHtmlSpan
 import java.io.File
 
@@ -40,20 +40,7 @@ import java.io.File
  * Created by Hristijan on 2/4/19 to long live and prosper !
  */
 
-fun Activity?.hideKeyboard() {
-    if (this != null) {
-        val inputManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
 
-        if (inputManager != null) {
-            val v = this.currentFocus
-            if (v != null) {
-                inputManager.hideSoftInputFromWindow(
-                        v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
-                )
-            }
-        }
-    }
-}
 
 fun Context.showKeyboard(toFocus: View) {
     toFocus.requestFocus()
@@ -297,7 +284,6 @@ fun Context?.isActivityActive(): Boolean {
     }
 }
 
-fun Activity.isActivityFinishing(): Boolean = this.isFinishing || this.isDestroyed
 
 
 fun Context.getActivityPendingIntent(
@@ -321,18 +307,6 @@ fun Toolbar?.changeNavigateUpColor(@IdRes color: Int) {
         this?.navigationIcon?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
 
     }
-}
-
-fun AppCompatActivity.customToolbarDrawable(drawable: Drawable?) {
-    supportActionBar?.setBackgroundDrawable(drawable)
-}
-
-fun AppCompatActivity.customIndicator(drawable: Drawable?) {
-    supportActionBar?.setHomeAsUpIndicator(drawable)
-}
-
-fun AppCompatActivity.customIndicator(drawableResource: Int) {
-    supportActionBar?.setHomeAsUpIndicator(drawableResource)
 }
 
 
@@ -535,33 +509,7 @@ fun Context.inflate(
         attachToRoot: Boolean = false
 ): View? = layoutInflater?.inflate(layoutId, root, attachToRoot)
 
-fun FragmentActivity.fullScreenGestureNavigationActivity() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        if (isGestureNavigationEnabled()) {
-            // Extends the PhotoView in the whole screen
-            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            // Hides StatusBar and Navigation bar, you have to tap to appear
-            // window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            // Fixes the Full Screen black bar in screen with notch
-            window.attributes.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
-    }
-}
 
-fun AppCompatActivity.fullScreenGestureNavigationActivity() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        if (isGestureNavigationEnabled()) {
-            // Extends the PhotoView in the whole screen
-            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            // Hides StatusBar and Navigation bar, you have to tap to appear
-            // window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            // Fixes the Full Screen black bar in screen with notch
-            window.attributes.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
-    }
-}
 
 fun RecyclerView.fullScreenGestureNavigation(fragmentActivity: FragmentActivity, topInset: Int = 200, bottomInset: Int = 40) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

@@ -40,3 +40,14 @@ fun View.copyBoundsInWindow(rect: Rect) {
                 " or attached to window")
     }
 }
+
+
+/**
+ * Hides all the views passed in the arguments
+ */
+fun hideViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.GONE }
+
+/**
+ * Shows all the views passed in the arguments
+ */
+fun showViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.VISIBLE }

@@ -993,3 +993,10 @@ fun Closeable.closeQuietly() {
     } catch (_: Exception) {
     }
 }
+
+inline fun needPermissionsFor(action: () -> Unit) = try {
+    action.invoke()
+    false
+} catch (e: SecurityException) {
+    true
+}
