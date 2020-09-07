@@ -37,7 +37,7 @@ class TreeNode<T>(val value: T) {
     fun printEachLevel() {
         val queue = ArrayListQueue<TreeNode<T>>()
 
-        var nodesLeftInTheCurrentLevel = 0
+        var nodesLeftInTheCurrentLevel: Int
 
         queue.enqueue(this)
 
