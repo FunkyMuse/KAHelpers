@@ -15,13 +15,13 @@ import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
 import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
-import com.crazylegend.kotlinextensions.RunCodeEveryXLaunchOnAppOpened
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.delegates.activityAVM
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
+import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunchOnAppOpened
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION

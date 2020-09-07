@@ -2,8 +2,8 @@ package com.crazylegend.kotlinextensions.file
 
 import android.webkit.MimeTypeMap
 import androidx.documentfile.provider.DocumentFile
-import com.crazylegend.kotlinextensions.containsInArray
-import com.crazylegend.kotlinextensions.isEmptyString
+import com.crazylegend.kotlinextensions.string.containsInArray
+import com.crazylegend.kotlinextensions.string.isEmptyString
 import java.io.File
 
 

@@ -461,13 +461,3 @@ private constructor() {
         }
     }
 }
-/**
- * Returns a triangularly distributed random number between `min` (inclusive) and `max` (exclusive), where the
- * `mode` argument defaults to the midpoint between the bounds, giving a symmetric distribution.
- *
- *
- * This method is equivalent of [randomTriangular(min, max, (min + max) * .5f)][.randomTriangular]
- *
- * @param min the lower limit
- * @param max the upper limit
- */

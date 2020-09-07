@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.viewpager
+package com.crazylegend.kotlinextensions.viewpager2
 
 import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView

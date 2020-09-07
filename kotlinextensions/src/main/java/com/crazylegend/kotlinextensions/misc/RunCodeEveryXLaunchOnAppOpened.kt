@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions
+package com.crazylegend.kotlinextensions.misc
 
 import android.content.Context
 import com.crazylegend.kotlinextensions.context.getSharedPreferencesByTag

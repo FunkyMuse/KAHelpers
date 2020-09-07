@@ -34,7 +34,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.basehelpers.DeviceRingerMode
 import com.crazylegend.kotlinextensions.ifTrue
-import com.crazylegend.kotlinextensions.toFile
+import com.crazylegend.kotlinextensions.string.toFile
 import com.crazylegend.kotlinextensions.withOpacity
 import java.io.BufferedReader
 import java.io.File

@@ -4,6 +4,8 @@ import android.graphics.Rect
 import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import com.crazylegend.kotlinextensions.context.dp2px
+import com.crazylegend.kotlinextensions.context.px2dp
 
 
 /**
@@ -51,3 +53,19 @@ fun hideViews(vararg views: View) = views.asSequence().forEach { it.visibility =
  * Shows all the views passed in the arguments
  */
 fun showViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.VISIBLE }
+
+fun View.px2dp(pxValue: Float): Float? {
+    return context?.px2dp(pxValue)
+}
+
+fun View.dp2px(dpValue: Float): Int? {
+    return context?.dp2px(dpValue)
+}
+
+fun View.dp2px(dpValue: Int): Int? {
+    return context?.dp2px(dpValue)
+}
+
+fun View.px2dp(pxValue: Int): Float? {
+    return context?.px2dp(pxValue)
+}

@@ -8,6 +8,7 @@ import android.text.TextPaint
 import android.text.style.*
 import android.view.View
 import androidx.annotation.ColorInt
+import com.crazylegend.kotlinextensions.string.NEW_LINE
 import java.util.*
 import java.util.regex.Pattern
 

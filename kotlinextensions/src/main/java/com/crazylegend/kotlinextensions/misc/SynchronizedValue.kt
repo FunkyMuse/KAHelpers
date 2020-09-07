@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.generators
+package com.crazylegend.kotlinextensions.misc
 
 
 /**

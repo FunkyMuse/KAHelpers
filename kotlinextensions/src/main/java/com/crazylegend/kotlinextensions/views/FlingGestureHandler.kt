@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.input
+package com.crazylegend.kotlinextensions.views
 
 import android.app.Activity
 import android.view.GestureDetector

@@ -89,8 +89,8 @@ fun Context?.openGoogleMaps(query: String, placeId: String) {
 
 }
 
-fun Activity.pickImage(PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images",
-                       onCantHandleIntent: () -> Unit = {}) {
+inline fun Activity.pickImage(PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images",
+                              onCantHandleIntent: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
@@ -101,13 +101,14 @@ fun Activity.pickImage(PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, ti
         onCantHandleIntent()
 }
 
-fun Activity.openFile(mimeType: String, requestCode: Int, title: String = "Select file via",
-                      onCantHandleIntent: () -> Unit = {}) {
+inline fun Activity.openFile(mimeType: String, requestCode: Int, title: String = "Select file via",
+                             onCantHandleIntent: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .setType(mimeType)
 
     if (intentCanBeHandled(intent))
         startActivityForResult(Intent.createChooser(intent, title), requestCode)
-    onCantHandleIntent()
+    else
+        onCantHandleIntent()
 }
