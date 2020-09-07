@@ -111,7 +111,7 @@ Informational/optinal
 -keep class com.google.firebase.crashlytics.** { *; }  
 -dontwarn com.google.firebase.crashlytics.**
 -dontwarn org.jetbrains.annotations.**
-# these are if you're using crashlytics and don't want to receive obfuscated crashes
+#these are if you're using crashlytics and don't want to receive obfuscated crashes
 
 ```
 
