@@ -1,3 +1,4 @@
+include ':dataStructuresAndAlgorithms'
 include ':recyclerview'
 include ':glide'
 include ':moshi'
