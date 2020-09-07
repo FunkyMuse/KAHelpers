@@ -15,4 +15,6 @@ include ':coroutines'
 include ':database'
 include ':retrofit'
 include ':security'
-include ':app', ':kotlinextensions'
+include ':kotlinextensions'
+include ':app'
+
