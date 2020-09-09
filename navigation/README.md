@@ -26,7 +26,7 @@ implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpe
 }
 ```
 
-3. Advanced sample usage
+3. [Advanced sample](https://github.com/android/architecture-components-samples/tree/master/NavigationAdvancedSample) usage
 ```kotlin
 private var currentNavController: LiveData<NavController>? = null
 .
