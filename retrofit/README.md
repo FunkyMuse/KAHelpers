@@ -23,6 +23,7 @@ dependencies {
 implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:retrofit:$utilsVersion"
 
 }
+```
 
 3. Simple usage
 
