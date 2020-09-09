@@ -41,6 +41,6 @@ implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpe
 
 ```kotlin
 //your getAll method 
-@Query("select * from pois") fun getAllFavorites(): Flow<List<MyModel>>
+@Query("select * from myFavorites") fun getAllFavorites(): Flow<List<MyModel>>
 
 ```
