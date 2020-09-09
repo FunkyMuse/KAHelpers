@@ -23,3 +23,24 @@ dependencies {
 implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:database:$utilsVersion"
 
 }
+```
+
+3. Simple usage
+
+```kotlin
+//inside your ViewModel
+ private val favoritesData: MutableLiveData<DBResult<List<MyModel>>> = MutableLiveData()
+ val favorites: LiveData<DBResult<List<MyModel>>> = favoritesData
+ 
+ private fun getAll() {
+        makeDBCallFlow(favoritesData) {
+            favoritesRepo.getAll()
+        }
+    }
+```
+
+```kotlin
+//your getAll method 
+@Query("select * from pois") fun getAllFavorites(): Flow<List<MyModel>>
+
+```
