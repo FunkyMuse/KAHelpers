@@ -22,5 +22,4 @@ dependencies {
 
 implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:recyclerview:$utilsVersion"
 
-
 }
