@@ -95,23 +95,20 @@ class MainAbstractActivity : AppCompatActivity() {
         }, noFingerprintsEnrolled = {
             //make user action to enroll fingerprints
         }) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                biometricAuth(promptInfoAction = {
-                    setTitle("Verification required")
-                    setSubtitle("Action paused")
-                    setDescription("Please verify your identity to proceed with the action")
-                    setDeviceCredentialAllowed(true)
-                    this
-                }, onAuthFailed = {
-                    //auth failed action
-                }, onAuthError = { errorCode, errorMessage ->
-                    //handle auth error message and codes
+            biometricAuth(promptInfoAction = {
+                setTitle("Verification required")
+                setSubtitle("Action paused")
+                setDescription("Please verify your identity to proceed with the action")
+                setDeviceCredentialAllowed(true)
+                this
+            }, onAuthFailed = {
+                //auth failed action
+            }, onAuthError = { errorCode, errorMessage ->
+                //handle auth error message and codes
 
-                }) {
-                    //handle successful authentication
-                }
+            }) {
+                //handle successful authentication
             }
-
         }
 
         activityMainBinding.test.setOnClickListener {

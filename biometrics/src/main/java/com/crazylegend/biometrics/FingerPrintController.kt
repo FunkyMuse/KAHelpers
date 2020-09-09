@@ -40,7 +40,6 @@ class FingerPrintController(private val fingerprintManagerCompat: FingerprintMan
     private val isFingerPrintAuthAvailable: Boolean
         get() = fingerprintManagerCompat.isHardwareDetected && fingerprintManagerCompat.hasEnrolledFingerprints()
 
-
     fun startListening(cryptoObject: FingerprintManagerCompat.CryptoObject) {
         if (!isFingerPrintAuthAvailable) return
 
