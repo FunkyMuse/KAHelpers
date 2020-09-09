@@ -11,6 +11,8 @@ import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
+import com.crazylegend.biometrics.biometricAuth
+import com.crazylegend.biometrics.canAuthenticate
 import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
 import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
@@ -88,6 +90,29 @@ class MainAbstractActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
         setSupportActionBar(activityMainBinding.toolbar)
 
+        canAuthenticate(hardwareUnavailable = {
+            //some message about hardware missing
+        }, noFingerprintsEnrolled = {
+            //make user action to enroll fingerprints
+        }) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                biometricAuth(promptInfoAction = {
+                    setTitle("Verification required")
+                    setSubtitle("Action paused")
+                    setDescription("Please verify your identity to proceed with the action")
+                    setDeviceCredentialAllowed(true)
+                    this
+                }, onAuthFailed = {
+                    //auth failed action
+                }, onAuthError = { errorCode, errorMessage ->
+                    //handle auth error message and codes
+
+                }) {
+                    //handle successful authentication
+                }
+            }
+
+        }
 
         activityMainBinding.test.setOnClickListener {
             testAVM.getposts()

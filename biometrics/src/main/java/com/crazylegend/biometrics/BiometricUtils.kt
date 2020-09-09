@@ -1,9 +1,5 @@
 package com.crazylegend.biometrics
 
-import android.Manifest.permission.USE_BIOMETRIC
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.*
 import androidx.biometric.BiometricPrompt
@@ -20,8 +16,6 @@ import java.util.concurrent.Executors
  * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
  * if you get a weird result code that you forgot to handle, peace.
  */
-@RequiresApi(Build.VERSION_CODES.P)
-@RequiresPermission(allOf = [USE_BIOMETRIC])
 fun FragmentActivity.biometricAuth(
         promptInfo: BiometricPrompt.PromptInfo,
         onAuthFailed: () -> Unit,
@@ -54,8 +48,6 @@ fun FragmentActivity.biometricAuth(
  * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
  * if you get a weird result code that you forgot to handle, peace.
  */
-@RequiresApi(Build.VERSION_CODES.P)
-@RequiresPermission(allOf = [USE_BIOMETRIC])
 fun Fragment.biometricAuth(
         promptInfo: BiometricPrompt.PromptInfo,
         onAuthFailed: () -> Unit,
@@ -125,8 +117,6 @@ fun Fragment.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFingerprint
  * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
  * if you get a weird result code that you forgot to handle, peace.
  */
-@RequiresApi(Build.VERSION_CODES.P)
-@RequiresPermission(allOf = [USE_BIOMETRIC])
 fun Fragment.biometricAuth(
         promptInfoAction: BiometricPrompt.PromptInfo.Builder.() -> BiometricPrompt.PromptInfo.Builder,
         onAuthFailed: () -> Unit,
@@ -163,8 +153,6 @@ fun Fragment.biometricAuth(
  * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
  * if you get a weird result code that you forgot to handle, peace.
  */
-@RequiresApi(Build.VERSION_CODES.P)
-@RequiresPermission(allOf = [USE_BIOMETRIC])
 fun FragmentActivity.biometricAuth(
         promptInfoAction: BiometricPrompt.PromptInfo.Builder.() -> BiometricPrompt.PromptInfo.Builder,
         onAuthFailed: () -> Unit,

@@ -46,6 +46,7 @@ dependencies {
     implementation project(path: ':viewbinding')
     implementation project(path: ':customviews')
     implementation project(path: ':recyclerview')
+    implementation project(path: ':biometrics')
 
     testImplementation 'junit:junit:4.13'
 
