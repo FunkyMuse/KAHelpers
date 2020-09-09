@@ -26,7 +26,16 @@ implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpe
 }
 ```
 
-3. Example
+3. Add necessary permissions
+```xml
+<uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+//if you're using the legacy FingerprintController
+<uses-permission android:name="android.permission.VIBRATE" />
+<uses-permission android:name="android.permission.USE_FINGERPRINT" />
+```
+
+4. Example
 
 ```kotlin
 canAuthenticate(hardwareUnavailable = {
@@ -34,23 +43,20 @@ canAuthenticate(hardwareUnavailable = {
         }, noFingerprintsEnrolled = {
             //make user action to enroll fingerprints
         }) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                biometricAuth(promptInfoAction = {
-                    setTitle("Verification required")
-                    setSubtitle("Action paused")
-                    setDescription("Please verify your identity to proceed with the action")
-                    setDeviceCredentialAllowed(true)
-                    this
-                }, onAuthFailed = {
-                    //auth failed action
-                }, onAuthError = { errorCode, errorMessage ->
-                    //handle auth error message and codes
+            biometricAuth(promptInfoAction = {
+                setTitle("Verification required")
+                setSubtitle("Action paused")
+                setDescription("Please verify your identity to proceed with the action")
+                setDeviceCredentialAllowed(true)
+                this
+            }, onAuthFailed = {
+                //auth failed action
+            }, onAuthError = { errorCode, errorMessage ->
+                //handle auth error message and codes
 
-                }) {
-                    //handle successful authentication
-                }
+            }) {
+                //handle successful authentication
             }
-
         }
 
 ```
