@@ -91,3 +91,5 @@ inline fun <reified T> SharedPreferences.obj(
 
     override fun setValue(thisRef: Any, property: KProperty<*>, value: T?) = putObject(key(property), value)
 }
+
+val moshiReflective = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
