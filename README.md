@@ -152,7 +152,7 @@ dependencies {
 5. Inside gradle.properties
 
 ```gradle
-org.gradle.parallel=true // if you're modularizing your projects
+org.gradle.parallel=true
 org.gradle.caching=true
 room.incremental = true // if you're using room
 kapt.use.worker.api = true
