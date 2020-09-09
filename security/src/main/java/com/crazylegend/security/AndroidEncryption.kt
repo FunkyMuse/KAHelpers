@@ -200,7 +200,6 @@ object AndroidEncryption {
                 }
 
             }
-            assert(d != null)
             return d?.let { String(it, Charsets.UTF_8) }.toString()
         } catch (e: Exception) {
             e.printStackTrace()
