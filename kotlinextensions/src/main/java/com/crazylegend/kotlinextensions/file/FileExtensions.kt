@@ -61,7 +61,7 @@ fun File.doesNotExist() = !exists()
  * Read File data as String and Returns the Result
  */
 fun File.readToString(): String {
-    var text = ""
+    var text: String
     open().use { inpS ->
         inpS.bufferedReader().use {
             text = it.readText()
@@ -153,6 +153,7 @@ fun Context.deleteCache() {
 fun deleteDir(@Nullable dir: File?): Boolean {
     if (dir != null && dir.isDirectory) {
         val children = dir.list()
+        if (children.isNullOrEmpty()) return false
         for (i in children.indices) {
             val success = deleteDir(File(dir, children[i]))
             if (!success) {
@@ -259,7 +260,7 @@ fun Uri.getRealPath(context: Context): String? {
         } else if (isDownloadsDocument()) {
 
             val id = DocumentsContract.getDocumentId(this)
-            val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)!!)
+            val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
 
             return context.getDataColumn(contentUri, null, null)
         } else if (isMediaDocument()) {

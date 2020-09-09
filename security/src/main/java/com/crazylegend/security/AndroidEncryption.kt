@@ -211,7 +211,6 @@ object AndroidEncryption {
     fun encrypt(text: String?): String {
         var input = text
         try {
-            val d = ByteArray(0)
             input = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 encryptM(input)
             } else {
