@@ -34,9 +34,7 @@ import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.rxbindings.textChanges
-import com.crazylegend.security.encryptFileSafely
-import com.crazylegend.security.getEncryptedFile
-import com.crazylegend.security.readText
+import com.crazylegend.security.*
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
@@ -89,6 +87,15 @@ class MainAbstractActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
         setSupportActionBar(activityMainBinding.toolbar)
+
+        debug("SECURITY isTestKeyBuild ${isTestKeyBuild()}")
+        debug("SECURITY detectDebugger ${detectDebugger()}")
+        debug("SECURITY isDebuggable ${isDebuggable()}")
+        debug("SECURITY isDebuggerAttached ${isDebuggerAttached()}")
+        debug("SECURITY zygoteCallCount ${zygoteCallCount()}")
+        debug("SECURITY getSingInfoMD5 ${getSingInfoMD5(BuildConfig.APPLICATION_ID)}")
+        debug("SECURITY isEmulator ${isEmulator()}")
+        debug("SECURITY getShaSignature ${getShaSignature(BuildConfig.APPLICATION_ID)}")
 
         canAuthenticate(hardwareUnavailable = {
             //some message about hardware missing
