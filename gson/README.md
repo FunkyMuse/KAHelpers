@@ -38,5 +38,5 @@ val myObj : MyObj = gson.fromJson<MyObj>(someExternalJson)
 
 5. Convert object to JSON
 ```kotlin
-val json :String = myObjectInstance.toJson()
+val json : String = myObjectInstance.toJson()
 ```
