@@ -25,7 +25,63 @@ allprojects {
 
 ```gradle
 dependencies {
-    implementation 'com.github.CraZyLegenD:Set-Of-Useful-Kotlin-Extensions-and-Helpers:version'
+
+    def utilsVersion = "2.0.7 // or check the latest from jitpack
+    
+    //biometrics
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:biometrics:$utilsVersion"
+    
+    //coroutines
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:coroutines:$utilsVersion"
+    
+    //customviews
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:customviews:$utilsVersion"
+    
+    //data structures and algorithms
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:dataStructuresAndAlgorithms:$utilsVersion"
+    
+    //database handlers
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:database:$utilsVersion"
+    
+    //glide
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:glide:$utilsVersion"
+    
+    //gson
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:gson:$utilsVersion"
+    
+    //Joda Date Time
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:jodaDateTime:$utilsVersion"
+    
+    //the most basic extensions that rely on the basic Android APIs such as context, content providers etc...
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:kotlinextensions:$utilsVersion"
+    
+    //moshi
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:moshi:$utilsVersion"
+    
+    //navigation component
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:navigation:$utilsVersion"
+    
+    //recyclerview
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:recyclerview:$utilsVersion"
+    
+    //reflection
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:reflection:$utilsVersion"
+    
+    //retrofit
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:retrofit:$utilsVersion"
+    
+    //RxJava3
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:rx:$utilsVersion"
+    
+    //RxBindings 3
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:rxbindings:$utilsVersion"
+    
+    //security
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:security:$utilsVersion"
+    
+    //viewbinding
+    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:viewbinding:$utilsVersion"
+    
   }
 ```
 
