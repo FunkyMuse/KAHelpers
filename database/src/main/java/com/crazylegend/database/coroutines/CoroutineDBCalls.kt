@@ -344,3 +344,266 @@ suspend inline fun <T> dbCall(crossinline dbCall: suspend () -> T?): DBResult<T>
 }
 
 
+fun <T> CoroutineScope.makeDBCall(
+        queryModel: T?,
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false
+): Job {
+    dbResult.queryingPost()
+    return launch(ioDispatcher) {
+        try {
+            dbResult.subscribePost(queryModel, includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun <T> CoroutineScope.makeDBCallList(
+        queryModel: T?,
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true
+): Job {
+    dbResult.queryingPost()
+    return launch(ioDispatcher) {
+        try {
+            dbResult.subscribeListPost(queryModel, includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+
+}
+
+
+fun <T> ViewModel.makeDBCall(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> T?): Job {
+    dbResult.queryingPost()
+    return viewModelIOCoroutine {
+        try {
+            dbResult.subscribePost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun <T> ViewModel.makeDBCallList(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> T?): Job {
+    dbResult.queryingPost()
+    return viewModelIOCoroutine {
+        try {
+            dbResult.subscribeListPost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun ViewModel.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        dbCall: suspend () -> Unit): Job {
+    return viewModelIOCoroutine {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        } finally {
+            withMainContext {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun ViewModel.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Unit): Job {
+    return viewModelIOCoroutine {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            withMainContext {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+
+fun <T> CoroutineScope.makeDBCall(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = false,
+        dbCall: suspend () -> T?): Job {
+    dbResult.queryingPost()
+
+    return launch(ioDispatcher) {
+        try {
+            dbResult.subscribePost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+
+        }
+    }
+}
+
+
+fun <T> CoroutineScope.makeDBCallList(
+        dbResult: MutableLiveData<DBResult<T>>,
+        includeEmptyData: Boolean = true,
+        dbCall: suspend () -> T?): Job {
+    dbResult.queryingPost()
+
+    return launch(ioDispatcher) {
+        try {
+            dbResult.subscribeListPost(dbCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            dbResult.callErrorPost(t)
+
+        }
+    }
+}
+
+
+fun CoroutineScope.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        dbCall: suspend () -> Unit): Job {
+
+    return launch(ioDispatcher) {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun CoroutineScope.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Unit): Job {
+    return launch(ioDispatcher) {
+        try {
+            dbCall()
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            launch(mainDispatcher) {
+                onErrorAction(t)
+            }
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+
+// no wrappers getting the result straight up
+fun <T> ViewModel.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+    return viewModelIOCoroutine {
+        try {
+            val call = dbCall()
+            viewModelMainCoroutine {
+                onCalled(call)
+            }
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            withMainContext {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeDBCall(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> T,
+        onCalled: (model: T) -> Unit): Job {
+    return launch(ioDispatcher) {
+        try {
+            val call = dbCall()
+            launch(mainDispatcher) {
+                onCalled(call)
+            }
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+
+// no wrappers getting the result straight up for flow
+
+fun <T> ViewModel.makeDBCallFlow(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Flow<T>,
+        onCalled: (model: T) -> Unit): Job {
+    return viewModelIOCoroutine {
+        try {
+            val call = dbCall()
+            call.collect { model ->
+                withMainContext {
+                    onCalled(model)
+                }
+            }
+
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            withMainContext {
+                onCallExecuted()
+            }
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeDBCallFlow(
+        onCallExecuted: () -> Unit = {},
+        onErrorAction: (throwable: Throwable) -> Unit = { _ -> },
+        dbCall: suspend () -> Flow<T>,
+        onCalled: (model: T) -> Unit): Job {
+    return launch(ioDispatcher) {
+        try {
+            val call = dbCall()
+            call.collect {
+                withMainContext {
+                    onCalled(it)
+                }
+            }
+
+        } catch (t: Throwable) {
+            onErrorAction(t)
+        } finally {
+            launch(mainDispatcher) {
+                onCallExecuted()
+            }
+        }
+    }
+}
+

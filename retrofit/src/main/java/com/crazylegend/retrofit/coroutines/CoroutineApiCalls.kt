@@ -1,10 +1,7 @@
 package com.crazylegend.retrofit.coroutines
 
 import androidx.lifecycle.*
-import com.crazylegend.coroutines.ioDispatcher
-import com.crazylegend.coroutines.mainDispatcher
-import com.crazylegend.coroutines.withIOContext
-import com.crazylegend.coroutines.withMainContext
+import com.crazylegend.coroutines.*
 import com.crazylegend.retrofit.retrofitResult.*
 import kotlinx.coroutines.*
 import okhttp3.ResponseBody
@@ -620,4 +617,143 @@ suspend fun <T> apiCall(
             }
         }
     }
+}
+
+
+fun <T> CoroutineScope.makeApiCallList(
+        response: Response<T>?,
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = true
+): Job {
+    retrofitResult.loadingPost()
+    return launch(ioDispatcher) {
+        try {
+            retrofitResult.subscribeListPost(response, includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+
+}
+
+fun <T> ViewModel.makeApiCallList(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = true,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loadingPost()
+    return viewModelIOCoroutine {
+        try {
+            retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+}
+
+fun <T> CoroutineScope.makeApiCall(
+        response: Response<T>?,
+        retrofitResult: MutableLiveData<RetrofitResult<T>>
+): Job {
+    retrofitResult.loadingPost()
+    return launch(ioDispatcher) {
+        try {
+            retrofitResult.subscribePost(response)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+
+}
+
+
+fun <T> ViewModel.makeApiCall(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loadingPost()
+    return viewModelIOCoroutine {
+        try {
+            retrofitResult.subscribePost(apiCall())
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+}
+
+
+fun <T> ViewModel.makeApiCall(apiCall: suspend () -> Response<T>?,
+                              onError: (throwable: Throwable) -> Unit = { _ -> },
+                              onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+                              onResponse: (response: T?) -> Unit
+): Job {
+
+    return viewModelIOCoroutine {
+        try {
+            val response = apiCall()
+            response?.apply {
+                if (isSuccessful) {
+                    onResponse(body())
+                } else {
+                    onUnsuccessfulCall(errorBody(), code())
+                }
+            }
+
+        } catch (t: Throwable) {
+            onError(t)
+        }
+    }
+}
+
+
+fun <T> CoroutineScope.makeApiCall(apiCall: suspend () -> Response<T>?,
+                                   onError: (throwable: Throwable) -> Unit = { _ -> },
+                                   onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+                                   onResponse: (response: T?) -> Unit
+): Job {
+
+    return launch(ioDispatcher) {
+        try {
+            val response = apiCall()
+            response?.apply {
+                if (isSuccessful) {
+                    onResponse(body())
+                } else {
+                    onUnsuccessfulCall(errorBody(), code())
+                }
+            }
+        } catch (t: Throwable) {
+            onError(t)
+        }
+    }
+}
+
+
+fun <T> CoroutineScope.makeApiCall(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loadingPost()
+    return launch(ioDispatcher) {
+        try {
+            retrofitResult.subscribePost(apiCall())
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+        }
+    }
+
+}
+
+fun <T> CoroutineScope.makeApiCallList(
+        retrofitResult: MutableLiveData<RetrofitResult<T>>,
+        includeEmptyData: Boolean = true,
+        apiCall: suspend () -> Response<T>?): Job {
+    retrofitResult.loadingPost()
+
+    return launch(ioDispatcher) {
+        try {
+            retrofitResult.subscribeListPost(apiCall(), includeEmptyData)
+        } catch (t: Throwable) {
+            retrofitResult.callErrorPost(t)
+
+        }
+    }
+
 }
