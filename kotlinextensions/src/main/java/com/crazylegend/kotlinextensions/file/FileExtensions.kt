@@ -16,6 +16,7 @@ import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.net.toFile
+import com.crazylegend.kotlinextensions.collections.sumByLong
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.tryOrIgnore
 import java.io.*
@@ -380,36 +381,6 @@ fun saveFile(fullPath: String, content: String): File =
         }
 
 
-private fun getDataColumnPrivate(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String {
-    uri?.let {
-        context.contentResolver.query(it, arrayOf("_data"), selection, selectionArgs, null).use {
-            if (it != null && it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow("_data")
-                return it.getString(columnIndex)
-            }
-        }
-    }
-    return ""
-}
-
-
-fun Context.getDataColumns(uri: Uri?, selection: String?, selectionArgs: Array<String>?): String? {
-    var cursor: Cursor? = null
-    val column = "_data"
-    val projection = arrayOf(column)
-
-    try {
-        cursor = uri?.let { contentResolver.query(it, projection, selection, selectionArgs, null) }
-        if (cursor != null && cursor.moveToFirst()) {
-            val index = cursor.getColumnIndexOrThrow(column)
-            return cursor.getString(index)
-        }
-    } finally {
-        cursor?.close()
-    }
-    return null
-}
-
 fun isExternalStorageDocument(uri: Uri): Boolean = "com.android.externalstorage.documents" == uri.authority
 fun isDownloadsDocument(uri: Uri): Boolean = "com.android.providers.downloads.documents" == uri.authority
 fun isMediaDocument(uri: Uri): Boolean = "com.android.providers.media.documents" == uri.authority
@@ -529,7 +500,7 @@ fun File.mkdirsIfNotExist() = parentFile?.exists() ?: false || parentFile?.mkdir
 @Synchronized
 fun File.mkdirsIfNotExistSynchronized() = mkdirsIfNotExist()
 
-fun File.saveFile(runBlockIfOk: () -> Unit, runBlockIfFail: () -> Unit, useMkdirsIfNotExistSynchronized: Boolean) {
+inline fun File.saveFile(runBlockIfOk: () -> Unit, runBlockIfFail: () -> Unit, useMkdirsIfNotExistSynchronized: Boolean) {
     if (if (useMkdirsIfNotExistSynchronized) mkdirsIfNotExistSynchronized() else mkdirsIfNotExist()) {
         runBlockIfOk()
     } else {
@@ -725,19 +696,11 @@ fun getMimeType(url: String): String? {
  *
  */
 fun File.getDirectorySize(): Long {
-    if (exists()) {
-        var result: Long = 0
-        val fileList = listFiles()
-        for (aFileList in fileList!!) {
-            result += if (aFileList.isDirectory) {
-                getDirectorySize()
-            } else {
-                aFileList.length()
-            }
-        }
-        return result
+    return if (!exists()) {
+        0
+    } else {
+        getFiles().sumByLong { it.length() }
     }
-    return 0
 }
 
 /**

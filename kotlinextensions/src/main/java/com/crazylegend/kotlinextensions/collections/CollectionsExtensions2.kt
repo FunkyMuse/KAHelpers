@@ -126,3 +126,20 @@ fun sumFromOne(n: Float) = n * (n + 1) / 2
 fun sumFromOne(n: Double) = n * (n + 1) / 2
 fun sumFromOne(n: Short) = n * (n + 1) / 2
 fun sumFromOne(n: Long) = n * (n + 1) / 2
+
+inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
+    var sum: Long = 0
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+
+inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Long): Float {
+    var sum = 0f
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+
