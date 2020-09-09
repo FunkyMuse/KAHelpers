@@ -5,4 +5,8 @@ dependencies {
 
     //live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+
+    implementation "androidx.fragment:fragment-ktx:$fragment"
+    implementation "androidx.appcompat:appcompat:$appCompat"
+
 }

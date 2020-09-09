@@ -2,7 +2,10 @@ package com.crazylegend.coroutines
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 
@@ -129,11 +132,11 @@ fun ViewModel.viewModelDefaultCoroutine(coroutineStart: CoroutineStart = Corouti
  * @param action SuspendFunction0<Unit>
  * @return Job
  */
-fun ViewModel.viewModelUnconfinedCoroutine(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, action: suspend (scope: CoroutineScope) -> Unit = {}): Job {
-    return viewModelScope.launch(unconfinedDispatcher, coroutineStart) {
-        action(this)
-    }
-}
+fun ViewModel.viewModelUnconfinedCoroutine(coroutineStart: CoroutineStart = CoroutineStart.DEFAULT, action: suspend (scope: CoroutineScope) -> Unit = {}): Job =
+        viewModelScope.launch(unconfinedDispatcher, coroutineStart) {
+            action(this)
+        }
+
 
 /**
  *
@@ -187,4 +190,63 @@ internal inline fun <T> tryOrNull(block: () -> T): T? = try {
     block()
 } catch (e: Exception) {
     null
+}
+
+/**
+ * Cancel the Job if it's active.
+ */
+fun Job?.cancelIfActive() {
+    if (this?.isActive == true) {
+        cancel()
+    }
+}
+
+
+fun AppCompatActivity.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(ioDispatcher) {
+    action(this)
+}
+
+
+fun AppCompatActivity.mainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(mainDispatcher) {
+    action(this)
+}
+
+
+fun AppCompatActivity.unconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(unconfinedDispatcher) {
+    action(this)
+}
+
+
+fun AppCompatActivity.defaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(defaultDispatcher) {
+    action(this)
+}
+
+
+fun AppCompatActivity.nonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(NonCancellable) {
+    action(this)
+}
+
+
+fun Fragment.ioCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(ioDispatcher) {
+    action(this)
+}
+
+
+fun Fragment.mainCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(mainDispatcher) {
+    action(this)
+}
+
+
+fun Fragment.unconfinedCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(unconfinedDispatcher) {
+    action(this)
+}
+
+
+fun Fragment.defaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(defaultDispatcher) {
+    action(this)
+}
+
+
+fun Fragment.nonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(NonCancellable) {
+    action(this)
 }
