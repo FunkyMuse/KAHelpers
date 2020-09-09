@@ -20,7 +20,6 @@ allprojects {
 ```gradle
 dependencies {
 
-//biometrics
 implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:biometrics:$utilsVersion"
 
 }
