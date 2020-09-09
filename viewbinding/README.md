@@ -39,7 +39,7 @@ class MainAbstractActivity : AppCompatActivity() {
 ```
 4. Fragment usage
 ```kotlin
-class PoiDetailedFragment : Fragment(R.layout.fragment_detaileds) {
+class DetailedFragment : Fragment(R.layout.fragment_detaileds) {
     override val binding by viewBinding(FragmentDetailesBinding::bind)
    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
