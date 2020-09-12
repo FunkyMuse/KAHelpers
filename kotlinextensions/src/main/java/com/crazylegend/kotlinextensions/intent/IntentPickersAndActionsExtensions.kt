@@ -66,10 +66,8 @@ inline fun FragmentActivity.selectContact(REQUEST_SELECT_CONTACT: Int, onCantHan
     val intent = Intent(Intent.ACTION_PICK).apply {
         type = ContactsContract.Contacts.CONTENT_TYPE
     }
-    if (intent.resolveActivity(packageManager) != null) {
+    tryOrElse(onCantHandleAction) {
         startActivityForResult(intent, REQUEST_SELECT_CONTACT)
-    } else {
-        onCantHandleAction()
     }
 }
 
