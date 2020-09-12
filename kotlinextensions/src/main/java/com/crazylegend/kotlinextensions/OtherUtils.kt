@@ -361,6 +361,12 @@ inline fun trySilently(block: () -> Unit) = try {
 inline fun <T> tryOrElse(defaultValue: T, block: () -> T): T = tryOrNull(block)
         ?: defaultValue
 
+inline fun tryOrElse(defaultBlock: () -> Unit = {}, block: () -> Unit) = try {
+    block()
+} catch (e: Exception) {
+    defaultBlock()
+}
+
 inline fun <T> T.applyIf(condition: Boolean, block: T.() -> T): T = apply {
     if (condition) {
         block()
