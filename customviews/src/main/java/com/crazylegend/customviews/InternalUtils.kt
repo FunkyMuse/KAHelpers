@@ -13,19 +13,6 @@ import androidx.fragment.app.FragmentManager
 internal fun Context.getSharedPreferencesByTag(tag: String) = getSharedPreferences(tag, Context.MODE_PRIVATE)
 
 
-private inline fun SharedPreferences.edit(
-        commit: Boolean = false,
-        action: SharedPreferences.Editor.() -> Unit
-) {
-    val editor = edit()
-    action(editor)
-    if (commit) {
-        editor.commit()
-    } else {
-        editor.apply()
-    }
-}
-
 internal fun SharedPreferences.putBoolean(key: String, value: Boolean) {
     edit { putBoolean(key, value) }
 }
