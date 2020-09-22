@@ -157,7 +157,7 @@ fun View.toggleVisibilityInvisibleToVisible(): View {
     visibility = if (visibility == View.VISIBLE) {
         View.INVISIBLE
     } else {
-        View.INVISIBLE
+        View.VISIBLE
     }
     return this
 }
@@ -169,7 +169,7 @@ fun View.toggleVisibilityGoneToVisible(): View {
     visibility = if (visibility == View.VISIBLE) {
         View.GONE
     } else {
-        View.GONE
+        View.VISIBLE
     }
     return this
 }
