@@ -59,16 +59,32 @@ object AutoStartHelper {
                 Pair(ConfirmationDialogAutoStart.DO_NOT_SHOW_AGAIN_VISIBILITY, true)
         )
 
+    fun checkAutoStartManually(context: Context, action: Intent.() -> Unit) {
+        iterateIntents(context, action)
+    }
+
     fun checkAutoStart(context: Context, dialogBundle: Bundle = defaultBundle) {
         context.isDialogShown.ifFalse {
-            for (intent in POWER_MANAGER_INTENTS) if (context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            iterateIntents(context) {
                 showAlert(context, dialogBundle) {
-                    context.startActivity(intent)
+                    context.startActivity(this)
                 }
+            }
+        }
+    }
+
+    private inline fun iterateIntents(context: Context, action: Intent.() -> Unit) {
+        for (intent in POWER_MANAGER_INTENTS) {
+            if (isIntentResolvable(context, intent)) {
+                intent.action()
                 break
             }
         }
     }
+
+    private fun isIntentResolvable(context: Context, intent: Intent): Boolean =
+            context.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null
+
 
     private lateinit var confirmationDialogAutoStart: ConfirmationDialogAutoStart
     const val DIALOG_TAG = "dialogAutoStartTag"
