@@ -63,11 +63,15 @@ object AutoStartHelper {
         iterateIntents(context, action)
     }
 
-    fun checkAutoStart(context: Context, dialogBundle: Bundle = defaultBundle) {
+    fun checkAutoStart(context: Context, dialogBundle: Bundle = defaultBundle, failedToStartAction: () -> Unit = {}) {
         context.isDialogShown.ifFalse {
             iterateIntents(context) {
                 showAlert(context, dialogBundle) {
-                    context.startActivity(this)
+                    try {
+                        context.startActivity(this)
+                    } catch (e: Exception) {
+                        failedToStartAction()
+                    }
                 }
             }
         }
