@@ -15,3 +15,10 @@ fun Disposable?.safeDispose() {
         dispose()
     }
 }
+
+/**
+* Better way to add disposable to composite dispossable 
+*/
+fun Disposable.addTo(compositeDisposable: CompositeDisposable) {
+    compositeDisposable.add(this)
+}
