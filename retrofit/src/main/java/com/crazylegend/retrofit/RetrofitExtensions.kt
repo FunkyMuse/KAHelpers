@@ -31,7 +31,8 @@ internal val Context.isOnline: Boolean
             if (Build.VERSION.SDK_INT < 23) {
                 val networkInfo = cm.activeNetworkInfo
                 if (networkInfo != null) {
-                    return networkInfo.isConnected && (networkInfo.type == ConnectivityManager.TYPE_WIFI || networkInfo.type == ConnectivityManager.TYPE_MOBILE || networkInfo.type == ConnectivityManager.TYPE_VPN)
+                    return networkInfo.isConnected && (networkInfo.type == ConnectivityManager.TYPE_WIFI || networkInfo.type == ConnectivityManager.TYPE_MOBILE ||
+                            networkInfo.type == ConnectivityManager.TYPE_VPN || networkInfo.type == ConnectivityManager.TYPE_ETHERNET)
                 }
             } else {
                 val network = cm.activeNetwork
@@ -41,7 +42,10 @@ internal val Context.isOnline: Boolean
                     return if (nc == null) {
                         false
                     } else {
-                        nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || nc.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
+                        nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                                nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                                nc.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ||
+                                nc.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
                     }
                 }
             }
