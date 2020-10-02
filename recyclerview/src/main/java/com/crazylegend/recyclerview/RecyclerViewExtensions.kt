@@ -15,7 +15,9 @@ import android.view.ViewGroup
 import androidx.annotation.DimenRes
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.*
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -628,4 +630,17 @@ fun RecyclerView.ViewHolder.shimmerAnimation(FADE_DURATION: Long = 1000L): Objec
         // Reset the alpha on animation end.
         doOnEnd { itemView.alpha = 1f }
     }
+}
+
+// Inspiration: https://github.com/sansets/android-clean-architecture
+fun RecyclerView.setAppBarElevationListener(appBar: AppBarLayout, elevation: Float = 8f) {
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            if (canScrollVertically(-1)) {
+                ViewCompat.setElevation(appBar, elevation)
+            } else {
+                ViewCompat.setElevation(appBar, 0f)
+            }
+        }
+    })
 }
