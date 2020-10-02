@@ -633,12 +633,13 @@ fun RecyclerView.ViewHolder.shimmerAnimation(FADE_DURATION: Long = 1000L): Objec
 }
 
 // Inspiration: https://github.com/sansets/android-clean-architecture
-fun RecyclerView.setAppBarElevationListener(appBar: AppBarLayout?, elevation: Float = 8f) {
+fun RecyclerView.setAppBarElevationListener(appBar: AppBarLayout, elevation: Float = 8f) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            appBar?.let {
-                if (canScrollVertically(-1)) ViewCompat.setElevation(it, elevation)
-                else ViewCompat.setElevation(it, 0f)
+            if (canScrollVertically(-1)) {
+                ViewCompat.setElevation(appBar, elevation)
+            } else {
+                ViewCompat.setElevation(appBar, 0f)
             }
         }
     })
