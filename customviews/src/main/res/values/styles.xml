@@ -27,8 +27,8 @@
 
 
     <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/fragment_fade_enter</item>
-        <item name="android:windowExitAnimation">@anim/fragment_fade_exit</item>
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
 
     <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">

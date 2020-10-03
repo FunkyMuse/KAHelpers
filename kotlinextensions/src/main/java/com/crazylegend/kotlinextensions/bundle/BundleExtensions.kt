@@ -37,12 +37,12 @@ fun Bundle.withCustomAnimation(
 
 fun Bundle.withSlideIn(context: Context) = withCustomAnimation(
         context,
-        R.anim.slide_in_right, R.anim.fade_out
+        R.anim.slide_in_right, R.anim.fade_out_interpolated
 )
 
 fun Bundle.withSlideOut(context: Context) = withCustomAnimation(
         context,
-        R.anim.fade_in, R.anim.abc_slide_out_top
+        R.anim.fade_in_interpolated, R.anim.abc_slide_out_top
 )
 
 fun Bundle.withFade(context: Context) = withCustomAnimation(

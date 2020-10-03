@@ -166,9 +166,9 @@ inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
         i.putExtras(oldExtras)
     i.intentBuilder()
     startActivity(i)
-    overridePendingTransition(R.anim.fade_in, R.anim.fade_out) //No transitions
+    overridePendingTransition(R.anim.fade_in_interpolated, R.anim.fade_out_interpolated) //No transitions
     finish()
-    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    overridePendingTransition(R.anim.fade_in_interpolated, R.anim.fade_out_interpolated)
 }
 
 /**
@@ -190,7 +190,7 @@ fun Activity.restartApplication() {
 
 fun Activity.finishSlideOut() {
     finish()
-    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    overridePendingTransition(R.anim.fade_in_interpolated, R.anim.fade_out_interpolated)
 }
 
 
