@@ -1,9 +1,5 @@
 <resources>
 
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/fade_in_interpolated</item>
-        <item name="android:windowExitAnimation">@anim/fade_out_interpolated</item>
-    </style>
 
     <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
