@@ -171,7 +171,6 @@ class MainAbstractActivity : AppCompatActivity() {
         val stagger = StaggerTransition()
 
         testAVM.posts.observe(this, {
-            debug("STATE $it")
             it?.apply {
                 when (it) {
                     is RetrofitResult.Success -> {
@@ -188,16 +187,12 @@ class MainAbstractActivity : AppCompatActivity() {
                     }
                     RetrofitResult.Loading -> {
                         activityMainBinding.recycler.adapter = testPlaceHolderAdapter
-                        debug(it.toString())
                     }
                     RetrofitResult.EmptyData -> {
-                        debug(it.toString())
                     }
                     is RetrofitResult.Error -> {
-                        debug(it.toString())
                     }
                     is RetrofitResult.ApiError -> {
-                        debug(it.toString())
                     }
                 }.exhaustive
             }

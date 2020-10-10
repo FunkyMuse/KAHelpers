@@ -13,8 +13,8 @@ inline fun <T : ViewBinding> Activity.viewBinding(crossinline bindingInflater: (
         }
 
 
-fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
-        FragmentViewBindingDelegate(this, viewBindingFactory)
+fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T, disposeEvents: T.() -> Unit = {}) =
+        FragmentViewBindingDelegate(this, viewBindingFactory, disposeEvents)
 
 
 fun <T : ViewBinding> globalViewBinding(viewBindingFactory: (View) -> T) =

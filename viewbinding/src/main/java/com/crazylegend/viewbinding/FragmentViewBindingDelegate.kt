@@ -8,14 +8,15 @@ import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragment, private val viewBinder: (View) -> T) : ReadOnlyProperty<Fragment, T>, LifecycleObserver {
+class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragment,
+                                                   private val viewBinder: (View) -> T,
+                                                   private val disposeEvents: T.() -> Unit = {}) : ReadOnlyProperty<Fragment, T>, LifecycleObserver {
 
     private inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreation(crossinline viewOwner: LifecycleOwner.() -> Unit) {
         lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onCreate(owner: LifecycleOwner) {
                 viewLifecycleOwnerLiveData.observe(this@observeLifecycleOwnerThroughLifecycleCreation, Observer { viewLifecycleOwner ->
                     viewLifecycleOwner.viewOwner()
-
                 })
             }
         })
@@ -25,6 +26,7 @@ class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragmen
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun disposeBinding() {
+        fragmentBinding?.disposeEvents()
         fragmentBinding = null
     }
 

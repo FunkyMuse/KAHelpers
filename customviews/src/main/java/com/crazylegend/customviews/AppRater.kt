@@ -109,7 +109,6 @@ object AppRater {
 
         private val binding by viewBinding(DialogAppRaterBinding::bind)
 
-
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
