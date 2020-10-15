@@ -7,7 +7,7 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:$retrofit"
     api "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
     api "com.squareup.retrofit2:converter-gson:$retrofit"
-    api 'com.squareup.okhttp3:logging-interceptor:4.8.1'
+    api 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     //live data
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
