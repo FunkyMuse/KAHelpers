@@ -337,7 +337,9 @@ fun downloadFile(urlPath: String, localPath: String, callback: (Uri?) -> Unit = 
     return uri
 }
 
-fun downloadFileWithProgress(urlPath: String, localPath: String, onError: () -> Unit = {}, progress: (Int) -> Unit = {}, callback: (Uri?) -> Unit = {}) {
+fun downloadFileWithProgress(urlPath: String, localPath: String,
+                             connectionCallBack: (responseCode: Int) -> Unit = {},
+                             onError: (Exception) -> Unit = {}, progress: (Int) -> Unit = {}, callback: (Uri?) -> Unit = {}) {
     val uri = localPath.toFile().toUri()
     val connection = URL(urlPath).openConnection() as HttpURLConnection
     val input = connection.inputStream
@@ -345,8 +347,9 @@ fun downloadFileWithProgress(urlPath: String, localPath: String, onError: () -> 
     try {
         connection.connect()
 
-        if (connection.responseCode != HttpURLConnection.HTTP_OK) {
-            onError()
+        val responseCode = connection.responseCode
+        connectionCallBack(responseCode)
+        if (responseCode != HttpURLConnection.HTTP_OK) {
             return
         }
 
@@ -361,7 +364,7 @@ fun downloadFileWithProgress(urlPath: String, localPath: String, onError: () -> 
             output.write(data, 0, count)
         }
     } catch (e: Exception) {
-        onError()
+        onError(e)
         return
     } finally {
         tryOrIgnore {
