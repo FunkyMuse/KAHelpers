@@ -39,8 +39,8 @@ fun <T> databaseSubscribeList(response: T?, includeEmptyData: Boolean = false): 
 }
 
 
-inline fun <T> DBResult<T>.handle(queryingDB: () -> Unit,
-                                  emptyDB: () -> Unit,
+inline fun <T> DBResult<T>.handle(queryingDB: () -> Unit = {},
+                                  emptyDB: () -> Unit = {},
                                   dbError: (throwable: Throwable) -> Unit = { _ -> },
                                   success: T.() -> Unit) {
     when (this) {

@@ -12,8 +12,8 @@ import retrofit2.Response
  */
 
 inline fun <T> RetrofitResult<T>.handle(
-        loading: () -> Unit,
-        emptyData: () -> Unit,
+        loading: () -> Unit = {},
+        emptyData: () -> Unit = {},
         calError: (throwable: Throwable) -> Unit = { _ -> },
         apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
         success: T.() -> Unit
