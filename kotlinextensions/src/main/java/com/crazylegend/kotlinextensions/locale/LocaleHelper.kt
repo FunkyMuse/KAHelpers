@@ -114,12 +114,28 @@ object LocaleHelper {
         return context
     }
 
-    fun getLocalizedString(context: Context, resourceId: Int): String? {
+    fun getLocalizedText(context: Context, resourceId: Int): String? {
         val savedLanguage = getLanguage(context) ?: return null
         val requestedLocale = Locale(savedLanguage)
         val config = Configuration(context.resources.configuration)
         config.setLocale(requestedLocale)
         return context.createConfigurationContext(config).getText(resourceId).toString()
+    }
+
+    fun getLocalizedString(context: Context, resourceId: Int): String? {
+        val savedLanguage = getLanguage(context) ?: return null
+        val requestedLocale = Locale(savedLanguage)
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(requestedLocale)
+        return context.createConfigurationContext(config).getString(resourceId)
+    }
+
+    fun getLocalizedString(context: Context, resourceId: Int, vararg formatArgs: Any): String? {
+        val savedLanguage = getLanguage(context) ?: return null
+        val requestedLocale = Locale(savedLanguage)
+        val config = Configuration(context.resources.configuration)
+        config.setLocale(requestedLocale)
+        return context.createConfigurationContext(config).getString(resourceId, formatArgs)
     }
 
     fun getLocalizedResources(context: Context): Resources? {
