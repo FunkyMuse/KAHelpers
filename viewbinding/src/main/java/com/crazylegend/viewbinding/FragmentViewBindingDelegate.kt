@@ -37,6 +37,9 @@ class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragmen
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
+
+        ensureMainThread()
+
         val binding = fragmentBinding
         if (binding != null) {
             return binding

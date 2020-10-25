@@ -66,7 +66,9 @@ class MainAbstractActivity : AppCompatActivity() {
         CompositeDisposable()
     }
 
-    private val activityMainBinding by viewBinding(ActivityMainBinding::inflate)
+    private val activityMainBinding by viewBinding(ActivityMainBinding::inflate) {
+
+    }
     private var savedItemAnimator: RecyclerView.ItemAnimator? = null
 
     private val fade = transitionSequential {
@@ -85,7 +87,6 @@ class MainAbstractActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(activityMainBinding.root)
         setSupportActionBar(activityMainBinding.toolbar)
 
         debug("SECURITY isTestKeyBuild ${isTestKeyBuild()}")

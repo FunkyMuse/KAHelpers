@@ -25,7 +25,7 @@ super.attachBaseContext(LocaleHelper.onAttach(base, "en"))
  * Make sure to re-create the activity once you call this function, preferably use a base(abstract) activity that has the
  * [LocaleHelper.onAttach] so that all of your functions inherit from it, to ease your problems.
 
- * In your activity override this function
+ * In your activity override this function if using appcompat 1.1.0
 override fun attachBaseContext(newBase: Context?) {
 super.attachBaseContext(newBase?.let { LocaleHelper.onAttach(it) })
 
@@ -41,9 +41,19 @@ overrideConfiguration.uiMode = uiMode
 super.applyOverrideConfiguration(overrideConfiguration)
 }
 
- * When this gets released
- * https://android.googlesource.com/platform/frameworks/support/+/67f756b383344764f7d3539c5955fbe5f491a3ba
- * you can remove the applyOverrideConfiguration
+<------------------>
+
+if using appcompat +1.2.0
+override fun attachBaseContext(newBase: Context?) {
+super.attachBaseContext(newBase)
+val config = Configuration()
+applyOverrideConfiguration(config)
+}
+
+override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+super.applyOverrideConfiguration(overrideConfiguration?.let { LocaleHelper.updateConfigurationIfSupported(this, it, DEFAULT_LANGUAGE) })
+}
+
 }
 
  */
