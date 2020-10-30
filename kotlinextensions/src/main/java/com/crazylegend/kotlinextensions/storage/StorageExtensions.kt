@@ -14,6 +14,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.annotation.RequiresApi
+import com.crazylegend.kotlinextensions.context.getSystemProperty
 import com.crazylegend.kotlinextensions.cursor.getStringOrNull
 import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_DOCUMENT
 import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_IMGs
@@ -456,3 +457,5 @@ val isExtStorageAvailable
     get() : Boolean {
         return Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
     }
+
+val isDiskEncrypted = getSystemProperty("ro.crypto.state").equals("encrypted", true)
