@@ -6,6 +6,7 @@ import android.annotation.TargetApi
 import android.app.*
 import android.app.admin.DevicePolicyManager
 import android.app.job.JobScheduler
+import android.app.usage.UsageStatsManager
 import android.appwidget.AppWidgetManager
 import android.bluetooth.BluetoothManager
 import android.content.ClipboardManager
@@ -261,6 +262,10 @@ val Context.accountManager
 val Context.appOpsManager
     @TargetApi(Build.VERSION_CODES.KITKAT)
     get() = getSystemService(APP_OPS_SERVICE) as AppOpsManager?
+
+val Context.usageStatsManager
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    get() = getSystemService(USAGE_STATS_SERVICE) as? UsageStatsManager
 
 val Context.captioningManager
     @TargetApi(Build.VERSION_CODES.KITKAT)
