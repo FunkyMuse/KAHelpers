@@ -173,12 +173,13 @@ fun getBatteryInfo(batteryIntent: Intent): BatteryStatusModel {
     val chargePlug = batteryIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)
     val usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB
     val acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC
+    val wirelessCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_WIRELESS
 
     val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
     val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
 
     val batteryPct = level / scale.toFloat()
-    return BatteryStatusModel(isCharging, usbCharge, acCharge, batteryPct)
+    return BatteryStatusModel(isCharging, usbCharge, acCharge, batteryPct, wirelessCharge)
 }
 
 val Context.actualPackageName: String?
