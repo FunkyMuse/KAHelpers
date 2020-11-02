@@ -12,9 +12,15 @@ import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 /**
  * Created by crazy on 4/5/20 to long live and prosper !
  * Takes leverage of not providing that damn layout res id
+ *
+ * USAGE:
+ * class TestViewBindingAdapter : AbstractViewBindingAdapter<TestModel, TestViewHolderShimmer, CustomizableCardViewBinding>(
+::TestViewHolderShimmer, CustomizableCardViewBinding::inflate
+)
+ *
  */
 abstract class AbstractViewBindingAdapter<T, VH : RecyclerView.ViewHolder, VB : ViewBinding>(
-        private val viewHolder: Class<VH>,
+        private val viewHolder: (binding: VB) -> VH,
         private val bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
@@ -30,14 +36,6 @@ abstract class AbstractViewBindingAdapter<T, VH : RecyclerView.ViewHolder, VB : 
         bindItems(item, holder, position, itemCount)
     }
 
-    /**
-     * Use proguard rule as the following
-    -keep public class mypackagename.ViewHolder { public <init>(...); }
-     * or annotate it with the @Keep method from androidX
-     * @param parent ViewGroup
-     * @param viewType Int
-     * @return VH
-     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
         val holder = setViewHolder(binding)
@@ -72,5 +70,5 @@ abstract class AbstractViewBindingAdapter<T, VH : RecyclerView.ViewHolder, VB : 
 
 
     @Suppress("UNCHECKED_CAST")
-    private fun setViewHolder(binding: ViewBinding): VH = viewHolder.declaredConstructors.first().newInstance(binding) as VH
+    private fun setViewHolder(binding: ViewBinding): VH = viewHolder(binding as VB)
 }

@@ -12,7 +12,7 @@ import androidx.viewbinding.ViewBinding
 
 
 inline fun <reified T, VH : RecyclerView.ViewHolder, VB : ViewBinding> generateRecycler(
-        viewHolder: Class<VH>,
+        noinline viewHolder: (binding: VB) -> VH,
         noinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
@@ -27,14 +27,28 @@ inline fun <reified T, VH : RecyclerView.ViewHolder, VB : ViewBinding> generateR
 
 
 inline fun <reified T, VH : RecyclerView.ViewHolder, VB : ViewBinding> RecyclerView.generateVerticalAdapter(
-        viewHolder: Class<VH>,
+        noinline viewHolder: (binding: VB) -> VH,
         noinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        crossinline binder: (item: T, holder: VH, position: Int, itemCount: Int) -> Unit): AbstractViewBindingAdapter<T, VH, VB> {
+        crossinline binder: (item: T, holder: VH, position: Int, itemCount: Int) -> Unit,
+        hasFixedSize: Boolean = false, reverseLayout: Boolean = false): AbstractViewBindingAdapter<T, VH, VB> {
 
     val adapter = generateRecycler(viewHolder, bindingInflater, areItemsTheSameCallback, areContentsTheSameCallback, binder)
-    initRecyclerViewAdapter(adapter, RecyclerView.VERTICAL)
+    initRecyclerViewAdapter(adapter, RecyclerView.VERTICAL, hasFixedSize, reverseLayout)
+    return adapter
+}
+
+inline fun <reified T, VH : RecyclerView.ViewHolder, VB : ViewBinding> RecyclerView.generateHorizontalAdapter(
+        noinline viewHolder: (binding: VB) -> VH,
+        noinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
+        noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+        crossinline binder: (item: T, holder: VH, position: Int, itemCount: Int) -> Unit,
+        hasFixedSize: Boolean = false, reverseLayout: Boolean = false): AbstractViewBindingAdapter<T, VH, VB> {
+
+    val adapter = generateRecycler(viewHolder, bindingInflater, areItemsTheSameCallback, areContentsTheSameCallback, binder)
+    initRecyclerViewAdapter(adapter, RecyclerView.HORIZONTAL, hasFixedSize, reverseLayout)
     return adapter
 }
 

@@ -9,7 +9,7 @@ import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.views.setPrecomputedText
 import com.crazylegend.setofusefulkotlinextensions.R
 
-class TestViewHolderBinding(private val binding: CustomizableCardViewBinding) : RecyclerView.ViewHolder(binding.root) {
+class TestViewHolderShimmer(private val binding: CustomizableCardViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
     private val FADE_DURATION = 1000L
 

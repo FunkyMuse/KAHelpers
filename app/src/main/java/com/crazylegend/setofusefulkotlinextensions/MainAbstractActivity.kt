@@ -38,7 +38,7 @@ import com.crazylegend.security.*
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
-import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderBinding
+import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderShimmer
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import com.crazylegend.viewbinding.viewBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -56,7 +56,7 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private val exampleGeneratedAdapter by lazy {
-        generateRecycler<TestModel, TestViewHolderBinding, CustomizableCardViewBinding>(TestViewHolderBinding::class.java,
+        generateRecycler<TestModel, TestViewHolderShimmer, CustomizableCardViewBinding>(TestViewHolderShimmer::class.java,
                 CustomizableCardViewBinding::inflate) { item, holder, _, _ ->
             holder.bind(item)
         }
