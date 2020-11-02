@@ -11,6 +11,7 @@ import android.provider.Settings
 import androidx.annotation.ColorInt
 import androidx.annotation.RawRes
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.crazylegend.kotlinextensions.context.uiModeManager
@@ -88,3 +89,8 @@ fun Toolbar.setNavigationIconColor(@ColorInt color: Int) = navigationIcon?.mutat
     it.setTint(color)
     this.navigationIcon = it
 }
+
+fun enableNightMode() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+fun disableNightMode() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+fun followSystemChoiceDark() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+fun batteryChoiceDark() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
