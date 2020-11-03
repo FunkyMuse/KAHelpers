@@ -6,7 +6,7 @@ import okhttp3.Response
 /**
  * Created by hristijan on 8/5/19 to long live and prosper !
  */
-internal class LoadingInterceptor(private val onLoading: (LoadingInfo) -> Unit) : Interceptor {
+class LoadingInterceptor(private val onLoading: (LoadingInfo) -> Unit) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
@@ -24,7 +24,7 @@ internal class LoadingInterceptor(private val onLoading: (LoadingInfo) -> Unit) 
         }
     }
 
-    internal data class LoadingInfo(
+    data class LoadingInfo(
             val name: String = "",
             val isLoading: Boolean = true,
             val time: Long = System.currentTimeMillis()

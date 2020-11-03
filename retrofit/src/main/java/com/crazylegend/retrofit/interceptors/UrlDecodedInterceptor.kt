@@ -25,7 +25,7 @@ class UrlDecodedInterceptor : Interceptor {
             requestBody = postBody.toRequestBody(original.body!!.contentType())
         }
 
-        val request = when (original.method) {
+        val request = when (original.method.toLowerCase()) {
             "post" -> original.newBuilder()
                     .method(original.method, original.body)
                     .post(requestBody!!)
