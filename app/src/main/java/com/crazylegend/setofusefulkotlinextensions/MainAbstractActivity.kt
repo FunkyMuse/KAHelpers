@@ -56,7 +56,8 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private val exampleGeneratedAdapter by lazy {
-        generateRecycler<TestModel, TestViewHolderShimmer, CustomizableCardViewBinding>(TestViewHolderShimmer::class.java,
+        generateRecycler<TestModel, TestViewHolderShimmer, CustomizableCardViewBinding>(
+                ::TestViewHolderShimmer,
                 CustomizableCardViewBinding::inflate) { item, holder, _, _ ->
             holder.bind(item)
         }
