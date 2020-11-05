@@ -30,12 +30,26 @@ implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpe
 class MainAbstractActivity : AppCompatActivity() {
     private val activityMainBinding by viewBinding(ActivityMainBinding::inflate)
     
- override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-}
+ override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+    }
 
 }
 ```
+3.Activity usage #2
+
+```kotlin
+class MainAbstractActivity : AppCompatActivity() {
+    private val activityMainBinding by viewBinder(ActivityMainBinding::inflate)
+    
+  override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(activityMainBinding.root)
+    }
+
+}
+```
+
 4. Fragment usage
 ```kotlin
 class DetailedFragment : Fragment(R.layout.fragment_details) {
