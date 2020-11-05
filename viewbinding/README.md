@@ -39,7 +39,7 @@ class MainAbstractActivity : AppCompatActivity() {
 4. Fragment usage
 ```kotlin
 class DetailedFragment : Fragment(R.layout.fragment_details) {
-    override val binding by viewBinding(FragmentDetailsBinding::bind)
+    private val binding by viewBinding(FragmentDetailsBinding::bind)
    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
