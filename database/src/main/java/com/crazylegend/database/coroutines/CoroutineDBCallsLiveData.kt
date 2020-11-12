@@ -91,7 +91,6 @@ inline fun <T> CoroutineContext.makeDBCallLiveData(mediatorLiveData: MediatorLiv
 inline fun <T> CoroutineScope.makeDBCallListFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        crossinline onFlow: Flow<T>?.() -> Unit = {},
         crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
 
@@ -99,7 +98,6 @@ inline fun <T> CoroutineScope.makeDBCallListFlow(
         try {
 
             val result = dbCall()
-            result.onFlow()
             result?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }
@@ -154,13 +152,11 @@ inline fun <T> CoroutineScope.makeDBCallListFlow(
 inline fun <T> ViewModel.makeDBCallFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
-        crossinline onFlow: Flow<T>?.() -> Unit = {},
         crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return viewModelIOCoroutine {
         try {
             val flow = dbCall()
-            flow.onFlow()
             flow?.collect {
                 dbResult.subscribePost(it, includeEmptyData)
             }
@@ -174,13 +170,11 @@ inline fun <T> ViewModel.makeDBCallFlow(
 inline fun <T> ViewModel.makeDBCallListFlow(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        crossinline onFlow: Flow<T>?.() -> Unit = {},
         crossinline dbCall: suspend () -> Flow<T>?): Job {
     dbResult.queryingPost()
     return viewModelIOCoroutine {
         try {
             val flow = dbCall()
-            flow.onFlow()
             flow?.collect {
                 dbResult.subscribeListPost(it, includeEmptyData)
             }

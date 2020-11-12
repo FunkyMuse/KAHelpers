@@ -12,8 +12,11 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.*
 import android.text.method.LinkMovementMethod
+import android.text.method.ScrollingMovementMethod
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.MotionEvent.ACTION_MASK
+import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -90,8 +93,8 @@ fun TextView.italic() {
 /**
  * Set font for TextView.
  */
-fun TextView.font(font: String) {
-    typeface = Typeface.createFromAsset(context.assets, "fonts/$font.ttf")
+fun TextView.font(font: String, fontAbbreviation: String = ".ttf") {
+    typeface = Typeface.createFromAsset(context.assets, "fonts/$font.$fontAbbreviation")
 }
 
 
@@ -655,4 +658,18 @@ fun TextView.clear() {
 
 fun AppCompatTextView.clear() {
     text = ""
+}
+
+fun AppCompatTextView.makeScrollableInsideScrollView() {
+    movementMethod = ScrollingMovementMethod()
+    setOnTouchListener { v, event ->
+        v.parent.requestDisallowInterceptTouchEvent(true)
+        when (event.action and ACTION_MASK) {
+            ACTION_UP -> {
+                v.parent.requestDisallowInterceptTouchEvent(false)
+                performClick()
+            }
+        }
+        false
+    }
 }
