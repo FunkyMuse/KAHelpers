@@ -4,6 +4,9 @@ import androidx.lifecycle.*
 import com.crazylegend.coroutines.*
 import com.crazylegend.retrofit.retrofitResult.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
 import okhttp3.ResponseBody
 import retrofit2.Response
 import kotlin.coroutines.CoroutineContext
@@ -238,7 +241,7 @@ suspend fun <T> LiveDataScope<RetrofitResult<T>>.subscribeApiCallList(res: Respo
     }
 }
 
-fun <T> AndroidViewModel.makeApiCallListAsync(
+fun <T> ViewModel.makeApiCallListAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
         apiCall: suspend () -> Response<T>?): Job {
@@ -257,7 +260,7 @@ fun <T> AndroidViewModel.makeApiCallListAsync(
     }
 }
 
-fun <T> AndroidViewModel.makeApiCallAsync(
+fun <T> ViewModel.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         apiCall: suspend () -> Response<T>?): Job {
 
@@ -489,10 +492,10 @@ fun <T> CoroutineContext.makeApiCallListLiveData(mediatorLiveData: MediatorLiveD
 }
 
 
-fun <T> AndroidViewModel.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
-                                          onError: (throwable: Throwable) -> Unit = { _ -> },
-                                          onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
-                                          onResponse: (response: T?) -> Unit
+fun <T> ViewModel.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
+                                   onError: (throwable: Throwable) -> Unit = { _ -> },
+                                   onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
+                                   onResponse: (response: T?) -> Unit
 ): Job {
 
     return viewModelScope.launch(mainDispatcher) {
@@ -550,7 +553,6 @@ fun <T> CoroutineScope.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 fun <T> CoroutineScope.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         apiCall: suspend () -> Response<T>?): Job {
-
 
     return launch(mainDispatcher) {
         supervisorScope {
@@ -757,3 +759,14 @@ fun <T> CoroutineScope.makeApiCallList(
     }
 
 }
+
+fun <T> apiCallAsFlow(apiCall: suspend () -> Response<T>?): Flow<RetrofitResult<T>> =
+        flow {
+            try {
+                emit(retrofitSubscribe(apiCall.invoke()))
+            } catch (t: Throwable) {
+                emit(retrofitCallError(t))
+            }
+        }.onStart {
+            emit(retrofitLoading)
+        }

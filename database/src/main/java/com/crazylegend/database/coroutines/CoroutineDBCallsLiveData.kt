@@ -6,6 +6,8 @@ import com.crazylegend.database.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
 import kotlin.coroutines.CoroutineContext
 
 
@@ -225,7 +227,7 @@ inline fun <T> CoroutineScope.makeDBCallListAsync(
 }
 
 
-inline fun <T> AndroidViewModel.makeDBCallListAsync(
+inline fun <T> ViewModel.makeDBCallListAsync(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = true,
         crossinline dbCall: suspend () -> T?): Job {
@@ -245,7 +247,7 @@ inline fun <T> AndroidViewModel.makeDBCallListAsync(
 }
 
 
-inline fun <T> AndroidViewModel.makeDBCallAsync(
+inline fun <T> ViewModel.makeDBCallAsync(
         dbResult: MutableLiveData<DBResult<T>>,
         includeEmptyData: Boolean = false,
         crossinline dbCall: suspend () -> T?): Job {
@@ -601,3 +603,13 @@ fun <T> CoroutineScope.makeDBCallFlow(
     }
 }
 
+fun <T> dbCallAsFlow(apiCall: suspend () -> T?): Flow<DBResult<T>> =
+        flow {
+            try {
+                emit(databaseSubscribe(apiCall.invoke()))
+            } catch (t: Throwable) {
+                emit(databaseError(t))
+            }
+        }.onStart {
+            emit(databaseQuerying)
+        }

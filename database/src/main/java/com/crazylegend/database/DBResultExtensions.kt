@@ -2,6 +2,7 @@ package com.crazylegend.database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
 /**
@@ -225,3 +226,61 @@ inline val <T> LiveData<DBResult<T>>.getSuccess: T?
 
 internal inline fun <T, R> T.isListAndNotNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
         if (this is List<*> && !this.isNullOrEmpty()) actionTrue() else actionFalse()
+
+
+fun <T> MutableStateFlow<DBResult<T>>.querying() {
+    value = databaseQuerying
+}
+
+
+fun <T> MutableStateFlow<DBResult<T>>.emptyData() {
+    value = databaseEmptyDB
+}
+
+
+fun <T> MutableStateFlow<DBResult<T>>.subscribe(queryModel: T?, includeEmptyData: Boolean = false) {
+    if (includeEmptyData) {
+        if (queryModel == null) {
+            value = databaseEmptyDB
+        } else {
+            value = databaseSuccess(queryModel)
+        }
+    } else {
+        queryModel?.apply {
+            value = databaseSuccess(this)
+        }
+    }
+}
+
+
+fun <T> MutableStateFlow<DBResult<T>>.subscribeList(queryModel: T?, includeEmptyData: Boolean = false) {
+    if (includeEmptyData) {
+        if (queryModel == null) {
+            value = databaseEmptyDB
+        } else {
+            if (this is List<*>) {
+                val list = this as List<*>
+                if (list.isNullOrEmpty()) {
+                    value = databaseEmptyDB
+                } else {
+                    value = databaseSuccess(queryModel)
+                }
+            } else {
+                value = databaseSuccess(queryModel)
+            }
+        }
+    } else {
+        queryModel?.apply {
+            value = databaseSuccess(this)
+        }
+    }
+}
+
+
+fun <T> MutableStateFlow<DBResult<T>>.callError(throwable: Throwable) {
+    value = databaseError(throwable)
+}
+
+fun <T> MutableStateFlow<DBResult<T>>.success(model: T) {
+    value = databaseSuccess(model)
+}

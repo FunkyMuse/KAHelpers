@@ -3,6 +3,7 @@ package com.crazylegend.retrofit.retrofitResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.crazylegend.retrofit.errorResponseCodeMessage
+import kotlinx.coroutines.flow.MutableStateFlow
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -357,3 +358,34 @@ fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }) {
 
 internal inline fun <T, R> T.isListAndNotNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
         if (this is List<*> && !this.isNullOrEmpty()) actionTrue() else actionFalse()
+
+
+fun <T> MutableStateFlow<RetrofitResult<T>>.loading() {
+    value = retrofitLoading
+}
+
+
+fun <T> MutableStateFlow<RetrofitResult<T>>.emptyData() {
+    value = retrofitEmptyData
+}
+
+fun <T> MutableStateFlow<RetrofitResult<T>>.subscribe(response: Response<T>?) {
+    value = retrofitSubscribe(response)
+}
+
+fun <T> MutableStateFlow<RetrofitResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+    value = retrofitSubscribeList(response, includeEmptyData)
+}
+
+fun <T> MutableStateFlow<RetrofitResult<T>>.callError(throwable: Throwable) {
+    value = retrofitCallError(throwable)
+}
+
+
+fun <T> MutableStateFlow<RetrofitResult<T>>.success(model: T) {
+    value = retrofitSuccess(model)
+}
+
+fun <T> MutableStateFlow<RetrofitResult<T>>.apiError(code: Int, errorBody: ResponseBody?) {
+    value = retrofitApiError(code, errorBody)
+}

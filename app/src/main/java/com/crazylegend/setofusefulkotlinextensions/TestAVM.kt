@@ -1,12 +1,9 @@
 package com.crazylegend.setofusefulkotlinextensions
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.crazylegend.retrofit.RetrofitClient
-import com.crazylegend.retrofit.coroutines.makeApiCallLiveData
+import com.crazylegend.retrofit.coroutines.apiCallStateFlow
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.retrofit.retrofitResult.getSuccess
 import com.crazylegend.rx.clearAndDispose
@@ -33,10 +30,10 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun getposts() {
+    //val apiTest =  apiCallAsFlow { retrofit.getPosts() }
+    val apiTestState = getposts()
 
-        makeApiCallLiveData(postsData) { retrofit.getPosts() }
-    }
+    fun getposts() = viewModelScope.apiCallStateFlow { retrofit.getPosts() }
 
     fun filterBy(query: String) {
         filteredPostsData.value = postsData.getSuccess?.filter {
@@ -55,7 +52,7 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     }
 
     init {
-        getposts()
+        // getposts()
     }
 }
 

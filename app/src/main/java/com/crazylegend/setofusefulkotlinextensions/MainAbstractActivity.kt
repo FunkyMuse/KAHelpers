@@ -6,13 +6,12 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
-import com.crazylegend.biometrics.biometricAuth
-import com.crazylegend.biometrics.canAuthenticate
 import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
 import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
@@ -42,6 +41,8 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderShimmer
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import com.crazylegend.viewbinding.viewBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.io.File
 
 class MainAbstractActivity : AppCompatActivity() {
@@ -99,7 +100,8 @@ class MainAbstractActivity : AppCompatActivity() {
         debug("SECURITY isEmulator ${isEmulator()}")
         debug("SECURITY getShaSignature ${getShaSignature(BuildConfig.APPLICATION_ID)}")
 
-        canAuthenticate(hardwareUnavailable = {
+
+        /*canAuthenticate(hardwareUnavailable = {
             //some message about hardware missing
         }, noFingerprintsEnrolled = {
             //make user action to enroll fingerprints
@@ -118,10 +120,14 @@ class MainAbstractActivity : AppCompatActivity() {
             }) {
                 //handle successful authentication
             }
-        }
+        }*/
 
         activityMainBinding.test.setOnClickListener {
-            testAVM.getposts()
+            lifecycleScope.launch {
+                testAVM.getposts().collect {
+                    updateUI(it)
+                }
+            }
         }
 
         RunCodeEveryXLaunchOnAppOpened.runCode(this, 2) {
@@ -170,45 +176,46 @@ class MainAbstractActivity : AppCompatActivity() {
             EdgeToEdge.setUpScrollingContent(activityMainBinding.recycler)
         }
 
-        val stagger = StaggerTransition()
-
-        testAVM.posts.observe(this, {
-            it?.apply {
-                when (it) {
-                    is RetrofitResult.Success -> {
-                        TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
-                        if (activityMainBinding.recycler.adapter != generatedAdapter) {
-                            activityMainBinding.recycler.adapter = generatedAdapter
-                            savedItemAnimator = activityMainBinding.recycler.itemAnimator
-                            activityMainBinding.recycler.itemAnimator = null
-                            TransitionManager.beginDelayedTransition(activityMainBinding.recycler, fade)
-                        }
-                        generatedAdapter.submitList(it.value)
-                        val wrappedList = it.value.toMutableList()
-                        activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
-                    }
-                    RetrofitResult.Loading -> {
-                        activityMainBinding.recycler.adapter = testPlaceHolderAdapter
-                    }
-                    RetrofitResult.EmptyData -> {
-                    }
-                    is RetrofitResult.Error -> {
-                    }
-                    is RetrofitResult.ApiError -> {
-                    }
-                }.exhaustive
+        lifecycleScope.launchWhenResumed {
+            testAVM.apiTestState.collect {
+                updateUI(it)
             }
-        })
+        }
 
-        testAVM.filteredPosts.observe(this, {
-            generatedAdapter.submitList(it)
-        })
 
         val testFile = File(filesDir, "testfile.txt")
         encryptFileSafely(testFile, fileContent = "JETPACK SECURITY".toByteArray())
         val file = getEncryptedFile(testFile)
         debug("TEXT DECRYPTED ${file.readText()}")
         debug("TEXT ENCRYPTED ${testFile.readText()}")
+    }
+
+    private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
+        val stagger = StaggerTransition()
+
+        when (retrofitResult) {
+            is RetrofitResult.Success -> {
+                TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
+                if (activityMainBinding.recycler.adapter != generatedAdapter) {
+                    activityMainBinding.recycler.adapter = generatedAdapter
+                    savedItemAnimator = activityMainBinding.recycler.itemAnimator
+                    activityMainBinding.recycler.itemAnimator = null
+                    TransitionManager.beginDelayedTransition(activityMainBinding.recycler, fade)
+                }
+                generatedAdapter.submitList(retrofitResult.value)
+                val wrappedList = retrofitResult.value.toMutableList()
+                activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
+            }
+            RetrofitResult.Loading -> {
+                activityMainBinding.recycler.adapter = testPlaceHolderAdapter
+            }
+            RetrofitResult.EmptyData -> {
+            }
+            is RetrofitResult.Error -> {
+            }
+            is RetrofitResult.ApiError -> {
+            }
+        }.exhaustive
     }
 
     private var searchView: SearchView? = null
