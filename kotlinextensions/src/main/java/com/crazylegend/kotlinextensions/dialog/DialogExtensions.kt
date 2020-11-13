@@ -2,15 +2,12 @@ package com.crazylegend.kotlinextensions.dialog
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
@@ -181,16 +178,6 @@ inline fun AlertDialog.Builder.neutralButton(text: String, crossinline handleCli
     this.setNeutralButton(text) { _, i -> handleClick(i) }
 }
 
-
-/**Method to hide keyboard in dialog only*/
-fun Dialog.hideKeyboard() {
-    val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-}
-
-/**Method to show keyboard in dialog only*/
-fun Dialog.showKeyboard() =
-        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
 
 /**

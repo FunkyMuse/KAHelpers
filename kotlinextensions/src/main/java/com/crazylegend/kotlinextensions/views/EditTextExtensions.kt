@@ -3,6 +3,7 @@ package com.crazylegend.kotlinextensions.views
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.os.Looper
 import android.text.*
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -14,6 +15,8 @@ import com.crazylegend.kotlinextensions.activity.isKeyboardSubmit
 import com.crazylegend.kotlinextensions.context.clipboardManager
 import com.crazylegend.kotlinextensions.context.getCompatDrawable
 import com.crazylegend.kotlinextensions.context.inputMethodManager
+import com.crazylegend.kotlinextensions.insets.hideKeyboard
+import com.crazylegend.kotlinextensions.insets.showKeyboard
 import com.google.android.material.textfield.TextInputEditText
 import java.net.MalformedURLException
 import java.net.URL
@@ -382,33 +385,16 @@ inline fun EditText.onUnFocused(crossinline block: () -> Unit) {
 }
 
 /**
- * Shows keyboard for this edit text
- */
-fun EditText.showKeyboard() {
-    requestFocus()
-    context.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-}
-
-/**
  * Shows keyboard for this edit text with delay
  *
  * @param delayMillis - delay in milliseconds before keyboard will be shown
  */
 fun EditText.showKeyboardDelayed(delayMillis: Long) {
-    Handler().postDelayed({
+    Handler(Looper.getMainLooper()).postDelayed({
         requestFocus()
         showKeyboard()
     }, delayMillis)
 }
-
-/**
- * Hides keyboard for this edit text
- */
-fun EditText.hideKeyboard() =
-        context.inputMethodManager.hideSoftInputFromWindow(
-                windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
-        )
 
 /**
  * Hides keyboard for this edit text with delay
@@ -416,7 +402,7 @@ fun EditText.hideKeyboard() =
  * @param delayMillis - delay in milliseconds before keyboard will be hided
  */
 fun EditText.hideKeyboardDelayed(delayMillis: Long) =
-        Handler().postDelayed({ hideKeyboard() }, delayMillis)
+        Handler(Looper.getMainLooper()).postDelayed({ hideKeyboard() }, delayMillis)
 
 
 @SuppressLint("ClickableViewAccessibility")

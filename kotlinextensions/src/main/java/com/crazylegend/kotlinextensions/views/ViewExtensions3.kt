@@ -2,6 +2,7 @@ package com.crazylegend.kotlinextensions.views
 
 import android.graphics.Rect
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.crazylegend.kotlinextensions.context.dp2px
@@ -69,3 +70,12 @@ fun View.dp2px(dpValue: Int): Int? {
 fun View.px2dp(pxValue: Int): Float? {
     return context?.px2dp(pxValue)
 }
+
+
+val View.isAppearanceLightNavigationBars
+    get() =
+        ViewCompat.getWindowInsetsController(this)?.isAppearanceLightNavigationBars
+
+val View.isAppearanceLightStatusBars
+    get() =
+        ViewCompat.getWindowInsetsController(this)?.isAppearanceLightStatusBars

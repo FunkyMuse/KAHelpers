@@ -435,26 +435,6 @@ fun Activity.enableFullScreen() {
 }
 
 
-fun Activity?.hideKeyboardForced() {
-    this?.currentFocus?.let { currentFocus ->
-        try {
-            (currentFocus.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        } catch (e: Exception) {
-        }
-    }
-}
-
-fun Activity?.hideKeyboard() {
-    (this?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-}
-
-fun Activity?.showKeyboard() {
-    (this?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-}
-
 fun Activity.keepScreenOn() {
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 }

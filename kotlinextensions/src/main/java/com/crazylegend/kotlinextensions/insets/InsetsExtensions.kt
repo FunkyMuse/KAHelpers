@@ -23,12 +23,18 @@ val View.imeHeight
             .getInsets(WindowInsetsCompat.Type.ime()).bottom
 
 
-@RequiresApi(Build.VERSION_CODES.R)
-fun View.showKeyboard() = windowInsetsController?.show(WindowInsetsCompat.Type.ime())
+fun View.hideKeyboard() {
+    ViewCompat.getWindowInsetsController(this)?.hide(WindowInsetsCompat.Type.ime())
+}
 
-@RequiresApi(Build.VERSION_CODES.R)
-fun View.hideKeyboard() = windowInsetsController?.hide(WindowInsetsCompat.Type.ime())
+fun View.showKeyboard() {
+    ViewCompat.getWindowInsetsController(this)?.show(WindowInsetsCompat.Type.ime())
+}
 
+fun View.showKeyboardAndFocus() {
+    ViewCompat.getWindowInsetsController(this)?.show(WindowInsetsCompat.Type.ime())
+    requestFocus()
+}
 
 fun View.imeVisibilityListener(onVisibilityChanged: (Boolean) -> Unit) {
     ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->

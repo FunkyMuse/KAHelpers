@@ -14,7 +14,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
@@ -552,19 +551,6 @@ fun FragmentManager.applyActions(actions: (fragmentTransaction: FragmentTransact
     commit {
         actions(this)
     }
-}
-
-fun Fragment?.hideKeyboard() {
-    (this?.context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-}
-
-fun Fragment.showKeyboard() {
-    (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager)
-            ?.also { inputMethodManager ->
-                view?.rootView?.apply { post { inputMethodManager.showSoftInput(this, 0) } }
-                        ?: inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-            }
 }
 
 

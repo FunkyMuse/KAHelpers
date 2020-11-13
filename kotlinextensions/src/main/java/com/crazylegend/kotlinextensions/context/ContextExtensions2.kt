@@ -42,30 +42,6 @@ import java.io.File
 
 
 
-fun Context.showKeyboard(toFocus: View) {
-    toFocus.requestFocus()
-    val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    // imm.showSoftInput(toFocus, InputMethodManager.SHOW_IMPLICIT);
-    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
-}
-
-
-fun Context.hideKeyboard() {
-    val activity = this as Activity?
-    if (activity != null) {
-        val inputManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-
-        if (inputManager != null) {
-            val v = this.currentFocus
-            if (v != null) {
-                inputManager.hideSoftInputFromWindow(
-                        v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS
-                )
-            }
-        }
-    }
-}
-
 
 inline fun Context.openEmail(title: String = "Select an email client", onCantHandleAction: () -> Unit = {}) {
     try {
