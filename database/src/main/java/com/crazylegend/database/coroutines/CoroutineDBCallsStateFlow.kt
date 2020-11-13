@@ -84,12 +84,12 @@ inline fun <T : DBResult<T>> CoroutineScope.makeDBCallListStateFlow(stateFlow: M
 }
 
 
-fun <T> CoroutineScope.apiCallStateFlow(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
-                                        initialValue: DBResult<T> = databaseQuerying,
-                                        apiCall: suspend () -> T?): StateFlow<DBResult<T>> =
+fun <T> CoroutineScope.dbCallStateFlow(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
+                                       initialValue: DBResult<T> = databaseQuerying,
+                                       dbCall: suspend () -> T?): StateFlow<DBResult<T>> =
         flow {
             try {
-                emit(databaseSubscribe(apiCall.invoke()))
+                emit(databaseSubscribe(dbCall.invoke()))
             } catch (t: Throwable) {
                 emit(databaseError(t))
             }
@@ -98,10 +98,10 @@ fun <T> CoroutineScope.apiCallStateFlow(sharing: SharingStarted = SharingStarted
         }.stateIn(this, sharing, initialValue)
 
 
-suspend fun <T> CoroutineScope.apiCallStateFlowInScope(apiCall: suspend () -> T?): StateFlow<DBResult<T>> =
+suspend fun <T> CoroutineScope.dbCallStateFlowInScope(dbCall: suspend () -> T?): StateFlow<DBResult<T>> =
         flow {
             try {
-                emit(databaseSubscribe(apiCall.invoke()))
+                emit(databaseSubscribe(dbCall.invoke()))
             } catch (t: Throwable) {
                 emit(databaseError(t))
             }
@@ -110,10 +110,10 @@ suspend fun <T> CoroutineScope.apiCallStateFlowInScope(apiCall: suspend () -> T?
         }.stateIn(this)
 
 
-suspend fun <T> apiCallStateFlowWithinScope(coroutineScope: CoroutineScope, apiCall: suspend () -> T?): StateFlow<DBResult<T>> =
+suspend fun <T> dbCallStateFlowWithinScope(coroutineScope: CoroutineScope, dbCall: suspend () -> T?): StateFlow<DBResult<T>> =
         flow {
             try {
-                emit(databaseSubscribe(apiCall.invoke()))
+                emit(databaseSubscribe(dbCall.invoke()))
             } catch (t: Throwable) {
                 emit(databaseError(t))
             }
@@ -122,29 +122,29 @@ suspend fun <T> apiCallStateFlowWithinScope(coroutineScope: CoroutineScope, apiC
         }.stateIn(coroutineScope)
 
 
-fun <T> CoroutineScope.makeApiCallList(
+fun <T> CoroutineScope.makeDBCallList(
         dbResult: MutableStateFlow<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> T?): Job {
+        dbCall: suspend () -> T?): Job {
 
     dbResult.querying()
 
     return launch(ioDispatcher) {
         try {
-            dbResult.subscribeList(apiCall(), includeEmptyData)
+            dbResult.subscribeList(dbCall(), includeEmptyData)
         } catch (t: Throwable) {
             dbResult.callError(t)
         }
     }
 }
 
-fun <T> CoroutineScope.makeApiCall(
+fun <T> CoroutineScope.makeDBCall(
         dbResult: MutableStateFlow<DBResult<T>>,
-        apiCall: suspend () -> T?): Job {
+        dbCall: suspend () -> T?): Job {
     dbResult.querying()
     return launch(ioDispatcher) {
         try {
-            dbResult.subscribe(apiCall())
+            dbResult.subscribe(dbCall())
         } catch (t: Throwable) {
             dbResult.callError(t)
         }
@@ -152,7 +152,7 @@ fun <T> CoroutineScope.makeApiCall(
 }
 
 
-fun <T> CoroutineScope.makeApiCallList(
+fun <T> CoroutineScope.makeDBCallList(
         response: T?,
         dbResult: MutableStateFlow<DBResult<T>>,
         includeEmptyData: Boolean = true
@@ -168,21 +168,21 @@ fun <T> CoroutineScope.makeApiCallList(
 
 }
 
-fun <T> ViewModel.makeApiCallList(
+fun <T> ViewModel.makeDBCallList(
         dbResult: MutableStateFlow<DBResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> T?): Job {
+        dbCall: suspend () -> T?): Job {
     dbResult.querying()
     return viewModelIOCoroutine {
         try {
-            dbResult.subscribeList(apiCall(), includeEmptyData)
+            dbResult.subscribeList(dbCall(), includeEmptyData)
         } catch (t: Throwable) {
             dbResult.callError(t)
         }
     }
 }
 
-fun <T> CoroutineScope.makeApiCall(
+fun <T> CoroutineScope.makeDBCall(
         response: T?,
         dbResult: MutableStateFlow<DBResult<T>>
 ): Job {
@@ -197,13 +197,13 @@ fun <T> CoroutineScope.makeApiCall(
 
 }
 
-fun <T> ViewModel.makeApiCall(
+fun <T> ViewModel.makeDBCall(
         dbResult: MutableStateFlow<DBResult<T>>,
-        apiCall: suspend () -> T?): Job {
+        dbCall: suspend () -> T?): Job {
     dbResult.querying()
     return viewModelIOCoroutine {
         try {
-            dbResult.subscribe(apiCall())
+            dbResult.subscribe(dbCall())
         } catch (t: Throwable) {
             dbResult.callError(t)
         }
@@ -211,16 +211,16 @@ fun <T> ViewModel.makeApiCall(
 }
 
 
-fun <T> CoroutineScope.makeApiCallAsync(
+fun <T> CoroutineScope.makeDBCallAsync(
         dbResult: MutableStateFlow<DBResult<T>>,
-        apiCall: suspend () -> T?): Job {
+        dbCall: suspend () -> T?): Job {
 
     return launch(mainDispatcher) {
         supervisorScope {
             dbResult.querying()
             try {
                 val task = async(ioDispatcher) {
-                    apiCall()
+                    dbCall()
                 }
                 dbResult.subscribe(task.await())
             } catch (t: Throwable) {

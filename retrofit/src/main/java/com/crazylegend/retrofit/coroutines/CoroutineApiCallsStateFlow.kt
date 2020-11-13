@@ -161,13 +161,13 @@ fun <T> CoroutineScope.makeApiCallAsync(
     }
 }
 
-inline fun <T : RetrofitResult<T>> ViewModel.makeDBCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline dbCall: suspend () -> Response<T>?) {
+inline fun <T : RetrofitResult<T>> ViewModel.makeApiCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>?) {
     viewModelScope.launch {
         supervisorScope {
             stateFlow.value = retrofitLoading
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    apiCall()
                 }
                 stateFlow.value = retrofitSubscribe(task.await())
             } catch (t: Throwable) {
@@ -177,15 +177,15 @@ inline fun <T : RetrofitResult<T>> ViewModel.makeDBCallStateFlow(stateFlow: Muta
     }
 }
 
-inline fun <T : RetrofitResult<T>> ViewModel.makeDBCallListStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>,
-                                                                     includeEmptyData: Boolean = false,
-                                                                     crossinline dbCall: suspend () -> Response<T>?) {
+inline fun <T : RetrofitResult<T>> ViewModel.makeApiCallListStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>,
+                                                                      includeEmptyData: Boolean = false,
+                                                                      crossinline apiCall: suspend () -> Response<T>?) {
     viewModelScope.launch {
         supervisorScope {
             stateFlow.value = retrofitLoading
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    apiCall()
                 }
                 stateFlow.value = retrofitSubscribeList(task.await(), includeEmptyData)
             } catch (t: Throwable) {
@@ -195,7 +195,7 @@ inline fun <T : RetrofitResult<T>> ViewModel.makeDBCallListStateFlow(stateFlow: 
     }
 }
 
-inline fun <T : RetrofitResult<T>> CoroutineScope.makeDBCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline dbCall: suspend () -> Response<T>?) {
+inline fun <T : RetrofitResult<T>> CoroutineScope.makeApiCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>?) {
 
     launch {
         supervisorScope {
@@ -203,7 +203,7 @@ inline fun <T : RetrofitResult<T>> CoroutineScope.makeDBCallStateFlow(stateFlow:
 
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    apiCall()
                 }
                 stateFlow.value = retrofitSubscribe(task.await())
             } catch (t: Throwable) {
@@ -213,15 +213,15 @@ inline fun <T : RetrofitResult<T>> CoroutineScope.makeDBCallStateFlow(stateFlow:
     }
 }
 
-inline fun <T : RetrofitResult<T>> CoroutineScope.makeDBCallListStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>,
-                                                                          includeEmptyData: Boolean = false,
-                                                                          crossinline dbCall: suspend () -> Response<T>?) {
+inline fun <T : RetrofitResult<T>> CoroutineScope.makeApiCallListStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>,
+                                                                           includeEmptyData: Boolean = false,
+                                                                           crossinline apiCall: suspend () -> Response<T>?) {
     launch {
         supervisorScope {
             stateFlow.value = retrofitLoading
             try {
                 val task = async(ioDispatcher) {
-                    dbCall()
+                    apiCall()
                 }
                 stateFlow.value = retrofitSubscribeList(task.await(), includeEmptyData)
             } catch (t: Throwable) {
