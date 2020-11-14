@@ -1,7 +1,8 @@
 package com.crazylegend.biometrics
 
-import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.*
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -13,14 +14,14 @@ import java.util.concurrent.Executors
  */
 
 /**
- * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
+ * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't blame the API or the function
  * if you get a weird result code that you forgot to handle, peace.
  */
-fun FragmentActivity.biometricAuth(
+inline fun FragmentActivity.biometricAuth(
         promptInfo: BiometricPrompt.PromptInfo,
-        onAuthFailed: () -> Unit,
-        onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
-        onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
+        crossinline onAuthFailed: () -> Unit,
+        crossinline onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
+        crossinline onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
     val executor = Executors.newSingleThreadExecutor()
 
     val biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
@@ -45,14 +46,14 @@ fun FragmentActivity.biometricAuth(
 }
 
 /**
- * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
+ * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't blame the API or the function
  * if you get a weird result code that you forgot to handle, peace.
  */
-fun Fragment.biometricAuth(
+inline fun Fragment.biometricAuth(
         promptInfo: BiometricPrompt.PromptInfo,
-        onAuthFailed: () -> Unit,
-        onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
-        onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
+        crossinline onAuthFailed: () -> Unit,
+        crossinline onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
+        crossinline onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
     val executor = Executors.newSingleThreadExecutor()
 
     val biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
@@ -77,8 +78,12 @@ fun Fragment.biometricAuth(
 }
 
 
-fun FragmentActivity.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFingerprintsEnrolled: () -> Unit = {}, canAuthenticateAction: () -> Unit = {}) {
-    when (BiometricManager.from(this).canAuthenticate()) {
+inline fun FragmentActivity.canAuthenticate(
+        type: Int = DEVICE_CREDENTIAL or BIOMETRIC_STRONG,
+        hardwareUnavailable: () -> Unit = {},
+        securityUpdateNeeded: () -> Unit = {},
+        noFingerprintsEnrolled: () -> Unit = {}, canAuthenticateAction: () -> Unit = {}) {
+    when (from(this).canAuthenticate(type)) {
         BIOMETRIC_SUCCESS -> {
             canAuthenticateAction()
         }
@@ -90,13 +95,25 @@ fun FragmentActivity.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFin
         }
 
         BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+            hardwareUnavailable()
+        }
+        BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+            securityUpdateNeeded()
+        }
+        BIOMETRIC_ERROR_UNSUPPORTED -> {
+            hardwareUnavailable()
+        }
+        BIOMETRIC_STATUS_UNKNOWN -> {
             hardwareUnavailable()
         }
     }
 }
 
-fun Fragment.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFingerprintsEnrolled: () -> Unit = {}, canAuthenticateAction: () -> Unit) {
-    when (BiometricManager.from(requireContext()).canAuthenticate()) {
+inline fun Fragment.canAuthenticate(type: Int = DEVICE_CREDENTIAL or BIOMETRIC_STRONG,
+                                    hardwareUnavailable: () -> Unit = {},
+                                    securityUpdateNeeded: () -> Unit = {},
+                                    noFingerprintsEnrolled: () -> Unit = {}, canAuthenticateAction: () -> Unit = {}) {
+    when (from(requireContext()).canAuthenticate(type)) {
         BIOMETRIC_SUCCESS -> {
             canAuthenticateAction()
         }
@@ -106,7 +123,17 @@ fun Fragment.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFingerprint
         BIOMETRIC_ERROR_NO_HARDWARE -> {
             hardwareUnavailable()
         }
+
         BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+            hardwareUnavailable()
+        }
+        BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+            securityUpdateNeeded()
+        }
+        BIOMETRIC_ERROR_UNSUPPORTED -> {
+            hardwareUnavailable()
+        }
+        BIOMETRIC_STATUS_UNKNOWN -> {
             hardwareUnavailable()
         }
     }
@@ -114,14 +141,14 @@ fun Fragment.canAuthenticate(hardwareUnavailable: () -> Unit = {}, noFingerprint
 
 
 /**
- * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
+ * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't blame the API or the function
  * if you get a weird result code that you forgot to handle, peace.
  */
-fun Fragment.biometricAuth(
+inline fun Fragment.biometricAuth(
         promptInfoAction: BiometricPrompt.PromptInfo.Builder.() -> BiometricPrompt.PromptInfo.Builder,
-        onAuthFailed: () -> Unit,
-        onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
-        onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
+        crossinline onAuthFailed: () -> Unit,
+        crossinline onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
+        crossinline onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
     val executor = Executors.newSingleThreadExecutor()
 
     val promptInfo = BiometricPrompt.PromptInfo.Builder()
@@ -150,14 +177,14 @@ fun Fragment.biometricAuth(
 
 
 /**
- * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't do stupid shit and blame the API or function
+ * Use [canAuthenticate] before calling this function, just to see if the user can be authenticated, don't blame the API or the function
  * if you get a weird result code that you forgot to handle, peace.
  */
-fun FragmentActivity.biometricAuth(
+inline fun FragmentActivity.biometricAuth(
         promptInfoAction: BiometricPrompt.PromptInfo.Builder.() -> BiometricPrompt.PromptInfo.Builder,
-        onAuthFailed: () -> Unit,
-        onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
-        onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
+        crossinline onAuthFailed: () -> Unit,
+        crossinline onAuthError: (errorCode: Int, errorMessage: String) -> Unit = { _, _ -> },
+        crossinline onAuthSuccess: (result: BiometricPrompt.AuthenticationResult) -> Unit = { _ -> }): BiometricPrompt {
     val executor = Executors.newSingleThreadExecutor()
 
     val promptInfo = BiometricPrompt.PromptInfo.Builder()
