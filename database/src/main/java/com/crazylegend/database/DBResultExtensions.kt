@@ -2,6 +2,7 @@ package com.crazylegend.database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 
@@ -283,4 +284,62 @@ fun <T> MutableStateFlow<DBResult<T>>.callError(throwable: Throwable) {
 
 fun <T> MutableStateFlow<DBResult<T>>.success(model: T) {
     value = databaseSuccess(model)
+}
+
+
+suspend fun <T> MutableSharedFlow<DBResult<T>>.querying() {
+    emit(databaseQuerying)
+}
+
+
+suspend fun <T> MutableSharedFlow<DBResult<T>>.emptyData() {
+    emit(databaseEmptyDB)
+}
+
+
+suspend fun <T> MutableSharedFlow<DBResult<T>>.subscribe(queryModel: T?, includeEmptyData: Boolean = false) {
+    if (includeEmptyData) {
+        if (queryModel == null) {
+            emit(databaseEmptyDB)
+        } else {
+            emit(databaseSuccess(queryModel))
+        }
+    } else {
+        queryModel?.apply {
+            emit(databaseSuccess(this))
+        }
+    }
+}
+
+
+suspend fun <T> MutableSharedFlow<DBResult<T>>.subscribeList(queryModel: T?, includeEmptyData: Boolean = false) {
+    if (includeEmptyData) {
+        if (queryModel == null) {
+            emit(databaseEmptyDB)
+        } else {
+            if (this is List<*>) {
+                val list = this as List<*>
+                if (list.isNullOrEmpty()) {
+                    emit(databaseEmptyDB)
+                } else {
+                    emit(databaseSuccess(queryModel))
+                }
+            } else {
+                emit(databaseSuccess(queryModel))
+            }
+        }
+    } else {
+        queryModel?.apply {
+            emit(databaseSuccess(this))
+        }
+    }
+}
+
+
+suspend fun <T> MutableSharedFlow<DBResult<T>>.callError(throwable: Throwable) {
+    emit(databaseError(throwable))
+}
+
+suspend fun <T> MutableSharedFlow<DBResult<T>>.success(model: T) {
+    emit(databaseSuccess(model))
 }

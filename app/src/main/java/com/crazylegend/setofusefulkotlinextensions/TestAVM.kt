@@ -1,14 +1,17 @@
 package com.crazylegend.setofusefulkotlinextensions
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.crazylegend.retrofit.RetrofitClient
-import com.crazylegend.retrofit.coroutines.apiCallStateFlow
+import com.crazylegend.retrofit.coroutines.makeApiCallListSharedFlow
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
-import com.crazylegend.retrofit.retrofitResult.getSuccess
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import retrofit2.create
 
 
@@ -22,8 +25,11 @@ import retrofit2.create
 
 class TestAVM(application: Application, testModel: TestModel, key: Int, string: String) : AndroidViewModel(application) {
 
-    private val postsData: MediatorLiveData<RetrofitResult<List<TestModel>>> = MediatorLiveData()
-    val posts: LiveData<RetrofitResult<List<TestModel>>> = postsData
+    /*private val postsData: MediatorLiveData<RetrofitResult<List<TestModel>>> = MediatorLiveData()
+    val posts: LiveData<RetrofitResult<List<TestModel>>> = postsData*/
+
+    private val postsData: MutableSharedFlow<RetrofitResult<List<TestModel>>> = MutableSharedFlow()
+    val posts: SharedFlow<RetrofitResult<List<TestModel>>> = postsData
 
     private val filteredPostsData: MutableLiveData<List<TestModel>> = MutableLiveData()
     val filteredPosts: LiveData<List<TestModel>> = filteredPostsData
@@ -31,14 +37,17 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     private val compositeDisposable = CompositeDisposable()
 
     //val apiTest =  apiCallAsFlow { retrofit.getPosts() }
-    val apiTestState = getposts()
 
-    fun getposts() = viewModelScope.apiCallStateFlow { retrofit.getPosts() }
+    fun getposts() {
+        makeApiCallListSharedFlow(postsData) {
+            retrofit.getPosts()
+        }
+    }
 
     fun filterBy(query: String) {
-        filteredPostsData.value = postsData.getSuccess?.filter {
+        /*filteredPostsData.value = postsData.getSuccess?.filter {
             it.title.contains(query, true)
-        }
+        }*/
     }
 
 
@@ -52,7 +61,7 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     }
 
     init {
-        // getposts()
+        getposts()
     }
 }
 

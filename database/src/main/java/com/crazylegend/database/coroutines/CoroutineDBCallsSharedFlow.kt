@@ -13,80 +13,80 @@ import kotlinx.coroutines.flow.*
  * Created by crazy on 11/10/20 to long live and prosper !
  */
 
-inline fun <T> ViewModel.makeDBCallStateFlow(stateFlow: MutableStateFlow<DBResult<T>>, crossinline dbCall: suspend () -> T) {
+inline fun <T> ViewModel.makeDBCallSharedFlow(sharedFlow: MutableSharedFlow<DBResult<T>>, crossinline dbCall: suspend () -> T) {
     viewModelScope.launch {
         supervisorScope {
-            stateFlow.value = DBResult.Querying
+            sharedFlow.emit(DBResult.Querying)
             try {
                 val task = async(ioDispatcher) {
                     dbCall()
                 }
-                stateFlow.value = databaseSubscribe(task.await())
+                sharedFlow.emit(databaseSubscribe(task.await()))
             } catch (t: Throwable) {
-                stateFlow.value = databaseError(t)
+                sharedFlow.emit(databaseError(t))
             }
         }
     }
 }
 
-inline fun <T> ViewModel.makeDBCallListStateFlow(stateFlow: MutableStateFlow<DBResult<T>>,
-                                                 includeEmptyData: Boolean = false,
-                                                 crossinline dbCall: suspend () -> T) {
+inline fun <T> ViewModel.makeDBCallListSharedFlow(sharedFlow: MutableSharedFlow<DBResult<T>>,
+                                                  includeEmptyData: Boolean = false,
+                                                  crossinline dbCall: suspend () -> T) {
     viewModelScope.launch {
         supervisorScope {
-            stateFlow.value = DBResult.Querying
+            sharedFlow.emit(DBResult.Querying)
             try {
                 val task = async(ioDispatcher) {
                     dbCall()
                 }
-                stateFlow.value = databaseSubscribeList(task.await(), includeEmptyData)
+                sharedFlow.emit(databaseSubscribeList(task.await(), includeEmptyData))
             } catch (t: Throwable) {
-                stateFlow.value = databaseError(t)
+                sharedFlow.emit(databaseError(t))
             }
         }
     }
 }
 
-inline fun <T> CoroutineScope.makeDBCallStateFlow(stateFlow: MutableStateFlow<DBResult<T>>, crossinline dbCall: suspend () -> T) {
+inline fun <T> CoroutineScope.makeDBCallSharedFlow(sharedFlow: MutableSharedFlow<DBResult<T>>, crossinline dbCall: suspend () -> T) {
 
     launch {
         supervisorScope {
-            stateFlow.value = DBResult.Querying
+            sharedFlow.emit(DBResult.Querying)
 
             try {
                 val task = async(ioDispatcher) {
                     dbCall()
                 }
-                stateFlow.value = databaseSubscribe(task.await())
+                sharedFlow.emit(databaseSubscribe(task.await()))
             } catch (t: Throwable) {
-                stateFlow.value = databaseError(t)
+                sharedFlow.emit(databaseError(t))
             }
         }
     }
 }
 
-inline fun <T> CoroutineScope.makeDBCallListStateFlow(stateFlow: MutableStateFlow<DBResult<T>>,
-                                                      includeEmptyData: Boolean = false,
-                                                      crossinline dbCall: suspend () -> T) {
+inline fun <T> CoroutineScope.makeDBCallListSharedFlow(sharedFlow: MutableSharedFlow<DBResult<T>>,
+                                                       includeEmptyData: Boolean = false,
+                                                       crossinline dbCall: suspend () -> T) {
     launch {
         supervisorScope {
-            stateFlow.value = DBResult.Querying
+            sharedFlow.emit(DBResult.Querying)
             try {
                 val task = async(ioDispatcher) {
                     dbCall()
                 }
-                stateFlow.value = databaseSubscribeList(task.await(), includeEmptyData)
+                sharedFlow.emit(databaseSubscribeList(task.await(), includeEmptyData))
             } catch (t: Throwable) {
-                stateFlow.value = databaseError(t)
+                sharedFlow.emit(databaseError(t))
             }
         }
     }
 }
 
 
-fun <T> CoroutineScope.dbCallStateFlow(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
-                                       initialValue: DBResult<T> = databaseQuerying,
-                                       dbCall: suspend () -> T?): StateFlow<DBResult<T>> =
+fun <T> CoroutineScope.dbCallSharedFlow(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
+                                        replay: Int = 0,
+                                        dbCall: suspend () -> T?): SharedFlow<DBResult<T>> =
         flow {
             try {
                 emit(databaseSubscribe(dbCall.invoke()))
@@ -95,10 +95,11 @@ fun <T> CoroutineScope.dbCallStateFlow(sharing: SharingStarted = SharingStarted.
             }
         }.onStart {
             emit(databaseQuerying)
-        }.stateIn(this, sharing, initialValue)
+        }.shareIn(this, sharing, replay)
 
 
-suspend fun <T> CoroutineScope.dbCallStateFlowInScope(dbCall: suspend () -> T?): StateFlow<DBResult<T>> =
+suspend fun <T> CoroutineScope.dbCallSharedFlowInScope(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
+                                                       replay: Int = 0, dbCall: suspend () -> T?): SharedFlow<DBResult<T>> =
         flow {
             try {
                 emit(databaseSubscribe(dbCall.invoke()))
@@ -107,10 +108,13 @@ suspend fun <T> CoroutineScope.dbCallStateFlowInScope(dbCall: suspend () -> T?):
             }
         }.onStart {
             emit(databaseQuerying)
-        }.stateIn(this)
+        }.shareIn(this, sharing, replay)
 
 
-suspend fun <T> dbCallStateFlowWithinScope(coroutineScope: CoroutineScope, dbCall: suspend () -> T?): StateFlow<DBResult<T>> =
+suspend fun <T> dbCallSharedFlowWithinScope(coroutineScope: CoroutineScope,
+                                            sharing: SharingStarted = SharingStarted.WhileSubscribed(),
+                                            replay: Int = 0,
+                                            dbCall: suspend () -> T?): SharedFlow<DBResult<T>> =
         flow {
             try {
                 emit(databaseSubscribe(dbCall.invoke()))
@@ -119,17 +123,17 @@ suspend fun <T> dbCallStateFlowWithinScope(coroutineScope: CoroutineScope, dbCal
             }
         }.onStart {
             emit(databaseQuerying)
-        }.stateIn(coroutineScope)
+        }.shareIn(coroutineScope, sharing, replay)
 
 
 fun <T> CoroutineScope.makeDBCallList(
-        dbResult: MutableStateFlow<DBResult<T>>,
+        dbResult: MutableSharedFlow<DBResult<T>>,
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
 
-    dbResult.querying()
-
     return launch(ioDispatcher) {
+        dbResult.querying()
+
         try {
             dbResult.subscribeList(dbCall(), includeEmptyData)
         } catch (t: Throwable) {
@@ -139,10 +143,11 @@ fun <T> CoroutineScope.makeDBCallList(
 }
 
 fun <T> CoroutineScope.makeDBCall(
-        dbResult: MutableStateFlow<DBResult<T>>,
+        dbResult: MutableSharedFlow<DBResult<T>>,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
+
     return launch(ioDispatcher) {
+        dbResult.querying()
         try {
             dbResult.subscribe(dbCall())
         } catch (t: Throwable) {
@@ -154,11 +159,12 @@ fun <T> CoroutineScope.makeDBCall(
 
 fun <T> CoroutineScope.makeDBCallList(
         response: T?,
-        dbResult: MutableStateFlow<DBResult<T>>,
+        dbResult: MutableSharedFlow<DBResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
-    dbResult.querying()
+
     return launch(ioDispatcher) {
+        dbResult.querying()
         try {
             dbResult.subscribeList(response, includeEmptyData)
         } catch (t: Throwable) {
@@ -169,11 +175,12 @@ fun <T> CoroutineScope.makeDBCallList(
 }
 
 fun <T> ViewModel.makeDBCallList(
-        dbResult: MutableStateFlow<DBResult<T>>,
+        dbResult: MutableSharedFlow<DBResult<T>>,
         includeEmptyData: Boolean = true,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
     return viewModelIOCoroutine {
+        dbResult.querying()
+
         try {
             dbResult.subscribeList(dbCall(), includeEmptyData)
         } catch (t: Throwable) {
@@ -184,10 +191,11 @@ fun <T> ViewModel.makeDBCallList(
 
 fun <T> CoroutineScope.makeDBCall(
         response: T?,
-        dbResult: MutableStateFlow<DBResult<T>>
+        dbResult: MutableSharedFlow<DBResult<T>>
 ): Job {
-    dbResult.querying()
+
     return launch(ioDispatcher) {
+        dbResult.querying()
         try {
             dbResult.subscribe(response)
         } catch (t: Throwable) {
@@ -198,10 +206,10 @@ fun <T> CoroutineScope.makeDBCall(
 }
 
 fun <T> ViewModel.makeDBCall(
-        dbResult: MutableStateFlow<DBResult<T>>,
+        dbResult: MutableSharedFlow<DBResult<T>>,
         dbCall: suspend () -> T?): Job {
-    dbResult.querying()
     return viewModelIOCoroutine {
+        dbResult.querying()
         try {
             dbResult.subscribe(dbCall())
         } catch (t: Throwable) {
@@ -212,7 +220,7 @@ fun <T> ViewModel.makeDBCall(
 
 
 fun <T> CoroutineScope.makeDBCallAsync(
-        dbResult: MutableStateFlow<DBResult<T>>,
+        dbResult: MutableSharedFlow<DBResult<T>>,
         dbCall: suspend () -> T?): Job {
 
     return launch(mainDispatcher) {

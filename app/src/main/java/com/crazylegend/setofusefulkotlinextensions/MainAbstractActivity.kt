@@ -28,6 +28,7 @@ import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_I
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
 import com.crazylegend.kotlinextensions.transition.utils.plusAssign
 import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
+import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 import com.crazylegend.recyclerview.*
 import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
@@ -42,7 +43,6 @@ import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBindi
 import com.crazylegend.viewbinding.viewBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.io.File
 
 class MainAbstractActivity : AppCompatActivity() {
@@ -100,33 +100,12 @@ class MainAbstractActivity : AppCompatActivity() {
         debug("SECURITY isEmulator ${isEmulator()}")
         debug("SECURITY getShaSignature ${getShaSignature(BuildConfig.APPLICATION_ID)}")
 
-
-        /*canAuthenticate(hardwareUnavailable = {
-            //some message about hardware missing
-        }, noFingerprintsEnrolled = {
-            //make user action to enroll fingerprints
-        }) {
-            biometricAuth(promptInfoAction = {
-                setTitle("Verification required")
-                setSubtitle("Action paused")
-                setDescription("Please verify your identity to proceed with the action")
-                setDeviceCredentialAllowed(true)
-                this
-            }, onAuthFailed = {
-                //auth failed action
-            }, onAuthError = { errorCode, errorMessage ->
-                //handle auth error message and codes
-
-            }) {
-                //handle successful authentication
-            }
-        }*/
-
-        activityMainBinding.test.setOnClickListener {
-            lifecycleScope.launch {
-                testAVM.getposts().collect {
-                    updateUI(it)
-                }
+        activityMainBinding.test.setOnClickListenerCooldown {
+            testAVM.getposts()
+        }
+        lifecycleScope.launchWhenResumed {
+            testAVM.posts.collect {
+                updateUI(it)
             }
         }
 
@@ -174,12 +153,6 @@ class MainAbstractActivity : AppCompatActivity() {
             }
             EdgeToEdge.setUpAppBar(activityMainBinding.appBar, activityMainBinding.toolbar)
             EdgeToEdge.setUpScrollingContent(activityMainBinding.recycler)
-        }
-
-        lifecycleScope.launchWhenResumed {
-            testAVM.apiTestState.collect {
-                updateUI(it)
-            }
         }
 
 

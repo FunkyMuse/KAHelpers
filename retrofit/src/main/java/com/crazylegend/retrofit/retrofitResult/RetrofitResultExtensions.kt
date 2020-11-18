@@ -3,6 +3,7 @@ package com.crazylegend.retrofit.retrofitResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.crazylegend.retrofit.errorResponseCodeMessage
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -389,3 +390,34 @@ fun <T> MutableStateFlow<RetrofitResult<T>>.success(model: T) {
 fun <T> MutableStateFlow<RetrofitResult<T>>.apiError(code: Int, errorBody: ResponseBody?) {
     value = retrofitApiError(code, errorBody)
 }
+
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.loading() {
+    emit(retrofitLoading)
+}
+
+
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.emptyData() {
+    emit(retrofitEmptyData)
+}
+
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.subscribe(response: Response<T>?) {
+    emit(retrofitSubscribe(response))
+}
+
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+    emit(retrofitSubscribeList(response, includeEmptyData))
+}
+
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.callError(throwable: Throwable) {
+    emit(retrofitCallError(throwable))
+}
+
+
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.success(model: T) {
+    emit(retrofitSuccess(model))
+}
+
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.apiError(code: Int, errorBody: ResponseBody?) {
+    emit(retrofitApiError(code, errorBody))
+}
+
