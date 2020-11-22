@@ -4,7 +4,7 @@
 
 ### Android extensions and helper classes for easier Kotlin development
 
-[![](https://jitpack.io/v/CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers.svg)](https://jitpack.io/#CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers)
+[![]([![](https://jitpack.io/v/FunkyMuse/KAHelpers.svg)](https://jitpack.io/#FunkyMuse/KAHelpers))
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.4.10-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) [![sad](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)]( https://twitter.com/intent/tweet?url=https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Fhttps%3A%2F%2Fgithub.com%2FCraZyLegenD%2FSet-Of-Useful-Kotlin-Extensions-and-Helpers&text=Kotlin%20Extensions%20and%20Class%20Helpers)
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
@@ -29,58 +29,58 @@ dependencies {
     def utilsVersion = "2.1.10" // or check the latest from jitpack
     
     //biometrics
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:biometrics:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:biometrics:$utilsVersion"
     
     //coroutines
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:coroutines:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:coroutines:$utilsVersion"
     
     //customviews
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:customviews:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:customviews:$utilsVersion"
     
     //data structures and algorithms
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:dataStructuresAndAlgorithms:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:dataStructuresAndAlgorithms:$utilsVersion"
     
     //database handlers
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:database:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:database:$utilsVersion"
     
     //glide
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:glide:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:glide:$utilsVersion"
     
     //gson
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:gson:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:gson:$utilsVersion"
     
     //Joda Date Time
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:jodaDateTime:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:jodaDateTime:$utilsVersion"
     
     //the most basic extensions that rely on the basic Android APIs such as context, content providers etc...
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:kotlinextensions:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:kotlinextensions:$utilsVersion"
     
     //moshi
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:moshi:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:moshi:$utilsVersion"
     
     //navigation component
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:navigation:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:navigation:$utilsVersion"
     
     //recyclerview
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:recyclerview:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:recyclerview:$utilsVersion"
     
     //reflection
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:reflection:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:reflection:$utilsVersion"
     
     //retrofit
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:retrofit:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:retrofit:$utilsVersion"
     
     //RxJava3
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:rx:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:rx:$utilsVersion"
     
     //RxBindings 3
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:rxbindings:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:rxbindings:$utilsVersion"
     
     //security
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:security:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:security:$utilsVersion"
     
     //viewbinding
-    implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:viewbinding:$utilsVersion"
+    implementation "com.github.FunkyMuse:KAHelpers:viewbinding:$utilsVersion"
     
   }
 ```
