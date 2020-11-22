@@ -233,12 +233,12 @@ fun View.fadeOut(duration: Long) {
  * inflated and measured.
  *
  */
-inline fun <T : View> T.afterMeasured(crossinline f: T.() -> Unit) {
+inline fun <T : View> T.afterMeasured(crossinline function: T.() -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             if (measuredWidth > 0 && measuredHeight > 0) {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
-                f()
+                function()
             }
         }
     })

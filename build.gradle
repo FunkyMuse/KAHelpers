@@ -122,15 +122,11 @@ subprojects {
         }
 
         buildFeatures {
-
-            // Determines whether to generate binder classes for your AIDL files.
             aidl = false
-            // Determines whether to support RenderScript.
             renderScript = false
-            // Determines whether to support injecting custom variables into the module’s R class.
             resValues = false
-            // Determines whether to support shader AOT compilation.
             shaders = false
+            buildConfig = false
         }
 
         testOptions.unitTests {

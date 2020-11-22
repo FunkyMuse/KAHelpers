@@ -644,3 +644,23 @@ fun RecyclerView.setAppBarElevationListener(appBar: AppBarLayout, elevation: Flo
         }
     })
 }
+
+fun RecyclerView.smoothSnapToPosition(position: Int, performClick: Boolean = true) {
+    val smoothScroller = object : LinearSmoothScroller(context) {
+        override fun getVerticalSnapPreference(): Int {
+            return SNAP_TO_START
+        }
+
+        override fun getHorizontalSnapPreference(): Int {
+            return SNAP_TO_START
+        }
+
+        override fun onStop() {
+            super.onStop()
+            if (performClick)
+                findViewHolderForAdapterPosition(position)?.itemView?.performClick()
+        }
+    }
+    smoothScroller.targetPosition = position
+    layoutManager?.startSmoothScroll(smoothScroller)
+}

@@ -1,12 +1,21 @@
 package com.crazylegend.kotlinextensions.views
 
+import android.animation.Animator
+import android.animation.ValueAnimator
 import android.graphics.Rect
 import android.view.View
+import android.view.ViewAnimationUtils
+import androidx.annotation.ColorRes
+import androidx.core.animation.doOnEnd
 import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.crazylegend.kotlinextensions.context.dp2px
+import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.px2dp
+import com.google.android.material.animation.ArgbEvaluatorCompat
+import kotlin.math.max
 
 
 /**
@@ -79,3 +88,37 @@ val View.isAppearanceLightNavigationBars
 val View.isAppearanceLightStatusBars
     get() =
         ViewCompat.getWindowInsetsController(this)?.isAppearanceLightStatusBars
+
+fun View.createCircularReveal(
+        revealDuration: Long = 1500L,
+        centerX: Int = 0,
+        centerY: Int = 0,
+        @ColorRes startColor: Int,
+        @ColorRes endColor: Int,
+        showAtEnd: Boolean = true): Animator {
+
+    val radius = max(width, height).toFloat()
+    val startRadius = if (showAtEnd) 0f else radius
+    val finalRadius = if (showAtEnd) radius else 0f
+
+    val animator =
+            ViewAnimationUtils.createCircularReveal(this, centerX, centerY, startRadius, finalRadius).apply {
+                interpolator = FastOutSlowInInterpolator()
+                duration = revealDuration
+                doOnEnd {
+                    isVisible = showAtEnd
+                }
+                start()
+            }
+
+
+    ValueAnimator().apply {
+        setIntValues(context.getCompatColor(startColor), context.getCompatColor(endColor))
+        setEvaluator(ArgbEvaluatorCompat())
+        addUpdateListener { valueAnimator -> setBackgroundColor((valueAnimator.animatedValue as Int)) }
+        duration = revealDuration
+
+        start()
+    }
+    return animator
+}
