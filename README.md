@@ -1,6 +1,6 @@
 
 
-# Set Of Useful Kotlin Extensions and Helpers
+# KAHelpers
 
 ### Android extensions and helper classes for easier Kotlin development
 
