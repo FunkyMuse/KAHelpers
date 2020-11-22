@@ -1,6 +1,6 @@
 # Data structures and algorithms
 
-[![](https://jitpack.io/v/CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers.svg)](https://jitpack.io/#CraZyLegenD/Set-Of-Useful-Kotlin-Extensions-and-Helpers)
+[![](https://jitpack.io/v/FunkyMuse/KAHelpers.svg)](https://jitpack.io/#FunkyMuse/KAHelpers)
 
 
 ## Usage
@@ -20,6 +20,6 @@ allprojects {
 ```gradle
 dependencies {
 
-implementation "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:dataStructuresAndAlgorithms:$utilsVersion"
+implementation "com.github.FunkyMuse.KAHelpers:dataStructuresAndAlgorithms:$utilsVersion"
 
 }
