@@ -19,6 +19,7 @@ import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.delegates.activityAVM
+import com.crazylegend.kotlinextensions.effects.circularRevealEnter
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
@@ -96,12 +97,12 @@ class MainAbstractActivity : AppCompatActivity() {
         debug("SECURITY isDebuggable ${isDebuggable()}")
         debug("SECURITY isDebuggerAttached ${isDebuggerAttached()}")
         debug("SECURITY zygoteCallCount ${zygoteCallCount()}")
-        debug("SECURITY getSingInfoMD5 ${getSingInfoMD5(BuildConfig.APPLICATION_ID)}")
+        debug("SECURITY getSingInfoMD5 ${getSingInfoMD5("com.crazylegend.setofusefulkotlinextensions")}")
         debug("SECURITY isEmulator ${isEmulator()}")
-        debug("SECURITY getShaSignature ${getShaSignature(BuildConfig.APPLICATION_ID)}")
+        debug("SECURITY getShaSignature ${getShaSignature("com.crazylegend.setofusefulkotlinextensions")}")
 
         activityMainBinding.test.setOnClickListenerCooldown {
-            testAVM.getposts()
+            it.circularRevealEnter()
         }
         lifecycleScope.launchWhenResumed {
             testAVM.posts.collect {

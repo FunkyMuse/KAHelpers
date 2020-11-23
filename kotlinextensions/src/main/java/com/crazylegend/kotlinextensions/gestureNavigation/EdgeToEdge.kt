@@ -83,8 +83,7 @@ insets
 }
 
  */
-object EdgeToEdge
-    : EdgeToEdgeImpl by if (Build.VERSION.SDK_INT >= 21) EdgeToEdgeApi21() else EdgeToEdgeBase()
+object EdgeToEdge : EdgeToEdgeImpl by EdgeToEdgeApi21()
 
 private interface EdgeToEdgeImpl {
 
@@ -92,18 +91,17 @@ private interface EdgeToEdgeImpl {
      * Configures a root view of an Activity in edge-to-edge display.
      * @param root A root view of an Activity.
      */
-    fun setUpRoot(root: ViewGroup) {}
+    fun setUpRoot(root: ViewGroup)
 
     @RequiresApi(Build.VERSION_CODES.R)
-    fun setUpRoot(activity: Activity, root: ViewGroup, @ColorRes navBarColor: Int = android.R.color.transparent) {
-    }
+    fun setUpRoot(activity: Activity, root: ViewGroup, @ColorRes navBarColor: Int = android.R.color.transparent)
 
     /**
      * Configures an app bar and a toolbar for edge-to-edge display.
      * @param appBar An [AppBarLayout].
      * @param toolbar A [Toolbar] in the [appBar].
      */
-    fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {}
+    fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar)
 
     /**
      * Configures a scrolling content for edge-to-edge display.
@@ -111,17 +109,16 @@ private interface EdgeToEdgeImpl {
      * ScrollView. It should be as wide as the screen, and should touch the bottom edge of
      * the screen.
      */
-    fun setUpScrollingContent(scrollingContent: ViewGroup) {}
+    fun setUpScrollingContent(scrollingContent: ViewGroup, includePaddingBottom: Boolean = false)
 
     /**
      * Tell the window that we want to handle/fit any system windows
      */
-    fun setDecorFitsSystemWindows(window: Window, setDecor: Boolean = true) {}
+    fun setDecorFitsSystemWindows(window: Window, setDecor: Boolean = true)
+    fun setDecorFitsSystemWindows(activity: Activity, setDecor: Boolean = true)
 }
 
-private class EdgeToEdgeBase : EdgeToEdgeImpl
-
-@RequiresApi(21)
+@Suppress("DEPRECATION")
 private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
     override fun setUpRoot(root: ViewGroup) {
@@ -161,27 +158,39 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         }
     }
 
+    override fun setDecorFitsSystemWindows(activity: Activity, setDecor: Boolean) {
+        WindowCompat.setDecorFitsSystemWindows(activity.window, setDecor)
+
+    }
+
     override fun setDecorFitsSystemWindows(window: Window, setDecor: Boolean) {
         WindowCompat.setDecorFitsSystemWindows(window, setDecor)
     }
 
-    override fun setUpScrollingContent(scrollingContent: ViewGroup) {
+    override fun setUpScrollingContent(scrollingContent: ViewGroup, includePaddingBottom: Boolean) {
         val originalPaddingLeft = scrollingContent.paddingLeft
         val originalPaddingRight = scrollingContent.paddingRight
         val originalPaddingBottom = scrollingContent.paddingBottom
+        val originalPaddingTop = scrollingContent.paddingTop
+
+
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val insets = windowInsets.getInsets(WindowInsets.Type.systemBars())
+                val bottomPadding = if (includePaddingBottom) originalPaddingBottom + insets.bottom else originalPaddingBottom
                 scrollingContent.updatePadding(
                         left = originalPaddingLeft + insets.left,
                         right = originalPaddingRight + insets.right,
-                        bottom = originalPaddingBottom + insets.bottom
+                        bottom = bottomPadding,
+                        top = originalPaddingTop + insets.top
                 )
             } else {
+                val paddingBottomCompat = if (includePaddingBottom) originalPaddingBottom + windowInsets.systemWindowInsetBottom else originalPaddingBottom
                 scrollingContent.updatePadding(
                         left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
                         right = originalPaddingRight + windowInsets.systemWindowInsetRight,
-                        bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
+                        bottom = paddingBottomCompat,
+                        top = originalPaddingTop + windowInsets.systemWindowInsetTop
                 )
             }
             windowInsets

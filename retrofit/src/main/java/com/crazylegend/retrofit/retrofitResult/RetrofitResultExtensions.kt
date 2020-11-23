@@ -16,7 +16,7 @@ import retrofit2.Response
 inline fun <T> RetrofitResult<T>.handle(
         loading: () -> Unit = {},
         emptyData: () -> Unit = {},
-        calError: (throwable: Throwable) -> Unit = { _ -> },
+        callError: (throwable: Throwable) -> Unit = { _ -> },
         apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
         success: T.() -> Unit
 ) {
@@ -32,7 +32,7 @@ inline fun <T> RetrofitResult<T>.handle(
             emptyData()
         }
         is RetrofitResult.Error -> {
-            calError(throwable)
+            callError(throwable)
         }
         is RetrofitResult.ApiError -> {
             apiError(errorBody, responseCode)

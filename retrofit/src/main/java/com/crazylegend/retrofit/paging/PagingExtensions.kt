@@ -15,7 +15,7 @@ fun PagingStateResult.handle(
         loadingMore: () -> Unit,
         cantLoadMore: () -> Unit,
         emptyData: () -> Unit,
-        calError: (throwable: Throwable) -> Unit = { _ -> },
+        callError: (throwable: Throwable) -> Unit = { _ -> },
         apiError: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
         success: () -> Unit
 ) {
@@ -37,7 +37,7 @@ fun PagingStateResult.handle(
             emptyData()
         }
         is PagingStateResult.Error -> {
-            calError(throwable)
+            callError(throwable)
         }
         is PagingStateResult.ApiError -> {
             apiError(errorBody, responseCode)
@@ -157,7 +157,7 @@ fun MutableLiveData<PagingStateResult>.cantLoadMore() {
 fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
+            serverResponse.body().apply {
                 value = if (includeEmptyData) {
                     if (this == null) {
                         PagingStateResult.EmptyData
@@ -177,7 +177,7 @@ fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>?, inc
 fun <T> MutableLiveData<PagingStateResult>.subscribePost(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
+            serverResponse.body().apply {
                 if (includeEmptyData) {
                     if (this == null) {
                         postValue(PagingStateResult.EmptyData)
@@ -198,7 +198,7 @@ fun <T> MutableLiveData<PagingStateResult>.subscribePost(response: Response<T>?,
 fun <T> MutableLiveData<PagingStateResult>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
+            serverResponse.body().apply {
                 if (includeEmptyData) {
                     value = if (this == null) {
                         PagingStateResult.EmptyData
@@ -228,7 +228,7 @@ fun <T> MutableLiveData<PagingStateResult>.subscribeList(response: Response<T>?,
 fun <T> MutableLiveData<PagingStateResult>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
     response?.let { serverResponse ->
         if (serverResponse.isSuccessful) {
-            serverResponse.body()?.apply {
+            serverResponse.body().apply {
                 if (includeEmptyData) {
                     if (this == null) {
                         postValue(PagingStateResult.EmptyData)
