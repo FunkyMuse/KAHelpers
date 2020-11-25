@@ -110,10 +110,6 @@ dependencies {
     buildFeatures {
         viewBinding = true
     }
-
-    androidExtensions {
-        experimental = true
-    }
 ```
 4. Additionally you can include
 ```gradle
