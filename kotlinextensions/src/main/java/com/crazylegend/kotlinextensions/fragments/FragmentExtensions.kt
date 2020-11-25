@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.*
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.observe
 import com.crazylegend.kotlinextensions.activity.newIntent
 import com.crazylegend.kotlinextensions.context.appOpsManager
@@ -714,3 +715,5 @@ fun Fragment.hasPipPermission(): Boolean {
         tryOrElse(false) { supportsPictureInPicture }
     }
 }
+
+val Fragment.viewCoroutineScope get() = viewLifecycleOwner.lifecycle.coroutineScope
