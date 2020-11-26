@@ -68,7 +68,7 @@ subprojects {
         //setup gradle for libraries
         apply plugin: 'com.android.library'
         apply plugin: 'kotlin-android'
-        apply plugin: 'kotlin-android-extensions'
+        apply plugin: 'kotlin-parcelize'
         apply plugin: 'com.github.dcendents.android-maven'
 
         dependencies {
@@ -92,7 +92,7 @@ subprojects {
         apply plugin: 'com.android.application'
         apply plugin: 'kotlin-android'
         apply plugin: 'kotlin-kapt'
-        apply plugin: 'kotlin-android-extensions'
+        apply plugin: 'kotlin-parcelize'
 
         dependencies {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
