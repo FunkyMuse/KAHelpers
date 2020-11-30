@@ -2,6 +2,9 @@ package com.crazylegend.retrofit.paging
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.retrofitResult.retrofitSubscribe
+import com.crazylegend.retrofit.retrofitResult.retrofitSubscribeList
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -52,8 +55,6 @@ fun MutableLiveData<PagingStateResult>.getSuccess(action: () -> Unit = {}) {
             is PagingStateResult.PagingSuccess -> {
                 action()
             }
-            else -> {
-            }
         }
     }
 }
@@ -63,8 +64,6 @@ fun LiveData<PagingStateResult>.getSuccess(action: () -> Unit = { }) {
         when (it) {
             is PagingStateResult.PagingSuccess -> {
                 action()
-            }
-            else -> {
             }
         }
     }
@@ -77,8 +76,6 @@ fun MutableLiveData<PagingStateResult>.onCantLoadMore(action: () -> Unit = {}) {
             is PagingStateResult.CantLoadMore -> {
                 action()
             }
-            else -> {
-            }
         }
     }
 }
@@ -88,8 +85,6 @@ fun LiveData<PagingStateResult>.onCantLoadMore(action: () -> Unit = {}) {
         when (it) {
             is PagingStateResult.CantLoadMore -> {
                 action()
-            }
-            else -> {
             }
         }
     }
@@ -154,104 +149,31 @@ fun MutableLiveData<PagingStateResult>.cantLoadMore() {
     value = PagingStateResult.CantLoadMore
 }
 
-fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body().apply {
-                value = if (includeEmptyData) {
-                    if (this == null) {
-                        PagingStateResult.EmptyData
-                    } else {
-                        PagingStateResult.PagingSuccess
-                    }
-                } else {
-                    PagingStateResult.PagingSuccess
-                }
-            }
-        } else {
-            value = PagingStateResult.ApiError(serverResponse.code(), serverResponse.errorBody())
-        }
-    }
+fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>?) {
+    value = retrofitSubscribe(response).toPaging()
 }
 
-fun <T> MutableLiveData<PagingStateResult>.subscribePost(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body().apply {
-                if (includeEmptyData) {
-                    if (this == null) {
-                        postValue(PagingStateResult.EmptyData)
-                    } else {
-                        postValue(PagingStateResult.PagingSuccess)
-                    }
-                } else {
-                    postValue(PagingStateResult.PagingSuccess)
-                }
-            }
-        } else {
-            postValue(PagingStateResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
-        }
-    }
+fun <T> MutableLiveData<PagingStateResult>.subscribePost(response: Response<T>?) {
+    postValue(retrofitSubscribe(response).toPaging())
 }
 
 
 fun <T> MutableLiveData<PagingStateResult>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body().apply {
-                if (includeEmptyData) {
-                    value = if (this == null) {
-                        PagingStateResult.EmptyData
-                    } else {
-                        if (this is List<*>) {
-                            val list = this as List<*>
-                            if (list.isNullOrEmpty()) {
-                                PagingStateResult.EmptyData
-                            } else {
-                                PagingStateResult.PagingSuccess
-                            }
-                        } else {
-                            PagingStateResult.PagingSuccess
-                        }
-                    }
-                } else {
-                    value = PagingStateResult.PagingSuccess
-                }
-            }
-        } else {
-            value = PagingStateResult.ApiError(serverResponse.code(), serverResponse.errorBody())
-        }
-    }
-
+    value = retrofitSubscribeList(response, includeEmptyData).toPaging()
 }
 
-fun <T> MutableLiveData<PagingStateResult>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
-    response?.let { serverResponse ->
-        if (serverResponse.isSuccessful) {
-            serverResponse.body().apply {
-                if (includeEmptyData) {
-                    if (this == null) {
-                        postValue(PagingStateResult.EmptyData)
-                    } else {
-                        if (this is List<*>) {
-                            val list = this as List<*>
-                            if (list.isNullOrEmpty()) {
-                                postValue(PagingStateResult.EmptyData)
-                            } else {
-                                postValue(PagingStateResult.PagingSuccess)
-                            }
-                        } else {
-                            postValue(PagingStateResult.PagingSuccess)
-                        }
-                    }
-                } else {
-                    postValue(PagingStateResult.PagingSuccess)
-                }
-            }
-        } else {
-            postValue(PagingStateResult.ApiError(serverResponse.code(), serverResponse.errorBody()))
+private fun <T> RetrofitResult<T>.toPaging() =
+        when (this) {
+            is RetrofitResult.Success -> PagingStateResult.PagingSuccess
+            RetrofitResult.Loading -> PagingStateResult.Loading
+            RetrofitResult.EmptyData -> PagingStateResult.CantLoadMore
+            is RetrofitResult.Error -> PagingStateResult.Error(throwable)
+            is RetrofitResult.ApiError -> PagingStateResult.ApiError(responseCode, errorBody)
         }
-    }
+
+
+fun <T> MutableLiveData<PagingStateResult>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
+    postValue(retrofitSubscribeList(response, includeEmptyData).toPaging())
 }
 
 
