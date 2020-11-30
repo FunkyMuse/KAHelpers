@@ -2,6 +2,7 @@ package com.crazylegend.retrofit
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.ArrayMap
 import com.crazylegend.retrofit.progressInterceptor.OnAttachmentDownloadListener
 import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,7 +16,10 @@ import java.io.File
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
-import javax.net.ssl.*
+import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 import kotlin.random.Random
 
 
@@ -30,15 +34,26 @@ inline val randomPhotoIndex: Int
 
 const val multiPartContentType = "multipart/form-data"
 
-fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>) {
+
+fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>, photoName: String = "photo_") {
     if (pathList.isNotEmpty()) {
         pathList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName + "${index + 1}")
             this[key] = File(s).asRequestBody(multiPartContentType.toMediaType())
         }
     }
 }
 
+fun ArrayMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>, photoName: String = "photo_") {
+    if (pathList.isNotEmpty()) {
+        pathList.forEachIndexed { index, s ->
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName + "${index + 1}")
+            this[key] = File(s).asRequestBody(multiPartContentType.toMediaType())
+        }
+    }
+}
+
+///
 fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?, photoIndexNumber: Int = randomPhotoIndex) {
     if (!pathToFile.isNullOrEmpty()) {
         val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
@@ -46,6 +61,13 @@ fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?, photoIn
     }
 }
 
+fun ArrayMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?, photoIndexNumber: Int = randomPhotoIndex) {
+    if (!pathToFile.isNullOrEmpty()) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
+        this[key] = File(pathToFile.toString()).asRequestBody(multiPartContentType.toMediaType())
+    }
+}
+///
 
 fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?, photoIndexNumber: Int = randomPhotoIndex) {
     if (image != null) {
@@ -54,6 +76,14 @@ fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?, photoInde
     }
 }
 
+fun ArrayMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?, photoIndexNumber: Int = randomPhotoIndex) {
+    if (image != null) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
+        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
+    }
+}
+
+///
 fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteString?, photoIndexNumber: Int = randomPhotoIndex) {
     if (image != null) {
         val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
@@ -61,6 +91,14 @@ fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteString?, photoInd
     }
 }
 
+fun ArrayMap<String, RequestBody>.addImageToRetrofit(image: ByteString?, photoIndexNumber: Int = randomPhotoIndex) {
+    if (image != null) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
+        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
+    }
+}
+
+///
 fun HashMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArray>) {
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
@@ -70,6 +108,16 @@ fun HashMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArra
     }
 }
 
+fun ArrayMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArray>) {
+    if (byteList.isNotEmpty()) {
+        byteList.forEachIndexed { index, s ->
+            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            this[key] = s.toRequestBody(multiPartContentType.toMediaType())
+        }
+    }
+}
+
+///
 fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>) {
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
@@ -79,6 +127,15 @@ fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<By
     }
 }
 
+fun ArrayMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>) {
+    if (byteList.isNotEmpty()) {
+        byteList.forEachIndexed { index, s ->
+            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            this[key] = s.toRequestBody(multiPartContentType.toMediaType())
+        }
+    }
+}
+///
 
 val generateRetrofitImageKeyName
     get() = String.format(
@@ -92,9 +149,9 @@ fun generateRetrofitImageKeyName(photoName: String = "photo_${Random.nextInt(0, 
 )
 
 
-fun generateRetrofitImageKeyName(photoIndexNumber: Int = Random.nextInt(0, Int.MAX_VALUE)) = String.format(
+fun generateRetrofitImageKeyName(photoIndexNumber: Int = Random.nextInt(0, Int.MAX_VALUE), photoName: String = "photo_") = String.format(
         "%1\$s\"; filename=\"%1\$s",
-        "photo_${photoIndexNumber}"
+        "$photoName${photoIndexNumber}"
 )
 
 
@@ -134,100 +191,99 @@ inline fun progressDSL(
     }
 }
 
-fun errorResponseCodeMessage(responseCode: Int): String {
-    return when (responseCode) {
-        301 -> {
-            "Moved permanently"
-        }
+fun errorResponseCodeMessage(responseCode: Int): String =
+        when (responseCode) {
+            301 -> {
+                "Moved permanently"
+            }
 
-        400 -> {
-            // bad request
-            "Bad Request"
-        }
+            400 -> {
+                // bad request
+                "Bad Request"
+            }
 
-        401 -> {
-            // unauthorized
-            "Unauthorized"
-        }
+            401 -> {
+                // unauthorized
+                "Unauthorized"
+            }
 
-        403 -> {
-            "Forbidden"
-        }
+            403 -> {
+                "Forbidden"
+            }
 
-        404 -> {
-            // not found
-            "Not found"
-        }
+            404 -> {
+                // not found
+                "Not found"
+            }
 
-        405 -> {
-            "Method not allowed"
-        }
+            405 -> {
+                "Method not allowed"
+            }
 
-        406 -> {
-            "Not acceptable"
-        }
+            406 -> {
+                "Not acceptable"
+            }
 
-        407 -> {
-            "Proxy authentication required"
-        }
+            407 -> {
+                "Proxy authentication required"
+            }
 
-        408 -> {
-            // time out
-            "Time out"
-        }
+            408 -> {
+                // time out
+                "Time out"
+            }
 
-        409 -> {
-            "Conflict error"
-        }
+            409 -> {
+                "Conflict error"
+            }
 
-        410 -> {
-            "Request permanently deleted"
-        }
+            410 -> {
+                "Request permanently deleted"
+            }
 
-        413 -> {
-            "Request too large"
-        }
+            413 -> {
+                "Request too large"
+            }
 
-        422 -> {
-            // account exists
-            "Account with that email already exists"
-        }
+            422 -> {
+                // account exists
+                "Account with that email already exists"
+            }
 
-        425 -> {
-            "Server is busy"
-        }
+            425 -> {
+                "Server is busy"
+            }
 
-        429 -> {
-            "Too many requests, slow down"
-        }
+            429 -> {
+                "Too many requests, slow down"
+            }
 
-        500 -> {
-            // internal server error
-            "Server error"
-        }
+            500 -> {
+                // internal server error
+                "Server error"
+            }
 
-        501 -> {
-            "Not implemented"
-        }
+            501 -> {
+                "Not implemented"
+            }
 
-        502 -> {
-            // bad gateway
-            "Bad gateway"
-        }
-        504 -> {
-            // gateway timeout
-            "Gateway timeout"
-        }
+            502 -> {
+                // bad gateway
+                "Bad gateway"
+            }
+            504 -> {
+                // gateway timeout
+                "Gateway timeout"
+            }
 
-        511 -> {
-            "Authentication required"
-        }
+            511 -> {
+                "Authentication required"
+            }
 
-        else -> {
-            "Something went wrong, try again"
+            else -> {
+                "Something went wrong, try again"
+            }
         }
-    }
-}
 
 
 /**
@@ -297,7 +353,7 @@ fun OkHttpClient.Builder.setUnSafeOkHttpClient() {
         // Create an ssl socket factory with our all-trusting manager
         val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
         sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-        hostnameVerifier(HostnameVerifier { _, _ -> true })
+        hostnameVerifier { _, _ -> true }
     } catch (e: Exception) {
         throw RuntimeException(e)
     }

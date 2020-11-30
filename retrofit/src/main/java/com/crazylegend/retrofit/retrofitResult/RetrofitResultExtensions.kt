@@ -421,3 +421,9 @@ suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.apiError(code: Int, errorBo
     emit(retrofitApiError(code, errorBody))
 }
 
+fun <T> unwrapResponseToModel(response: Response<T>?): T? = when {
+    response == null -> null
+    response.isSuccessful -> response.body()
+    else -> null
+}
+
