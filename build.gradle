@@ -51,7 +51,7 @@ buildscript {
 
 
 allprojects {
-    group = "io.github.crazylegend"
+    group = "io.github.funkymuse"
 
     repositories {
         google()
@@ -73,7 +73,6 @@ subprojects {
 
         dependencies {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
-            implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
             // Dependencies for local unit tests
             testImplementation "junit:junit:$junitVersion"
             testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
@@ -96,7 +95,6 @@ subprojects {
 
         dependencies {
             implementation fileTree(dir: 'libs', include: ['*.jar'])
-            implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         }
     }
 
