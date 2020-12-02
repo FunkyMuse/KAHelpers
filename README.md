@@ -29,58 +29,58 @@ dependencies {
     def utilsVersion = "2.1.10" // or check the latest from jitpack
     
     //biometrics
-    implementation "com.github.FunkyMuse:KAHelpers:biometrics:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:biometrics:$utilsVersion"
     
     //coroutines
-    implementation "com.github.FunkyMuse:KAHelpers:coroutines:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:coroutines:$utilsVersion"
     
     //customviews
-    implementation "com.github.FunkyMuse:KAHelpers:customviews:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:customviews:$utilsVersion"
     
     //data structures and algorithms
-    implementation "com.github.FunkyMuse:KAHelpers:dataStructuresAndAlgorithms:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:dataStructuresAndAlgorithms:$utilsVersion"
     
     //database handlers
-    implementation "com.github.FunkyMuse:KAHelpers:database:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:database:$utilsVersion"
     
     //glide
-    implementation "com.github.FunkyMuse:KAHelpers:glide:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:glide:$utilsVersion"
     
     //gson
-    implementation "com.github.FunkyMuse:KAHelpers:gson:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:gson:$utilsVersion"
     
     //Joda Date Time
-    implementation "com.github.FunkyMuse:KAHelpers:jodaDateTime:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:jodaDateTime:$utilsVersion"
     
     //the most basic extensions that rely on the basic Android APIs such as context, content providers etc...
-    implementation "com.github.FunkyMuse:KAHelpers:kotlinextensions:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:kotlinextensions:$utilsVersion"
     
     //moshi
-    implementation "com.github.FunkyMuse:KAHelpers:moshi:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:moshi:$utilsVersion"
     
     //navigation component
-    implementation "com.github.FunkyMuse:KAHelpers:navigation:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:navigation:$utilsVersion"
     
     //recyclerview
-    implementation "com.github.FunkyMuse:KAHelpers:recyclerview:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:recyclerview:$utilsVersion"
     
     //reflection
-    implementation "com.github.FunkyMuse:KAHelpers:reflection:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:reflection:$utilsVersion"
     
     //retrofit
-    implementation "com.github.FunkyMuse:KAHelpers:retrofit:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:retrofit:$utilsVersion"
     
     //RxJava3
-    implementation "com.github.FunkyMuse:KAHelpers:rx:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:rx:$utilsVersion"
     
     //RxBindings 3
-    implementation "com.github.FunkyMuse:KAHelpers:rxbindings:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:rxbindings:$utilsVersion"
     
     //security
-    implementation "com.github.FunkyMuse:KAHelpers:security:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:security:$utilsVersion"
     
     //viewbinding
-    implementation "com.github.FunkyMuse:KAHelpers:viewbinding:$utilsVersion"
+    implementation "com.github.FunkyMuse.KAHelpers:viewbinding:$utilsVersion"
     
   }
 ```
