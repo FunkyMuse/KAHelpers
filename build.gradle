@@ -13,7 +13,7 @@ ext {
     activity = "1.2.0-beta01"
     appCompat = "1.2.0"
     coreKTX = "1.5.0-alpha05"
-    securityVersion = "1.1.0-alpha02"
+    securityVersion = "1.1.0-alpha03"
 
 
     //tests
