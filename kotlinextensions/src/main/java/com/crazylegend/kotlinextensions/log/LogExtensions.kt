@@ -126,3 +126,12 @@ inline fun <reified T> T.log(exc: Throwable) {
     exc.printStackTrace()
     Log.e(T::class.java.simpleName, exc.message ?: "no-message")
 }
+
+fun logLargeString(largeString: String) {
+    if (largeString.length > 3000) {
+        Log.d(largeString.tag, largeString.substring(0, 3000))
+        logLargeString(largeString.substring(3000))
+    } else {
+        Log.d(largeString.tag, largeString)
+    }
+}
