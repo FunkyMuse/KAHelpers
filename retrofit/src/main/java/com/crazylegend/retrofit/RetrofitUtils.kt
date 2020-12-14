@@ -117,6 +117,14 @@ fun ArrayMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArr
     }
 }
 
+fun ArrayMap<String, RequestBody>.addImageBytesToRetrofit(byteList: ByteArray?, photoName: String) {
+    byteList ?: return
+    if (byteList.isNotEmpty()) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", photoName)
+        this[key] = byteList.toRequestBody(multiPartContentType.toMediaType())
+    }
+}
+
 ///
 fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>) {
     if (byteList.isNotEmpty()) {
