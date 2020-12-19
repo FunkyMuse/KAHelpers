@@ -143,6 +143,7 @@ fun ArrayMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<B
         }
     }
 }
+
 ///
 
 val generateRetrofitImageKeyName

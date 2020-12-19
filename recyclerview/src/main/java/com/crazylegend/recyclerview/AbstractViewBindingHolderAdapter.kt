@@ -18,26 +18,19 @@ import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 )
  *
  */
-abstract class AbstractViewBindingAdapter<T, VH : RecyclerView.ViewHolder, VB : ViewBinding>(
-        private val viewHolder: (binding: VB) -> VH,
+abstract class AbstractViewBindingHolderAdapter<T, VB : ViewBinding>(
         private val bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
 ) :
-        ListAdapter<T, VH>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
-    abstract fun bindItems(item: T, holder: VH, position: Int, itemCount: Int)
+        ListAdapter<T, AbstractViewBindingHolderAdapter.AbstractViewHolder<VB>>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
 
     var forItemClickListener: forItemClickListener<T>? = null
     var onLongClickListener: forItemClickListener<T>? = null
 
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        val item: T = getItem(holder.adapterPosition)
-        bindItems(item, holder, position, itemCount)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<VB> {
         val binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
-        val holder = setViewHolder(binding)
+        val holder = AbstractViewHolder(binding)
 
         holder.itemView.setOnClickListenerCooldown {
             if (holder.adapterPosition != RecyclerView.NO_POSITION)
@@ -51,6 +44,12 @@ abstract class AbstractViewBindingAdapter<T, VH : RecyclerView.ViewHolder, VB : 
         return holder
     }
 
-    @Suppress("UNCHECKED_CAST")
-    private fun setViewHolder(binding: ViewBinding): VH = viewHolder(binding as VB)
+    override fun onBindViewHolder(holder: AbstractViewHolder<VB>, position: Int) {
+        val item = getItem(holder.adapterPosition)
+        bindItems(item, position, itemCount, holder.binding)
+    }
+
+    abstract fun bindItems(item: T, position: Int, itemCount: Int, binding: VB)
+
+    class AbstractViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
 }

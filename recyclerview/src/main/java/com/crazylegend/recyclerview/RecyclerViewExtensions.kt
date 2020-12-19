@@ -664,3 +664,20 @@ fun RecyclerView.smoothSnapToPosition(position: Int, performClick: Boolean = tru
     smoothScroller.targetPosition = position
     layoutManager?.startSmoothScroll(smoothScroller)
 }
+
+
+/**
+ * Sets an on click listener for a view, but ensures the action cannot be triggered more often than [coolDown] milliseconds.
+ */
+internal inline fun View.setOnClickListenerCooldown(coolDown: Long = 1000L, crossinline action: (view: View) -> Unit) {
+    setOnClickListener(object : View.OnClickListener {
+        var lastTime = 0L
+        override fun onClick(v: View) {
+            val now = System.currentTimeMillis()
+            if (now - lastTime > coolDown) {
+                action(v)
+                lastTime = now
+            }
+        }
+    })
+}
