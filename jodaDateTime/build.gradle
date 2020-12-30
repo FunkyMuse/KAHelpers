@@ -8,5 +8,5 @@ android {
 
 dependencies {
     //joda time
-    implementation 'net.danlew:android.joda:2.10.7.2'
+    implementation 'net.danlew:android.joda:2.10.9'
 }
