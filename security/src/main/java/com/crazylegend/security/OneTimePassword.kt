@@ -8,8 +8,8 @@ import java.security.SecureRandom
  */
 
 
-fun generateOneTimePassword(passwordLength: Int = 8, random: SecureRandom = SecureRandom(),
-                            shuffleCharacters: Boolean = true, exemptChars: List<Char> = emptyList()): String {
+fun generateOneTimePassword(passwordLength: Int = 8, shuffleCharacters: Boolean = true,
+                            random: SecureRandom = SecureRandom(), exemptChars: List<Char> = emptyList()): String {
     val chars = ("abcdefghijklmnopqrstuvwxyz"
             + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             + "0123456789!@%$%&^?|~'\"#+="
@@ -31,8 +31,8 @@ fun generateOneTimePassword(passwordLength: Int = 8, random: SecureRandom = Secu
 fun generateOneTimePassword(chars: CharArray = ("abcdefghijklmnopqrstuvwxyz"
         + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         + "0123456789!@%$%&^?|~'\"#+="
-        + "\\*/.,:;[]()-_<>").toCharArray(), passwordLength: Int = 8, random: SecureRandom = SecureRandom(),
-                            shuffleCharacters: Boolean = true, exemptChars: List<Char> = emptyList()): String {
+        + "\\*/.,:;[]()-_<>").toCharArray(), passwordLength: Int = 8, shuffleCharacters: Boolean = true,
+                            random: SecureRandom = SecureRandom(), exemptChars: List<Char> = emptyList()): String {
 
     if (shuffleCharacters) {
         chars.shuffle()
