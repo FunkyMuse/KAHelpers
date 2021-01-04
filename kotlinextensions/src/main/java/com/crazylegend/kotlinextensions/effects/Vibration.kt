@@ -29,6 +29,19 @@ fun Context.vibrate(milliseconds: Long) {
     }
 }
 
+/**
+ * Vibrate from context with milliseconds
+ */
+@RequiresPermission(allOf = [VIBRATE])
+fun Context.vibrate(milliseconds: Long, effect: Int? = null) {
+    if (Build.VERSION.SDK_INT >= 26) {
+        (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(VibrationEffect.createOneShot(milliseconds,
+                effect ?: VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+        (getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(milliseconds)
+    }
+}
+
 
 /**
  * Check whether device has Vibrator
