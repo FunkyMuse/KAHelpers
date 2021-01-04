@@ -17,7 +17,7 @@ import android.widget.SpinnerAdapter
  */
 fun Spinner.onItemSelected(
         onNothingSelect: (parent: AdapterView<*>?) -> Unit = { _ -> },
-        onItemSelect: (parent: AdapterView<*>?, view: View?, position: Int?, id: Long?) -> Unit = { _, _, _, _ -> }):
+        onItemSelect: (parent: AdapterView<*>?, view: View?, position: Int, id: Long) -> Unit = { _, _, _, _ -> }):
         AdapterView.OnItemSelectedListener {
 
     val itemSelected = object : AdapterView.OnItemSelectedListener {
