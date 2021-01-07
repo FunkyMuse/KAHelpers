@@ -26,7 +26,7 @@ allprojects {
 ```gradle
 dependencies {
 
-    def utilsVersion = "2.1.10" // or check the latest from jitpack
+    def utilsVersion = "2.2.0" // or check the latest from jitpack
     
     //biometrics
     implementation "com.github.FunkyMuse.KAHelpers:biometrics:$utilsVersion"
