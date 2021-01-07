@@ -48,13 +48,13 @@ private val retrofit by lazy {
 Your API
 ```kotlin
 @GET("posts")
-    suspend fun getPostsAdapter(): RetrofitResult<List<TestModel>>
+suspend fun getPostsAdapter(): RetrofitResult<List<TestModel>>
 ```
 
 Your view model
 ```kotlin
 private val postsData: MutableStateFlow<RetrofitResult<List<TestModel>>> = MutableStateFlow(RetrofitResult.EmptyData)
-    val posts: MutableStateFlow<RetrofitResult<List<TestModel>>> = postsData
+val posts: MutableStateFlow<RetrofitResult<List<TestModel>>> = postsData
 ```
 ```kotlin
  fun getposts() {
