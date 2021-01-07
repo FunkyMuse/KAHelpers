@@ -640,6 +640,7 @@ val Context.unwrapActivity: Activity?
 fun Context.getSharedPreferencesByTag(tag: String) = getSharedPreferences(tag, Context.MODE_PRIVATE)
 
 
+@Suppress("DEPRECATION")
 val Context.currentLocale: Locale
     get() = resources.configuration.run {
         when {
