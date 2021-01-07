@@ -537,7 +537,7 @@ fun Context.disableNotificationBar() {
  * Get color from resources with applied [opacity]
  */
 @ColorInt
-fun Context.colorWithOpacity(@ColorRes res: Int, @IntRange(from = 0, to = 100) opacity: Int): Int {
+fun Context.colorWithOpacity(@ColorRes res: Int, @androidx.annotation.IntRange(from = 0, to = 100) opacity: Int): Int {
     return color(res).withOpacity(opacity)
 }
 
