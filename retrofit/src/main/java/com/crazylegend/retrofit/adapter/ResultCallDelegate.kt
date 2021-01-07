@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-abstract class ResultCallDelegate<TIn, TOut>(private val proxy: Call<TIn>) : Call<TOut> {
+internal abstract class ResultCallDelegate<TIn, TOut>(private val proxy: Call<TIn>) : Call<TOut> {
 
     override fun execute(): Response<TOut> = throw NotImplementedError()
     override fun timeout(): Timeout = proxy.timeout()

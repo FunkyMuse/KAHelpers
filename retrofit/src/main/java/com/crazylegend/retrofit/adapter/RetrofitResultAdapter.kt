@@ -9,7 +9,7 @@ import java.lang.reflect.Type
  * Created by crazy on 1/6/21 to long live and prosper !
  */
 
-class RetrofitResultAdapter(private val type: Type) : CallAdapter<Type, Call<RetrofitResult<Type>>> {
+internal class RetrofitResultAdapter(private val type: Type) : CallAdapter<Type, Call<RetrofitResult<Type>>> {
 
     override fun responseType(): Type = type
 

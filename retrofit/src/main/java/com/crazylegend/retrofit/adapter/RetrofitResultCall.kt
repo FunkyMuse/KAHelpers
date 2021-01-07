@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RetrofitResultCall<T>(private val proxy: Call<T>) : ResultCallDelegate<T, RetrofitResult<T>>(proxy) {
+internal class RetrofitResultCall<T>(private val proxy: Call<T>) : ResultCallDelegate<T, RetrofitResult<T>>(proxy) {
 
     override fun enqueueImpl(callback: Callback<RetrofitResult<T>>) = proxy.enqueue(object : Callback<T> {
         override fun onResponse(call: Call<T>, response: Response<T>) {
