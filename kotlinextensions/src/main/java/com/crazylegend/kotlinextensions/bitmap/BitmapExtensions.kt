@@ -69,8 +69,6 @@ fun Bitmap.toIcon(): Icon = Icon.createWithBitmap(this)
 fun Bitmap.toDrawable(resources: Resources) = BitmapDrawable(resources, this)
 
 
-
-
 fun Activity.createColoredBitmapFullScreen(color: Int): Bitmap {
 
 
@@ -147,9 +145,6 @@ fun Activity.createColoredBitmap(color: Int, width: Int, height: Int): Bitmap {
 
     return bitmap
 }
-
-
-
 
 
 @Throws(FileNotFoundException::class, IllegalArgumentException::class)

@@ -383,8 +383,6 @@ inline fun <reified T> LiveData<T>.toReactivePublisher(lifecycleOwner: Lifecycle
 }
 
 
-
-
 fun Completable?.makeDBCall(compositeDisposable: CompositeDisposable, onThrow: (error: Throwable) -> Unit = { _ -> }, onComplete: () -> Unit = {}) {
     this?.subscribeOn(ioThreadScheduler)?.observeOn(mainThreadScheduler)?.subscribe({
         onComplete()

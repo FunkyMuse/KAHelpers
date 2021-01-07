@@ -569,8 +569,7 @@ inline fun <reified T> T.callPrivateFunction(name: String, vararg args: Any?): A
                 ?.call(this, *args)
 
 
-
-inline  fun <T> tryOrNull(block: () -> T): T? = try {
+inline fun <T> tryOrNull(block: () -> T): T? = try {
     block()
 } catch (e: Exception) {
     null

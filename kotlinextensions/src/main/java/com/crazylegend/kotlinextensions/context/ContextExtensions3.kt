@@ -26,7 +26,6 @@ import android.text.TextUtils.isEmpty
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.*
-import androidx.annotation.IntRange
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -206,9 +205,6 @@ val Context.getAndroidID: String?
 @SuppressLint("HardwareIds")
 @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
 fun Context.getIMEI() = telephonyManager?.imei
-
-
-
 
 
 /**
@@ -523,7 +519,6 @@ fun Context.disableNavigation() {
         e.printStackTrace()
     }
 }
-
 
 
 @SuppressLint("PrivateApi", "WrongConstant")

@@ -6,17 +6,17 @@
         <shape android:shape="oval">
             <solid android:color="@android:color/transparent" />
             <stroke
-                    android:width="4dp"
-                    android:color="@android:color/darker_gray" />
+                android:width="4dp"
+                android:color="@android:color/darker_gray" />
         </shape>
 
     </item>
 
     <item
-            android:bottom="8dp"
-            android:left="8dp"
-            android:right="8dp"
-            android:top="8dp">
+        android:bottom="8dp"
+        android:left="8dp"
+        android:right="8dp"
+        android:top="8dp">
 
         <shape android:shape="oval">
             <solid android:color="@android:color/darker_gray" />

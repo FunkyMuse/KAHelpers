@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.retrofit
+package com.crazylegend.retrofit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -18,6 +18,6 @@ class RetrofitClientTest {
     fun getRetrofitInstance() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         retrofit = RetrofitClient.moshiInstanceCoroutines(appContext, "https://www.facebook.com/", true).create()
-        assert(retrofit!=null)
+        assert(retrofit != null)
     }
 }

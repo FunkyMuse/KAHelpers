@@ -179,7 +179,6 @@ inline fun AlertDialog.Builder.neutralButton(text: String, crossinline handleCli
 }
 
 
-
 /**
  * Make the background transparent of the dialog window
  *

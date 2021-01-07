@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.retrofit
+package com.crazylegend.retrofit
 
 
 /**

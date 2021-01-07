@@ -41,8 +41,6 @@ import java.io.File
  */
 
 
-
-
 inline fun Context.openEmail(title: String = "Select an email client", onCantHandleAction: () -> Unit = {}) {
     try {
         val emailClientNames = ArrayList<String>()
@@ -259,7 +257,6 @@ fun Context?.isActivityActive(): Boolean {
         false
     }
 }
-
 
 
 fun Context.getActivityPendingIntent(
@@ -484,7 +481,6 @@ fun Context.inflate(
         root: ViewGroup? = null,
         attachToRoot: Boolean = false
 ): View? = layoutInflater?.inflate(layoutId, root, attachToRoot)
-
 
 
 fun RecyclerView.fullScreenGestureNavigation(fragmentActivity: FragmentActivity, topInset: Int = 200, bottomInset: Int = 40) {
