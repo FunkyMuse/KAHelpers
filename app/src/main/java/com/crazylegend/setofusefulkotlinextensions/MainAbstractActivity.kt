@@ -35,7 +35,6 @@ import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.rxbindings.textChanges
-import com.crazylegend.security.*
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
@@ -44,7 +43,6 @@ import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBindi
 import com.crazylegend.viewbinding.viewBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collect
-import java.io.File
 
 class MainAbstractActivity : AppCompatActivity() {
 
@@ -91,15 +89,6 @@ class MainAbstractActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(activityMainBinding.toolbar)
-
-        debug("SECURITY isTestKeyBuild ${isTestKeyBuild()}")
-        debug("SECURITY detectDebugger ${detectDebugger()}")
-        debug("SECURITY isDebuggable ${isDebuggable()}")
-        debug("SECURITY isDebuggerAttached ${isDebuggerAttached()}")
-        debug("SECURITY zygoteCallCount ${zygoteCallCount()}")
-        debug("SECURITY getSingInfoMD5 ${getSingInfoMD5("com.crazylegend.setofusefulkotlinextensions")}")
-        debug("SECURITY isEmulator ${isEmulator()}")
-        debug("SECURITY getShaSignature ${getShaSignature("com.crazylegend.setofusefulkotlinextensions")}")
 
         activityMainBinding.test.setOnClickListenerCooldown {
             it.circularRevealEnter()
@@ -148,7 +137,7 @@ class MainAbstractActivity : AppCompatActivity() {
 
         if (isGestureNavigationEnabled()) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                EdgeToEdge.setUpRoot(this, activityMainBinding.root)
+                EdgeToEdge.setUpRoot(this, activityMainBinding.root, android.R.color.transparent)
             } else {
                 EdgeToEdge.setUpRoot(activityMainBinding.root)
             }
@@ -156,12 +145,6 @@ class MainAbstractActivity : AppCompatActivity() {
             EdgeToEdge.setUpScrollingContent(activityMainBinding.recycler)
         }
 
-
-        val testFile = File(filesDir, "testfile.txt")
-        encryptFileSafely(testFile, fileContent = "JETPACK SECURITY".toByteArray())
-        val file = getEncryptedFile(testFile)
-        debug("TEXT DECRYPTED ${file.readText()}")
-        debug("TEXT ENCRYPTED ${testFile.readText()}")
     }
 
     private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
@@ -184,10 +167,16 @@ class MainAbstractActivity : AppCompatActivity() {
                 activityMainBinding.recycler.adapter = testPlaceHolderAdapter
             }
             RetrofitResult.EmptyData -> {
+                activityMainBinding.recycler.adapter = generatedAdapter
+                generatedAdapter.submitList(emptyList())
             }
             is RetrofitResult.Error -> {
+                activityMainBinding.recycler.adapter = generatedAdapter
+                generatedAdapter.submitList(emptyList())
             }
             is RetrofitResult.ApiError -> {
+                activityMainBinding.recycler.adapter = generatedAdapter
+                generatedAdapter.submitList(emptyList())
             }
         }.exhaustive
     }

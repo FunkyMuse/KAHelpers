@@ -4,14 +4,19 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.crazylegend.coroutines.ioDispatcher
 import com.crazylegend.retrofit.RetrofitClient
-import com.crazylegend.retrofit.coroutines.makeApiCallListSharedFlow
+import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 
@@ -28,8 +33,8 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     /*private val postsData: MediatorLiveData<RetrofitResult<List<TestModel>>> = MediatorLiveData()
     val posts: LiveData<RetrofitResult<List<TestModel>>> = postsData*/
 
-    private val postsData: MutableSharedFlow<RetrofitResult<List<TestModel>>> = MutableSharedFlow()
-    val posts: SharedFlow<RetrofitResult<List<TestModel>>> = postsData
+    private val postsData: MutableStateFlow<RetrofitResult<List<TestModel>>> = MutableStateFlow(RetrofitResult.EmptyData)
+    val posts: MutableStateFlow<RetrofitResult<List<TestModel>>> = postsData
 
     private val filteredPostsData: MutableLiveData<List<TestModel>> = MutableLiveData()
     val filteredPosts: LiveData<List<TestModel>> = filteredPostsData
@@ -39,10 +44,16 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     //val apiTest =  apiCallAsFlow { retrofit.getPosts() }
 
     fun getposts() {
-        makeApiCallListSharedFlow(postsData) {
-            retrofit.getPosts()
+        postsData.value = RetrofitResult.Loading
+        viewModelScope.launch(ioDispatcher + SupervisorJob()) {
+            delay(3000)
+            postsData.value = retrofit.getPostsAdapter()
         }
+        /*makeApiCallListSharedFlow(postsData) {
+            retrofit.getPosts()
+        }*/
     }
+
 
     fun filterBy(query: String) {
         /*filteredPostsData.value = postsData.getSuccess?.filter {
@@ -57,7 +68,11 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
     }
 
     private val retrofit by lazy {
-        RetrofitClient.moshiInstanceCoroutines(application, TestApi.API, false).create<TestApi>()
+        RetrofitClient.customInstance(application, TestApi.API, false, builderCallback = {
+            addCallAdapterFactory(RetrofitResultAdapterFactory())
+            addConverterFactory(MoshiConverterFactory.create())
+            this
+        }).create<TestApi>()
     }
 
     init {

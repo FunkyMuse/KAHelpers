@@ -34,8 +34,6 @@ object RetrofitClient {
         MoshiConverterFactory.create()
     }
 
-    val moshiConverterFactory = MoshiConverterFactory.create()
-
     inline fun moshiConverterFactoryBuilder(moshi: Moshi, builderCallback: MoshiConverterFactory.() -> Unit) = MoshiConverterFactory.create(moshi).also(builderCallback)
 
     inline fun moshiConverterFactoryBuilder(builderCallback: MoshiConverterFactory.() -> Unit) = MoshiConverterFactory.create().also(builderCallback)
@@ -43,7 +41,6 @@ object RetrofitClient {
     private val rxJavaAdapter by lazy {
         RxJava3CallAdapterFactory.create()
     }
-
 
     fun removeRetrofitInstance() {
         retrofit = null
