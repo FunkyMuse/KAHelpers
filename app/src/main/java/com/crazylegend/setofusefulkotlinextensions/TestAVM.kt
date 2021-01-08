@@ -9,6 +9,7 @@ import com.crazylegend.coroutines.ioDispatcher
 import com.crazylegend.retrofit.RetrofitClient
 import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.viewmodel.viewModelSupervisorIOJob
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -45,7 +46,7 @@ class TestAVM(application: Application, testModel: TestModel, key: Int, string: 
 
     fun getposts() {
         postsData.value = RetrofitResult.Loading
-        viewModelScope.launch(ioDispatcher + SupervisorJob()) {
+        viewModelSupervisorIOJob {
             delay(3000)
             postsData.value = retrofit.getPostsAdapter()
         }
