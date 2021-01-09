@@ -17,9 +17,7 @@ import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.IdRes
+import androidx.annotation.*
 import androidx.annotation.IntRange
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
@@ -538,4 +536,25 @@ fun View?.removeSelf() {
     this ?: return
     val parentView = parent as? ViewGroup ?: return
     parentView.removeView(this)
+}
+
+/** Pad this view with the insets provided by the device cutout (i.e. notch) */
+@RequiresApi(Build.VERSION_CODES.P)
+fun View.padWithDisplayCutout() {
+
+    /** Helper method that applies padding from cutout's safe insets */
+    fun doPadding(cutout: DisplayCutout) = setPadding(
+            cutout.safeInsetLeft,
+            cutout.safeInsetTop,
+            cutout.safeInsetRight,
+            cutout.safeInsetBottom)
+
+    // Apply padding using the display cutout designated "safe area"
+    rootWindowInsets?.displayCutout?.let { doPadding(it) }
+
+    // Set a listener for window insets since view.rootWindowInsets may not be ready yet
+    setOnApplyWindowInsetsListener { _, insets ->
+        insets.displayCutout?.let { doPadding(it) }
+        insets
+    }
 }
