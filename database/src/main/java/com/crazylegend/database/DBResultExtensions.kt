@@ -18,7 +18,7 @@ val databaseEmptyDB get() = DBResult.EmptyDB
 fun <T> databaseSubscribe(response: T?): DBResult<T> = if (response == null) databaseEmptyDB else databaseSuccess<T>(response)
 
 
-fun <T> databaseSubscribeList(response: T?, includeEmptyData: Boolean = false): DBResult<T> {
+fun <T> databaseSubscribeList(response: T?, includeEmptyData: Boolean = true): DBResult<T> {
     return when {
         response == null -> {
             databaseEmptyDB
@@ -74,82 +74,23 @@ fun <T> MutableLiveData<DBResult<T>>.emptyDataPost() {
     postValue(databaseEmptyDB)
 }
 
-
-fun <T> MutableLiveData<DBResult<T>>.subscribe(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            value = databaseEmptyDB
-        } else {
-            value = databaseSuccess(queryModel)
-        }
-    } else {
-        queryModel?.apply {
-            value = databaseSuccess(this)
-        }
-    }
+fun <T> MutableLiveData<DBResult<T>>.subscribe(queryModel: T?) {
+    value = databaseSubscribe(queryModel)
 }
 
 
-fun <T> MutableLiveData<DBResult<T>>.subscribePost(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            postValue(databaseEmptyDB)
-        } else {
-            postValue(databaseSuccess(queryModel))
-        }
-    } else {
-        queryModel?.apply {
-            postValue(databaseSuccess(this))
-        }
-    }
+fun <T> MutableLiveData<DBResult<T>>.subscribePost(queryModel: T?) {
+    postValue(databaseSubscribe(queryModel))
 }
 
 
 fun <T> MutableLiveData<DBResult<T>>.subscribeList(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            value = databaseEmptyDB
-        } else {
-            if (this is List<*>) {
-                val list = this as List<*>
-                if (list.isNullOrEmpty()) {
-                    value = databaseEmptyDB
-                } else {
-                    value = databaseSuccess(queryModel)
-                }
-            } else {
-                value = databaseSuccess(queryModel)
-            }
-        }
-    } else {
-        queryModel?.apply {
-            value = databaseSuccess(this)
-        }
-    }
+    value = databaseSubscribeList(queryModel, includeEmptyData)
 }
 
 
 fun <T> MutableLiveData<DBResult<T>>.subscribeListPost(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            postValue(databaseEmptyDB)
-        } else {
-            if (this is List<*>) {
-                val list = this as List<*>
-                if (list.isNullOrEmpty()) {
-                    postValue(databaseEmptyDB)
-                } else {
-                    postValue(databaseSuccess(queryModel))
-                }
-            } else {
-                postValue(databaseSuccess(queryModel))
-            }
-        }
-    } else {
-        queryModel?.apply {
-            postValue(databaseSuccess(this))
-        }
-    }
+    postValue(databaseSubscribeList(queryModel, includeEmptyData))
 }
 
 fun <T> MutableLiveData<DBResult<T>>.callError(throwable: Throwable) {
@@ -175,8 +116,6 @@ inline fun <T> MutableLiveData<DBResult<T>>.onSuccess(action: (T) -> Unit) {
             is DBResult.Success -> {
                 action(it.value)
             }
-            else -> {
-            }
         }
     }
 }
@@ -186,8 +125,6 @@ inline fun <T> LiveData<DBResult<T>>.onSuccess(action: (model: T) -> Unit = { _ 
         when (it) {
             is DBResult.Success -> {
                 action(it.value)
-            }
-            else -> {
             }
         }
     }
@@ -237,42 +174,13 @@ fun <T> MutableStateFlow<DBResult<T>>.emptyData() {
 }
 
 
-fun <T> MutableStateFlow<DBResult<T>>.subscribe(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            value = databaseEmptyDB
-        } else {
-            value = databaseSuccess(queryModel)
-        }
-    } else {
-        queryModel?.apply {
-            value = databaseSuccess(this)
-        }
-    }
+fun <T> MutableStateFlow<DBResult<T>>.subscribe(queryModel: T?) {
+    value = databaseSubscribe(queryModel)
 }
 
 
 fun <T> MutableStateFlow<DBResult<T>>.subscribeList(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            value = databaseEmptyDB
-        } else {
-            if (this is List<*>) {
-                val list = this as List<*>
-                if (list.isNullOrEmpty()) {
-                    value = databaseEmptyDB
-                } else {
-                    value = databaseSuccess(queryModel)
-                }
-            } else {
-                value = databaseSuccess(queryModel)
-            }
-        }
-    } else {
-        queryModel?.apply {
-            value = databaseSuccess(this)
-        }
-    }
+    value = databaseSubscribeList(queryModel, includeEmptyData)
 }
 
 
@@ -295,42 +203,13 @@ suspend fun <T> MutableSharedFlow<DBResult<T>>.emptyData() {
 }
 
 
-suspend fun <T> MutableSharedFlow<DBResult<T>>.subscribe(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            emit(databaseEmptyDB)
-        } else {
-            emit(databaseSuccess(queryModel))
-        }
-    } else {
-        queryModel?.apply {
-            emit(databaseSuccess(this))
-        }
-    }
+suspend fun <T> MutableSharedFlow<DBResult<T>>.subscribe(queryModel: T?) {
+    emit(databaseSubscribe(queryModel))
 }
 
 
 suspend fun <T> MutableSharedFlow<DBResult<T>>.subscribeList(queryModel: T?, includeEmptyData: Boolean = false) {
-    if (includeEmptyData) {
-        if (queryModel == null) {
-            emit(databaseEmptyDB)
-        } else {
-            if (this is List<*>) {
-                val list = this as List<*>
-                if (list.isNullOrEmpty()) {
-                    emit(databaseEmptyDB)
-                } else {
-                    emit(databaseSuccess(queryModel))
-                }
-            } else {
-                emit(databaseSuccess(queryModel))
-            }
-        }
-    } else {
-        queryModel?.apply {
-            emit(databaseSuccess(this))
-        }
-    }
+    emit(databaseSubscribeList(queryModel, includeEmptyData))
 }
 
 

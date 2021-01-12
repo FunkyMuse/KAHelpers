@@ -38,7 +38,7 @@ fun <T> Flowable<T>?.makeDBCallPost(
         call.subscribeOn(ioThreadScheduler)
                 .observeOn(mainThreadScheduler)
                 .subscribe({
-                    result.subscribePost(it, includeEmptyData)
+                    result.subscribePost(it)
                 }, {
                     result.callErrorPost(it)
                 }).addTo(compositeDisposable)
@@ -80,7 +80,7 @@ fun <T> Single<T>?.makeDBCallPost(
 ) {
     result.queryingPost()
     this?.subscribeOn(ioThreadScheduler)?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -116,7 +116,7 @@ fun <T> Observable<T>?.makeDBCallPost(
     result.queryingPost()
 
     this?.subscribeOn(ioThreadScheduler)?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribePost(it, includeEmptyData)
+        result.subscribePost(it)
     }, {
         result.callErrorPost(it)
     })?.addTo(compositeDisposable)
@@ -182,7 +182,7 @@ fun <T> CompositeDisposable.makeDBCallPost(result: MutableLiveData<DBResult<T>>,
     if (dropBackPressure) {
         disposable?.onBackpressureDrop()
                 ?.subscribe({
-                    result.subscribePost(it, includeEmptyData)
+                    result.subscribePost(it)
                 }, {
                     result.callErrorPost(it)
                 })
@@ -190,7 +190,7 @@ fun <T> CompositeDisposable.makeDBCallPost(result: MutableLiveData<DBResult<T>>,
     } else {
         disposable
                 ?.subscribe({
-                    result.subscribePost(it, includeEmptyData)
+                    result.subscribePost(it)
                 }, {
                     result.callErrorPost(it)
                 })
@@ -233,7 +233,7 @@ fun <T> CompositeDisposable.makeDBCallSinglePost(result: MutableLiveData<DBResul
             ?.subscribeOn(ioThreadScheduler)
             ?.observeOn(mainThreadScheduler)
             ?.subscribe({
-                result.subscribePost(it, includeEmptyData)
+                result.subscribePost(it)
             }, {
                 result.callErrorPost(it)
             })

@@ -38,7 +38,7 @@ fun <T> Flowable<T>?.makeDBCall(
         call.subscribeOn(ioThreadScheduler)
                 .observeOn(mainThreadScheduler)
                 .subscribe({
-                    result.subscribe(it, includeEmptyData)
+                    result.subscribe(it)
                 }, {
                     result.callError(it)
                 }).addTo(compositeDisposable)
@@ -80,7 +80,7 @@ fun <T> Single<T>?.makeDBCall(
 ) {
     result.querying()
     this?.subscribeOn(ioThreadScheduler)?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -116,7 +116,7 @@ fun <T> Observable<T>?.makeDBCall(
     result.querying()
 
     this?.subscribeOn(ioThreadScheduler)?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -151,7 +151,7 @@ fun <T> Maybe<T>?.makeDBCall(
 ) {
     result.querying()
     this?.subscribeOn(ioThreadScheduler)?.observeOn(mainThreadScheduler)?.subscribe({
-        result.subscribe(it, includeEmptyData)
+        result.subscribe(it)
     }, {
         result.callError(it)
     })?.addTo(compositeDisposable)
@@ -182,7 +182,7 @@ fun <T> CompositeDisposable.makeDBCall(result: MutableLiveData<DBResult<T>>, dro
     if (dropBackPressure) {
         disposable?.onBackpressureDrop()
                 ?.subscribe({
-                    result.subscribe(it, includeEmptyData)
+                    result.subscribe(it)
                 }, {
                     result.callError(it)
                 })
@@ -190,7 +190,7 @@ fun <T> CompositeDisposable.makeDBCall(result: MutableLiveData<DBResult<T>>, dro
     } else {
         disposable
                 ?.subscribe({
-                    result.subscribe(it, includeEmptyData)
+                    result.subscribe(it)
                 }, {
                     result.callError(it)
                 })
@@ -233,7 +233,7 @@ fun <T> CompositeDisposable.makeDBCallSingle(result: MutableLiveData<DBResult<T>
             ?.subscribeOn(ioThreadScheduler)
             ?.observeOn(mainThreadScheduler)
             ?.subscribe({
-                result.subscribe(it, includeEmptyData)
+                result.subscribe(it)
             }, {
                 result.callError(it)
             })
@@ -261,7 +261,7 @@ fun <T> CompositeDisposable.makeDBCallMaybe(result: MutableLiveData<DBResult<T>>
             ?.subscribeOn(ioThreadScheduler)
             ?.observeOn(mainThreadScheduler)
             ?.subscribe({
-                result.subscribe(it, includeEmptyData)
+                result.subscribe(it)
             }, {
                 result.callError(it)
             })

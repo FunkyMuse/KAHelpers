@@ -122,7 +122,7 @@ inline fun <T> CoroutineScope.makeDBCallFlow(
         try {
             queryModel.onFlow()
             queryModel?.collect {
-                dbResult.subscribePost(it, includeEmptyData)
+                dbResult.subscribePost(it)
             }
         } catch (t: Throwable) {
             dbResult.callErrorPost(t)
@@ -160,7 +160,7 @@ inline fun <T> ViewModel.makeDBCallFlow(
         try {
             val flow = dbCall()
             flow?.collect {
-                dbResult.subscribePost(it, includeEmptyData)
+                dbResult.subscribePost(it)
             }
         } catch (t: Throwable) {
             dbResult.callErrorPost(t)
@@ -198,7 +198,7 @@ inline fun <T> CoroutineScope.makeDBCallAsync(
                 val task = async(ioDispatcher) {
                     dbCall()
                 }
-                dbResult.subscribe(task.await(), includeEmptyData)
+                dbResult.subscribe(task.await())
             } catch (t: Throwable) {
                 dbResult.callError(t)
             }
@@ -258,7 +258,7 @@ inline fun <T> ViewModel.makeDBCallAsync(
                 val task = async(ioDispatcher) {
                     dbCall()
                 }
-                dbResult.subscribe(task.await(), includeEmptyData)
+                dbResult.subscribe(task.await())
             } catch (t: Throwable) {
                 dbResult.callError(t)
             }
@@ -303,7 +303,7 @@ fun <T> CoroutineScope.makeDBCallAsync(
                 val task = async(ioDispatcher) {
                     queryModel
                 }
-                dbResult.subscribe(task.await(), includeEmptyData)
+                dbResult.subscribe(task.await())
             } catch (t: Throwable) {
                 dbResult.callError(t)
             }
@@ -348,7 +348,7 @@ fun <T> CoroutineScope.makeDBCall(
     dbResult.queryingPost()
     return launch(ioDispatcher) {
         try {
-            dbResult.subscribePost(queryModel, includeEmptyData)
+            dbResult.subscribePost(queryModel)
         } catch (t: Throwable) {
             dbResult.callErrorPost(t)
         }
@@ -380,7 +380,7 @@ fun <T> ViewModel.makeDBCall(
     dbResult.queryingPost()
     return viewModelIOCoroutine {
         try {
-            dbResult.subscribePost(dbCall(), includeEmptyData)
+            dbResult.subscribePost(dbCall())
         } catch (t: Throwable) {
             dbResult.callErrorPost(t)
         }
@@ -445,7 +445,7 @@ fun <T> CoroutineScope.makeDBCall(
 
     return launch(ioDispatcher) {
         try {
-            dbResult.subscribePost(dbCall(), includeEmptyData)
+            dbResult.subscribePost(dbCall())
         } catch (t: Throwable) {
             dbResult.callErrorPost(t)
 
