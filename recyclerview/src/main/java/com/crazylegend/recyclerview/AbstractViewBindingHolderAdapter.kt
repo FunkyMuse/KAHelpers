@@ -1,5 +1,6 @@
 package com.crazylegend.recyclerview
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -46,10 +47,10 @@ abstract class AbstractViewBindingHolderAdapter<T, VB : ViewBinding>(
 
     override fun onBindViewHolder(holder: AbstractViewHolder<VB>, position: Int) {
         val item = getItem(holder.adapterPosition)
-        bindItems(item, position, itemCount, holder.binding)
+        bindItems(item, position, itemCount, holder.binding, holder.itemView.context)
     }
 
-    abstract fun bindItems(item: T, position: Int, itemCount: Int, binding: VB)
+    abstract fun bindItems(item: T, position: Int, itemCount: Int, binding: VB, context: Context)
 
     class AbstractViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
 }
