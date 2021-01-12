@@ -28,6 +28,6 @@ fun <T : ViewBinding> globalViewBinding(viewBindingFactory: (View) -> T) =
 
 internal fun ensureMainThread() {
     if (Looper.myLooper() != Looper.getMainLooper()) {
-        throw IllegalThreadStateException("View can be accessed only on the main thread.")
+        throw IllegalThreadStateException("Views can only be accessed on the main thread.")
     }
 }
