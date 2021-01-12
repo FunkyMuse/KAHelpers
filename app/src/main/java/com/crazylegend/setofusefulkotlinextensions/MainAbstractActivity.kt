@@ -3,6 +3,7 @@ package com.crazylegend.setofusefulkotlinextensions
 
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
@@ -18,8 +19,6 @@ import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
-import com.crazylegend.kotlinextensions.delegates.activityAVM
-import com.crazylegend.kotlinextensions.effects.circularRevealEnter
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
@@ -46,7 +45,7 @@ import kotlinx.coroutines.flow.collect
 
 class MainAbstractActivity : AppCompatActivity() {
 
-    private val testAVM by activityAVM<TestAVM>(arrayOf(TestModel("", 1, "", 2), 1, ""))
+    private val testAVM by viewModels<TestAVM>()
 
     private val testPlaceHolderAdapter by lazy {
         TestPlaceHolderAdapter()
@@ -91,7 +90,7 @@ class MainAbstractActivity : AppCompatActivity() {
         setSupportActionBar(activityMainBinding.toolbar)
 
         activityMainBinding.test.setOnClickListenerCooldown {
-            it.circularRevealEnter()
+            testAVM.getposts()
         }
         lifecycleScope.launchWhenResumed {
             testAVM.posts.collect {
@@ -148,10 +147,9 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
-        val stagger = StaggerTransition()
-
         when (retrofitResult) {
             is RetrofitResult.Success -> {
+                val stagger = StaggerTransition()
                 TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
                 if (activityMainBinding.recycler.adapter != generatedAdapter) {
                     activityMainBinding.recycler.adapter = generatedAdapter
