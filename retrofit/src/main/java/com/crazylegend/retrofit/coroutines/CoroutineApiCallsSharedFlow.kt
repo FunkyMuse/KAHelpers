@@ -17,7 +17,7 @@ import retrofit2.Response
 
 fun <T> CoroutineScope.apiCallSharedFlow(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
                                          replay: Int = 0,
-                                         apiCall: suspend () -> Response<T>?): SharedFlow<RetrofitResult<T>> =
+                                         apiCall: suspend () -> Response<T>): SharedFlow<RetrofitResult<T>> =
         flow {
             try {
                 emit(retrofitSubscribe(apiCall.invoke()))
@@ -30,7 +30,7 @@ fun <T> CoroutineScope.apiCallSharedFlow(sharing: SharingStarted = SharingStarte
 
 
 suspend fun <T> CoroutineScope.apiCallSharedFlowInScope(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
-                                                        replay: Int = 0, apiCall: suspend () -> Response<T>?): SharedFlow<RetrofitResult<T>> =
+                                                        replay: Int = 0, apiCall: suspend () -> Response<T>): SharedFlow<RetrofitResult<T>> =
         flow {
             try {
                 emit(retrofitSubscribe(apiCall.invoke()))
@@ -45,7 +45,7 @@ suspend fun <T> CoroutineScope.apiCallSharedFlowInScope(sharing: SharingStarted 
 suspend fun <T> apiCallSharedFlowWithinScope(coroutineScope: CoroutineScope,
                                              sharing: SharingStarted = SharingStarted.WhileSubscribed(),
                                              replay: Int = 0,
-                                             apiCall: suspend () -> Response<T>?): SharedFlow<RetrofitResult<T>> =
+                                             apiCall: suspend () -> Response<T>): SharedFlow<RetrofitResult<T>> =
         flow {
             try {
                 emit(retrofitSubscribe(apiCall.invoke()))
@@ -60,7 +60,7 @@ suspend fun <T> apiCallSharedFlowWithinScope(coroutineScope: CoroutineScope,
 fun <T> CoroutineScope.makeApiCallList(
         retrofitResult: MutableSharedFlow<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     return launch(ioDispatcher) {
         retrofitResult.loading()
         try {
@@ -73,7 +73,7 @@ fun <T> CoroutineScope.makeApiCallList(
 
 fun <T> CoroutineScope.makeApiCall(
         retrofitResult: MutableSharedFlow<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     return launch(ioDispatcher) {
         retrofitResult.loading()
 
@@ -87,7 +87,7 @@ fun <T> CoroutineScope.makeApiCall(
 
 
 fun <T> CoroutineScope.makeApiCallList(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableSharedFlow<RetrofitResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
@@ -106,7 +106,7 @@ fun <T> CoroutineScope.makeApiCallList(
 fun <T> ViewModel.makeApiCallList(
         retrofitResult: MutableSharedFlow<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     return viewModelIOCoroutine {
         retrofitResult.loading()
 
@@ -119,7 +119,7 @@ fun <T> ViewModel.makeApiCallList(
 }
 
 fun <T> CoroutineScope.makeApiCall(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableSharedFlow<RetrofitResult<T>>
 ): Job {
     return launch(ioDispatcher) {
@@ -136,7 +136,7 @@ fun <T> CoroutineScope.makeApiCall(
 
 fun <T> ViewModel.makeApiCall(
         retrofitResult: MutableSharedFlow<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
 
     return viewModelIOCoroutine {
         retrofitResult.loading()
@@ -151,7 +151,7 @@ fun <T> ViewModel.makeApiCall(
 
 fun <T> CoroutineScope.makeApiCallAsync(
         retrofitResult: MutableSharedFlow<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
 
     return launch(mainDispatcher) {
         supervisorScope {
@@ -168,7 +168,7 @@ fun <T> CoroutineScope.makeApiCallAsync(
     }
 }
 
-inline fun <T> ViewModel.makeApiCallSharedFlow(sharedFlow: MutableSharedFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>?) {
+inline fun <T> ViewModel.makeApiCallSharedFlow(sharedFlow: MutableSharedFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>) {
     viewModelScope.launch {
         supervisorScope {
             sharedFlow.loading()
@@ -186,7 +186,7 @@ inline fun <T> ViewModel.makeApiCallSharedFlow(sharedFlow: MutableSharedFlow<Ret
 
 inline fun <T> ViewModel.makeApiCallListSharedFlow(sharedFlow: MutableSharedFlow<RetrofitResult<T>>,
                                                    includeEmptyData: Boolean = false,
-                                                   crossinline apiCall: suspend () -> Response<T>?) {
+                                                   crossinline apiCall: suspend () -> Response<T>) {
     viewModelScope.launch {
         supervisorScope {
             sharedFlow.loading()
@@ -202,7 +202,7 @@ inline fun <T> ViewModel.makeApiCallListSharedFlow(sharedFlow: MutableSharedFlow
     }
 }
 
-inline fun <T> CoroutineScope.makeApiCallSharedFlow(sharedFlow: MutableSharedFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>?) {
+inline fun <T> CoroutineScope.makeApiCallSharedFlow(sharedFlow: MutableSharedFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>) {
 
     launch {
         supervisorScope {
@@ -222,7 +222,7 @@ inline fun <T> CoroutineScope.makeApiCallSharedFlow(sharedFlow: MutableSharedFlo
 
 inline fun <T> CoroutineScope.makeApiCallListSharedFlow(sharedFlow: MutableSharedFlow<RetrofitResult<T>>,
                                                         includeEmptyData: Boolean = false,
-                                                        crossinline apiCall: suspend () -> Response<T>?) {
+                                                        crossinline apiCall: suspend () -> Response<T>) {
     launch {
         supervisorScope {
             sharedFlow.loading()

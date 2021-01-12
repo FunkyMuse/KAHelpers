@@ -48,8 +48,7 @@ val retrofitLoading get() = RetrofitResult.Loading
 val retrofitEmptyData get() = RetrofitResult.EmptyData
 
 
-fun <T> retrofitSubscribe(response: Response<T>?): RetrofitResult<T> {
-    if (response == null) return retrofitEmptyData
+fun <T> retrofitSubscribe(response: Response<T>): RetrofitResult<T> {
 
     if (response.isSuccessful) {
         val body = response.body() ?: return retrofitEmptyData
@@ -60,8 +59,7 @@ fun <T> retrofitSubscribe(response: Response<T>?): RetrofitResult<T> {
 }
 
 
-fun <T> retrofitSubscribeList(response: Response<T>?, includeEmptyData: Boolean = false): RetrofitResult<T> {
-    if (response == null) return retrofitEmptyData
+fun <T> retrofitSubscribeList(response: Response<T>, includeEmptyData: Boolean = true): RetrofitResult<T> {
     if (response.isSuccessful) {
         val body = response.body()
 
@@ -70,15 +68,11 @@ fun <T> retrofitSubscribeList(response: Response<T>?, includeEmptyData: Boolean 
                 retrofitEmptyData
             }
             includeEmptyData -> {
-                return if (includeEmptyData) {
-                    return body.isListAndNotNullOrEmpty<T?, RetrofitResult<T>>(actionFalse = {
-                        retrofitEmptyData
-                    }, actionTrue = {
-                        retrofitSubscribe(response)
-                    })
-                } else {
+                body.isListAndIsNullOrEmpty<T?, RetrofitResult<T>>(actionFalse = {
                     retrofitSubscribe(response)
-                }
+                }, actionTrue = {
+                    retrofitEmptyData
+                })
             }
             else -> {
                 retrofitSubscribe(response)
@@ -108,23 +102,19 @@ fun <T> MutableLiveData<RetrofitResult<T>>.emptyDataPost() {
     postValue(retrofitEmptyData)
 }
 
-
-inline fun <reified T> isGenericInstanceOf(obj: Any): Boolean = obj is T
-
-
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>?) {
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribe(response: Response<T>) {
     value = retrofitSubscribe(response)
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>?) {
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribePost(response: Response<T>) {
     postValue(retrofitSubscribe(response))
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribeList(response: Response<T>, includeEmptyData: Boolean = false) {
     value = retrofitSubscribeList(response, includeEmptyData)
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableLiveData<RetrofitResult<T>>.subscribeListPost(response: Response<T>, includeEmptyData: Boolean = false) {
     postValue(retrofitSubscribeList(response, includeEmptyData))
 }
 
@@ -160,8 +150,6 @@ fun <T> MutableLiveData<RetrofitResult<T>>.onSuccess(action: (model: T) -> Unit 
         when (it) {
             is RetrofitResult.Success -> {
                 action(it.value)
-            }
-            else -> {
             }
         }
     }
@@ -204,8 +192,6 @@ fun <T> MutableLiveData<RetrofitResult<T>>.onLoading(action: () -> Unit = { }) {
             is RetrofitResult.Loading -> {
                 action()
             }
-            else -> {
-            }
         }
     }
 }
@@ -215,8 +201,6 @@ fun <T> LiveData<RetrofitResult<T>>.onLoading(action: () -> Unit = { }) {
         when (it) {
             is RetrofitResult.Loading -> {
                 action()
-            }
-            else -> {
             }
         }
     }
@@ -232,8 +216,6 @@ fun <T> MutableLiveData<RetrofitResult<T>>.onEmptyData(action: () -> Unit = { })
             is RetrofitResult.EmptyData -> {
                 action()
             }
-            else -> {
-            }
         }
     }
 }
@@ -243,8 +225,6 @@ fun <T> LiveData<RetrofitResult<T>>.onEmptyData(action: () -> Unit = { }) {
         when (it) {
             is RetrofitResult.EmptyData -> {
                 action()
-            }
-            else -> {
             }
         }
     }
@@ -259,8 +239,6 @@ fun <T> MutableLiveData<RetrofitResult<T>>.onCallError(action: (throwable: Throw
             is RetrofitResult.Error -> {
                 action(it.throwable)
             }
-            else -> {
-            }
         }
     }
 }
@@ -270,8 +248,6 @@ fun <T> LiveData<RetrofitResult<T>>.onCallError(action: (throwable: Throwable) -
         when (it) {
             is RetrofitResult.Error -> {
                 action(it.throwable)
-            }
-            else -> {
             }
         }
     }
@@ -286,71 +262,63 @@ fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(action: (responseCode: Int
             is RetrofitResult.ApiError -> {
                 action(it.responseCode, it.errorBody)
             }
-            else -> {
-            }
         }
     }
 }
 
-fun <T> LiveData<RetrofitResult<T>>.onApiError(action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
+inline fun <T> LiveData<RetrofitResult<T>>.onApiError(action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.ApiError -> {
                 action(it.responseCode, it.errorBody)
             }
-            else -> {
-            }
         }
     }
 }
 
-fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(onErrorMessage: String.() -> Unit = {}, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
+inline fun <T> MutableLiveData<RetrofitResult<T>>.onApiError(onErrorMessage: String.() -> Unit = {}, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.ApiError -> {
                 errorResponseCodeMessage(it.responseCode).onErrorMessage()
                 action(it.responseCode, it.errorBody)
             }
-            else -> {
-            }
         }
     }
 }
 
-fun <T> LiveData<RetrofitResult<T>>.onApiError(onErrorMessage: String.() -> Unit = {}, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
+inline fun <T> LiveData<RetrofitResult<T>>.onApiError(onErrorMessage: String.() -> Unit = {}, action: (responseCode: Int, errorBody: ResponseBody?) -> Unit = { _, _ -> }) {
     value?.let {
         when (it) {
             is RetrofitResult.ApiError -> {
                 errorResponseCodeMessage(it.responseCode).onErrorMessage()
                 action(it.responseCode, it.errorBody)
             }
-            else -> {
-            }
         }
     }
 }
 
-fun <T> RetrofitResult<T>.onLoading(function: () -> Unit = {}) {
+inline fun <T> RetrofitResult<T>.onLoading(function: () -> Unit = {}) {
     if (this is RetrofitResult.Loading) function()
 }
 
-fun <T> RetrofitResult<T>.onEmptyData(function: () -> Unit = {}) {
+inline fun <T> RetrofitResult<T>.onEmptyData(function: () -> Unit = {}) {
     if (this is RetrofitResult.EmptyData) function()
 }
 
-fun <T> RetrofitResult<T>.onCallError(function: (throwable: Throwable) -> Unit = { _ -> }) {
+inline fun <T> RetrofitResult<T>.onCallError(function: (throwable: Throwable) -> Unit = { _ -> }) {
     if (this is RetrofitResult.Error) {
         function(throwable)
     }
 }
 
-fun <T> RetrofitResult<T>.onApiError(function: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> }) {
+inline fun <T> RetrofitResult<T>.onApiError(function: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> }) {
     if (this is RetrofitResult.ApiError) {
         function(errorBody, responseCode)
     }
 }
 
-fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }) {
+inline fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }) {
     if (this is RetrofitResult.Success) {
         function(value)
     }
@@ -359,6 +327,9 @@ fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }) {
 
 internal inline fun <T, R> T.isListAndNotNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
         if (this is List<*> && !this.isNullOrEmpty()) actionTrue() else actionFalse()
+
+internal inline fun <T, R> T.isListAndIsNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
+        if (this is List<*> && this.isNullOrEmpty()) actionTrue() else actionFalse()
 
 
 fun <T> MutableStateFlow<RetrofitResult<T>>.loading() {
@@ -370,11 +341,11 @@ fun <T> MutableStateFlow<RetrofitResult<T>>.emptyData() {
     value = retrofitEmptyData
 }
 
-fun <T> MutableStateFlow<RetrofitResult<T>>.subscribe(response: Response<T>?) {
+fun <T> MutableStateFlow<RetrofitResult<T>>.subscribe(response: Response<T>) {
     value = retrofitSubscribe(response)
 }
 
-fun <T> MutableStateFlow<RetrofitResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableStateFlow<RetrofitResult<T>>.subscribeList(response: Response<T>, includeEmptyData: Boolean = false) {
     value = retrofitSubscribeList(response, includeEmptyData)
 }
 
@@ -400,11 +371,11 @@ suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.emptyData() {
     emit(retrofitEmptyData)
 }
 
-suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.subscribe(response: Response<T>?) {
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.subscribe(response: Response<T>) {
     emit(retrofitSubscribe(response))
 }
 
-suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.subscribeList(response: Response<T>, includeEmptyData: Boolean = false) {
     emit(retrofitSubscribeList(response, includeEmptyData))
 }
 
@@ -421,9 +392,8 @@ suspend fun <T> MutableSharedFlow<RetrofitResult<T>>.apiError(code: Int, errorBo
     emit(retrofitApiError(code, errorBody))
 }
 
-fun <T> unwrapResponseToModel(response: Response<T>?): T? = when {
-    response == null -> null
-    response.isSuccessful -> response.body()
+fun <T> Response<T>.unwrapResponseToModel(): T? = when {
+    isSuccessful -> body()
     else -> null
 }
 

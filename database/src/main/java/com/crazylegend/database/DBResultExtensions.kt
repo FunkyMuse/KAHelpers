@@ -19,23 +19,19 @@ fun <T> databaseSubscribe(response: T?): DBResult<T> = if (response == null) dat
 
 
 fun <T> databaseSubscribeList(response: T?, includeEmptyData: Boolean = false): DBResult<T> {
-    when {
+    return when {
         response == null -> {
-            return databaseEmptyDB
+            databaseEmptyDB
         }
         includeEmptyData -> {
-            return if (includeEmptyData) {
-                return response.isListAndNotNullOrEmpty<T?, DBResult<T>>(actionFalse = {
-                    databaseEmptyDB
-                }, actionTrue = {
-                    databaseSubscribe<T>(response)
-                })
-            } else {
+            response.isListAndIsNullOrEmpty<T?, DBResult<T>>(actionFalse = {
                 databaseSubscribe<T>(response)
-            }
+            }, actionTrue = {
+                databaseEmptyDB
+            })
         }
         else -> {
-            return databaseSubscribe(response)
+            databaseSubscribe(response)
         }
     }
 }
@@ -228,6 +224,8 @@ inline val <T> LiveData<DBResult<T>>.getSuccess: T?
 internal inline fun <T, R> T.isListAndNotNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
         if (this is List<*> && !this.isNullOrEmpty()) actionTrue() else actionFalse()
 
+internal inline fun <T, R> T.isListAndIsNullOrEmpty(actionFalse: () -> R, actionTrue: () -> R): R =
+        if (this is List<*> && this.isNullOrEmpty()) actionTrue() else actionFalse()
 
 fun <T> MutableStateFlow<DBResult<T>>.querying() {
     value = databaseQuerying

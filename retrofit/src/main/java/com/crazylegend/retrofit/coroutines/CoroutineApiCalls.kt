@@ -26,7 +26,7 @@ retrofit?.getPosts()
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>?
  */
-fun <T> ViewModel.makeApiCallLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> ViewModel.makeApiCallLiveData(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         try {
@@ -43,7 +43,7 @@ fun <T> ViewModel.makeApiCallLiveData(apiCall: suspend () -> Response<T>?): Live
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> ViewModel.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> ViewModel.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         try {
@@ -67,7 +67,7 @@ fun <T> ViewModel.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<Retrofi
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>
  */
-fun <T> ViewModel.makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> ViewModel.makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -90,7 +90,7 @@ fun <T> ViewModel.makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>?):
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> ViewModel.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> ViewModel.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>) {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -116,7 +116,7 @@ fun <T> ViewModel.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLiveData<Re
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>
  */
-fun <T> ViewModel.makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> ViewModel.makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -138,7 +138,7 @@ fun <T> ViewModel.makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> ViewModel.makeApiCallLiveDataListAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> ViewModel.makeApiCallLiveDataListAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>) {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -164,7 +164,7 @@ fun <T> ViewModel.makeApiCallLiveDataListAsync(mediatorLiveData: MediatorLiveDat
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>
  */
-fun <T> ViewModel.makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> ViewModel.makeApiCallListLiveData(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         try {
@@ -181,7 +181,7 @@ fun <T> ViewModel.makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): 
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> ViewModel.makeApiCallListLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> ViewModel.makeApiCallListLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>) {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = viewModelScope.coroutineContext) {
         emit(RetrofitResult.Loading)
         try {
@@ -198,53 +198,45 @@ fun <T> ViewModel.makeApiCallListLiveData(mediatorLiveData: MediatorLiveData<Ret
 }
 
 
-suspend fun <T> LiveDataScope<RetrofitResult<T>>.subscribeApiCall(res: Response<T>?) {
-    if (res == null) {
-        emit(RetrofitResult.EmptyData)
-    } else {
-        if (res.isSuccessful) {
-            val body = res.body()
-            if (body == null) {
-                emit(RetrofitResult.EmptyData)
-            } else {
-                emit(RetrofitResult.Success(body))
-            }
+suspend fun <T> LiveDataScope<RetrofitResult<T>>.subscribeApiCall(res: Response<T>) {
+    if (res.isSuccessful) {
+        val body = res.body()
+        if (body == null) {
+            emit(RetrofitResult.EmptyData)
         } else {
-            emit(RetrofitResult.ApiError(res.code(), res.errorBody()))
+            emit(RetrofitResult.Success(body))
         }
+    } else {
+        emit(RetrofitResult.ApiError(res.code(), res.errorBody()))
     }
 }
 
-suspend fun <T> LiveDataScope<RetrofitResult<T>>.subscribeApiCallList(res: Response<T>?) {
-    if (res == null) {
-        emit(RetrofitResult.EmptyData)
-    } else {
-        if (res.isSuccessful) {
-            val body = res.body()
-            if (body == null) {
-                emit(RetrofitResult.EmptyData)
-            } else {
-                if (body is List<*>) {
-                    val list = body as List<*>
-                    if (list.isNullOrEmpty()) {
-                        emit(RetrofitResult.EmptyData)
-                    } else {
-                        emit(RetrofitResult.Success(body))
-                    }
+suspend fun <T> LiveDataScope<RetrofitResult<T>>.subscribeApiCallList(res: Response<T>) {
+    if (res.isSuccessful) {
+        val body = res.body()
+        if (body == null) {
+            emit(RetrofitResult.EmptyData)
+        } else {
+            if (body is List<*>) {
+                val list = body as List<*>
+                if (list.isNullOrEmpty()) {
+                    emit(RetrofitResult.EmptyData)
                 } else {
                     emit(RetrofitResult.Success(body))
                 }
+            } else {
+                emit(RetrofitResult.Success(body))
             }
-        } else {
-            emit(RetrofitResult.ApiError(res.code(), res.errorBody()))
         }
+    } else {
+        emit(RetrofitResult.ApiError(res.code(), res.errorBody()))
     }
 }
 
 fun <T> ViewModel.makeApiCallListAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     return viewModelScope.launch(mainDispatcher) {
         supervisorScope {
             retrofitResult.loading()
@@ -262,7 +254,7 @@ fun <T> ViewModel.makeApiCallListAsync(
 
 fun <T> ViewModel.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
 
     return viewModelScope.launch(mainDispatcher) {
         supervisorScope {
@@ -281,7 +273,7 @@ fun <T> ViewModel.makeApiCallAsync(
 
 
 fun <T> CoroutineScope.makeApiCallListAsync(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
@@ -302,7 +294,7 @@ fun <T> CoroutineScope.makeApiCallListAsync(
 
 
 fun <T> CoroutineScope.makeApiCallAsync(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableLiveData<RetrofitResult<T>>
 ): Job {
 
@@ -328,7 +320,7 @@ fun <T> CoroutineScope.makeApiCallAsync(
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>
  */
-fun <T> CoroutineContext.makeApiCallLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> CoroutineContext.makeApiCallLiveData(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = this) {
         emit(RetrofitResult.Loading)
         try {
@@ -345,7 +337,7 @@ fun <T> CoroutineContext.makeApiCallLiveData(apiCall: suspend () -> Response<T>?
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> CoroutineContext.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> CoroutineContext.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>) {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
         emit(RetrofitResult.Loading)
         try {
@@ -361,7 +353,7 @@ fun <T> CoroutineContext.makeApiCallLiveData(mediatorLiveData: MediatorLiveData<
 }
 
 
-fun <T> CoroutineContext.makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> CoroutineContext.makeApiCallLiveDataAsync(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = this) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -383,7 +375,7 @@ fun <T> CoroutineContext.makeApiCallLiveDataAsync(apiCall: suspend () -> Respons
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> CoroutineContext.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> CoroutineContext.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>) {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -408,7 +400,7 @@ fun <T> CoroutineContext.makeApiCallLiveDataAsync(mediatorLiveData: MediatorLive
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>
  */
-fun <T> CoroutineContext.makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> CoroutineContext.makeApiCallLiveDataListAsync(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = this) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -430,7 +422,7 @@ fun <T> CoroutineContext.makeApiCallLiveDataListAsync(apiCall: suspend () -> Res
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> CoroutineContext.makeApiCallLiveDataListAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> CoroutineContext.makeApiCallLiveDataListAsync(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>) {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
         emit(RetrofitResult.Loading)
         supervisorScope {
@@ -456,7 +448,7 @@ fun <T> CoroutineContext.makeApiCallLiveDataListAsync(mediatorLiveData: Mediator
  * @param apiCall SuspendFunction0<Response<T>?>
  * @return LiveData<RetrofitResult<T>>
  */
-fun <T> CoroutineContext.makeApiCallListLiveData(apiCall: suspend () -> Response<T>?): LiveData<RetrofitResult<T>> {
+fun <T> CoroutineContext.makeApiCallListLiveData(apiCall: suspend () -> Response<T>): LiveData<RetrofitResult<T>> {
     return liveData(context = this) {
         emit(RetrofitResult.Loading)
         try {
@@ -473,7 +465,7 @@ fun <T> CoroutineContext.makeApiCallListLiveData(apiCall: suspend () -> Response
  * @param mediatorLiveData MediatorLiveData<RetrofitResult<T>>
  * @param apiCall SuspendFunction0<Response<T>?>
  */
-fun <T> CoroutineContext.makeApiCallListLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>?) {
+fun <T> CoroutineContext.makeApiCallListLiveData(mediatorLiveData: MediatorLiveData<RetrofitResult<T>>, apiCall: suspend () -> Response<T>) {
     val ld: LiveData<RetrofitResult<T>> = liveData(context = this) {
         emit(RetrofitResult.Loading)
         try {
@@ -488,7 +480,7 @@ fun <T> CoroutineContext.makeApiCallListLiveData(mediatorLiveData: MediatorLiveD
 }
 
 
-fun <T> ViewModel.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
+fun <T> ViewModel.makeApiCallAsync(apiCall: suspend () -> Response<T>,
                                    onError: (throwable: Throwable) -> Unit = { _ -> },
                                    onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
                                    onResponse: (response: T?) -> Unit
@@ -517,7 +509,7 @@ fun <T> ViewModel.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 }
 
 
-fun <T> CoroutineScope.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
+fun <T> CoroutineScope.makeApiCallAsync(apiCall: suspend () -> Response<T>,
                                         onError: (throwable: Throwable) -> Unit = { _ -> },
                                         onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
                                         onResponse: (response: T?) -> Unit
@@ -548,7 +540,7 @@ fun <T> CoroutineScope.makeApiCallAsync(apiCall: suspend () -> Response<T>?,
 
 fun <T> CoroutineScope.makeApiCallAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
 
     return launch(mainDispatcher) {
         supervisorScope {
@@ -569,7 +561,7 @@ fun <T> CoroutineScope.makeApiCallAsync(
 fun <T> CoroutineScope.makeApiCallListAsync(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loadingPost()
 
     return launch(mainDispatcher) {
@@ -591,7 +583,7 @@ fun <T> CoroutineScope.makeApiCallListAsync(
 
 suspend fun <T> apiCallList(
         includeEmptyData: Boolean = false,
-        apiCall: suspend () -> Response<T>?): RetrofitResult<T> {
+        apiCall: suspend () -> Response<T>): RetrofitResult<T> {
 
     return withIOContext {
         try {
@@ -605,7 +597,7 @@ suspend fun <T> apiCallList(
 }
 
 suspend fun <T> apiCall(
-        apiCall: suspend () -> Response<T>?): RetrofitResult<T> {
+        apiCall: suspend () -> Response<T>): RetrofitResult<T> {
     return withIOContext {
         try {
             retrofitSubscribe(apiCall())
@@ -619,7 +611,7 @@ suspend fun <T> apiCall(
 
 
 fun <T> CoroutineScope.makeApiCallList(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
@@ -637,7 +629,7 @@ fun <T> CoroutineScope.makeApiCallList(
 fun <T> ViewModel.makeApiCallList(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loadingPost()
     return viewModelIOCoroutine {
         try {
@@ -649,7 +641,7 @@ fun <T> ViewModel.makeApiCallList(
 }
 
 fun <T> CoroutineScope.makeApiCall(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableLiveData<RetrofitResult<T>>
 ): Job {
     retrofitResult.loadingPost()
@@ -666,7 +658,7 @@ fun <T> CoroutineScope.makeApiCall(
 
 fun <T> ViewModel.makeApiCall(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loadingPost()
     return viewModelIOCoroutine {
         try {
@@ -678,7 +670,7 @@ fun <T> ViewModel.makeApiCall(
 }
 
 
-fun <T> ViewModel.makeApiCall(apiCall: suspend () -> Response<T>?,
+fun <T> ViewModel.makeApiCall(apiCall: suspend () -> Response<T>,
                               onError: (throwable: Throwable) -> Unit = { _ -> },
                               onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
                               onResponse: (response: T?) -> Unit
@@ -702,7 +694,7 @@ fun <T> ViewModel.makeApiCall(apiCall: suspend () -> Response<T>?,
 }
 
 
-fun <T> CoroutineScope.makeApiCall(apiCall: suspend () -> Response<T>?,
+fun <T> CoroutineScope.makeApiCall(apiCall: suspend () -> Response<T>,
                                    onError: (throwable: Throwable) -> Unit = { _ -> },
                                    onUnsuccessfulCall: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> },
                                    onResponse: (response: T?) -> Unit
@@ -727,7 +719,7 @@ fun <T> CoroutineScope.makeApiCall(apiCall: suspend () -> Response<T>?,
 
 fun <T> CoroutineScope.makeApiCall(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loadingPost()
     return launch(ioDispatcher) {
         try {
@@ -742,7 +734,7 @@ fun <T> CoroutineScope.makeApiCall(
 fun <T> CoroutineScope.makeApiCallList(
         retrofitResult: MutableLiveData<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loadingPost()
 
     return launch(ioDispatcher) {
@@ -756,7 +748,7 @@ fun <T> CoroutineScope.makeApiCallList(
 
 }
 
-fun <T> apiCallAsFlow(apiCall: suspend () -> Response<T>?): Flow<RetrofitResult<T>> =
+fun <T> apiCallAsFlow(apiCall: suspend () -> Response<T>): Flow<RetrofitResult<T>> =
         flow {
             try {
                 emit(retrofitSubscribe(apiCall.invoke()))

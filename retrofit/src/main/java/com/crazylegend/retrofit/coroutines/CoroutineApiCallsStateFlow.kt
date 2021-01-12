@@ -17,7 +17,7 @@ import retrofit2.Response
 
 fun <T> CoroutineScope.apiCallStateFlow(sharing: SharingStarted = SharingStarted.WhileSubscribed(),
                                         initialValue: RetrofitResult<T> = RetrofitResult.Loading,
-                                        apiCall: suspend () -> Response<T>?): StateFlow<RetrofitResult<T>> =
+                                        apiCall: suspend () -> Response<T>): StateFlow<RetrofitResult<T>> =
         flow {
             try {
                 emit(retrofitSubscribe(apiCall.invoke()))
@@ -29,7 +29,7 @@ fun <T> CoroutineScope.apiCallStateFlow(sharing: SharingStarted = SharingStarted
         }.stateIn(this, sharing, initialValue)
 
 
-suspend fun <T> CoroutineScope.apiCallStateFlowInScope(apiCall: suspend () -> Response<T>?): StateFlow<RetrofitResult<T>> =
+suspend fun <T> CoroutineScope.apiCallStateFlowInScope(apiCall: suspend () -> Response<T>): StateFlow<RetrofitResult<T>> =
         flow {
             try {
                 emit(retrofitSubscribe(apiCall.invoke()))
@@ -41,7 +41,7 @@ suspend fun <T> CoroutineScope.apiCallStateFlowInScope(apiCall: suspend () -> Re
         }.stateIn(this)
 
 
-suspend fun <T> apiCallStateFlowWithinScope(coroutineScope: CoroutineScope, apiCall: suspend () -> Response<T>?): StateFlow<RetrofitResult<T>> =
+suspend fun <T> apiCallStateFlowWithinScope(coroutineScope: CoroutineScope, apiCall: suspend () -> Response<T>): StateFlow<RetrofitResult<T>> =
         flow {
             try {
                 emit(retrofitSubscribe(apiCall.invoke()))
@@ -56,7 +56,7 @@ suspend fun <T> apiCallStateFlowWithinScope(coroutineScope: CoroutineScope, apiC
 fun <T> CoroutineScope.makeApiCallList(
         retrofitResult: MutableStateFlow<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
 
     retrofitResult.loading()
 
@@ -71,7 +71,7 @@ fun <T> CoroutineScope.makeApiCallList(
 
 fun <T> CoroutineScope.makeApiCall(
         retrofitResult: MutableStateFlow<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loading()
     return launch(ioDispatcher) {
         try {
@@ -84,7 +84,7 @@ fun <T> CoroutineScope.makeApiCall(
 
 
 fun <T> CoroutineScope.makeApiCallList(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableStateFlow<RetrofitResult<T>>,
         includeEmptyData: Boolean = true
 ): Job {
@@ -102,7 +102,7 @@ fun <T> CoroutineScope.makeApiCallList(
 fun <T> ViewModel.makeApiCallList(
         retrofitResult: MutableStateFlow<RetrofitResult<T>>,
         includeEmptyData: Boolean = true,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loading()
     return viewModelIOCoroutine {
         try {
@@ -114,7 +114,7 @@ fun <T> ViewModel.makeApiCallList(
 }
 
 fun <T> CoroutineScope.makeApiCall(
-        response: Response<T>?,
+        response: Response<T>,
         retrofitResult: MutableStateFlow<RetrofitResult<T>>
 ): Job {
     retrofitResult.loading()
@@ -130,7 +130,7 @@ fun <T> CoroutineScope.makeApiCall(
 
 fun <T> ViewModel.makeApiCall(
         retrofitResult: MutableStateFlow<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
     retrofitResult.loading()
     return viewModelIOCoroutine {
         try {
@@ -144,7 +144,7 @@ fun <T> ViewModel.makeApiCall(
 
 fun <T> CoroutineScope.makeApiCallAsync(
         retrofitResult: MutableStateFlow<RetrofitResult<T>>,
-        apiCall: suspend () -> Response<T>?): Job {
+        apiCall: suspend () -> Response<T>): Job {
 
     return launch(mainDispatcher) {
         supervisorScope {
@@ -161,7 +161,7 @@ fun <T> CoroutineScope.makeApiCallAsync(
     }
 }
 
-inline fun <T> ViewModel.makeApiCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>?) {
+inline fun <T> ViewModel.makeApiCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>) {
     viewModelScope.launch {
         supervisorScope {
             stateFlow.value = retrofitLoading
@@ -179,7 +179,7 @@ inline fun <T> ViewModel.makeApiCallStateFlow(stateFlow: MutableStateFlow<Retrof
 
 inline fun <T> ViewModel.makeApiCallListStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>,
                                                   includeEmptyData: Boolean = false,
-                                                  crossinline apiCall: suspend () -> Response<T>?) {
+                                                  crossinline apiCall: suspend () -> Response<T>) {
     viewModelScope.launch {
         supervisorScope {
             stateFlow.value = retrofitLoading
@@ -195,7 +195,7 @@ inline fun <T> ViewModel.makeApiCallListStateFlow(stateFlow: MutableStateFlow<Re
     }
 }
 
-inline fun <T> CoroutineScope.makeApiCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>?) {
+inline fun <T> CoroutineScope.makeApiCallStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline apiCall: suspend () -> Response<T>) {
 
     launch {
         supervisorScope {
@@ -215,7 +215,7 @@ inline fun <T> CoroutineScope.makeApiCallStateFlow(stateFlow: MutableStateFlow<R
 
 inline fun <T> CoroutineScope.makeApiCallListStateFlow(stateFlow: MutableStateFlow<RetrofitResult<T>>,
                                                        includeEmptyData: Boolean = false,
-                                                       crossinline apiCall: suspend () -> Response<T>?) {
+                                                       crossinline apiCall: suspend () -> Response<T>) {
     launch {
         supervisorScope {
             stateFlow.value = retrofitLoading

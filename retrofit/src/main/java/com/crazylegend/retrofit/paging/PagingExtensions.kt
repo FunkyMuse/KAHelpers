@@ -149,16 +149,16 @@ fun MutableLiveData<PagingStateResult>.cantLoadMore() {
     value = PagingStateResult.CantLoadMore
 }
 
-fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>?) {
+fun <T> MutableLiveData<PagingStateResult>.subscribe(response: Response<T>) {
     value = retrofitSubscribe(response).toPaging()
 }
 
-fun <T> MutableLiveData<PagingStateResult>.subscribePost(response: Response<T>?) {
+fun <T> MutableLiveData<PagingStateResult>.subscribePost(response: Response<T>) {
     postValue(retrofitSubscribe(response).toPaging())
 }
 
 
-fun <T> MutableLiveData<PagingStateResult>.subscribeList(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableLiveData<PagingStateResult>.subscribeList(response: Response<T>, includeEmptyData: Boolean = false) {
     value = retrofitSubscribeList(response, includeEmptyData).toPaging()
 }
 
@@ -172,7 +172,7 @@ private fun <T> RetrofitResult<T>.toPaging() =
         }
 
 
-fun <T> MutableLiveData<PagingStateResult>.subscribeListPost(response: Response<T>?, includeEmptyData: Boolean = false) {
+fun <T> MutableLiveData<PagingStateResult>.subscribeListPost(response: Response<T>, includeEmptyData: Boolean = false) {
     postValue(retrofitSubscribeList(response, includeEmptyData).toPaging())
 }
 
