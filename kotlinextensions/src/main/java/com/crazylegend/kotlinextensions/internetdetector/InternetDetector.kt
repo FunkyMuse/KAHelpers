@@ -21,8 +21,9 @@ import com.crazylegend.kotlinextensions.context.isOnline
  */
 class InternetDetector(private val context: Context) : LiveData<Boolean>() {
 
-
-    private val CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE"
+    companion object {
+        private const val CONNECTIVITY_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE"
+    }
 
     private var intentFilter = IntentFilter(CONNECTIVITY_CHANGE)
     private var connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -45,6 +46,7 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
                         .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
                         .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                         .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
+                        .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
                 connectivityManager.registerNetworkCallback(builder.build(), networkCallback)
             }
             else -> {
