@@ -14,6 +14,7 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.db.TestRepo
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -23,19 +24,19 @@ import retrofit2.create
  * Created by hristijan on 8/26/19 to long live and prosper !
  */
 
+
 /**
  * Template created by Hristijan to live long and prosper.
  */
 
 class TestAVM(application: Application) : AndroidViewModel(application) {
 
+
     private val testRepo = TestRepo(application)
 
-    /*private val postsData: MediatorLiveData<RetrofitResult<List<TestModel>>> = MediatorLiveData()
-    val posts: LiveData<RetrofitResult<List<TestModel>>> = postsData*/
-
     private val postsData: MutableStateFlow<RetrofitResult<List<TestModel>>> = MutableStateFlow(RetrofitResult.EmptyData)
-    val posts: MutableStateFlow<RetrofitResult<List<TestModel>>> = postsData
+    val posts = postsData.asStateFlow()
+
 
     private val filteredPostsData: MutableLiveData<List<TestModel>> = MutableLiveData()
     val filteredPosts: LiveData<List<TestModel>> = filteredPostsData
@@ -47,7 +48,6 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
 
     fun getposts() {
         postsData.value = RetrofitResult.Loading
-
         viewModelScope.launch {
             postsData.asNetworkBoundResource(saveToDatabase = {
                 testRepo.insertList(it)
@@ -93,5 +93,6 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
 
 
 }
+
 
 
