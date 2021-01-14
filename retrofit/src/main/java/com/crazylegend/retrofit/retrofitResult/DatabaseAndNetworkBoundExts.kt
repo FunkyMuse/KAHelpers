@@ -7,36 +7,53 @@ import kotlinx.coroutines.flow.MutableStateFlow
  */
 
 
-suspend inline fun <T> RetrofitResult<T>.asDatabaseBoundResource(
+suspend fun <T> RetrofitResult<T>.asDatabaseBoundResource(
         provideDatabaseCall: Boolean = true,
-        noinline saveToDatabase: suspend (T) -> Unit = {},
-        noinline loadFromDatabase: suspend () -> T,
-): RetrofitResult<T> {
-    return when (this) {
-        is RetrofitResult.Success -> {
-            saveToDatabase(value)
-            checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, this, loadFromDatabase)
-        }
-        RetrofitResult.EmptyData -> {
-            checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, this, loadFromDatabase)
-        }
-        is RetrofitResult.Error -> {
-            checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, this, loadFromDatabase)
-        }
-        is RetrofitResult.ApiError -> {
-            checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, this, loadFromDatabase)
-        }
-        is RetrofitResult.Loading -> this
-
+        saveToDatabase: suspend (T) -> Unit = {},
+        loadFromDatabase: suspend () -> T,
+): RetrofitResult<T> = when (this) {
+    is RetrofitResult.Success -> {
+        saveToDatabase(value)
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
     }
+    RetrofitResult.EmptyData -> {
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
+    }
+    is RetrofitResult.Error -> {
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
+    }
+    is RetrofitResult.ApiError -> {
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
+    }
+    is RetrofitResult.Loading -> this
 }
 
-suspend inline fun <T> MutableStateFlow<RetrofitResult<T>>.asNetworkBoundResource(
+suspend fun <T> RetrofitResult<T>.asDatabaseBoundResource(
         provideDatabaseCall: Boolean = true,
-        noinline saveToDatabase: suspend (T) -> Unit = {},
-        noinline shouldLoadFromNetworkOnDatabaseCondition: (T) -> Boolean = { true },
-        noinline loadFromDatabase: suspend () -> T,
-        noinline loadFromNetwork: suspend () -> RetrofitResult<T>
+        loadFromDatabase: suspend () -> T,
+): RetrofitResult<T> = when (this) {
+    is RetrofitResult.Success -> {
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
+    }
+    RetrofitResult.EmptyData -> {
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
+    }
+    is RetrofitResult.Error -> {
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
+    }
+    is RetrofitResult.ApiError -> {
+        checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(provideDatabaseCall, loadFromDatabase)
+    }
+    is RetrofitResult.Loading -> this
+}
+
+
+suspend fun <T> MutableStateFlow<RetrofitResult<T>>.asNetworkBoundResource(
+        provideDatabaseCall: Boolean = true,
+        saveToDatabase: suspend (T) -> Unit = {},
+        shouldLoadFromNetworkOnDatabaseCondition: (T) -> Boolean = { true },
+        loadFromDatabase: suspend () -> T,
+        loadFromNetwork: suspend () -> RetrofitResult<T>
 ) {
 
     loadFromNetwork().handle(
@@ -54,23 +71,22 @@ suspend inline fun <T> MutableStateFlow<RetrofitResult<T>>.asNetworkBoundResourc
             },
             success = {
                 saveToDatabase(this)
-                stateFlowBoundedAsResourceAndDate(provideDatabaseCall, shouldLoadFromNetworkOnDatabaseCondition, loadFromDatabase(), loadFromNetwork, saveToDatabase, loadFromDatabase)
+                stateFlowBoundedAsResourceAndDate(provideDatabaseCall, shouldLoadFromNetworkOnDatabaseCondition, loadFromDatabase(), loadFromNetwork, loadFromDatabase)
             }
     )
 }
 
-suspend inline fun <T> checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(
+private suspend fun <T> RetrofitResult<T>.checkWhetherToProvideDatabaseCallOrPropagateCurrentResult(
         provideDatabaseCall: Boolean,
-        currentState: RetrofitResult<T>,
-        noinline loadFromDatabase: suspend () -> T): RetrofitResult<T> =
+        loadFromDatabase: suspend () -> T): RetrofitResult<T> =
         if (provideDatabaseCall) {
             RetrofitResult.Success(loadFromDatabase())
         } else {
-            currentState
+            this
         }
 
 
-suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAndDate(
+private suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAndDate(
         provideDatabaseCall: Boolean = true,
         shouldLoadFromNetworkOnDatabaseCondition: (T) -> Boolean,
         databaseValue: T,
@@ -79,6 +95,19 @@ suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAn
         loadFromDatabase: suspend () -> T) {
     if (shouldLoadFromNetworkOnDatabaseCondition(databaseValue)) {
         loadFromNetwork().asDatabaseBoundResource(provideDatabaseCall, saveToDatabase, loadFromDatabase)
+    } else {
+        value = RetrofitResult.Success(databaseValue)
+    }
+}
+
+private suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAndDate(
+        provideDatabaseCall: Boolean = true,
+        shouldLoadFromNetworkOnDatabaseCondition: (T) -> Boolean,
+        databaseValue: T,
+        loadFromNetwork: suspend () -> RetrofitResult<T>,
+        loadFromDatabase: suspend () -> T) {
+    if (shouldLoadFromNetworkOnDatabaseCondition(databaseValue)) {
+        loadFromNetwork().asDatabaseBoundResource(provideDatabaseCall, loadFromDatabase)
     } else {
         value = RetrofitResult.Success(databaseValue)
     }
