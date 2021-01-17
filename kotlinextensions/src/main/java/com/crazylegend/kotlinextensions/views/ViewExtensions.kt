@@ -1523,7 +1523,7 @@ fun View.animateTranslationY(values: FloatArray, duration: Long = 300, repeatCou
     animator.start()
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.animateTranslationZ(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0) {
     val animator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Z, *values)
     animator.repeatCount = repeatCount
@@ -1614,7 +1614,7 @@ fun View.animateY(values: FloatArray, duration: Long = 300, repeatCount: Int = 0
     animator.start()
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.animateZ(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0) {
     val animator = ObjectAnimator.ofFloat(this, View.Z, *values)
     animator.repeatCount = repeatCount
@@ -1655,7 +1655,7 @@ fun View.translationYAnimator(
     return animator
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.translationZAnimator(
         values: FloatArray,
         duration: Long = 300,
@@ -1766,7 +1766,7 @@ fun View.yAnimator(values: FloatArray, duration: Long = 300, repeatCount: Int = 
     return animator
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.zAnimator(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.Z, *values)
     animator.repeatCount = repeatCount

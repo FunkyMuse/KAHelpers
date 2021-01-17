@@ -4,11 +4,9 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.annotation.TransitionRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,7 +16,6 @@ import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionInflater
 import androidx.transition.TransitionManager
-import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
 import com.crazylegend.kotlinextensions.views.scaleXY
 
 
@@ -66,12 +63,12 @@ inline fun <T : ImageView> T.fadeScaleTransition(
 }
 
 
-fun Transition.addListener(
-        onTransitionEnd: (Transition) -> Unit = {},
-        onTransitionResume: (Transition) -> Unit = {},
-        onTransitionPause: (Transition) -> Unit = {},
-        onTransitionCancel: (Transition) -> Unit = {},
-        onTransitionStart: (Transition) -> Unit = {}
+inline fun Transition.addListener(
+        crossinline onTransitionEnd: (Transition) -> Unit = {},
+        crossinline onTransitionResume: (Transition) -> Unit = {},
+        crossinline onTransitionPause: (Transition) -> Unit = {},
+        crossinline onTransitionCancel: (Transition) -> Unit = {},
+        crossinline onTransitionStart: (Transition) -> Unit = {}
 ) {
     addListener(object : Transition.TransitionListener {
         override fun onTransitionEnd(transition: Transition) {
@@ -97,27 +94,26 @@ fun Transition.addListener(
     })
 }
 
-fun Transition.onTransitionEnd(onTransitionEnd: (Transition) -> Unit = { _ -> }) {
+inline fun Transition.onTransitionEnd(crossinline onTransitionEnd: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionEnd = onTransitionEnd)
 }
 
-fun Transition.onTransitionResume(onTransitionResume: (Transition) -> Unit = { _ -> }) {
+inline fun Transition.onTransitionResume(crossinline onTransitionResume: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionResume = onTransitionResume)
 }
 
-fun Transition.onTransitionPause(onTransitionPause: (Transition) -> Unit = { _ -> }) {
+inline fun Transition.onTransitionPause(crossinline onTransitionPause: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionPause = onTransitionPause)
 }
 
-fun Transition.onTransitionCancel(onTransitionCancel: (Transition) -> Unit = { _ -> }) {
+inline fun Transition.onTransitionCancel(crossinline onTransitionCancel: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionCancel = onTransitionCancel)
 }
 
-fun Transition.onTransitionStart(onTransitionStart: (Transition) -> Unit = { _ -> }) {
+inline fun Transition.onTransitionStart(crossinline onTransitionStart: (Transition) -> Unit = { _ -> }) {
     addListener(onTransitionStart = onTransitionStart)
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class TransitionEndListener(val onEnd: (transition: Transition) -> Unit) : Transition.TransitionListener {
     override fun onTransitionEnd(transition: Transition) = onEnd(transition)
     override fun onTransitionResume(transition: Transition) {}
@@ -126,21 +122,19 @@ class TransitionEndListener(val onEnd: (transition: Transition) -> Unit) : Trans
     override fun onTransitionStart(transition: Transition) {}
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun Transition.addEndListener(onEnd: (transition: Transition) -> Unit) {
     addListener(TransitionEndListener(onEnd))
 }
 
 
-fun ViewGroup.transitionAuto(builder: AutoTransition.() -> Unit = {}) {
-    if (!buildIsLollipopAndUp) return
+inline fun ViewGroup.transitionAuto(builder: AutoTransition.() -> Unit = {}) {
     val transition = AutoTransition()
     transition.builder()
     TransitionManager.beginDelayedTransition(this, transition)
 }
 
-fun ViewGroup.transitionDelayed(@TransitionRes id: Int, builder: androidx.transition.Transition.() -> Unit = {}) {
-    if (!buildIsLollipopAndUp) return
+inline fun ViewGroup.transitionDelayed(@TransitionRes id: Int, builder: Transition.() -> Unit = {}) {
     val transition = TransitionInflater.from(context).inflateTransition(id)
     transition.builder()
     TransitionManager.beginDelayedTransition(this, transition)

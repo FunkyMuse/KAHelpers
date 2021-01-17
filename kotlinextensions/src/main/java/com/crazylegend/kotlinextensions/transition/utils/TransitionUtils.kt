@@ -1,9 +1,11 @@
 package com.crazylegend.kotlinextensions.transition.utils
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.Fade
 import androidx.transition.Transition
 import androidx.transition.TransitionSet
+import com.crazylegend.kotlinextensions.effects.onTransitionEnd
 import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
 
 
@@ -74,4 +76,18 @@ operator fun TransitionSet.plusAssign(transition: Transition) {
 
 operator fun TransitionSet.get(i: Int): Transition {
     return getTransitionAt(i) ?: throw IndexOutOfBoundsException()
+}
+
+fun fadeRecyclerTransition(recycler: RecyclerView, savedItemAnimator: RecyclerView.ItemAnimator?): SequentialTransitionSet {
+    return transitionSequential {
+        duration = LARGE_EXPAND_DURATION
+        interpolator = FAST_OUT_SLOW_IN
+        this += Fade(Fade.OUT)
+        this += Fade(Fade.IN)
+        onTransitionEnd {
+            if (savedItemAnimator != null) {
+                recycler.itemAnimator = savedItemAnimator
+            }
+        }
+    }
 }

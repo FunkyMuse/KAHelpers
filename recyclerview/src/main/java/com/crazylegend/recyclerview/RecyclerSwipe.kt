@@ -87,8 +87,8 @@ fun recyclerSwipe(context: Context,
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
 
             val icon: Bitmap
-            val p = Paint()
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                val paint = Paint()
 
                 val itemView = viewHolder.itemView
                 val height = itemView.bottom.toFloat() - itemView.top.toFloat()
@@ -98,32 +98,32 @@ fun recyclerSwipe(context: Context,
                     // left
                     if (handler.drawLeftBackground) {
                         handler.leftBackgroundColor?.let {
-                            p.color = ContextCompat.getColor(context, it)
+                            paint.color = ContextCompat.getColor(context, it)
                         }
                         val background = RectF(itemView.left.toFloat(), itemView.top.toFloat(), dX, itemView.bottom.toFloat())
-                        c.drawRect(background, p)
+                        c.drawRect(background, paint)
                     }
 
                     handler.drawableLeft?.let { leftDrawable ->
                         icon = BitmapFactory.decodeResource(context.resources, leftDrawable)
                         val iconDest = RectF(itemView.left.toFloat() + width, itemView.top.toFloat() + width, itemView.left.toFloat() + 2 * width, itemView.bottom.toFloat() - width)
-                        c.drawBitmap(icon, null, iconDest, p)
+                        c.drawBitmap(icon, null, iconDest, paint)
                     }
 
                 } else {
                     //right
                     if (handler.drawRightBackground) {
                         handler.rightBackgroundColor?.let {
-                            p.color = ContextCompat.getColor(context, it)
+                            paint.color = ContextCompat.getColor(context, it)
                         }
                         val background = RectF(itemView.right.toFloat() + dX, itemView.top.toFloat(), itemView.right.toFloat(), itemView.bottom.toFloat())
-                        c.drawRect(background, p)
+                        c.drawRect(background, paint)
                     }
 
                     handler.drawableRight?.let { rightDrawable ->
                         icon = BitmapFactory.decodeResource(context.resources, rightDrawable)
                         val iconDest = RectF(itemView.right.toFloat() - 2 * width, itemView.top.toFloat() + width, itemView.right.toFloat() - width, itemView.bottom.toFloat() - width)
-                        c.drawBitmap(icon, null, iconDest, p)
+                        c.drawBitmap(icon, null, iconDest, paint)
                     }
                 }
 

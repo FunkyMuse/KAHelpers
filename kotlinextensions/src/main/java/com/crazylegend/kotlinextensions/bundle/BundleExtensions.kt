@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.TAG
 import com.crazylegend.kotlinextensions.log.log
-import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
 import java.io.Serializable
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -42,7 +41,7 @@ fun Bundle.withSlideIn(context: Context) = withCustomAnimation(
 
 fun Bundle.withSlideOut(context: Context) = withCustomAnimation(
         context,
-        R.anim.fade_in_interpolated, R.anim.abc_slide_out_top
+        R.anim.fade_in_interpolated, android.R.anim.slide_out_right
 )
 
 fun Bundle.withFade(context: Context) = withCustomAnimation(
@@ -109,7 +108,7 @@ fun bundleOfPrimitives(vararg params: Pair<String, Any?>): Bundle {
  */
 @SuppressLint("NewApi")
 fun Bundle.withSceneTransitionAnimation(context: Context) {
-    if (context !is Activity || !buildIsLollipopAndUp) return
+    if (context !is Activity) return
     val options = ActivityOptions.makeSceneTransitionAnimation(context)
     putAll(options.toBundle())
 }
@@ -179,7 +178,7 @@ val Bundle.string
  * Calls specified [block], passing in a [Bundle] instance, which is returned
  * when the block completes.
  */
-fun newBundle(block: Bundle.() -> Unit): Bundle = Bundle().apply {
+inline fun newBundle(block: Bundle.() -> Unit): Bundle = Bundle().apply {
     block(this)
 }
 

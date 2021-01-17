@@ -22,12 +22,12 @@ import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.crazylegend.kotlinextensions.R
 import com.crazylegend.kotlinextensions.context.getColorCompat
-import com.crazylegend.kotlinextensions.packageutils.buildIsLollipopAndUp
 import com.crazylegend.kotlinextensions.views.afterLatestMeasured
 import com.crazylegend.kotlinextensions.views.gone
 import com.crazylegend.kotlinextensions.views.invisible
 import com.crazylegend.kotlinextensions.views.visible
 import kotlin.math.hypot
+import kotlin.math.max
 
 
 /**
@@ -169,16 +169,18 @@ fun View.circularReveal(
         onFinish?.invoke()
         return
     }
-    if (!buildIsLollipopAndUp) return fadeIn(offset, duration, onStart, onFinish)
 
     val r = if (radius >= 0) radius
-    else Math.max(
-            Math.hypot(x.toDouble(), y.toDouble()),
-            Math.hypot((width - x.toDouble()), (height - y.toDouble()))
+    else max(
+            hypot(x.toDouble(), y.toDouble()),
+            hypot((width - x.toDouble()), (height - y.toDouble()))
     ).toFloat()
 
     val anim = ViewAnimationUtils.createCircularReveal(this, x, y, 0f, r).setDuration(duration)
     anim.startDelay = offset
+    anim.onStart {
+
+    }
     anim.addListener(object : AnimatorListenerAdapter() {
         override fun onAnimationStart(animation: Animator?) {
             visible()
@@ -207,7 +209,6 @@ fun View.circularHide(
         onFinish?.invoke()
         return
     }
-    if (!buildIsLollipopAndUp) return fadeOut(offset, duration, onStart, onFinish)
 
     val r = if (radius >= 0) radius
     else hypot(x.toDouble(), y.toDouble()).coerceAtLeast(hypot((width - x.toDouble()), (height - y.toDouble()))).toFloat()
@@ -395,7 +396,7 @@ fun View.animateTranslationY(values: FloatArray, duration: Long = 300, repeatCou
     animator.start()
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.animateTranslationZ(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0) {
     val animator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Z, *values)
     animator.repeatCount = repeatCount
@@ -486,7 +487,7 @@ fun View.animateY(values: FloatArray, duration: Long = 300, repeatCount: Int = 0
     animator.start()
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.animateZ(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0) {
     val animator = ObjectAnimator.ofFloat(this, View.Z, *values)
     animator.repeatCount = repeatCount
@@ -517,7 +518,7 @@ fun View.translationYAnimator(values: FloatArray, duration: Long = 300, repeatCo
     return animator
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.translationZAnimator(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Z, *values)
     animator.repeatCount = repeatCount
@@ -608,7 +609,7 @@ fun View.yAnimator(values: FloatArray, duration: Long = 300, repeatCount: Int = 
     return animator
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun View.zAnimator(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0): Animator {
     val animator = ObjectAnimator.ofFloat(this, View.Z, *values)
     animator.repeatCount = repeatCount

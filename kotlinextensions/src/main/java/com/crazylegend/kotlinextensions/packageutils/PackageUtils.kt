@@ -64,11 +64,21 @@ fun Context.showAppInfo(packageName: String) {
 inline val buildIsMarshmallowAndUp: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
-inline val buildIsLollipopAndUp: Boolean
-    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-
 inline val buildIsNougatAndUp: Boolean
     get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+inline val buildIsOreoAndUp: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+inline val buildIsPieAndUp: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+
+inline val buildIs10AndUp: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
+inline val buildIs11AndUp: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+
 
 const val INSTALLER_GOOGLE_PLAY_VENDING = "com.android.vending"
 const val INSTALLER_GOOGLE_PLAY_FEEDBACK = "com.google.android.feedback"

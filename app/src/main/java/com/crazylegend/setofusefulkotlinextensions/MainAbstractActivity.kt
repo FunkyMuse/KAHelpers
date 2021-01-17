@@ -5,13 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
-import androidx.transition.Transition
-import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
@@ -21,17 +17,17 @@ import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
+import com.crazylegend.kotlinextensions.internetdetector.InternetDetector
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunchOnAppOpened
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
-import com.crazylegend.kotlinextensions.transition.interpolators.FAST_OUT_SLOW_IN
-import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
-import com.crazylegend.kotlinextensions.transition.utils.plusAssign
-import com.crazylegend.kotlinextensions.transition.utils.transitionSequential
+import com.crazylegend.kotlinextensions.transition.utils.fadeRecyclerTransition
+import com.crazylegend.kotlinextensions.views.asSearchView
 import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 import com.crazylegend.recyclerview.*
 import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.retrofitResult.retryWhenInternetIsAvailable
 import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.rxbindings.textChanges
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
@@ -39,7 +35,7 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapte
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderShimmer
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
-import com.crazylegend.viewbinding.viewBinding
+import com.crazylegend.viewbinding.viewBinder
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collect
 
@@ -66,27 +62,19 @@ class MainAbstractActivity : AppCompatActivity() {
         CompositeDisposable()
     }
 
-    private val activityMainBinding by viewBinding(ActivityMainBinding::inflate) {
-
+    private val internetDetector by lazy {
+        InternetDetector(this)
     }
+
+    private val activityMainBinding by viewBinder(ActivityMainBinding::inflate)
     private var savedItemAnimator: RecyclerView.ItemAnimator? = null
 
-    private val fade = transitionSequential {
-        duration = LARGE_EXPAND_DURATION
-        interpolator = FAST_OUT_SLOW_IN
-        this += Fade(Fade.OUT)
-        this += Fade(Fade.IN)
-        addListener(object : TransitionListenerAdapter() {
-            override fun onTransitionEnd(transition: Transition) {
-                if (savedItemAnimator != null) {
-                    activityMainBinding.recycler.itemAnimator = savedItemAnimator
-                }
-            }
-        })
-    }
+    private val fade = fadeRecyclerTransition(activityMainBinding.recycler, savedItemAnimator)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(activityMainBinding.root)
+
         setSupportActionBar(activityMainBinding.toolbar)
 
         activityMainBinding.test.setOnClickListenerCooldown {
@@ -106,15 +94,12 @@ class MainAbstractActivity : AppCompatActivity() {
 
         }
 
-        activityMainBinding.recycler.addOnScrollListener(object : HideOnScrollListener(5) {
-            override fun onHide() {
-                activityMainBinding.test.hide()
-            }
-
-            override fun onShow() {
-                activityMainBinding.test.show()
-            }
+        activityMainBinding.recycler.hideOnScroll(5, hide = {
+            activityMainBinding.test.hide()
+        }, show = {
+            activityMainBinding.test.show()
         })
+
         AppRater.appLaunched(this, supportFragmentManager, 0, 0) {
             appTitle = getString(R.string.app_name)
             buttonsBGColor = getCompatColor(R.color.colorAccent)
@@ -147,6 +132,9 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
+        retrofitResult.retryWhenInternetIsAvailable(internetDetector, this, retry = {
+            testAVM.getposts()
+        })
         when (retrofitResult) {
             is RetrofitResult.Success -> {
                 val stagger = StaggerTransition()
@@ -179,22 +167,16 @@ class MainAbstractActivity : AppCompatActivity() {
         }.exhaustive
     }
 
-    private var searchView: SearchView? = null
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
         menuInflater.inflate(R.menu.main_menu, menu)
 
         val searchItem = menu?.findItem(R.id.app_bar_search)
 
-        searchItem?.apply {
-            searchView = this.actionView as SearchView?
-        }
-
-        searchView?.queryHint = "Search by title"
-
-        searchView?.textChanges(debounce = 1000L, compositeDisposable = compositeDisposable) {
-            testAVM.filterBy(it)
+        searchItem.asSearchView()?.apply {
+            queryHint = "Search by title"
+            textChanges(debounce = 1000L, compositeDisposable = compositeDisposable) {
+                testAVM.filterBy(it)
+            }
         }
 
         return super.onCreateOptionsMenu(menu)
@@ -206,5 +188,8 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
 }
+
+
+
 
 

@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.color.adjustAlpha
 
@@ -42,7 +41,7 @@ fun Drawable.tint(state: ColorStateList): Drawable {
     return drawable
 }
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 fun createSimpleRippleDrawable(@ColorInt foregroundColor: Int, @ColorInt backgroundColor: Int): RippleDrawable {
     val states = ColorStateList(arrayOf(intArrayOf()), intArrayOf(foregroundColor))
     val content = ColorDrawable(backgroundColor)

@@ -156,7 +156,6 @@ inline val Context.activityManager: ActivityManager
  * Get AppWidgetManager
  */
 inline val Context.appWidgetManager
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     get() = getSystemService(APPWIDGET_SERVICE) as AppWidgetManager
 
 /**
@@ -182,14 +181,12 @@ inline val Context.audioManager
  * Get BatteryManager
  */
 inline val Context.batteryManager
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     get() = getSystemService(BATTERY_SERVICE) as BatteryManager
 
 /**
  * Get CameraManager
  */
 inline val Context.cameraManager
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     get() = getSystemService(CAMERA_SERVICE) as CameraManager
 
 /**

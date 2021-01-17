@@ -10,7 +10,6 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.LiveData
 import com.crazylegend.kotlinextensions.context.isOnline
@@ -75,7 +74,6 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
         postValue(context.isOnline)
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 
     class NetworkCallback(private val liveData: InternetDetector) : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
