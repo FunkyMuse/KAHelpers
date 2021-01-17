@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import com.crazylegend.coroutines.textChanges
 import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
 import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
@@ -23,13 +24,13 @@ import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunchOnAppOpened
 import com.crazylegend.kotlinextensions.transition.StaggerTransition
 import com.crazylegend.kotlinextensions.transition.utils.fadeRecyclerTransition
 import com.crazylegend.kotlinextensions.views.asSearchView
+import com.crazylegend.kotlinextensions.views.getEditTextSearchView
 import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 import com.crazylegend.recyclerview.*
 import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.retrofit.retrofitResult.retryWhenInternetIsAvailable
 import com.crazylegend.rx.clearAndDispose
-import com.crazylegend.rxbindings.textChanges
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
@@ -38,6 +39,7 @@ import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBindi
 import com.crazylegend.viewbinding.viewBinder
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 
 class MainAbstractActivity : AppCompatActivity() {
 
@@ -174,8 +176,11 @@ class MainAbstractActivity : AppCompatActivity() {
 
         searchItem.asSearchView()?.apply {
             queryHint = "Search by title"
-            textChanges(debounce = 1000L, compositeDisposable = compositeDisposable) {
-                testAVM.filterBy(it)
+
+            lifecycleScope.launchWhenResumed {
+                getEditTextSearchView?.textChanges(true, 200L)?.collectLatest {
+                    debug("CHARS SEARCH ${it.toString()}")
+                }
             }
         }
 
