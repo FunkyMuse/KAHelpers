@@ -39,7 +39,9 @@ import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBindi
 import com.crazylegend.viewbinding.viewBinder
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 class MainAbstractActivity : AppCompatActivity() {
 
@@ -177,11 +179,12 @@ class MainAbstractActivity : AppCompatActivity() {
         searchItem.asSearchView()?.apply {
             queryHint = "Search by title"
 
-            lifecycleScope.launchWhenResumed {
-                getEditTextSearchView?.textChanges(true, 200L)?.collectLatest {
-                    debug("CHARS SEARCH ${it.toString()}")
-                }
-            }
+            getEditTextSearchView?.textChanges(true, 200L)
+                    ?.map { it?.toString() }
+                    ?.onEach {
+                        debug("TEXT $it")
+                    }?.launchIn(lifecycleScope)
+
         }
 
         return super.onCreateOptionsMenu(menu)
