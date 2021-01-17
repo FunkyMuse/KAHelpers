@@ -80,10 +80,9 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
     }
 
     private val retrofit by lazy {
-        RetrofitClient.customInstance(TestApi.API, true, builderCallback = {
+        RetrofitClient.customInstance(baseUrl = TestApi.API, true, builderCallback = {
             addCallAdapterFactory(RetrofitResultAdapterFactory())
             addConverterFactory(MoshiConverterFactory.create())
-            this
         }, okHttpClientConfig = {
             addInterceptor(ConnectivityInterceptor(context))
         }).create<TestApi>()
