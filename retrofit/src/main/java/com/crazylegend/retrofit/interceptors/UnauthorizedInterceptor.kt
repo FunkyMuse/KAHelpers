@@ -12,7 +12,11 @@ import okhttp3.Route
  */
 class UnauthorizedInterceptor(private val customMessage: String? = null) : Authenticator {
 
-    override fun authenticate(route: Route?, response: Response): Request? {
+    companion object {
+        private const val unAuthorized = 401
+    }
+
+    override fun authenticate(route: Route?, response: Response): Request {
 
         if (!response.isSuccessful && response.code == unAuthorized)
             throw UnauthorizedException(customMessage)
@@ -20,5 +24,4 @@ class UnauthorizedInterceptor(private val customMessage: String? = null) : Authe
         return response.request
     }
 
-    private val unAuthorized = 401
 }

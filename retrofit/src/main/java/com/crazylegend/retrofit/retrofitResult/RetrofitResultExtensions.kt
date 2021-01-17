@@ -3,8 +3,8 @@ package com.crazylegend.retrofit.retrofitResult
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.observe
 import com.crazylegend.retrofit.errorResponseCodeMessage
+import com.crazylegend.retrofit.retryOnConnectedToInternet
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -410,12 +410,3 @@ inline fun <T> RetrofitResult<T>.retryWhenInternetIsAvailable(internetDetector: 
     }
 }
 
-inline fun retryOnConnectedToInternet(internetDetector: LiveData<Boolean>,
-                                      lifecycleOwner: LifecycleOwner,
-                                      crossinline retry: () -> Unit) {
-    internetDetector.observe(lifecycleOwner) {
-        if (it) {
-            retry()
-        }
-    }
-}

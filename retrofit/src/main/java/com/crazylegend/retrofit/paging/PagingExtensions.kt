@@ -13,7 +13,7 @@ import retrofit2.Response
  * Created by hristijan on 8/1/19 to long live and prosper !
  */
 
-fun PagingStateResult.handle(
+inline fun PagingStateResult.handle(
         loading: () -> Unit,
         loadingMore: () -> Unit,
         cantLoadMore: () -> Unit,

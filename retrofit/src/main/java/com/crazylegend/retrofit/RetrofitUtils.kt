@@ -3,6 +3,8 @@ package com.crazylegend.retrofit
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.ArrayMap
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import com.crazylegend.retrofit.progressInterceptor.OnAttachmentDownloadListener
 import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
@@ -365,5 +367,15 @@ fun OkHttpClient.Builder.setUnSafeOkHttpClient() {
         hostnameVerifier { _, _ -> true }
     } catch (e: Exception) {
         throw RuntimeException(e)
+    }
+}
+
+inline fun retryOnConnectedToInternet(internetDetector: LiveData<Boolean>,
+                                      lifecycleOwner: LifecycleOwner,
+                                      crossinline retry: () -> Unit) {
+    internetDetector.observe(lifecycleOwner) {
+        if (it) {
+            retry()
+        }
     }
 }

@@ -22,7 +22,7 @@ class GzipRequestInterceptor : Interceptor {
     }
 
     @Throws(IOException::class)
-    private fun forceContentLength(requestBody: RequestBody): RequestBody? {
+    private fun forceContentLength(requestBody: RequestBody): RequestBody {
         val buffer = Buffer()
         requestBody.writeTo(buffer)
         return object : RequestBody() {
