@@ -73,7 +73,7 @@ class MainAbstractActivity : AppCompatActivity() {
     private val activityMainBinding by viewBinder(ActivityMainBinding::inflate)
     private var savedItemAnimator: RecyclerView.ItemAnimator? = null
 
-    private val fade = fadeRecyclerTransition(activityMainBinding.recycler, savedItemAnimator)
+    private val fade get() = fadeRecyclerTransition(activityMainBinding.recycler, savedItemAnimator)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,7 +179,7 @@ class MainAbstractActivity : AppCompatActivity() {
         searchItem.asSearchView()?.apply {
             queryHint = "Search by title"
 
-            getEditTextSearchView?.textChanges(true, 200L)
+            getEditTextSearchView?.textChanges(skipInitialValue = true, debounce = 0L)
                     ?.map { it?.toString() }
                     ?.onEach {
                         debug("TEXT $it")

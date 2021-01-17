@@ -3,6 +3,7 @@ package com.crazylegend.retrofit.retrofitResult
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.observe
 import com.crazylegend.retrofit.errorResponseCodeMessage
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -399,24 +400,22 @@ fun <T> Response<T>.unwrapResponseToModel(): T? = when {
     else -> null
 }
 
-/**
- *
- * @receiver RetrofitResult<T>
- * @param internetDetector LiveData<Boolean> a.k.a
-[com.crazylegend.kotlinextensions.internetdetector.InternetDetector]
- * @param lifecycleOwner LifecycleOwner
- * @param retry
- */
+
 inline fun <T> RetrofitResult<T>.retryWhenInternetIsAvailable(internetDetector: LiveData<Boolean>,
                                                               lifecycleOwner: LifecycleOwner,
                                                               crossinline retry: () -> Unit) {
+
     if (this is RetrofitResult.Error && throwable is NoConnectionException) {
-        internetDetector.observe(lifecycleOwner) {
-            if (it) {
-                retry()
-            }
+        retryOnConnectedToInternet(internetDetector, lifecycleOwner, retry)
+    }
+}
+
+inline fun retryOnConnectedToInternet(internetDetector: LiveData<Boolean>,
+                                      lifecycleOwner: LifecycleOwner,
+                                      crossinline retry: () -> Unit) {
+    internetDetector.observe(lifecycleOwner) {
+        if (it) {
+            retry()
         }
-    } else {
-        internetDetector.removeObservers(lifecycleOwner)
     }
 }

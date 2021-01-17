@@ -2,6 +2,7 @@ package com.crazylegend.setofusefulkotlinextensions.db
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ interface TestDao {
     @Query("select * from tests")
     fun getAllFlow(): Flow<List<TestModel>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(list: List<TestModel>)
 
     @Query("select  * from tests")

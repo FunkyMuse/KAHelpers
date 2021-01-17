@@ -37,7 +37,6 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
     private val postsData: MutableStateFlow<RetrofitResult<List<TestModel>>> = MutableStateFlow(RetrofitResult.EmptyData)
     val posts = postsData.asStateFlow()
 
-
     private val filteredPostsData: MutableLiveData<List<TestModel>> = MutableLiveData()
     val filteredPosts: LiveData<List<TestModel>> = filteredPostsData
 
@@ -49,15 +48,19 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
     fun getposts() {
         postsData.value = RetrofitResult.Loading
         viewModelScope.launch {
-            postsData.asNetworkBoundResource(saveToDatabase = {
-                testRepo.insertList(it)
-            }, shouldLoadFromNetworkOnDatabaseCondition = {
-                it.isNullOrEmpty()
-            }, loadFromDatabase = {
-                testRepo.getAll()
-            }, loadFromNetwork = {
-                retrofit.getPostsAdapter()
-            })
+            postsData.asNetworkBoundResource(
+                    saveToDatabase = {
+                        testRepo.insertList(it)
+                    },
+                    shouldLoadFromNetworkOnDatabaseCondition = {
+                        it.isNullOrEmpty()
+                    },
+                    loadFromDatabase = {
+                        testRepo.getAll()
+                    },
+                    loadFromNetwork = {
+                        retrofit.getPostsAdapter()
+                    })
         }
     }
 
