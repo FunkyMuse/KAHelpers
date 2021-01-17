@@ -1,7 +1,6 @@
 package com.crazylegend.retrofit
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
 import org.junit.runner.RunWith
 import retrofit2.create
@@ -16,8 +15,7 @@ class RetrofitClientTest {
 
     @Test
     fun getRetrofitInstance() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        retrofit = RetrofitClient.moshiInstanceCoroutines(appContext, "https://www.facebook.com/", true).create()
+        retrofit = RetrofitClient.moshiInstanceCoroutines("https://www.facebook.com/").create()
         assert(retrofit != null)
     }
 }

@@ -5,8 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.crazylegend.kotlinextensions.livedata.context
 import com.crazylegend.retrofit.RetrofitClient
 import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
+import com.crazylegend.retrofit.interceptors.ConnectivityInterceptor
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.retrofit.retrofitResult.asNetworkBoundResource
 import com.crazylegend.rx.clearAndDispose
@@ -78,10 +80,12 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
     }
 
     private val retrofit by lazy {
-        RetrofitClient.customInstance(application, TestApi.API, true, builderCallback = {
+        RetrofitClient.customInstance(TestApi.API, true, builderCallback = {
             addCallAdapterFactory(RetrofitResultAdapterFactory())
             addConverterFactory(MoshiConverterFactory.create())
             this
+        }, okHttpClientConfig = {
+            addInterceptor(ConnectivityInterceptor(context))
         }).create<TestApi>()
     }
 

@@ -1,7 +1,5 @@
 package com.crazylegend.retrofit
 
-import android.content.Context
-import com.crazylegend.retrofit.interceptors.ConnectivityInterceptor
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -46,18 +44,21 @@ object RetrofitClient {
         retrofit = null
     }
 
-    fun customInstanceFactory(context: Context, baseUrl: String, factory: Converter.Factory, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
-        val clientBuilder = buildClient(context, enableDebuggingInterceptor, okHttpClientConfig)
+    fun customInstanceFactory(baseUrl: String, factory: Converter.Factory,
+                              enableDebuggingInterceptor: Boolean = false,
+                              okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
+        val clientBuilder = buildClient(enableDebuggingInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
-            retrofit = buildRetrofit(baseUrl, clientBuilder, factory, rxJavaAdapter)
+            retrofit = buildRetrofit(baseUrl, clientBuilder, factory)
         }
         return retrofit!!
     }
 
 
-    fun customInstance(context: Context, baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {},
+    fun customInstance(baseUrl: String, enableDebuggingInterceptor: Boolean = false,
+                       okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {},
                        builderCallback: Retrofit.Builder.() -> Retrofit.Builder = { this }): Retrofit {
-        val clientBuilder = buildClient(context, enableDebuggingInterceptor, okHttpClientConfig)
+        val clientBuilder = buildClient(enableDebuggingInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
             retrofit = buildRetrofit(baseUrl, clientBuilder, builderCallback)
         }
@@ -65,8 +66,8 @@ object RetrofitClient {
     }
 
 
-    fun gsonInstanceRxJava(context: Context, baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
-        val clientBuilder = buildClient(context, enableDebuggingInterceptor, okHttpClientConfig)
+    fun gsonInstanceRxJava(baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
+        val clientBuilder = buildClient(enableDebuggingInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
             retrofit = buildRetrofit(baseUrl, clientBuilder, gsonConverter, rxJavaAdapter)
         }
@@ -74,16 +75,16 @@ object RetrofitClient {
     }
 
 
-    fun gsonInstanceCouroutines(context: Context, baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
-        val clientBuilder = buildClient(context, enableDebuggingInterceptor, okHttpClientConfig)
+    fun gsonInstanceCouroutines(baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
+        val clientBuilder = buildClient(enableDebuggingInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
             retrofit = buildRetrofit(baseUrl, clientBuilder, gsonConverter)
         }
         return retrofit!!
     }
 
-    fun moshiInstanceRxJava(context: Context, baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
-        val clientBuilder = buildClient(context, enableDebuggingInterceptor, okHttpClientConfig)
+    fun moshiInstanceRxJava(baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
+        val clientBuilder = buildClient(enableDebuggingInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
             retrofit = buildRetrofit(baseUrl, clientBuilder, moshiConverter, rxJavaAdapter)
         }
@@ -91,8 +92,8 @@ object RetrofitClient {
     }
 
 
-    fun moshiInstanceCoroutines(context: Context, baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
-        val clientBuilder = buildClient(context, enableDebuggingInterceptor, okHttpClientConfig)
+    fun moshiInstanceCoroutines(baseUrl: String, enableDebuggingInterceptor: Boolean = false, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): Retrofit {
+        val clientBuilder = buildClient(enableDebuggingInterceptor, okHttpClientConfig)
         doesRetrofitNeedsBuild(baseUrl) {
             retrofit = buildRetrofit(baseUrl, clientBuilder, moshiConverter)
         }
@@ -125,9 +126,8 @@ object RetrofitClient {
                 .build()
     }
 
-    private fun OkHttpClient.Builder.addBasicInterceptors(loggingInterceptor: HttpLoggingInterceptor, connectivityInterceptor: ConnectivityInterceptor) {
+    private fun OkHttpClient.Builder.addBasicInterceptors(loggingInterceptor: HttpLoggingInterceptor) {
         addInterceptor(loggingInterceptor)
-        addInterceptor(connectivityInterceptor)
         connectTimeout(connectTimeout, connectionTimeUnit)
         readTimeout(readTimeout, connectionTimeUnit)
         writeTimeout(writeTimeout, connectionTimeUnit)
@@ -143,14 +143,14 @@ object RetrofitClient {
         }
     }
 
-    private inline fun buildClient(context: Context, enableDebuggingInterceptor: Boolean, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient.Builder {
+    private inline fun buildClient(enableDebuggingInterceptor: Boolean, okHttpClientConfig: OkHttpClient.Builder.() -> Unit = {}): OkHttpClient.Builder {
         val clientBuilder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level =
                 if (enableDebuggingInterceptor) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
         clientBuilder.apply {
-            addBasicInterceptors(loggingInterceptor, ConnectivityInterceptor(context))
+            addBasicInterceptors(loggingInterceptor)
             okHttpClientConfig.invoke(this)
         }
         return clientBuilder
