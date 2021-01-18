@@ -1,10 +1,7 @@
 package com.crazylegend.setofusefulkotlinextensions
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.crazylegend.kotlinextensions.livedata.context
 import com.crazylegend.retrofit.RetrofitClient
 import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
@@ -18,6 +15,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
@@ -31,8 +29,11 @@ import retrofit2.create
  * Template created by Hristijan to live long and prosper.
  */
 
-class TestAVM(application: Application) : AndroidViewModel(application) {
+class TestAVM(application: Application, private val savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
 
+    companion object {
+        private const val errorStateKey = "errorJSONKey"
+    }
 
     private val testRepo = TestRepo(application)
 
@@ -73,6 +74,14 @@ class TestAVM(application: Application) : AndroidViewModel(application) {
         }*/
     }
 
+
+    fun handleApiError(errorBody: ResponseBody?): String? {
+        val json = errorBody?.string()
+        if (json.isNullOrEmpty()) return savedStateHandle.get<String>(errorStateKey)
+        savedStateHandle[errorStateKey] = json
+
+        return savedStateHandle.get<String>(errorStateKey)
+    }
 
     override fun onCleared() {
         super.onCleared()

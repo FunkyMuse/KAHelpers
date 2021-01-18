@@ -409,4 +409,3 @@ inline fun <T> RetrofitResult<T>.retryWhenInternetIsAvailable(internetDetector: 
         retryOnConnectedToInternet(internetDetector, lifecycleOwner, retry)
     }
 }
-

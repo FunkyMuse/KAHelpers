@@ -16,6 +16,7 @@ import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
 import com.crazylegend.kotlinextensions.context.getCompatColor
 import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
+import com.crazylegend.kotlinextensions.context.shortToast
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.internetdetector.InternetDetector
@@ -165,6 +166,7 @@ class MainAbstractActivity : AppCompatActivity() {
                 generatedAdapter.submitList(emptyList())
             }
             is RetrofitResult.ApiError -> {
+                shortToast(testAVM.handleApiError(retrofitResult.errorBody) ?: "Error")
                 activityMainBinding.recycler.adapter = generatedAdapter
                 generatedAdapter.submitList(emptyList())
             }
