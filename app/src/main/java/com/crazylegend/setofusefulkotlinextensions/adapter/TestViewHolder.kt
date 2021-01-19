@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
-import com.crazylegend.kotlinextensions.views.setPrecomputedText
 import com.crazylegend.setofusefulkotlinextensions.R
 
 class TestViewHolder(private val binding: CustomizableCardViewBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -17,7 +16,9 @@ class TestViewHolder(private val binding: CustomizableCardViewBinding) : Recycle
         repeatCount = ObjectAnimator.INFINITE
         duration = FADE_DURATION
         // Reset the alpha on animation end.
-        doOnEnd { itemView.alpha = 1f }
+        doOnEnd {
+            itemView.alpha = 1f
+        }
     }
 
     init {
@@ -26,13 +27,11 @@ class TestViewHolder(private val binding: CustomizableCardViewBinding) : Recycle
         }
     }
 
-    fun bind(item: TestModel) {
+    fun end() {
         animation.end()
         binding.content.setBackgroundResource(0)
         binding.title.setBackgroundResource(0)
         binding.image.setImageResource(R.drawable.pin_code_highlight_state)
-        binding.content.setPrecomputedText(item.body)
-        binding.title.setPrecomputedText(item.title)
     }
 
     fun showPlaceHolder() {

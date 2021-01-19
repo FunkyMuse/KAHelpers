@@ -22,8 +22,10 @@ import android.animation.ObjectAnimator
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.SidePropagation
+import androidx.transition.TransitionManager
 import androidx.transition.TransitionValues
 import com.crazylegend.kotlinextensions.transition.interpolators.LINEAR_OUT_SLOW_IN
 import com.crazylegend.kotlinextensions.transition.utils.LARGE_EXPAND_DURATION
@@ -79,4 +81,9 @@ class StaggerTransition : Fade(IN) {
             )
         }
     }
+}
+
+fun RecyclerView.stagger() {
+    val stagger = StaggerTransition()
+    TransitionManager.beginDelayedTransition(this, stagger)
 }

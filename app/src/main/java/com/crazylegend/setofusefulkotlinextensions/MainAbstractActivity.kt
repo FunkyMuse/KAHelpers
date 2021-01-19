@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.TransitionManager
 import com.crazylegend.coroutines.textChanges
 import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
@@ -22,7 +21,7 @@ import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.internetdetector.InternetDetector
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunchOnAppOpened
-import com.crazylegend.kotlinextensions.transition.StaggerTransition
+import com.crazylegend.kotlinextensions.transition.stagger
 import com.crazylegend.kotlinextensions.transition.utils.fadeRecyclerTransition
 import com.crazylegend.kotlinextensions.views.asSearchView
 import com.crazylegend.kotlinextensions.views.getEditTextSearchView
@@ -142,13 +141,9 @@ class MainAbstractActivity : AppCompatActivity() {
         })
         when (retrofitResult) {
             is RetrofitResult.Success -> {
-                val stagger = StaggerTransition()
-                TransitionManager.beginDelayedTransition(activityMainBinding.recycler, stagger)
-                if (activityMainBinding.recycler.adapter != generatedAdapter) {
-                    activityMainBinding.recycler.adapter = generatedAdapter
-                    savedItemAnimator = activityMainBinding.recycler.itemAnimator
-                    activityMainBinding.recycler.itemAnimator = null
-                    TransitionManager.beginDelayedTransition(activityMainBinding.recycler, fade)
+                activityMainBinding.recycler.stagger()
+                activityMainBinding.recycler.replaceAdapterWith(generatedAdapter, fade) {
+                    savedItemAnimator = it
                 }
                 generatedAdapter.submitList(retrofitResult.value)
                 val wrappedList = retrofitResult.value.toMutableList()

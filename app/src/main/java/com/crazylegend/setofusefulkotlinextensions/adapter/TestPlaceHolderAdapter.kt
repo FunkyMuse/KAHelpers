@@ -10,9 +10,15 @@ import com.crazylegend.recyclerview.PlaceholderAdapter
  * Created by crazy on 4/2/20 to long live and prosper !
  */
 class TestPlaceHolderAdapter : PlaceholderAdapter<TestViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TestViewHolder(CustomizableCardViewBinding.inflate(parent.inflater, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            TestViewHolder(CustomizableCardViewBinding.inflate(parent.inflater, parent, false))
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
         holder.showPlaceHolder()
+    }
+
+    override fun onViewDetachedFromWindow(holder: TestViewHolder) {
+        holder.end()
+        super.onViewDetachedFromWindow(holder)
     }
 }

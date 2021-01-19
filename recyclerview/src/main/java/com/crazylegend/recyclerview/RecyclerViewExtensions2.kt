@@ -1,6 +1,8 @@
 package com.crazylegend.recyclerview
 
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 
 
 /**
@@ -20,3 +22,13 @@ inline fun RecyclerView.hideOnScroll(threshold: Int = 20,
         }
     })
 }
+
+fun RecyclerView.replaceAdapterWith(replacementAdapter: RecyclerView.Adapter<*>, transition: Transition? = null, onAnimator: (RecyclerView.ItemAnimator?) -> Unit) {
+    if (adapter != replacementAdapter) {
+        adapter = replacementAdapter
+        onAnimator(itemAnimator)
+        itemAnimator = null
+        transition?.let { TransitionManager.beginDelayedTransition(this, it) }
+    }
+}
+
