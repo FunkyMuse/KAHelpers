@@ -41,7 +41,7 @@ class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragmen
         ensureMainThread()
 
         val binding = fragmentBinding
-        if (binding != null) {
+        if (binding != null && thisRef.view === binding.root) {
             return binding
         }
 
