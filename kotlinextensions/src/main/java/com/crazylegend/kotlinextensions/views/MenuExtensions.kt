@@ -10,6 +10,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.text.parseAsHtml
+import androidx.core.view.doOnNextLayout
 import com.crazylegend.kotlinextensions.R
 
 
@@ -137,7 +138,7 @@ fun MenuItem.setTitleColor(color: Int) {
     this.title = html.parseAsHtml()
 }
 
-fun MenuItem?.onExpand(function: () -> Unit) {
+inline fun MenuItem?.onExpand(crossinline function: () -> Unit) {
     this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
             function()
@@ -150,7 +151,7 @@ fun MenuItem?.onExpand(function: () -> Unit) {
     })
 }
 
-fun MenuItem?.onCollapse(function: () -> Unit) {
+inline fun MenuItem?.onCollapse(crossinline function: () -> Unit) {
     this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
             return true
@@ -164,7 +165,7 @@ fun MenuItem?.onCollapse(function: () -> Unit) {
 }
 
 
-fun MenuItem?.onActionExpand(onExpand: () -> Unit = {}, onCollapse: () -> Unit = {}) {
+inline fun MenuItem?.onActionExpand(crossinline onExpand: () -> Unit = {}, crossinline onCollapse: () -> Unit = {}) {
     this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
             onExpand()
@@ -180,3 +181,14 @@ fun MenuItem?.onActionExpand(onExpand: () -> Unit = {}, onCollapse: () -> Unit =
 
 
 fun MenuItem?.asSearchView() = this?.actionView as? SearchView
+
+fun MenuItem?.setQueryAndExpand(savedQuery: String?) {
+    savedQuery?.let { sQuery ->
+        this?.expandActionView()
+        this?.asSearchView()?.let { searchView ->
+            searchView.doOnNextLayout {
+                searchView.setQuery(sQuery, true)
+            }
+        }
+    }
+}

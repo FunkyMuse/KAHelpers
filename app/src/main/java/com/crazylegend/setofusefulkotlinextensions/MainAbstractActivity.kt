@@ -26,18 +26,17 @@ import com.crazylegend.kotlinextensions.transition.utils.fadeRecyclerTransition
 import com.crazylegend.kotlinextensions.views.asSearchView
 import com.crazylegend.kotlinextensions.views.getEditTextSearchView
 import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
+import com.crazylegend.kotlinextensions.views.setQueryAndExpand
 import com.crazylegend.recyclerview.*
 import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.retrofit.retrofitResult.retryWhenInternetIsAvailable
-import com.crazylegend.rx.clearAndDispose
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderShimmer
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import com.crazylegend.viewbinding.viewBinder
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -62,10 +61,6 @@ class MainAbstractActivity : AppCompatActivity() {
         }
     }
 
-    private val compositeDisposable by lazy {
-        CompositeDisposable()
-    }
-
     private val internetDetector by lazy {
         InternetDetector(this)
     }
@@ -78,8 +73,9 @@ class MainAbstractActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activityMainBinding.root)
-
         setSupportActionBar(activityMainBinding.toolbar)
+
+        savedInstanceState?.getString("query", null)?.let { savedQuery = it }
 
         activityMainBinding.test.setOnClickListenerCooldown {
             testAVM.getposts()
@@ -168,31 +164,34 @@ class MainAbstractActivity : AppCompatActivity() {
         }.exhaustive
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        savedQuery?.let { outState.putString("query", it) }
+    }
+
+    private var savedQuery: String? = null
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
 
         val searchItem = menu?.findItem(R.id.app_bar_search)
 
+        searchItem.setQueryAndExpand(savedQuery)
         searchItem.asSearchView()?.apply {
             queryHint = "Search by title"
-
-            getEditTextSearchView?.textChanges(skipInitialValue = true, debounce = 0L)
+            getEditTextSearchView?.textChanges(skipInitialValue = true, debounce = 350L)
                     ?.map { it?.toString() }
                     ?.onEach {
                         debug("TEXT $it")
+                        savedQuery = it
                     }?.launchIn(lifecycleScope)
-
         }
 
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clearAndDispose()
-    }
-
 }
+
+
 
 
 
