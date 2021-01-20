@@ -107,8 +107,6 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragment"
     implementation "androidx.activity:activity-ktx:$activity"
 
-    def room_version = "2.3.0-alpha04"
-
     //room
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
