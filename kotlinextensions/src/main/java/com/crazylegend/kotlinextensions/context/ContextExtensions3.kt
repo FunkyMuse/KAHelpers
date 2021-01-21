@@ -657,3 +657,12 @@ fun Context.getDeviceRingerMode(): DeviceRingerMode {
         else -> DeviceRingerMode.NORMAL
     }
 }
+
+
+fun Context.restartApplication() {
+    val intent = packageManager.getLaunchIntentForPackage(packageName)
+    val componentName = intent?.component
+    val mainIntent = Intent.makeRestartActivityTask(componentName)
+    startActivity(mainIntent)
+    Runtime.getRuntime().exit(0)
+}
