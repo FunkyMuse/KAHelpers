@@ -6,6 +6,11 @@ import android.util.ArrayMap
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.crazylegend.retrofit.progressInterceptor.OnAttachmentDownloadListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -376,6 +381,18 @@ inline fun retryOnConnectedToInternet(internetDetector: LiveData<Boolean>,
     internetDetector.observe(lifecycleOwner) {
         if (it) {
             retry()
+        }
+    }
+}
+
+inline fun retryOnConnectedToInternet(internetDetector: Flow<Boolean>,
+                                      coroutineScope: CoroutineScope,
+                                      crossinline retry: () -> Unit) {
+    coroutineScope.launch {
+        internetDetector.collectLatest {
+            if (it){
+                retry()
+            }
         }
     }
 }

@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import com.crazylegend.retrofit.errorResponseCodeMessage
 import com.crazylegend.retrofit.retryOnConnectedToInternet
 import com.crazylegend.retrofit.throwables.NoConnectionException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -407,5 +410,14 @@ inline fun <T> RetrofitResult<T>.retryWhenInternetIsAvailable(internetDetector: 
 
     if (this is RetrofitResult.Error && throwable is NoConnectionException) {
         retryOnConnectedToInternet(internetDetector, lifecycleOwner, retry)
+    }
+}
+
+inline fun <T> RetrofitResult<T>.retryWhenInternetIsAvailable(internetDetector: Flow<Boolean>,
+                                                              coroutineScope: CoroutineScope,
+                                                              crossinline retry: () -> Unit) {
+
+    if (this is RetrofitResult.Error && throwable is NoConnectionException) {
+        retryOnConnectedToInternet(internetDetector, coroutineScope, retry)
     }
 }

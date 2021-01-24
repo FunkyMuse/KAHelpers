@@ -8,23 +8,27 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import androidx.lifecycle.LiveData
 import com.crazylegend.kotlinextensions.context.connectivityManager
 import com.crazylegend.kotlinextensions.context.isOnline
+import kotlinx.coroutines.channels.ProducerScope
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 
 
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
-class InternetDetector(private val context: Context) : LiveData<Boolean>() {
+class InternetDetectorFlow(private val context: Context) {
 
-    private val connectivityManager = context.connectivityManager
-    private val networkCallback: NetworkCallback = NetworkCallback(this)
+    private val connectivityManager get() = context.connectivityManager
 
     @RequiresPermission(allOf = [ACCESS_NETWORK_STATE])
-    override fun onActive() {
-        super.onActive()
-        updateConnection()
+    val state = callbackFlow {
+        val networkCallback = NetworkCallback(this)
+
+        if (!isClosedForSend)
+            this.offer(context.isOnline)
+
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager?.registerDefaultNetworkCallback(networkCallback)
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
@@ -36,26 +40,22 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
                 connectivityManager?.registerNetworkCallback(builder.build(), networkCallback)
             }
         }
+
+        awaitClose {
+            connectivityManager?.unregisterNetworkCallback(networkCallback)
+        }
     }
 
-    override fun onInactive() {
-        super.onInactive()
-        connectivityManager?.unregisterNetworkCallback(networkCallback)
-    }
-
-    private fun updateConnection() {
-        postValue(context.isOnline)
-    }
-
-    class NetworkCallback(private val liveData: InternetDetector) : ConnectivityManager.NetworkCallback() {
+    class NetworkCallback(private val liveData: ProducerScope<Boolean>) : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            liveData.postValue(true)
+            if (!liveData.isClosedForSend)
+                liveData.offer(true)
         }
 
         override fun onLost(network: Network) {
-            liveData.postValue(false)
+            if (!liveData.isClosedForSend)
+                liveData.offer(false)
         }
     }
-
 
 }
