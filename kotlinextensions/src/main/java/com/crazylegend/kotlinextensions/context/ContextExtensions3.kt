@@ -33,6 +33,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.basehelpers.DeviceRingerMode
 import com.crazylegend.kotlinextensions.ifTrue
+import com.crazylegend.kotlinextensions.internetdetector.InternetDetectorFlow
 import com.crazylegend.kotlinextensions.string.toFile
 import com.crazylegend.kotlinextensions.withOpacity
 import java.io.BufferedReader
@@ -666,3 +667,12 @@ fun Context.restartApplication() {
     startActivity(mainIntent)
     Runtime.getRuntime().exit(0)
 }
+
+/**
+ * Sends internet statuses as a simple flow of booleans
+ * true if user has an active internet connection
+ * false if user hasn't 
+ * @receiver Context
+ * @return Flow<Boolean>
+ */
+fun Context.internetDetection() = InternetDetectorFlow(this).state
