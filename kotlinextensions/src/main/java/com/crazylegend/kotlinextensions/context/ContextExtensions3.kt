@@ -671,7 +671,7 @@ fun Context.restartApplication() {
 /**
  * Sends internet statuses as a simple flow of booleans
  * true if user has an active internet connection
- * false if user hasn't 
+ * false if user hasn't
  * @receiver Context
  * @return Flow<Boolean>
  */
