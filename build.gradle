@@ -9,6 +9,7 @@ ext {
     rx = '3.0.0'
     material = "1.3.0-rc01"
     moshi = "1.11.0"
+    //https://stackoverflow.com/questions/63240530/fatal-exception-java-lang-illegalstateexception-no-event-down-from-initialized
     fragment  = "1.3.0-beta02"
     activity = "1.2.0-rc01"
     appCompat = "1.2.0"
