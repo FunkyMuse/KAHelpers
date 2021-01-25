@@ -83,7 +83,8 @@ class StaggerTransition : Fade(IN) {
     }
 }
 
-fun RecyclerView.stagger() {
+inline fun RecyclerView.stagger(staggerTransition: StaggerTransition.() -> Unit = {}) {
     val stagger = StaggerTransition()
+    stagger.staggerTransition()
     TransitionManager.beginDelayedTransition(this, stagger)
 }
