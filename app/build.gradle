@@ -63,7 +63,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
 
     //joda time
-    implementation 'net.danlew:android.joda:2.10.9'
+    implementation 'net.danlew:android.joda:2.10.9.1'
 
     //moshi
     implementation "com.squareup.moshi:moshi-kotlin:$moshi"
