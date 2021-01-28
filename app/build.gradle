@@ -38,7 +38,6 @@ dependencies {
     implementation project(path: ':retrofit')
     implementation project(path: ':coroutines')
     implementation project(path: ':rx')
-    implementation project(path: ':rxbindings')
     implementation project(path: ':viewbinding')
     implementation project(path: ':customviews')
     implementation project(path: ':recyclerview')
