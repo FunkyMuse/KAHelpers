@@ -17,7 +17,7 @@ ext {
     securityVersion = "1.1.0-alpha03"
 
     //app only
-    room_version = "2.3.0-alpha04"
+    room_version = "2.3.0-beta01"
 
 
     //tests
