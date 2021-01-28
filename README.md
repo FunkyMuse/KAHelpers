@@ -26,7 +26,7 @@ allprojects {
 ```gradle
 dependencies {
 
-    def utilsVersion = "2.2.0" // or check the latest from jitpack
+    def utilsVersion = "2.2.6" // or check the latest from jitpack
     
     //biometrics
     implementation "com.github.FunkyMuse.KAHelpers:biometrics:$utilsVersion"
@@ -72,9 +72,6 @@ dependencies {
     
     //RxJava3
     implementation "com.github.FunkyMuse.KAHelpers:rx:$utilsVersion"
-    
-    //RxBindings 3
-    implementation "com.github.FunkyMuse.KAHelpers:rxbindings:$utilsVersion"
     
     //security
     implementation "com.github.FunkyMuse.KAHelpers:security:$utilsVersion"
