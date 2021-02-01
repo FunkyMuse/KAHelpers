@@ -14,15 +14,9 @@ private suspend fun <T> RetrofitResult<T>.asDatabaseBoundResource(
         saveToDatabase(value)
         propagateDatabaseResult(loadFromDatabase)
     }
-    RetrofitResult.EmptyData -> {
-        propagateDatabaseResult(loadFromDatabase)
-    }
-    is RetrofitResult.Error -> {
-        propagateDatabaseResult(loadFromDatabase)
-    }
-    is RetrofitResult.ApiError -> {
-        propagateDatabaseResult(loadFromDatabase)
-    }
+    RetrofitResult.EmptyData -> propagateDatabaseResult(loadFromDatabase)
+    is RetrofitResult.Error -> propagateDatabaseResult(loadFromDatabase)
+    is RetrofitResult.ApiError -> propagateDatabaseResult(loadFromDatabase)
     is RetrofitResult.Loading -> this
 }
 
@@ -62,14 +56,12 @@ suspend fun <T> MutableStateFlow<RetrofitResult<T>>.asNetworkBoundResource(
     when (val data = loadFromNetwork()) {
         is RetrofitResult.Success -> {
             saveToDatabase(data.value)
-            stateFlowBoundedAsResourceAndDate(shouldLoadFromNetworkOnDatabaseCondition, loadFromDatabase(), loadFromNetwork, loadFromDatabase)
+            stateFlowBoundedAsResourceAndData(shouldLoadFromNetworkOnDatabaseCondition, loadFromDatabase(), loadFromNetwork, loadFromDatabase)
         }
-        RetrofitResult.Loading -> {
-            value = data
-        }
+        RetrofitResult.Loading -> value = data
         else -> {
             value = data
-            stateFlowBoundedAsResourceAndDate(shouldLoadFromNetworkOnDatabaseCondition, loadFromDatabase(), loadFromNetwork, saveToDatabase, loadFromDatabase)
+            stateFlowBoundedAsResourceAndData(shouldLoadFromNetworkOnDatabaseCondition, loadFromDatabase(), loadFromNetwork, saveToDatabase, loadFromDatabase)
         }
     }
 }
@@ -77,7 +69,7 @@ suspend fun <T> MutableStateFlow<RetrofitResult<T>>.asNetworkBoundResource(
 private suspend fun <T> propagateDatabaseResult(loadFromDatabase: suspend () -> T): RetrofitResult<T> = RetrofitResult.Success(loadFromDatabase())
 
 
-private suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAndDate(
+private suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAndData(
         shouldLoadFromNetworkOnDatabaseCondition: (T) -> Boolean,
         databaseValue: T,
         loadFromNetwork: suspend () -> RetrofitResult<T>,
@@ -90,7 +82,7 @@ private suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsRe
     }
 }
 
-private suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAndDate(
+private suspend fun <T> MutableStateFlow<RetrofitResult<T>>.stateFlowBoundedAsResourceAndData(
         shouldLoadFromNetworkOnDatabaseCondition: (T) -> Boolean,
         databaseValue: T,
         loadFromNetwork: suspend () -> RetrofitResult<T>,
