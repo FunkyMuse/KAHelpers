@@ -2,7 +2,7 @@ ext {
     lifecycle = '2.3.0-rc01'
     retrofit = "2.9.0"
     rxBindings = "4.0.0"
-    glide = "4.11.0"
+    glide = "4.12.0"
     constraint_layout = '2.0.4'
     coroutines = '1.4.2'
     nav_version = '2.3.3'
