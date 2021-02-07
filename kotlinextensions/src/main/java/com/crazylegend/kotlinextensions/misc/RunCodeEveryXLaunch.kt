@@ -7,13 +7,13 @@ import com.crazylegend.kotlinextensions.context.getSharedPreferencesByTag
 /**
  * Created by crazy on 8/13/20 to long live and prosper !
  */
-object RunCodeEveryXLaunchOnAppOpened {
+object RunCodeEveryXLaunch {
 
-    private const val prefKey = "RunCodeEveryXLaunch"
+    private const val defaultPrefKey = "RunCodeEveryXLaunch"
     private const val launchCountPref = "launchCount"
     private const val dateFirstLaunchPref = "dateFirLaunched"
 
-    fun runCode(context: Context, launchesUntilRun: Int, codeToRun: () -> Unit) {
+    fun runCode(context: Context, launchesUntilRun: Int, prefKey: String = defaultPrefKey, codeToRun: () -> Unit) {
 
         val prefs = context.getSharedPreferencesByTag(prefKey)
 

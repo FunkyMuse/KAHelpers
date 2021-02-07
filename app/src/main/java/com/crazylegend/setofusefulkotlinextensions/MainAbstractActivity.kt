@@ -18,10 +18,9 @@ import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.context.shortToast
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
-import com.crazylegend.kotlinextensions.internetdetector.InternetDetector
 import com.crazylegend.kotlinextensions.internetdetector.InternetDetectorFlow
 import com.crazylegend.kotlinextensions.log.debug
-import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunchOnAppOpened
+import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunch
 import com.crazylegend.kotlinextensions.transition.stagger
 import com.crazylegend.kotlinextensions.transition.utils.fadeRecyclerTransition
 import com.crazylegend.kotlinextensions.views.asSearchView
@@ -87,7 +86,7 @@ class MainAbstractActivity : AppCompatActivity() {
             }
         }
 
-        RunCodeEveryXLaunchOnAppOpened.runCode(this, 2) {
+        RunCodeEveryXLaunch.runCode(this, 2) {
             debug("TEST RUN AT 2 LAUNCHES")
         }
 
