@@ -20,7 +20,7 @@ ext {
 
 
     //tests
-    junitVersion = '4.13.1'
+    junitVersion = '4.13.2'
     hamcrestVersion = '1.3'
     androidXTestCoreVersion = '1.3.0'
     androidXTestExtKotlinRunnerVersion = '1.1.2'

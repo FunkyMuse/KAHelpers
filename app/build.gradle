@@ -43,7 +43,7 @@ dependencies {
     implementation project(path: ':recyclerview')
     implementation project(path: ':biometrics')
 
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
 
     //language features
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
