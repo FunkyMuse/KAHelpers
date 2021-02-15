@@ -1,5 +1,6 @@
 package com.crazylegend.recyclerview
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -32,3 +33,13 @@ fun RecyclerView.replaceAdapterWith(replacementAdapter: RecyclerView.Adapter<*>,
     }
 }
 
+fun RecyclerView.clearOnDetach(){
+    addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener{
+        override fun onViewAttachedToWindow(v: View?) {
+        }
+
+        override fun onViewDetachedFromWindow(v: View?) {
+            adapter = null
+        }
+    })
+}

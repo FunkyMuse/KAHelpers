@@ -4,8 +4,11 @@ import android.app.Activity
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 
@@ -19,8 +22,8 @@ fun <T : ViewBinding> AppCompatActivity.viewBinding(bindingInflater: (LayoutInfl
         ActivityViewBindingDelegate(this, bindingInflater, beforeSetContent)
 
 
-fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T, disposeEvents: T.() -> Unit = {}) =
-        FragmentViewBindingDelegate(this, viewBindingFactory, disposeEvents)
+fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T, disposeRecyclerViewsAutomatically: Boolean = true, disposeEvents: T.() -> Unit = {}) =
+        FragmentViewBindingDelegate(this, viewBindingFactory, disposeRecyclerViewsAutomatically, disposeEvents)
 
 
 fun <T : ViewBinding> globalViewBinding(viewBindingFactory: (View) -> T) =
@@ -29,5 +32,14 @@ fun <T : ViewBinding> globalViewBinding(viewBindingFactory: (View) -> T) =
 internal fun ensureMainThread() {
     if (Looper.myLooper() != Looper.getMainLooper()) {
         throw IllegalThreadStateException("Views can only be accessed on the main thread.")
+    }
+}
+
+fun ViewBinding?.disposeRecyclers() {
+    val viewGroup = this?.root ?: return
+    if (viewGroup is ViewGroup) {
+        viewGroup.children.filterIsInstance<RecyclerView>().forEach {
+            it.adapter = null
+        }
     }
 }

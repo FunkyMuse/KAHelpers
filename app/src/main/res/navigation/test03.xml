@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/test03"
+    app:startDestination="@id/testFragment3">
+
+    <fragment
+        android:id="@+id/testFragment3"
+        android:name="com.crazylegend.setofusefulkotlinextensions.nav.TestFragment"
+        android:label="TestFragment" />
+</navigation>

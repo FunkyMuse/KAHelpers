@@ -41,9 +41,9 @@ class ConfirmationDialogAutoStart : DialogFragment(R.layout.dialog_confirmation_
             binding.dialogText.text = getString(TEXT_FIELD, "Please enable auto-start ability for this application.")
             binding.cancelButton.text = getString(CANCEL_TEXT, "Cancel")
             binding.confirmButton.text = getString(CONFIRM_TEXT, "Submit")
-            val dontShowAgainVisiblity = getBoolean(DO_NOT_SHOW_AGAIN_VISIBILITY, false)
-            binding.dontShowAgain.visibleIfTrueGoneOtherwise(dontShowAgainVisiblity)
-            if (dontShowAgainVisiblity) {
+            val doNotShowAgainVisibility = getBoolean(DO_NOT_SHOW_AGAIN_VISIBILITY, false)
+            binding.dontShowAgain.visibleIfTrueGoneOtherwise(doNotShowAgainVisibility)
+            if (doNotShowAgainVisibility) {
                 binding.dontShowAgain.text = getString(DO_NOT_SHOW_AGAIN_TEXT, "Do not show again")
             }
         }

@@ -42,6 +42,7 @@ dependencies {
     implementation project(path: ':customviews')
     implementation project(path: ':recyclerview')
     implementation project(path: ':biometrics')
+    implementation project(path: ':navigation')
 
     testImplementation 'junit:junit:4.13.1'
 
@@ -78,6 +79,10 @@ dependencies {
 
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation "androidx.constraintlayout:constraintlayout-solver:$constraint_layout"
+
+    //nav
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"

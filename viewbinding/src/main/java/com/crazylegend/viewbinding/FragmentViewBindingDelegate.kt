@@ -10,6 +10,7 @@ import kotlin.reflect.KProperty
 
 class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragment,
                                                    private val viewBinder: (View) -> T,
+                                                   private val disposeRecyclerViewsAutomatically: Boolean = true,
                                                    private val disposeEvents: T.() -> Unit = {}) : ReadOnlyProperty<Fragment, T>, LifecycleObserver {
 
     private inline fun Fragment.observeLifecycleOwnerThroughLifecycleCreation(crossinline viewOwner: LifecycleOwner.() -> Unit) {
@@ -27,6 +28,8 @@ class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragmen
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun disposeBinding() {
         fragmentBinding?.disposeEvents()
+        if (disposeRecyclerViewsAutomatically)
+            fragmentBinding.disposeRecyclers()
         fragmentBinding = null
     }
 
@@ -52,3 +55,4 @@ class FragmentViewBindingDelegate<T : ViewBinding>(private val fragment: Fragmen
         return viewBinder(thisRef.requireView()).also { fragmentBinding = it }
     }
 }
+

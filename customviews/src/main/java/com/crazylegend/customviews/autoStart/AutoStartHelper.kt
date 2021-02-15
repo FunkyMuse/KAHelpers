@@ -90,7 +90,7 @@ object AutoStartHelper {
 
 
     private lateinit var confirmationDialogAutoStart: ConfirmationDialogAutoStart
-    const val DIALOG_TAG = "dialogAutoStartTag"
+    private const val DIALOG_TAG = "dialogAutoStartTag"
 
     private fun showAlert(context: Context, bundle: Bundle, action: () -> Unit) {
         when (context) {

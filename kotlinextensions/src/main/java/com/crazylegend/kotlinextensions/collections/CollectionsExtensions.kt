@@ -8,6 +8,7 @@ import android.util.SparseArray
 import androidx.collection.LongSparseArray
 import androidx.collection.SparseArrayCompat
 import androidx.collection.forEach
+import com.crazylegend.kotlinextensions.randomUUIDstring
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -864,6 +865,14 @@ fun generateRandomIntegerList(size: Int, range: IntRange): MutableList<Int> {
     val resultList = ArrayList<Int>(size)
     for (i in 1..size) {
         resultList.add(kotlin.random.Random.nextInt(range.first, range.last))
+    }
+    return resultList
+}
+
+fun generateRandomStringList(size: Int): MutableList<String> {
+    val resultList = ArrayList<String>(size)
+    for (i in 1..size) {
+        resultList.add(randomUUIDstring)
     }
     return resultList
 }
