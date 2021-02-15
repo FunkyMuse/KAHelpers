@@ -676,3 +676,23 @@ fun Context.restartApplication() {
  * @return Flow<Boolean>
  */
 fun Context.internetDetection() = InternetDetectorFlow(this).state
+
+/**
+ *
+ * @receiver Context
+ * @param baseIntent Intent
+ * @param title String
+ * @param CAMERA_CANDIDATES List<String> ex: private val CAMERA_CANDIDATES = listOf(
+"net.sourceforge.opencamera"
+)
+ * @return Intent
+ */
+fun Context.enhanceCameraIntent(baseIntent: Intent, title: String = "Pick a camera app", CAMERA_CANDIDATES:List<String>): Intent {
+    val cameraIntents =
+            CAMERA_CANDIDATES.map { Intent(baseIntent).setPackage(it) }
+                    .filter { packageManager.queryIntentActivities(it, 0).isNotEmpty() }
+                    .toTypedArray()
+
+    return Intent.createChooser(baseIntent, title)
+            .putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents)
+}
