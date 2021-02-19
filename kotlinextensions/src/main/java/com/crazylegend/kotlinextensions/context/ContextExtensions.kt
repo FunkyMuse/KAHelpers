@@ -138,7 +138,6 @@ val Context.isOnline: Boolean
         return false
     }
 
-
 /**
  * 0 = no connection info available
  * 1 = mobile data
