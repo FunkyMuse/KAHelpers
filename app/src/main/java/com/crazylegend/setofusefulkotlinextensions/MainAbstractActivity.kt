@@ -18,7 +18,7 @@ import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
 import com.crazylegend.kotlinextensions.context.shortToast
 import com.crazylegend.kotlinextensions.exhaustive
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
-import com.crazylegend.kotlinextensions.internetdetector.InternetDetectorFlow
+import com.crazylegend.kotlinextensions.internetdetector.InternetDetector
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunch
 import com.crazylegend.kotlinextensions.transition.stagger
@@ -62,7 +62,7 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private val internetDetector by lazy {
-        InternetDetectorFlow(this)
+        InternetDetector(this)
     }
 
     private val activityMainBinding by viewBinder(ActivityMainBinding::inflate)

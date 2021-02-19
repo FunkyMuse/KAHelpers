@@ -34,6 +34,7 @@ import com.crazylegend.kotlinextensions.context.batteryManager
 import com.crazylegend.kotlinextensions.context.telephonyManager
 import com.crazylegend.kotlinextensions.helperModels.BatteryStatusModel
 import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
+import kotlinx.coroutines.channels.ProducerScope
 import java.io.Closeable
 import java.math.BigInteger
 import java.net.InetAddress
@@ -942,4 +943,10 @@ inline fun needPermissionsFor(action: () -> Unit) = try {
     false
 } catch (e: SecurityException) {
     true
+}
+
+fun <E> ProducerScope<E>.safeOffer(element:E) {
+    if (!isClosedForSend){
+        offer(element)
+    }
 }

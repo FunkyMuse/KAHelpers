@@ -8,23 +8,32 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import androidx.lifecycle.LiveData
 import com.crazylegend.kotlinextensions.context.connectivityManager
 import com.crazylegend.kotlinextensions.context.isOnline
+import com.crazylegend.kotlinextensions.http.isURLReachable
+import com.crazylegend.kotlinextensions.safeOffer
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.ProducerScope
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 
 
 /**
  * Created by Hristijan on 2/1/19 to long live and prosper !
  */
-class InternetDetector(private val context: Context) : LiveData<Boolean>() {
+class InternetDetector(private val context: Context, private val serverUrl: String = "https://www.google.com/",
+                       private val timeOut: Int = 10 * 1000) {
 
-    private val connectivityManager = context.connectivityManager
-    private val networkCallback: NetworkCallback = NetworkCallback(this)
+    private val connectivityManager get() = context.connectivityManager
 
     @RequiresPermission(allOf = [ACCESS_NETWORK_STATE])
-    override fun onActive() {
-        super.onActive()
-        updateConnection()
+    val state = callbackFlow {
+        val networkCallback = NetworkCallback(this, context, serverUrl, timeOut)
+
+        if (!isClosedForSend)
+            safeOffer(context.isURLReachable(serverUrl, timeOut))
+
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager?.registerDefaultNetworkCallback(networkCallback)
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
@@ -36,26 +45,21 @@ class InternetDetector(private val context: Context) : LiveData<Boolean>() {
                 connectivityManager?.registerNetworkCallback(builder.build(), networkCallback)
             }
         }
+
+        awaitClose {
+            connectivityManager?.unregisterNetworkCallback(networkCallback)
+        }
     }
 
-    override fun onInactive() {
-        super.onInactive()
-        connectivityManager?.unregisterNetworkCallback(networkCallback)
-    }
-
-    private fun updateConnection() {
-        postValue(context.isOnline)
-    }
-
-    class NetworkCallback(private val liveData: InternetDetector) : ConnectivityManager.NetworkCallback() {
+    private class NetworkCallback(private val liveData: ProducerScope<Boolean>, private val context: Context,
+                          private val serverUrl: String, private val timeOut: Int) : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            liveData.postValue(true)
+            liveData.safeOffer(context.isURLReachable(serverUrl, timeOut))
         }
 
         override fun onLost(network: Network) {
-            liveData.postValue(false)
+            liveData.safeOffer(false)
         }
     }
-
 
 }
