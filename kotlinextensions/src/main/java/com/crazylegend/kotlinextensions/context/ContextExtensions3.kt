@@ -33,7 +33,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.kotlinextensions.basehelpers.DeviceRingerMode
 import com.crazylegend.kotlinextensions.ifTrue
-import com.crazylegend.kotlinextensions.internetdetector.InternetDetectorFlow
+import com.crazylegend.kotlinextensions.internetdetector.InternetDetector
 import com.crazylegend.kotlinextensions.string.toFile
 import com.crazylegend.kotlinextensions.withOpacity
 import java.io.BufferedReader
@@ -673,6 +673,9 @@ fun Context.restartApplication() {
  * true if user has an active internet connection
  * false if user hasn't
  * @receiver Context
+ * @param serverUrl String the url to ping for successfull internet connection
+ * @param timeOut Int timeout for the ping
  * @return Flow<Boolean>
  */
-fun Context.internetDetection() = InternetDetectorFlow(this).state
+fun Context.internetDetection(serverUrl: String = "https://www.google.com/",
+                              timeOut: Int = 10 * 1000) = InternetDetector(this, serverUrl, timeOut).state
