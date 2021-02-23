@@ -192,3 +192,14 @@ fun MenuItem?.setQueryAndExpand(savedQuery: String?) {
         }
     }
 }
+
+fun MenuItem?.setQueryAndCollapse(savedQuery: String?) {
+    savedQuery?.let { sQuery ->
+        this?.asSearchView()?.let { searchView ->
+            searchView.doOnNextLayout {
+                searchView.setQuery(sQuery, true)
+            }
+        }
+        this?.collapseActionView()
+    }
+}
