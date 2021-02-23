@@ -6,8 +6,8 @@ import android.util.Log
 
 
 class MagiskDetector(context: Context) {
-    val pm = context.packageManager
-    val packages = pm.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_ACTIVITIES)
+    private val pm: PackageManager = context.packageManager
+    private val packages = pm.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_ACTIVITIES)
 
     fun checkForMagisk(): Boolean {
         for (pkg in packages) {

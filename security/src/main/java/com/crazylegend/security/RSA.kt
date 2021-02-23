@@ -15,8 +15,8 @@ import kotlin.random.Random
  */
 private fun areCoprime(first: Long, second: Long): Boolean {
     fun greatestCommonDivisor(first: Long, second: Long): Long {
-        var smaller = if (first <= second) first else second
-        var bigger = if (first > second) first else second
+        val smaller = if (first <= second) first else second
+        val bigger = if (first > second) first else second
 
         return if (bigger % smaller == 0L) smaller
         else greatestCommonDivisor(smaller, bigger % smaller)
@@ -196,7 +196,6 @@ fun rsaDecrypt(message: String, blockSize: Int, privateKey: RSAPrivateKey): Stri
                 }
             }
             .map { rsaDecrypt(it.toLong(), privateKey).toChar() }
-    println() // to test
     var result = ""
     chunks.forEach { result += it.toString() }
     return result
