@@ -30,21 +30,6 @@ fun <T> Flow<T>.repeat(): Flow<T> = flow {
     }
 }
 
-/**
- * Flow transformation that ignores the first element emitted by the original Flow.
- */
-fun <T> Flow<T>.ignoreFirst(): Flow<T> {
-    var firstElement = true
-    return transform { value ->
-        if (firstElement) {
-            firstElement = false
-            return@transform
-        } else {
-            return@transform emit(value)
-        }
-    }
-}
-
 fun TextView.textChanges(skipInitialValue: Boolean = false, debounce: Long = 300L): Flow<CharSequence?> =
         callbackFlow<CharSequence?> {
             val listener = object : TextWatcher {
@@ -65,7 +50,7 @@ fun TextView.textChanges(skipInitialValue: Boolean = false, debounce: Long = 300
 
 private fun dropInitialValueIfSkipped(skipInitialValue: Boolean) = if (skipInitialValue) 1 else 0
 
-private fun <E> ProducerScope<E>.offerIfNotClosed(element: E) {
+fun <E> ProducerScope<E>.offerIfNotClosed(element: E) {
     if (!isClosedForSend) {
         offer(element)
     }
