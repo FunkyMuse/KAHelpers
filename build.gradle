@@ -40,7 +40,7 @@ buildscript {
         verName = "1.0.0"
         testRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        kotlin_version = '1.4.30'
+        kotlin_version = '1.4.31'
     }
 
     repositories {
