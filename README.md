@@ -5,7 +5,7 @@
 ### Android extensions and helper classes for easier Kotlin development
 
 [![](https://jitpack.io/v/FunkyMuse/KAHelpers.svg)](https://jitpack.io/#FunkyMuse/KAHelpers)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.21-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) [![sad](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)]( https://twitter.com/intent/tweet?url=https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Fhttps%3A%2F%2Fgithub.com%2FCraZyLegenD%2FSet-Of-Useful-Kotlin-Extensions-and-Helpers&text=Kotlin%20Extensions%20and%20Class%20Helpers)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.31-blue.svg)](https://kotlinlang.org) [![Platform](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/guide/) [![sad](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)]( https://twitter.com/intent/tweet?url=https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Fhttps%3A%2F%2Fgithub.com%2FCraZyLegenD%2FSet-Of-Useful-Kotlin-Extensions-and-Helpers&text=Kotlin%20Extensions%20and%20Class%20Helpers)
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
 
@@ -26,7 +26,7 @@ allprojects {
 ```gradle
 dependencies {
 
-    def utilsVersion = "2.2.6" // or check the latest from jitpack
+    def utilsVersion = "2.2.10" // or check the latest from jitpack
     
     //biometrics
     implementation "com.github.FunkyMuse.KAHelpers:biometrics:$utilsVersion"
