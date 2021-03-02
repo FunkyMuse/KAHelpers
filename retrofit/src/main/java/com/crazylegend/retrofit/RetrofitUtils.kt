@@ -5,9 +5,14 @@ import android.content.Context
 import android.util.ArrayMap
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.crazylegend.retrofit.progressInterceptor.OnAttachmentDownloadListener
+import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.retrofitResult.retrofitLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -394,5 +399,18 @@ inline fun retryOnConnectedToInternet(internetDetector: Flow<Boolean>,
                 retry()
             }
         }
+    }
+}
+
+/**
+ * This utility function sets the [RetrofitResult.Loading] for you before you make the api call
+ * @receiver ViewModel
+ * @param mutableStateFlow MutableStateFlow<RetrofitResult<T>>
+ * @param call SuspendFunction0<RetrofitResult<T>>
+ */
+inline fun <T> ViewModel.apiCall(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline call: suspend () -> RetrofitResult<T>) {
+    mutableStateFlow.value = retrofitLoading
+    viewModelScope.launch {
+        mutableStateFlow.value = call()
     }
 }

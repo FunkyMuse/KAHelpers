@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.crazylegend.kotlinextensions.livedata.context
 import com.crazylegend.retrofit.RetrofitClient
 import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
+import com.crazylegend.retrofit.apiCall
 import com.crazylegend.retrofit.interceptors.ConnectivityInterceptor
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.retrofit.retrofitResult.asNetworkBoundResource
@@ -45,11 +46,11 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
 
     private val compositeDisposable = CompositeDisposable()
 
-
-    //val apiTest =  apiCallAsFlow { retrofit.getPosts() }
-
     fun getposts() {
-        postsData.value = RetrofitResult.Loading
+        apiCall(postsData){
+            retrofit.getPostsAdapter()
+        }
+        /*postsData.value = RetrofitResult.Loading
         viewModelScope.launch {
             postsData.asNetworkBoundResource(
                     saveToDatabase = {
@@ -64,7 +65,7 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
                     loadFromNetwork = {
                         retrofit.getPostsAdapter()
                     })
-        }
+        }*/
     }
 
 
