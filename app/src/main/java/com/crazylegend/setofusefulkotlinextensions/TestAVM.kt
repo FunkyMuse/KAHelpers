@@ -38,15 +38,8 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
         private const val errorStateKey = "errorJSONKey"
     }
 
-    private val testRepo = TestRepo(application)
-
     private val postsData = retrofitStateInitialLoading<List<TestModel>>()
     val posts = postsData.asStateFlow()
-
-    private val filteredPostsData: MutableLiveData<List<TestModel>> = MutableLiveData()
-    val filteredPosts: LiveData<List<TestModel>> = filteredPostsData
-
-    private val compositeDisposable = CompositeDisposable()
 
     fun getposts() {
         apiCall(postsData) {
@@ -70,14 +63,6 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
         }*/
     }
 
-
-    fun filterBy(query: String) {
-        /*filteredPostsData.value = postsData.getSuccess?.filter {
-            it.title.contains(query, true)
-        }*/
-    }
-
-
     fun handleApiError(errorBody: ResponseBody?): String? {
         val json = errorBody?.string()
         if (json.isNullOrEmpty()) return savedStateHandle.get<String>(errorStateKey)
@@ -86,10 +71,6 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
         return savedStateHandle.get<String>(errorStateKey)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clearAndDispose()
-    }
 
     private val retrofit by lazy {
         RetrofitClient.customInstance(baseUrl = TestApi.API, true, builderCallback = {
@@ -103,12 +84,6 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
     init {
         getposts()
     }
-
-    inline fun <T> MutableStateFlow<RetrofitResult<T>>.withLoading(function: () -> Unit) {
-        value = RetrofitResult.Loading
-        function()
-    }
-
 
 }
 
