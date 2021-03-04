@@ -10,7 +10,6 @@ import android.os.Build
 import androidx.annotation.RequiresPermission
 import com.crazylegend.kotlinextensions.context.connectivityManager
 import com.crazylegend.kotlinextensions.http.isURLReachable
-import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.safeOffer
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
@@ -49,7 +48,6 @@ class InternetDetector(private val context: Context, private val serverUrl: Stri
     private class NetworkCallback(private val liveData: ProducerScope<Boolean>, private val context: Context,
                                   private val serverUrl: String, private val timeOut: Int) : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            debug { "CONNECTION ON AVAILABLE" }
             liveData.safeOffer(context.isURLReachable(serverUrl, timeOut)) //checks for the real connection
         }
 
