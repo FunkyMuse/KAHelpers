@@ -54,7 +54,8 @@ class InternetDetector(private val context: Context, private val serverUrl: Stri
     private class NetworkCallback(private val liveData: ProducerScope<Boolean>, private val context: Context,
                           private val serverUrl: String, private val timeOut: Int) : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
-            liveData.safeOffer(context.isURLReachable(serverUrl, timeOut))
+            liveData.safeOffer(true) //indicates that there's a connection by the system
+            liveData.safeOffer(context.isURLReachable(serverUrl, timeOut)) //checks for the real connection
         }
 
         override fun onLost(network: Network) {
