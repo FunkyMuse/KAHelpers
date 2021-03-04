@@ -13,7 +13,6 @@ import com.crazylegend.retrofit.retrofitResult.retrofitLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.Cache
@@ -395,7 +394,7 @@ inline fun retryOnConnectedToInternet(internetDetector: Flow<Boolean>,
                                       crossinline retry: () -> Unit) {
     coroutineScope.launch {
         internetDetector.collectLatest {
-            if (it){
+            if (it) {
                 retry()
             }
         }
@@ -408,9 +407,26 @@ inline fun retryOnConnectedToInternet(internetDetector: Flow<Boolean>,
  * @param mutableStateFlow MutableStateFlow<RetrofitResult<T>>
  * @param call SuspendFunction0<RetrofitResult<T>>
  */
-inline fun <T> ViewModel.apiCall(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline call: suspend () -> RetrofitResult<T>) {
+inline fun <T> ViewModel.apiCallLoading(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline call: suspend () -> RetrofitResult<T>) {
     mutableStateFlow.value = retrofitLoading
     viewModelScope.launch {
         mutableStateFlow.value = call()
     }
 }
+
+/**
+ * @receiver ViewModel
+ * @param mutableStateFlow MutableStateFlow<RetrofitResult<T>>
+ * @param call SuspendFunction0<RetrofitResult<T>>
+ */
+inline fun <T> ViewModel.apiCall(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline call: suspend () -> RetrofitResult<T>) {
+    viewModelScope.launch {
+        mutableStateFlow.value = call()
+    }
+}
+
+typealias RetrofitState<T> = MutableStateFlow<RetrofitResult<T>>
+
+fun <T> retrofitStateInitialLoading(): RetrofitState<T> = MutableStateFlow(RetrofitResult.Loading)
+fun <T> retrofitStateInitialEmptyData(): RetrofitState<T> = MutableStateFlow(RetrofitResult.EmptyData)
+fun <T> retrofitStateInitialSuccess(value: T): RetrofitState<T> = MutableStateFlow(RetrofitResult.Success(value))
