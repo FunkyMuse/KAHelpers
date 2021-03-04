@@ -402,24 +402,13 @@ inline fun retryOnConnectedToInternet(internetDetector: Flow<Boolean>,
 }
 
 /**
- * This utility function sets the [RetrofitResult.Loading] for you before you make the api call
  * @receiver ViewModel
  * @param mutableStateFlow MutableStateFlow<RetrofitResult<T>>
  * @param call SuspendFunction0<RetrofitResult<T>>
  */
-inline fun <T> ViewModel.apiCallLoading(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline call: suspend () -> RetrofitResult<T>) {
-    mutableStateFlow.value = retrofitLoading
-    viewModelScope.launch {
-        mutableStateFlow.value = call()
-    }
-}
-
-/**
- * @receiver ViewModel
- * @param mutableStateFlow MutableStateFlow<RetrofitResult<T>>
- * @param call SuspendFunction0<RetrofitResult<T>>
- */
-inline fun <T> ViewModel.apiCall(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, crossinline call: suspend () -> RetrofitResult<T>) {
+inline fun <T> ViewModel.apiCall(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, setLoading: Boolean = true, crossinline call: suspend () -> RetrofitResult<T>) {
+    if (setLoading)
+        mutableStateFlow.value = retrofitLoading
     viewModelScope.launch {
         mutableStateFlow.value = call()
     }
