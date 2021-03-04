@@ -132,6 +132,7 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
+
         retrofitResult.retryWhenInternetIsAvailable(internetDetector.state, lifecycleScope, retry = {
             testAVM.getposts()
         })

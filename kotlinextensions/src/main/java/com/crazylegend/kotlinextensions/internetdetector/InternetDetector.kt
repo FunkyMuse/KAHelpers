@@ -9,14 +9,12 @@ import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresPermission
 import com.crazylegend.kotlinextensions.context.connectivityManager
-import com.crazylegend.kotlinextensions.context.isOnline
 import com.crazylegend.kotlinextensions.http.isURLReachable
+import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.safeOffer
-import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
 
 
 /**
@@ -30,9 +28,6 @@ class InternetDetector(private val context: Context, private val serverUrl: Stri
     @RequiresPermission(allOf = [ACCESS_NETWORK_STATE])
     val state = callbackFlow {
         val networkCallback = NetworkCallback(this, context, serverUrl, timeOut)
-
-        if (!isClosedForSend)
-            safeOffer(context.isURLReachable(serverUrl, timeOut))
 
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager?.registerDefaultNetworkCallback(networkCallback)
@@ -52,8 +47,9 @@ class InternetDetector(private val context: Context, private val serverUrl: Stri
     }
 
     private class NetworkCallback(private val liveData: ProducerScope<Boolean>, private val context: Context,
-                          private val serverUrl: String, private val timeOut: Int) : ConnectivityManager.NetworkCallback() {
+                                  private val serverUrl: String, private val timeOut: Int) : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
+            debug { "CONNECTION ON AVAILABLE" }
             liveData.safeOffer(context.isURLReachable(serverUrl, timeOut)) //checks for the real connection
         }
 
