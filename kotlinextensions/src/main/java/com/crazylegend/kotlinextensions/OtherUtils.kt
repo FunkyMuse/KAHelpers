@@ -34,6 +34,7 @@ import com.crazylegend.kotlinextensions.context.batteryManager
 import com.crazylegend.kotlinextensions.context.telephonyManager
 import com.crazylegend.kotlinextensions.helperModels.BatteryStatusModel
 import com.crazylegend.kotlinextensions.misc.DefaultUserAgent
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ProducerScope
 import java.io.Closeable
 import java.math.BigInteger
@@ -950,3 +951,10 @@ fun <E> ProducerScope<E>.safeOffer(element:E) {
         offer(element)
     }
 }
+
+fun <E> Channel<E>.safeOffer(element:E) {
+    if (!isClosedForSend){
+        offer(element)
+    }
+}
+
