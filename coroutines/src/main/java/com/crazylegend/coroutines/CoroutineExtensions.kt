@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+import kotlin.concurrent.thread
 
 
 /**
@@ -250,3 +252,7 @@ fun Fragment.defaultCoroutine(action: suspend (scope: CoroutineScope) -> Unit = 
 fun Fragment.nonCancellableCoroutine(action: suspend (scope: CoroutineScope) -> Unit = {}): Job = lifecycleScope.launch(NonCancellable) {
     action(this)
 }
+
+fun highPriorityContext() = Executors.newSingleThreadExecutor { runnable ->
+    thread(priority = Thread.MAX_PRIORITY) { runnable.run() }
+}.asCoroutineDispatcher()
