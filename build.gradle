@@ -20,7 +20,7 @@ buildscript {
 
 
         //app only
-        room_version = "2.3.0-beta02"
+        room_version = "2.3.0-beta03"
 
 
         //tests
