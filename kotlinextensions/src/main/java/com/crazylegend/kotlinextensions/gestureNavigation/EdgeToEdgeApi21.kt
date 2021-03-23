@@ -89,19 +89,14 @@ insets
 internal class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
     override fun setUpRoot(root: ViewGroup) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            root.windowInsetsController?.hide(WindowInsetsCompat.Type.systemGestures())
-        } else {
-            root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        }
+        root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun setUpRoot(activity: Activity, root: ViewGroup, @ColorRes navBarColor: Int) {
-        activity.window.setDecorFitsSystemWindows(true)
-        root.activity
+        setDecorFitsSystemWindows(activity)
         activity.setNavigationBarColor(activity.getColorCompat(navBarColor))
-        setUpRoot(root)
+        root.windowInsetsController?.hide(WindowInsetsCompat.Type.systemGestures())
     }
 
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
@@ -128,7 +123,6 @@ internal class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
     override fun setDecorFitsSystemWindows(activity: Activity, setDecor: Boolean) {
         WindowCompat.setDecorFitsSystemWindows(activity.window, setDecor)
-
     }
 
     override fun setDecorFitsSystemWindows(window: Window, setDecor: Boolean) {
