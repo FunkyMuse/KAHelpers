@@ -94,3 +94,5 @@ fun enableNightMode() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.
 fun disableNightMode() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 fun followSystemChoiceDark() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 fun batteryChoiceDark() = AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+
+fun <T> lazyNonSynchronized(initializer: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE, initializer)
