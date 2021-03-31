@@ -55,3 +55,9 @@ fun <E> ProducerScope<E>.offerIfNotClosed(element: E) {
         offer(element)
     }
 }
+
+suspend fun <E> ProducerScope<E>.sendIfNotClosed(element: E) {
+    if (!isClosedForSend) {
+        send(element)
+    }
+}
