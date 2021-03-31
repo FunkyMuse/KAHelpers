@@ -60,7 +60,7 @@ fun logViewHierarchy(nodeInfo: AccessibilityNodeInfo, depth: Int = 0,
     for (i in 0 until depth) {
         spacerString += '-'
     }
-    //Log the info you care about here... I choce classname and view resource name, because they are simple, but interesting.
+    //Log the info you care about here... I chose classname and view resource name, because they are simple, but interesting.
     callback(spacerString, nodeInfo)
 
     for (i in 0 until nodeInfo.childCount) {
