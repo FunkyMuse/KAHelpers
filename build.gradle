@@ -16,7 +16,7 @@ buildscript {
         appCompat = "1.2.0"
         coreKTX = "1.6.0-alpha01"
         securityVersion = "1.1.0-alpha03"
-        recyclerview = '1.1.0'
+        recyclerview = '1.2.0'
 
 
         //app only
