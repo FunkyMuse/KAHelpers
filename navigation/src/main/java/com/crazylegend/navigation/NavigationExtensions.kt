@@ -24,6 +24,7 @@ import androidx.annotation.AnimatorRes
 import androidx.core.util.set
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -285,4 +286,14 @@ inline fun tryOrIgnore(action: () -> Unit) = try {
     action()
 } catch (e: Exception) {
 
+}
+
+fun Fragment.goToScreen(directions: NavDirections) {
+    uiAction { findNavController().navigateSafe(directions) }
+}
+
+inline fun Fragment.uiAction(crossinline action: () -> Unit) {
+    if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+        action()
+    }
 }
