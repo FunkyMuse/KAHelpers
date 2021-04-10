@@ -11,7 +11,10 @@ import android.os.Build
 import android.provider.*
 import android.provider.Settings.Panel.ACTION_INTERNET_CONNECTIVITY
 import android.widget.TimePicker
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.print.PrintHelper
 import com.crazylegend.kotlinextensions.tryOrElse
@@ -61,14 +64,24 @@ inline fun Context.addEvent(title: String, location: String, begin: Long, end: L
     }
 }
 
-
-inline fun FragmentActivity.selectContact(REQUEST_SELECT_CONTACT: Int, onCantHandleAction: () -> Unit = {}) {
-    val intent = Intent(Intent.ACTION_PICK).apply {
-        type = ContactsContract.Contacts.CONTENT_TYPE
-    }
+inline fun FragmentActivity.selectContact(onCantHandleAction: () -> Unit = {}, crossinline onContactPicked: (Uri?) -> Unit): ActivityResultLauncher<Void> {
+    lateinit var result: ActivityResultLauncher<Void>
     tryOrElse(onCantHandleAction) {
-        startActivityForResult(intent, REQUEST_SELECT_CONTACT)
+        result = registerForActivityResult(ActivityResultContracts.PickContact()) {
+            onContactPicked(it)
+        }
     }
+    return result
+}
+
+inline fun Fragment.selectContact(onCantHandleAction: () -> Unit = {}, crossinline onContactPicked: (Uri?) -> Unit): ActivityResultLauncher<Void> {
+    lateinit var result: ActivityResultLauncher<Void>
+    tryOrElse(onCantHandleAction) {
+        result = registerForActivityResult(ActivityResultContracts.PickContact()) {
+            onContactPicked(it)
+        }
+    }
+    return result
 }
 
 inline fun Context.editContact(contactUri: Uri, email: String, onCantHandleAction: () -> Unit = {}) {
@@ -132,15 +145,22 @@ inline fun Context.searchWeb(query: String, onCantHandleAction: () -> Unit = {})
 }
 
 
-inline fun FragmentActivity.openSettingsCategory(category: String, resultCode: Int, onCantHandleAction: () -> Unit = {}) {
+inline fun FragmentActivity.openSettingsCategoryAsResult(category: String, resultCode: Int, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(category)
     tryOrElse(onCantHandleAction) {
         startActivityForResult(intent, resultCode)
     }
 }
 
+inline fun FragmentActivity.openSettingsCategory(category: String, onCantHandleAction: () -> Unit = {}) {
+    val intent = Intent(category)
+    tryOrElse(onCantHandleAction) {
+        startActivity(intent)
+    }
+}
 
-fun Context.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
+
+inline fun Context.composeMmsMessage(message: String, attachment: Uri, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         data = Uri.parse("smsto:")  // This ensures only SMS apps respond
         putExtra("sms_body", message)
@@ -210,7 +230,7 @@ inline fun Context.openWebPage(url: String, onCantHandleAction: () -> Unit = {})
 }
 
 
-fun Context.composeMessage(phone: String, message: String = "", onCantHandleAction: () -> Unit = {}) {
+inline fun Context.composeMessage(phone: String, message: String = "", onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         putExtra("sms_body", message)
         data = Uri.parse("sms:$phone")
@@ -220,7 +240,7 @@ fun Context.composeMessage(phone: String, message: String = "", onCantHandleActi
     }
 }
 
-fun Context.dialPhoneNumber(phoneNumber: String, onCantHandleAction: () -> Unit = {}) {
+inline fun Context.dialPhoneNumber(phoneNumber: String, onCantHandleAction: () -> Unit = {}) {
     val intent = Intent(Intent.ACTION_DIAL).apply {
         data = Uri.parse("tel:$phoneNumber")
     }

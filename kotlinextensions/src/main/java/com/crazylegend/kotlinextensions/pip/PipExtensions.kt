@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.crazylegend.kotlinextensions.pip
 
 import android.app.Activity
@@ -18,12 +20,12 @@ import com.crazylegend.kotlinextensions.intent.applicationDetailsIntent
 
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun Activity.enterPIPMode(builder: PictureInPictureParams.Builder.() -> PictureInPictureParams.Builder = { this }) {
+inline fun Activity.enterPIPMode(builderActions: PictureInPictureParams.Builder.() -> Unit = {}) {
     if (supportsPictureInPicture) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            enterPictureInPictureMode(PictureInPictureParams.Builder()
-                    .builder()
-                    .build())
+           val builder = PictureInPictureParams.Builder()
+            builder.builderActions()
+            enterPictureInPictureMode(builder.build())
         } else {
             enterPictureInPictureMode()
         }
@@ -31,13 +33,15 @@ fun Activity.enterPIPMode(builder: PictureInPictureParams.Builder.() -> PictureI
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun Activity.checkPIPPermissionAndEnter(builder: PictureInPictureParams.Builder.() -> PictureInPictureParams.Builder = { this }) {
+inline fun Activity.checkPIPPermissionAndEnter(
+        onCantHandleAction: () -> Unit = {},
+        noinline builderActions: PictureInPictureParams.Builder.() -> Unit = {}) {
     if (!isInPictureInPictureMode) {
         if (supportsPictureInPicture) {
             if (hasPipPermission())
-                enterPIPMode(builder)
+                enterPIPMode(builderActions)
             else {
-                applicationDetailsIntent()
+                applicationDetailsIntent(onCantHandleAction)
             }
         }
     }
@@ -45,12 +49,13 @@ fun Activity.checkPIPPermissionAndEnter(builder: PictureInPictureParams.Builder.
 
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun Fragment.enterPIPMode(builder: PictureInPictureParams.Builder.() -> PictureInPictureParams.Builder = { this }) {
+inline fun Fragment.enterPIPMode(
+        builderActions: PictureInPictureParams.Builder.() -> Unit = {}) {
     if (supportsPictureInPicture) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requireActivity().enterPictureInPictureMode(PictureInPictureParams.Builder()
-                    .builder()
-                    .build())
+            val builder = PictureInPictureParams.Builder()
+            builder.builderActions()
+            requireActivity().enterPictureInPictureMode(builder.build())
         } else {
             requireActivity().enterPictureInPictureMode()
         }
@@ -58,20 +63,22 @@ fun Fragment.enterPIPMode(builder: PictureInPictureParams.Builder.() -> PictureI
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun Fragment.checkPIPPermissionAndEnter(builder: PictureInPictureParams.Builder.() -> PictureInPictureParams.Builder = { this }) {
+inline fun Fragment.checkPIPPermissionAndEnter(
+        onCantHandleAction: () -> Unit = {},
+        builderActions: PictureInPictureParams.Builder.() -> Unit = {}) {
     if (!requireActivity().isInPictureInPictureMode) {
         if (supportsPictureInPicture) {
             if (hasPipPermission())
-                enterPIPMode(builder)
+                enterPIPMode(builderActions)
             else {
-                requireContext().applicationDetailsIntent()
+                requireContext().applicationDetailsIntent(onCantHandleAction)
             }
         }
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun Fragment.checkPIPPermissions(onPermissionDenied: () -> Unit = {}, onPermissionGranted: () -> Unit) {
+inline fun Fragment.checkPIPPermissions(onPermissionDenied: () -> Unit = {}, onPermissionGranted: () -> Unit) {
     if (!requireActivity().isInPictureInPictureMode) {
         if (supportsPictureInPicture) {
             if (hasPipPermission())
@@ -84,7 +91,7 @@ fun Fragment.checkPIPPermissions(onPermissionDenied: () -> Unit = {}, onPermissi
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun Activity.checkPIPPermissions(onPermissionDenied: () -> Unit = {}, onPermissionGranted: () -> Unit) {
+inline fun Activity.checkPIPPermissions(onPermissionDenied: () -> Unit = {}, onPermissionGranted: () -> Unit) {
     if (!isInPictureInPictureMode) {
         if (supportsPictureInPicture) {
             if (hasPipPermission())
