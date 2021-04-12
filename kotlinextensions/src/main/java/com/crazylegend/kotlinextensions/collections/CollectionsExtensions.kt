@@ -891,7 +891,7 @@ fun <T : Comparable<T>> List<T>.isListSorted(): Boolean {
     return this == this.sorted()
 }
 
-val List<Int>.isBinarySearcheable: Boolean
+val List<Int>.isBinarySearchable: Boolean
     get() {
         return (this == this.distinct().sorted())
     }
