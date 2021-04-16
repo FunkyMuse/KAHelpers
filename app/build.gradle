@@ -97,7 +97,7 @@ dependencies {
     //core
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.palette:palette-ktx:1.0.0'
-    implementation 'androidx.core:core-ktx:1.6.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.6.0-alpha02'
 
     //android apis
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
