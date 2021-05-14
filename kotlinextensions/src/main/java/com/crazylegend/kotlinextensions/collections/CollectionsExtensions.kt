@@ -1358,7 +1358,7 @@ inline fun <reified T> Set<T>.unmodifiable(): Set<T> =
  * @return T?
  */
 fun <T> List<T>.mostCommon(): T? {
-    return groupingBy { it }.eachCount().maxBy { it.value }?.key
+    return groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
 }
 
 /**
@@ -1367,7 +1367,7 @@ fun <T> List<T>.mostCommon(): T? {
  * @return T?
  */
 fun <T> List<T>.leastCommon(): T? {
-    return groupingBy { it }.eachCount().minBy { it.value }?.key
+    return groupingBy { it }.eachCount().minByOrNull { it.value }?.key
 }
 
 /**
@@ -1376,7 +1376,7 @@ fun <T> List<T>.leastCommon(): T? {
  * @return T?
  */
 fun <T> ArrayList<T>.mostCommon(): T? {
-    return groupingBy { it }.eachCount().maxBy { it.value }?.key
+    return groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
 }
 
 
@@ -1386,7 +1386,7 @@ fun <T> ArrayList<T>.mostCommon(): T? {
  * @return T?
  */
 fun <T> ArrayList<T>.leastCommon(): T? {
-    return groupingBy { it }.eachCount().minBy { it.value }?.key
+    return groupingBy { it }.eachCount().minByOrNull { it.value }?.key
 }
 
 
@@ -1396,7 +1396,7 @@ fun <T> ArrayList<T>.leastCommon(): T? {
  * @return T?
  */
 fun <T> Collection<T>.mostCommon(): T? {
-    return groupingBy { it }.eachCount().maxBy { it.value }?.key
+    return groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
 }
 
 
@@ -1406,7 +1406,7 @@ fun <T> Collection<T>.mostCommon(): T? {
  * @return T?
  */
 fun <T> Collection<T>.leastCommon(): T? {
-    return groupingBy { it }.eachCount().minBy { it.value }?.key
+    return groupingBy { it }.eachCount().minByOrNull { it.value }?.key
 }
 
 

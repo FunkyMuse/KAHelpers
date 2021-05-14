@@ -384,7 +384,7 @@ fun BigInteger.isPrime(certainty: Int = 5, precise: Boolean = false): Boolean {
 }
 
 
-val LOG2 by lazy { Math.log(2.0) }
+val LOG2 by lazy { ln(2.0) }
 val TWO_BIG by lazy { 2.toBigInteger() }
 
 inline fun <reified T : Number> Context?.dimen(@DimenRes res: Int): T =
@@ -394,7 +394,7 @@ inline fun <reified T : Number> Context?.dimen(@DimenRes res: Int): T =
                 Int::class -> dimen.toInt() as T
                 Double::class -> dimen.toDouble() as T
                 Long::class -> dimen.toLong() as T
-                Short::class -> dimen.toShort() as T
+                Short::class -> dimen.toInt().toShort() as T
                 else -> throw IllegalArgumentException("Unknown dimen type")
             }
         }
