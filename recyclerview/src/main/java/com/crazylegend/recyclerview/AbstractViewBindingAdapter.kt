@@ -31,7 +31,7 @@ abstract class AbstractViewBindingAdapter<T, VH : RecyclerView.ViewHolder, VB : 
     var onLongClickListener: forItemClickListener<T>? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val item: T = getItem(holder.adapterPosition)
+        val item: T = getItem(holder.bindingAdapterPosition)
         bindItems(item, holder, position, itemCount)
     }
 
@@ -40,12 +40,12 @@ abstract class AbstractViewBindingAdapter<T, VH : RecyclerView.ViewHolder, VB : 
         val holder = setViewHolder(binding)
 
         holder.itemView.setOnClickListenerCooldown {
-            if (holder.adapterPosition != RecyclerView.NO_POSITION)
-                forItemClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
+            if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)
+                forItemClickListener?.forItem(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
         }
         holder.itemView.setOnLongClickListener {
-            if (holder.adapterPosition != RecyclerView.NO_POSITION)
-                onLongClickListener?.forItem(holder.adapterPosition, getItem(holder.adapterPosition), it)
+            if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)
+                onLongClickListener?.forItem(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
             true
         }
         return holder

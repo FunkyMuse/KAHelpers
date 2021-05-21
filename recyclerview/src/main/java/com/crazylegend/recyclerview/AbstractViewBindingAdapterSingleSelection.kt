@@ -1,6 +1,5 @@
 package com.crazylegend.recyclerview
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -19,38 +18,40 @@ import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 )
  *
  */
-abstract class AbstractViewBindingHolderAdapter<T, VB : ViewBinding>(
+abstract class AbstractViewBindingAdapterSingleSelection<T, VH : RecyclerView.ViewHolder, VB : ViewBinding>(
+        private val viewHolder: (binding: VB) -> VH,
         private val bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
 ) :
-        ListAdapter<T, AbstractViewBindingHolderAdapter.AbstractViewHolder<VB>>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
+        ListAdapter<T, VH>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
+    abstract fun bindItems(item: T, holder: VH, position: Int, itemCount: Int)
 
+    var selectedPosition = -1
     var forItemClickListener: forItemClickListener<T>? = null
-    var onLongClickListener: forItemClickListener<T>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<VB> {
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        val item: T = getItem(holder.bindingAdapterPosition)
+        bindItems(item, holder, position, itemCount)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
-        val holder = AbstractViewHolder(binding)
+        val holder = setViewHolder(binding)
 
         holder.itemView.setOnClickListenerCooldown {
             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)
+            {
                 forItemClickListener?.forItem(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
+                notifyItemChanged(selectedPosition)
+                selectedPosition = holder.bindingAdapterPosition
+                notifyItemChanged(selectedPosition)
+            }
         }
-        holder.itemView.setOnLongClickListener {
-            if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)
-                onLongClickListener?.forItem(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
-            true
-        }
+
         return holder
     }
 
-    override fun onBindViewHolder(holder: AbstractViewHolder<VB>, position: Int) {
-        val item = getItem(holder.bindingAdapterPosition)
-        bindItems(item, position, itemCount, holder.binding, holder.itemView.context)
-    }
-
-    abstract fun bindItems(item: T, position: Int, itemCount: Int, binding: VB, context: Context)
-
-    class AbstractViewHolder<VB : ViewBinding>(val binding: VB) : RecyclerView.ViewHolder(binding.root)
+    @Suppress("UNCHECKED_CAST")
+    private fun setViewHolder(binding: ViewBinding): VH = viewHolder(binding as VB)
 }
