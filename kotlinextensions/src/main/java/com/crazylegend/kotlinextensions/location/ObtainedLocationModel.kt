@@ -1,7 +1,7 @@
 package com.crazylegend.kotlinextensions.location
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 /**

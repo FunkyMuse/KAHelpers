@@ -23,7 +23,7 @@ fun PowerManager.WakeLock.safeRelease() {
 @RequiresPermission(WAKE_LOCK)
 fun Context.huaweiWakeLockTag(customTag: String?): String {
     var tag = customTag ?: "$packageName:LOCK"
-    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M && Build.MANUFACTURER.toLowerCase(Locale.ENGLISH) == "huawei") {
+    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M && Build.MANUFACTURER.lowercase(Locale.ENGLISH) == "huawei") {
         tag = "LocationManagerService"
     }
     return tag

@@ -1,0 +1,8 @@
+
+dependencies {
+    implementation project(path: ':common')
+    implementation "androidx.core:core-ktx:$coreKTX"
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefresh"
+
+}

@@ -1,6 +1,7 @@
 dependencies {
     implementation project(path: ':coroutines')
     implementation project(path: ':rx')
+    implementation project(path: ':common')
 
     //retrofit
     api "com.squareup.retrofit2:converter-moshi:$retrofit"

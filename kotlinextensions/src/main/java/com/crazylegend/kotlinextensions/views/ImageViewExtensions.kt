@@ -8,8 +8,8 @@ import android.graphics.PorterDuff
 import android.util.Base64
 import android.widget.ImageView
 import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
-import com.crazylegend.kotlinextensions.context.getColorCompat
 import java.io.FileOutputStream
 
 
@@ -30,7 +30,7 @@ fun ImageView.clear() {
 }
 
 fun ImageView.setTint(@ColorRes colorRes: Int, mode: PorterDuff.Mode = PorterDuff.Mode.SRC_OVER) {
-    this.setColorFilter(context.getColorCompat(colorRes), mode)
+    this.setColorFilter(ContextCompat.getColor(context, colorRes), mode)
 }
 
 fun ImageView.setBase64(base64: String, flag: Int) {

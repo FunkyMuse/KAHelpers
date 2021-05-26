@@ -1,4 +1,10 @@
 dependencies {
+
+    implementation project(path: ':common')
+    implementation project(path: ':context')
+    implementation project(path: ':activity')
+    implementation project(path: ':bytearray')
+
     //live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle"

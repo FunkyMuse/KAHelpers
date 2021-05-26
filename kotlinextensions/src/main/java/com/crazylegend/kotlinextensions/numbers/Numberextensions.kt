@@ -5,9 +5,9 @@ import android.os.Build
 import androidx.annotation.DimenRes
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresApi
-import com.crazylegend.kotlinextensions.byteArray
+import com.crazylegend.bytearray.byteArray
+import com.crazylegend.bytearray.xorAll
 import com.crazylegend.kotlinextensions.math.log
-import com.crazylegend.kotlinextensions.xorAll
 import java.lang.Double.doubleToRawLongBits
 import java.lang.Double.longBitsToDouble
 import java.lang.Float.floatToRawIntBits

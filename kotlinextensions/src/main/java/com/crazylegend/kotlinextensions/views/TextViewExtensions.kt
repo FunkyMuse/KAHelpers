@@ -25,11 +25,10 @@ import androidx.annotation.*
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
-import com.crazylegend.kotlinextensions.context.getColorCompat
-import com.crazylegend.kotlinextensions.context.getFontCompat
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -297,7 +296,7 @@ val AppCompatTextView.textString: String
 
 
 fun TextView.setTextColorId(id: Int) {
-    this.setTextColor(this.context.getColorCompat(id))
+    this.setTextColor(ContextCompat.getColor(context, id))
 }
 
 fun TextView.setRightDrawable(@DrawableRes resId: Int) {
@@ -305,7 +304,7 @@ fun TextView.setRightDrawable(@DrawableRes resId: Int) {
 }
 
 fun TextView.setFont(@FontRes font: Int) {
-    this.typeface = context.getFontCompat(font)
+    this.typeface = ResourcesCompat.getFont(context, font)
 }
 
 fun TextView.setFont(typeface: Typeface?) {
@@ -409,9 +408,9 @@ fun AppCompatTextView.setPrecomputedText(text: String?) {
 
 fun AppCompatTextView.setPrecomputedTextOrHide(text: String?) {
     if (text == null) {
-        gone()
+        visibility = View.GONE
     } else {
-        visible()
+        visibility = View.VISIBLE
         setPrecomputedText(text)
     }
 }
@@ -473,7 +472,7 @@ fun TextView.setDrawablesWithIntrinsicBounds(
 
 fun TextView.ellipsizeDynamic(text: String) {
     this.text = text
-    this.afterLatestMeasured {
+    this.post {
         val noOfLinesVisible = this.height / (this.lineHeight)
         this.maxLines = noOfLinesVisible
         this.ellipsize = TextUtils.TruncateAt.END
@@ -482,7 +481,7 @@ fun TextView.ellipsizeDynamic(text: String) {
 
 fun TextView.ellipsizeViewPager(text: String) {
     this.text = text
-    this.afterLatestMeasured {
+    this.post {
         val noOfLinesVisible = this.height / (this.lineHeight.toDouble() * 0.84).toInt()
         this.maxLines = noOfLinesVisible
         this.ellipsize = TextUtils.TruncateAt.END
@@ -612,10 +611,10 @@ fun TextView.setTextWithTransition(text: String, animDuration: Long) {
 
 fun AppCompatTextView.setTextAndShowOrGone(textString: String?) {
     text = if (textString.isNullOrEmpty()) {
-        gone()
+        visibility = View.GONE
         null
     } else {
-        visible()
+        visibility = View.VISIBLE
         textString
     }
 }
@@ -623,10 +622,10 @@ fun AppCompatTextView.setTextAndShowOrGone(textString: String?) {
 fun AppCompatTextView.setTextAndShowOrGone(context: Context, stringRes: Int, vararg params: Any? = emptyArray()) {
     val string = context.getString(stringRes, params)
     text = if (params.isNullOrEmpty()) {
-        gone()
+        visibility = View.GONE
         null
     } else {
-        visible()
+        visibility = View.VISIBLE
         string
     }
 }
@@ -634,20 +633,20 @@ fun AppCompatTextView.setTextAndShowOrGone(context: Context, stringRes: Int, var
 fun AppCompatTextView.setTextAndShowOrInvisible(context: Context, stringRes: Int, vararg params: Any? = emptyArray()) {
     val string = context.getString(stringRes, params)
     text = if (params.isNullOrEmpty()) {
-        invisible()
+        visibility = View.VISIBLE
         null
     } else {
-        visible()
+        visibility = View.VISIBLE
         string
     }
 }
 
 fun AppCompatTextView.setTextAndShowOrInvisible(textString: String?) {
     text = if (textString.isNullOrEmpty()) {
-        invisible()
+        visibility = View.VISIBLE
         null
     } else {
-        visible()
+        visibility = View.VISIBLE
         textString
     }
 }

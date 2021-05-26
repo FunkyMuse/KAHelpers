@@ -25,13 +25,11 @@ import android.view.WindowInsets
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.activity.setNavigationBarColor
-import com.crazylegend.kotlinextensions.context.getColorCompat
-import com.crazylegend.kotlinextensions.views.activity
 import com.google.android.material.appbar.AppBarLayout
 
 /**
@@ -95,7 +93,7 @@ internal class EdgeToEdgeApi21 : EdgeToEdgeImpl {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun setUpRoot(activity: Activity, root: ViewGroup, @ColorRes navBarColor: Int) {
         setDecorFitsSystemWindows(activity)
-        activity.setNavigationBarColor(activity.getColorCompat(navBarColor))
+        activity.window.navigationBarColor = ContextCompat.getColor(activity, navBarColor)
         root.windowInsetsController?.hide(WindowInsetsCompat.Type.systemGestures())
     }
 

@@ -52,6 +52,7 @@ class DragAndDropContainer(
         "There should be a maximum of 1 child inside of a DragAndDropContainer, but there were $childCount"
     }
 
+    @Suppress("DEPRECATION")
     private fun startDrag(): Boolean {
         content?.let {
             val tag = it.tag as? CharSequence

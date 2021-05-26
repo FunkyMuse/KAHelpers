@@ -38,7 +38,7 @@ class TestViewHolder(private val binding: CustomizableCardViewBinding) : Recycle
         // Shift the timing of fade-in/out for each item by its adapter position. We use the
         // elapsed real time to make this independent from the timing of method call.
         animation.currentPlayTime =
-                (SystemClock.elapsedRealtime() - adapterPosition * 30L) % FADE_DURATION
+                (SystemClock.elapsedRealtime() - bindingAdapterPosition * 30L) % FADE_DURATION
         animation.start()
         // Show the placeholder UI.
         binding.image.setImageResource(R.drawable.image_placeholder)

@@ -12,11 +12,11 @@ import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
+import com.crazylegend.common.resolveColor
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.context.drawable
-import com.crazylegend.kotlinextensions.context.resolveColor
 import com.crazylegend.kotlinextensions.numbers.round
 import java.util.*
 import kotlin.math.abs
@@ -171,7 +171,7 @@ fun RadioButton.tint(colors: ColorStateList) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         buttonTintList = colors
     } else {
-        val radioDrawable = context.drawable(R.drawable.abc_btn_radio_material)
+        val radioDrawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_radio_material)
         val d = radioDrawable?.let { DrawableCompat.wrap(it) }
         d?.let { DrawableCompat.setTintList(it, colors) }
         buttonDrawable = d
@@ -185,7 +185,7 @@ fun CheckBox.tint(colors: ColorStateList) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         buttonTintList = colors
     } else {
-        val checkDrawable = context.drawable(R.drawable.abc_btn_check_material)
+        val checkDrawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_check_material)
         val drawable = checkDrawable?.let { DrawableCompat.wrap(it) }
         drawable?.let { DrawableCompat.setTintList(it, colors) }
         buttonDrawable = drawable
@@ -253,7 +253,7 @@ fun EditText.tintCursor(@ColorInt color: Int) {
         val fCursorDrawable = clazz.getDeclaredField("mCursorDrawable")
         fCursorDrawable.isAccessible = true
         val drawables: Array<Drawable?> = Array(2) {
-            val drawable = context.drawable(mCursorDrawableRes)
+            val drawable = ContextCompat.getDrawable(context, mCursorDrawableRes)
             drawable?.setColorFilter(color, PorterDuff.Mode.SRC_IN)
             drawable
         }

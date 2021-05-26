@@ -20,12 +20,12 @@ import com.crazylegend.kotlinextensions.color.adjustAlpha
 /**
  * Converts a Bitmap to a Drawable
  */
-fun Context.bitmapToDrawable(bitmap: Bitmap?): Drawable? = BitmapDrawable(this.resources, bitmap)
+fun Context.bitmapToDrawable(bitmap: Bitmap?): Drawable = BitmapDrawable(this.resources, bitmap)
 
 /**
  * Converts this Bitmap to a Drawable
  */
-fun Bitmap.toDrawable(context: Context): Drawable? = BitmapDrawable(context.resources, this)
+fun Bitmap.toDrawable(context: Context): Drawable = BitmapDrawable(context.resources, this)
 
 /**
  * Wrap the color into a state and tint the drawable

@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Process
 import androidx.annotation.RequiresApi
-import com.crazylegend.kotlinextensions.context.appOpsManager
+import androidx.core.content.getSystemService
 
 /**
  * Created by crazy on 10/30/20 to long live and prosper !
@@ -15,7 +15,7 @@ import com.crazylegend.kotlinextensions.context.appOpsManager
 
 @RequiresApi(Build.VERSION_CODES.M)
 fun Context.hasUsageStatsPermission(): Boolean {
-    val appOps = appOpsManager ?: return false
+    val appOps = getSystemService<AppOpsManager>() ?: return false
     val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         appOps.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                 Process.myUid(), packageName)

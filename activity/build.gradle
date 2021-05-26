@@ -1,0 +1,6 @@
+dependencies {
+    implementation "androidx.activity:activity-ktx:$activity"
+    implementation "androidx.appcompat:appcompat:$appCompat"
+    implementation project(path: ':common')
+
+}

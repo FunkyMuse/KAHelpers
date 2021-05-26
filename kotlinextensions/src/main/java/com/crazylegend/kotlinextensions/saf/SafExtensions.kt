@@ -185,7 +185,7 @@ fun File.getMimeType(): String? {
 
 fun File.getMimeType(fallback: String = INTENT_TYPE_DOCUMENT): String {
     return MimeTypeMap.getFileExtensionFromUrl(toString())
-            ?.run { MimeTypeMap.getSingleton().getMimeTypeFromExtension(toLowerCase()) }
+            ?.run { MimeTypeMap.getSingleton().getMimeTypeFromExtension(lowercase()) }
             ?: fallback // You might set it to */*
 }
 

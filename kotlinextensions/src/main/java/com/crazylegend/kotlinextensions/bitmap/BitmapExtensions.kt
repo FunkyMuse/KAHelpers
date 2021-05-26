@@ -22,7 +22,6 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.scale
 import androidx.exifinterface.media.ExifInterface
 import androidx.palette.graphics.Palette
-import com.crazylegend.kotlinextensions.file.outAsBitmap
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -551,8 +550,9 @@ fun downloadBitmap(imageUrl: String): Bitmap? {
     val url = URL(imageUrl)
     val conn = url.openConnection() as HttpURLConnection
 
+
     if (conn.responseCode == HttpURLConnection.HTTP_OK) {
-        bitmap = conn.inputStream.outAsBitmap()
+        bitmap = conn.inputStream.use {  BitmapFactory.decodeStream(it) }
     }
     conn.disconnect()
 

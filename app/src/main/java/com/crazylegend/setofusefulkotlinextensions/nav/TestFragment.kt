@@ -3,8 +3,8 @@ package com.crazylegend.setofusefulkotlinextensions.nav
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.crazylegend.collections.generateRandomStringList
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
-import com.crazylegend.kotlinextensions.collections.generateRandomStringList
 import com.crazylegend.recyclerview.generateRecyclerWithHolder
 import com.crazylegend.setofusefulkotlinextensions.R
 import com.crazylegend.setofusefulkotlinextensions.databinding.FragmentTestBinding

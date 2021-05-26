@@ -2,7 +2,8 @@ package com.crazylegend.kotlinextensions.notifications
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
-import com.crazylegend.kotlinextensions.context.notificationManager
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.getSystemService
 
 
 /**
@@ -14,7 +15,7 @@ import com.crazylegend.kotlinextensions.context.notificationManager
  * @param[id]: Id of the notification to remove
  */
 fun Context.removeNotification(id: Int = 0) {
-    notificationManager?.cancel(id)
+    getSystemService<NotificationManagerCompat>()?.cancel(id)
 
 }
 
@@ -24,5 +25,5 @@ inline fun Context.setNotification(id: Int = 0, channelName: String = "Default",
     builder.apply {
         builderMethod()
     }
-    notificationManager?.notify(id, builder.build())
+    getSystemService<NotificationManagerCompat>()?.notify(id, builder.build())
 }
