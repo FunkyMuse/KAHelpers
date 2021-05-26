@@ -1,5 +1,7 @@
 package com.crazylegend.kotlinextensions.numbers
 
+import android.util.ArrayMap
+
 
 /**
  * Created by Hristijan on 20/2/19 to long live and prosper !
@@ -7,7 +9,7 @@ package com.crazylegend.kotlinextensions.numbers
 
 
 object FiatSymbols {
-    var symbolsMap: HashMap<String, String> = HashMap()
+    var symbolsMap: ArrayMap<String, String> = ArrayMap()
 
     init {
         symbolsMap["AUD"] = "$"
