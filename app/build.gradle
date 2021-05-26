@@ -49,7 +49,7 @@ dependencies {
     implementation project(path: ':common')
 
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation "junit:junit:$junitVersion"
 
     //language features
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -68,7 +68,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
 
     //joda time
-    implementation 'net.danlew:android.joda:2.10.9.1'
+    implementation "net.danlew:android.joda:$joda"
+
 
     //moshi
     implementation "com.squareup.moshi:moshi-kotlin:$moshi"
@@ -94,18 +95,20 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
     //auth
-    implementation 'androidx.biometric:biometric:1.2.0-alpha03'
+    implementation "androidx.biometric:biometric:$biometrics"
 
     //util
-    implementation 'androidx.exifinterface:exifinterface:1.3.2'
+    implementation "androidx.exifinterface:exifinterface:$exifinterface"
 
     //core
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.palette:palette-ktx:1.0.0'
-    implementation 'androidx.core:core-ktx:1.6.0-beta01'
+    implementation "androidx.preference:preference:$preference"
+    implementation "androidx.palette:palette-ktx:$palette"
+
+    implementation "androidx.core:core-ktx:$coreKTX"
+
 
     //android apis
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation "androidx.viewpager2:viewpager2:$viewPager"
     implementation "com.google.android.material:material:$material"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefresh"
     implementation "androidx.appcompat:appcompat:$appCompat"
