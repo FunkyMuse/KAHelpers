@@ -251,6 +251,6 @@ inline fun Fragment.checkPIPPermissions(onPermissionDenied: () -> Unit = {}, onP
 }
 
 /**
- * Creates an [AutoClearedValue] associated with this fragment.
+ * Creates an [AutoClearedValueInFragment] associated with this fragment.
  */
 fun <T : Any> Fragment.autoCleared() = AutoClearedValueInFragment<T>(this)
