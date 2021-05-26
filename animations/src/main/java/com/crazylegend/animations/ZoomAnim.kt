@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.animations
+package com.crazylegend.animations
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator

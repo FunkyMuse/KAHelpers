@@ -1,8 +1,12 @@
-package com.crazylegend.kotlinextensions.animations
+package com.crazylegend.animations
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
+import com.crazylegend.animations.ANIM_alpha_CONST
+import com.crazylegend.animations.ANIM_pivotX_CONST
+import com.crazylegend.animations.ANIM_pivotY_CONST
+import com.crazylegend.animations.ANIM_rotation_CONST
 
 /**
  * Created by crazy on 10/6/19 to long live and prosper !

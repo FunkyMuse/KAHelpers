@@ -1,8 +1,9 @@
-package com.crazylegend.kotlinextensions.animations
+package com.crazylegend.animations
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
+import com.crazylegend.animations.*
 
 /**
  * Created by crazy on 10/6/19 to long live and prosper !

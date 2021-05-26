@@ -1,8 +1,11 @@
-package com.crazylegend.kotlinextensions.animations
+package com.crazylegend.animations
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
+import com.crazylegend.animations.ANIM_alpha_CONST
+import com.crazylegend.animations.ANIM_translationX_CONST
+import com.crazylegend.animations.ANIM_translationY_CONST
 
 
 /**

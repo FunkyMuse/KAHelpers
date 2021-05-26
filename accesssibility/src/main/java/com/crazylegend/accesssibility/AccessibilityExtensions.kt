@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.accessibility
+package com.crazylegend.accesssibility
 
 import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
@@ -6,9 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.text.TextUtils
+import android.view.accessibility.AccessibilityManager
 import android.view.accessibility.AccessibilityNodeInfo
+import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
-import com.crazylegend.kotlinextensions.context.accessibilityManager
 
 /**
  * Created by crazy on 10/20/20 to long live and prosper !
@@ -33,7 +34,7 @@ inline fun <reified T : AccessibilityService> Context.hasAccessibilityPermission
 }
 
 
-val Context.isAccessibilityEnabled get() = accessibilityManager?.isEnabled ?: false
+val Context.isAccessibilityEnabled get() = getSystemService<AccessibilityManager>()?.isEnabled ?: false
 
 
 inline fun <reified T : AccessibilityService> Context.isAccessibilityServiceRunning(): Boolean {
