@@ -1,7 +1,6 @@
-package com.crazylegend.kotlinextensions.misc
+package com.crazylegend.fragment
 
 import androidx.fragment.app.Fragment
-import com.crazylegend.kotlinextensions.fragments.observeLifecycleOwnerThroughLifecycleCreationOnDestroy
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -9,7 +8,7 @@ import kotlin.reflect.KProperty
 /**
  * Created by crazy on 2/25/20 to long live and prosper !
  */
-class AutoClearedValue<T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
+class AutoClearedValueInFragment<T : Any>(fragment: Fragment) : ReadWriteProperty<Fragment, T> {
     private var _value: T? = null
 
     init {

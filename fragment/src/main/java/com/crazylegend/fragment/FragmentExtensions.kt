@@ -1,17 +1,16 @@
-package com.crazylegend.kotlinextensions.fragments
+package com.crazylegend.fragment
 
-import android.app.Activity
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -20,7 +19,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.fragment.app.*
@@ -30,7 +28,6 @@ import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.observe
 import com.crazylegend.common.orFalse
 import com.crazylegend.common.tryOrElse
-import com.crazylegend.kotlinextensions.log.debug
 
 
 /**
@@ -459,10 +456,10 @@ fun Fragment.removeFragmentChild() {
 
 
 fun AppCompatActivity.printBackStack() {
-    this.debug("Fragment", "Current BackStack:  " + supportFragmentManager.backStackEntryCount)
+    Log.d("Fragment", "Current BackStack:  " + supportFragmentManager.backStackEntryCount)
     for (entry in 0 until supportFragmentManager.backStackEntryCount) {
         val stackEntry = supportFragmentManager.getBackStackEntryAt(entry)
-        this.debug("Fragment", "[" + stackEntry.id + "] " + stackEntry.name)
+        Log.d("Fragment", "[" + stackEntry.id + "] " + stackEntry.name)
     }
 }
 

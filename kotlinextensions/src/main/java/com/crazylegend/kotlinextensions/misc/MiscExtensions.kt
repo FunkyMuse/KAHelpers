@@ -4,7 +4,6 @@ import android.Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import android.content.Context
 import android.content.Intent
 import android.content.pm.FeatureInfo
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -22,10 +21,7 @@ import java.util.*
  * Created by crazy on 2/25/20 to long live and prosper !
  */
 
-/**
- * Creates an [AutoClearedValue] associated with this fragment.
- */
-fun <T : Any> Fragment.autoCleared() = AutoClearedValue<T>(this)
+
 
 
 fun getCountryCode(countryName: String) =

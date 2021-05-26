@@ -1,9 +1,16 @@
-package com.crazylegend.kotlinextensions.fragments
+package com.crazylegend.fragment
 
+import android.app.PictureInPictureParams
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.crazylegend.common.tryOrElse
 
 /**
  * Created by crazy on 9/7/20 to long live and prosper !
@@ -196,3 +203,54 @@ inline fun <reified T : Fragment> FragmentManager.findFragment(): Fragment? {
     return this.findFragmentByTag(T::class.java.name)
 }
 
+
+@RequiresApi(Build.VERSION_CODES.N)
+inline fun Fragment.enterPIPMode(
+    builderActions: PictureInPictureParams.Builder.() -> Unit = {}) {
+    if (supportsPictureInPicture) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val builder = PictureInPictureParams.Builder()
+            builder.builderActions()
+            requireActivity().enterPictureInPictureMode(builder.build())
+        } else {
+            requireActivity().enterPictureInPictureMode()
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+inline fun Fragment.checkPIPPermissionAndEnter(
+    onCantHandleAction: () -> Unit = {},
+    builderActions: PictureInPictureParams.Builder.() -> Unit = {}) {
+    if (!requireActivity().isInPictureInPictureMode) {
+        if (supportsPictureInPicture) {
+            if (hasPipPermission())
+                enterPIPMode(builderActions)
+            else {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:${requireContext().packageName}")
+                tryOrElse(onCantHandleAction) {
+                    startActivity(intent)
+                }
+            }
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+inline fun Fragment.checkPIPPermissions(onPermissionDenied: () -> Unit = {}, onPermissionGranted: () -> Unit) {
+    if (!requireActivity().isInPictureInPictureMode) {
+        if (supportsPictureInPicture) {
+            if (hasPipPermission())
+                onPermissionGranted()
+            else {
+                onPermissionDenied()
+            }
+        }
+    }
+}
+
+/**
+ * Creates an [AutoClearedValue] associated with this fragment.
+ */
+fun <T : Any> Fragment.autoCleared() = AutoClearedValueInFragment<T>(this)

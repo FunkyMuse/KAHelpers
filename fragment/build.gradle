@@ -1,0 +1,9 @@
+
+dependencies {
+
+    implementation "androidx.fragment:fragment-ktx:$fragment"
+    implementation "androidx.appcompat:appcompat:$appCompat"
+    implementation project(path: ':common')
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
+
+}
