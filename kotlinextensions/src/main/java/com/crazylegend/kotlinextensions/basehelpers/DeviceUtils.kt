@@ -395,7 +395,7 @@ object DeviceUtils {
         } else ret
     }
 
-    private fun getSystemProperty(name: String): String {
+     fun getSystemProperty(name: String): String {
         var prop = getSystemPropertyByShell(name)
         if (!TextUtils.isEmpty(prop)) return prop
         prop = getSystemPropertyByStream(name)

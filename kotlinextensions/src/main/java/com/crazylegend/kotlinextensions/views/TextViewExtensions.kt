@@ -25,11 +25,10 @@ import androidx.annotation.*
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator
-import com.crazylegend.kotlinextensions.context.getColorCompat
-import com.crazylegend.kotlinextensions.context.getFontCompat
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -297,7 +296,7 @@ val AppCompatTextView.textString: String
 
 
 fun TextView.setTextColorId(id: Int) {
-    this.setTextColor(this.context.getColorCompat(id))
+    this.setTextColor(ContextCompat.getColor(context, id))
 }
 
 fun TextView.setRightDrawable(@DrawableRes resId: Int) {
@@ -305,7 +304,7 @@ fun TextView.setRightDrawable(@DrawableRes resId: Int) {
 }
 
 fun TextView.setFont(@FontRes font: Int) {
-    this.typeface = context.getFontCompat(font)
+    this.typeface = ResourcesCompat.getFont(context, font)
 }
 
 fun TextView.setFont(typeface: Typeface?) {

@@ -8,12 +8,14 @@ import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.hardware.input.InputManager
 import android.os.Build
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.animation.OvershootInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
@@ -22,17 +24,17 @@ import androidx.annotation.IntRange
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.getSystemService
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.crazylegend.context.colorWithOpacity
+import com.crazylegend.context.drawable
+import com.crazylegend.context.selectableItemBackgroundResource
 import com.crazylegend.kotlinextensions.collections.use
-import com.crazylegend.kotlinextensions.context.colorWithOpacity
-import com.crazylegend.kotlinextensions.context.drawable
-import com.crazylegend.kotlinextensions.context.inputManager
-import com.crazylegend.kotlinextensions.context.selectableItemBackgroundResource
 import com.crazylegend.kotlinextensions.view.ScaleListener
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
@@ -59,7 +61,7 @@ fun ViewGroup.disableChildren() = enableDisableChildren(false)
 fun ViewGroup.enableChildren() = enableDisableChildren(true)
 
 fun View.hideIme() {
-    val imm = context.inputManager
+    val imm = context.getSystemService<InputMethodManager>()
     imm?.hideSoftInputFromWindow(windowToken, 0)
 }
 

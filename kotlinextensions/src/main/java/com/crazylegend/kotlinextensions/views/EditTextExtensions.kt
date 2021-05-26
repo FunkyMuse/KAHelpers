@@ -1,7 +1,9 @@
 package com.crazylegend.kotlinextensions.views
 
 import android.annotation.SuppressLint
+import android.content.ClipboardManager
 import android.graphics.drawable.Drawable
+import android.hardware.input.InputManager
 import android.os.Handler
 import android.os.Looper
 import android.text.*
@@ -10,11 +12,10 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
-import com.crazylegend.kotlinextensions.activity.isKeyboardSubmit
-import com.crazylegend.kotlinextensions.context.clipboardManager
-import com.crazylegend.kotlinextensions.context.getCompatDrawable
-import com.crazylegend.kotlinextensions.context.inputMethodManager
+import com.crazylegend.common.isKeyboardSubmit
 import com.crazylegend.kotlinextensions.insets.hideKeyboard
 import com.crazylegend.kotlinextensions.insets.showKeyboard
 import com.google.android.material.textfield.TextInputEditText
@@ -205,12 +206,12 @@ fun <T : EditText> T.filterWhiteSpaces(onTextChanged: (String) -> Unit = {}) =
 
 fun EditText.requestFocusAndKeyboard() {
     requestFocus()
-    context.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    context.getSystemService<InputMethodManager>()?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
 }
 
 fun EditText.clearFocusAndKeyboard() {
     clearFocus()
-    context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    context.getSystemService<InputMethodManager>()?.hideSoftInputFromWindow(windowToken, 0)
 }
 
 /**
@@ -299,11 +300,11 @@ fun EditText.setCursorColor(color: Int) {
         val fCursorDrawable = clazz.getDeclaredField("mCursorDrawable")
         fCursorDrawable.isAccessible = true
         val drawables = arrayOf(
-                context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
+                ContextCompat.getDrawable(context, mCursorDrawableRes)?.mutate().apply {
                     this?.let { DrawableCompat.setTint(it, color) }
 
                 },
-                context.getCompatDrawable(mCursorDrawableRes)?.mutate().apply {
+                ContextCompat.getDrawable(context, mCursorDrawableRes)?.mutate().apply {
                     this?.let { DrawableCompat.setTint(it, color) }
                 }
         )
@@ -347,7 +348,7 @@ fun EditText.getUrl(): URL? {
 fun EditText.pasteFromClipBoard() {
     var text = ""
 
-    val manager = context.clipboardManager
+    val manager = context.getSystemService<ClipboardManager>()
 
     manager?.primaryClip?.let {
         val item = manager.primaryClip?.getItemAt(0)

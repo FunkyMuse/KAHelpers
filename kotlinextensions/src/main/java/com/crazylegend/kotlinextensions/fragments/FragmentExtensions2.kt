@@ -4,8 +4,6 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.crazylegend.kotlinextensions.context.dp2px
-import com.crazylegend.kotlinextensions.context.px2dp
 
 /**
  * Created by crazy on 9/7/20 to long live and prosper !
@@ -198,15 +196,3 @@ inline fun <reified T : Fragment> FragmentManager.findFragment(): Fragment? {
     return this.findFragmentByTag(T::class.java.name)
 }
 
-
-fun Fragment.dp2px(dpValue: Float): Int {
-    return requireActivity().dp2px(dpValue)
-}
-
-fun Fragment.dp2px(dpValue: Int): Int {
-    return requireActivity().dp2px(dpValue)
-}
-
-fun Fragment.px2dp(pxValue: Int): Float {
-    return requireActivity().px2dp(pxValue)
-}

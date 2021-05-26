@@ -8,17 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.crazylegend.common.exhaustive
+import com.crazylegend.context.getColorCompat
+import com.crazylegend.context.isGestureNavigationEnabled
+import com.crazylegend.context.shortToast
 import com.crazylegend.coroutines.textChanges
 import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
 import com.crazylegend.customviews.autoStart.ConfirmationDialogAutoStart
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
-import com.crazylegend.kotlinextensions.context.getCompatColor
-import com.crazylegend.kotlinextensions.context.isGestureNavigationEnabled
-import com.crazylegend.kotlinextensions.context.shortToast
-import com.crazylegend.kotlinextensions.exhaustive
-import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.internetdetector.InternetDetector
+import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunch
 import com.crazylegend.kotlinextensions.transition.stagger
@@ -62,7 +62,7 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private val internetDetector by lazy {
-        com.crazylegend.internetdetector.InternetDetector(this)
+       InternetDetector(this)
     }
 
     private val activityMainBinding by viewBinder(ActivityMainBinding::inflate)
@@ -102,7 +102,7 @@ class MainAbstractActivity : AppCompatActivity() {
 
         AppRater.appLaunched(this, supportFragmentManager, 0, 0) {
             appTitle = getString(R.string.app_name)
-            buttonsBGColor = getCompatColor(R.color.colorAccent)
+            buttonsBGColor = getColorCompat(R.color.colorAccent)
         }
 
         activityMainBinding.recycler.addSwipe(this) {

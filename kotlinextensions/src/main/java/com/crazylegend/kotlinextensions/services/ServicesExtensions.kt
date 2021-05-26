@@ -8,7 +8,6 @@ import android.bluetooth.BluetoothProfile
 import android.content.*
 import android.media.AudioManager
 import android.os.Build
-import com.crazylegend.kotlinextensions.activity.newIntent
 
 
 /**
@@ -85,6 +84,6 @@ inline fun <reified T : Service> Activity.startServiceUnlessRunning(predicate: I
 }
 
 inline fun <reified T : Service> Context.stopService(): Boolean {
-    val intent = newIntent<T>(this)
+    val intent = Intent(this, T::class.java)
     return stopService(intent)
 }

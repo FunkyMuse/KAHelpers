@@ -10,8 +10,10 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.BatteryManager
 import android.os.Build
 import android.telephony.TelephonyManager
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.crazylegend.contextgetters.batteryManager
 import com.crazylegend.contextgetters.connectivityManager
 import com.crazylegend.contextgetters.telephonyManager
@@ -21,6 +23,37 @@ import java.io.InputStream
 /**
  * Created by crazy on 9/7/20 to long live and prosper !
  */
+
+
+
+fun Fragment.dp2px(dpValue: Float): Int {
+    return requireActivity().dp2px(dpValue)
+}
+
+fun Fragment.dp2px(dpValue: Int): Int {
+    return requireActivity().dp2px(dpValue)
+}
+
+fun Fragment.px2dp(pxValue: Int): Float {
+    return requireActivity().px2dp(pxValue)
+}
+
+
+fun View.px2dp(pxValue: Float): Float? {
+    return context?.px2dp(pxValue)
+}
+
+fun View.dp2px(dpValue: Float): Int? {
+    return context?.dp2px(dpValue)
+}
+
+fun View.dp2px(dpValue: Int): Int? {
+    return context?.dp2px(dpValue)
+}
+
+fun View.px2dp(pxValue: Int): Float? {
+    return context?.px2dp(pxValue)
+}
 
 fun Context.dp2px(dpValue: Float): Int {
     return (dpValue * resources.displayMetrics.density + 0.5f).toInt()

@@ -17,7 +17,7 @@ import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.print.PrintHelper
-import com.crazylegend.kotlinextensions.tryOrElse
+import com.crazylegend.common.tryOrElse
 import com.crazylegend.kotlinextensions.version.doIfSdk
 
 

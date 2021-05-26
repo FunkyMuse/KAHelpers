@@ -10,13 +10,11 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import androidx.annotation.ColorRes
 import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import com.crazylegend.kotlinextensions.context.dp2px
-import com.crazylegend.kotlinextensions.context.getCompatColor
-import com.crazylegend.kotlinextensions.context.px2dp
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import kotlin.math.max
 
@@ -67,21 +65,7 @@ fun hideViews(vararg views: View) = views.asSequence().forEach { it.visibility =
  */
 fun showViews(vararg views: View) = views.asSequence().forEach { it.visibility = View.VISIBLE }
 
-fun View.px2dp(pxValue: Float): Float? {
-    return context?.px2dp(pxValue)
-}
 
-fun View.dp2px(dpValue: Float): Int? {
-    return context?.dp2px(dpValue)
-}
-
-fun View.dp2px(dpValue: Int): Int? {
-    return context?.dp2px(dpValue)
-}
-
-fun View.px2dp(pxValue: Int): Float? {
-    return context?.px2dp(pxValue)
-}
 
 
 val View.isAppearanceLightNavigationBars
@@ -116,7 +100,7 @@ fun View.createCircularReveal(
 
 
     ValueAnimator().apply {
-        setIntValues(context.getCompatColor(startColor), context.getCompatColor(endColor))
+        setIntValues(ContextCompat.getColor(context, startColor), ContextCompat.getColor(context, endColor))
         setEvaluator(ArgbEvaluatorCompat())
         addUpdateListener { valueAnimator -> setBackgroundColor((valueAnimator.animatedValue as Int)) }
         duration = revealDuration

@@ -5,12 +5,14 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.PowerManager
 import androidx.annotation.RequiresApi
-import com.crazylegend.kotlinextensions.context.powerManager
+import androidx.core.content.getSystemService
 
 
 /**
  * Created by crazy on 8/7/20 to long live and prosper !
  */
+
+private val Context.powerManager get() = getSystemService<PowerManager>()
 
 val Context.isInPowerSaveMode get() = powerManager?.isPowerSaveMode
 

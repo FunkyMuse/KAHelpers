@@ -410,10 +410,7 @@ fun AppCompatActivity.onSupportNavigateUpGoBack(): Boolean {
     return true
 }
 
-fun isKeyboardSubmit(actionId: Int, event: KeyEvent?): Boolean =
-    actionId == EditorInfo.IME_ACTION_GO ||
-            actionId == EditorInfo.IME_ACTION_DONE ||
-            (event != null && event.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_ENTER)
+
 
 
 fun Activity.enableFullScreen() {

@@ -28,6 +28,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.observe
+import com.crazylegend.common.orFalse
 import com.crazylegend.common.tryOrElse
 import com.crazylegend.kotlinextensions.log.debug
 
@@ -65,7 +66,7 @@ inline fun <reified T : Any> Fragment.launchActivityAndFinish() {
 /**
  * Get color from resource with fragment context.
  */
-fun Fragment.compatColor(@ColorRes res: Int) = requireContext().getColorCompat(res)
+fun Fragment.compatColor(@ColorRes res: Int) =ContextCompat.getColor(requireContext(), res)
 
 
 /**
@@ -101,15 +102,6 @@ fun Fragment.shortToast(resId: Int) = Toast.makeText(requireContext(), resId, To
 fun Fragment.longToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_LONG).show()
 
 
-inline fun <reified T : Any> Fragment.launchActivity(
-        options: Bundle? = null,
-        noinline init: Intent.() -> Unit = {}
-) {
-    val intent = newIntent<T>(requireContext())
-    intent.init()
-    startActivity(intent, options)
-
-}
 
 fun Fragment.finish() {
     requireActivity().finish()
@@ -122,8 +114,6 @@ inline fun <reified T> Fragment.launch() {
 
 val Fragment.getAppCompatActivity get() = this.requireContext() as AppCompatActivity
 
-inline fun Fragment.notification(body: NotificationCompat.Builder.() -> Unit, channelID: String) =
-        requireContext().notification(body, channelID)
 
 fun FragmentActivity.popFragment() {
     val fm = supportFragmentManager
@@ -220,32 +210,6 @@ fun Fragment.goBackToFragment(name: String, flag: Int = 0) {
     parentFragmentManager.popBackStackImmediate(name, flag)
 }
 
-
-/**
- * Starts Activity
- * @param[flags] Flags to pass to the intent
- * @param[data] Uri to pass to intent
- * @param[extras] Extra to pass to intent
- */
-inline fun <reified T : Activity> Fragment.startActivity(flags: Int = 0,
-                                                         data: Uri? = null,
-                                                         extras: Bundle? = null) = this.startActivity(
-        getIntent<T>(flags, extras, data))
-
-
-/**
- * Generates intent from Fragment
- * @return: Generated intent from Flags, Data and Bundle.
- * @param[flags] Flags to pass to the intent
- * @param[data] Uri to pass to intent
- * @param[bundle] Extra to pass to intent
- */
-inline fun <reified T : Context> Fragment.getIntent(flags: Int = 0,
-                                                    bundle: Bundle? = null,
-                                                    data: Uri? = null
-): Intent? {
-    return context?.getIntent<T>(flags, bundle, data)
-}
 
 fun Fragment.alert(style: Int, init: AlertDialog.Builder .() -> Unit) {
     val contextWrapper = ContextThemeWrapper(context, style)

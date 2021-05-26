@@ -7,8 +7,8 @@ import android.app.PictureInPictureParams
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.crazylegend.kotlinextensions.activity.hasPipPermission
-import com.crazylegend.kotlinextensions.activity.supportsPictureInPicture
+import com.crazylegend.activity.hasPipPermission
+import com.crazylegend.activity.supportsPictureInPicture
 import com.crazylegend.kotlinextensions.fragments.hasPipPermission
 import com.crazylegend.kotlinextensions.fragments.supportsPictureInPicture
 import com.crazylegend.kotlinextensions.intent.applicationDetailsIntent

@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 
@@ -52,3 +54,8 @@ fun Context.resolveColor(@AttrRes attr: Int, @ColorInt fallback: Int = 0): Int {
         a.recycle()
     }
 }
+
+fun isKeyboardSubmit(actionId: Int, event: KeyEvent?): Boolean =
+    actionId == EditorInfo.IME_ACTION_GO ||
+            actionId == EditorInfo.IME_ACTION_DONE ||
+            (event != null && event.action == KeyEvent.ACTION_UP && event.keyCode == KeyEvent.KEYCODE_ENTER)
