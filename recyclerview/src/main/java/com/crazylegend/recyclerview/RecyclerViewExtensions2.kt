@@ -1,6 +1,12 @@
 package com.crazylegend.recyclerview
 
+import android.graphics.Color
+import android.os.Build
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
@@ -42,4 +48,50 @@ fun RecyclerView.clearOnDetach(){
             adapter = null
         }
     })
+}
+
+fun RecyclerView.fullScreenGestureNavigation(fragmentActivity: FragmentActivity, topInset: Int = 200, bottomInset: Int = 40) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Disable clipping of the RecyclerView content when we use padding
+            clipToPadding = false
+
+            // Make the Gesture Navigation Bar transparent
+            fragmentActivity.window.navigationBarColor = Color.TRANSPARENT
+
+            // Expand the Views (RecyclerView) under the gesture navigation bar and toolbar
+            fragmentActivity.window.decorView.systemUiVisibility =
+                (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+                view.updatePadding(
+                    top = insets.systemGestureInsets.top + topInset,
+                    bottom = insets.systemGestureInsets.bottom + bottomInset
+                )
+                insets
+            }
+    }
+}
+
+
+fun RecyclerView.fullScreenGestureNavigation(fragment: Fragment) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Disable clipping of the RecyclerView content when we use padding
+            clipToPadding = false
+
+            // Make the Gesture Navigation Bar transparent
+            fragment.requireActivity().window.navigationBarColor = Color.TRANSPARENT
+
+            // Expand the Views (RecyclerView) under the gesture navigation bar and toolbar
+            fragment.requireActivity().window.decorView.systemUiVisibility =
+                (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+
+            // Set padding for the Views (RecyclerView and Relative Layout) from the System Views (Gesture Navigation Bar, Toolbar)
+            setOnApplyWindowInsetsListener { _, insets ->
+                val topPadding = insets.systemWindowInsetTop
+                val bottomPadding = insets.systemWindowInsetBottom
+                setPadding(0, topPadding, 0, 0)
+                setPadding(0, 0, 0, bottomPadding)
+                insets.consumeSystemWindowInsets()
+            }
+    }
 }

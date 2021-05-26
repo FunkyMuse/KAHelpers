@@ -37,11 +37,11 @@ fun atbashEncrypt(text: String): String {
                 in the reversed list, and then append it to the result.
      */
     text.forEach { character ->
-        if (!alphabet.contains(character.toLowerCase())) resultString += character
+        if (!alphabet.contains(character.lowercaseChar())) resultString += character
         else {
-            var newChar = reversedAlphabet[alphabet.indexOf(character.toLowerCase())]
+            var newChar = reversedAlphabet[alphabet.indexOf(character.lowercaseChar())]
             // If the original character is in upper case, the substitute should be upper case, too.
-            if (character.isUpperCase()) newChar = newChar.toUpperCase()
+            if (character.isUpperCase()) newChar = newChar.uppercaseChar()
             resultString += newChar
         }
     }
@@ -63,10 +63,10 @@ fun atbashDecrypt(text: String): String {
 
     var resultString = ""
     text.forEach { character ->
-        if (!alphabet.contains(character.toLowerCase())) resultString += character
+        if (!alphabet.contains(character.lowercaseChar())) resultString += character
         else {
-            var newChar = alphabet[reversedAlphabet.indexOf(character.toLowerCase())]
-            if (character.isUpperCase()) newChar = newChar.toUpperCase()
+            var newChar = alphabet[reversedAlphabet.indexOf(character.lowercaseChar())]
+            if (character.isUpperCase()) newChar = newChar.uppercaseChar()
             resultString += newChar
         }
     }

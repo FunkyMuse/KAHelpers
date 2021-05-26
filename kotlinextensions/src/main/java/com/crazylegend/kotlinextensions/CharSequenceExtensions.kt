@@ -8,7 +8,6 @@ import android.text.TextPaint
 import android.text.style.*
 import android.view.View
 import androidx.annotation.ColorInt
-import com.crazylegend.kotlinextensions.string.NEW_LINE
 import java.util.*
 import java.util.regex.Pattern
 
@@ -20,7 +19,7 @@ import java.util.regex.Pattern
 private val FORMAT_SEQUENCE = Pattern.compile("%([0-9]+\\$|<?)([^a-zA-z%]*)([[a-zA-Z%]&&[^tT]]|[tT][a-zA-Z])")
 private const val CONCATENATE_FORMATTER = "%1\$s%2\$s"
 
-fun CharSequence.appendNewLine() = CONCATENATE_FORMATTER.formatSpanned(this, NEW_LINE)
+fun CharSequence.appendNewLine() = CONCATENATE_FORMATTER.formatSpanned(this, "\n")
 
 fun CharSequence.bold() = applyTags(arrayOf(this), StyleSpan(Typeface.BOLD))
 

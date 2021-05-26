@@ -133,7 +133,7 @@ fun Menu.getMenuItem(index: Int): MenuItem? {
  */
 @SuppressLint("DefaultLocale")
 fun MenuItem.setTitleColor(color: Int) {
-    val hexColor = Integer.toHexString(color).toUpperCase().substring(2)
+    val hexColor = Integer.toHexString(color).uppercase().substring(2)
     val html = "<font color='#$hexColor'>$title</font>"
     this.title = html.parseAsHtml()
 }

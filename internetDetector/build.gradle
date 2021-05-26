@@ -1,0 +1,10 @@
+dependencies {
+    implementation project(path: ':common')
+
+    //coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+
+    implementation "androidx.annotation:annotation:$annotationVersion"
+
+}

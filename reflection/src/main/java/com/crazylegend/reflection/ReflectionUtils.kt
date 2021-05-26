@@ -126,7 +126,7 @@ fun Any.setFieldValue(fieldName: String, value: Any) {
  */
 @SuppressLint("DefaultLocale")
 fun Any.setFieldPropertyValue(fieldName: String, fieldValue: Any) {
-    val field = this::class.memberProperties.find { it.name.toLowerCase() == fieldName.toLowerCase() }?.name //finding the property name from a kotlin class
+    val field = this::class.memberProperties.find { it.name.lowercase() == fieldName.lowercase() }?.name //finding the property name from a kotlin class
     setFieldValue(field ?: "", fieldValue)
 }
 
@@ -188,7 +188,7 @@ fun getConstructor(className: String, parameterTypes: Array<Class<*>>): Construc
 fun Any.firstPropertyValue(equalsToFieldName: String): String {
     return try {
         javaClass.kotlin.memberProperties.first { member ->
-            member.name.toLowerCase() == equalsToFieldName.toLowerCase()
+            member.name.lowercase() == equalsToFieldName.lowercase()
         }.get(this).toString()
     } catch (e: java.lang.Exception) {
         e.printStackTrace()
@@ -205,7 +205,7 @@ fun Any.firstPropertyValue(equalsToFieldName: String): String {
 fun Any.fieldPropertyValue(equalsToFieldName: String): Any? {
     return tryOrNull {
         javaClass.kotlin.memberProperties.first { member ->
-            member.name.toLowerCase() == equalsToFieldName.toLowerCase()
+            member.name.lowercase() == equalsToFieldName.lowercase()
         }.get(this)
     }
 }

@@ -10,8 +10,8 @@ import android.util.SparseArray
 import androidx.annotation.AnimRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.crazylegend.common.TAG
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.TAG
 import com.crazylegend.kotlinextensions.log.log
 import java.io.Serializable
 import kotlin.properties.ReadWriteProperty

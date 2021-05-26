@@ -354,7 +354,7 @@ object DeviceUtils {
             try {
                 val manufacturer = Build.MANUFACTURER
                 if (!TextUtils.isEmpty(manufacturer)) {
-                    return manufacturer.toLowerCase()
+                    return manufacturer.lowercase()
                 }
             } catch (ignore: Throwable) {
             }
@@ -367,7 +367,7 @@ object DeviceUtils {
             try {
                 val brand = Build.BRAND
                 if (!TextUtils.isEmpty(brand)) {
-                    return brand.toLowerCase()
+                    return brand.lowercase()
                 }
             } catch (ignore: Throwable) {
             }
@@ -384,7 +384,7 @@ object DeviceUtils {
             try {
                 val display = Build.DISPLAY
                 if (!TextUtils.isEmpty(display)) {
-                    ret = display.toLowerCase()
+                    ret = display.lowercase()
                 }
             } catch (ignore: Throwable) { /**/
             }

@@ -59,7 +59,7 @@ fun isRootGiven(): Boolean {
             process = Runtime.getRuntime().exec(arrayOf("su", "-c", "id"))
             val bufferedReader = BufferedReader(InputStreamReader(process!!.inputStream))
             val output = bufferedReader.readLine()
-            if (output != null && output.toLowerCase().contains("uid=0"))
+            if (output != null && output.lowercase().contains("uid=0"))
                 return true
         } catch (e: Exception) {
             e.printStackTrace()

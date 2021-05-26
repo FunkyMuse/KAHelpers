@@ -55,3 +55,18 @@ object InMemoryCache {
         it.value != null && it.value!!::class.java == clazz
     }
 }
+
+
+/**
+ * get Saved Data from memory, null if it os not exists
+ */
+fun <T> getFromMemory(key: String): T? = InMemoryCache.get(key) as? T
+
+
+/**
+ * put Something In Memory to use it later
+ */
+fun putInMemory(key: String, any: Any?) = InMemoryCache.put(key, any)
+
+
+

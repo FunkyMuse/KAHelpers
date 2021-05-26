@@ -22,19 +22,14 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.*
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.observe
-import com.crazylegend.kotlinextensions.activity.newIntent
-import com.crazylegend.kotlinextensions.context.appOpsManager
-import com.crazylegend.kotlinextensions.context.getColorCompat
-import com.crazylegend.kotlinextensions.context.getIntent
-import com.crazylegend.kotlinextensions.context.notification
+import com.crazylegend.common.tryOrElse
 import com.crazylegend.kotlinextensions.log.debug
-import com.crazylegend.kotlinextensions.orFalse
-import com.crazylegend.kotlinextensions.tryOrElse
 
 
 /**
@@ -704,7 +699,7 @@ val Fragment.supportsPictureInPicture: Boolean
     }
 
 fun Fragment.hasPipPermission(): Boolean {
-    val appOps = requireContext().appOpsManager
+    val appOps = requireContext().getSystemService<AppOpsManager>()
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             appOps?.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, android.os.Process.myUid(), requireContext().packageName) == AppOpsManager.MODE_ALLOWED

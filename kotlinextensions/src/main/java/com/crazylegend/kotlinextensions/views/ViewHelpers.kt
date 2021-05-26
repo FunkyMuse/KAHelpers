@@ -27,8 +27,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.crazylegend.kotlinextensions.bitmap.flipHorizontally
 import com.crazylegend.kotlinextensions.context.getColorCompat
-import com.crazylegend.kotlinextensions.context.getCompatColor
-
+import com.crazylegend.kotlinextensions.ContextCompat.getColor
+context,
 
 /**
  * Created by hristijan on 3/29/19 to long live and prosper !
@@ -190,7 +190,7 @@ fun View.setViewBackgroundColorWithoutResettingPadding(color: Int) {
     val paddingLeft = this.paddingLeft
     val paddingRight = this.paddingRight
     val paddingTop = this.paddingTop
-    this.setBackgroundColor(this.context.getCompatColor(color))
+    this.setBackgroundColor(this.ContextCompat.getColor(context, color))
     this.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
 }
 

@@ -86,7 +86,7 @@ fun Activity.setSystemBarTransparent() {
 
 fun getEmailFromName(name: String?): String? {
     return if (name != null && name != "") {
-        name.replace(" ".toRegex(), ".").toLowerCase() + "@mail.com"
+        name.replace(" ".toRegex(), ".").lowercase() + "@mail.com"
     } else name
 }
 

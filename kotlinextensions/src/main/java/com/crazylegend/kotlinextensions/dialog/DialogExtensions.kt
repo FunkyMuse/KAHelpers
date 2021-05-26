@@ -13,7 +13,6 @@ import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.context.*
 
 
 /**

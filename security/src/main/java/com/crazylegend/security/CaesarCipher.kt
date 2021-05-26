@@ -26,10 +26,10 @@ fun caesarEncrypt(text: String, shift: Int): String {
 
     var resultString = ""
     text.forEach { character ->
-        resultString += if (!alphabet.contains(character.toLowerCase())) character
+        resultString += if (!alphabet.contains(character.lowercaseChar())) character
         else {
-            val newIndex = (alphabet.indexOf(character.toLowerCase()) + moduledShift) % alphabet.size
-            if (character.isUpperCase()) alphabet[newIndex].toUpperCase() else alphabet[newIndex]
+            val newIndex = (alphabet.indexOf(character.lowercaseChar()) + moduledShift) % alphabet.size
+            if (character.isUpperCase()) alphabet[newIndex].uppercase() else alphabet[newIndex]
         }
     }
     return resultString
@@ -49,11 +49,11 @@ fun caesarDecrypt(text: String, shift: Int): String {
 
     var resultString = ""
     text.forEach { character ->
-        if (!alphabet.contains(character.toLowerCase())) resultString += character
+        if (!alphabet.contains(character.lowercaseChar())) resultString += character
         else {
-            var newIndex = alphabet.indexOf(character.toLowerCase()) - moduledShift
+            var newIndex = alphabet.indexOf(character.lowercaseChar()) - moduledShift
             if (newIndex < 0) newIndex += alphabet.size
-            resultString += if (character.isUpperCase()) alphabet[newIndex].toUpperCase() else alphabet[newIndex]
+            resultString += if (character.isUpperCase()) alphabet[newIndex].uppercase() else alphabet[newIndex]
         }
     }
     return resultString

@@ -4,9 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
-
-import com.crazylegend.kotlinextensions.context.getCompatDrawable
-import com.crazylegend.kotlinextensions.tryOrIgnore
+import com.crazylegend.common.tryOrIgnore
 
 
 /**
@@ -44,16 +42,3 @@ fun Bitmap?.freeBitmap() {
     }
 }
 
-
-fun Context.getBitmapFromResource(drawableRes: Int): Bitmap? {
-    var bitmap: Bitmap? = null
-    val drawable = getCompatDrawable(drawableRes)
-    val canvas = Canvas()
-    drawable?.apply {
-        bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
-        canvas.setBitmap(bitmap)
-        setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-        draw(canvas)
-    }
-    return bitmap
-}

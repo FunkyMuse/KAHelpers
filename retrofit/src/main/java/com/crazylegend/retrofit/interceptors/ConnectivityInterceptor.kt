@@ -1,7 +1,7 @@
 package com.crazylegend.retrofit.interceptors
 
 import android.content.Context
-import com.crazylegend.retrofit.isOnline
+import com.crazylegend.common.isOnline
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import okhttp3.Interceptor
 import okhttp3.Response

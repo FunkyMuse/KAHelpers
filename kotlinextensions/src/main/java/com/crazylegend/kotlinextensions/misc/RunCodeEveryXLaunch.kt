@@ -1,7 +1,6 @@
 package com.crazylegend.kotlinextensions.misc
 
 import android.content.Context
-import com.crazylegend.kotlinextensions.context.getSharedPreferencesByTag
 
 
 /**
@@ -15,7 +14,7 @@ object RunCodeEveryXLaunch {
 
     fun runCode(context: Context, launchesUntilRun: Int, prefKey: String = defaultPrefKey, codeToRun: () -> Unit) {
 
-        val prefs = context.getSharedPreferencesByTag(prefKey)
+        val prefs = context.getSharedPreferences(prefKey, Context.MODE_PRIVATE)
 
         val editor = prefs.edit()
 

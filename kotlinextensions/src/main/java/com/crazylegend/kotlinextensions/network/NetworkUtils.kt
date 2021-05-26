@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.telephony.PhoneStateListener
 import android.telephony.ServiceState
-import com.crazylegend.kotlinextensions.context.telephonyManager
-import com.crazylegend.kotlinextensions.tryOrNull
+import android.telephony.TelephonyManager
+import com.crazylegend.common.tryOrNull
 import java.net.InetAddress
 import java.net.UnknownHostException
 
@@ -42,7 +42,7 @@ private fun convertIpAddress(ip: Int): ByteArray {
 /**Check weather phone is in roaming or not*/
 fun Context.checkForRoaming(): Boolean {
     var isRoaming = false
-
+    val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
     object : PhoneStateListener() {
         override fun onServiceStateChanged(serviceState: ServiceState) {
             super.onServiceStateChanged(serviceState)

@@ -14,7 +14,6 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import com.crazylegend.kotlinextensions.context.uiModeManager
 import com.crazylegend.kotlinextensions.power.isIgnoringBatteryOptimization
 import java.util.*
 
@@ -59,7 +58,6 @@ private fun getMajorVersion(glEsVersion: Int): Int {
     return glEsVersion and -0x10000 shr 16
 }
 
-val Context.isTV get() = uiModeManager?.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
 
 
 inline fun <T, R> T.ifThis(predicate: T.() -> Boolean, trueFun: () -> R, elseFun: () -> R) = if (predicate()) {

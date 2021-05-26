@@ -1,6 +1,6 @@
 package com.crazylegend.kotlinextensions.core
 
-import com.crazylegend.kotlinextensions.tryOrNull
+import com.crazylegend.common.tryOrNull
 
 
 /**

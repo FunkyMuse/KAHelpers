@@ -27,13 +27,13 @@ fun vigenereEncrypt(text: String, key: String): String {
             current++
         }
     }
-    newKey = newKey.toLowerCase()
+    newKey = newKey.lowercase()
 
     text.forEachIndexed { index, character ->
-        resultString += if (alphabet.contains(character.toLowerCase())) {
+        resultString += if (alphabet.contains(character.lowercaseChar())) {
             val newIndex =
-                    (alphabet.indexOf(character.toLowerCase()) + alphabet.indexOf(newKey[index])) % alphabet.size
-            val newCharacter = if (character.isUpperCase()) alphabet[newIndex].toUpperCase() else alphabet[newIndex]
+                    (alphabet.indexOf(character.lowercaseChar()) + alphabet.indexOf(newKey[index])) % alphabet.size
+            val newCharacter = if (character.isUpperCase()) alphabet[newIndex].uppercase() else alphabet[newIndex]
             newCharacter
         } else {
             character
@@ -62,13 +62,13 @@ fun vigenereDecrypt(text: String, key: String): String {
             current++
         }
     }
-    newKey = newKey.toLowerCase()
+    newKey = newKey.lowercase()
 
     text.forEachIndexed { index, character ->
-        if (alphabet.contains(character.toLowerCase())) {
-            var newIndex = (alphabet.indexOf(character.toLowerCase()) - alphabet.indexOf(newKey[index]))
+        if (alphabet.contains(character.lowercaseChar())) {
+            var newIndex = (alphabet.indexOf(character.lowercaseChar()) - alphabet.indexOf(newKey[index]))
             if (newIndex < 0) newIndex += alphabet.size
-            val newCharacter = if (character.isUpperCase()) alphabet[newIndex].toUpperCase() else alphabet[newIndex]
+            val newCharacter = if (character.isUpperCase()) alphabet[newIndex].uppercase() else alphabet[newIndex]
             resultString += newCharacter
         } else {
             resultString += character

@@ -15,13 +15,13 @@ import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.context.getColorCompat
 import com.crazylegend.kotlinextensions.views.afterLatestMeasured
 import com.crazylegend.kotlinextensions.views.gone
 import com.crazylegend.kotlinextensions.views.invisible
@@ -1119,7 +1119,7 @@ fun View?.fadeOut(duration: Long = 400, startDelay: Long = 0, interpolator: Inte
 
 fun View.setbackgroundColorResourceAnimated(resId: Int, duration: Long = 400) {
     val colorFrom = (this.background as ColorDrawable).color
-    val colorTo = this.context.getColorCompat(resId)
+    val colorTo = ContextCompat.getColor(context, resId)
     val colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
     colorAnimation.duration = duration
     colorAnimation.addUpdateListener { animator -> this.setBackgroundColor(animator.animatedValue as Int) }
