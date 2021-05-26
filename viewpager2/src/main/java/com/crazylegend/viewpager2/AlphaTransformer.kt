@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.viewpager2
+package com.crazylegend.viewpager2
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
