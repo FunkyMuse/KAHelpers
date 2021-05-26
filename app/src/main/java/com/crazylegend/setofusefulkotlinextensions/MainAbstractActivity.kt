@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.crazylegend.animations.transition.utils.fadeRecyclerTransition
+import com.crazylegend.animations.transition.stagger
 import com.crazylegend.common.exhaustive
 import com.crazylegend.context.getColorCompat
 import com.crazylegend.context.isGestureNavigationEnabled
@@ -21,11 +23,7 @@ import com.crazylegend.internetdetector.InternetDetector
 import com.crazylegend.kotlinextensions.gestureNavigation.EdgeToEdge
 import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunch
-import com.crazylegend.kotlinextensions.transition.stagger
-import com.crazylegend.kotlinextensions.transition.utils.fadeRecyclerTransition
 import com.crazylegend.kotlinextensions.views.asSearchView
-import com.crazylegend.kotlinextensions.views.getEditTextSearchView
-import com.crazylegend.kotlinextensions.views.setOnClickListenerCooldown
 import com.crazylegend.kotlinextensions.views.setQueryAndExpand
 import com.crazylegend.recyclerview.*
 import com.crazylegend.recyclerview.clickListeners.forItemClickListener
@@ -36,6 +34,8 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapte
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderShimmer
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
+import com.crazylegend.view.getEditTextSearchView
+import com.crazylegend.view.setOnClickListenerCooldown
 import com.crazylegend.viewbinding.viewBinder
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn

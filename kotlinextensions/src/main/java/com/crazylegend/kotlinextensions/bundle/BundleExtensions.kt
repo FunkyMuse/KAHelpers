@@ -34,20 +34,7 @@ fun Bundle.withCustomAnimation(
     ).toBundle()
 }
 
-fun Bundle.withSlideIn(context: Context) = withCustomAnimation(
-        context,
-        R.anim.slide_in_right, R.anim.fade_out_interpolated
-)
 
-fun Bundle.withSlideOut(context: Context) = withCustomAnimation(
-        context,
-        R.anim.fade_in_interpolated, android.R.anim.slide_out_right
-)
-
-fun Bundle.withFade(context: Context) = withCustomAnimation(
-        context,
-        android.R.anim.fade_in, android.R.anim.fade_out
-)
 
 /**
  * Similar to [Bundle.putAll], but checks for a null insert and returns the parent bundle

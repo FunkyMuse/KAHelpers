@@ -32,6 +32,7 @@ abstract class CountUpTimer : CountUpTimerCallback {
      *
      * @return: true if timer is running, else false.
      */
+    @get:Synchronized
     var isRunning: Boolean = false
         private set
     /**
@@ -114,6 +115,7 @@ abstract class CountUpTimer : CountUpTimerCallback {
     /**
      * Method to start the timer.
      */
+    @Synchronized
     fun startTimer() {
         if (isRunning)
             return
@@ -130,6 +132,7 @@ abstract class CountUpTimer : CountUpTimerCallback {
     /**
      * Method to stop the timer.
      */
+    @Synchronized
     fun stopTimer(shouldCallTimerFinish: Boolean = true) {
 
         isRunning = false

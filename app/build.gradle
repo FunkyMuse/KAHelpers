@@ -47,6 +47,9 @@ dependencies {
     implementation project(path: ':activity')
     implementation project(path: ':context')
     implementation project(path: ':common')
+    implementation project(path: ':animations')
+    implementation project(path: ':view')
+    implementation project(path: ':collections')
 
 
     testImplementation "junit:junit:$junitVersion"

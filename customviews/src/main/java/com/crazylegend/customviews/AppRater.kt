@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.crazylegend.customviews.databinding.DialogAppRaterBinding
 import com.crazylegend.viewbinding.viewBinding
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 
 /**
@@ -173,7 +173,6 @@ object AppRater {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val dialog = super.onCreateDialog(savedInstanceState)
             with(dialog) {
-                window?.attributes?.windowAnimations = R.style.DialogAnimation
                 setCancelable(false)
                 setCanceledOnTouchOutside(false)
                 window?.setBackgroundDrawableResource(R.drawable.rounded_bg_theme_compatible)

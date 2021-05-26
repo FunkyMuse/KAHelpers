@@ -211,7 +211,7 @@ fun EditText.requestFocusAndKeyboard() {
 
 fun EditText.clearFocusAndKeyboard() {
     clearFocus()
-    context.getSystemService<InputMethodManager>()?.hideSoftInputFromWindow(windowToken, 0)
+    hideKeyboard()
 }
 
 /**
@@ -269,7 +269,7 @@ inline fun EditText.onImeAction2(crossinline action: (view: View, text: String) 
 inline fun EditText.onDone(crossinline action: (text: String) -> Unit) {
     imeOptions = EditorInfo.IME_ACTION_DONE
     onImeAction {
-        hideSoftInput()
+        hideKeyboard()
         action(text.toString())
     }
 }
@@ -280,7 +280,7 @@ inline fun EditText.onDone(crossinline action: (text: String) -> Unit) {
 inline fun EditText.onSend(crossinline action: (text: String) -> Unit) {
     imeOptions = EditorInfo.IME_ACTION_SEND
     onImeAction {
-        hideSoftInput()
+        hideKeyboard()
         action(text.toString())
     }
 }

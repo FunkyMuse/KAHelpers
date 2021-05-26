@@ -1,0 +1,8 @@
+dependencies {
+    implementation project(path: ':view')
+    implementation "androidx.core:core-ktx:$coreKTX"
+    implementation "androidx.interpolator:interpolator:$interpolator"
+    implementation "androidx.transition:transition:$transition"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview"
+
+}
