@@ -1,11 +1,12 @@
-package com.crazylegend.kotlinextensions.audio
+package com.crazylegend.audio
 
 import android.media.AudioManager
 import android.media.AudioManager.*
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.M
 import android.view.KeyEvent
-import com.crazylegend.kotlinextensions.math.FloatMath.clamp
+import kotlin.math.max
+import kotlin.math.min
 
 
 /**
@@ -20,9 +21,9 @@ fun AudioManager.dispatchEvent(keycode: Int) {
 private var isMuted: Boolean = false
 
 var AudioManager.isMuted: Boolean
-    get() = com.crazylegend.kotlinextensions.audio.isMuted
+    get() = com.crazylegend.audio.isMuted
     private set(value) {
-        com.crazylegend.kotlinextensions.audio.isMuted = value
+        com.crazylegend.audio.isMuted = value
     }
 
 @Suppress("DEPRECATION")
@@ -75,3 +76,5 @@ fun AudioManager.changeVolume(dt: Int) {
     val volume = clamp((streamMaxVolume + dt).toFloat(), 0F, streamMaxVolume.toFloat())
     setStreamVolume(STREAM_MUSIC, volume.toInt(), 0)
 }
+
+private fun clamp(value: Float, min: Float, max: Float): Float = max(min, min(value, max))
