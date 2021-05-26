@@ -19,6 +19,7 @@ buildscript {
         recyclerview = '1.2.0'
         annotationVersion = '1.2.0'
         documentFile = '1.0.1'
+        swipeRefresh = '1.1.0'
 
 
         //app only

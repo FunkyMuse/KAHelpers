@@ -28,6 +28,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
 import androidx.annotation.RequiresPermission
 import androidx.collection.LruCache
+import com.crazylegend.common.device.DefaultUserAgent
 import java.io.Closeable
 import java.math.BigInteger
 import java.net.InetAddress

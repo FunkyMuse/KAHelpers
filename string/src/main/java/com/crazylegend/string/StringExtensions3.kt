@@ -6,7 +6,7 @@ import android.text.Spanned
 import android.util.Base64
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
-import com.crazylegend.common.toHtmlSpan
+import com.crazylegend.common.string.toHtmlSpan
 import java.io.File
 import java.security.SignatureException
 import java.util.*

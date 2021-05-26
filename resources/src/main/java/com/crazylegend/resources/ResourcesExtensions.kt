@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.text.Html
 import android.text.Spanned
 import android.util.TypedValue
 import androidx.annotation.DimenRes
@@ -13,8 +11,7 @@ import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.annotation.StyleableRes
 import androidx.appcompat.content.res.AppCompatResources
-import com.crazylegend.common.toHtmlSpan
-import java.io.InputStream
+import com.crazylegend.common.string.toHtmlSpan
 
 
 /**
