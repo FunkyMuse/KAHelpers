@@ -1,4 +1,4 @@
-# Biometrics
+# Animations
 
 [![](https://jitpack.io/v/FunkyMuse/KAHelpers.svg)](https://jitpack.io/#FunkyMuse/KAHelpers)
 
