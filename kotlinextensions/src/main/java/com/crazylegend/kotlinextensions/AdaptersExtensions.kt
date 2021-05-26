@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.collections
+package com.crazylegend.kotlinextensions
 
 import android.widget.ArrayAdapter
 
