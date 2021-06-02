@@ -1,10 +1,10 @@
 package com.crazylegend.kotlinextensions.delegates
 
 import android.content.SharedPreferences
-import com.crazylegend.kotlinextensions.sharedprefs.putBoolean
-import com.crazylegend.kotlinextensions.sharedprefs.putFloat
-import com.crazylegend.kotlinextensions.sharedprefs.putInt
-import com.crazylegend.kotlinextensions.sharedprefs.putString
+import com.crazylegend.sharedpreferences.putBoolean
+import com.crazylegend.sharedpreferences.putFloat
+import com.crazylegend.sharedpreferences.putInt
+import com.crazylegend.sharedpreferences.putString
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

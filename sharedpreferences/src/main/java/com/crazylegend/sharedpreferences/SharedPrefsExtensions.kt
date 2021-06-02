@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.sharedprefs
+package com.crazylegend.sharedpreferences
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
