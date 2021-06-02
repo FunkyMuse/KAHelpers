@@ -15,7 +15,7 @@ fun getMemoryUsage(transform: (Long, Long, Long, Long, Int) -> String = { _, _, 
 }
 
 val fileSizeUnits = arrayOf("bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-fun Long.toFileSizeString(): String? {
+fun Long.toFileSizeString(): String {
     var bytesToCalculate = this
     val sizeToReturn: String
     var index = 0
@@ -30,7 +30,7 @@ fun Long.toFileSizeString(): String? {
     return sizeToReturn
 }
 
-fun Long.toFileSize(): Long? {
+fun Long.toFileSize(): Long {
     var bytesToCalculate = this
     var index = 0
     while (index < fileSizeUnits.size) {
