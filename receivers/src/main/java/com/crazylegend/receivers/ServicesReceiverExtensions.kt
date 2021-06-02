@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.services
+package com.crazylegend.receivers
 
 import android.app.Activity
 import android.app.ActivityManager
