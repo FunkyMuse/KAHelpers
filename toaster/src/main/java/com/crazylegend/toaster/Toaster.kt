@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.toaster
+package com.crazylegend.toaster
 
 import android.content.Context
 import android.widget.Toast
