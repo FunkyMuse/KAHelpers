@@ -81,43 +81,66 @@ task clean(type: Delete) {
 }
 
 subprojects {
-    if (it.name != 'app') {
-        //setup gradle for libraries
-        apply plugin: 'com.android.library'
-        apply plugin: 'kotlin-android'
-        apply plugin: 'kotlin-parcelize'
-        apply plugin: 'com.github.dcendents.android-maven'
 
-        dependencies {
-            implementation fileTree(dir: 'libs', include: ['*.jar'])
-            // Dependencies for local unit tests
-            testImplementation "junit:junit:$junitVersion"
-            testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
-            testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
-            testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
-            testImplementation "org.robolectric:robolectric:$robolectricVersion"
-            testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
-            testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
+    switch (it.name) {
+        case "app":
+            apply plugin: 'com.android.application'
+            apply plugin: 'kotlin-android'
+            apply plugin: 'kotlin-kapt'
+            apply plugin: 'kotlin-parcelize'
+            dependencies {
+                implementation fileTree(dir: 'libs', include: ['*.jar'])
+            }
+            applyAndroid(it, true)
+            break
 
-            // AndroidX Test - Instrumented testing
-            androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
-            androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+        case ["enums"]:
+            apply plugin: 'java-library'
+            apply plugin: 'kotlin'
+            applyKotlinModule(it)
+            break
 
-        }
+        default:
+            //setup gradle for libraries
+            apply plugin: 'com.android.library'
+            apply plugin: 'kotlin-android'
+            apply plugin: 'com.github.dcendents.android-maven'
+            apply plugin: 'kotlin-parcelize'
+            applyAndroid(it, false)
 
-    } else {
-        apply plugin: 'com.android.application'
-        apply plugin: 'kotlin-android'
-        apply plugin: 'kotlin-kapt'
-        apply plugin: 'kotlin-parcelize'
+            dependencies {
+                implementation fileTree(dir: 'libs', include: ['*.jar'])
+                // Dependencies for local unit tests
+                testImplementation "junit:junit:$junitVersion"
+                testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+                testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+                testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+                testImplementation "org.robolectric:robolectric:$robolectricVersion"
+                testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+                testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines"
 
-        dependencies {
-            implementation fileTree(dir: 'libs', include: ['*.jar'])
-        }
+                // AndroidX Test - Instrumented testing
+                androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+                androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+            }
+
+            break
     }
 
+}
 
-    android {
+def applyKotlinModule(project) {
+    project.java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    project.dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}
+
+def applyAndroid(project, buildConfigCase) {
+    project.android {
         compileSdkVersion compileVersion
 
         defaultConfig {
@@ -137,16 +160,17 @@ subprojects {
             jvmTarget = "1.8"
         }
 
+        testOptions.unitTests {
+            includeAndroidResources = true
+        }
+
         buildFeatures {
             aidl = false
             renderScript = false
             resValues = false
             shaders = false
-            buildConfig = false
-        }
-
-        testOptions.unitTests {
-            includeAndroidResources = true
+            buildConfig = buildConfigCase
         }
     }
+
 }

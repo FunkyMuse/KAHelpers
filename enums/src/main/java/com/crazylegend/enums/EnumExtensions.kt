@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.enums
+package com.crazylegend.enums
 
 
 /**
