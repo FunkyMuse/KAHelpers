@@ -1,0 +1,5 @@
+
+dependencies {
+    implementation "androidx.preference:preference:$preference"
+
+}
