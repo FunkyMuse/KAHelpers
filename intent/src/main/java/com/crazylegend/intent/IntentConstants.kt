@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.intent
+package com.crazylegend.intent
 
 
 /**

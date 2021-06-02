@@ -1,11 +1,10 @@
-package com.crazylegend.kotlinextensions.intent
+package com.crazylegend.intent
 
 import android.Manifest.permission.SET_ALARM
 import android.app.SearchManager
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.*
@@ -16,9 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.print.PrintHelper
 import com.crazylegend.common.tryOrElse
-import com.crazylegend.kotlinextensions.version.doIfSdk
 
 
 /**
@@ -171,14 +168,7 @@ inline fun Context.composeMmsMessage(message: String, attachment: Uri, onCantHan
     }
 }
 
-fun Context.doPhotoPrint(drawable: Int, jobName: String) {
-    PrintHelper(this).apply {
-        scaleMode = PrintHelper.SCALE_MODE_FIT
-    }.also { printHelper ->
-        val bitmap = BitmapFactory.decodeResource(resources, drawable)
-        printHelper.printBitmap(jobName, bitmap)
-    }
-}
+
 
 
 /**
@@ -207,17 +197,19 @@ inline fun Context.openSettingsCategory(category: String, onCantHandleAction: ()
 }
 
 inline fun Context.openWifiSettings(crossinline onCantHandleAction: () -> Unit = {}) {
-    doIfSdk(Build.VERSION_CODES.Q, {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
         val intent = Intent(ACTION_INTERNET_CONNECTIVITY)
         tryOrElse(onCantHandleAction) {
             startActivity(intent)
         }
-    }) {
+    } else {
         val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
         tryOrElse(onCantHandleAction) {
             startActivity(intent)
         }
     }
+
+
 }
 
 

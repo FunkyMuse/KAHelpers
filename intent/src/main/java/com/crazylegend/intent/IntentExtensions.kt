@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.intent
+package com.crazylegend.intent
 
 import android.app.Activity
 import android.app.PendingIntent

@@ -1,5 +1,8 @@
 package com.crazylegend.kotlinextensions.print
 
+import android.content.Context
+import android.graphics.BitmapFactory
+import androidx.print.PrintHelper
 import com.crazylegend.kotlinextensions.log.debug
 
 
@@ -29,5 +32,14 @@ fun <K, V> Map<K, V>.printMap() {
 fun <K, V> HashMap<K, V>.printMap() {
     this.forEach {
         "${it.key} -> ${it.value}".debug(this.toString())
+    }
+}
+
+fun Context.doPhotoPrint(drawable: Int, jobName: String) {
+    PrintHelper(this).apply {
+        scaleMode = PrintHelper.SCALE_MODE_FIT
+    }.also { printHelper ->
+        val bitmap = BitmapFactory.decodeResource(resources, drawable)
+        printHelper.printBitmap(jobName, bitmap)
     }
 }
