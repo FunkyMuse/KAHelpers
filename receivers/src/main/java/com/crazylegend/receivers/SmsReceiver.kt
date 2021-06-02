@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.receivers
+package com.crazylegend.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
