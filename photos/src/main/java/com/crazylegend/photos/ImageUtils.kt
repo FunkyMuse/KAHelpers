@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.photos
+package com.crazylegend.photos
 
 import android.Manifest.permission.CAMERA
 import android.annotation.SuppressLint

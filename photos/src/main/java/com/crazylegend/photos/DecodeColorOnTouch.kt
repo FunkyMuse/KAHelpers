@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.photos
+package com.crazylegend.photos
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
