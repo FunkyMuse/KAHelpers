@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.color
+package com.crazylegend.color
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.common.resolveColor
-import com.crazylegend.kotlinextensions.R
 import com.crazylegend.numbers.round
 import java.util.*
 import kotlin.math.abs
