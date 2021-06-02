@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.permissions
+package com.crazylegend.permissions
 
 import android.Manifest.permission.*
 import android.os.Build
@@ -55,7 +55,9 @@ inline fun FragmentActivity.askForSinglePermission(crossinline onDenied: () -> U
 
 //region GPS
 var enableLocationRetryCount = 1
-inline fun Fragment.enableGPS(crossinline onDenied: () -> Unit = {}, crossinline onLocationGranted: () -> Unit = {}) = registerForActivityResult(LocationSettingsContract()) {
+inline fun Fragment.enableGPS(crossinline onDenied: () -> Unit = {}, crossinline onLocationGranted: () -> Unit = {}) = registerForActivityResult(
+    LocationSettingsContract()
+) {
     if (enableLocationRetryCount <= 2) {
         onLocationGranted()
         enableLocationRetryCount++
@@ -65,7 +67,9 @@ inline fun Fragment.enableGPS(crossinline onDenied: () -> Unit = {}, crossinline
     }
 }
 
-inline fun FragmentActivity.enableGPS(crossinline onDenied: () -> Unit = {}, crossinline onLocationGranted: () -> Unit = {}) = registerForActivityResult(LocationSettingsContract()) {
+inline fun FragmentActivity.enableGPS(crossinline onDenied: () -> Unit = {}, crossinline onLocationGranted: () -> Unit = {}) = registerForActivityResult(
+    LocationSettingsContract()
+) {
     if (enableLocationRetryCount <= 2) {
         onLocationGranted()
         enableLocationRetryCount++

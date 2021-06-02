@@ -1,11 +1,10 @@
-package com.crazylegend.kotlinextensions.permissions
+package com.crazylegend.permissions
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
-import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_VIDEO
 
 
 /**
@@ -23,11 +22,11 @@ val uri = it
 call it as tryOrIgnore { registerDocumentContract.launch(videoName.mp4) }
 it's wrapped in try or ignore in case no app can handle the intent
  */
-class CreateVideoContract : ActivityResultContract<String?, Uri?>() {
+class CreateVideoContract(private val videoType :String = "video/*") : ActivityResultContract<String?, Uri?>() {
 
     override fun createIntent(context: Context, input: String?): Intent {
         return Intent(Intent.ACTION_CREATE_DOCUMENT)
-                .setType(INTENT_TYPE_VIDEO)
+                .setType(videoType)
                 .putExtra(Intent.EXTRA_TITLE, input)
     }
 

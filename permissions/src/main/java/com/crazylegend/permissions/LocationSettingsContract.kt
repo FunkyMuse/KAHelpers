@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.permissions
+package com.crazylegend.permissions
 
 import android.content.Context
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.permissions
+package com.crazylegend.permissions
 
 import android.Manifest
 import android.app.AppOpsManager
