@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.livedata
+package com.crazylegend.livedata
 
 import android.util.Log
 import androidx.annotation.MainThread

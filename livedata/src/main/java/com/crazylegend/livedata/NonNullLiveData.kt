@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.livedata
+package com.crazylegend.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
