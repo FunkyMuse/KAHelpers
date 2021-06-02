@@ -17,7 +17,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import com.crazylegend.common.resolveColor
 import com.crazylegend.kotlinextensions.R
-import com.crazylegend.kotlinextensions.numbers.round
+import com.crazylegend.numbers.round
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt

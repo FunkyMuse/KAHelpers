@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.numbers
+package com.crazylegend.numbers
 
 import java.text.DecimalFormat
 import java.text.NumberFormat

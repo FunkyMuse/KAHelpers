@@ -1,6 +1,5 @@
-package com.crazylegend.kotlinextensions.collections.collections
+package com.crazylegend.collections
 
-import com.crazylegend.kotlinextensions.collections.isListAndNullOrEmpty
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

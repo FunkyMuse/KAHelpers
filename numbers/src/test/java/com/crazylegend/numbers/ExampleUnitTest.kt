@@ -1,4 +1,4 @@
-package com.crazylegend.collections
+package com.crazylegend.numbers
 
 import org.junit.Test
 

@@ -1,0 +1,7 @@
+
+dependencies {
+    implementation project(path: ':bytearray')
+    implementation project(path: ':math')
+    implementation "androidx.annotation:annotation:$annotationVersion"
+
+}
