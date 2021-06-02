@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.lifeCycle
+package com.crazylegend.lifecycle
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

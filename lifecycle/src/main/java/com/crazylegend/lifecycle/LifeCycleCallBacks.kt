@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.lifeCycle
+package com.crazylegend.lifecycle
 
 
 /**

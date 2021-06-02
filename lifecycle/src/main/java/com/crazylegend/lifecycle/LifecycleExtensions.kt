@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.lifeCycle
+package com.crazylegend.lifecycle
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
