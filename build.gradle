@@ -94,7 +94,7 @@ subprojects {
             applyAndroid(it, true)
             break
 
-        case ["enums"]:
+        case ["enums", "regex"]:
             apply plugin: 'java-library'
             apply plugin: 'kotlin'
             applyKotlinModule(it)

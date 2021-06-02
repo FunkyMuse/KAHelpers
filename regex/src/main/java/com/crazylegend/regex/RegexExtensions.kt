@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.regex
+package com.crazylegend.regex
 
 
 /**
