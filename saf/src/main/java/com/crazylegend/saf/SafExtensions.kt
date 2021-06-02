@@ -1,4 +1,4 @@
-package com.crazylegend.kotlinextensions.saf
+package com.crazylegend.saf
 
 import android.Manifest.permission.ACCESS_MEDIA_LOCATION
 import android.content.Context
@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.documentfile.provider.DocumentFile
 import androidx.exifinterface.media.ExifInterface
-import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_DOCUMENT
 import java.io.*
 
 
@@ -183,7 +182,7 @@ fun File.getMimeType(): String? {
     return type
 }
 
-fun File.getMimeType(fallback: String = INTENT_TYPE_DOCUMENT): String {
+fun File.getMimeType(fallback: String = "*/*"): String {
     return MimeTypeMap.getFileExtensionFromUrl(toString())
             ?.run { MimeTypeMap.getSingleton().getMimeTypeFromExtension(lowercase()) }
             ?: fallback // You might set it to */*
