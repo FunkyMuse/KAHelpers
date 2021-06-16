@@ -4,8 +4,17 @@
     android:id="@+id/test05"
     app:startDestination="@id/testFragment5">
 
+
     <fragment
         android:id="@+id/testFragment5"
         android:name="com.crazylegend.setofusefulkotlinextensions.nav.TestFragment"
-        android:label="TestFragment" />
+        android:label="TestFragment" >
+        <action
+            android:id="@+id/openDetails"
+            app:destination="@id/detailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.crazylegend.setofusefulkotlinextensions.nav.DetailFragment"/>
 </navigation>

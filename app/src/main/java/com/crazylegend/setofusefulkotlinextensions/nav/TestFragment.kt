@@ -3,8 +3,11 @@ package com.crazylegend.setofusefulkotlinextensions.nav
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.crazylegend.collections.generateRandomStringList
 import com.crazylegend.customviews.databinding.CustomizableCardViewBinding
+import com.crazylegend.kotlinextensions.log.debug
+import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.recyclerview.generateRecyclerWithHolder
 import com.crazylegend.setofusefulkotlinextensions.R
 import com.crazylegend.setofusefulkotlinextensions.databinding.FragmentTestBinding
@@ -28,5 +31,21 @@ class TestFragment : Fragment(R.layout.fragment_test) {
         super.onViewCreated(view, savedInstanceState)
         binding.recycler.adapter = testAdapter
         testAdapter.submitList(generateRandomStringList(100))
+        testAdapter.forItemClickListener = forItemClickListener { _, item, _ ->
+            findNavController().navigate(R.id.openDetails)
+        }
+
+    }
+
+    override fun onDestroyView() {
+        binding.text.text = "WATAFAK"
+        super.onDestroyView()
+        debug { "ON DESTROY VIEW IS CALLED" }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        debug { "ON DESTROY IS CALLED" }
     }
 }

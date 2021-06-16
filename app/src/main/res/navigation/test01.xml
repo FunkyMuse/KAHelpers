@@ -7,5 +7,15 @@
     <fragment
         android:id="@+id/testFragment"
         android:name="com.crazylegend.setofusefulkotlinextensions.nav.TestFragment"
-        android:label="TestFragment" />
+        android:label="TestFragment" >
+        <action
+            android:id="@+id/openDetails"
+            app:destination="@id/detailFragment"
+            app:popUpTo="@id/testFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.crazylegend.setofusefulkotlinextensions.nav.DetailFragment"/>
 </navigation>
