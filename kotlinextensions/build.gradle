@@ -4,6 +4,9 @@ dependencies {
     implementation project(path: ':context')
     implementation project(path: ':activity')
     implementation project(path: ':bytearray')
+    implementation project(path: ':intent')
+    implementation project(path: ':sharedpreferences')
+    implementation project(path: ':color')
 
     //live data
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"

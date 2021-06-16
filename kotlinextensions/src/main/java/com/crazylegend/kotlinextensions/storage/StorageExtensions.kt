@@ -15,11 +15,11 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.annotation.RequiresApi
 import com.crazylegend.common.device.DeviceUtils
+import com.crazylegend.intent.INTENT_TYPE_DOCUMENT
+import com.crazylegend.intent.INTENT_TYPE_IMGs
+import com.crazylegend.intent.INTENT_TYPE_PDF
+import com.crazylegend.intent.INTENT_TYPE_VIDEO
 import com.crazylegend.kotlinextensions.cursor.getStringOrNull
-import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_DOCUMENT
-import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_IMGs
-import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_PDF
-import com.crazylegend.kotlinextensions.intent.INTENT_TYPE_VIDEO
 import java.io.*
 
 

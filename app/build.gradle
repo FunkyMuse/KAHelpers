@@ -62,13 +62,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
-    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-service:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-service:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
+
 
     //joda time
     implementation "net.danlew:android.joda:$joda"

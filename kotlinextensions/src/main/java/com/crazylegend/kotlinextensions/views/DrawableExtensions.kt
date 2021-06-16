@@ -11,7 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.annotation.ColorInt
 import androidx.core.graphics.drawable.DrawableCompat
-import com.crazylegend.kotlinextensions.color.adjustAlpha
+import com.crazylegend.color.adjustAlpha
 
 
 /**

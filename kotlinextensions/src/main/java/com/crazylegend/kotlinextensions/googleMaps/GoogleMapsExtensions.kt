@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
-import com.crazylegend.kotlinextensions.intent.canBeHandled
+import com.crazylegend.intent.canBeHandled
 
 
 /**

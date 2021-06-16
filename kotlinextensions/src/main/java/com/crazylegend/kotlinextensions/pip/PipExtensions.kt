@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.crazylegend.activity.hasPipPermission
 import com.crazylegend.activity.supportsPictureInPicture
-import com.crazylegend.kotlinextensions.intent.applicationDetailsIntent
+import com.crazylegend.intent.applicationDetailsIntent
 
 
 /**

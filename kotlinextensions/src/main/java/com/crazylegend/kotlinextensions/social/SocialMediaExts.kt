@@ -3,7 +3,7 @@ package com.crazylegend.kotlinextensions.social
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.crazylegend.kotlinextensions.intent.intentCanBeHandled
+import com.crazylegend.intent.intentCanBeHandled
 
 
 /**

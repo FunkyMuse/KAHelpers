@@ -3,7 +3,6 @@ package com.crazylegend.setofusefulkotlinextensions
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import com.crazylegend.livedata.context
 import com.crazylegend.retrofit.RetrofitClient
 import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
 import com.crazylegend.retrofit.apiCall
@@ -70,7 +69,7 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
             addCallAdapterFactory(RetrofitResultAdapterFactory())
             addConverterFactory(MoshiConverterFactory.create())
         }, okHttpClientConfig = {
-            addInterceptor(ConnectivityInterceptor(context))
+            addInterceptor(ConnectivityInterceptor(application))
         }).create<TestApi>()
     }
 
