@@ -22,8 +22,8 @@ fun <T : ViewBinding> AppCompatActivity.viewBinding(bindingInflater: (LayoutInfl
         ActivityViewBindingDelegate(this, bindingInflater, beforeSetContent)
 
 
-fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T, disposeRecyclerViewsAutomatically: Boolean = true, disposeEvents: T.() -> Unit = {}) =
-        FragmentViewBindingDelegate(this, viewBindingFactory, disposeRecyclerViewsAutomatically, disposeEvents)
+fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T, disposeRecyclerViewsAutomatically: Boolean = true) =
+        FragmentViewBindingDelegate(this, viewBindingFactory, disposeRecyclerViewsAutomatically)
 
 
 fun <T : ViewBinding> globalViewBinding(viewBindingFactory: (View) -> T) =
