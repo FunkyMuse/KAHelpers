@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
+import kotlinx.coroutines.launch
 
 
 /**
@@ -41,19 +41,25 @@ fun LifecycleRegistry.firstThreeStages() {
     currentState = Lifecycle.State.STARTED
 }
 
-fun Fragment.repeatingJobOnStarted(coroutineContext: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> Unit) {
-    viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED, coroutineContext, block)
+fun Fragment.repeatingJobOnStarted(block: suspend CoroutineScope.() -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED, block)
+    }
 }
 
-fun Fragment.repeatingJobOnResumed(coroutineContext: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> Unit) {
-    viewLifecycleOwner.addRepeatingJob(Lifecycle.State.RESUMED, coroutineContext, block)
+fun Fragment.repeatingJobOnResumed(block: suspend CoroutineScope.() -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED, block)
+    }
 }
 
-fun AppCompatActivity.repeatingJobOnStarted(coroutineContext: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> Unit) {
-    addRepeatingJob(Lifecycle.State.STARTED, coroutineContext, block)
+fun AppCompatActivity.repeatingJobOnStarted(block: suspend CoroutineScope.() -> Unit) {
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED, block)
+    }
 }
 
-fun AppCompatActivity.repeatingJobOnResumed(coroutineContext: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> Unit) {
-    addRepeatingJob(Lifecycle.State.RESUMED, coroutineContext, block)
+fun AppCompatActivity.repeatingJobOnResumed(block: suspend CoroutineScope.() -> Unit) {
+    lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.RESUMED, block) }
 }
 
