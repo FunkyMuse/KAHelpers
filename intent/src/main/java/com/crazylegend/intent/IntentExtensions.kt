@@ -60,11 +60,19 @@ fun Intent.canBeHandled(context: Context) = this.resolveActivity(context.package
 fun Context.intentCanBeHandled(intent: Intent) = intent.resolveActivity(packageManager) != null
 
 
-fun Context.getActivityPendingIntent(requestCode: Int = 0, intent: Intent, flags: Int = PendingIntent.FLAG_ONE_SHOT): PendingIntent =
-        PendingIntent.getActivity(this, requestCode, intent, flags)
+fun Context.getActivityPendingIntent(
+    requestCode: Int = 0,
+    intent: Intent,
+    flags: Int = PendingIntent.FLAG_ONE_SHOT
+): PendingIntent =
+    PendingIntent.getActivity(this, requestCode, intent, flags)
 
-fun Context.getBroadcastPendingIntent(requestCode: Int = 0, intent: Intent, flags: Int = PendingIntent.FLAG_ONE_SHOT): PendingIntent =
-        PendingIntent.getBroadcast(this, requestCode, intent, flags)
+fun Context.getBroadcastPendingIntent(
+    requestCode: Int = 0,
+    intent: Intent,
+    flags: Int = PendingIntent.FLAG_ONE_SHOT
+): PendingIntent =
+    PendingIntent.getBroadcast(this, requestCode, intent, flags)
 
 fun Context.getProductionApplicationId(): String {
     val applicationId = packageName
@@ -78,7 +86,8 @@ fun Context.getProductionApplicationId(): String {
 
 fun Context?.openGoogleMaps(query: String, placeId: String) {
     val queryEncoded = Uri.encode(query)
-    val gmmIntentUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$queryEncoded&query_place_id=$placeId")
+    val gmmIntentUri =
+        Uri.parse("https://www.google.com/maps/search/?api=1&query=$queryEncoded&query_place_id=$placeId")
     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
     mapIntent.setPackage("com.google.android.apps.maps")
     this?.apply {
@@ -89,26 +98,34 @@ fun Context?.openGoogleMaps(query: String, placeId: String) {
 
 }
 
-inline fun Activity.pickImage(PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images",
-                              onCantHandleIntent: () -> Unit = {}) {
+inline fun Activity.pickImage(
+    PICK_IMAGES_CODE: Int, allowMultiple: Boolean = false, title: String = "Pick images",
+    onCantHandleIntent: () -> Unit = {}
+) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
-            .setType("image/*")
+        .addCategory(Intent.CATEGORY_OPENABLE)
+        .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
+        .setType("image/*")
     if (intentCanBeHandled(intent))
         startActivityForResult(Intent.createChooser(intent, title), PICK_IMAGES_CODE)
     else
         onCantHandleIntent()
 }
 
-inline fun Activity.openFile(mimeType: String, requestCode: Int, title: String = "Select file via",
-                             onCantHandleIntent: () -> Unit = {}) {
+inline fun Activity.openFile(
+    mimeType: String, requestCode: Int, title: String = "Select file via",
+    onCantHandleIntent: () -> Unit = {}
+) {
     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType(mimeType)
+        .addCategory(Intent.CATEGORY_OPENABLE)
+        .setType(mimeType)
 
     if (intentCanBeHandled(intent))
         startActivityForResult(Intent.createChooser(intent, title), requestCode)
     else
         onCantHandleIntent()
+}
+
+inline fun <reified T> Context.newIntent(): Intent {
+    return Intent(this, T::class.java)
 }
