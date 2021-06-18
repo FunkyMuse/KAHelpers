@@ -1,4 +1,4 @@
-package com.crazylegend.accesssibility
+package com.crazylegend.accessibility
 
 import org.junit.Test
 

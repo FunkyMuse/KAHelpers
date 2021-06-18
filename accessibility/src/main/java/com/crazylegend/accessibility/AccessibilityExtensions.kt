@@ -1,4 +1,4 @@
-package com.crazylegend.accesssibility
+package com.crazylegend.accessibility
 
 import android.accessibilityservice.AccessibilityService
 import android.content.ComponentName
