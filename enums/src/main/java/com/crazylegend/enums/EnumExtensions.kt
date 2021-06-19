@@ -14,12 +14,10 @@ inline fun <reified T : Enum<T>> convert(ord: Int): T = enumValues<T>()[ord]
 /**
  * Returns an enum entry with specified name.
  */
-inline fun <reified E : Enum<E>> enumValueOfOrNull(name: String?): E? {
+inline fun <reified E : Enum<E>> enumValueOfOrNull(name: String): E? {
     return try {
-        enumValueOf<E>(name!!)
-    } catch (e: IllegalArgumentException) {
-        null
-    } catch (e: NullPointerException) {
+        enumValueOf<E>(name)
+    } catch (e: Throwable) {
         null
     }
 }
