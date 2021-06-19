@@ -8,7 +8,9 @@ import okhttp3.ResponseBody
  */
 sealed class RetrofitResult<out T> {
 
-    data class Success<T>(val value: T) : RetrofitResult<T>() // handle UI changes when everything is loaded
+    data class Success<T>(val value: T) : RetrofitResult<T>(){
+        val isValueAListAndNullOrEmpty get() =  value is List<*> && value.isNullOrEmpty()
+    } // handle UI changes when everything is loaded
     object Loading : RetrofitResult<Nothing>() // handle loading state
     object EmptyData : RetrofitResult<Nothing>() //same as no data except this one returns that no data was obtained from the server
     data class Error(val throwable: Throwable) : RetrofitResult<Nothing>() //this one gets thrown when there's an error on your side
