@@ -1,7 +1,5 @@
 # General extensions
 
-## These extensions are bound to Android's framework such as Context, Views, Fragments, Activities etc...
-
 [![](https://jitpack.io/v/FunkyMuse/KAHelpers.svg)](https://jitpack.io/#FunkyMuse/KAHelpers)
 
 
