@@ -1,6 +1,5 @@
 package com.crazylegend.livedata
 
-import android.content.Context
 import androidx.lifecycle.*
 
 
@@ -316,12 +315,6 @@ fun <T> LiveData<T>.buffer(count: Int): MutableLiveData<List<T?>> {
     }
     return mutableLiveData
 }
-
-/**
- * Gets the application context from within the android viewmodel
- */
-val AndroidViewModel.context: Context
-    get() = getApplication()
 
 
 fun <X, Y> LiveData<X>.map(mapFunction: (value: X?) -> Y?) =

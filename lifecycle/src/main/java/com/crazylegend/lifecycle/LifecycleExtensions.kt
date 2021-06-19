@@ -1,11 +1,9 @@
 package com.crazylegend.lifecycle
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -62,4 +60,3 @@ fun AppCompatActivity.repeatingJobOnStarted(block: suspend CoroutineScope.() -> 
 fun AppCompatActivity.repeatingJobOnResumed(block: suspend CoroutineScope.() -> Unit) {
     lifecycleScope.launch { repeatOnLifecycle(Lifecycle.State.RESUMED, block) }
 }
-

@@ -78,7 +78,7 @@ fun String.capitalize() =
  */
 @Throws(PackageManager.NameNotFoundException::class)
 fun Context.getAppSize(pName: String = packageName): Long {
-    return packageManager.getApplicationInfo(pName, 0).sourceDir.toFile().length()
+    return packageManager.getApplicationInfo(pName, 0).sourceDir.asFile().length()
 }
 
 /**
@@ -90,5 +90,5 @@ fun Context.getAppSize(pName: String = packageName): Long {
  */
 @Throws(PackageManager.NameNotFoundException::class)
 fun Context.getAppApk(pName: String = packageName): File {
-    return packageManager.getApplicationInfo(pName, 0).sourceDir.toFile()
+    return packageManager.getApplicationInfo(pName, 0).sourceDir.asFile()
 }
