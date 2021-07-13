@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 
 
 /**
@@ -23,14 +22,14 @@ abstract class AbstractViewBindingCleanAdapter<T, VB : ViewBinding>(
         private val bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        private val onCreateBinding: (binding: VB) -> Unit = {}
+        private val onCreateBinding: (binding: VB, position:Int, item:T) -> Unit = {_,_,_->}
 ) : ListAdapter<T, AbstractViewBindingCleanAdapter.AbstractViewHolder<VB>>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<VB> {
         val binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
         val holder = AbstractViewHolder(binding)
         //attach click listeners etc...
-        onCreateBinding(binding)
+        onCreateBinding(binding, holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition))
         return holder
     }
     override fun onBindViewHolder(holder: AbstractViewHolder<VB>, position: Int) {

@@ -16,7 +16,7 @@ inline fun <reified T, VB : ViewBinding> generateRecyclerWithHolder(
         noinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        noinline onCreateBinding: (binding:VB) -> Unit = {},
+        noinline onCreateBinding: (binding:VB, position:Int) -> Unit = {_,_->},
                 crossinline binder: (item: T, position: Int, itemCount: Int, binding: VB, context: Context) -> Unit): AbstractViewBindingHolderAdapter<T, VB> {
 
     return object : AbstractViewBindingHolderAdapter<T, VB>(bindingInflater, areItemsTheSameCallback, areContentsTheSameCallback, onCreateBinding) {
@@ -30,7 +30,7 @@ inline fun <reified T, VB : ViewBinding> RecyclerView.generateVerticalAdapterWit
         noinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        noinline onCreateBinding: (binding:VB) -> Unit = {},
+        noinline onCreateBinding: (binding:VB, position:Int) -> Unit = {_,_->},
         crossinline binder: (item: T, position: Int, itemCount: Int, binding: VB, context: Context) -> Unit,
         hasFixedSize: Boolean = false, reverseLayout: Boolean = false): AbstractViewBindingHolderAdapter<T, VB> {
 
@@ -43,7 +43,7 @@ inline fun <reified T, VB : ViewBinding> RecyclerView.generateHorizontalAdapterW
         noinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         noinline areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         noinline areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        noinline onCreateBinding: (binding:VB) -> Unit = {},
+        noinline onCreateBinding: (binding:VB, position:Int) -> Unit = {_,_->},
         crossinline binder: (item: T, position: Int, itemCount: Int, binding: VB, context: Context) -> Unit,
         hasFixedSize: Boolean = false, reverseLayout: Boolean = false): AbstractViewBindingHolderAdapter<T, VB> {
 
