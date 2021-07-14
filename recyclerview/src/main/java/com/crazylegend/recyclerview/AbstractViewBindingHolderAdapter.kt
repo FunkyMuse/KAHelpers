@@ -23,7 +23,7 @@ abstract class AbstractViewBindingHolderAdapter<T, VB : ViewBinding>(
         private val bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        private val onCreateBinding: (binding: VB, position:Int) -> Unit = {_,_->}
+        private val onCreateBinding: (holder: AbstractViewHolder<VB>) -> Unit = {}
 ) :
         ListAdapter<T, AbstractViewBindingHolderAdapter.AbstractViewHolder<VB>>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
 
@@ -33,7 +33,7 @@ abstract class AbstractViewBindingHolderAdapter<T, VB : ViewBinding>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<VB> {
         val binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
         val holder = AbstractViewHolder(binding)
-        onCreateBinding(binding, holder.bindingAdapterPosition)
+        onCreateBinding(holder)
 
         holder.itemView.setOnClickListenerCooldown {
             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)

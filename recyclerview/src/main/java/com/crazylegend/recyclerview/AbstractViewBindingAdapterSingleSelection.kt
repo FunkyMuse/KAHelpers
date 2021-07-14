@@ -23,7 +23,7 @@ abstract class AbstractViewBindingAdapterSingleSelection<T, VH : RecyclerView.Vi
         private val bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
         areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
         areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-        private val onCreateBinding: (binding:VB) -> Unit = {}
+        private val onCreateBinding: (holder: VH) -> Unit = {}
 
 ) :
         ListAdapter<T, VH>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
@@ -40,7 +40,7 @@ abstract class AbstractViewBindingAdapterSingleSelection<T, VH : RecyclerView.Vi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
         val holder = setViewHolder(binding)
-        onCreateBinding(binding)
+        onCreateBinding(holder)
 
         holder.itemView.setOnClickListenerCooldown {
             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)

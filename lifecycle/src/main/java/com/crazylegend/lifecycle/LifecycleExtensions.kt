@@ -41,7 +41,7 @@ fun LifecycleRegistry.firstThreeStages() {
 
 fun Fragment.repeatingJobOnStarted(block: suspend CoroutineScope.() -> Unit) {
     viewLifecycleOwner.lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED, block)
+        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED, block)
     }
 }
 
