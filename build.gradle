@@ -5,7 +5,7 @@ buildscript {
         retrofit = "2.9.0"
         rxBindings = "4.0.0"
         glide = "4.12.0"
-        constraint_layout = '2.0.4'
+        constraint_layout = '2.1.0'
         coroutines = '1.5.1-native-mt'
         nav_version = '2.3.5'
         rx = '3.0.0'
@@ -57,14 +57,14 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
+
 
 
 allprojects {
@@ -72,7 +72,7 @@ allprojects {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -88,6 +88,7 @@ subprojects {
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-kapt'
             apply plugin: 'kotlin-parcelize'
+
             dependencies {
                 implementation fileTree(dir: 'libs', include: ['*.jar'])
             }
@@ -98,13 +99,14 @@ subprojects {
             apply plugin: 'java-library'
             apply plugin: 'kotlin'
             applyKotlinModule(it)
+
             break
 
         default:
             //setup gradle for libraries
             apply plugin: 'com.android.library'
             apply plugin: 'kotlin-android'
-            apply plugin: 'com.github.dcendents.android-maven'
+            apply plugin: 'maven-publish'
             apply plugin: 'kotlin-parcelize'
             applyAndroid(it, false)
 
@@ -123,6 +125,18 @@ subprojects {
                 androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
                 androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
             }
+
+
+            it.afterEvaluate {
+                publishing {
+                    publications {
+                        release(MavenPublication) {
+                            from components.release
+                        }
+                    }
+                }
+            }
+
 
             break
     }
