@@ -40,6 +40,7 @@ inline fun Context.getLocationFromImages(uri: Uri, latNLongCallBack: (latNLong: 
 }
 
 @RequiresApi(Build.VERSION_CODES.Q)
+@RequiresPermission(ACCESS_MEDIA_LOCATION)
 fun Context.flipImageHorizontally(uri: Uri) {
     val photoUri = MediaStore.setRequireOriginal(uri)
     contentResolver.openInputStream(photoUri).use { stream ->
@@ -52,6 +53,7 @@ fun Context.flipImageHorizontally(uri: Uri) {
 }
 
 @RequiresApi(Build.VERSION_CODES.Q)
+@RequiresPermission(ACCESS_MEDIA_LOCATION)
 fun Context.flipImageVertically(uri: Uri) {
     val photoUri = MediaStore.setRequireOriginal(uri)
     contentResolver.openInputStream(photoUri).use { stream ->
