@@ -9,6 +9,8 @@
 ![API](https://img.shields.io/badge/Min%20API-21-green)
 ![API](https://img.shields.io/badge/Compiled%20API-30-green)
 
+### If my noble work has helped you, consider becoming a [![Sponsor me](https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/FunkyMuse/).
+
 ## Usage
 1. Add JitPack to your project build.gradle
 
