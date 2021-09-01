@@ -46,13 +46,13 @@ buildscript {
         espressoVersion = '3.4.0'
 
         //compilation
-        compileVersion = 30
+        compileVersion = 31
         minVersion = 21
         verCode = 1
         verName = "1.0.0"
         testRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        kotlin_version = '1.5.21'
+        kotlin_version = '1.5.30'
     }
 
     repositories {
@@ -60,7 +60,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath 'com.android.tools.build:gradle:7.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
