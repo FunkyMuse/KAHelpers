@@ -5,7 +5,7 @@ buildscript {
         retrofit = "2.9.0"
         rxBindings = "4.0.0"
         glide = "4.12.0"
-        constraint_layout = '2.1.0'
+        constraint_layout = '2.1.1'
         coroutines = '1.5.2-native-mt'
         nav_version = '2.3.5'
         rx = '3.0.0'
