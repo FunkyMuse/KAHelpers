@@ -304,30 +304,38 @@ inline fun <T> LiveData<RetrofitResult<T>>.onApiError(onErrorMessage: String.() 
     }
 }
 
-inline fun <T> RetrofitResult<T>.onLoading(function: () -> Unit = {}) {
+inline fun <T> RetrofitResult<T>.onLoading(function: () -> Unit = {}): RetrofitResult<T> {
     if (this is RetrofitResult.Loading) function()
+
+    return this
 }
 
-inline fun <T> RetrofitResult<T>.onEmptyData(function: () -> Unit = {}) {
+inline fun <T> RetrofitResult<T>.onEmptyData(function: () -> Unit = {}): RetrofitResult<T> {
     if (this is RetrofitResult.EmptyData) function()
+
+    return this
 }
 
-inline fun <T> RetrofitResult<T>.onCallError(function: (throwable: Throwable) -> Unit = { _ -> }) {
+inline fun <T> RetrofitResult<T>.onCallError(function: (throwable: Throwable) -> Unit = { _ -> }): RetrofitResult<T> {
     if (this is RetrofitResult.Error) {
         function(throwable)
     }
+    return this
 }
 
-inline fun <T> RetrofitResult<T>.onApiError(function: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> }) {
+inline fun <T> RetrofitResult<T>.onApiError(function: (errorBody: ResponseBody?, responseCode: Int) -> Unit = { _, _ -> }): RetrofitResult<T> {
     if (this is RetrofitResult.ApiError) {
         function(errorBody, responseCode)
     }
+
+    return this
 }
 
-inline fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }) {
+inline fun <T> RetrofitResult<T>.onSuccess(function: (model: T) -> Unit = { _ -> }): RetrofitResult<T> {
     if (this is RetrofitResult.Success) {
         function(value)
     }
+    return this
 }
 //endregion
 
