@@ -137,7 +137,7 @@ class MainAbstractActivity : AppCompatActivity() {
             testAVM.getposts()
         })
         when (retrofitResult) {
-            is RetrofitResult.Success -> {
+           is RetrofitResult.Success -> {
                 activityMainBinding.recycler.stagger()
                 activityMainBinding.recycler.replaceAdapterWith(generatedAdapter, fade) {
                     savedItemAnimator = it
@@ -149,10 +149,6 @@ class MainAbstractActivity : AppCompatActivity() {
             RetrofitResult.Loading -> {
                 activityMainBinding.recycler.adapter = testPlaceHolderAdapter
             }
-            RetrofitResult.EmptyData -> {
-                activityMainBinding.recycler.adapter = generatedAdapter
-                generatedAdapter.submitList(emptyList())
-            }
             is RetrofitResult.Error -> {
                 activityMainBinding.recycler.adapter = generatedAdapter
                 generatedAdapter.submitList(emptyList())
@@ -162,6 +158,7 @@ class MainAbstractActivity : AppCompatActivity() {
                 activityMainBinding.recycler.adapter = generatedAdapter
                 generatedAdapter.submitList(emptyList())
             }
+            else -> {}
         }.exhaustive
     }
 

@@ -417,5 +417,5 @@ inline fun <T> ViewModel.apiCall(mutableStateFlow: MutableStateFlow<RetrofitResu
 typealias RetrofitState<T> = MutableStateFlow<RetrofitResult<T>>
 
 fun <T> retrofitStateInitialLoading(): RetrofitState<T> = MutableStateFlow(RetrofitResult.Loading)
-fun <T> retrofitStateInitialEmptyData(): RetrofitState<T> = MutableStateFlow(RetrofitResult.EmptyData)
+fun <T> retrofitStateInitialIdle(): RetrofitState<T> = MutableStateFlow(RetrofitResult.Idle)
 fun <T> retrofitStateInitialSuccess(value: T): RetrofitState<T> = MutableStateFlow(RetrofitResult.Success(value))

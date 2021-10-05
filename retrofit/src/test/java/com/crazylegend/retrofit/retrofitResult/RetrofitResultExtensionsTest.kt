@@ -12,14 +12,8 @@ import retrofit2.Response
 class RetrofitResultExtensionsTest {
 
     @Test
-    fun testListResponse() {
-        val response = retrofitSubscribeList(Response.success(emptyList<Any>()))
-        assert(response is RetrofitResult.EmptyData)
-    }
-
-    @Test
     fun testListResponseNotEmpty() {
-        val response = retrofitSubscribeList(Response.success(emptyList<Any>()), false)
+        val response = retrofitSubscribe(Response.success(emptyList<Any>()))
         assert(response is RetrofitResult.Success)
     }
 }

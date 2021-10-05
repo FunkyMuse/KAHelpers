@@ -14,10 +14,10 @@ private suspend fun <T> RetrofitResult<T>.asDatabaseBoundResource(
         saveToDatabase(value)
         propagateDatabaseResult(loadFromDatabase)
     }
-    RetrofitResult.EmptyData -> propagateDatabaseResult(loadFromDatabase)
     is RetrofitResult.Error -> propagateDatabaseResult(loadFromDatabase)
     is RetrofitResult.ApiError -> propagateDatabaseResult(loadFromDatabase)
     is RetrofitResult.Loading -> this
+    RetrofitResult.Idle -> this
 }
 
 suspend fun <T> MutableStateFlow<RetrofitResult<T>>.asDatabaseBoundResource(
@@ -29,10 +29,6 @@ suspend fun <T> MutableStateFlow<RetrofitResult<T>>.asDatabaseBoundResource(
             saveToDatabase(data.value)
             propagateDatabaseResult(loadFromDatabase)
         }
-        RetrofitResult.EmptyData -> {
-            emit(data)
-            propagateDatabaseResult(loadFromDatabase)
-        }
         is RetrofitResult.Error -> {
             emit(data)
             propagateDatabaseResult(loadFromDatabase)
@@ -42,6 +38,7 @@ suspend fun <T> MutableStateFlow<RetrofitResult<T>>.asDatabaseBoundResource(
             propagateDatabaseResult(loadFromDatabase)
         }
         is RetrofitResult.Loading -> emit(data)
+        is RetrofitResult.Idle -> emit(data)
     }
 }
 
