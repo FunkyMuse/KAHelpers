@@ -3,18 +3,7 @@ package com.crazylegend.retrofit
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.ArrayMap
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.crazylegend.retrofit.progressInterceptor.OnAttachmentDownloadListener
-import com.crazylegend.retrofit.retrofitResult.RetrofitResult
-import com.crazylegend.retrofit.retrofitResult.retrofitLoading
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -46,83 +35,113 @@ inline val randomPhotoIndex: Int
 const val multiPartContentType = "multipart/form-data"
 
 
-fun HashMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>, photoName: String = "photo_") {
+fun HashMap<String, RequestBody>.addImagesToRetrofit(
+    pathList: List<String>,
+    photoName: (index: Int, string: String) -> String
+) {
     if (pathList.isNotEmpty()) {
         pathList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName + "${index + 1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName(index, s))
             this[key] = File(s).asRequestBody(multiPartContentType.toMediaType())
         }
     }
 }
 
-fun ArrayMap<String, RequestBody>.addImagesToRetrofit(pathList: List<String>, photoName: String = "photo_") {
+fun ArrayMap<String, RequestBody>.addImagesToRetrofit(
+    pathList: List<String>,
+    photoName: (index: Int, string: String) -> String
+) {
     if (pathList.isNotEmpty()) {
         pathList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName + "${index + 1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName(index, s))
             this[key] = File(s).asRequestBody(multiPartContentType.toMediaType())
         }
     }
 }
 
 ///
-fun HashMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?, photoIndexNumber: Int = randomPhotoIndex) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(
+    pathToFile: String?,
+    photoName: String = "photo_$randomPhotoIndex"
+) {
     if (!pathToFile.isNullOrEmpty()) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
+        val key = String.format("%1\$s\"; filename=\"%1\$s", photoName)
         this[key] = File(pathToFile.toString()).asRequestBody(multiPartContentType.toMediaType())
     }
 }
 
-fun ArrayMap<String, RequestBody>.addImageToRetrofit(pathToFile: String?, photoIndexNumber: Int = randomPhotoIndex) {
+fun ArrayMap<String, RequestBody>.addImageToRetrofit(
+    pathToFile: String?,
+    photoName: String = "photo_$randomPhotoIndex"
+) {
     if (!pathToFile.isNullOrEmpty()) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
+        val key = String.format("%1\$s\"; filename=\"%1\$s", photoName)
         this[key] = File(pathToFile.toString()).asRequestBody(multiPartContentType.toMediaType())
     }
 }
 ///
 
-fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?, photoIndexNumber: Int = randomPhotoIndex) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(
+    image: ByteArray?,
+    photoName: String = "photo_$randomPhotoIndex"
+) {
     if (image != null) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
+        val key = String.format("%1\$s\"; filename=\"%1\$s", photoName)
         this[key] = image.toRequestBody(multiPartContentType.toMediaType())
     }
 }
 
-fun ArrayMap<String, RequestBody>.addImageToRetrofit(image: ByteArray?, photoIndexNumber: Int = randomPhotoIndex) {
-    if (image != null) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
-        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
-    }
-}
+fun ArrayMap<String, RequestBody>.addImageToRetrofit(
+    image: ByteArray?,
+    photoName: String = "photo_$randomPhotoIndex"
 
-///
-fun HashMap<String, RequestBody>.addImageToRetrofit(image: ByteString?, photoIndexNumber: Int = randomPhotoIndex) {
+) {
     if (image != null) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
-        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
-    }
-}
-
-fun ArrayMap<String, RequestBody>.addImageToRetrofit(image: ByteString?, photoIndexNumber: Int = randomPhotoIndex) {
-    if (image != null) {
-        val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_$photoIndexNumber")
+        val key = String.format("%1\$s\"; filename=\"%1\$s", photoName)
         this[key] = image.toRequestBody(multiPartContentType.toMediaType())
     }
 }
 
 ///
-fun HashMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArray>) {
+fun HashMap<String, RequestBody>.addImageToRetrofit(
+    image: ByteString?,
+    photoName: String = "photo_$randomPhotoIndex"
+
+) {
+    if (image != null) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", photoName)
+        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
+    }
+}
+
+fun ArrayMap<String, RequestBody>.addImageToRetrofit(
+    image: ByteString?,
+    photoName: String
+) {
+    if (image != null) {
+        val key = String.format("%1\$s\"; filename=\"%1\$s", photoName)
+        this[key] = image.toRequestBody(multiPartContentType.toMediaType())
+    }
+}
+
+///
+fun HashMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArray>,
+                                                         photoName: (index: Int) -> String = { index -> "photo_$index"}
+) {
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName(index))
             this[key] = s.toRequestBody(multiPartContentType.toMediaType())
         }
     }
 }
 
-fun ArrayMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArray>) {
+fun ArrayMap<String, RequestBody>.addImageBytesToRetrofit(byteList: List<ByteArray>,
+                                                          photoName: (index: Int) -> String = { index -> "photo_$index"}
+) {
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName(index))
             this[key] = s.toRequestBody(multiPartContentType.toMediaType())
         }
     }
@@ -137,19 +156,23 @@ fun ArrayMap<String, RequestBody>.addImageBytesToRetrofit(byteList: ByteArray?, 
 }
 
 ///
-fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>) {
+fun HashMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>,
+                                                               photoName: (index: Int) -> String = { index -> "photo_$index"}
+) {
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName(index))
             this[key] = s.toRequestBody(multiPartContentType.toMediaType())
         }
     }
 }
 
-fun ArrayMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>) {
+fun ArrayMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<ByteString>,
+                                                                photoName: (index: Int) -> String = { index -> "photo_$index"}
+) {
     if (byteList.isNotEmpty()) {
         byteList.forEachIndexed { index, s ->
-            val key = String.format("%1\$s\"; filename=\"%1\$s", "photo_" + "${index + 1}")
+            val key = String.format("%1\$s\"; filename=\"%1\$s", photoName(index))
             this[key] = s.toRequestBody(multiPartContentType.toMediaType())
         }
     }
@@ -159,19 +182,23 @@ fun ArrayMap<String, RequestBody>.addImageByteStringsToRetrofit(byteList: List<B
 
 val generateRetrofitImageKeyName
     get() = String.format(
-            "%1\$s\"; filename=\"%1\$s",
-            "photo_${Random.nextInt(0, Int.MAX_VALUE)}"
+        "%1\$s\"; filename=\"%1\$s",
+        "photo_${Random.nextInt(0, Int.MAX_VALUE)}"
     )
 
-fun generateRetrofitImageKeyName(photoName: String = "photo_${Random.nextInt(0, Int.MAX_VALUE)}") = String.format(
+fun generateRetrofitImageKeyName(photoName: String = "photo_${Random.nextInt(0, Int.MAX_VALUE)}") =
+    String.format(
         "%1\$s\"; filename=\"%1\$s",
         photoName
-)
+    )
 
 
-fun generateRetrofitImageKeyName(photoIndexNumber: Int = Random.nextInt(0, Int.MAX_VALUE), photoName: String = "photo_") = String.format(
-        "%1\$s\"; filename=\"%1\$s",
-        "$photoName${photoIndexNumber}"
+fun generateRetrofitImageKeyName(
+    photoIndexNumber: Int = Random.nextInt(0, Int.MAX_VALUE),
+    photoName: String = "photo_"
+) = String.format(
+    "%1\$s\"; filename=\"%1\$s",
+    "$photoName${photoIndexNumber}"
 )
 
 
@@ -191,9 +218,9 @@ fun Any?.toRequestBodyForm(): RequestBody = toString().toRequestBodyForm()
 
 
 inline fun progressDSL(
-        crossinline onProgressStarted: () -> Unit = {},
-        crossinline onProgressFinished: () -> Unit = {},
-        crossinline onProgressChanged: (percent: Int) -> Unit = { _ -> }
+    crossinline onProgressStarted: () -> Unit = {},
+    crossinline onProgressFinished: () -> Unit = {},
+    crossinline onProgressChanged: (percent: Int) -> Unit = { _ -> }
 ): OnAttachmentDownloadListener {
     return object : OnAttachmentDownloadListener {
         override fun onAttachmentDownloadedStarted() {
@@ -212,98 +239,98 @@ inline fun progressDSL(
 }
 
 fun errorResponseCodeMessage(responseCode: Int): String =
-        when (responseCode) {
-            301 -> {
-                "Moved permanently"
-            }
-
-            400 -> {
-                // bad request
-                "Bad Request"
-            }
-
-            401 -> {
-                // unauthorized
-                "Unauthorized"
-            }
-
-            403 -> {
-                "Forbidden"
-            }
-
-            404 -> {
-                // not found
-                "Not found"
-            }
-
-            405 -> {
-                "Method not allowed"
-            }
-
-            406 -> {
-                "Not acceptable"
-            }
-
-            407 -> {
-                "Proxy authentication required"
-            }
-
-            408 -> {
-                // time out
-                "Time out"
-            }
-
-            409 -> {
-                "Conflict error"
-            }
-
-            410 -> {
-                "Request permanently deleted"
-            }
-
-            413 -> {
-                "Request too large"
-            }
-
-            422 -> {
-                // account exists
-                "Account with that email already exists"
-            }
-
-            425 -> {
-                "Server is busy"
-            }
-
-            429 -> {
-                "Too many requests, slow down"
-            }
-
-            500 -> {
-                // internal server error
-                "Server error"
-            }
-
-            501 -> {
-                "Not implemented"
-            }
-
-            502 -> {
-                // bad gateway
-                "Bad gateway"
-            }
-            504 -> {
-                // gateway timeout
-                "Gateway timeout"
-            }
-
-            511 -> {
-                "Authentication required"
-            }
-
-            else -> {
-                "Something went wrong, try again"
-            }
+    when (responseCode) {
+        301 -> {
+            "Moved permanently"
         }
+
+        400 -> {
+            // bad request
+            "Bad Request"
+        }
+
+        401 -> {
+            // unauthorized
+            "Unauthorized"
+        }
+
+        403 -> {
+            "Forbidden"
+        }
+
+        404 -> {
+            // not found
+            "Not found"
+        }
+
+        405 -> {
+            "Method not allowed"
+        }
+
+        406 -> {
+            "Not acceptable"
+        }
+
+        407 -> {
+            "Proxy authentication required"
+        }
+
+        408 -> {
+            // time out
+            "Time out"
+        }
+
+        409 -> {
+            "Conflict error"
+        }
+
+        410 -> {
+            "Request permanently deleted"
+        }
+
+        413 -> {
+            "Request too large"
+        }
+
+        422 -> {
+            // account exists
+            "Account with that email already exists"
+        }
+
+        425 -> {
+            "Server is busy"
+        }
+
+        429 -> {
+            "Too many requests, slow down"
+        }
+
+        500 -> {
+            // internal server error
+            "Server error"
+        }
+
+        501 -> {
+            "Not implemented"
+        }
+
+        502 -> {
+            // bad gateway
+            "Bad gateway"
+        }
+        504 -> {
+            // gateway timeout
+            "Gateway timeout"
+        }
+
+        511 -> {
+            "Authentication required"
+        }
+
+        else -> {
+            "Something went wrong, try again"
+        }
+    }
 
 
 /**
@@ -316,8 +343,10 @@ fun errorResponseCodeMessage(responseCode: Int): String =
  * @param cacheSize Int initial is 10 * 1024 * 1024 // 10 MB
  * @return Cache
  */
-fun Context.retrofitCache(cacheDirName: String = "http-cache",
-                          cacheSize: Int = 10 * 1024 * 1024): Cache {
+fun Context.retrofitCache(
+    cacheDirName: String = "http-cache",
+    cacheSize: Int = 10 * 1024 * 1024
+): Cache {
     val httpCacheDirectory = File(cacheDir, cacheDirName)
     return Cache(httpCacheDirectory, cacheSize.toLong())
 }
@@ -353,19 +382,25 @@ fun OkHttpClient.Builder.setUnSafeOkHttpClient() {
     try {
         // Create a trust manager that does not validate certificate chains
         val trustAllCerts: Array<TrustManager> = arrayOf(
-                object : X509TrustManager {
-                    @SuppressLint("TrustAllX509TrustManager")
-                    @Throws(CertificateException::class)
-                    override fun checkClientTrusted(chain: Array<X509Certificate?>?, authType: String?) {
-                    }
-
-                    @SuppressLint("TrustAllX509TrustManager")
-                    @Throws(CertificateException::class)
-                    override fun checkServerTrusted(chain: Array<X509Certificate?>?, authType: String?) {
-                    }
-
-                    override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+            object : X509TrustManager {
+                @SuppressLint("TrustAllX509TrustManager")
+                @Throws(CertificateException::class)
+                override fun checkClientTrusted(
+                    chain: Array<X509Certificate?>?,
+                    authType: String?
+                ) {
                 }
+
+                @SuppressLint("TrustAllX509TrustManager")
+                @Throws(CertificateException::class)
+                override fun checkServerTrusted(
+                    chain: Array<X509Certificate?>?,
+                    authType: String?
+                ) {
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+            }
         )
         // Install the all-trusting trust manager
         val sslContext: SSLContext = SSLContext.getInstance("SSL")
@@ -378,44 +413,3 @@ fun OkHttpClient.Builder.setUnSafeOkHttpClient() {
         throw RuntimeException(e)
     }
 }
-
-inline fun retryOnConnectedToInternet(internetDetector: LiveData<Boolean>,
-                                      lifecycleOwner: LifecycleOwner,
-                                      crossinline retry: () -> Unit) {
-    internetDetector.observe(lifecycleOwner) {
-        if (it) {
-            retry()
-        }
-    }
-}
-
-inline fun retryOnConnectedToInternet(internetDetector: Flow<Boolean>,
-                                      coroutineScope: CoroutineScope,
-                                      crossinline retry: () -> Unit) {
-    coroutineScope.launch {
-        internetDetector.collectLatest {
-            if (it) {
-                retry()
-            }
-        }
-    }
-}
-
-/**
- * @receiver ViewModel
- * @param mutableStateFlow MutableStateFlow<RetrofitResult<T>>
- * @param call SuspendFunction0<RetrofitResult<T>>
- */
-inline fun <T> ViewModel.apiCall(mutableStateFlow: MutableStateFlow<RetrofitResult<T>>, setLoading: Boolean = true, crossinline call: suspend () -> RetrofitResult<T>) {
-    if (setLoading)
-        mutableStateFlow.value = retrofitLoading
-    viewModelScope.launch {
-        mutableStateFlow.value = call()
-    }
-}
-
-typealias RetrofitState<T> = MutableStateFlow<RetrofitResult<T>>
-
-fun <T> retrofitStateInitialLoading(): RetrofitState<T> = MutableStateFlow(RetrofitResult.Loading)
-fun <T> retrofitStateInitialIdle(): RetrofitState<T> = MutableStateFlow(RetrofitResult.Idle)
-fun <T> retrofitStateInitialSuccess(value: T): RetrofitState<T> = MutableStateFlow(RetrofitResult.Success(value))

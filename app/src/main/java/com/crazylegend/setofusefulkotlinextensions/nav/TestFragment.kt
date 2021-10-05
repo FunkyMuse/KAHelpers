@@ -31,7 +31,7 @@ class TestFragment : Fragment(R.layout.fragment_test) {
         super.onViewCreated(view, savedInstanceState)
         binding.recycler.adapter = testAdapter
         testAdapter.submitList(generateRandomStringList(100))
-        testAdapter.forItemClickListener = forItemClickListener { _, item, _ ->
+        testAdapter.forItemClickListener = forItemClickListener { _, _, _ ->
             findNavController().navigate(R.id.openDetails)
         }
 

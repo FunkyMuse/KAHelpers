@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.animations.transition.utils.fadeRecyclerTransition
 import com.crazylegend.animations.transition.stagger
-import com.crazylegend.common.exhaustive
 import com.crazylegend.context.getColorCompat
 import com.crazylegend.context.isGestureNavigationEnabled
 import com.crazylegend.context.shortToast
@@ -27,8 +26,8 @@ import com.crazylegend.kotlinextensions.views.asSearchView
 import com.crazylegend.kotlinextensions.views.setQueryAndExpand
 import com.crazylegend.recyclerview.*
 import com.crazylegend.recyclerview.clickListeners.forItemClickListener
-import com.crazylegend.retrofit.retrofitResult.RetrofitResult
-import com.crazylegend.retrofit.retrofitResult.retryWhenInternetIsAvailable
+import com.crazylegend.retrofit.retrofitResult.*
+import com.crazylegend.retrofit.throwables.NoConnectionException
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
@@ -41,6 +40,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class MainAbstractActivity : AppCompatActivity() {
 
@@ -55,14 +55,15 @@ class MainAbstractActivity : AppCompatActivity() {
 
     private val exampleGeneratedAdapter by lazy {
         generateRecycler<TestModel, TestViewHolderShimmer, CustomizableCardViewBinding>(
-                ::TestViewHolderShimmer,
-                CustomizableCardViewBinding::inflate) { item, holder, _, _ ->
+            ::TestViewHolderShimmer,
+            CustomizableCardViewBinding::inflate
+        ) { item, holder, _, _ ->
             holder.bind(item)
         }
     }
 
     private val internetDetector by lazy {
-       InternetDetector(this)
+        InternetDetector(this)
     }
 
     private val activityMainBinding by viewBinder(ActivityMainBinding::inflate)
@@ -113,11 +114,13 @@ class MainAbstractActivity : AppCompatActivity() {
             drawableRight = android.R.drawable.ic_input_get
         }
 
-        AutoStartHelper.checkAutoStart(this, dialogBundle = bundleOf(
+        AutoStartHelper.checkAutoStart(
+            this, dialogBundle = bundleOf(
                 Pair(ConfirmationDialogAutoStart.CANCEL_TEXT, "Dismiss"),
                 Pair(ConfirmationDialogAutoStart.CONFIRM_TEXT, "Allow"),
                 Pair(ConfirmationDialogAutoStart.DO_NOT_SHOW_AGAIN_VISIBILITY, true)
-        ))
+            )
+        )
 
         if (isGestureNavigationEnabled()) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
@@ -133,33 +136,41 @@ class MainAbstractActivity : AppCompatActivity() {
 
     private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
 
-        retrofitResult.retryWhenInternetIsAvailable(internetDetector.state, lifecycleScope, retry = {
-            testAVM.getposts()
-        })
-        when (retrofitResult) {
-           is RetrofitResult.Success -> {
+        retrofitResult
+            .onSuccess {
                 activityMainBinding.recycler.stagger()
-                activityMainBinding.recycler.replaceAdapterWith(generatedAdapter, fade) {
-                    savedItemAnimator = it
+                activityMainBinding.recycler.replaceAdapterWith(
+                    generatedAdapter,
+                    fade
+                ) { itemAnimator ->
+                    savedItemAnimator = itemAnimator
                 }
-                generatedAdapter.submitList(retrofitResult.value)
-                val wrappedList = retrofitResult.value.toMutableList()
+                generatedAdapter.submitList(it)
+                val wrappedList = it.toMutableList()
                 activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
             }
-            RetrofitResult.Loading -> {
+            .onLoading {
                 activityMainBinding.recycler.adapter = testPlaceHolderAdapter
             }
-            is RetrofitResult.Error -> {
+            .onError {
+                if (it is NoConnectionException) {
+                    lifecycleScope.launch {
+                        internetDetector.state.collect {
+                            if (it) {
+                                testAVM.getposts()
+                            }
+                        }
+                    }
+                }
+
                 activityMainBinding.recycler.adapter = generatedAdapter
                 generatedAdapter.submitList(emptyList())
             }
-            is RetrofitResult.ApiError -> {
-                shortToast(testAVM.handleApiError(retrofitResult.errorBody) ?: "Error")
+            .onApiError { errorBody, _ ->
+                shortToast(testAVM.handleApiError(errorBody) ?: "Error")
                 activityMainBinding.recycler.adapter = generatedAdapter
                 generatedAdapter.submitList(emptyList())
             }
-            else -> {}
-        }.exhaustive
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -177,11 +188,11 @@ class MainAbstractActivity : AppCompatActivity() {
         searchItem.asSearchView()?.apply {
             queryHint = "Search by title"
             getEditTextSearchView?.textChanges(skipInitialValue = true, debounce = 350L)
-                    ?.map { it?.toString() }
-                    ?.onEach {
-                        debug("TEXT $it")
-                        savedQuery = it
-                    }?.launchIn(lifecycleScope)
+                ?.map { it?.toString() }
+                ?.onEach {
+                    debug("TEXT $it")
+                    savedQuery = it
+                }?.launchIn(lifecycleScope)
         }
 
         return super.onCreateOptionsMenu(menu)
