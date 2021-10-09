@@ -90,10 +90,6 @@ dependencies {
    compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
-	
-	//if you're using the desugaring library
-	coreLibraryDesugaringEnabled true
-
     }
 
     kotlinOptions {
@@ -101,61 +97,7 @@ dependencies {
     }
     
 ```
-4. Additionally you can include
-```gradle
-    kapt {	
-	correctErrorTypes = true
-        useBuildCache = true
-    }
-    
-    buildTypes {
-        debug {
-        // useful if you're using crashlytics
-	/**In your manifest file
-	 <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="${crashlytics}" />
-	*/
-          firebaseCrashlytics {
-                mappingFileUploadEnabled false
-          }
-	  
-	  FirebasePerformance {
-          instrumentationEnabled false
-	  }
-	  
-          manifestPlaceholders = [crashlytics: "false"]
-        // end of crashlytics region
-            
-          crunchPngs false
-        }
-      }
-    
-     defaultConfig {
-     	 vectorDrawables.useSupportLibrary = true
-    }
-```  
-5. Inside gradle.properties
 
-```gradle
-org.gradle.parallel=true
-org.gradle.caching=true
-room.incremental = true // if you're using room
-kapt.use.worker.api = true
-org.gradle.unsafe.watch-fs=true
-org.gradle.configureondemand=true
-```
-Informational/optinal
-1. Proguard configs 
-```gradle
--keepattributes SourceFile,LineNumberTable  
--keep public class * extends java.lang.Exception  
--keep class com.google.firebase.crashlytics.** { *; }  
--dontwarn com.google.firebase.crashlytics.**
--dontwarn org.jetbrains.annotations.**
-#these are if you're using crashlytics and don't want to receive obfuscated crashes
-
-```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
