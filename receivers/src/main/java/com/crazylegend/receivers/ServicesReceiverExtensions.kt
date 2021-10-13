@@ -1,6 +1,5 @@
 package com.crazylegend.receivers
 
-import android.app.Activity
 import android.app.ActivityManager
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
@@ -14,7 +13,7 @@ import android.os.Build
  * Created by hristijan on 8/5/19 to long live and prosper !
  */
 
-inline fun Service.registerVolumeChange(crossinline block: (Int) -> Unit): BroadcastReceiver {
+inline fun Context.registerVolumeChange(crossinline block: (Int) -> Unit): BroadcastReceiver {
     return object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
@@ -31,7 +30,7 @@ inline fun Service.registerVolumeChange(crossinline block: (Int) -> Unit): Broad
 }
 
 
-inline fun Service.registerBluetoothChange(crossinline connectionStateChanged: (Intent, Int) -> Unit): BroadcastReceiver {
+inline fun Context.registerBluetoothChange(crossinline connectionStateChanged: (Intent, Int) -> Unit): BroadcastReceiver {
     return object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
@@ -40,12 +39,13 @@ inline fun Service.registerBluetoothChange(crossinline connectionStateChanged: (
             }
         }
     }.apply {
-        val intent = IntentFilter().apply { addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED) }
+        val intent =
+            IntentFilter().apply { addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED) }
         this@registerBluetoothChange.registerReceiver(this, intent)
     }
 }
 
-inline fun ContextWrapper.registerWifiStateChanged(crossinline callback: (Intent) -> Unit): BroadcastReceiver {
+inline fun Context.registerWifiStateChanged(crossinline callback: (Intent) -> Unit): BroadcastReceiver {
     val action = "android.net.wifi.WIFI_STATE_CHANGED"
     return object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -79,7 +79,7 @@ inline fun <reified T : Service> Context.isServiceRunning(): Boolean {
     return false
 }
 
-inline fun <reified T : Service> Activity.startServiceUnlessRunning(predicate: Intent.() -> Unit = {}) {
+inline fun <reified T : Service> Context.startServiceUnlessRunning(predicate: Intent.() -> Unit = {}) {
     if (!this.isServiceRunning<T>()) this.startForegroundService<T>(predicate)
 }
 
