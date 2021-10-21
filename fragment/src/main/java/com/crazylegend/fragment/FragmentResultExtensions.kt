@@ -10,10 +10,10 @@ import androidx.fragment.app.setFragmentResultListener
  */
 
 inline fun Fragment.fragmentBooleanResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline onDenied: () -> Unit = {},
-    crossinline onGranted: () -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline onDenied: () -> Unit = {},
+        crossinline onGranted: () -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
         if (bundle.getBoolean(bundleKey, false)) onGranted() else onDenied()
@@ -21,166 +21,165 @@ inline fun Fragment.fragmentBooleanResult(
 }
 
 inline fun Fragment.fragmentStringResult(
-    requestKey: String,
-    bundleKey: String,
-    defaultValue: String? = null,
-    crossinline action: String?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        defaultValue: String? = null,
+        crossinline action: (String?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getString(bundleKey, defaultValue).action()
+        action(bundle.getString(bundleKey, defaultValue))
     }
 }
 
 inline fun Fragment.fragmentBooleanResult(
-    requestKey: String,
-    bundleKey: String,
-    defaultValue: Boolean = false,
-    crossinline action: Boolean.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        defaultValue: Boolean = false,
+        crossinline action: (predicate: Boolean) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getBoolean(bundleKey, defaultValue).action()
+        action(bundle.getBoolean(bundleKey, defaultValue))
     }
 }
 
 inline fun Fragment.fragmentStringArrayListResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: ArrayList<String>?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (list: ArrayList<String>?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getStringArrayList(bundleKey).action()
+        action(bundle.getStringArrayList(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentByteArrayResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: ByteArray?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (array: ByteArray?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getByteArray(bundleKey).action()
+        action(bundle.getByteArray(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentByteResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: Byte?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (byte: Byte?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getByte(bundleKey).action()
+        action(bundle.getByte(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentCharResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: Char?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (char: Char?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getChar(bundleKey).action()
+        action(bundle.getChar(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentCharArrayResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: CharArray?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (charArray: CharArray?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getCharArray(bundleKey).action()
+        action(bundle.getCharArray(bundleKey))
     }
 }
 
 inline fun <T : Parcelable> Fragment.fragmentParcelableResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: T?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (T?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getParcelable<T>(bundleKey).action()
+        action(bundle.getParcelable(bundleKey))
     }
 }
 
 inline fun <T : Parcelable> Fragment.fragmentParcelableListResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: ArrayList<T>?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (ArrayList<T>?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getParcelableArrayList<T>(bundleKey).action()
+        action(bundle.getParcelableArrayList(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentDoubleResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: Double?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (double: Double?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getDouble(bundleKey).action()
+        action(bundle.getDouble(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentDoubleArrayResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: DoubleArray?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (DoubleArray?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getDoubleArray(bundleKey).action()
+        action(bundle.getDoubleArray(bundleKey))
     }
 }
 
 
 inline fun Fragment.fragmentFloatResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: Float?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (Float?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getFloat(bundleKey).action()
+        action(bundle.getFloat(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentFloatArrayResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: FloatArray?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (FloatArray?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getFloatArray(bundleKey).action()
+        action(bundle.getFloatArray(bundleKey))
     }
 }
 
 
 inline fun Fragment.fragmentIntResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: Int?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (Int?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getInt(bundleKey).action()
+        action(bundle.getInt(bundleKey))
     }
 }
 
 inline fun Fragment.fragmentIntArrayResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: IntArray?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (IntArray?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        bundle.getIntArray(bundleKey).action()
+        action(bundle.getIntArray(bundleKey))
     }
 }
 
 inline fun <T : Any?> Fragment.fragmentResult(
-    requestKey: String,
-    bundleKey: String,
-    crossinline action: T?.() -> Unit
+        requestKey: String,
+        bundleKey: String,
+        crossinline action: (T?) -> Unit
 ) {
     setFragmentResultListener(requestKey) { _, bundle ->
-        val value = bundle[bundleKey] as? T
-        value.action()
+        action(bundle[bundleKey] as? T)
     }
 }

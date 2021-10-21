@@ -6,18 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
-import kotlin.math.max
-
 
 /**
- * Created by Hristijan on 2/1/19 to long live and prosper !
- */
-
-/**
- *
-/*   USAGE
-val sectionItemDecoration = RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height),
-false, // true for sticky, false for not, R.id.list_item_section_text, R.layout.section_header
+ * Created by funkymuse, date 10/21/21
+ * /*   USAGE
+val sectionItemDecoration = RecyclerSectionItemDecoration(R.id.list_item_section_text, R.layout.section_header
 object : RecyclerSectionItemDecoration.SectionCallback {
 
 override fun isSection(position: Int): Boolean {
@@ -42,18 +35,8 @@ android:paddingRight="10dp"
 android:textColor="@android:color/white"
 android:textSize="14sp"
 />*/
- * @property headerOffset Int
- * @property sticky Boolean
- * @property sectionCallback SectionCallback
- * @property headerViewID Int
- * @property sectionHeaderLayoutName Int
- * @property headerView View?
- * @property header MaterialTextView?
- * @constructor
  */
-class RecyclerSectionItemDecoration(
-        private val headerOffset: Int,
-        private val sticky: Boolean,
+class RecyclerHorizontalItemHeaderDecoration(
         private val sectionCallback: SectionCallback,
         private val headerViewID: Int,
         private val sectionHeaderLayoutName: Int
@@ -64,36 +47,22 @@ class RecyclerSectionItemDecoration(
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
-
         if (headerView == null) {
             headerView = inflateHeaderView(parent)
             header = headerView?.findViewById(headerViewID) //R.id.list_item_section_text
             headerView?.let { fixLayoutSize(it, parent) }
         }
-
         var previousHeader: CharSequence = ""
         for (i in 0 until parent.childCount) {
             val child = parent.getChildAt(i)
             val position = parent.getChildAdapterPosition(child)
-
             val title = sectionCallback.getSectionHeader(position)
             header?.text = title
             if (previousHeader != title || sectionCallback.isSection(position)) {
-                headerView?.let { drawHeader(c, child, it) }
+                header?.draw(c)
                 previousHeader = title
             }
         }
-    }
-
-    private fun drawHeader(c: Canvas, child: View, headerView: View) {
-        c.save()
-        if (sticky) {
-            c.translate(0f, max(0, child.top - headerView.height).toFloat())
-        } else {
-            c.translate(0f, (child.top - headerView.height).toFloat())
-        }
-        headerView.draw(c)
-        c.restore()
     }
 
     //sectionheaderlayoutName e.g R.layout.section_header
@@ -109,15 +78,12 @@ class RecyclerSectionItemDecoration(
                 parent.height,
                 View.MeasureSpec.UNSPECIFIED
         )
-
         view.measure(widthSpec, heightSpec)
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
     }
 
     interface SectionCallback {
-
         fun isSection(position: Int): Boolean
-
         fun getSectionHeader(position: Int): CharSequence
     }
 }
