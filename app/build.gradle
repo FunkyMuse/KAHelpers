@@ -42,7 +42,6 @@ dependencies {
     implementation project(path: ':customviews')
     implementation project(path: ':recyclerview')
     implementation project(path: ':biometrics')
-    implementation project(path: ':navigation')
     implementation project(path: ':internetDetector')
     implementation project(path: ':activity')
     implementation project(path: ':context')

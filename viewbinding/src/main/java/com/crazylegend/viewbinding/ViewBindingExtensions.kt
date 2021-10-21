@@ -1,10 +1,12 @@
 package com.crazylegend.viewbinding
 
 import android.app.Activity
+import android.os.Build
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ inline fun <T : ViewBinding> Activity.viewBinder(crossinline bindingInflater: (L
             bindingInflater.invoke(layoutInflater)
         }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 fun <T : ViewBinding> AppCompatActivity.viewBinding(bindingInflater: (LayoutInflater) -> T,
                                                     beforeSetContent: () -> Unit = {}) =
         ActivityViewBindingDelegate(this, bindingInflater, beforeSetContent)
