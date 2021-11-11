@@ -14,16 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 
-inline fun <T : ViewBinding> Activity.viewBinder(crossinline bindingInflater: (LayoutInflater) -> T) =
+inline fun <T : ViewBinding> Activity.viewBinding(crossinline bindingInflater: (LayoutInflater) -> T) =
         lazy(LazyThreadSafetyMode.NONE) {
             bindingInflater.invoke(layoutInflater)
         }
-
-@RequiresApi(Build.VERSION_CODES.Q)
-fun <T : ViewBinding> AppCompatActivity.viewBinding(bindingInflater: (LayoutInflater) -> T,
-                                                    beforeSetContent: () -> Unit = {}) =
-        ActivityViewBindingDelegate(this, bindingInflater, beforeSetContent)
-
 
 fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T, disposeRecyclerViewsAutomatically: Boolean = true) =
         FragmentViewBindingDelegate(this, viewBindingFactory, disposeRecyclerViewsAutomatically)

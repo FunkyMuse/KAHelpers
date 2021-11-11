@@ -35,7 +35,7 @@ import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewHolderShimmer
 import com.crazylegend.setofusefulkotlinextensions.databinding.ActivityMainBinding
 import com.crazylegend.view.getEditTextSearchView
 import com.crazylegend.view.setOnClickListenerCooldown
-import com.crazylegend.viewbinding.viewBinder
+import com.crazylegend.viewbinding.viewBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -66,7 +66,7 @@ class MainAbstractActivity : AppCompatActivity() {
         InternetDetector(this)
     }
 
-    private val activityMainBinding by viewBinder(ActivityMainBinding::inflate)
+    private val activityMainBinding by viewBinding(ActivityMainBinding::inflate)
     private var savedItemAnimator: RecyclerView.ItemAnimator? = null
 
     private val fade get() = fadeRecyclerTransition(activityMainBinding.recycler, savedItemAnimator)
