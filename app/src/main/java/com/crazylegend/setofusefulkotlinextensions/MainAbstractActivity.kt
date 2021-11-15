@@ -179,10 +179,10 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private var savedQuery: String? = null
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
 
-        val searchItem = menu?.findItem(R.id.app_bar_search)
+        val searchItem = menu.findItem(R.id.app_bar_search)
 
         searchItem.setQueryAndExpand(savedQuery)
         searchItem.asSearchView()?.apply {

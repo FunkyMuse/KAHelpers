@@ -3,11 +3,13 @@ package com.crazylegend.setofusefulkotlinextensions
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -33,22 +35,10 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
     val posts = postsData.asStateFlow()
 
     fun getposts() {
-        /*postsData.value = RetrofitResult.Loading
+        postsData.value = RetrofitResult.Loading
         viewModelScope.launch {
-            postsData.asNetworkBoundResource(
-                    saveToDatabase = {
-                        testRepo.insertList(it)
-                    },
-                    shouldLoadFromNetworkOnDatabaseCondition = {
-                        it.isNullOrEmpty()
-                    },
-                    loadFromDatabase = {
-                        testRepo.getAll()
-                    },
-                    loadFromNetwork = {
-                        retrofit.getPostsAdapter()
-                    })
-        }*/
+            postsData.value = retrofit.getPosts()
+        }
     }
 
     fun handleApiError(errorBody: ResponseBody?): String? {

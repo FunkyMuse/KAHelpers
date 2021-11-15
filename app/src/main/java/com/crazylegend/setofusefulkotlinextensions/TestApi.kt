@@ -14,7 +14,7 @@ interface TestApi {
 
 
     @GET("posts")
-    suspend fun getPostsAdapter(): RetrofitResult<List<TestModel>>
+    suspend fun getPosts(): RetrofitResult<List<TestModel>>
 
     companion object {
         const val API = "https://jsonplaceholder.typicode.com/"
