@@ -34,11 +34,7 @@ fun String?.isNotNullOrEmpty(): Boolean {
 
 val String.containsLetters get() = matches(".*[a-zA-Z].*".toRegex())
 
-val String.containsNumbers get() = matches(".*[0-9].*".toRegex())
-
-
 val String.isAlphanumeric get() = matches("^[a-zA-Z0-9]*$".toRegex())
-
 
 val String.isAlphabetic get() = matches("^[a-zA-Z]*$".toRegex())
 
