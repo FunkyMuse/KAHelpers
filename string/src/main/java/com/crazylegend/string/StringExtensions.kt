@@ -55,12 +55,12 @@ fun <T> T.concatAsString(b: T): String {
 /**
  * Get md5 string.
  */
-val String.md5 get() = encrypt(this, "MD5")
+val String.md5 get() = hashAString(this, "MD5", toByteArray())
 
 /**
  * Get sha1 string.
  */
-val String.sha1 get() = encrypt(this, "SHA-1")
+val String.sha1 get() = hashAString(this, "SHA-1", toByteArray())
 
 
 /**
@@ -186,17 +186,17 @@ private fun bytes2Hex(bts: ByteArray): String {
 /**
  * Method to get encrypted string.
  */
-private fun encrypt(string: String?, type: String): String {
+private fun hashAString(string: String?, type: String, salt:ByteArray): String? {
     if (string.isNullOrEmpty()) {
-        return ""
+        return null
     }
-    val md5: MessageDigest
+    val messageDigest: MessageDigest
     return try {
-        md5 = MessageDigest.getInstance(type)
-        val bytes = md5.digest(string.toByteArray())
+        messageDigest = MessageDigest.getInstance(type)
+        val bytes = messageDigest.digest(salt)
         bytes2Hex(bytes)
     } catch (e: NoSuchAlgorithmException) {
-        ""
+        null
     }
 }
 
