@@ -121,7 +121,7 @@ fun String.encryptAES(key: String): String {
 /**
  * Decrypt String to AES with the specific Key
  */
-fun String.decryptAES(key: String): String {
+fun String.decryptAES(key: String): String? {
     var output: ByteArray? = null
     try {
         val skey = SecretKeySpec(key.toByteArray(), "AES")
@@ -131,7 +131,7 @@ fun String.decryptAES(key: String): String {
     } catch (e: Exception) {
         println(e.toString())
     }
-    return output?.let { String(it) } ?: ""
+    return output?.let { String(it) }
 }
 
 /**
