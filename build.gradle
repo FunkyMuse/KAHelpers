@@ -6,15 +6,15 @@ buildscript {
         okHttp = "4.9.2"
         rxBindings = "4.0.0"
         glide = "4.12.0"
-        constraint_layout = '2.1.1'
+        constraint_layout = '2.1.2'
         coroutines = '1.5.2-native-mt'
         nav_version = '2.4.0-beta02'
         rx = '3.0.0'
         material = "1.4.0"
         moshi = "1.12.0"
-        fragment = "1.3.6"
+        fragment = "1.4.0"
         activity = "1.4.0"
-        appCompat = "1.3.1"
+        appCompat = "1.4.0"
         coreKTX = "1.7.0"
         securityVersion = "1.1.0-alpha03"
         recyclerview = '1.2.1'
@@ -22,7 +22,7 @@ buildscript {
         documentFile = '1.0.1'
         swipeRefresh = '1.1.0'
         viewPager = '1.0.0'
-        biometrics = '1.2.0-alpha03'
+        biometrics = '1.2.0-alpha04'
         joda = '2.10.12.2'
         exifinterface= '1.3.3'
         palette = '1.0.0'
@@ -33,7 +33,7 @@ buildscript {
 
 
         //app only
-        room_version = "2.4.0-beta01"
+        room_version = "2.4.0-beta02"
 
 
         //tests
@@ -42,7 +42,7 @@ buildscript {
         androidXTestCoreVersion = '1.4.0'
         androidXTestExtKotlinRunnerVersion = '1.1.3'
         androidXTestRulesVersion = '1.2.0-beta01'
-        robolectricVersion = '4.7'
+        robolectricVersion = '4.7.1'
         archTestingVersion = '2.1.0'
         espressoVersion = '3.4.0'
 
