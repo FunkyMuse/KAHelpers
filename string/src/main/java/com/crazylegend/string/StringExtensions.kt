@@ -86,16 +86,6 @@ val String.sha1 get() = encrypt(this, "SHA-1")
 
 
 /**
- * Check if String is Number.
- */
-val String.isNumeric: Boolean
-    get() {
-        val p = "^[0-9]+$".toRegex()
-        return matches(p)
-    }
-
-
-/**
  * Method to check String equalsIgnoreCase
  */
 fun String.equalsIgnoreCase(other: String) = this.lowercase().contentEquals(other.lowercase())
