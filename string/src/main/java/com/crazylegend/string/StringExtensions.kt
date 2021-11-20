@@ -86,25 +86,6 @@ val String.sha1 get() = encrypt(this, "SHA-1")
 
 
 /**
- * Check if String is Phone Number.
- */
-val String.isPhone: Boolean
-    get() {
-        val p = "^1([34578])\\d{9}\$".toRegex()
-        return matches(p)
-    }
-
-/**
- * Check if String is Email.
- */
-val String.isEmail: Boolean
-    get() {
-        val p = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)\$".toRegex()
-        return matches(p)
-    }
-
-
-/**
  * Check if String is Number.
  */
 val String.isNumeric: Boolean
