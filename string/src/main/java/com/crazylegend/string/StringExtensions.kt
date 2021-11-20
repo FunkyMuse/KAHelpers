@@ -70,12 +70,6 @@ val String.sha1 get() = encrypt(this, "SHA-1")
 
 
 /**
- * Method to check String equalsIgnoreCase
- */
-fun String.equalsIgnoreCase(other: String) = this.lowercase().contentEquals(other.lowercase())
-
-
-/**
  * Returns a new File Object with the Current String as Its path
  */
 val String.asFile get() = File(this)
