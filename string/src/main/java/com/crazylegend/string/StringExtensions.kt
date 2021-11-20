@@ -288,11 +288,11 @@ fun String.htmlToSpanned(): Spanned {
 }
 
 /**
- * Normalize string - convert to lowercase, replace diacritics and trim trailing whitespaces
+ * Normalize string - convert to lowercase, replace diacritics
  */
 fun String.normalize(): String {
     return Normalizer.normalize(lowercase(), Normalizer.Form.NFD)
-            .replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "").trim()
+            .replace("[\\p{InCombiningDiacriticalMarks}]".toRegex(), "")
 }
 
 /**
