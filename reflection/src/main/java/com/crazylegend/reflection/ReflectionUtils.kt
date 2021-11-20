@@ -478,59 +478,6 @@ inline fun <reified T : Any> T.getObjectHashCode(fieldName: String): Int? {
     }
 }
 
-/**
- * 0-based index of this parameter in the parameter list of its containing callable.
- */
-fun KParameter?.getParameterIndex(): Int? {
-    return this?.index
-}
-
-
-/**
- * `true` if this parameter is optional and can be omitted when making a call via [KCallable.callBy], or `false` otherwise.
- *
- * A parameter is optional in any of the two cases:
- * 1. The default value is provided at the declaration of this parameter.
- * 2. The parameter is declared in a member function and one of the corresponding parameters in the super functions is optional.
- */
-fun KParameter?.isOptional(): Boolean? {
-    return this?.isOptional
-}
-
-/**
- * `true` if this parameter is `vararg`.
- * See the [Kotlin language documentation](https://kotlinlang.org/docs/reference/functions.html#variable-number-of-arguments-varargs)
- * for more information.
- */
-fun KParameter?.isVararg(): Boolean? {
-    return this?.isVararg
-}
-
-
-/**
- * Kind of this parameter.
- *   /** Instance required to make a call to the member, or an outer class instance for an inner class constructor. */
-INSTANCE,
-
-/** Extension receiver of an extension function or property. */
-EXTENSION_RECEIVER,
-
-/** Ordinary named value parameter. */
-VALUE,
- */
-fun KParameter?.getParameterKind(): KParameter.Kind? {
-    return this?.kind
-}
-
-
-/**
- * Type of this parameter. For a `vararg` parameter, this is the type of the corresponding array,
- * not the individual element.
- */
-fun KParameter?.getParameterType(): KType? {
-    return this?.type
-}
-
 inline fun <reified T> T.setProperty(property: String, value: Any?) {
     val cls = T::class.java
     try {
