@@ -3,7 +3,7 @@ buildscript {
     ext {
         lifecycle = '2.4.0'
         retrofit = "2.9.0"
-        okHttp = "4.9.2"
+        okHttp = "4.9.3"
         rxBindings = "4.0.0"
         glide = "4.12.0"
         constraint_layout = '2.1.2'
