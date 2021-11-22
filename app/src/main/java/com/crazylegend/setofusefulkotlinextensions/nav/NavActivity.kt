@@ -16,4 +16,9 @@ class NavActivity : AppCompatActivity() {
     private val currentNavController get() = binding.fragmentContainer.getFragment<NavHostFragment>().navController
 
     override fun onSupportNavigateUp() = currentNavController.navigateUp()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+    }
 }

@@ -8,16 +8,16 @@ import java.io.IOException
 /**
  * Created by Hristijan on 1/25/19 to long live and prosper !
  */
-class RetryRequestInterceptor : Interceptor {
+class RetryRequestInterceptor(private val maxTries:Int = 3) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 
         val request = chain.request()
         var response: Response = chain.proceed(request)
-        var tryCount = 0
 
-        while (!response.isSuccessful && tryCount < 3) {
+        var tryCount = 0
+        while (!response.isSuccessful && tryCount < maxTries) {
             tryCount++
             response = chain.proceed(request)
         }

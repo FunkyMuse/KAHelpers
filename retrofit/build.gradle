@@ -1,5 +1,7 @@
 dependencies {
     implementation project(path: ':common')
+    implementation project(path: ':coroutines')
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
 
     //retrofit
     api "com.squareup.retrofit2:retrofit:$retrofit"

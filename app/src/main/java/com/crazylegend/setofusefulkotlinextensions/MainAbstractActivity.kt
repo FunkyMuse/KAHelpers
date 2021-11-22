@@ -1,6 +1,7 @@
 package com.crazylegend.setofusefulkotlinextensions
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
@@ -9,10 +10,8 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.crazylegend.animations.transition.utils.fadeRecyclerTransition
-import com.crazylegend.animations.transition.stagger
 import com.crazylegend.context.getColorCompat
 import com.crazylegend.context.isGestureNavigationEnabled
-import com.crazylegend.context.shortToast
 import com.crazylegend.coroutines.textChanges
 import com.crazylegend.customviews.AppRater
 import com.crazylegend.customviews.autoStart.AutoStartHelper
@@ -24,9 +23,13 @@ import com.crazylegend.kotlinextensions.log.debug
 import com.crazylegend.kotlinextensions.misc.RunCodeEveryXLaunch
 import com.crazylegend.kotlinextensions.views.asSearchView
 import com.crazylegend.kotlinextensions.views.setQueryAndExpand
-import com.crazylegend.recyclerview.*
+import com.crazylegend.lifecycle.repeatingJobOnStarted
+import com.crazylegend.recyclerview.RecyclerSwipeItemHandler
+import com.crazylegend.recyclerview.addSwipe
 import com.crazylegend.recyclerview.clickListeners.forItemClickListener
-import com.crazylegend.retrofit.retrofitResult.*
+import com.crazylegend.recyclerview.generateRecycler
+import com.crazylegend.recyclerview.hideOnScroll
+import com.crazylegend.retrofit.retrofitResult.RetrofitResult
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
@@ -55,8 +58,8 @@ class MainAbstractActivity : AppCompatActivity() {
 
     private val exampleGeneratedAdapter by lazy {
         generateRecycler<TestModel, TestViewHolderShimmer, CustomizableCardViewBinding>(
-            ::TestViewHolderShimmer,
-            CustomizableCardViewBinding::inflate
+                ::TestViewHolderShimmer,
+                CustomizableCardViewBinding::inflate
         ) { item, holder, _, _ ->
             holder.bind(item)
         }
@@ -65,6 +68,8 @@ class MainAbstractActivity : AppCompatActivity() {
     private val internetDetector by lazy {
         InternetDetector(this)
     }
+
+
 
     private val activityMainBinding by viewBinding(ActivityMainBinding::inflate)
     private var savedItemAnimator: RecyclerView.ItemAnimator? = null
@@ -79,12 +84,14 @@ class MainAbstractActivity : AppCompatActivity() {
         savedInstanceState?.getString("query", null)?.let { savedQuery = it }
 
         activityMainBinding.test.setOnClickListenerCooldown {
-            testAVM.getposts()
+            testAVM.getPosts()
         }
-        lifecycleScope.launchWhenResumed {
-            testAVM.posts.collect {
+        activityMainBinding.recycler.adapter = generatedAdapter
+
+        repeatingJobOnStarted {
+           /* testAVM.posts.collect {
                 updateUI(it)
-            }
+            }*/
         }
 
         RunCodeEveryXLaunch.runCode(this, 2) {
@@ -115,11 +122,11 @@ class MainAbstractActivity : AppCompatActivity() {
         }
 
         AutoStartHelper.checkAutoStart(
-            this, dialogBundle = bundleOf(
+                this, dialogBundle = bundleOf(
                 Pair(ConfirmationDialogAutoStart.CANCEL_TEXT, "Dismiss"),
                 Pair(ConfirmationDialogAutoStart.CONFIRM_TEXT, "Allow"),
                 Pair(ConfirmationDialogAutoStart.DO_NOT_SHOW_AGAIN_VISIBILITY, true)
-            )
+        )
         )
 
         if (isGestureNavigationEnabled()) {
@@ -135,44 +142,31 @@ class MainAbstractActivity : AppCompatActivity() {
     }
 
     private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
+       /* retrofitResult.asMVIResult(testAVM.resultMVI) { getAsSuccess.isNotNullOrEmpty }
+        testAVM.resultMVI
+                .result
+                .onError { retryOnInternetAvailable(it) }
+                .onSuccess {
+                    activityMainBinding.progressBar.gone()
+                    generatedAdapter.submitList(it)
+                }*/
 
-        retrofitResult
-            .onSuccess {
-                activityMainBinding.recycler.stagger()
-                activityMainBinding.recycler.replaceAdapterWith(
-                    generatedAdapter,
-                    fade
-                ) { itemAnimator ->
-                    savedItemAnimator = itemAnimator
-                }
-                generatedAdapter.submitList(it)
-                val wrappedList = it.toMutableList()
-                activityMainBinding.recycler.addDrag(generatedAdapter, wrappedList)
-            }
-            .onLoading {
-                activityMainBinding.recycler.adapter = testPlaceHolderAdapter
-            }
-            .onError {
-                if (it is NoConnectionException) {
-                    lifecycleScope.launch {
-                        internetDetector.state.collect {
-                            if (it) {
-                                testAVM.getposts()
-                            }
-                        }
-                    }
-                }
 
-                activityMainBinding.recycler.adapter = generatedAdapter
-                generatedAdapter.submitList(emptyList())
-            }
-            .onApiError { errorBody, _ ->
-                shortToast(testAVM.handleApiError(errorBody) ?: "Error")
-                activityMainBinding.recycler.adapter = generatedAdapter
-                generatedAdapter.submitList(emptyList())
-            }
     }
 
+    private fun retryOnInternetAvailable(throwable: Throwable) {
+        if (throwable is NoConnectionException) {
+            lifecycleScope.launch {
+                internetDetector.state.collect { hasConnection ->
+                    if (hasConnection) {
+                        testAVM.getPosts()
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         savedQuery?.let { outState.putString("query", it) }
@@ -188,17 +182,18 @@ class MainAbstractActivity : AppCompatActivity() {
         searchItem.asSearchView()?.apply {
             queryHint = "Search by title"
             getEditTextSearchView?.textChanges(skipInitialValue = true, debounce = 350L)
-                ?.map { it?.toString() }
-                ?.onEach {
-                    debug("TEXT $it")
-                    savedQuery = it
-                }?.launchIn(lifecycleScope)
+                    ?.map { it?.toString() }
+                    ?.onEach {
+                        debug("TEXT $it")
+                        savedQuery = it
+                    }?.launchIn(lifecycleScope)
         }
 
         return super.onCreateOptionsMenu(menu)
     }
 
 }
+
 
 
 

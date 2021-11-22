@@ -4,13 +4,20 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.crazylegend.common.randomUUIDstring
+import com.crazylegend.kotlinextensions.viewmodel.context
 import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
+import com.crazylegend.retrofit.interceptors.ConnectivityInterceptor
+import com.crazylegend.retrofit.randomPhotoIndex
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.viewstate.ViewState
+import com.crazylegend.retrofit.viewstate.ViewStateContract
+import com.crazylegend.retrofit.viewstate.asViewStatePayloadWithEvents
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -25,33 +32,47 @@ import retrofit2.create
  * Template created by Hristijan to live long and prosper.
  */
 
-class TestAVM(application: Application, private val savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
+class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) : AndroidViewModel(application),
+        ViewStateContract<List<TestModel>> by ViewState() {
 
-    companion object {
-        private const val errorStateKey = "errorJSONKey"
-    }
+    val posts: StateFlow<RetrofitResult<List<TestModel>>> = data
 
-    private val postsData = MutableStateFlow<RetrofitResult<List<TestModel>>>(RetrofitResult.Idle)
-    val posts = postsData.asStateFlow()
-
-    fun getposts() {
-        postsData.value = RetrofitResult.Loading
+    fun getPosts() {
         viewModelScope.launch {
-            postsData.value = retrofit.getPosts()
+            setLoading()
+            delay(2000)
+            fetchPosts()
         }
     }
 
-    fun handleApiError(errorBody: ResponseBody?): String? {
-        val json = errorBody?.string()
-        if (json.isNullOrEmpty()) return savedStateHandle.get<String>(errorStateKey)
-        savedStateHandle[errorStateKey] = json
+    fun getRandomPosts() {
+        viewModelScope.launch {
+            setLoading()
+            delay(2000)
+            RetrofitResult.Success(listOf(
+                    TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
+                    TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
+                    TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
+                    TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
+            )).asViewStatePayloadWithEvents(this@TestAVM)
+        }
+    }
 
-        return savedStateHandle.get<String>(errorStateKey)
+    private suspend fun setLoading() {
+        RetrofitResult.Loading.asViewStatePayloadWithEvents(this)
+    }
+
+    private suspend fun fetchPosts() {
+        retrofit.getPosts().asViewStatePayloadWithEvents(this)
     }
 
 
     private val retrofit by lazy {
-        with(Retrofit.Builder()){
+        with(Retrofit.Builder()) {
+            client(with(OkHttpClient.Builder()) {
+                addInterceptor(ConnectivityInterceptor(context))
+                build()
+            })
             baseUrl(TestApi.API)
             addCallAdapterFactory(RetrofitResultAdapterFactory())
             addConverterFactory(MoshiConverterFactory.create())
@@ -60,10 +81,8 @@ class TestAVM(application: Application, private val savedStateHandle: SavedState
     }
 
     init {
-        getposts()
+        getPosts()
     }
 
 }
-
-
 

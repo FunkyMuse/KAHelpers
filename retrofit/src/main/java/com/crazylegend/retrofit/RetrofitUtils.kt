@@ -382,6 +382,7 @@ fun OkHttpClient.Builder.setUnSafeOkHttpClient() {
     try {
         // Create a trust manager that does not validate certificate chains
         val trustAllCerts: Array<TrustManager> = arrayOf(
+            @SuppressLint("CustomX509TrustManager")
             object : X509TrustManager {
                 @SuppressLint("TrustAllX509TrustManager")
                 @Throws(CertificateException::class)

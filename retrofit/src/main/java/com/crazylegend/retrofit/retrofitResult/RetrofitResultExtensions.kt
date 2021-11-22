@@ -94,7 +94,7 @@ suspend fun <T> RetrofitResult<T>.onSuccessSuspend(function: suspend (model: T) 
 
 
 fun <VALUE, TRANSFORM> RetrofitResult<VALUE>.transform(transformer: (VALUE) -> TRANSFORM) :TRANSFORM? =
-    getSuccess?.let { value -> transformer(value) }
+    getAsSuccess?.let { value -> transformer(value) }
 
 
 fun <T> Response<T>.unwrapResponseToModel(): T? = when {
@@ -105,12 +105,19 @@ fun <T> Response<T>.unwrapResponseToModel(): T? = when {
 val <T> RetrofitResult<T>.isLoading get() = this is RetrofitResult.Loading
 val <T> RetrofitResult<T>.isSuccess get() = this is RetrofitResult.Success
 val <T> RetrofitResult<T>.isSuccessAndValueIsListAndNullOrEmpty get() = this is RetrofitResult.Success && isValueAListAndNullOrEmpty
+val <T> RetrofitResult<T>.isSuccessAndValueIsListAndNotNullOrEmpty get() = this is RetrofitResult.Success && isValueAListAndNotNullOrEmpty
 val <T> RetrofitResult<T>.isIdle get() = this is RetrofitResult.Idle
 val <T> RetrofitResult<T>.isApiError get() = this is RetrofitResult.ApiError
 val <T> RetrofitResult<T>.isError get() = this is RetrofitResult.Error
 
 
-val <T> RetrofitResult<T>.getSuccess: T? get() = if (this is RetrofitResult.Success) value else null
-val <T> RetrofitResult<T>.getThrowable: Throwable? get() = if (this is RetrofitResult.Error) throwable else null
-val <T> RetrofitResult<T>.getApiFailureCode: Int? get() = if (this is RetrofitResult.ApiError) responseCode else null
-val <T> RetrofitResult<T>.getApiResponseBody: ResponseBody? get() = if (this is RetrofitResult.ApiError) errorBody else null
+val <T> RetrofitResult<T>.getAsSuccess: T? get() = if (this is RetrofitResult.Success) value else null
+val <T> RetrofitResult<T>.getAsThrowable: Throwable? get() = if (this is RetrofitResult.Error) throwable else null
+val <T> RetrofitResult<T>.getAsApiFailureCode: Int? get() = if (this is RetrofitResult.ApiError) responseCode else null
+val <T> RetrofitResult<T>.getAsApiResponseBody: ResponseBody? get() = if (this is RetrofitResult.ApiError) errorBody else null
+
+fun <T> RetrofitResult<T>.asSuccess() = this as RetrofitResult.Success<T>
+fun <T> RetrofitResult<T>.asLoading() = this as RetrofitResult.Loading
+fun <T> RetrofitResult<T>.asError() = this as RetrofitResult.Error
+fun <T> RetrofitResult<T>.asApiError() = this as RetrofitResult.ApiError
+fun <T> RetrofitResult<T>.asIdle() = this as RetrofitResult.Idle
