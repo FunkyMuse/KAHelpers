@@ -72,7 +72,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
 
     //joda time
     implementation "net.danlew:android.joda:$joda"
