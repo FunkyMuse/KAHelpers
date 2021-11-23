@@ -29,8 +29,8 @@ class ViewState<T>(
         dataState.value = retrofitResult
         retrofitResult
                 .onLoading { viewEvents.send(ViewEvent.Loading) }
-                .onError { viewEvents.send(ViewEvent.Error) }
-                .onApiError { _, _ -> viewEvents.send(ViewEvent.ApiError) }
+                .onError { throwable -> viewEvents.send(ViewEvent.Error(throwable)) }
+                .onApiError { errorBody, code -> viewEvents.send(ViewEvent.ApiError(errorBody, code)) }
                 .onIdle { viewEvents.send(ViewEvent.Idle) }
                 .onSuccess { viewEvents.send(ViewEvent.Success) }
     }

@@ -15,8 +15,8 @@ val retrofitLoading get() = RetrofitResult.Loading
 val retrofitIdle get() = RetrofitResult.Idle
 
 fun <T> retrofitSubscribe(response: Response<T>): RetrofitResult<T> =
-    response.unwrapResponseToModel()?.let { retrofitSuccess(it) }
-        ?: retrofitApiError(response.code(), response.errorBody())
+        response.unwrapResponseToModel()?.let { retrofitSuccess(it) }
+                ?: retrofitApiError(response.code(), response.errorBody())
 
 
 //region State
@@ -93,8 +93,15 @@ suspend fun <T> RetrofitResult<T>.onSuccessSuspend(function: suspend (model: T) 
 //endregion
 
 
-fun <VALUE, TRANSFORM> RetrofitResult<VALUE>.transform(transformer: (VALUE) -> TRANSFORM) :TRANSFORM? =
-    getAsSuccess?.let { value -> transformer(value) }
+fun <VALUE, TRANSFORM> RetrofitResult<VALUE>.transformAsSuccess(transformer: (VALUE) -> TRANSFORM): TRANSFORM? =
+        getAsSuccess?.let { value -> transformer(value) }
+
+fun <VALUE, TRANSFORM> RetrofitResult<VALUE>.transform(transformer: (VALUE) -> TRANSFORM): RetrofitResult<TRANSFORM> =
+        if (this is RetrofitResult.Success) {
+            RetrofitResult.Success(transformer(value))
+        } else {
+            this as RetrofitResult<TRANSFORM>
+        }
 
 
 fun <T> Response<T>.unwrapResponseToModel(): T? = when {
