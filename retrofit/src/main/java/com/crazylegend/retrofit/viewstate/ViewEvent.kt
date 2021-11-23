@@ -33,6 +33,27 @@ fun ViewEvent.onError(action: (Throwable) -> Unit): ViewEvent {
     return this
 }
 
+fun ViewEvent.onSuccess(action: () -> Unit): ViewEvent {
+    if (this is ViewEvent.Success) {
+        action()
+    }
+    return this
+}
+
+fun ViewEvent.onIdle(action: () -> Unit): ViewEvent {
+    if (this is ViewEvent.Idle) {
+        action()
+    }
+    return this
+}
+
+fun ViewEvent.onLoading(action: () -> Unit): ViewEvent {
+    if (this is ViewEvent.Loading) {
+        action()
+    }
+    return this
+}
+
 fun ViewEvent.onApiError(action: (errorBody: ResponseBody?, responseCode: Int) -> Unit): ViewEvent {
     if (this is ViewEvent.ApiError) {
         action(errorBody, code)
