@@ -3,7 +3,8 @@
 
     <item
         android:id="@+id/test01"
-        android:title="1" />
+        android:icon="@drawable/ic_search"
+        android:title="MVI" />
     <item
         android:id="@+id/test02"
         android:title="2" />

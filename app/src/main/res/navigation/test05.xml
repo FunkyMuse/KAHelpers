@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/test05"
-    app:startDestination="@id/testFragment5">
+    android:id="@+id/test05">
 
 
-    <fragment
-        android:id="@+id/testFragment5"
-        android:name="com.crazylegend.setofusefulkotlinextensions.nav.TestFragment"
-        android:label="TestFragment" >
-        <action
-            android:id="@+id/openDetails"
-            app:destination="@id/detailFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.crazylegend.setofusefulkotlinextensions.nav.DetailFragment"/>
 </navigation>

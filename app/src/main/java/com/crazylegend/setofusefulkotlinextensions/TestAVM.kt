@@ -40,7 +40,7 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
     fun getPosts() {
         viewModelScope.launch {
             setLoading()
-            delay(2000)
+            delay(2000) //we're fetching from API some additional delay here
             fetchPosts()
         }
     }
@@ -48,7 +48,7 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
     fun getRandomPosts() {
         viewModelScope.launch {
             setLoading()
-            delay(2000)
+            delay(2000) //simulate that we're fetching from API some artificial delay
             RetrofitResult.Success(listOf(
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
