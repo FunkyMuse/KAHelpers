@@ -39,7 +39,8 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     private val internetDetector by lazy { InternetDetector(requireContext()) }
     private val testAVM by viewModels<TestAVM>()
 
-    private var errorSnackBar: Snackbar? = null
+    private var snackBar: Snackbar? = null
+    private var toast: Toast? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +61,9 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     private fun handleViewEvents(viewEvent: ViewEvent) {
         viewEvent.isError.or(viewEvent.isApiError).and(testAVM.isDataLoaded).ifTrue(::showErrorSnack)
         viewEvent.isApiError.ifTrue {
-            Toast.makeText(requireContext(), handleApiError(testAVM.savedStateHandle, viewEvent.asApiErrorBody), LENGTH_LONG).show()
+            toast?.cancel()
+            toast = Toast.makeText(requireContext(), handleApiError(testAVM.savedStateHandle, viewEvent.asApiErrorBody), LENGTH_LONG)
+            toast?.show()
         }
     }
 
@@ -78,14 +81,15 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     }
 
     private fun showErrorSnack() {
-        errorSnackBar?.dismiss()
-        errorSnackBar = Snackbar.make(requireView(), "Error has occurred", Snackbar.LENGTH_LONG)
-        errorSnackBar?.show()
+        snackBar?.dismiss()
+        snackBar = Snackbar.make(requireView(), "Error has occurred", Snackbar.LENGTH_LONG)
+        snackBar?.show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        errorSnackBar = null
+        snackBar = null
+        toast = null
     }
 
     private fun retryOnInternetAvailable(throwable: Throwable) {
