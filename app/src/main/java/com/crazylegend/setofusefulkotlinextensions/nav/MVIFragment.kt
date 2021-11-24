@@ -59,7 +59,7 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     }
 
     private fun handleViewEvents(viewEvent: ViewEvent) {
-        viewEvent.isError.or(viewEvent.isApiError).and(testAVM.isDataLoaded).ifTrue(::showErrorSnack)
+        viewEvent.isError.and(testAVM.isDataLoaded).ifTrue(::showErrorSnack)
         viewEvent.isApiError.ifTrue {
             toast?.cancel()
             toast = Toast.makeText(requireContext(), handleApiError(testAVM.savedStateHandle, viewEvent.asApiErrorBody), LENGTH_LONG)
