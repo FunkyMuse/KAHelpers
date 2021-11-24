@@ -69,9 +69,7 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
 
 
     private fun updateUIState(retrofitResult: RetrofitResult<List<TestModel>>) {
-        retrofitResult
-                .onApiError { errorBody, _ -> handleApiError(testAVM.savedStateHandle, errorBody) }
-                .onError { retryOnInternetAvailable(it) }
+        retrofitResult.getAsThrowable?.let { throwable -> throwable.isNoConnectionException.ifTrue { retryOnInternetAvailable(throwable) } }
 
         !retrofitResult.isLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
         binding.error.isVisible = testAVM.isDataNotLoaded and (retrofitResult.isError || retrofitResult.isApiError)
