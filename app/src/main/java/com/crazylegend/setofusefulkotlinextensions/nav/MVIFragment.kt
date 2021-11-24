@@ -59,14 +59,15 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
 
     private fun handleViewEvents(viewEvent: ViewEvent) {
         viewEvent.isError.or(viewEvent.isApiError).and(testAVM.isDataLoaded).ifTrue(::showErrorSnack)
+        viewEvent.isApiError.ifTrue {
+            Toast.makeText(requireContext(), handleApiError(testAVM.savedStateHandle, viewEvent.asApiErrorBody), LENGTH_LONG).show()
+        }
     }
 
 
     private fun updateUIState(retrofitResult: RetrofitResult<List<TestModel>>) {
         retrofitResult
-                .onApiError { errorBody, _ ->
-                    Toast.makeText(requireContext(), handleApiError(testAVM.savedStateHandle, errorBody), LENGTH_LONG).show()
-                }
+                .onApiError { errorBody, _ -> handleApiError(testAVM.savedStateHandle, errorBody) }
                 .onError { retryOnInternetAvailable(it) }
 
         !retrofitResult.isLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
@@ -88,16 +89,11 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     }
 
     private fun retryOnInternetAvailable(throwable: Throwable) {
-        throwable.isNoConnectionException
-                .ifTrue {
-                    viewCoroutineScope.launch { observeInternetConnectivity() }
-                }
+        throwable.isNoConnectionException.ifTrue { viewCoroutineScope.launch { observeInternetConnectivity() } }
     }
 
     private suspend fun observeInternetConnectivity() {
-        internetDetector.state.collect { hasConnection ->
-            hasConnection.ifTrue { testAVM.getPosts() }
-        }
+        internetDetector.state.collect { hasConnection -> hasConnection.ifTrue { testAVM.getPosts() } }
     }
 
 }
