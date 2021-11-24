@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
  * Created by funkymuse on 11/20/21 to long live and prosper !
  */
 class ViewState<T>(
-        capacity: Int = Channel.BUFFERED,
+        capacity: Int = Channel.UNLIMITED,
         onBufferOverflow: BufferOverflow = BufferOverflow.SUSPEND,
         onUndeliveredElement: ((ViewEvent) -> Unit)? = null,
         defaultRetrofitState : RetrofitResult<T> = RetrofitResult.Idle
