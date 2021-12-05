@@ -26,7 +26,6 @@ import com.crazylegend.kotlinextensions.views.setQueryAndExpand
 import com.crazylegend.lifecycle.repeatingJobOnStarted
 import com.crazylegend.recyclerview.RecyclerSwipeItemHandler
 import com.crazylegend.recyclerview.addSwipe
-import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 import com.crazylegend.recyclerview.generateRecycler
 import com.crazylegend.recyclerview.hideOnScroll
 import com.crazylegend.retrofit.retrofitResult.RetrofitResult
@@ -98,7 +97,7 @@ class MainAbstractActivity : AppCompatActivity() {
             debug("TEST RUN AT 2 LAUNCHES")
         }
 
-        exampleGeneratedAdapter.forItemClickListener = forItemClickListener { _, _, _ ->
+        exampleGeneratedAdapter.forItemClickListener =  { _, _, _ ->
 
         }
 

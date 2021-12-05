@@ -1,11 +1,11 @@
 package com.crazylegend.recyclerview
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 
 
 /**
@@ -30,7 +30,7 @@ abstract class AbstractViewBindingAdapterSingleSelection<T, VH : RecyclerView.Vi
     abstract fun bindItems(item: T, holder: VH, position: Int, itemCount: Int)
 
     var selectedPosition = -1
-    var forItemClickListener: forItemClickListener<T>? = null
+    var forItemClickListener: ((position: Int, item: T, view: View) -> Unit)? = null
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val item: T = getItem(holder.bindingAdapterPosition)
@@ -45,7 +45,7 @@ abstract class AbstractViewBindingAdapterSingleSelection<T, VH : RecyclerView.Vi
         holder.itemView.setOnClickListenerCooldown {
             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)
             {
-                forItemClickListener?.forItem(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
+                forItemClickListener?.invoke(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
                 notifyItemChanged(selectedPosition)
                 selectedPosition = holder.bindingAdapterPosition
                 notifyItemChanged(selectedPosition)

@@ -2,11 +2,11 @@ package com.crazylegend.recyclerview
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.crazylegend.recyclerview.clickListeners.forItemClickListener
 
 
 /**
@@ -27,8 +27,8 @@ abstract class AbstractViewBindingHolderAdapter<T, VB : ViewBinding>(
 ) :
         ListAdapter<T, AbstractViewBindingHolderAdapter.AbstractViewHolder<VB>>(GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)) {
 
-    var forItemClickListener: forItemClickListener<T>? = null
-    var onLongClickListener: forItemClickListener<T>? = null
+    var forItemClickListener: ((position: Int, item: T, view: View) -> Unit)? = null
+    var onLongClickListener: ((position: Int, item: T, view: View) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<VB> {
         val binding = bindingInflater.invoke(LayoutInflater.from(parent.context), parent, false)
@@ -37,11 +37,11 @@ abstract class AbstractViewBindingHolderAdapter<T, VB : ViewBinding>(
 
         holder.itemView.setOnClickListenerCooldown {
             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)
-                forItemClickListener?.forItem(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
+                forItemClickListener?.invoke(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
         }
         holder.itemView.setOnLongClickListener {
             if (holder.bindingAdapterPosition != RecyclerView.NO_POSITION)
-                onLongClickListener?.forItem(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
+                onLongClickListener?.invoke(holder.bindingAdapterPosition, getItem(holder.bindingAdapterPosition), it)
             true
         }
         return holder
