@@ -153,7 +153,7 @@ fun deleteDir(@Nullable dir: File?): Boolean {
             }
         }
     }
-    return dir!!.delete()
+    return dir?.delete() == true
 }
 
 
@@ -258,10 +258,8 @@ fun Uri.getRealPath(context: Context): String? {
         } else if (isMediaDocument()) {
             val docId = DocumentsContract.getDocumentId(this)
             val split = docId.split(":".toRegex())
-            val type = split[0]
 
-            val contentUri: Uri?
-            contentUri = when (type) {
+            val contentUri: Uri? = when (split[0]) {
                 "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                 "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -271,7 +269,7 @@ fun Uri.getRealPath(context: Context): String? {
             val selection = "_id=?"
             val selectionArgs = arrayOf(split[1])
 
-            return context.getDataColumn(contentUri, selection, selectionArgs)
+            return contentUri?.let { context.getDataColumn(it, selection, selectionArgs) }
         }// MediaProvider
         // DownloadsProvider
     } else if ("content".equals(scheme, ignoreCase = true)) {

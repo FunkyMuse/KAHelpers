@@ -48,8 +48,7 @@ fun Uri.toByteArray(context: Context): ByteArray? {
 }
 
 fun Uri.resolveMimeType(context: Context): String? {
-    val mimeType: String?
-    mimeType = if (scheme == ContentResolver.SCHEME_CONTENT) {
+    val mimeType: String? = if (scheme == ContentResolver.SCHEME_CONTENT) {
         val cr = context.contentResolver
         cr.getType(this)
     } else {
@@ -97,8 +96,8 @@ val Uri.isMailToLink: Boolean
 
 fun Uri?.readBytes(context: Context): ByteArray? {
     return this?.let {
-        return@let context.contentResolver.openInputStream(it)?.use {
-            return@use it.readBytes()
+        return@let context.contentResolver.openInputStream(it)?.use { inputStream ->
+            return@use inputStream.readBytes()
         }
     }
 }
