@@ -25,7 +25,6 @@ import androidx.fragment.app.*
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.observe
 import com.crazylegend.common.orFalse
 import com.crazylegend.common.tryOrElse
 
@@ -63,7 +62,7 @@ inline fun <reified T : Any> Fragment.launchActivityAndFinish() {
 /**
  * Get color from resource with fragment context.
  */
-fun Fragment.compatColor(@ColorRes res: Int) =ContextCompat.getColor(requireContext(), res)
+fun Fragment.compatColor(@ColorRes res: Int) = ContextCompat.getColor(requireContext(), res)
 
 
 /**
@@ -97,7 +96,6 @@ fun Fragment.attrDrawable(attr: Int): Drawable? {
 
 fun Fragment.shortToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_SHORT).show()
 fun Fragment.longToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_LONG).show()
-
 
 
 fun Fragment.finish() {
@@ -673,3 +671,13 @@ fun Fragment.hasPipPermission(): Boolean {
 }
 
 val Fragment.viewCoroutineScope get() = viewLifecycleOwner.lifecycle.coroutineScope
+
+inline fun Fragment.onViewDestroyed(crossinline action: () -> Unit) {
+    observeLifecycleOwnerThroughLifecycleCreation {
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                action()
+            }
+        })
+    }
+}
