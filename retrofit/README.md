@@ -38,7 +38,7 @@ Your retrofit
 ```kotlin
 private val retrofit by lazy {
         RetrofitClient.customInstance(application, TestApi.API, false, builderCallback = {
-            addCallAdapterFactory(RetrofitResultAdapterFactory())
+            addCallAdapterFactory(ApiResultAdapterFactory())
             addConverterFactory(MoshiConverterFactory.create())
             this
         }).create<TestApi>()
@@ -48,17 +48,17 @@ private val retrofit by lazy {
 Your API
 ```kotlin
 @GET("posts")
-suspend fun getPostsAdapter(): RetrofitResult<List<TestModel>>
+suspend fun getPostsAdapter(): ApiResult<List<TestModel>>
 ```
 
 Your view model
 ```kotlin
-private val postsData: MutableStateFlow<RetrofitResult<List<TestModel>>> = MutableStateFlow(RetrofitResult.EmptyData)
-val posts: MutableStateFlow<RetrofitResult<List<TestModel>>> = postsData
+private val postsData: MutableStateFlow<ApiResult<List<TestModel>>> = MutableStateFlow(ApiResult.EmptyData)
+val posts: MutableStateFlow<ApiResult<List<TestModel>>> = postsData
 ```
 ```kotlin
  fun getposts() {
-        postsData.value = RetrofitResult.Loading
+        postsData.value = ApiResult.Loading
         viewModelScope.launch(ioDispatcher + SupervisorJob()) {
             delay(3000) //simulating network delay
             postsData.value = retrofit.getPostsAdapter()

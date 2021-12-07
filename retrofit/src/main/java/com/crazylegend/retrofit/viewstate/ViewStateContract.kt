@@ -1,6 +1,6 @@
 package com.crazylegend.retrofit.viewstate
 
-import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.apiresult.ApiResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
  */
 interface ViewStateContract<T> {
     val viewEvent: Flow<ViewEvent>
-    val data : StateFlow<RetrofitResult<T>>
+    val data : StateFlow<ApiResult<T>>
 
     var payload: T?
 
@@ -17,7 +17,7 @@ interface ViewStateContract<T> {
         payload = null
     }
 
-    suspend fun emitEvent(retrofitResult: RetrofitResult<T>)
+    suspend fun emitEvent(apiResult: ApiResult<T>)
 
     val isDataLoaded get() = payload != null
 

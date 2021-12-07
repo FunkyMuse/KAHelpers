@@ -1,9 +1,7 @@
 package com.crazylegend.setofusefulkotlinextensions
 
-import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.apiresult.ApiResult
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
-import io.reactivex.rxjava3.core.Single
-import retrofit2.Response
 import retrofit2.http.GET
 
 
@@ -14,7 +12,7 @@ interface TestApi {
 
 
     @GET("posts")
-    suspend fun getPosts(): RetrofitResult<List<TestModel>>
+    suspend fun getPosts(): ApiResult<List<TestModel>>
 
     companion object {
         const val API = "https://jsonplaceholder.typicode.com/"

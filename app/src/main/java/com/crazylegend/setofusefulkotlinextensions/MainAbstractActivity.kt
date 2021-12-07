@@ -28,7 +28,7 @@ import com.crazylegend.recyclerview.RecyclerSwipeItemHandler
 import com.crazylegend.recyclerview.addSwipe
 import com.crazylegend.recyclerview.generateRecycler
 import com.crazylegend.recyclerview.hideOnScroll
-import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.apiresult.ApiResult
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestPlaceHolderAdapter
@@ -140,7 +140,7 @@ class MainAbstractActivity : AppCompatActivity() {
 
     }
 
-    private fun updateUI(retrofitResult: RetrofitResult<List<TestModel>>) {
+    private fun updateUI(apiResult: ApiResult<List<TestModel>>) {
        /* retrofitResult.asMVIResult(testAVM.resultMVI) { getAsSuccess.isNotNullOrEmpty }
         testAVM.resultMVI
                 .result

@@ -6,10 +6,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.crazylegend.common.randomUUIDstring
 import com.crazylegend.kotlinextensions.viewmodel.context
-import com.crazylegend.retrofit.adapter.RetrofitResultAdapterFactory
+import com.crazylegend.retrofit.adapter.ApiResultAdapterFactory
 import com.crazylegend.retrofit.interceptors.ConnectivityInterceptor
 import com.crazylegend.retrofit.randomPhotoIndex
-import com.crazylegend.retrofit.retrofitResult.RetrofitResult
+import com.crazylegend.retrofit.apiresult.ApiResult
 import com.crazylegend.retrofit.viewstate.ViewState
 import com.crazylegend.retrofit.viewstate.ViewStateContract
 import com.crazylegend.retrofit.viewstate.asViewStatePayloadWithEvents
@@ -35,7 +35,7 @@ import retrofit2.create
 class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) : AndroidViewModel(application),
         ViewStateContract<List<TestModel>> by ViewState() {
 
-    val posts: StateFlow<RetrofitResult<List<TestModel>>> = data
+    val posts: StateFlow<ApiResult<List<TestModel>>> = data
 
     fun getPosts() {
         viewModelScope.launch {
@@ -49,7 +49,7 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
         viewModelScope.launch {
             setLoading()
             delay(2000) //simulate that we're fetching from API some artificial delay
-            RetrofitResult.Success(listOf(
+            ApiResult.Success(listOf(
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
@@ -59,7 +59,7 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
     }
 
     private suspend fun setLoading() {
-        RetrofitResult.Loading.asViewStatePayloadWithEvents(this)
+        ApiResult.Loading.asViewStatePayloadWithEvents(this)
     }
 
     private suspend fun fetchPosts() {
@@ -74,7 +74,7 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
                 build()
             })
             baseUrl(TestApi.API)
-            addCallAdapterFactory(RetrofitResultAdapterFactory())
+            addCallAdapterFactory(ApiResultAdapterFactory())
             addConverterFactory(MoshiConverterFactory.create())
             build().create<TestApi>()
         }

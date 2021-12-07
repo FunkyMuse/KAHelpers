@@ -104,7 +104,7 @@ fun <T> Single<T>?.makeDBCallListPost(
 /**
  *
  * @receiver Observable<T>?
- * @param result MutableLiveData<RetrofitResult<R>>
+ * @param result MutableLiveData<ApiResult<R>>
  * @param compositeDisposable CompositeDisposable
  * @param includeEmptyData Boolean
  */
@@ -140,7 +140,7 @@ fun <T> Observable<T>?.makeDBCallListPost(
 /**
  *
  * @receiver Maybe<T>?
- * @param result MutableLiveData<RetrofitResult<R>>
+ * @param result MutableLiveData<ApiResult<R>>
  * @param compositeDisposable CompositeDisposable
  * @param includeEmptyData Boolean
  */

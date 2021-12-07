@@ -1,6 +1,8 @@
 package com.crazylegend.retrofit.viewstate
 
+import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.retrofitResult.*
+import com.crazylegend.retrofit.viewstate.onApiError
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,20 +16,20 @@ class ViewState<T>(
         capacity: Int = Channel.UNLIMITED,
         onBufferOverflow: BufferOverflow = BufferOverflow.SUSPEND,
         onUndeliveredElement: ((ViewEvent) -> Unit)? = null,
-        defaultRetrofitState : RetrofitResult<T> = RetrofitResult.Idle
+        defaultApiState : ApiResult<T> = ApiResult.Idle
 ) : ViewStateContract<T> {
 
     private val viewEvents: Channel<ViewEvent> = Channel(capacity, onBufferOverflow, onUndeliveredElement)
     override val viewEvent = viewEvents.receiveAsFlow()
 
-    private val dataState : MutableStateFlow<RetrofitResult<T>> = MutableStateFlow(defaultRetrofitState)
+    private val dataState : MutableStateFlow<ApiResult<T>> = MutableStateFlow(defaultApiState)
     override val data = dataState.asStateFlow()
 
     override var payload: T? = null
 
-    override suspend fun emitEvent(retrofitResult: RetrofitResult<T>) {
-        dataState.value = retrofitResult
-        retrofitResult
+    override suspend fun emitEvent(apiResult: ApiResult<T>) {
+        dataState.value = apiResult
+        apiResult
                 .onLoading { viewEvents.send(ViewEvent.Loading) }
                 .onError { throwable -> viewEvents.send(ViewEvent.Error(throwable)) }
                 .onApiError { errorBody, code -> viewEvents.send(ViewEvent.ApiError(errorBody, code)) }

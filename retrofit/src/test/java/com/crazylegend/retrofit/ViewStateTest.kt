@@ -1,5 +1,6 @@
 package com.crazylegend.retrofit
 
+import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.retrofitResult.*
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import com.crazylegend.retrofit.throwables.isNoConnectionException
@@ -25,7 +26,7 @@ class ViewStateTest {
     @Test
     fun `view state payload once`() = mainCoroutineRule.runBlockingTest {
 
-        val retrofitResult = RetrofitResult.Success(listOf(""))
+        val retrofitResult = ApiResult.Success(listOf(""))
         val viewState = ViewState<List<String>>()
 
         retrofitResult.asViewStatePayloadWithEvents(viewState)
@@ -40,7 +41,7 @@ class ViewStateTest {
     fun `view state payload change`() {
 
         val testList = listOf("")
-        val retrofitResult = RetrofitResult.Success(testList)
+        val retrofitResult = ApiResult.Success(testList)
         val viewState = ViewState<List<String>>()
 
         assert(viewState.payload == null)
@@ -53,10 +54,10 @@ class ViewStateTest {
         assert(viewState.isDataLoaded)
         assertEquals("Payload not the same", viewState.payload, testList)
 
-        RetrofitResult.Loading.asViewStatePayload(viewState)
+        ApiResult.Loading.asViewStatePayload(viewState)
 
         val newList = listOf("Test", "Test1")
-        val retrofitResultNew = RetrofitResult.Success(newList)
+        val retrofitResultNew = ApiResult.Success(newList)
         retrofitResultNew.asViewStatePayload(viewState)
 
         assertEquals("Payload not the same", newList, viewState.payload)
@@ -70,7 +71,7 @@ class ViewStateTest {
     fun `view state payload event`() = mainCoroutineRule.runBlockingTest {
 
         val testList = listOf("")
-        val retrofitResult = RetrofitResult.Success(testList)
+        val retrofitResult = ApiResult.Success(testList)
         val viewState = ViewState<List<String>>()
         retrofitResult.asViewStatePayloadWithEvents(viewState)
 
@@ -80,14 +81,14 @@ class ViewStateTest {
         assertTrue(firstState.isSuccess)
         assertTrue(firstItem.isSuccess)
 
-        RetrofitResult.Loading.asViewStatePayloadWithEvents(viewState)
+        ApiResult.Loading.asViewStatePayloadWithEvents(viewState)
 
         val firstItemSecondTime = viewState.viewEvent.first()
         val firstStateSecondTime = viewState.data.first()
         assertTrue(firstStateSecondTime.isLoading)
         assertTrue(firstItemSecondTime.isLoading)
 
-        RetrofitResult.Error(NoConnectionException()).asViewStatePayloadWithEvents(viewState)
+        ApiResult.Error(NoConnectionException()).asViewStatePayloadWithEvents(viewState)
 
         val firstItemThirdTime = viewState.viewEvent.first()
         val firstStateThirdTime = viewState.data.first()

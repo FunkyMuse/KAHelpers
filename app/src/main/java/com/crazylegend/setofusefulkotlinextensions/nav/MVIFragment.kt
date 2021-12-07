@@ -11,8 +11,7 @@ import com.crazylegend.common.ifTrue
 import com.crazylegend.fragment.viewCoroutineScope
 import com.crazylegend.internetdetector.InternetDetector
 import com.crazylegend.lifecycle.repeatingJobOnStarted
-import com.crazylegend.retrofit.retrofitResult.*
-import com.crazylegend.retrofit.retrofitResult.onApiError
+import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.throwables.isNoConnectionException
 import com.crazylegend.retrofit.viewstate.*
 import com.crazylegend.setofusefulkotlinextensions.R
@@ -68,13 +67,13 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     }
 
 
-    private fun updateUIState(retrofitResult: RetrofitResult<List<TestModel>>) {
-        retrofitResult.getAsThrowable?.let { throwable -> throwable.isNoConnectionException.ifTrue { retryOnInternetAvailable(throwable) } }
+    private fun updateUIState(apiResult: ApiResult<List<TestModel>>) {
+        apiResult.getAsThrowable?.let { throwable -> throwable.isNoConnectionException.ifTrue { retryOnInternetAvailable(throwable) } }
 
-        !retrofitResult.isLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
-        binding.error.isVisible = testAVM.isDataNotLoaded and (retrofitResult.isError || retrofitResult.isApiError)
-        binding.centerBigLoading.isVisible = retrofitResult.isLoading and testAVM.isDataNotLoaded
-        binding.progress.isVisible = retrofitResult.isLoading and testAVM.isDataLoaded
+        !apiResult.isLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
+        binding.error.isVisible = testAVM.isDataNotLoaded and (apiResult.isError || apiResult.isApiError)
+        binding.centerBigLoading.isVisible = apiResult.isLoading and testAVM.isDataNotLoaded
+        binding.progress.isVisible = apiResult.isLoading and testAVM.isDataLoaded
         adapter.submitList(testAVM.payload)
     }
 

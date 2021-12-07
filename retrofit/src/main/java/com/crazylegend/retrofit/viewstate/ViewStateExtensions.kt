@@ -1,8 +1,8 @@
 package com.crazylegend.retrofit.viewstate
 
 import androidx.lifecycle.SavedStateHandle
-import com.crazylegend.retrofit.retrofitResult.RetrofitResult
-import com.crazylegend.retrofit.retrofitResult.onSuccess
+import com.crazylegend.retrofit.apiresult.ApiResult
+import com.crazylegend.retrofit.apiresult.onSuccess
 import okhttp3.ResponseBody
 
 /**
@@ -10,7 +10,7 @@ import okhttp3.ResponseBody
  */
 
 
-fun <T> RetrofitResult<T>.asViewStatePayload(viewState: ViewStateContract<T>): RetrofitResult<T> {
+fun <T> ApiResult<T>.asViewStatePayload(viewState: ViewStateContract<T>): ApiResult<T> {
     onSuccess {
         viewState.payload = it
     }
@@ -18,14 +18,14 @@ fun <T> RetrofitResult<T>.asViewStatePayload(viewState: ViewStateContract<T>): R
 }
 
 
-fun <T> ViewStateContract<T>.fromRetrofit(retrofitResult: RetrofitResult<T>): ViewStateContract<T> {
-    retrofitResult.onSuccess {
+fun <T> ViewStateContract<T>.fromRetrofit(apiResult: ApiResult<T>): ViewStateContract<T> {
+    apiResult.onSuccess {
         payload = it
     }
     return this
 }
 
-suspend fun <T> RetrofitResult<T>.asViewStatePayloadWithEvents(viewState: ViewStateContract<T>): RetrofitResult<T> {
+suspend fun <T> ApiResult<T>.asViewStatePayloadWithEvents(viewState: ViewStateContract<T>): ApiResult<T> {
     onSuccess {
         viewState.payload = it
     }
@@ -34,16 +34,16 @@ suspend fun <T> RetrofitResult<T>.asViewStatePayloadWithEvents(viewState: ViewSt
 }
 
 
-suspend fun <T> ViewStateContract<T>.fromRetrofitWithEvents(retrofitResult: RetrofitResult<T>): ViewStateContract<T> {
-    retrofitResult.onSuccess {
+suspend fun <T> ViewStateContract<T>.fromRetrofitWithEvents(apiResult: ApiResult<T>): ViewStateContract<T> {
+    apiResult.onSuccess {
         payload = it
     }
-    emitEvent(retrofitResult)
+    emitEvent(apiResult)
     return this
 }
 
 
-private const val errorStateKey = "errorJSONKeyRetrofitResult"
+private const val errorStateKey = "errorJSONKeyApiResult"
 
 fun SavedStateHandle.handleApiErrorFromSavedState(errorBody: ResponseBody?): String? {
     val json = errorBody?.string()
