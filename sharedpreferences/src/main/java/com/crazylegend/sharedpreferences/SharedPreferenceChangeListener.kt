@@ -1,9 +1,8 @@
 package com.crazylegend.sharedpreferences
 
 import android.content.SharedPreferences
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 
 
 /**
@@ -12,15 +11,15 @@ import androidx.lifecycle.OnLifecycleEvent
 class SharedPreferenceChangeListener(
         private val sharedPreferences: SharedPreferences,
         private val listener: (SharedPreferences, String) -> Unit
-) : SharedPreferences.OnSharedPreferenceChangeListener, LifecycleObserver {
+) : SharedPreferences.OnSharedPreferenceChangeListener, DefaultLifecycleObserver {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 

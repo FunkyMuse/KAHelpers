@@ -1,8 +1,7 @@
 package com.crazylegend.retrofit.viewstate
 
 import androidx.lifecycle.SavedStateHandle
-import com.crazylegend.retrofit.apiresult.ApiResult
-import com.crazylegend.retrofit.apiresult.onSuccess
+import com.crazylegend.retrofit.apiresult.*
 import okhttp3.ResponseBody
 
 /**
@@ -54,3 +53,36 @@ fun SavedStateHandle.handleApiErrorFromSavedState(errorBody: ResponseBody?): Str
 }
 
 fun handleApiError(savedStateHandle: SavedStateHandle, errorBody: ResponseBody?): String? = savedStateHandle.handleApiErrorFromSavedState(errorBody)
+
+
+val <T> ViewStateContract<T>.showEmptyDataOnErrorsOrSuccess: Boolean
+    get() {
+        val retrofitResult = data.value
+        return isDataNotLoaded && (retrofitResult.isError or retrofitResult.isApiError or retrofitResult.isSuccess)
+    }
+
+val <T> ViewStateContract<T>.showEmptyDataOnErrors: Boolean
+    get() {
+        val retrofitResult = data.value
+        return isDataNotLoaded && (retrofitResult.isError or retrofitResult.isApiError)
+    }
+
+val <T> ViewStateContract<T>.showEmptyDataOnApiError: Boolean
+    get() {
+        val retrofitResult = data.value
+        return isDataNotLoaded && (retrofitResult.isApiError)
+    }
+
+
+val <T> ViewStateContract<T>.showEmptyDataOnError: Boolean
+    get() {
+        val retrofitResult = data.value
+        return isDataNotLoaded && (retrofitResult.isError)
+    }
+
+val <T> ViewStateContract<T>.showEmptyDataOnSuccess: Boolean
+    get() {
+        val retrofitResult = data.value
+        return isDataNotLoaded && retrofitResult.isSuccess
+    }
+
