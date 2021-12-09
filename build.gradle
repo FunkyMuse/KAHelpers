@@ -11,7 +11,7 @@ buildscript {
         nav_version = '2.4.0-beta02'
         rx = '3.0.0'
         material = "1.4.0"
-        moshi = "1.12.0"
+        moshi = "1.13.0"
         fragment = "1.4.0"
         activity = "1.4.0"
         appCompat = "1.4.0"
@@ -61,7 +61,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
