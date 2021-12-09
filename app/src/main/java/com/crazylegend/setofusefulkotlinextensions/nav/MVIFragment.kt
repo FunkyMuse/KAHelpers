@@ -68,7 +68,7 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
 
 
     private fun updateUIState(apiResult: ApiResult<List<TestModel>>) {
-        apiResult.getAsThrowable?.let { throwable -> throwable.isNoConnectionException.ifTrue { retryOnInternetAvailable(throwable) } }
+        apiResult.getAsThrowable?.isNoConnectionException?.ifTrue(::retryOnInternetAvailable)
 
         !apiResult.isLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
         binding.error.isVisible = testAVM.isDataNotLoaded and (apiResult.isError || apiResult.isApiError)
@@ -89,8 +89,8 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
         toast = null
     }
 
-    private fun retryOnInternetAvailable(throwable: Throwable) {
-        throwable.isNoConnectionException.ifTrue { viewCoroutineScope.launch { observeInternetConnectivity() } }
+    private fun retryOnInternetAvailable() {
+        viewCoroutineScope.launch { observeInternetConnectivity() }
     }
 
     private suspend fun observeInternetConnectivity() {
