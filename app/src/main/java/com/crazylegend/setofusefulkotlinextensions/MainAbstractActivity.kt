@@ -83,7 +83,7 @@ class MainAbstractActivity : AppCompatActivity() {
         savedInstanceState?.getString("query", null)?.let { savedQuery = it }
 
         activityMainBinding.test.setOnClickListenerCooldown {
-            testAVM.getPosts()
+            testAVM.sendEvent(TestAVM.TestAVMIntent.GetPosts)
         }
         activityMainBinding.recycler.adapter = generatedAdapter
 
@@ -158,7 +158,7 @@ class MainAbstractActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 internetDetector.state.collect { hasConnection ->
                     if (hasConnection) {
-                        testAVM.getPosts()
+                        testAVM.sendEvent(TestAVM.TestAVMIntent.GetPosts)
                     }
                 }
             }

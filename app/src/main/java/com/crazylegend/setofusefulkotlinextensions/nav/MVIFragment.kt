@@ -50,10 +50,10 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
 
         binding.swipeToRefresh.setOnRefreshListener {
             binding.swipeToRefresh.setIsRefreshing()
-            testAVM.getPosts()
+            getApiPosts()
         }
         binding.staticPosts.setOnClickListenerCooldown {
-            testAVM.getRandomPosts()
+            testAVM.sendEvent(TestAVM.TestAVMIntent.GetRandomPosts)
         }
     }
 
@@ -66,6 +66,9 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
         }
     }
 
+    private fun getApiPosts(){
+        testAVM.sendEvent(TestAVM.TestAVMIntent.GetPosts)
+    }
 
     private fun updateUIState(apiResult: ApiResult<List<TestModel>>) {
         apiResult.getAsThrowable?.isNoConnectionException?.ifTrue(::retryOnInternetAvailable)
@@ -85,6 +88,8 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        snackBar?.dismiss()
+        toast?.cancel()
         snackBar = null
         toast = null
     }
@@ -94,7 +99,7 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     }
 
     private suspend fun observeInternetConnectivity() {
-        internetDetector.state.collect { hasConnection -> hasConnection.ifTrue { testAVM.getPosts() } }
+        internetDetector.state.collect { hasConnection -> hasConnection.ifTrue { getApiPosts() } }
     }
 
 }
