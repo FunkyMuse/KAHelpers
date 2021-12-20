@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.CoroutineScope
@@ -76,3 +77,5 @@ fun Lifecycle.doOnEvent(which: Lifecycle.Event, block: () -> Unit) {
 
     addObserver(observer)
 }
+
+val Fragment.viewCoroutineScope get() = viewLifecycleOwner.lifecycle.coroutineScope

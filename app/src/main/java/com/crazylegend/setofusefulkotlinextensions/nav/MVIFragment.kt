@@ -8,9 +8,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.crazylegend.common.ifTrue
-import com.crazylegend.fragment.viewCoroutineScope
 import com.crazylegend.internetdetector.InternetDetector
 import com.crazylegend.lifecycle.repeatingJobOnStarted
+import com.crazylegend.lifecycle.viewCoroutineScope
 import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.throwables.isNoConnectionException
 import com.crazylegend.retrofit.viewstate.*

@@ -670,8 +670,6 @@ fun Fragment.hasPipPermission(): Boolean {
     }
 }
 
-val Fragment.viewCoroutineScope get() = viewLifecycleOwner.lifecycle.coroutineScope
-
 inline fun Fragment.onViewDestroyed(crossinline action: () -> Unit) {
     observeLifecycleOwnerThroughLifecycleCreation {
         lifecycle.addObserver(object : DefaultLifecycleObserver {
