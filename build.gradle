@@ -14,7 +14,7 @@ buildscript {
         moshi = "1.13.0"
         fragment = "1.4.0"
         activity = "1.4.0"
-        appCompat = "1.4.0"
+        appCompat = "1.4.1"
         coreKTX = "1.7.0"
         securityVersion = "1.0.0"
         recyclerview = '1.2.1'
