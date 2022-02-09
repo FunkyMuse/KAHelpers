@@ -871,3 +871,14 @@ inline fun needPermissionsFor(action: () -> Unit) = try {
 } catch (e: SecurityException) {
     true
 }
+
+fun alphabetByIndex(index: Int): String {
+    val quot = index / 26
+    val rem = index % 26
+    val letter = ('A'.code + rem).toChar()
+    return if (quot == 0) {
+        "" + letter
+    } else {
+        alphabetByIndex(quot - 1) + letter
+    }
+}
