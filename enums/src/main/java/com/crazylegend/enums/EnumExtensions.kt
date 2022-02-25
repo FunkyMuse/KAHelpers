@@ -21,14 +21,3 @@ inline fun <reified E : Enum<E>> enumValueOfOrNull(name: String): E? {
         null
     }
 }
-
-/**
- * Returns an enum entry with specified name.
- */
-inline fun <reified T : Enum<T>> String.enumSafeValueOf(): T? {
-    return try {
-        enumValueOf<T>(this)
-    } catch (e: Exception) {
-        null
-    }
-}
