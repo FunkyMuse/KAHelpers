@@ -71,7 +71,7 @@ private fun dropInitialValueIfSkipped(skipInitialValue: Boolean) = if (skipIniti
 
 fun <E> ProducerScope<E>.offerIfNotClosed(element: E) {
     if (!isClosedForSend) {
-        offer(element)
+        trySend(element)
     }
 }
 
