@@ -1,9 +1,7 @@
 package com.crazylegend.retrofit.interceptors
 
-import android.content.Context
 import okhttp3.CacheControl
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
 
 
@@ -19,13 +17,14 @@ import okhttp3.Response
  * First use addNetworkInterceptor([NetworkCacheInterceptor])
  * then add this addInterceptor([ForceCacheInterceptor])
  * on your http client builder
- * @property context Context
  * @constructor
  */
-class ForceCacheInterceptor(private val context: Context) : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val builder: Request.Builder = chain.request().newBuilder()
-            builder.cacheControl(CacheControl.FORCE_CACHE)
-        return chain.proceed(builder.build())
-    }
+class ForceCacheInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response =
+        chain.proceed(
+            chain.request()
+                .newBuilder()
+                .cacheControl(CacheControl.FORCE_CACHE)
+                .build()
+        )
 }
