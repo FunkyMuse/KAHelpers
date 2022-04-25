@@ -9,22 +9,24 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 
 inline fun <T : ViewBinding> Activity.viewBinding(crossinline bindingInflater: (LayoutInflater) -> T) =
-        lazy(LazyThreadSafetyMode.NONE) {
-            bindingInflater.invoke(layoutInflater)
-        }
+    lazy(LazyThreadSafetyMode.NONE) {
+        bindingInflater.invoke(layoutInflater)
+    }
 
 fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T, disposeRecyclerViewsAutomatically: Boolean = true) =
-        FragmentViewBindingDelegate(this, viewBindingFactory, disposeRecyclerViewsAutomatically)
+    FragmentViewBindingDelegate(this, viewBindingFactory, disposeRecyclerViewsAutomatically)
 
 
 fun <T : ViewBinding> globalViewBinding(viewBindingFactory: (View) -> T) =
-        GlobalViewBindingDelegate(viewBindingFactory)
+    GlobalViewBindingDelegate(viewBindingFactory)
 
 internal fun ensureMainThread() {
     if (Looper.myLooper() != Looper.getMainLooper()) {
@@ -39,4 +41,16 @@ fun ViewBinding?.disposeRecyclers() {
             it.adapter = null
         }
     }
+}
+
+fun ViewBinding.gone() {
+    root.isVisible = false
+}
+
+fun ViewBinding.show() {
+    root.isVisible = true
+}
+
+fun ViewBinding.invisible() {
+    root.isInvisible = true
 }
