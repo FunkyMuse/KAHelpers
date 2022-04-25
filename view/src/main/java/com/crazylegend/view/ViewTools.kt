@@ -32,56 +32,44 @@ import kotlin.math.min
 
 
 fun Activity.setSystemBarColor(@ColorRes color: Int) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.statusBarColor = ContextCompat.getColor(this, color)
-    }
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    window.statusBarColor = ContextCompat.getColor(this, color)
 }
 
 fun Context.setSystemBarColorDialog(dialog: Dialog, @ColorRes color: Int) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val window = dialog.window
-        window!!.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.statusBarColor = ContextCompat.getColor(this, color)
-    }
+    val window = dialog.window
+    window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    window?.statusBarColor = ContextCompat.getColor(this, color)
 }
 
 fun Activity.setSystemBarLight() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val view = findViewById<View>(android.R.id.content)
-        var flags = view.systemUiVisibility
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        view.systemUiVisibility = flags
-    }
+    val view = findViewById<View>(android.R.id.content)
+    var flags = view.systemUiVisibility
+    flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    view.systemUiVisibility = flags
 }
 
 fun Dialog.setSystemBarLightDialog() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val view = this.findViewById<View>(android.R.id.content)
-        var flags = view.systemUiVisibility
-        flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        view.systemUiVisibility = flags
-    }
+    val view = this.findViewById<View>(android.R.id.content)
+    var flags = view.systemUiVisibility
+    flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+    view.systemUiVisibility = flags
 }
 
 
 fun Activity.clearSystemBarLight(@ColorRes color: Int) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val window = window
-        window.statusBarColor = ContextCompat.getColor(this, color)
-    }
+    val window = window
+    window.statusBarColor = ContextCompat.getColor(this, color)
 }
 
 /**
  * Making notification bar transparent
  */
 fun Activity.setSystemBarTransparent() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = Color.TRANSPARENT
-    }
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.statusBarColor = Color.TRANSPARENT
 }
 
 fun getEmailFromName(name: String?): String? {

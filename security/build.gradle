@@ -1,4 +1,4 @@
 dependencies {
     //security
-    api "androidx.security:security-crypto:$securityVersion"
+    api "androidx.security:security-crypto-ktx:$securityVersion"
 }

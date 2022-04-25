@@ -27,12 +27,12 @@ class InternetDetector(private val context: Context, private val serverUrl: Stri
 
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> connectivityManager?.registerDefaultNetworkCallback(networkCallback)
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+            else -> {
                 val builder = NetworkRequest.Builder()
-                        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                        .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
-                        .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+                    .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                    .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
+                    .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
                 connectivityManager?.registerNetworkCallback(builder.build(), networkCallback)
             }
         }

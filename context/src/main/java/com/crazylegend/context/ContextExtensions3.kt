@@ -202,10 +202,7 @@ fun Context.reboot(restartIntent: Intent? = this.packageManager.getLaunchIntentF
 
 fun finishAffinity(activity: Activity) {
     activity.setResult(Activity.RESULT_CANCELED)
-    when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> activity.finishAffinity()
-        else -> ActivityCompat.finishAffinity(activity)
-    }
+    activity.finishAffinity()
 }
 
 fun Dialog.color(@ColorRes clr: Int): Int {

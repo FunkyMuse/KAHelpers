@@ -106,17 +106,15 @@ val Activity.displaySizePixels: Point
     }
 
 /**
- * Set Status Bar Color if Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+ * Set Status Bar Color
  */
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 fun Activity.setStatusBarColor(@ColorInt color: Int) {
     window.statusBarColor = color
 }
 
 /**
- * Set Navigation Bar Color if Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+ * Set Navigation Bar Color
  */
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 fun Activity.setNavigationBarColor(@ColorInt color: Int) {
     window.navigationBarColor = color
 }

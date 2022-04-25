@@ -167,45 +167,22 @@ fun Context.colorStateList(@ColorInt color: Int): ColorStateList {
 
 @SuppressLint("PrivateResource")
 fun RadioButton.tint(colors: ColorStateList) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        buttonTintList = colors
-    } else {
-        val radioDrawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_radio_material)
-        val d = radioDrawable?.let { DrawableCompat.wrap(it) }
-        d?.let { DrawableCompat.setTintList(it, colors) }
-        buttonDrawable = d
-    }
+    buttonTintList = colors
 }
 
 fun RadioButton.tint(@ColorInt color: Int) = tint(context.colorStateList(color))
 
 @SuppressLint("PrivateResource")
 fun CheckBox.tint(colors: ColorStateList) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        buttonTintList = colors
-    } else {
-        val checkDrawable = ContextCompat.getDrawable(context, R.drawable.abc_btn_check_material)
-        val drawable = checkDrawable?.let { DrawableCompat.wrap(it) }
-        drawable?.let { DrawableCompat.setTintList(it, colors) }
-        buttonDrawable = drawable
-    }
+    buttonTintList = colors
 }
 
 fun CheckBox.tint(@ColorInt color: Int) = tint(context.colorStateList(color))
 
 fun SeekBar.tint(@ColorInt color: Int) {
     val s1 = ColorStateList.valueOf(color)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        thumbTintList = s1
-        progressTintList = s1
-    } else {
-        val progressDrawable = DrawableCompat.wrap(progressDrawable)
-        this.progressDrawable = progressDrawable
-        DrawableCompat.setTintList(progressDrawable, s1)
-        val thumbDrawable = DrawableCompat.wrap(thumb)
-        DrawableCompat.setTintList(thumbDrawable, s1)
-        thumb = thumbDrawable
-    }
+    thumbTintList = s1
+    progressTintList = s1
 }
 
 fun ProgressBar.tint(@ColorInt color: Int, skipIndeterminate: Boolean = false) {
@@ -234,9 +211,8 @@ fun EditText.tint(@ColorInt color: Int) {
     val editTextColorStateList = context.textColorStateList(color)
     if (this is AppCompatEditText) {
         supportBackgroundTintList = editTextColorStateList
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    } else
         backgroundTintList = editTextColorStateList
-    }
     tintCursor(color)
 }
 

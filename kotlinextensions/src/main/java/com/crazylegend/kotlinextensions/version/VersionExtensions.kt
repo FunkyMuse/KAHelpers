@@ -122,10 +122,6 @@ inline fun doWithLowerApi(sdkCode: Int, block: () -> Unit) {
     }
 }
 
-fun isLollipop(): Boolean =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-
-
 enum class Api(val sdkCode: Int) {
 
     CUR_DEVELOPMENT(10000),

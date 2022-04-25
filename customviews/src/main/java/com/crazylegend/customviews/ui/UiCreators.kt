@@ -58,17 +58,7 @@ fun backgroundDrawable(
     if (!isButton) return baseDrawable
 
     // set pressed state only if isButton = true
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        return RippleDrawable(ColorStateList.valueOf(pressedColor), baseDrawable, mask)
-    }
-    return StateListDrawable().apply {
-        addState(intArrayOf(android.R.attr.state_pressed), GradientDrawable().apply {
-            setCornerRadius(radius, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius)
-            setColor(pressedColor)
-            setStroke(strokeWidth, strokeColor)
-        })
-        addState(intArrayOf(), baseDrawable)
-    }
+    return RippleDrawable(ColorStateList.valueOf(pressedColor), baseDrawable, mask)
 }
 
 /**

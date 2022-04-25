@@ -169,7 +169,7 @@ fun rsaEncrypt(message: Int, publicKey: RSAPublicKey): Long {
 
 fun rsaEncrypt(message: String, publicKey: RSAPublicKey): Pair<String, Int> {
     var chunks = message
-            .map { char -> rsaEncrypt(char.toInt(), publicKey).toString() }
+            .map { char -> rsaEncrypt(char.code, publicKey).toString() }
 
     var longest = 0
     chunks.forEach { if (it.length > longest) longest = it.length }
@@ -195,7 +195,7 @@ fun rsaDecrypt(message: String, blockSize: Int, privateKey: RSAPrivateKey): Stri
                     return@map result
                 }
             }
-            .map { rsaDecrypt(it.toLong(), privateKey).toChar() }
+            .map { rsaDecrypt(it.toLong(), privateKey).toInt().toChar() }
     var result = ""
     chunks.forEach { result += it.toString() }
     return result
