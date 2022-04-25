@@ -42,36 +42,17 @@ object AndroidEncryption {
 
             if (!keyStore!!.containsAlias(KEY_ALIAS)) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore)
-                    keyGenerator.init(
-                            KeyGenParameterSpec.Builder(
-                                    KEY_ALIAS,
-                                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-                            )
-                                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                                    .setRandomizedEncryptionRequired(false)
-                                    .build()
-                    )
-                    keyGenerator.generateKey()
-                } else {
-
-                    // Generate a key pair for encryption
-                    val start = Calendar.getInstance()
-                    val end = Calendar.getInstance()
-                    end.add(Calendar.YEAR, 30)
-                    val spec: KeyPairGeneratorSpec? =
-                            KeyPairGeneratorSpec.Builder(context)
-                                    .setAlias(KEY_ALIAS)
-                                    .setSubject(X500Principal("CN=$KEY_ALIAS"))
-                                    .setSerialNumber(BigInteger.TEN)
-                                    .setStartDate(start.time)
-                                    .setEndDate(end.time)
-                                    .build()
-                    val kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, AndroidKeyStore)
-                    kpg.initialize(spec)
-                    kpg.generateKeyPair()
-                }
+                val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore)
+                keyGenerator.init(
+                        KeyGenParameterSpec.Builder(
+                                KEY_ALIAS,
+                                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+                        )
+                                .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                                .setRandomizedEncryptionRequired(false)
+                                .build()
+                )
+                keyGenerator.generateKey()
             } else {
                 Log.d("keyStore", "key already available")
             }
@@ -189,17 +170,7 @@ object AndroidEncryption {
 
     fun decrypt(text: String): String {
         try {
-            var d: ByteArray? = ByteArray(0)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                d = decryptM(text)
-            } else {
-                try {
-                    d = rsaDecrypt(text)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-            }
+            val d: ByteArray? = decryptM(text)
             return d?.let { String(it, Charsets.UTF_8) }.toString()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -211,11 +182,8 @@ object AndroidEncryption {
     fun encrypt(text: String?): String {
         var input = text
         try {
-            input = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            input =
                 encryptM(input)
-            } else {
-                input?.toByteArray()?.let { rsaEncrypt(it) }
-            }
             return input.toString()
         } catch (e: Exception) {
             e.printStackTrace()
