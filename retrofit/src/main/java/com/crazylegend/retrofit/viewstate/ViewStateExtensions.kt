@@ -2,6 +2,7 @@ package com.crazylegend.retrofit.viewstate
 
 import androidx.lifecycle.SavedStateHandle
 import com.crazylegend.retrofit.apiresult.*
+import com.crazylegend.retrofit.throwables.isNoConnectionException
 import okhttp3.ResponseBody
 
 /**
@@ -52,7 +53,8 @@ fun SavedStateHandle.handleApiErrorFromSavedState(errorBody: ResponseBody?): Str
     return get<String>(errorStateKey)
 }
 
-fun handleApiError(savedStateHandle: SavedStateHandle, errorBody: ResponseBody?): String? = savedStateHandle.handleApiErrorFromSavedState(errorBody)
+fun handleApiError(savedStateHandle: SavedStateHandle, errorBody: ResponseBody?): String? =
+    savedStateHandle.handleApiErrorFromSavedState(errorBody)
 
 
 val <T> ViewStateContract<T>.showEmptyDataOnErrorsOrSuccess: Boolean
@@ -84,5 +86,13 @@ val <T> ViewStateContract<T>.showEmptyDataOnSuccess: Boolean
     get() {
         val retrofitResult = data.value
         return isDataNotLoaded && retrofitResult.isSuccess
+    }
+
+val <T> ViewStateContract<T>.shouldShowEmptyDataOnNoConnection: Boolean
+    get() {
+        val retrofitResult = data.value
+        return isDataNotLoaded &&
+                retrofitResult.isError &&
+                retrofitResult.asError().throwable.isNoConnectionException
     }
 
