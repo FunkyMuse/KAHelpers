@@ -1,14 +1,12 @@
-package com.crazylegend.retrofit.viewstate
+package com.crazylegend.retrofit.viewstate.state
 
 import com.crazylegend.retrofit.apiresult.ApiResult
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Created by funkymuse on 11/20/21 to long live and prosper !
  */
 interface ViewStateContract<T> {
-    val viewEvent: Flow<ViewEvent>
     val data : StateFlow<ApiResult<T>>
 
     var payload: T?

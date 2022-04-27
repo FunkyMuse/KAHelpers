@@ -15,8 +15,8 @@ val apiLoading get() = ApiResult.Loading
 val apiIdle get() = ApiResult.Idle
 
 fun <T> apiResultSubscribe(response: Response<T>): ApiResult<T> =
-        response.unwrapResponseToModel()?.let { apiSuccess(it) }
-                ?: apiError(response.code(), response.errorBody())
+    response.unwrapResponseToModel()?.let { apiSuccess(it) }
+        ?: apiError(response.code(), response.errorBody())
 
 
 //region State
@@ -94,14 +94,14 @@ suspend fun <T> ApiResult<T>.onSuccessSuspend(function: suspend (model: T) -> Un
 
 
 fun <VALUE, TRANSFORM> ApiResult<VALUE>.transformAsSuccess(transformer: (VALUE) -> TRANSFORM): TRANSFORM? =
-        getAsSuccess?.let { value -> transformer(value) }
+    getAsSuccess?.let { value -> transformer(value) }
 
 fun <VALUE, TRANSFORM> ApiResult<VALUE>.transform(transformer: (VALUE) -> TRANSFORM): ApiResult<TRANSFORM> =
-        if (this is ApiResult.Success) {
-            ApiResult.Success(transformer(value))
-        } else {
-            this as ApiResult<TRANSFORM>
-        }
+    if (this is ApiResult.Success) {
+        ApiResult.Success(transformer(value))
+    } else {
+        this as ApiResult<TRANSFORM>
+    }
 
 
 fun <T> Response<T>.unwrapResponseToModel(): T? = when {
@@ -110,13 +110,22 @@ fun <T> Response<T>.unwrapResponseToModel(): T? = when {
 }
 
 val <T> ApiResult<T>.isLoading get() = this is ApiResult.Loading
+val <T> ApiResult<T>.isNotLoading get() = this !is ApiResult.Loading
+
 val <T> ApiResult<T>.isSuccess get() = this is ApiResult.Success
+val <T> ApiResult<T>.isNotSuccess get() = this !is ApiResult.Success
+
 val <T> ApiResult<T>.isSuccessAndValueIsListAndNullOrEmpty get() = this is ApiResult.Success && isValueAListAndNullOrEmpty
 val <T> ApiResult<T>.isSuccessAndValueIsListAndNotNullOrEmpty get() = this is ApiResult.Success && isValueAListAndNotNullOrEmpty
-val <T> ApiResult<T>.isIdle get() = this is ApiResult.Idle
-val <T> ApiResult<T>.isApiError get() = this is ApiResult.ApiError
-val <T> ApiResult<T>.isError get() = this is ApiResult.Error
 
+val <T> ApiResult<T>.isIdle get() = this is ApiResult.Idle
+val <T> ApiResult<T>.isNotIdle get() = this !is ApiResult.Idle
+
+val <T> ApiResult<T>.isApiError get() = this is ApiResult.ApiError
+val <T> ApiResult<T>.isNotApiError get() = this !is ApiResult.ApiError
+
+val <T> ApiResult<T>.isError get() = this is ApiResult.Error
+val <T> ApiResult<T>.isNotError get() = this !is ApiResult.Error
 
 val <T> ApiResult<T>.getAsSuccess: T? get() = if (this is ApiResult.Success) value else null
 val <T> ApiResult<T>.getAsThrowable: Throwable? get() = if (this is ApiResult.Error) throwable else null

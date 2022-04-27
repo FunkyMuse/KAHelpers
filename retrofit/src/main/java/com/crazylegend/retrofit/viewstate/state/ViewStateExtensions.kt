@@ -1,8 +1,9 @@
-package com.crazylegend.retrofit.viewstate
+package com.crazylegend.retrofit.viewstate.state
 
 import androidx.lifecycle.SavedStateHandle
 import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.throwables.isNoConnectionException
+import com.crazylegend.retrofit.viewstate.event.ViewEvent
 import okhttp3.ResponseBody
 
 /**
@@ -96,3 +97,11 @@ val <T> ViewStateContract<T>.shouldShowEmptyDataOnNoConnection: Boolean
                 retrofitResult.asError().throwable.isNoConnectionException
     }
 
+
+fun <T> ApiResult<T>.asViewEvent() = when (this) {
+    is ApiResult.ApiError -> ViewEvent.ApiError(errorBody, responseCode)
+    is ApiResult.Error -> ViewEvent.Error(throwable)
+    ApiResult.Idle -> ViewEvent.Idle
+    ApiResult.Loading -> ViewEvent.Loading
+    is ApiResult.Success -> ViewEvent.Success
+}

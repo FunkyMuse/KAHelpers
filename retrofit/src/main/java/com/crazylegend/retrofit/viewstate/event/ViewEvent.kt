@@ -1,4 +1,4 @@
-package com.crazylegend.retrofit.viewstate
+package com.crazylegend.retrofit.viewstate.event
 
 import okhttp3.ResponseBody
 

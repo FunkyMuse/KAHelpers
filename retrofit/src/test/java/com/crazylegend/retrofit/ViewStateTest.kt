@@ -1,10 +1,14 @@
 package com.crazylegend.retrofit
 
 import com.crazylegend.retrofit.apiresult.*
-import com.crazylegend.retrofit.retrofitResult.*
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import com.crazylegend.retrofit.throwables.isNoConnectionException
-import com.crazylegend.retrofit.viewstate.*
+import com.crazylegend.retrofit.viewstate.event.isError
+import com.crazylegend.retrofit.viewstate.event.isLoading
+import com.crazylegend.retrofit.viewstate.event.isSuccess
+import com.crazylegend.retrofit.viewstate.state.ViewState
+import com.crazylegend.retrofit.viewstate.state.asViewStatePayload
+import com.crazylegend.retrofit.viewstate.state.asViewStatePayloadWithEvents
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest

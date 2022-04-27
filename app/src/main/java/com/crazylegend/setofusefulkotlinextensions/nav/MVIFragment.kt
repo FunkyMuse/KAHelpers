@@ -14,6 +14,11 @@ import com.crazylegend.lifecycle.viewCoroutineScope
 import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.throwables.isNoConnectionException
 import com.crazylegend.retrofit.viewstate.*
+import com.crazylegend.retrofit.viewstate.event.ViewEvent
+import com.crazylegend.retrofit.viewstate.event.asApiErrorBody
+import com.crazylegend.retrofit.viewstate.event.isApiError
+import com.crazylegend.retrofit.viewstate.event.isError
+import com.crazylegend.retrofit.viewstate.state.handleApiError
 import com.crazylegend.setofusefulkotlinextensions.R
 import com.crazylegend.setofusefulkotlinextensions.TestAVM
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
@@ -24,7 +29,6 @@ import com.crazylegend.view.setIsRefreshing
 import com.crazylegend.view.setOnClickListenerCooldown
 import com.crazylegend.viewbinding.viewBinding
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -73,7 +77,7 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
     private fun updateUIState(apiResult: ApiResult<List<TestModel>>) {
         apiResult.getAsThrowable?.isNoConnectionException?.ifTrue(::retryOnInternetAvailable)
 
-        !apiResult.isLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
+        apiResult.isNotLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
         binding.error.isVisible = testAVM.isDataNotLoaded and (apiResult.isError || apiResult.isApiError)
         binding.centerBigLoading.isVisible = apiResult.isLoading and testAVM.isDataNotLoaded
         binding.progress.isVisible = apiResult.isLoading and testAVM.isDataLoaded

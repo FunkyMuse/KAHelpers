@@ -10,14 +10,13 @@ import com.crazylegend.retrofit.adapter.ApiResultAdapterFactory
 import com.crazylegend.retrofit.apiresult.ApiResult
 import com.crazylegend.retrofit.interceptors.ConnectivityInterceptor
 import com.crazylegend.retrofit.randomPhotoIndex
-import com.crazylegend.retrofit.viewstate.ViewState
-import com.crazylegend.retrofit.viewstate.ViewStateContract
-import com.crazylegend.retrofit.viewstate.asViewStatePayloadWithEvents
+import com.crazylegend.retrofit.viewstate.state.ViewState
+import com.crazylegend.retrofit.viewstate.state.ViewStateContract
+import com.crazylegend.retrofit.viewstate.state.asViewStatePayloadWithEvents
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -28,8 +27,20 @@ import retrofit2.create
 /**
  * Created by hristijan on 8/26/19 to long live and prosper !
  */
-class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) : AndroidViewModel(application),
-        ViewStateContract<List<TestModel>> by ViewState() {
+class TestAVM(
+    application: Application,
+    val savedStateHandle: SavedStateHandle
+) : AndroidViewModel(application) {
+
+    private val viewEventProvider = ViewEventProvider()
+    private val viewState = ViewState<List<TestModel>>(viewEventProvider)
+
+    //use delegation to avoid having these properties since the view event provider can be injected easily
+    val payload: List<TestModel>? get() = viewState.payload
+    val isDataNotLoaded get() = viewState.isDataNotLoaded
+    val isDataLoaded: Boolean get() = viewState.isDataLoaded
+    val viewEvent = viewEventProvider.viewEvent
+    //
 
     sealed class TestAVMIntent {
         object GetPosts : TestAVMIntent()
@@ -41,7 +52,7 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
     }
 
     private val intents = MutableSharedFlow<TestAVMIntent>()
-    val posts: StateFlow<ApiResult<List<TestModel>>> = data
+    val posts: StateFlow<ApiResult<List<TestModel>>> = viewState.data
 
     private fun getPosts() {
         viewModelScope.launch {
@@ -55,21 +66,23 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
         viewModelScope.launch {
             setLoading()
             delay(2000) //simulate that we're fetching from API some artificial delay
-            ApiResult.Success(listOf(
+            ApiResult.Success(
+                listOf(
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
                     TestModel(randomUUIDstring, randomPhotoIndex, randomUUIDstring, randomPhotoIndex),
-            )).asViewStatePayloadWithEvents(this@TestAVM)
+                )
+            ).asViewStatePayloadWithEvents(viewState)
         }
     }
 
     private suspend fun setLoading() {
-        ApiResult.Loading.asViewStatePayloadWithEvents(this)
+        ApiResult.Loading.asViewStatePayloadWithEvents(viewState)
     }
 
     private suspend fun fetchPosts() {
-        retrofit.getPosts().asViewStatePayloadWithEvents(this)
+        retrofit.getPosts().asViewStatePayloadWithEvents(viewState)
     }
 
 
@@ -96,7 +109,7 @@ class TestAVM(application: Application, val savedStateHandle: SavedStateHandle) 
     }
 
     private fun handleIntents(testAVMIntent: TestAVMIntent) {
-        when(testAVMIntent){
+        when (testAVMIntent) {
             TestAVMIntent.GetPosts -> getPosts()
             TestAVMIntent.GetRandomPosts -> getRandomPosts()
         }
