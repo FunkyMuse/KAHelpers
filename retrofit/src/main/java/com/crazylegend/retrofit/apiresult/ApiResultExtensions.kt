@@ -127,6 +127,8 @@ val <T> ApiResult<T>.isNotApiError get() = this !is ApiResult.ApiError
 val <T> ApiResult<T>.isError get() = this is ApiResult.Error
 val <T> ApiResult<T>.isNotError get() = this !is ApiResult.Error
 
+val <T> ApiResult<T>.isErrorOrApiError get() = this is ApiResult.Error || this is ApiResult.ApiError
+
 val <T> ApiResult<T>.getAsSuccess: T? get() = if (this is ApiResult.Success) value else null
 val <T> ApiResult<T>.getAsThrowable: Throwable? get() = if (this is ApiResult.Error) throwable else null
 val <T> ApiResult<T>.getAsApiFailureCode: Int? get() = if (this is ApiResult.ApiError) responseCode else null
