@@ -11,17 +11,18 @@ import com.crazylegend.common.ifTrue
 import com.crazylegend.internetdetector.InternetDetector
 import com.crazylegend.lifecycle.repeatingJobOnStarted
 import com.crazylegend.lifecycle.viewCoroutineScope
-import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.throwables.isNoConnectionException
-import com.crazylegend.retrofit.viewstate.*
-import com.crazylegend.retrofit.viewstate.event.ViewEvent
+import com.crazylegend.retrofit.viewstate.event.ViewStatefulEvent
 import com.crazylegend.retrofit.viewstate.event.asApiErrorBody
+import com.crazylegend.retrofit.viewstate.event.getAsThrowable
 import com.crazylegend.retrofit.viewstate.event.isApiError
 import com.crazylegend.retrofit.viewstate.event.isError
 import com.crazylegend.retrofit.viewstate.state.handleApiError
+import com.crazylegend.retrofit.viewstate.state.showEmptyDataOnErrors
+import com.crazylegend.retrofit.viewstate.state.showLoadingWhenDataIsLoaded
+import com.crazylegend.retrofit.viewstate.state.showLoadingWhenDataNotLoaded
 import com.crazylegend.setofusefulkotlinextensions.R
 import com.crazylegend.setofusefulkotlinextensions.TestAVM
-import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestViewBindingAdapter
 import com.crazylegend.setofusefulkotlinextensions.databinding.FragmentTestBinding
 import com.crazylegend.view.setIsNotRefreshing
@@ -55,17 +56,18 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
         binding.swipeToRefresh.setOnRefreshListener {
             binding.swipeToRefresh.setIsRefreshing()
             getApiPosts()
+            binding.swipeToRefresh.setIsNotRefreshing()
         }
         binding.staticPosts.setOnClickListenerCooldown {
             testAVM.sendEvent(TestAVM.TestAVMIntent.GetRandomPosts)
         }
     }
 
-    private fun handleViewEvents(viewEvent: ViewEvent) {
-        viewEvent.isError.and(testAVM.isDataLoaded).ifTrue(::showErrorSnack)
-        viewEvent.isApiError.ifTrue {
+    private fun handleViewEvents(viewStatefulEvent: ViewStatefulEvent) {
+        viewStatefulEvent.isError.and(testAVM.viewState.isDataLoaded).ifTrue(::showErrorSnack)
+        viewStatefulEvent.isApiError.ifTrue {
             toast?.cancel()
-            toast = Toast.makeText(requireContext(), handleApiError(testAVM.savedStateHandle, viewEvent.asApiErrorBody), LENGTH_LONG)
+            toast = Toast.makeText(requireContext(), handleApiError(testAVM.savedStateHandle, viewStatefulEvent.asApiErrorBody), LENGTH_LONG)
             toast?.show()
         }
     }
@@ -74,14 +76,12 @@ class MVIFragment : Fragment(R.layout.fragment_test) {
         testAVM.sendEvent(TestAVM.TestAVMIntent.GetPosts)
     }
 
-    private fun updateUIState(apiResult: ApiResult<List<TestModel>>) {
+    private fun updateUIState(apiResult: ViewStatefulEvent) {
         apiResult.getAsThrowable?.isNoConnectionException?.ifTrue(::retryOnInternetAvailable)
-
-        apiResult.isNotLoading.ifTrue { binding.swipeToRefresh.setIsNotRefreshing() }
-        binding.error.isVisible = testAVM.isDataNotLoaded and (apiResult.isError || apiResult.isApiError)
-        binding.centerBigLoading.isVisible = apiResult.isLoading and testAVM.isDataNotLoaded
-        binding.progress.isVisible = apiResult.isLoading and testAVM.isDataLoaded
-        adapter.submitList(testAVM.payload)
+        binding.error.isVisible = testAVM.viewState.showEmptyDataOnErrors
+        binding.centerBigLoading.isVisible = testAVM.viewState.showLoadingWhenDataNotLoaded
+        binding.progress.isVisible = testAVM.viewState.showLoadingWhenDataIsLoaded
+        adapter.submitList(testAVM.viewState.payload)
     }
 
     private fun showErrorSnack() {

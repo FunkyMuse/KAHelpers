@@ -1,12 +1,7 @@
 package com.crazylegend.retrofit.viewstate.state
 
 import com.crazylegend.retrofit.apiresult.ApiResult
-import com.crazylegend.retrofit.apiresult.onApiErrorSuspend
-import com.crazylegend.retrofit.apiresult.onErrorSuspend
-import com.crazylegend.retrofit.apiresult.onIdleSuspend
-import com.crazylegend.retrofit.apiresult.onLoadingSuspend
-import com.crazylegend.retrofit.apiresult.onSuccessSuspend
-import com.crazylegend.retrofit.viewstate.event.ViewEvent
+import com.crazylegend.retrofit.viewstate.event.ViewStatefulEvent
 import com.crazylegend.retrofit.viewstate.event.ViewEventContract
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,11 +11,11 @@ import kotlinx.coroutines.flow.asStateFlow
  */
 class ViewState<T>(
     private val viewEventContract: ViewEventContract? = null,
-    defaultApiState: ApiResult<T> = ApiResult.Idle
+    defaultViewState: ViewStatefulEvent = ViewStatefulEvent.Idle
 ) : ViewStateContract<T> {
 
-    private val dataState: MutableStateFlow<ApiResult<T>> = MutableStateFlow(defaultApiState)
-    override val data = dataState.asStateFlow()
+    private val _viewState: MutableStateFlow<ViewStatefulEvent> = MutableStateFlow(defaultViewState)
+    override val viewState = _viewState.asStateFlow()
 
     override var payload: T? = null
 
@@ -29,7 +24,7 @@ class ViewState<T>(
     }
 
     override fun emitState(apiResult: ApiResult<T>) {
-        dataState.value = apiResult
+        _viewState.value = apiResult.asViewEvent()
     }
 
     override val isDataLoaded get() = payload != null

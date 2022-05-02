@@ -10,8 +10,8 @@ import com.crazylegend.retrofit.adapter.ApiResultAdapterFactory
 import com.crazylegend.retrofit.apiresult.ApiResult
 import com.crazylegend.retrofit.interceptors.ConnectivityInterceptor
 import com.crazylegend.retrofit.randomPhotoIndex
+import com.crazylegend.retrofit.viewstate.event.ViewStatefulEvent
 import com.crazylegend.retrofit.viewstate.state.ViewState
-import com.crazylegend.retrofit.viewstate.state.ViewStateContract
 import com.crazylegend.retrofit.viewstate.state.asViewStatePayloadWithEvents
 import com.crazylegend.setofusefulkotlinextensions.adapter.TestModel
 import kotlinx.coroutines.delay
@@ -33,13 +33,10 @@ class TestAVM(
 ) : AndroidViewModel(application) {
 
     private val viewEventProvider = ViewEventProvider()
-    private val viewState = ViewState<List<TestModel>>(viewEventProvider)
+    val viewState = ViewState<List<TestModel>>(viewEventProvider)
 
     //use delegation to avoid having these properties since the view event provider can be injected easily
-    val payload: List<TestModel>? get() = viewState.payload
-    val isDataNotLoaded get() = viewState.isDataNotLoaded
-    val isDataLoaded: Boolean get() = viewState.isDataLoaded
-    val viewEvent = viewEventProvider.viewEvent
+    val viewEvent = viewEventProvider.viewStatefulEvent
     //
 
     sealed class TestAVMIntent {
@@ -52,7 +49,7 @@ class TestAVM(
     }
 
     private val intents = MutableSharedFlow<TestAVMIntent>()
-    val posts: StateFlow<ApiResult<List<TestModel>>> = viewState.data
+    val posts: StateFlow<ViewStatefulEvent> = viewState.viewState
 
     private fun getPosts() {
         viewModelScope.launch {

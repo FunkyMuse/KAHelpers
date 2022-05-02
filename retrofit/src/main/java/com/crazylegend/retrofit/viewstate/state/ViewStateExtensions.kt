@@ -1,16 +1,20 @@
 package com.crazylegend.retrofit.viewstate.state
 
 import androidx.lifecycle.SavedStateHandle
-import com.crazylegend.retrofit.apiresult.*
+import com.crazylegend.retrofit.apiresult.ApiResult
+import com.crazylegend.retrofit.apiresult.onSuccess
 import com.crazylegend.retrofit.throwables.isNoConnectionException
-import com.crazylegend.retrofit.viewstate.event.ViewEvent
+import com.crazylegend.retrofit.viewstate.event.ViewStatefulEvent
+import com.crazylegend.retrofit.viewstate.event.asError
+import com.crazylegend.retrofit.viewstate.event.isApiError
+import com.crazylegend.retrofit.viewstate.event.isError
+import com.crazylegend.retrofit.viewstate.event.isLoading
+import com.crazylegend.retrofit.viewstate.event.isSuccess
 import okhttp3.ResponseBody
 
 /**
  * Created by funkymuse on 11/20/21 to long live and prosper !
  */
-
-
 fun <T> ApiResult<T>.asViewStatePayload(viewState: ViewStateContract<T>): ApiResult<T> {
     onSuccess {
         viewState.payload = it
@@ -48,7 +52,7 @@ suspend fun <T> ViewStateContract<T>.fromRetrofitWithEvents(apiResult: ApiResult
 }
 
 
-private const val errorStateKey = "errorJSONKeyApiResult"
+private const val errorStateKey = "viewstate.state.errorStateKey.errorJSONKeyApiResult"
 
 fun SavedStateHandle.handleApiErrorFromSavedState(errorBody: ResponseBody?): String? {
     val json = errorBody?.string()
@@ -64,48 +68,60 @@ fun handleApiError(savedStateHandle: SavedStateHandle, errorBody: ResponseBody?)
 
 val <T> ViewStateContract<T>.showEmptyDataOnErrorsOrSuccess: Boolean
     get() {
-        val retrofitResult = data.value
+        val retrofitResult = viewState.value
         return isDataNotLoaded && (retrofitResult.isError or retrofitResult.isApiError or retrofitResult.isSuccess)
     }
 
 val <T> ViewStateContract<T>.showEmptyDataOnErrors: Boolean
     get() {
-        val retrofitResult = data.value
+        val retrofitResult = viewState.value
         return isDataNotLoaded && (retrofitResult.isError or retrofitResult.isApiError)
     }
 
 val <T> ViewStateContract<T>.showEmptyDataOnApiError: Boolean
     get() {
-        val retrofitResult = data.value
+        val retrofitResult = viewState.value
         return isDataNotLoaded && (retrofitResult.isApiError)
     }
 
 
 val <T> ViewStateContract<T>.showEmptyDataOnError: Boolean
     get() {
-        val retrofitResult = data.value
+        val retrofitResult = viewState.value
         return isDataNotLoaded && (retrofitResult.isError)
     }
 
 val <T> ViewStateContract<T>.showEmptyDataOnSuccess: Boolean
     get() {
-        val retrofitResult = data.value
+        val retrofitResult = viewState.value
         return isDataNotLoaded && retrofitResult.isSuccess
     }
 
-val <T> ViewStateContract<T>.shouldShowEmptyDataOnNoConnection: Boolean
+val <T> ViewStateContract<T>.showEmptyDataOnNoConnection: Boolean
     get() {
-        val retrofitResult = data.value
+        val retrofitResult = viewState.value
         return isDataNotLoaded &&
                 retrofitResult.isError &&
                 retrofitResult.asError().throwable.isNoConnectionException
     }
 
+val <T> ViewStateContract<T>.showLoadingWhenDataNotLoaded: Boolean
+    get() {
+        val retrofitResult = viewState.value
+        return retrofitResult.isLoading and isDataNotLoaded
+    }
+
+val <T> ViewStateContract<T>.showLoadingWhenDataIsLoaded: Boolean
+    get() {
+        val retrofitResult = viewState.value
+        return retrofitResult.isLoading and isDataLoaded
+    }
+
 
 fun <T> ApiResult<T>.asViewEvent() = when (this) {
-    is ApiResult.ApiError -> ViewEvent.ApiError(errorBody, responseCode)
-    is ApiResult.Error -> ViewEvent.Error(throwable)
-    ApiResult.Idle -> ViewEvent.Idle
-    ApiResult.Loading -> ViewEvent.Loading
-    is ApiResult.Success -> ViewEvent.Success
+    is ApiResult.ApiError -> ViewStatefulEvent.ApiError(errorBody, responseCode)
+    is ApiResult.Error -> ViewStatefulEvent.Error(throwable)
+    ApiResult.Idle -> ViewStatefulEvent.Idle
+    ApiResult.Loading -> ViewStatefulEvent.Loading
+    is ApiResult.Success -> ViewStatefulEvent.Success
 }

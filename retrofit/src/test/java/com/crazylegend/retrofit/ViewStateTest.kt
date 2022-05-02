@@ -3,6 +3,7 @@ package com.crazylegend.retrofit
 import com.crazylegend.retrofit.apiresult.*
 import com.crazylegend.retrofit.throwables.NoConnectionException
 import com.crazylegend.retrofit.throwables.isNoConnectionException
+import com.crazylegend.retrofit.viewstate.event.asError
 import com.crazylegend.retrofit.viewstate.event.isError
 import com.crazylegend.retrofit.viewstate.event.isLoading
 import com.crazylegend.retrofit.viewstate.event.isSuccess
@@ -11,10 +12,10 @@ import com.crazylegend.retrofit.viewstate.state.asViewStatePayload
 import com.crazylegend.retrofit.viewstate.state.asViewStatePayloadWithEvents
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Rule
 import org.junit.Test
 
 /**
@@ -23,12 +24,11 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class ViewStateTest {
 
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+    private val testScope = TestScope()
 
 
     @Test
-    fun `view state payload once`() = mainCoroutineRule.runBlockingTest {
+    fun `view state payload once`() = testScope.runTest {
 
         val retrofitResult = ApiResult.Success(listOf(""))
         val viewState = ViewState<List<String>>()
@@ -72,30 +72,31 @@ class ViewStateTest {
     }
 
     @Test
-    fun `view state payload event`() = mainCoroutineRule.runBlockingTest {
+    fun `view state payload event`() = testScope.runTest {
 
         val testList = listOf("")
         val retrofitResult = ApiResult.Success(testList)
-        val viewState = ViewState<List<String>>()
+        val viewEvent = FakeViewEvent()
+        val viewState = ViewState<List<String>>(viewEvent)
         retrofitResult.asViewStatePayloadWithEvents(viewState)
 
 
-        val firstItem = viewState.viewEvent.first()
-        val firstState = viewState.data.first()
+        val firstItem = viewEvent.event.first()
+        val firstState = viewState.viewState.first()
         assertTrue(firstState.isSuccess)
         assertTrue(firstItem.isSuccess)
 
         ApiResult.Loading.asViewStatePayloadWithEvents(viewState)
 
-        val firstItemSecondTime = viewState.viewEvent.first()
-        val firstStateSecondTime = viewState.data.first()
+        val firstItemSecondTime = viewEvent.event.first()
+        val firstStateSecondTime = viewState.viewState.first()
         assertTrue(firstStateSecondTime.isLoading)
         assertTrue(firstItemSecondTime.isLoading)
 
         ApiResult.Error(NoConnectionException()).asViewStatePayloadWithEvents(viewState)
 
-        val firstItemThirdTime = viewState.viewEvent.first()
-        val firstStateThirdTime = viewState.data.first()
+        val firstItemThirdTime = viewEvent.event.first()
+        val firstStateThirdTime = viewState.viewState.first()
         assertTrue(firstStateThirdTime.isError)
         assertTrue(firstItemThirdTime.isError)
         assertTrue(viewState.payload != null)
