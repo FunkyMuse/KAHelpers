@@ -25,18 +25,11 @@ class ViewState<T>(
     override var payload: T? = null
 
     override suspend fun emitEvent(apiResult: ApiResult<T>) {
-        apiResult.asViewEvent()
-        dataState.value = apiResult
-        apiResult
-            .onLoadingSuspend { provideEvent(ViewEvent.Loading) }
-            .onErrorSuspend { throwable -> provideEvent(ViewEvent.Error(throwable)) }
-            .onApiErrorSuspend { errorBody, code -> provideEvent(ViewEvent.ApiError(errorBody, code)) }
-            .onIdleSuspend { provideEvent(ViewEvent.Idle) }
-            .onSuccessSuspend { provideEvent(ViewEvent.Success) }
+        viewEventContract?.provideEvent(apiResult.asViewEvent())
     }
 
-    private suspend fun provideEvent(event: ViewEvent) {
-        viewEventContract?.provideEvent(event)
+    override fun emitState(apiResult: ApiResult<T>) {
+        dataState.value = apiResult
     }
 
     override val isDataLoaded get() = payload != null

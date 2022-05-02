@@ -15,6 +15,7 @@ fun <T> ApiResult<T>.asViewStatePayload(viewState: ViewStateContract<T>): ApiRes
     onSuccess {
         viewState.payload = it
     }
+    viewState.emitState(this)
     return this
 }
 
@@ -23,6 +24,7 @@ fun <T> ViewStateContract<T>.fromRetrofit(apiResult: ApiResult<T>): ViewStateCon
     apiResult.onSuccess {
         payload = it
     }
+    emitState(apiResult)
     return this
 }
 
@@ -30,6 +32,7 @@ suspend fun <T> ApiResult<T>.asViewStatePayloadWithEvents(viewState: ViewStateCo
     onSuccess {
         viewState.payload = it
     }
+    viewState.emitState(this)
     viewState.emitEvent(this)
     return this
 }
@@ -39,6 +42,7 @@ suspend fun <T> ViewStateContract<T>.fromRetrofitWithEvents(apiResult: ApiResult
     apiResult.onSuccess {
         payload = it
     }
+    emitState(apiResult)
     emitEvent(apiResult)
     return this
 }

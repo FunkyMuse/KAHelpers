@@ -16,6 +16,7 @@ interface ViewStateContract<T> {
     }
 
     suspend fun emitEvent(apiResult: ApiResult<T>)
+    fun emitState(apiResult: ApiResult<T>)
 
     val isDataLoaded get() = payload != null
 
