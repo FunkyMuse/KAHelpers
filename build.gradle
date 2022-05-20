@@ -6,7 +6,7 @@ buildscript {
         okHttp = "4.9.3"
         rxBindings = "4.0.0"
         glide = "4.13.2"
-        constraint_layout = '2.1.3'
+        constraint_layout = '2.1.4'
         coroutines = '1.6.1-native-mt'
         nav_version = '2.5.0-rc01'
         rx = '3.0.0'
