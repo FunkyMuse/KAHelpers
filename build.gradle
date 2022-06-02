@@ -15,7 +15,7 @@ buildscript {
         fragment = "1.4.1"
         activity = "1.4.0"
         appCompat = "1.4.1"
-        coreKTX = "1.7.0"
+        coreKTX = "1.8.0"
         securityVersion = "1.1.0-alpha03"
         recyclerview = '1.2.1'
         annotationVersion = '1.3.0'
