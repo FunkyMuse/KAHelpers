@@ -13,7 +13,7 @@ import androidx.core.view.GestureDetectorCompat
 
 
 open class SwipeDistanceView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private val gestureDetector: GestureDetectorCompat
@@ -51,9 +51,10 @@ open class SwipeDistanceView @JvmOverloads constructor(
             startScrolling()
             gestureDetector.onTouchEvent(event)
         }
+
         else -> {
             stopScrolling()
-            gestureDetector.onTouchEvent(event)
+            event?.let { gestureDetector.onTouchEvent(it) } ?: false
         }
     }
 

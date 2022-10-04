@@ -66,15 +66,15 @@ class ProgressAnimator private constructor(private vararg val values: Float) {
                 animators.forEach { it(progress) }
             }
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                     startActions.forEach { it() }
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     endActions.forEach { it() }
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
                     endActions.forEach { it() }
                 }
             })

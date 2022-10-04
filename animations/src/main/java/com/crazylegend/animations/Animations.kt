@@ -168,13 +168,13 @@ fun View.circularReveal(
 
     }
     anim.addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationStart(animation: Animator?) {
+        override fun onAnimationStart(animation: Animator) {
             visible()
             onStart?.invoke()
         }
 
-        override fun onAnimationEnd(animation: Animator?) = onFinish?.invoke() ?: Unit
-        override fun onAnimationCancel(animation: Animator?) = onFinish?.invoke() ?: Unit
+        override fun onAnimationEnd(animation: Animator) = onFinish?.invoke() ?: Unit
+        override fun onAnimationCancel(animation: Animator) = onFinish?.invoke() ?: Unit
     })
     anim.start()
 }
@@ -202,14 +202,14 @@ fun View.circularHide(
     val anim = ViewAnimationUtils.createCircularReveal(this, x, y, r, 0f).setDuration(duration)
     anim.startDelay = offset
     anim.addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationStart(animation: Animator?) = onStart?.invoke() ?: Unit
+        override fun onAnimationStart(animation: Animator) = onStart?.invoke() ?: Unit
 
-        override fun onAnimationEnd(animation: Animator?) {
+        override fun onAnimationEnd(animation: Animator) {
             invisible()
             onFinish?.invoke() ?: Unit
         }
 
-        override fun onAnimationCancel(animation: Animator?) = onFinish?.invoke() ?: Unit
+        override fun onAnimationCancel(animation: Animator) = onFinish?.invoke() ?: Unit
     })
     anim.start()
 }
@@ -334,7 +334,7 @@ fun Animator.onRepeat(onRepeat: (Animator) -> Unit) {
     addListener(onRepeat = onRepeat)
 }
 
-@RequiresApi(19)
+
 fun Animator.addPauseListener(
         onResume: (Animator) -> Unit = {},
         onPause: (Animator) -> Unit = {}
@@ -357,7 +357,7 @@ fun Animator.onResume(onResume: (Animator) -> Unit) {
     addPauseListener(onResume = onResume)
 }
 
-@RequiresApi(19)
+
 fun Animator.onPause(onPause: (Animator) -> Unit) {
     addPauseListener(onPause = onPause)
 }

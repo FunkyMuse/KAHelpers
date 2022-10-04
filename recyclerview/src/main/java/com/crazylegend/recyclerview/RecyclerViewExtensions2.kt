@@ -41,10 +41,10 @@ fun RecyclerView.replaceAdapterWith(replacementAdapter: RecyclerView.Adapter<*>,
 
 fun RecyclerView.clearOnDetach(){
     addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener{
-        override fun onViewAttachedToWindow(v: View?) {
+        override fun onViewAttachedToWindow(v: View) {
         }
 
-        override fun onViewDetachedFromWindow(v: View?) {
+        override fun onViewDetachedFromWindow(v: View) {
             adapter = null
         }
     })

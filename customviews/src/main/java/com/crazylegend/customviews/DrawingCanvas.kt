@@ -29,24 +29,24 @@ class DrawingCanvas @JvmOverloads constructor(context: Context,
         style = Paint.Style.STROKE
     }
     private val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
+        override fun onDoubleTap(e: MotionEvent): Boolean {
             clear()
             return true
         }
     })
 
     private val scaleGestureDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.OnScaleGestureListener {
-        override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
             isInScale = true
             return true
         }
 
-        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+        override fun onScaleEnd(detector: ScaleGestureDetector) {
             isInScale = false
         }
 
-        override fun onScale(detector: ScaleGestureDetector?): Boolean {
-            detector?.let {
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            detector.let {
                 scaleX *= detector.scaleFactor
                 scaleY *= detector.scaleFactor
             }
@@ -64,7 +64,7 @@ class DrawingCanvas @JvmOverloads constructor(context: Context,
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isTouchEventListenerEnabled) {
             return false
         }
@@ -73,7 +73,7 @@ class DrawingCanvas @JvmOverloads constructor(context: Context,
         gestureDetector.onTouchEvent(event)
 
         if (!isInScale) {
-            when (event?.actionMasked) {
+            when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                     val pointerIdToAdd = event.getPointerId(event.actionIndex)
                     val pathToAdd = Path().apply {

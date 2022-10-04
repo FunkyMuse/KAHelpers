@@ -48,11 +48,11 @@ fun View.fade(initAlpha: Float? = null, alpha: Float = 1f, startDelay: Long = 0,
             .setDuration(AnimationConstants.SHORT)
             .setInterpolator(AnimationConstants.LINEAR_OUT_SLOW_IN)
             .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                     visibility = View.VISIBLE
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     if (alpha == 0f) visibility = View.INVISIBLE
                 }
             })
@@ -74,11 +74,11 @@ fun View.translate(initX: Int? = null, initY: Int? = null, translationX: Int = 0
             .setDuration(AnimationConstants.MEDIUM)
             .setInterpolator(AnimationConstants.FAST_OUT_SLOW_IN)
             .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                     visibility = View.VISIBLE
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     if (alpha == 0f) visibility = View.INVISIBLE
                 }
             })
@@ -221,13 +221,13 @@ fun View.reveal(show: Boolean = true, centerX: Int? = null, centerY: Int? = null
             ?: if (show) radius else 0f
     )
     anim.addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationStart(animation: Animator?) {
+        override fun onAnimationStart(animation: Animator) {
             if (show) {
                 visibility = View.VISIBLE
             }
         }
 
-        override fun onAnimationEnd(animation: Animator?) {
+        override fun onAnimationEnd(animation: Animator) {
             if (!show) {
                 visibility = View.INVISIBLE
             }

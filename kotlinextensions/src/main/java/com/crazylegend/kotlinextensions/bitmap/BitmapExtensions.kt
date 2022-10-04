@@ -345,7 +345,7 @@ fun Bitmap.toRound(borderSize: Float = 0f, borderColor: Int = 0, recycle: Boolea
 
 
 @Throws(FileNotFoundException::class)
-fun Uri.toDrawable(context: Context): Drawable {
+fun Uri.toDrawable(context: Context): Drawable? {
     val inputStream = context.contentResolver.openInputStream(this)
     return Drawable.createFromStream(inputStream, this.toString())
 }
@@ -587,7 +587,7 @@ fun Drawable.toBitmap(): Bitmap? {
 
 
 @Throws(FileNotFoundException::class)
-fun Uri.toDrawableWithContext(context: Context): Drawable {
+fun Uri.toDrawableWithContext(context: Context): Drawable? {
     val inputStream = context.contentResolver.openInputStream(this)
     return Drawable.createFromStream(inputStream, this.toString())
 }

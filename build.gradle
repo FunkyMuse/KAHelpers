@@ -7,7 +7,7 @@ buildscript {
         rxBindings = "4.0.0"
         glide = "4.14.1"
         constraint_layout = '2.1.4'
-        coroutines = '1.6.3-native-mt'
+        coroutines = '1.6.4'
         nav_version = '2.5.2'
         rx = '3.0.0'
         material = "1.6.1"
@@ -47,7 +47,7 @@ buildscript {
         espressoVersion = '3.4.0'
 
         //compilation
-        compileVersion = 31
+        compileVersion = 33
         minVersion = 23
         verCode = 1
         verName = "1.0.0"

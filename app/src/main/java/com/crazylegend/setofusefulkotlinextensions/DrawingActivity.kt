@@ -87,27 +87,27 @@ class DrawingActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     private fun setUpGestureDetector() {
         val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
-            override fun onShowPress(event: MotionEvent?) {
+            override fun onShowPress(event: MotionEvent) {
                 binding.gestureDescription.text = (event.description("Press"))
             }
 
-            override fun onSingleTapUp(event: MotionEvent?): Boolean {
+            override fun onSingleTapUp(event: MotionEvent): Boolean {
                 binding.gestureDescription.text = (event.description("Single tap up"))
                 return true
             }
 
-            override fun onSingleTapConfirmed(event: MotionEvent?): Boolean {
+            override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
                 binding.gestureDescription.text = (event.description("Single tap confirmed"))
                 return true
             }
 
-            override fun onDown(event: MotionEvent?): Boolean {
+            override fun onDown(event: MotionEvent): Boolean {
                 binding.gestureDescription.text = ("")
                 binding.gestureDescription.text = (event.description("Down"))
                 return true
             }
 
-            override fun onFling(event1: MotionEvent?, event2: MotionEvent?, velocityX: Float,
+            override fun onFling(event1: MotionEvent, event2: MotionEvent, velocityX: Float,
                                  velocityY: Float): Boolean {
                 binding.gestureDescription.text = (event1.description("Fling start"))
                 binding.gestureDescription.text = (event2.description("Fling end"))
@@ -115,28 +115,28 @@ class DrawingActivity : AppCompatActivity() {
                 return true
             }
 
-            override fun onScroll(event1: MotionEvent?, event2: MotionEvent?, distanceX: Float,
+            override fun onScroll(event1: MotionEvent, event2: MotionEvent, distanceX: Float,
                                   distanceY: Float): Boolean {
                 binding.gestureDescription.text = (event2.description("Scroll"))
                 binding.gestureDescription.text = ("Scroll distance (${distanceX.toInt()}, ${distanceY.toInt()})")
                 return true
             }
 
-            override fun onLongPress(event: MotionEvent?) {
+            override fun onLongPress(event: MotionEvent) {
                 binding.gestureDescription.text = (event.description("Long press"))
             }
 
-            override fun onDoubleTap(event: MotionEvent?): Boolean {
+            override fun onDoubleTap(event: MotionEvent): Boolean {
                 binding.gestureDescription.text = (event.description("Double tap"))
                 return true
             }
 
-            override fun onDoubleTapEvent(event: MotionEvent?): Boolean {
+            override fun onDoubleTapEvent(event: MotionEvent): Boolean {
                 binding.gestureDescription.text = (event.description("Double tap event"))
                 return true
             }
 
-            override fun onContextClick(event: MotionEvent?): Boolean {
+            override fun onContextClick(event: MotionEvent): Boolean {
                 binding.gestureDescription.text = (event.description("Context click"))
                 return true
             }
@@ -212,17 +212,17 @@ class DrawingActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun setUpScaleGestureDetector() {
         val scaleGestureDetectorListener = object : ScaleGestureDetector.OnScaleGestureListener {
-            override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+            override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
                 binding.gestureDescription.text = (detector.description("Begin"))
                 return true
             }
 
-            override fun onScale(detector: ScaleGestureDetector?): Boolean {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
                 binding.gestureDescription.text = (detector.description(""))
                 return true
             }
 
-            override fun onScaleEnd(detector: ScaleGestureDetector?) {
+            override fun onScaleEnd(detector: ScaleGestureDetector) {
                 binding.gestureDescription.text = (detector.description("End"))
             }
         }

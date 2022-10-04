@@ -33,8 +33,8 @@ fun colorMenu(activity: Activity, menu: Menu, @ColorInt color: Int,
         if (menuItem.hasSubMenu()) {
             val subMenu = menuItem.subMenu
 
-            for (j in 0 until subMenu.size()) {
-                colorMenuItem(subMenu.getItem(j), color, alpha)
+            for (j in 0 until (subMenu?.size()?:0)) {
+                subMenu?.getItem(j)?.let { colorMenuItem(it, color, alpha) }
             }
         }
     }
@@ -140,12 +140,12 @@ fun MenuItem.setTitleColor(color: Int) {
 
 inline fun MenuItem?.onExpand(crossinline function: () -> Unit) {
     this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        override fun onMenuItemActionExpand(item: MenuItem): Boolean {
             function()
             return true
         }
 
-        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+        override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
             return true
         }
     })
@@ -153,11 +153,11 @@ inline fun MenuItem?.onExpand(crossinline function: () -> Unit) {
 
 inline fun MenuItem?.onCollapse(crossinline function: () -> Unit) {
     this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        override fun onMenuItemActionExpand(item: MenuItem): Boolean {
             return true
         }
 
-        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+        override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
             function()
             return true
         }
@@ -167,12 +167,12 @@ inline fun MenuItem?.onCollapse(crossinline function: () -> Unit) {
 
 inline fun MenuItem?.onActionExpand(crossinline onExpand: () -> Unit = {}, crossinline onCollapse: () -> Unit = {}) {
     this?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        override fun onMenuItemActionExpand(item: MenuItem): Boolean {
             onExpand()
             return true
         }
 
-        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+        override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
             onCollapse()
             return true
         }

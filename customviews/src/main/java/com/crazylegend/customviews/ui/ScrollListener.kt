@@ -43,15 +43,15 @@ open class ScrollListener(val width: () -> Int, val height: () -> Int) : Gesture
      */
     protected var startY = 0f
 
-    override fun onDown(e: MotionEvent?): Boolean {
-        startX = e?.x ?: 0f
-        startY = e?.y ?: 0f
+    override fun onDown(e: MotionEvent): Boolean {
+        startX = e.x
+        startY = e.y
         return true
     }
 
-    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-        val dX = startX - (e2?.x ?: 0f)
-        val dY = startY - (e2?.y ?: 0f)
+    override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        val dX = startX - e2.x
+        val dY = startY - e2.y
 
         return when {
             abs(dX) <= thresholdX && abs(dY) <= thresholdY -> false

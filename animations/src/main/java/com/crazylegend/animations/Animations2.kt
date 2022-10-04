@@ -1,6 +1,7 @@
 package com.crazylegend.animations
 
 import android.animation.*
+import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
@@ -221,45 +222,15 @@ inline fun ViewPropertyAnimator.translation(factor: () -> Float) = translation(f
 
 inline fun ViewPropertyAnimator.translationBy(factor: () -> Float) = translationBy(factor())
 
-fun AbsListView.setEdgeEffectColor(@ColorInt color: Int) {
-    if (Build.VERSION.SDK_INT >= 21) {
-        val edgeEffect = EdgeEffect(context).apply { this.color = color }
-        javaClass.getDeclaredField("mEdgeGlowTop").apply {
-            isAccessible = true
-            set(this@setEdgeEffectColor, edgeEffect)
-        }
-        javaClass.getDeclaredField("mEdgeGlowBottom").apply {
-            isAccessible = true
-            set(this@setEdgeEffectColor, edgeEffect)
-        }
-    }
-}
-
-fun ScrollView.setEdgeEffectColor(@ColorInt color: Int) {
-    if (Build.VERSION.SDK_INT >= 21) {
-        val edgeEffect = EdgeEffect(context).apply { this.color = color }
-        javaClass.getDeclaredField("mEdgeGlowTop").apply {
-            isAccessible = true
-            set(this@setEdgeEffectColor, edgeEffect)
-        }
-        javaClass.getDeclaredField("mEdgeGlowBottom").apply {
-            isAccessible = true
-            set(this@setEdgeEffectColor, edgeEffect)
-        }
-    }
-}
-
 fun NestedScrollView.setEdgeEffectColor(@ColorInt color: Int) {
-    if (Build.VERSION.SDK_INT >= 21) {
-        val edgeEffect = EdgeEffect(context).apply { this.color = color }
-        javaClass.getDeclaredField("mEdgeGlowTop").apply {
-            isAccessible = true
-            set(this@setEdgeEffectColor, edgeEffect)
-        }
-        javaClass.getDeclaredField("mEdgeGlowBottom").apply {
-            isAccessible = true
-            set(this@setEdgeEffectColor, edgeEffect)
-        }
+    val edgeEffect = EdgeEffect(context).apply { this.color = color }
+    javaClass.getDeclaredField("mEdgeGlowTop").apply {
+        isAccessible = true
+        set(this@setEdgeEffectColor, edgeEffect)
+    }
+    javaClass.getDeclaredField("mEdgeGlowBottom").apply {
+        isAccessible = true
+        set(this@setEdgeEffectColor, edgeEffect)
     }
 }
 
@@ -576,16 +547,16 @@ fun entryAnimationFromBottom(view: View, duration: Long = 600, finished: () -> U
         this.duration = duration
         interpolator = DecelerateInterpolator()
         addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {}
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
                 finished()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(animation: Animator) {
                 finished()
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
         })
     }.start()
@@ -617,16 +588,16 @@ fun enterChildViewsFromBottomDelayed(
     AnimatorSet().apply {
         playTogether(animators)
         addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {}
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
                 finished()
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(animation: Animator) {
                 finished()
             }
 
-            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationStart(animation: Animator) {}
 
         })
     }.start()

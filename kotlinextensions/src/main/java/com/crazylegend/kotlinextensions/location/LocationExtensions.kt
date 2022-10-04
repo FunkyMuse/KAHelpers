@@ -25,8 +25,8 @@ import java.util.concurrent.Executors
 @Suppress("DEPRECATION")
 @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION])
 inline fun LocationManager.requestSingleUpdate(
-        criteria: Criteria = Criteria(),
-        crossinline onLocationHad: (location: Location) -> Unit = { _ -> }
+    criteria: Criteria = Criteria(),
+    crossinline onLocationHad: (location: Location) -> Unit = { _ -> }
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         getCurrentLocation("gps", null, Executors.newSingleThreadExecutor(), { location -> onLocationHad(location) })
@@ -44,7 +44,7 @@ inline fun Context.getCompleteAddressString(LATITUDE: Double, LONGITUDE: Double,
 
     try {
 
-        val addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1)
+        val addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1) ?: emptyList()
 
         if (addresses.isNotEmpty()) {
 

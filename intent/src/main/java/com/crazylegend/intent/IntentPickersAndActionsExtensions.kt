@@ -61,8 +61,8 @@ inline fun Context.addEvent(title: String, location: String, begin: Long, end: L
     }
 }
 
-inline fun FragmentActivity.selectContact(onCantHandleAction: () -> Unit = {}, crossinline onContactPicked: (Uri?) -> Unit): ActivityResultLauncher<Void> {
-    lateinit var result: ActivityResultLauncher<Void>
+inline fun FragmentActivity.selectContact(onCantHandleAction: () -> Unit = {}, crossinline onContactPicked: (Uri?) -> Unit): ActivityResultLauncher<Void?> {
+    lateinit var result: ActivityResultLauncher<Void?>
     tryOrElse(onCantHandleAction) {
         result = registerForActivityResult(ActivityResultContracts.PickContact()) {
             onContactPicked(it)
@@ -71,8 +71,8 @@ inline fun FragmentActivity.selectContact(onCantHandleAction: () -> Unit = {}, c
     return result
 }
 
-inline fun Fragment.selectContact(onCantHandleAction: () -> Unit = {}, crossinline onContactPicked: (Uri?) -> Unit): ActivityResultLauncher<Void> {
-    lateinit var result: ActivityResultLauncher<Void>
+inline fun Fragment.selectContact(onCantHandleAction: () -> Unit = {}, crossinline onContactPicked: (Uri?) -> Unit): ActivityResultLauncher<Void?> {
+    lateinit var result: ActivityResultLauncher<Void?>
     tryOrElse(onCantHandleAction) {
         result = registerForActivityResult(ActivityResultContracts.PickContact()) {
             onContactPicked(it)

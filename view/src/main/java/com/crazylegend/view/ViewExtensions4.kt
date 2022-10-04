@@ -143,8 +143,6 @@ fun View.setClickable() {
 }
 
 
-
-
 fun View.setRoundRippleClickBackground() {
     setBackgroundResource(context.getResourceIdAttribute(android.R.attr.actionBarItemBackground))
     setClickable()
@@ -170,15 +168,15 @@ fun View.resetFocus() {
     isFocusable = true
 }
 
-inline fun <reified V : View> V.onFirstAttachToWindow(crossinline whenAttached: V.() -> Unit) {
+inline fun <reified V : View> V.onFirstAttachToWindow(crossinline whenAttached: (view: View) -> Unit) {
     addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-        override fun onViewDetachedFromWindow(v: View?) {
+        override fun onViewDetachedFromWindow(v: View) {
             removeOnAttachStateChangeListener(this)
         }
 
-        override fun onViewAttachedToWindow(v: View?) {
+        override fun onViewAttachedToWindow(v: View) {
             removeOnAttachStateChangeListener(this)
-            (v as? V)?.whenAttached()
+            whenAttached(v)
         }
     })
 }
@@ -229,14 +227,17 @@ fun View.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
             params.setMargins(left, top, right, bottom)
             this.layoutParams = params
         }
+
         is LinearLayout.LayoutParams -> {
             params.setMargins(left, top, right, bottom)
             this.layoutParams = params
         }
+
         is FrameLayout.LayoutParams -> {
             params.setMargins(left, top, right, bottom)
             this.layoutParams = params
         }
+
         is RelativeLayout.LayoutParams -> {
             params.setMargins(left, top, right, bottom)
             this.layoutParams = params
@@ -392,9 +393,11 @@ fun layout(vararg items: Any) {
                     }
                 }
             }
+
             is View -> {
                 layoutView(item)
             }
+
             is String -> {
                 previousMargin = null
                 previousView = null
@@ -435,11 +438,14 @@ fun View.drawable(@DrawableRes resourceId: Int, tintColorResId: Int): Drawable? 
 
 fun View.string(@StringRes resourceId: Int): String = resources.getString(resourceId)
 fun View.string(@StringRes resourceId: Int, vararg args: Any?): String = resources.getString(resourceId, *args)
-fun View.quantityString(@PluralsRes resourceId: Int, quantity: Int, vararg args: Any?): String = resources.getQuantityString(resourceId, quantity, quantity, *args)
+fun View.quantityString(@PluralsRes resourceId: Int, quantity: Int, vararg args: Any?): String =
+    resources.getQuantityString(resourceId, quantity, quantity, *args)
 
 
-fun View.snack(msg: CharSequence, @ColorRes colorResId: Int? = null,
-               duration: Int = Snackbar.LENGTH_SHORT, build: (Snackbar.() -> Unit)? = null) {
+fun View.snack(
+    msg: CharSequence, @ColorRes colorResId: Int? = null,
+    duration: Int = Snackbar.LENGTH_SHORT, build: (Snackbar.() -> Unit)? = null
+) {
     val snackbar = Snackbar.make(this, msg, duration)
     colorResId?.let { snackbar.view.setBackgroundColor(color(colorResId)) }
     build?.let { snackbar.build() }

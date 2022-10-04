@@ -98,40 +98,40 @@ class ScalingView : FrameLayout, GestureDetector.OnGestureListener,
             scaleOriginal()
     }
 
-    override fun onDoubleTap(p0: MotionEvent?): Boolean {
+    override fun onDoubleTap(p0: MotionEvent): Boolean {
         return true
     }
 
-    override fun onDoubleTapEvent(p0: MotionEvent?): Boolean {
+    override fun onDoubleTapEvent(p0: MotionEvent): Boolean {
         return true
     }
 
-    override fun onSingleTapConfirmed(p0: MotionEvent?): Boolean {
+    override fun onSingleTapConfirmed(p0: MotionEvent): Boolean {
         scaleOriginal()
         return true
     }
 
-    override fun onShowPress(p0: MotionEvent?) {
+    override fun onShowPress(p0: MotionEvent) {
         scaleDown()
     }
 
-    override fun onDown(p0: MotionEvent?): Boolean {
+    override fun onDown(p0: MotionEvent): Boolean {
         return true
     }
 
-    override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+    override fun onFling(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
         return true
     }
 
-    override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+    override fun onScroll(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
         return true
     }
 
-    override fun onLongPress(p0: MotionEvent?) {
+    override fun onLongPress(p0: MotionEvent) {
         longPressed = true
     }
 
-    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+    override fun onSingleTapUp(p0: MotionEvent): Boolean {
         scaleDown()
         onClickListener?.onClick(this)
         return true

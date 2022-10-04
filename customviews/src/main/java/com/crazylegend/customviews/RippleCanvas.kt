@@ -83,8 +83,8 @@ class RippleCanvas @JvmOverloads constructor(
         }
         if (callback != null)
             animator.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationCancel(animation: Animator?) = callback()
-                override fun onAnimationEnd(animation: Animator?) = callback()
+                override fun onAnimationCancel(animation: Animator) = callback()
+                override fun onAnimationEnd(animation: Animator) = callback()
             })
         animator.start()
     }

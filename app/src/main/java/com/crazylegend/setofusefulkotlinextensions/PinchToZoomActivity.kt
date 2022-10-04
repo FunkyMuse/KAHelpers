@@ -23,7 +23,7 @@ class PinchToZoomActivity : AppCompatActivity() {
         gestureDetector = activityMainBinding.image.pinchToZoom()
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         gestureDetector?.onTouchEvent(event)
         return true
     }
