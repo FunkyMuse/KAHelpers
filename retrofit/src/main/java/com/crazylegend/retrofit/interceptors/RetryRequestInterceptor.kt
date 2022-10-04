@@ -3,14 +3,19 @@ package com.crazylegend.retrofit.interceptors
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 
 /**
  * Created by Hristijan on 1/25/19 to long live and prosper !
  */
-class RetryRequestInterceptor(private val maxTries:Int = 3) : Interceptor {
+class RetryRequestInterceptor(
+    private val maxTries: Int = 3,
+    private val delayBetweenRetry: Long = TimeUnit.SECONDS.toMillis(3)
+) : Interceptor {
 
     private var tryCount = 0
+
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 
@@ -19,8 +24,10 @@ class RetryRequestInterceptor(private val maxTries:Int = 3) : Interceptor {
 
 
         while (!response.isSuccessful && tryCount < maxTries) {
-            tryCount++
+            Thread.sleep(delayBetweenRetry)
+            response.close()
             response = chain.proceed(request)
+            tryCount++
         }
 
         return response
