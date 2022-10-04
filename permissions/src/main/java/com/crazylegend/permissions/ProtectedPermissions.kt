@@ -13,7 +13,6 @@ import androidx.core.content.getSystemService
  * Created by crazy on 10/30/20 to long live and prosper !
  */
 
-@RequiresApi(Build.VERSION_CODES.M)
 fun Context.hasUsageStatsPermission(): Boolean {
     val appOps = getSystemService<AppOpsManager>() ?: return false
     val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

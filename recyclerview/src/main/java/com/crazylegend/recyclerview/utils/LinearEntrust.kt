@@ -28,7 +28,6 @@ class LinearEntrust(leftRight: Int, topBottom: Int, mColor: Int) :
         if (layoutManager.orientation == GridLayoutManager.VERTICAL) {
             for (i in 0 until childCount - 1) {
                 val child = parent.getChildAt(i)
-                val params = child.layoutParams as RecyclerView.LayoutParams
                 val center = (layoutManager.getTopDecorationHeight(child) + 1 - topBottom) / 2
                 left = layoutManager.getLeftDecorationWidth(child)
                 right = parent.width - layoutManager.getLeftDecorationWidth(child)
@@ -40,7 +39,6 @@ class LinearEntrust(leftRight: Int, topBottom: Int, mColor: Int) :
         } else {
             for (i in 0 until childCount - 1) {
                 val child = parent.getChildAt(i)
-                val params = child.layoutParams as RecyclerView.LayoutParams
                 val center = (layoutManager.getLeftDecorationWidth(child) + 1 - leftRight) / 2
                 left = (child.right + center)
                 right = left + leftRight

@@ -116,6 +116,8 @@ inline fun <T> MutableLiveData<DBResult<T>>.onSuccess(action: (T) -> Unit) {
             is DBResult.Success -> {
                 action(it.value)
             }
+
+            else -> {}
         }
     }
 }
@@ -126,6 +128,8 @@ inline fun <T> LiveData<DBResult<T>>.onSuccess(action: (model: T) -> Unit = { _ 
             is DBResult.Success -> {
                 action(it.value)
             }
+
+            else -> {}
         }
     }
 }

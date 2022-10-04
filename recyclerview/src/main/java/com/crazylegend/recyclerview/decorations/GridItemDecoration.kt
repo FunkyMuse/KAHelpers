@@ -16,7 +16,7 @@ open class GridItemDecoration : RecyclerView.ItemDecoration() {
     fun getPortraitItemOffsets(outRect: Rect, view: View, baseEdge: Int) {
         val length = (baseEdge - gridSpacingPx.toFloat().times(gridSize.minus(1))).div(gridSize).toInt()
         val padding = baseEdge.div(gridSize).minus(length)
-        val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
+        val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).bindingAdapterPosition
 
         outRect.top = if (itemPosition < gridSize) 0 else gridSpacingPx
         outRect.bottom = 0

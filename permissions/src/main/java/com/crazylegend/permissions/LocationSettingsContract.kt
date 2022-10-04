@@ -22,13 +22,11 @@ shortToast(R.string.enable_location_access)
  * function call         enableLocation(null)
 
  */
-class LocationSettingsContract : ActivityResultContract<Nothing, Nothing>() {
+class LocationSettingsContract : ActivityResultContract<Nothing, Unit>() {
 
-    override fun createIntent(context: Context, input: Nothing?): Intent {
+    override fun createIntent(context: Context, input: Nothing): Intent {
         return Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
     }
 
-    override fun parseResult(resultCode: Int, intent: Intent?): Nothing? {
-        return null
-    }
+    override fun parseResult(resultCode: Int, intent: Intent?) = Unit
 }

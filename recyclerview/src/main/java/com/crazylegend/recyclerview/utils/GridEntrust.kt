@@ -33,7 +33,6 @@ class GridEntrust(leftRight: Int, topBottom: Int, mColor: Int) :
 
             for (i in 0 until childCount) {
                 val child = parent.getChildAt(i)
-                val params = child.layoutParams as RecyclerView.LayoutParams
                 val position = parent.getChildAdapterPosition(child)
                 val spanSize = lookup.getSpanSize(position)
                 val spanIndex = lookup.getSpanIndex(position, layoutManager.spanCount)
@@ -66,7 +65,6 @@ class GridEntrust(leftRight: Int, topBottom: Int, mColor: Int) :
         } else {
             for (i in 0 until childCount) {
                 val child = parent.getChildAt(i)
-                val params = child.layoutParams as RecyclerView.LayoutParams
                 val position = parent.getChildAdapterPosition(child)
                 val spanSize = lookup.getSpanSize(position)
                 val spanIndex = lookup.getSpanIndex(position, layoutManager.spanCount)
