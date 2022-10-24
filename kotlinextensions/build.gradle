@@ -26,7 +26,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
 
     //util
-    implementation 'androidx.exifinterface:exifinterface:1.3.4'
+    implementation 'androidx.exifinterface:exifinterface:1.3.5'
 
     //core
     implementation "androidx.fragment:fragment-ktx:$fragment"
