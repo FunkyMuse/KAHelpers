@@ -12,7 +12,7 @@ buildscript {
         rx = '3.0.1'
         material = "1.7.0"
         moshi = "1.14.0"
-        fragment = "1.5.4"
+        fragment = "1.5.5"
         activity = "1.6.1"
         appCompat = "1.5.1"
         coreKTX = "1.9.0"
