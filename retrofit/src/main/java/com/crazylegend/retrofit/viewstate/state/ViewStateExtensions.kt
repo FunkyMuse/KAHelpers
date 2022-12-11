@@ -125,3 +125,6 @@ fun <T> ApiResult<T>.asViewEvent() = when (this) {
     ApiResult.Loading -> ViewStatefulEvent.Loading
     is ApiResult.Success -> ViewStatefulEvent.Success
 }
+
+fun <T> ViewStateContract<T>.startLoading() = ApiResult.Loading.asViewStatePayload(this)
+suspend fun <T> ViewStateContract<T>.startLoadingWithEvents() = ApiResult.Loading.asViewStatePayloadWithEvents(this)
