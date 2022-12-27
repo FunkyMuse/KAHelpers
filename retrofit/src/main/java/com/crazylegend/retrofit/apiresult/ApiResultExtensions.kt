@@ -46,6 +46,13 @@ inline fun <T> ApiResult<T>.onApiError(function: (errorBody: ResponseBody?, resp
 
     return this
 }
+inline fun <T> ApiResult<T>.onApiErrorOrError(function: () -> Unit): ApiResult<T> {
+    if (this is ApiResult.ApiError || this is ApiResult.Error) {
+        function()
+    }
+
+    return this
+}
 
 inline fun <T> ApiResult<T>.onSuccess(function: (model: T) -> Unit): ApiResult<T> {
     if (this is ApiResult.Success) {
