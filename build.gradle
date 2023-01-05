@@ -44,7 +44,7 @@ buildscript {
         androidXTestRulesVersion = '1.2.0-beta01'
         robolectricVersion = '4.9.2'
         archTestingVersion = '2.1.0'
-        espressoVersion = '3.5.0'
+        espressoVersion = '3.5.1'
 
         //compilation
         compileVersion = 33
