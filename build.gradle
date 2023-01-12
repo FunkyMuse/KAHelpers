@@ -33,7 +33,7 @@ buildscript {
 
 
         //app only
-        room_version = "2.4.3"
+        room_version = "2.5.0"
 
 
         //tests
