@@ -1,7 +1,7 @@
 buildscript {
 
     ext {
-        lifecycle = '2.5.1'
+        lifecycle = '2.6.0'
         retrofit = "2.9.0"
         okHttp = "4.10.0"
         rxBindings = "4.0.0"
