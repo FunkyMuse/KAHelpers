@@ -8,3 +8,7 @@ dependencies {
     api "com.squareup.okhttp3:logging-interceptor:$okHttp"
 
 }
+
+android {
+    namespace 'com.crazylegend.retrofit'
+}

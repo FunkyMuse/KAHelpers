@@ -7,7 +7,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="11" />
+        <option name="gradleJvm" value="azul-11" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -26,7 +26,6 @@
             <option value="$PROJECT_DIR$/coroutines" />
             <option value="$PROJECT_DIR$/customviews" />
             <option value="$PROJECT_DIR$/dataStructuresAndAlgorithms" />
-            <option value="$PROJECT_DIR$/database" />
             <option value="$PROJECT_DIR$/dateTime" />
             <option value="$PROJECT_DIR$/enums" />
             <option value="$PROJECT_DIR$/file" />

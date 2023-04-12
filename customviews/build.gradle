@@ -2,6 +2,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.crazylegend.customviews'
 }
 dependencies {
     implementation project(path: ':viewbinding')

@@ -1,30 +1,30 @@
 buildscript {
 
     ext {
-        lifecycle = '2.6.1'
+        lifecycle = '2.5.1'
         retrofit = "2.9.0"
         okHttp = "4.10.0"
         rxBindings = "4.0.0"
-        glide = "4.15.1"
+        glide = "4.14.2"
         constraint_layout = '2.1.4'
         coroutines = '1.6.4'
         nav_version = '2.5.3'
         rx = '3.0.1'
-        material = "1.8.0"
+        material = "1.7.0"
         moshi = "1.14.0"
-        fragment = "1.5.6"
-        activity = "1.7.0"
-        appCompat = "1.6.1"
+        fragment = "1.5.5"
+        activity = "1.6.1"
+        appCompat = "1.5.1"
         coreKTX = "1.10.0"
         securityVersion = "1.1.0-alpha05"
         recyclerview = '1.3.0'
-        annotationVersion = '1.6.0'
+        annotationVersion = '1.5.0'
         documentFile = '1.0.1'
         swipeRefresh = '1.1.0'
         viewPager = '1.0.0'
         biometrics = '1.2.0-alpha05'
-        joda = '2.12.5'
-        exifinterface= '1.3.6'
+        joda = '2.12.1.1'
+        exifinterface= '1.3.5'
         palette = '1.0.0'
         preference = '1.2.0'
         collection = '1.2.0'
@@ -33,18 +33,18 @@ buildscript {
 
 
         //app only
-        room_version = "2.5.1"
+        room_version = "2.4.3"
 
 
         //tests
         junitVersion = '4.13.2'
         hamcrestVersion = '1.3'
         androidXTestCoreVersion = '1.5.0'
-        androidXTestExtKotlinRunnerVersion = '1.1.5'
+        androidXTestExtKotlinRunnerVersion = '1.1.4'
         androidXTestRulesVersion = '1.2.0-beta01'
-        robolectricVersion = '4.9.2'
-        archTestingVersion = '2.2.0'
-        espressoVersion = '3.5.1'
+        robolectricVersion = '4.9.1'
+        archTestingVersion = '2.1.0'
+        espressoVersion = '3.5.0'
 
         //compilation
         compileVersion = 33
@@ -77,7 +77,7 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
 

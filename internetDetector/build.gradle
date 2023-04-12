@@ -8,3 +8,7 @@ dependencies {
     implementation "androidx.annotation:annotation:$annotationVersion"
 
 }
+
+android {
+    namespace 'com.crazylegend.internetdetector'
+}

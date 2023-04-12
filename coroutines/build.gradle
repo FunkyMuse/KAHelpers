@@ -10,3 +10,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompat"
 
 }
+
+android {
+    namespace 'com.crazylegend.coroutines'
+}

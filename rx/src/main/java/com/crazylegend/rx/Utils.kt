@@ -33,7 +33,7 @@ fun Bitmap.toByteArray(compressFormat: Bitmap.CompressFormat, quality: Int): Sin
 
 }
 
-fun <T> Flowable<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this)
+fun <T : Any> Flowable<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this)
 
 
 /*fun Context.cacheImage(url: String): Observable<Boolean> {

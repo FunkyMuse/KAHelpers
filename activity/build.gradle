@@ -4,3 +4,7 @@ dependencies {
     implementation project(path: ':common')
 
 }
+
+android {
+    namespace 'com.crazylegend.activity'
+}

@@ -40,9 +40,6 @@ dependencies {
     //data structures and algorithms
     implementation "com.github.FunkyMuse.KAHelpers:dataStructuresAndAlgorithms:$utilsVersion"
     
-    //database handlers
-    implementation "com.github.FunkyMuse.KAHelpers:database:$utilsVersion"
-    
     //glide
     implementation "com.github.FunkyMuse.KAHelpers:glide:$utilsVersion"
     

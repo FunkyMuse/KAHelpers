@@ -6,3 +6,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle"
 
 }
+
+android {
+    namespace 'com.crazylegend.rx'
+}

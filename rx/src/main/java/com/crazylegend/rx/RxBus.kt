@@ -15,7 +15,7 @@ object RxBus {
         publisher.onNext(event)
     }
 
-    inline fun <reified T> listen(): Observable<T> = publisher.ofType(T::class.java)
+    inline fun <reified T : Any> listen(): Observable<T> = publisher.ofType(T::class.java)
 
     /*RxBus.publish("Testing")*/
 

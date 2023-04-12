@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.8">
+      <module name="KAHelpers.accessibility" target="11" />
+      <module name="KAHelpers.activity" target="11" />
+      <module name="KAHelpers.animations" target="11" />
+      <module name="KAHelpers.app" target="11" />
+      <module name="KAHelpers.audio" target="11" />
+      <module name="KAHelpers.biometrics" target="11" />
+      <module name="KAHelpers.bytearray" target="11" />
+      <module name="KAHelpers.collections" target="11" />
+      <module name="KAHelpers.color" target="11" />
+      <module name="KAHelpers.common" target="11" />
+      <module name="KAHelpers.context" target="11" />
+      <module name="KAHelpers.contextGetters" target="11" />
+      <module name="KAHelpers.coroutines" target="11" />
+      <module name="KAHelpers.customviews" target="11" />
+      <module name="KAHelpers.database" target="11" />
+      <module name="KAHelpers.dataStructuresAndAlgorithms" target="11" />
+      <module name="KAHelpers.dateTime" target="11" />
+      <module name="KAHelpers.file" target="11" />
+      <module name="KAHelpers.fragment" target="11" />
+      <module name="KAHelpers.generators" target="11" />
+      <module name="KAHelpers.glide" target="11" />
+      <module name="KAHelpers.gson" target="11" />
+      <module name="KAHelpers.http" target="11" />
+      <module name="KAHelpers.intent" target="11" />
+      <module name="KAHelpers.internetDetector" target="11" />
+      <module name="KAHelpers.jodaDateTime" target="11" />
+      <module name="KAHelpers.kotlinextensions" target="11" />
+      <module name="KAHelpers.lifecycle" target="11" />
+      <module name="KAHelpers.livedata" target="11" />
+      <module name="KAHelpers.locale" target="11" />
+      <module name="KAHelpers.math" target="11" />
+      <module name="KAHelpers.moshi" target="11" />
+      <module name="KAHelpers.networking" target="11" />
+      <module name="KAHelpers.numbers" target="11" />
+      <module name="KAHelpers.permissions" target="11" />
+      <module name="KAHelpers.photos" target="11" />
+      <module name="KAHelpers.receivers" target="11" />
+      <module name="KAHelpers.recyclerview" target="11" />
+      <module name="KAHelpers.reflection" target="11" />
+      <module name="KAHelpers.resources" target="11" />
+      <module name="KAHelpers.retrofit" target="11" />
+      <module name="KAHelpers.root" target="11" />
+      <module name="KAHelpers.rx" target="11" />
+      <module name="KAHelpers.saf" target="11" />
+      <module name="KAHelpers.security" target="11" />
+      <module name="KAHelpers.sharedpreferences" target="11" />
+      <module name="KAHelpers.string" target="11" />
+      <module name="KAHelpers.toaster" target="11" />
+      <module name="KAHelpers.view" target="11" />
+      <module name="KAHelpers.viewbinding" target="11" />
+      <module name="KAHelpers.viewpager2" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

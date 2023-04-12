@@ -7,3 +7,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
 
 }
+
+android {
+    namespace 'com.crazylegend.fragment'
+}

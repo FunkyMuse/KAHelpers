@@ -3,3 +3,7 @@ dependencies {
     implementation "androidx.preference:preference:$preference"
 
 }
+
+android {
+    namespace 'com.crazylegend.locale'
+}

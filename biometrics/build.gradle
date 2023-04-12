@@ -1,3 +1,7 @@
 dependencies {
     api "androidx.biometric:biometric:$biometrics"
 }
+
+android {
+    namespace 'com.crazylegend.biometrics'
+}

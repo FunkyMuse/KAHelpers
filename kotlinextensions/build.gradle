@@ -43,3 +43,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat-resources:$appCompat"
 
 }
+
+android {
+    namespace 'com.crazylegend.kotlinextensions'
+}

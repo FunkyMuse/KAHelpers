@@ -1,3 +1,7 @@
 dependencies {
     api "com.squareup.moshi:moshi:$moshi"
 }
+
+android {
+    namespace 'com.crazylegend.moshi'
+}

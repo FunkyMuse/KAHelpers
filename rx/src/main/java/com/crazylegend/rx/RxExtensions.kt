@@ -22,22 +22,22 @@ import java.util.concurrent.TimeUnit
  */
 
 
-fun <T> Observable<T>?.safe(factory: (() -> T)? = null) = this
+fun <T : Any> Observable<T>?.safe(factory: (() -> T)? = null) = this
         ?: factory?.let { Observable.just(it()) }
         ?: Observable.empty()
 
-fun <T> Maybe<T>?.safe(factory: (() -> T)? = null) = this
+fun <T : Any> Maybe<T>?.safe(factory: (() -> T)? = null) = this
         ?: factory?.let { Maybe.just(it()) }
         ?: Maybe.empty()
 
 
-fun <T> Flowable<T>?.safe(factory: (() -> T)? = null) = this
+fun <T : Any> Flowable<T>?.safe(factory: (() -> T)? = null) = this
         ?: factory?.let { Flowable.just(it()) }
         ?: Flowable.empty()
 
-fun <T> Completable.toSingle(item: () -> T) = andThen(Single.just(item()))
+fun <T : Any> Completable.toSingle(item: () -> T) = andThen(Single.just(item()))
 
-fun <T> FlowableProcessor<T>.canPublish(): Boolean = !hasComplete() && !hasThrowable()
+fun <T : Any> FlowableProcessor<T>.canPublish(): Boolean = !hasComplete() && !hasThrowable()
 
 fun <T : Any> Observable<T>.joinToString(
         separator: String? = null,
@@ -71,37 +71,37 @@ val trampolineScheduler = Schedulers.trampoline()
  *  .runSafeOnMain()
  *  .subscribe({}, {])
  */
-fun <T> Observable<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Observable<T> =
+fun <T : Any> Observable<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Observable<T> =
         observeOn(mainThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
                 .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Observable<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Observable<T> =
+fun <T : Any> Observable<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Observable<T> =
         observeOn(ioThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
                 .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Flowable<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Flowable<T> =
+fun <T : Any> Flowable<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Flowable<T> =
         observeOn(mainThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
                 .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Flowable<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Flowable<T> =
+fun <T : Any> Flowable<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Flowable<T> =
         observeOn(ioThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
                 .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Single<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Single<T> =
+fun <T : Any> Single<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Single<T> =
         observeOn(mainThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
                 .doOnSuccess { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Single<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Single<T> =
+fun <T : Any> Single<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Single<T> =
         observeOn(ioThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
@@ -119,13 +119,13 @@ fun Completable.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Comple
                 .doOnError { unsubscribeOn(newThreadScheduler) }
                 .doOnComplete { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Maybe<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Maybe<T> =
+fun <T : Any> Maybe<T>.runSafeOnMain(subscribeOn: Scheduler = newThreadScheduler): Maybe<T> =
         observeOn(mainThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
                 .doOnSuccess { unsubscribeOn(newThreadScheduler) }
 
-fun <T> Maybe<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Maybe<T> =
+fun <T : Any> Maybe<T>.runSafeOnIO(subscribeOn: Scheduler = newThreadScheduler): Maybe<T> =
         observeOn(ioThreadScheduler)
                 .subscribeOn(subscribeOn)
                 .doOnError { unsubscribeOn(newThreadScheduler) }
@@ -140,16 +140,16 @@ fun Disposable?.unsubscribe() {
     }
 }
 
-fun <T> Observable<T>.asFlowable(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
+fun <T : Any> Observable<T>.asFlowable(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
         : Flowable<T> {
     return this.toFlowable(backpressureStrategy)
 }
 
-fun <T> Flowable<T>.asLiveData(): LiveData<T> {
+fun <T : Any> Flowable<T>.asLiveData(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this)
 }
 
-fun <T> Observable<T>.asLiveData(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
+fun <T : Any> Observable<T>.asLiveData(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
         : LiveData<T> {
 
     return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backpressureStrategy))
@@ -164,16 +164,16 @@ fun <T, R> Observable<List<T>>.mapToList(mapper: (T) -> R): Observable<List<R>> 
     return this.map { it.map { mapper(it) } }
 }
 
-fun <T, R> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
+fun <T : Any, R : Any> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
     return flatMap { Flowable.fromIterable(it).map(mapper).toList() }
 }
 
 
-fun <T> Observable<T>.defer(): Observable<T> {
+fun <T : Any> Observable<T>.defer(): Observable<T> {
     return Observable.defer { this }
 }
 
-fun <T> Single<T>.defer(): Single<T> {
+fun <T : Any> Single<T>.defer(): Single<T> {
     return Single.defer { this }
 }
 
@@ -203,7 +203,7 @@ val <T> Subject<T>.canPublish get() = !hasComplete() && !hasThrowable()
  * Calls subscribe on `this`, with an empty function for both onSuccess and onError.
  */
 @Suppress("CheckResult")
-fun <T> Single<T>.subscribeIgnoringResult() {
+fun <T : Any> Single<T>.subscribeIgnoringResult() {
     subscribe({}, {})
 }
 
@@ -215,7 +215,7 @@ fun <T> Single<T>.subscribeIgnoringResult() {
  *
  * @return the new Single if [predicate] is true, the original Single otherwise
  */
-fun <T> Single<T>.flatMapIf(predicate: Boolean, mapper: (T) -> Single<T>): Single<T> =
+fun <T : Any> Single<T>.flatMapIf(predicate: Boolean, mapper: (T) -> Single<T>): Single<T> =
         if (predicate) flatMap { mapper(it) } else this
 // endregion
 
@@ -237,7 +237,7 @@ fun Completable.subscribeIgnoringResult() {
  *
  * @return the new Single
  */
-fun <T> Completable.emitOnComplete(item: T, alternateError: Throwable? = null): Single<T> =
+fun <T : Any> Completable.emitOnComplete(item: T, alternateError: Throwable? = null): Single<T> =
         Single.create { emitter ->
             subscribe(
                     { emitter.ifNotDisposed { onSuccess(item) } },
@@ -253,7 +253,7 @@ fun <T> Completable.emitOnComplete(item: T, alternateError: Throwable? = null): 
  *
  * @return the new Completable
  */
-fun <T> Completable.emitErrorOnComplete(error: Throwable): Single<T> =
+fun <T : Any> Completable.emitErrorOnComplete(error: Throwable): Single<T> =
         Single.create { emitter ->
             subscribe(
                     { emitter.ifNotDisposed { onError(error) } },
@@ -269,7 +269,7 @@ fun <T> Completable.emitErrorOnComplete(error: Throwable): Single<T> =
  *
  * @return the new Completable
  */
-fun <T> Completable.emitFinally(item: T): Single<T> =
+fun <T : Any> Completable.emitFinally(item: T): Single<T> =
         Single.create { emitter ->
             subscribe(
                     { emitter.ifNotDisposed { onSuccess(item) } },
@@ -305,7 +305,7 @@ fun Completable.ifCompletes(chainableCompletableInvocation: () -> Completable): 
  * Calls subscribe on `this`, with an empty function for onNext and onError
  */
 @Suppress("CheckResult")
-fun <T> Observable<T>.subscribeIgnoringResult() {
+fun <T : Any> Observable<T>.subscribeIgnoringResult() {
     subscribe({}, {})
 }
 
@@ -314,7 +314,7 @@ fun <T> Observable<T>.subscribeIgnoringResult() {
  *
  * @param predicate filter function to decide whether a given emission will actually be emitted
  */
-inline fun <T> Observable<T>.filterNotifications(crossinline predicate: (Notification<T>) -> Boolean): Observable<T> =
+inline fun <T : Any> Observable<T>.filterNotifications(crossinline predicate: (Notification<T>) -> Boolean): Observable<T> =
         materialize().filter { predicate(it) }.dematerialize { it }
 // endregion
 
@@ -324,7 +324,7 @@ inline fun <T> Observable<T>.filterNotifications(crossinline predicate: (Notific
  *
  * @param body that will only be invoked if isDisposed is false
  */
-inline fun <T> MaybeEmitter<T>.ifNotDisposed(body: MaybeEmitter<T>.() -> Unit) {
+inline fun <T : Any> MaybeEmitter<T>.ifNotDisposed(body: MaybeEmitter<T>.() -> Unit) {
     if (!isDisposed) body()
 }
 
@@ -333,7 +333,7 @@ inline fun <T> MaybeEmitter<T>.ifNotDisposed(body: MaybeEmitter<T>.() -> Unit) {
  *
  * @param body that will only be invoked if isDisposed is false
  */
-inline fun <T> SingleEmitter<T>.ifNotDisposed(body: SingleEmitter<T>.() -> Unit) {
+inline fun <T : Any> SingleEmitter<T>.ifNotDisposed(body: SingleEmitter<T>.() -> Unit) {
     if (!isDisposed) body()
 }
 
@@ -351,7 +351,7 @@ inline fun CompletableEmitter.ifNotDisposed(body: CompletableEmitter.() -> Unit)
  *
  * @param body that will only be invoked if isDisposed is false
  */
-inline fun <T> ObservableEmitter<T>.ifNotDisposed(body: ObservableEmitter<T>.() -> Unit) {
+inline fun <T : Any> ObservableEmitter<T>.ifNotDisposed(body: ObservableEmitter<T>.() -> Unit) {
     if (!isDisposed) body()
 }
 
@@ -363,7 +363,7 @@ inline fun <T> ObservableEmitter<T>.ifNotDisposed(body: ObservableEmitter<T>.() 
  * @receiver Flowable<T>
  * @return LiveData<T>
  */
-inline fun <reified T> Flowable<T>.asReactivePublisher(): LiveData<T> {
+inline fun <reified T : Any> Flowable<T>.asReactivePublisher(): LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this)
 }
 
@@ -403,68 +403,68 @@ fun CompositeDisposable.makeDBCallCompletable(onComplete: () -> Unit = {}, onThr
 }
 
 
-fun <T> Observable<T>.toFlowableLatest(): Flowable<T> = toFlowable(BackpressureStrategy.LATEST)
-fun <T> Observable<T>.toFlowableBuffer(): Flowable<T> = toFlowable(BackpressureStrategy.BUFFER)
-fun <T> Observable<T>.toFlowableDrop(): Flowable<T> = toFlowable(BackpressureStrategy.DROP)
-fun <T> Observable<T>.toFlowableError(): Flowable<T> = toFlowable(BackpressureStrategy.ERROR)
-fun <T> Observable<T>.toFlowableMissing(): Flowable<T> = toFlowable(BackpressureStrategy.MISSING)
+fun <T : Any> Observable<T>.toFlowableLatest(): Flowable<T> = toFlowable(BackpressureStrategy.LATEST)
+fun <T : Any> Observable<T>.toFlowableBuffer(): Flowable<T> = toFlowable(BackpressureStrategy.BUFFER)
+fun <T : Any> Observable<T>.toFlowableDrop(): Flowable<T> = toFlowable(BackpressureStrategy.DROP)
+fun <T : Any> Observable<T>.toFlowableError(): Flowable<T> = toFlowable(BackpressureStrategy.ERROR)
+fun <T : Any> Observable<T>.toFlowableMissing(): Flowable<T> = toFlowable(BackpressureStrategy.MISSING)
 
 
-fun <T> Maybe<T>.toFlowableLatest() = toObservable().toFlowableLatest()
-fun <T> Maybe<T>.toFlowableBuffer() = toObservable().toFlowableBuffer()
-fun <T> Maybe<T>.toFlowableDrop() = toObservable().toFlowableDrop()
-fun <T> Maybe<T>.toFlowableError() = toObservable().toFlowableError()
-fun <T> Maybe<T>.toFlowableMissing() = toObservable().toFlowableMissing()
+fun <T : Any> Maybe<T>.toFlowableLatest() = toObservable().toFlowableLatest()
+fun <T : Any> Maybe<T>.toFlowableBuffer() = toObservable().toFlowableBuffer()
+fun <T : Any> Maybe<T>.toFlowableDrop() = toObservable().toFlowableDrop()
+fun <T : Any> Maybe<T>.toFlowableError() = toObservable().toFlowableError()
+fun <T : Any> Maybe<T>.toFlowableMissing() = toObservable().toFlowableMissing()
 
-fun <T> Single<T>.toFlowableLatest() = toObservable().toFlowableLatest()
-fun <T> Single<T>.toFlowableBuffer() = toObservable().toFlowableBuffer()
-fun <T> Single<T>.toFlowableDrop() = toObservable().toFlowableDrop()
-fun <T> Single<T>.toFlowableError() = toObservable().toFlowableError()
-fun <T> Single<T>.toFlowableMissing() = toObservable().toFlowableMissing()
-
-
-fun <T, R> Maybe<T>.mapSelf(mapper: T.() -> R) = map { it.mapper() }
-
-fun <T> Subject<T>.canPublish(): Boolean = !hasComplete() && !hasThrowable()
+fun <T : Any> Single<T>.toFlowableLatest() = toObservable().toFlowableLatest()
+fun <T : Any> Single<T>.toFlowableBuffer() = toObservable().toFlowableBuffer()
+fun <T : Any> Single<T>.toFlowableDrop() = toObservable().toFlowableDrop()
+fun <T : Any> Single<T>.toFlowableError() = toObservable().toFlowableError()
+fun <T : Any> Single<T>.toFlowableMissing() = toObservable().toFlowableMissing()
 
 
-fun <T> Observable<T>?.subscribeSafely() = this?.subscribe({}, {})
+fun <T, R : Any> Maybe<T>.mapSelf(mapper: T.() -> R) = map { it.mapper() }
 
-fun <T> Observable<T>?.subscribeSafely(consumer: Consumer<T>) =
+fun <T : Any> Subject<T>.canPublish(): Boolean = !hasComplete() && !hasThrowable()
+
+
+fun <T : Any> Observable<T>?.subscribeSafely() = this?.subscribe({}, {})
+
+fun <T : Any> Observable<T>?.subscribeSafely(consumer: Consumer<T>) =
         this?.subscribe(consumer, Consumer<Throwable> { })
 
-inline fun <reified T> Observable<T>.applyNetworkSchedulers(): Observable<T> {
+inline fun <reified T : Any> Observable<T>.applyNetworkSchedulers(): Observable<T> {
     return this.subscribeOn(ioThreadScheduler)
             .observeOn(mainThreadScheduler)
 }
 
-inline fun <reified T> Observable<T>.applyComputationSchedulers(): Observable<T> {
+inline fun <reified T : Any> Observable<T>.applyComputationSchedulers(): Observable<T> {
     return this.subscribeOn(Schedulers.computation()).observeOn(mainThreadScheduler)
 }
 
-inline fun <reified T> Observable<T>.intervalRequest(duration: Long): Observable<T> {
+inline fun <reified T : Any> Observable<T>.intervalRequest(duration: Long): Observable<T> {
     return this.throttleFirst(duration, TimeUnit.MILLISECONDS)
 }
 
-inline fun <reified T> Flowable<T>.applyNetworkSchedulers(): Flowable<T> {
+inline fun <reified T : Any> Flowable<T>.applyNetworkSchedulers(): Flowable<T> {
     return this.subscribeOn(ioThreadScheduler)
             .observeOn(mainThreadScheduler)
 }
 
-inline fun <reified T> Flowable<T>.applyComputationSchedulers(): Flowable<T> {
+inline fun <reified T : Any> Flowable<T>.applyComputationSchedulers(): Flowable<T> {
     return this.subscribeOn(Schedulers.computation()).observeOn(mainThreadScheduler)
 }
 
-inline fun <reified T> Flowable<T>.intervalRequest(duration: Long): Flowable<T> {
+inline fun <reified T : Any> Flowable<T>.intervalRequest(duration: Long): Flowable<T> {
     return this.throttleFirst(duration, TimeUnit.MILLISECONDS)
 }
 
-inline fun <reified T> Single<T>.applyNetworkSchedulers(): Single<T> {
+inline fun <reified T : Any> Single<T>.applyNetworkSchedulers(): Single<T> {
     return this.subscribeOn(ioThreadScheduler)
             .observeOn(mainThreadScheduler)
 }
 
-inline fun <reified T> Single<T>.applyComputationSchedulers(): Single<T> {
+inline fun <reified T : Any> Single<T>.applyComputationSchedulers(): Single<T> {
     return this.subscribeOn(Schedulers.computation()).observeOn(mainThreadScheduler)
 }
 

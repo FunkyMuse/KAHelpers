@@ -5,3 +5,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$coreKTX"
     implementation "androidx.appcompat:appcompat:$appCompat"
 }
+
+android {
+    namespace 'com.crazylegend.contextgetters'
+}

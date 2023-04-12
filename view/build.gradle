@@ -6,3 +6,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefresh"
 
 }
+
+android {
+    namespace 'com.crazylegend.view'
+}

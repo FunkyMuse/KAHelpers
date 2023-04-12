@@ -5,3 +5,7 @@ dependencies {
     implementation "androidx.documentfile:documentfile:$documentFile"
 
 }
+
+android {
+    namespace 'com.crazylegend.saf'
+}

@@ -3,3 +3,7 @@ dependencies {
     implementation "androidx.collection:collection-ktx:$collection"
     implementation "androidx.core:core-ktx:$coreKTX"
 }
+
+android {
+    namespace 'com.crazylegend.collections'
+}

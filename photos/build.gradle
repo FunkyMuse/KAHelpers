@@ -3,3 +3,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompat"
     implementation "androidx.exifinterface:exifinterface:$exifinterface"
 }
+
+android {
+    namespace 'com.crazylegend.photos'
+}

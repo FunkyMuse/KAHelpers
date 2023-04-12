@@ -1,3 +1,7 @@
 dependencies {
     api 'com.google.code.gson:gson:2.10.1'
 }
+
+android {
+    namespace 'com.crazylegend.gson'
+}

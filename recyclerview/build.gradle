@@ -2,6 +2,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.crazylegend.recyclerview'
 }
 
 dependencies {

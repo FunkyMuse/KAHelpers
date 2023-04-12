@@ -5,3 +5,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
 
 }
+
+android {
+    namespace 'com.crazylegend.lifecycle'
+}

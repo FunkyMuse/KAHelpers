@@ -1,3 +1,7 @@
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
+
+android {
+    namespace 'com.crazylegend.reflection'
+}

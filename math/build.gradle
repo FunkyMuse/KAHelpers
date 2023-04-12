@@ -1,0 +1,3 @@
+android {
+    namespace 'com.crazylegend.math'
+}

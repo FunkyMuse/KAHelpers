@@ -110,7 +110,7 @@ inline operator fun <reified T> Cursor.get(columnIndex: Int): T? {
         java.lang.Float::class.java -> getNullableFloat(columnIndex)
         java.lang.Double::class.java -> getNullableDouble(columnIndex)
         else -> when (klass.isArray) {
-            klass.componentType == java.lang.Byte::class.java -> getBlob(columnIndex)
+            (klass.componentType == java.lang.Byte::class.java) -> getBlob(columnIndex)
             else -> throw IllegalArgumentException("Unrecognized type: ${T::class.java.canonicalName}")
         }
     } as T?

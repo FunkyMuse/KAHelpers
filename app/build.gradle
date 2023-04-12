@@ -15,12 +15,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/LICENSE'
+        resources {
+            excludes += ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', 'META-INF/LICENSE']
+        }
     }
+
 
     kapt {
         correctErrorTypes = true
@@ -30,6 +30,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.crazylegend.setofusefulkotlinextensions'
 }
 
 dependencies {
