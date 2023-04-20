@@ -13,7 +13,7 @@ buildscript {
         material = "1.8.0"
         moshi = "1.14.0"
         fragment = "1.5.7"
-        activity = "1.7.0"
+        activity = "1.7.1"
         appCompat = "1.6.1"
         coreKTX = "1.10.0"
         securityVersion = "1.1.0-alpha06"
