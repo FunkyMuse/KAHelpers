@@ -53,7 +53,7 @@ buildscript {
         verName = "1.0.0"
         testRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        kotlin_version = '1.8.20'
+        kotlin_version = '1.8.21'
     }
 
     repositories {
