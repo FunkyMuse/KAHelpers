@@ -10,7 +10,7 @@ buildscript {
         coroutines = '1.6.4'
         nav_version = '2.5.3'
         rx = '3.0.1'
-        material = "1.8.0"
+        material = "1.9.0"
         moshi = "1.14.0"
         fragment = "1.5.7"
         activity = "1.7.1"
