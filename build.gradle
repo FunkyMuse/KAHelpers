@@ -11,7 +11,7 @@ buildscript {
         nav_version = '2.5.3'
         rx = '3.0.1'
         material = "1.9.0"
-        moshi = "1.14.0"
+        moshi = "1.15.0"
         fragment = "1.5.7"
         activity = "1.7.1"
         appCompat = "1.6.1"
