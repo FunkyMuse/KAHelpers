@@ -31,7 +31,7 @@ class TestViewHolder(private val binding: CustomizableCardViewBinding) : Recycle
         animation.end()
         binding.content.setBackgroundResource(0)
         binding.title.setBackgroundResource(0)
-        binding.image.setImageResource(R.drawable.pin_code_highlight_state)
+        binding.image.setImageResource(com.crazylegend.customviews.R.drawable.pin_code_highlight_state)
     }
 
     fun showPlaceHolder() {

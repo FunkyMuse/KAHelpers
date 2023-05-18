@@ -199,8 +199,8 @@ fun Context.textColorStateList(@ColorInt color: Int): ColorStateList {
             intArrayOf()
     )
     val colors = intArrayOf(
-            resolveColor(R.attr.colorControlNormal),
-            resolveColor(R.attr.colorControlNormal),
+            resolveColor(androidx.appcompat.R.attr.colorControlNormal),
+            resolveColor(androidx.appcompat.R.attr.colorControlNormal),
             color
     )
     return ColorStateList(states, colors)

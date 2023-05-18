@@ -24,8 +24,10 @@ import com.crazylegend.kotlinextensions.R
  */
 @UiThread
 @JvmOverloads
-fun colorMenu(activity: Activity, menu: Menu, @ColorInt color: Int,
-              alpha: Int = 0) {
+fun colorMenu(
+    activity: Activity, menu: Menu, @ColorInt color: Int,
+    alpha: Int = 0
+) {
     for (i in 0 until menu.size()) {
         val menuItem = menu.getItem(i)
         colorMenuItem(menuItem, color, alpha)
@@ -33,7 +35,7 @@ fun colorMenu(activity: Activity, menu: Menu, @ColorInt color: Int,
         if (menuItem.hasSubMenu()) {
             val subMenu = menuItem.subMenu
 
-            for (j in 0 until (subMenu?.size()?:0)) {
+            for (j in 0 until (subMenu?.size() ?: 0)) {
                 subMenu?.getItem(j)?.let { colorMenuItem(it, color, alpha) }
             }
         }
@@ -73,16 +75,20 @@ fun colorMenuItem(menuItem: MenuItem, @ColorInt color: Int, alpha: Int = 0) {
  */
 @SuppressLint("PrivateResource")
 @UiThread
-private fun setOverflowButtonColor(activity: Activity,
-                                   colorFilter: PorterDuffColorFilter, alpha: Int) {
-    val overflowDescription = activity.getString(R.string.abc_action_menu_overflow_description)
+private fun setOverflowButtonColor(
+    activity: Activity,
+    colorFilter: PorterDuffColorFilter, alpha: Int
+) {
+    val overflowDescription = activity.getString(com.google.android.material.R.string.abc_action_menu_overflow_description)
     val decorView = activity.window.decorView as ViewGroup
     val viewTreeObserver = decorView.viewTreeObserver
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             val outViews = ArrayList<View>()
-            decorView.findViewsWithText(outViews, overflowDescription,
-                    View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
+            decorView.findViewsWithText(
+                outViews, overflowDescription,
+                View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION
+            )
 
             if (outViews.isEmpty()) {
                 return

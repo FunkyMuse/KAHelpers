@@ -131,7 +131,7 @@ fun View.changeBackgroundColor(@ColorInt newColor: Int, duration: Int = 300) {
 
 
 inline fun Snackbar.maxLines(lines: Int): Snackbar {
-    view.findViewById<TextView>(R.id.snackbar_text).maxLines = lines
+    view.findViewById<TextView>(com.google.android.material.R.id.snackbar_action).maxLines = lines
     return this
 }
 

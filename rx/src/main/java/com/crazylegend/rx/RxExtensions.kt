@@ -1,8 +1,6 @@
 package com.crazylegend.rx
 
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.LiveDataReactiveStreams
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -13,7 +11,6 @@ import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.processors.FlowableProcessor
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.Subject
-import org.reactivestreams.Publisher
 import java.util.concurrent.TimeUnit
 
 
@@ -143,17 +140,6 @@ fun Disposable?.unsubscribe() {
 fun <T : Any> Observable<T>.asFlowable(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
         : Flowable<T> {
     return this.toFlowable(backpressureStrategy)
-}
-
-fun <T : Any> Flowable<T>.asLiveData(): LiveData<T> {
-    return LiveDataReactiveStreams.fromPublisher(this)
-}
-
-fun <T : Any> Observable<T>.asLiveData(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
-        : LiveData<T> {
-
-    return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backpressureStrategy))
-
 }
 
 fun <T, R> Flowable<List<T>>.mapToList(mapper: (T) -> R): Flowable<List<R>> {
@@ -354,34 +340,6 @@ inline fun CompletableEmitter.ifNotDisposed(body: CompletableEmitter.() -> Unit)
 inline fun <T : Any> ObservableEmitter<T>.ifNotDisposed(body: ObservableEmitter<T>.() -> Unit) {
     if (!isDisposed) body()
 }
-
-
-/**
- *  In this scenario, you must also manage the Rx publisher subscription across the life of your fragment or activity.
- *  Note that LiveData does NOT handle errors and it expects that errors are treated as states in the data that's held.
- *  In case of an error being emitted by the publisher, an error will be propagated to the main thread and the app will crash.
- * @receiver Flowable<T>
- * @return LiveData<T>
- */
-inline fun <reified T : Any> Flowable<T>.asReactivePublisher(): LiveData<T> {
-    return LiveDataReactiveStreams.fromPublisher(this)
-}
-
-/**
- * Flowables, most consumers will be able to let the library deal with backpressure using operators and not need to worry about ever manually calling request(long).
- * @receiver LiveData<T>
- *     On subscription to the publisher, the observer will attach to the given LiveData.
- *     Once {@link Subscription#request) is called on the subscription object, an observer will be connected to the data stream.
- *     Calling request(Long.MAX_VALUE) is equivalent to creating an unbounded stream with no backpressure.
- *     If request with a finite count reaches 0, the observer will buffer the latest item and emit it to the subscriber when data is again requested.
- *     Any other items emitted during the time there was no backpressure requested will be dropped.
- * @param lifecycleOwner LifecycleOwner
- * @return Publisher<T>
- */
-inline fun <reified T> LiveData<T>.toReactivePublisher(lifecycleOwner: LifecycleOwner): Publisher<T> {
-    return LiveDataReactiveStreams.toPublisher(lifecycleOwner, this)
-}
-
 
 fun Completable?.makeDBCall(compositeDisposable: CompositeDisposable, onThrow: (error: Throwable) -> Unit = { _ -> }, onComplete: () -> Unit = {}) {
     this?.subscribeOn(ioThreadScheduler)?.observeOn(mainThreadScheduler)?.subscribe({

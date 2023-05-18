@@ -80,12 +80,12 @@ dependencies {
 
 ```gradle
    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = 17
+        targetCompatibility = 17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     
 ```

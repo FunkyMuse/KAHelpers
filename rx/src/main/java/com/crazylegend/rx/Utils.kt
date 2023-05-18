@@ -2,7 +2,6 @@ package com.crazylegend.rx
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.lifecycle.LiveDataReactiveStreams
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import java.io.ByteArrayOutputStream
@@ -32,8 +31,6 @@ fun Bitmap.toByteArray(compressFormat: Bitmap.CompressFormat, quality: Int): Sin
     }
 
 }
-
-fun <T : Any> Flowable<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this)
 
 
 /*fun Context.cacheImage(url: String): Observable<Boolean> {
