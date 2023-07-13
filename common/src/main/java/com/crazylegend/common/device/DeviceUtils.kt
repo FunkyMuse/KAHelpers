@@ -38,16 +38,16 @@ object DeviceUtils {
     private val ROM_SONY = arrayOf("sony")
     private val ROM_AMIGO = arrayOf("amigo")
 
-    private val VERSION_PROPERTY_HUAWEI = "ro.build.version.emui"
-    private val VERSION_PROPERTY_VIVO = "ro.vivo.os.build.display.id"
-    private val VERSION_PROPERTY_XIAOMI = "ro.build.version.incremental"
-    private val VERSION_PROPERTY_OPPO = "ro.build.version.opporom"
-    private val VERSION_PROPERTY_LEECO = "ro.letv.release.version"
-    private val VERSION_PROPERTY_360 = "ro.build.uiversion"
-    private val VERSION_PROPERTY_ZTE = "ro.build.MiFavor_version"
-    private val VERSION_PROPERTY_ONEPLUS = "ro.rom.version"
-    private val VERSION_PROPERTY_NUBIA = "ro.build.rom.id"
-    private val UNKNOWN = "unknown"
+    private const val VERSION_PROPERTY_HUAWEI = "ro.build.version.emui"
+    private const val VERSION_PROPERTY_VIVO = "ro.vivo.os.build.display.id"
+    private const val VERSION_PROPERTY_XIAOMI = "ro.build.version.incremental"
+    private const val VERSION_PROPERTY_OPPO = "ro.build.version.opporom"
+    private const val VERSION_PROPERTY_LEECO = "ro.letv.release.version"
+    private const val VERSION_PROPERTY_360 = "ro.build.uiversion"
+    private const val VERSION_PROPERTY_ZTE = "ro.build.MiFavor_version"
+    private const val VERSION_PROPERTY_ONEPLUS = "ro.rom.version"
+    private const val VERSION_PROPERTY_NUBIA = "ro.build.rom.id"
+    private const val UNKNOWN = "unknown"
 
     private var bean: RomInfo? = null
 
