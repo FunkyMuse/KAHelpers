@@ -244,7 +244,7 @@ fun getBatteryLevel(batteryIntent: Intent): Float {
  *
  * This method is thread-safe.
  */
-inline fun <K, V> LruCache<K, V>.getOrPut(key: K, defaultValue: () -> V): V {
+inline fun <K : Any, V : Any> LruCache<K, V>.getOrPut(key: K, defaultValue: () -> V): V {
     synchronized(this) {
         this[key]?.let { return it }
         return defaultValue().apply { put(key, this) }
@@ -258,7 +258,7 @@ inline fun <K, V> LruCache<K, V>.getOrPut(key: K, defaultValue: () -> V): V {
  *
  * This method is thread-safe.
  */
-inline fun <K, V> LruCache<K, V>.getOrPutNotNull(key: K, defaultValue: () -> V?): V? {
+inline fun <K : Any, V> LruCache<K, V>.getOrPutNotNull(key: K, defaultValue: () -> V?): V? {
     synchronized(this) {
         this[key]?.let { return it }
         return defaultValue()?.apply { put(key, this) }

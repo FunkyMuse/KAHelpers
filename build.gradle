@@ -66,7 +66,9 @@ buildscript {
     }
 }
 
-
+plugins {
+    id 'org.jetbrains.dokka' version '1.8.20'
+}
 
 allprojects {
     group = "io.github.funkymuse"
@@ -82,7 +84,6 @@ tasks.register('clean', Delete) {
 }
 
 subprojects {
-
     switch (it.name) {
         case "app":
             apply plugin: 'com.android.application'
@@ -99,6 +100,7 @@ subprojects {
         case ["enums", "regex"]:
             apply plugin: 'java-library'
             apply plugin: 'kotlin'
+            apply plugin: 'org.jetbrains.dokka'
             applyKotlinModule(it)
 
             break
@@ -109,6 +111,8 @@ subprojects {
             apply plugin: 'kotlin-android'
             apply plugin: 'maven-publish'
             apply plugin: 'kotlin-parcelize'
+            apply plugin: 'org.jetbrains.dokka'
+
             applyAndroid(it, false)
 
             dependencies {
