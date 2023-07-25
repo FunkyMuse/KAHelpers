@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
       - name: Checkout
@@ -34,4 +34,4 @@ jobs:
       - name: Deploy Documentations
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build/dokka/htmlMultiModule
+          folder: build/dokkaHtmlMultiModule
