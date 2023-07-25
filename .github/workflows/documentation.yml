@@ -34,4 +34,4 @@ jobs:
       - name: Deploy Documentations
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build/dokka/dokkaHtmlMultiModule
+          folder: build/dokka/htmlMultiModule
