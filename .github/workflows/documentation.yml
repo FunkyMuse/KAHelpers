@@ -9,6 +9,16 @@ permissions:
   contents: write
 
 jobs:
+  cancel-previous-workflows:
+    if: github.actor!= 'dependabot-preview[bot]'
+    env:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+    name: Cancel previous workflow runs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 60
