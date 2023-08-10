@@ -8,7 +8,7 @@ buildscript {
         glide = "4.15.1"
         constraint_layout = '2.1.4'
         coroutines = '1.7.3'
-        nav_version = '2.6.0'
+        nav_version = '2.7.0'
         rx = '3.0.1'
         material = "1.9.0"
         moshi = "1.15.0"
