@@ -65,22 +65,17 @@ val Context.isSustainedPerformanceModeSupported
 val Context.isInInteractiveState get() = powerManager?.isInteractive
 
 val Context.isIgnoringBatteryOptimization
-    @RequiresApi(Build.VERSION_CODES.M)
     get() = powerManager?.isIgnoringBatteryOptimizations(packageName)
 
 
 val Context.isDeviceIdle
-    @RequiresApi(Build.VERSION_CODES.M)
     get() = powerManager?.isDeviceIdleMode
 
 fun Context.permissionGranted(permission: String) =
-        packageManager.checkPermission(permission, packageName) == PackageManager.PERMISSION_GRANTED
+    packageManager.checkPermission(permission, packageName) == PackageManager.PERMISSION_GRANTED
 
 
 fun Context.getDozeState(): DozeState {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-        return DozeState.UNKNOWN_TOO_OLD_ANDROID_API_FOR_CHECKING
-    }
     val powerManager = powerManager ?: return DozeState.ERROR_GETTING_STATE
     return if (powerManager.isDeviceIdleMode) DozeState.DOZE_TURNED_ON_IDLE else if (powerManager.isInteractive) DozeState.NORMAL_INTERACTIVE else DozeState.NORMAL_NON_INTERACTIVE
 }

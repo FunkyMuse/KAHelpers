@@ -50,7 +50,7 @@ import java.util.*
  * check if you can resolve the intent
  */
 fun Context.isIntentResolvable(intent: Intent) =
-        packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
+    packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
 
 
 /**
@@ -58,7 +58,11 @@ fun Context.isIntentResolvable(intent: Intent) =
  *
  * *If App Installed ;)
  */
-fun Context.startApp(packageName: String) = isAppInstalled(packageName).ifTrue { startActivity(packageManager.getLaunchIntentForPackage(packageName)) }
+fun Context.startApp(packageName: String) = isAppInstalled(packageName).ifTrue {
+    startActivity(
+        packageManager.getLaunchIntentForPackage(packageName)
+    )
+}
 
 /**
  * Check if an App is Installed on the user device.
@@ -95,7 +99,8 @@ fun Context.isBackground(pName: String = packageName): Boolean {
  */
 @Throws(PackageManager.NameNotFoundException::class)
 fun Context.getAppName(pName: String = packageName): String {
-    return packageManager.getApplicationLabel(packageManager.getApplicationInfo(pName, 0)).toString()
+    return packageManager.getApplicationLabel(packageManager.getApplicationInfo(pName, 0))
+        .toString()
 }
 
 /**
@@ -109,8 +114,6 @@ fun Context.getAppName(pName: String = packageName): String {
 fun Context.getAppIcon(pName: String = packageName): Drawable {
     return packageManager.getApplicationInfo(pName, 0).loadIcon(packageManager)
 }
-
-
 
 
 /**
@@ -142,7 +145,12 @@ fun Context.getAppVersionCode(pName: String = packageName): Long {
 /**
  * Show Date Picker and Get the Picked Date Easily
  */
-fun Context.showDatePicker(year: Int, month: Int, day: Int, onDatePicked: (year: Int, month: Int, day: Int) -> Unit) {
+fun Context.showDatePicker(
+    year: Int,
+    month: Int,
+    day: Int,
+    onDatePicked: (year: Int, month: Int, day: Int) -> Unit
+) {
     DatePickerDialog(this, { _, pyear, pmonth, pdayOfMonth ->
         onDatePicked(pyear, pmonth, pdayOfMonth)
     }, year, month, day).show()
@@ -152,9 +160,9 @@ fun Context.showDatePicker(year: Int, month: Int, day: Int, onDatePicked: (year:
  * Show the Time Picker and Get the Picked Time Easily
  */
 fun Context.showTimePicker(
-        currentDate: Date,
-        is24Hour: Boolean = false,
-        onDatePicked: (hour: Int, minute: Int) -> Unit
+    currentDate: Date,
+    is24Hour: Boolean = false,
+    onDatePicked: (hour: Int, minute: Int) -> Unit
 ) {
     @Suppress("DEPRECATION")
     TimePickerDialog(this, { _, hourOfDay, minute ->
@@ -310,7 +318,8 @@ fun Context.resolveString(@AttrRes attr: Int, fallback: String = ""): String {
 }
 
 
-fun Context.cancelNotification(notificationID: Int) = NotificationManagerCompat.from(this).cancel(notificationID)
+fun Context.cancelNotification(notificationID: Int) =
+    NotificationManagerCompat.from(this).cancel(notificationID)
 
 
 fun Context.string(@StringRes str: Int): String {
@@ -341,19 +350,21 @@ fun Context.intArray(array: Int): IntArray {
 /**
  * Checks if a Broadcast can be resolved
  */
-fun Context.canResolveBroadcast(intent: Intent) = packageManager.queryBroadcastReceivers(intent, 0).isNotEmpty()
+fun Context.canResolveBroadcast(intent: Intent) =
+    packageManager.queryBroadcastReceivers(intent, 0).isNotEmpty()
 
 /**
  * Checks if a Provider exists with given name
  */
-fun Context.providerExists(providerName: String) = packageManager.resolveContentProvider(providerName, 0) != null
+fun Context.providerExists(providerName: String) =
+    packageManager.resolveContentProvider(providerName, 0) != null
 
 
 fun Context.watchYoutubeVideo(id: String) {
     val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
     val webIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("http://www.youtube.com/watch?v=$id")
+        Intent.ACTION_VIEW,
+        Uri.parse("http://www.youtube.com/watch?v=$id")
     )
     try {
         this.startActivity(appIntent)
@@ -365,7 +376,7 @@ fun Context.watchYoutubeVideo(id: String) {
 
 inline fun <reified T> Context.getAppWidgetsIdsFor(): IntArray {
     return AppWidgetManager.getInstance(this).getAppWidgetIds(
-            ComponentName(this, T::class.java)
+        ComponentName(this, T::class.java)
     )
 }
 
@@ -425,26 +436,34 @@ fun Context.createInputStreamFromUri(uri: Uri): InputStream? {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.M)
 inline fun <reified T> Context.systemService() = getSystemService(T::class.java)
 
 fun <T> Context.systemService(name: String) = getSystemService(name) as? T
 
 
-fun Context.coloredDrawable(@DrawableRes drawableResId: Int, @ColorRes filterColorResourceId: Int): Drawable? =
-        drawable(drawableResId).apply { this?.setColorFilter(color(filterColorResourceId), PorterDuff.Mode.SRC_ATOP) }
+fun Context.coloredDrawable(
+    @DrawableRes drawableResId: Int,
+    @ColorRes filterColorResourceId: Int
+): Drawable? =
+    drawable(drawableResId).apply {
+        this?.setColorFilter(
+            color(filterColorResourceId),
+            PorterDuff.Mode.SRC_ATOP
+        )
+    }
 
 fun Context?.quantityString(@PluralsRes res: Int, quantity: Int, vararg args: Any?) =
-        if (this == null) "" else resources.getQuantityString(res, quantity, *args)
+    if (this == null) "" else resources.getQuantityString(res, quantity, *args)
 
-fun Context?.quantityString(@PluralsRes res: Int, quantity: Int) = quantityString(res, quantity, quantity)
+fun Context?.quantityString(@PluralsRes res: Int, quantity: Int) =
+    quantityString(res, quantity, quantity)
 
 fun Context.uriFromResource(@DrawableRes resId: Int): String = Uri.Builder()
-        .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-        .authority(resources.getResourcePackageName(resId))
-        .appendPath(resources.getResourceTypeName(resId))
-        .appendPath(resources.getResourceEntryName(resId))
-        .build().toString()
+    .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+    .authority(resources.getResourcePackageName(resId))
+    .appendPath(resources.getResourceTypeName(resId))
+    .appendPath(resources.getResourceEntryName(resId))
+    .build().toString()
 
 val Context.actionBarSizeResourse: Int
     get() =
@@ -499,9 +518,9 @@ val DISABLE_NAVIGATION = DISABLE_HOME or DISABLE_RECENT
 
 val Context.processName: String?
     get() = activityManager.runningAppProcesses
-            .filter { it.pid == Process.myPid() }
-            .map { it.processName }
-            .firstOrNull()
+        .filter { it.pid == Process.myPid() }
+        .map { it.processName }
+        .firstOrNull()
 
 
 val Context.packageVersionName: String
@@ -510,7 +529,8 @@ val Context.packageVersionName: String
 
 val Context.isBackground: Boolean
     get() {
-        val appProcess = activityManager.runningAppProcesses.firstOrNull { it.processName == packageName }
+        val appProcess =
+            activityManager.runningAppProcesses.firstOrNull { it.processName == packageName }
         return if (appProcess == null) {
             false
         } else {
@@ -574,7 +594,10 @@ fun Context.disableNotificationBar() {
  * Get color from resources with applied [opacity]
  */
 @ColorInt
-fun Context.colorWithOpacity(@ColorRes res: Int, @androidx.annotation.IntRange(from = 0, to = 100) opacity: Int): Int {
+fun Context.colorWithOpacity(
+    @ColorRes res: Int,
+    @androidx.annotation.IntRange(from = 0, to = 100) opacity: Int
+): Int {
     return color(res).withOpacity(opacity)
 }
 
@@ -619,7 +642,7 @@ fun Context.attribute(value: Int): TypedValue {
 }
 
 fun Context.musicVolume(): Int = audioManager
-        .getStreamVolume(AudioManager.STREAM_MUSIC)
+    .getStreamVolume(AudioManager.STREAM_MUSIC)
 
 fun Context.propertyInAssets(propertyName: String) = Properties().also {
     val inputStream = this.assets.open("$propertyName.properties")
@@ -630,10 +653,10 @@ fun Context.propertyInAssets(propertyName: String) = Properties().also {
 fun Context.jsonInAssets(jsonName: String): String {
     StringBuilder().let {
         this.assets.open(jsonName)
-                .bufferedReader()
-                .forEachLine { line ->
-                    it.append(line)
-                }
+            .bufferedReader()
+            .forEachLine { line ->
+                it.append(line)
+            }
         return it.toString()
     }
 }
@@ -653,6 +676,7 @@ val Context.isDarkTheme
     get() = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
         Configuration.UI_MODE_NIGHT_NO,
         Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+
         else -> true
     }
 

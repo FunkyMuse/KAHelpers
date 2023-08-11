@@ -11,7 +11,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
-import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.ImageView
@@ -43,8 +42,8 @@ fun Bitmap.overlay(overlay: Bitmap): Bitmap {
 }
 
 fun Bitmap.toOutputStream(
-        compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-        quality: Int = 100
+    compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+    quality: Int = 100
 ): OutputStream {
     val stream = ByteArrayOutputStream()
     compress(compressFormat, quality, stream)
@@ -52,8 +51,8 @@ fun Bitmap.toOutputStream(
 }
 
 fun Bitmap.toInputStream(
-        compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-        quality: Int = 100
+    compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+    quality: Int = 100
 ): InputStream {
     val stream = ByteArrayOutputStream()
     compress(compressFormat, quality, stream)
@@ -107,23 +106,23 @@ fun Resources.decodeBitmap(resId: Int, options: BitmapFactory.Options? = null): 
 }
 
 fun InputStream.decodeBitmap(
-        outPadding: Rect? = null,
-        options: BitmapFactory.Options? = null
+    outPadding: Rect? = null,
+    options: BitmapFactory.Options? = null
 ): Bitmap? {
     return BitmapFactory.decodeStream(this, outPadding, options)
 }
 
 fun FileDescriptor.decodeBitmap(
-        outPadding: Rect? = null,
-        options: BitmapFactory.Options? = null
+    outPadding: Rect? = null,
+    options: BitmapFactory.Options? = null
 ): Bitmap? {
     return BitmapFactory.decodeFileDescriptor(this, outPadding, options)
 }
 
 fun ByteArray.decodeBitmap(
-        offset: Int,
-        length: Int,
-        options: BitmapFactory.Options? = null
+    offset: Int,
+    length: Int,
+    options: BitmapFactory.Options? = null
 ): Bitmap? {
     return BitmapFactory.decodeByteArray(this, offset, length, options)
 }
@@ -246,7 +245,13 @@ operator fun Bitmap.set(x: Int, y: Int, pixel: Int) = setPixel(x, y, pixel)
  * @return cropped #android.graphics.Bitmap
  */
 fun Bitmap.crop(r: Rect) =
-        if (Rect(0, 0, width, height).contains(r)) Bitmap.createBitmap(this, r.left, r.top, r.width(), r.height()) else null
+    if (Rect(0, 0, width, height).contains(r)) Bitmap.createBitmap(
+        this,
+        r.left,
+        r.top,
+        r.width(),
+        r.height()
+    ) else null
 
 
 /**
@@ -284,7 +289,12 @@ fun Bitmap.toGrayScale(recycle: Boolean): Bitmap? {
 /**
  * Blend the Bitmap Corners to Round with Given radius
  */
-fun Bitmap.toRoundCorner(radius: Float, borderSize: Float = 0f, @ColorInt borderColor: Int = 0, recycle: Boolean = true): Bitmap {
+fun Bitmap.toRoundCorner(
+    radius: Float,
+    borderSize: Float = 0f,
+    @ColorInt borderColor: Int = 0,
+    recycle: Boolean = true
+): Bitmap {
     val width = width
     val height = height
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -369,10 +379,12 @@ fun Context.correctBitmapRotation(initialBitmap: Bitmap, inputUri: Uri): Bitmap?
                 bitmap = initialBitmap.rotate(90)
                 initialBitmap.recycle()
             }
+
             ExifInterface.ORIENTATION_ROTATE_180 -> {
                 bitmap = initialBitmap.rotate(180)
                 initialBitmap.recycle()
             }
+
             ExifInterface.ORIENTATION_ROTATE_270 -> {
                 bitmap = initialBitmap.rotate(270)
                 initialBitmap.recycle()
@@ -478,7 +490,11 @@ fun BitmapFactory_decodeByteArraySized(array: ByteArray, reqWidth: Int, reqHeigh
     return BitmapFactory.decodeByteArray(array, 0, array.size, options)
 }
 
-private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+private fun calculateInSampleSize(
+    options: BitmapFactory.Options,
+    reqWidth: Int,
+    reqHeight: Int
+): Int {
 
     val height = options.outHeight
     val width = options.outWidth
@@ -498,7 +514,11 @@ private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int,
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun calculateInSampleSizeMax(options: BitmapFactory.Options, maxWidth: Int, maxHeight: Int): Int {
+private inline fun calculateInSampleSizeMax(
+    options: BitmapFactory.Options,
+    maxWidth: Int,
+    maxHeight: Int
+): Int {
     var inSampleSize = 1
 
     if (options.outHeight > maxHeight || options.outWidth > maxWidth) {
@@ -552,7 +572,7 @@ fun downloadBitmap(imageUrl: String): Bitmap? {
 
 
     if (conn.responseCode == HttpURLConnection.HTTP_OK) {
-        bitmap = conn.inputStream.use {  BitmapFactory.decodeStream(it) }
+        bitmap = conn.inputStream.use { BitmapFactory.decodeStream(it) }
     }
     conn.disconnect()
 
@@ -604,7 +624,7 @@ infix fun ImageView.set(drawable: Drawable) {
     setImageDrawable(drawable)
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
+
 infix fun ImageView.set(ic: Icon) {
     setImageIcon(ic)
 }
@@ -614,7 +634,12 @@ infix fun ImageView.set(uri: Uri) {
 }
 
 
-fun Bitmap.resize(width: Int, height: Int, mode: ResizeMode = ResizeMode.AUTOMATIC, isExcludeAlpha: Boolean = false): Bitmap {
+fun Bitmap.resize(
+    width: Int,
+    height: Int,
+    mode: ResizeMode = ResizeMode.AUTOMATIC,
+    isExcludeAlpha: Boolean = false
+): Bitmap {
     var mWidth = width
     var mHeight = height
     var mMode = mode
@@ -635,14 +660,18 @@ fun Bitmap.resize(width: Int, height: Int, mode: ResizeMode = ResizeMode.AUTOMAT
 }
 
 private fun calculateResizeMode(width: Int, height: Int): ResizeMode =
-        if (ImageOrientation.getOrientation(width, height) === ImageOrientation.LANDSCAPE) {
-            ResizeMode.FIT_TO_WIDTH
-        } else {
-            ResizeMode.FIT_TO_HEIGHT
-        }
+    if (ImageOrientation.getOrientation(width, height) === ImageOrientation.LANDSCAPE) {
+        ResizeMode.FIT_TO_WIDTH
+    } else {
+        ResizeMode.FIT_TO_HEIGHT
+    }
 
-private fun calculateWidth(originalWidth: Int, originalHeight: Int, height: Int): Int = Math.ceil(originalWidth / (originalHeight.toDouble() / height)).toInt()
-private fun calculateHeight(originalWidth: Int, originalHeight: Int, width: Int): Int = Math.ceil(originalHeight / (originalWidth.toDouble() / width)).toInt()
+private fun calculateWidth(originalWidth: Int, originalHeight: Int, height: Int): Int =
+    Math.ceil(originalWidth / (originalHeight.toDouble() / height)).toInt()
+
+private fun calculateHeight(originalWidth: Int, originalHeight: Int, width: Int): Int =
+    Math.ceil(originalHeight / (originalWidth.toDouble() / width)).toInt()
+
 enum class ResizeMode {
     AUTOMATIC, FIT_TO_WIDTH, FIT_TO_HEIGHT, FIT_EXACT
 }
@@ -652,7 +681,7 @@ private enum class ImageOrientation {
 
     companion object {
         fun getOrientation(width: Int, height: Int): ImageOrientation =
-                if (width >= height) LANDSCAPE else PORTRAIT
+            if (width >= height) LANDSCAPE else PORTRAIT
     }
 }
 

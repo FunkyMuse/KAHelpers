@@ -1,8 +1,6 @@
 package com.crazylegend.security
 
-import android.content.Context
 import android.os.Build
-import android.security.KeyPairGeneratorSpec
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
@@ -11,12 +9,10 @@ import androidx.annotation.RequiresApi
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.math.BigInteger
 import java.security.*
 import java.util.*
 import javax.crypto.*
 import javax.crypto.spec.GCMParameterSpec
-import javax.security.auth.x500.X500Principal
 import javax.security.cert.CertificateException
 
 
@@ -27,14 +23,15 @@ import javax.security.cert.CertificateException
 object AndroidEncryption {
     private val AndroidKeyStore = "AndroidKeyStore"
     private val AES_MODE = "AES/GCM/NoPadding"
-    private val FIXED_IV = "randomizemsg" // to randomize the encrypted data( give any values to randomize)
+    private val FIXED_IV =
+        "randomizemsg" // to randomize the encrypted data( give any values to randomize)
     private val KEY_ALIAS =
-            "samplekeyalias" //give any key alias based on your application. It is different from the key alias used to sign the app.
-    private val RSA_MODE = "RSA/ECB/PKCS1Padding" // RSA algorithm which has to be used for OS version less than M
+        "samplekeyalias" //give any key alias based on your application. It is different from the key alias used to sign the app.
+    private val RSA_MODE =
+        "RSA/ECB/PKCS1Padding" // RSA algorithm which has to be used for OS version less than M
     private var keyStore: KeyStore? = null
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun generateKey(context: Context) {
+    fun generateKey() {
 
         try {
             keyStore = KeyStore.getInstance(AndroidKeyStore)
@@ -42,15 +39,17 @@ object AndroidEncryption {
 
             if (!keyStore!!.containsAlias(KEY_ALIAS)) {
 
-                val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore)
+                val keyGenerator =
+                    KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore)
                 keyGenerator.init(
-                        KeyGenParameterSpec.Builder(
-                                KEY_ALIAS,
-                                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-                        )
-                                .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                                .setRandomizedEncryptionRequired(false)
-                                .build()
+                    KeyGenParameterSpec.Builder(
+                        KEY_ALIAS,
+                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+                    )
+                        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                        .setRandomizedEncryptionRequired(false)
+                        .build()
                 )
                 keyGenerator.generateKey()
             } else {
@@ -82,7 +81,11 @@ object AndroidEncryption {
         val c: Cipher?
         try {
             c = Cipher.getInstance(AES_MODE)
-            c!!.init(Cipher.ENCRYPT_MODE, getSecretKey(), GCMParameterSpec(128, FIXED_IV.toByteArray()))
+            c!!.init(
+                Cipher.ENCRYPT_MODE,
+                getSecretKey(),
+                GCMParameterSpec(128, FIXED_IV.toByteArray())
+            )
             val encodedBytes = c.doFinal(input!!.toByteArray())
             return Base64.encodeToString(encodedBytes, Base64.DEFAULT)
         } catch (e: NoSuchAlgorithmException) {
@@ -109,7 +112,11 @@ object AndroidEncryption {
         val c: Cipher?
         try {
             c = Cipher.getInstance(AES_MODE)
-            c!!.init(Cipher.DECRYPT_MODE, getSecretKey(), GCMParameterSpec(128, FIXED_IV.toByteArray()))
+            c!!.init(
+                Cipher.DECRYPT_MODE,
+                getSecretKey(),
+                GCMParameterSpec(128, FIXED_IV.toByteArray())
+            )
             val barr = Base64.decode(encrypted, Base64.DEFAULT)
             return c.doFinal(barr)
         } catch (e: NoSuchAlgorithmException) {
@@ -154,7 +161,7 @@ object AndroidEncryption {
         output.init(Cipher.DECRYPT_MODE, privateKeyEntry.privateKey)
         val barr = Base64.decode(encrypted, Base64.DEFAULT)
         val cipherInputStream = CipherInputStream(
-                ByteArrayInputStream(barr), output
+            ByteArrayInputStream(barr), output
         )
         val values = ArrayList<Byte>()
         cipherInputStream.reader().forEachLine {

@@ -5,13 +5,11 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.crazylegend.common.isOnline
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 
 /**
  * Created by funkymuse on 5/26/21 to long live and prosper !
@@ -55,7 +53,6 @@ fun Context.isURLReachable(serverUrl: String, timeOut: Int = 10 * 1000): Boolean
     return false
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
 fun Context.internetCapabilitiesCallback() = callbackFlow<Boolean> {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
     val callback = object : ConnectivityManager.NetworkCallback() {

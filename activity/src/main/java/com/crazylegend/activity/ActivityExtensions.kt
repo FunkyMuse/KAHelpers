@@ -21,7 +21,6 @@ import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.*
 import android.view.View.GONE
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.*
 import androidx.appcompat.app.AlertDialog
@@ -163,7 +162,7 @@ inline fun Activity.restart(intentBuilder: Intent.() -> Unit = {}) {
 /**
  * Force restart an entire application
  */
-@RequiresApi(Build.VERSION_CODES.M)
+
 fun Activity.restartApplication() {
     val intent = packageManager.getLaunchIntentForPackage(packageName)
     intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -409,8 +408,6 @@ fun AppCompatActivity.onSupportNavigateUpGoBack(): Boolean {
 }
 
 
-
-
 fun Activity.enableFullScreen() {
     window.setFlags(
         WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -457,9 +454,6 @@ var Activity.isLightNavigationBar
     @RequiresApi(Build.VERSION_CODES.O)
     get() = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR == window.decorView.systemUiVisibility
     set(enabled) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-            return
-
         if (enabled) {
             window.decorView.systemUiVisibility =
                 window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
@@ -471,12 +465,8 @@ var Activity.isLightNavigationBar
 
 
 var Activity.isLightStatusBar
-    @RequiresApi(Build.VERSION_CODES.M)
     get() = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR == window.decorView.systemUiVisibility
     set(enabled) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-            return
-
         if (enabled) {
             window.decorView.systemUiVisibility =
                 window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

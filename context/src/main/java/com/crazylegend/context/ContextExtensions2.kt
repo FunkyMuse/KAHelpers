@@ -36,13 +36,16 @@ import java.io.File
  */
 
 
-inline fun Context.openEmail(title: String = "Select an email client", onCantHandleAction: () -> Unit = {}) {
+inline fun Context.openEmail(
+    title: String = "Select an email client",
+    onCantHandleAction: () -> Unit = {}
+) {
     try {
         val emailClientNames = ArrayList<String>()
         val emailClientPackageNames = ArrayList<String>()
         // finding list of email clients that support send email
         val intent = Intent(
-                Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abc@gmail.com", null)
+            Intent.ACTION_SENDTO, Uri.fromParts("mailto", "abc@gmail.com", null)
         )
         val packages = packageManager.queryIntentActivities(intent, 0)
         if (packages.isNotEmpty()) {
@@ -57,7 +60,8 @@ inline fun Context.openEmail(title: String = "Select an email client", onCantHan
             builder.setTitle(title)
             builder.setItems(emailClientNames.toTypedArray()) { _, which ->
                 // on click we launch the right package
-                val theIntent = packageManager.getLaunchIntentForPackage(emailClientPackageNames[which])
+                val theIntent =
+                    packageManager.getLaunchIntentForPackage(emailClientPackageNames[which])
                 startActivity(theIntent)
             }
             val dialog = builder.create()
@@ -69,7 +73,13 @@ inline fun Context.openEmail(title: String = "Select an email client", onCantHan
     }
 }
 
-inline fun Context.sendEmail(myEmail: String, subject: String, text: String, title: String = "Send an e-mail...", onCantHandleAction: () -> Unit = {}) {
+inline fun Context.sendEmail(
+    myEmail: String,
+    subject: String,
+    text: String,
+    title: String = "Send an e-mail...",
+    onCantHandleAction: () -> Unit = {}
+) {
     val i = Intent(Intent.ACTION_SEND)
     i.type = "message/rfc822"
     i.putExtra(Intent.EXTRA_EMAIL, arrayOf(myEmail))
@@ -83,7 +93,13 @@ inline fun Context.sendEmail(myEmail: String, subject: String, text: String, tit
     }
 }
 
-inline fun Context.sendEmail(emails: Array<String>, subject: String, text: String, title: String = "Send an e-mail...", onCantHandleAction: () -> Unit = {}) {
+inline fun Context.sendEmail(
+    emails: Array<String>,
+    subject: String,
+    text: String,
+    title: String = "Send an e-mail...",
+    onCantHandleAction: () -> Unit = {}
+) {
     val i = Intent(Intent.ACTION_SEND)
     i.type = "message/rfc822"
     i.putExtra(Intent.EXTRA_EMAIL, emails)
@@ -147,7 +163,11 @@ inline val Context.inflater: LayoutInflater
 /**
  * Share text using the `Intent.createChooser` method
  */
-inline fun Context.shareText(text: String, subject: String = "", onCantHandleAction: () -> Unit = {}) {
+inline fun Context.shareText(
+    text: String,
+    subject: String = "",
+    onCantHandleAction: () -> Unit = {}
+) {
     val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
     intent.putExtra(Intent.EXTRA_SUBJECT, subject)
@@ -211,7 +231,10 @@ fun Context.isShowKeyboard(): Boolean {
 
 fun Context.toggleKeyboard() {
     if (inputMethodManager.isActive)
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
+        inputMethodManager.toggleSoftInput(
+            InputMethodManager.SHOW_IMPLICIT,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
 }
 
 /**
@@ -224,9 +247,9 @@ fun Context.toggleKeyboard() {
  */
 @JvmOverloads
 inline fun <reified T : Context> Context.getIntent(
-        flags: Int = 0,
-        bundle: Bundle? = null,
-        data: Uri? = null
+    flags: Int = 0,
+    bundle: Bundle? = null,
+    data: Uri? = null
 ): Intent = Intent(this, T::class.java).apply {
     this.flags = flags
     this.data = data
@@ -236,18 +259,16 @@ inline fun <reified T : Context> Context.getIntent(
 }
 
 
-
-
 fun Context.getActivityPendingIntent(
-        requestCode: Int = 0,
-        intent: Intent,
-        flags: Int = PendingIntent.FLAG_ONE_SHOT
+    requestCode: Int = 0,
+    intent: Intent,
+    flags: Int = PendingIntent.FLAG_ONE_SHOT
 ): PendingIntent = PendingIntent.getActivity(this, requestCode, intent, flags)
 
 fun Context.getBroadcastPendingIntent(
-        requestCode: Int = 0,
-        intent: Intent,
-        flags: Int = PendingIntent.FLAG_ONE_SHOT
+    requestCode: Int = 0,
+    intent: Intent,
+    flags: Int = PendingIntent.FLAG_ONE_SHOT
 ): PendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, flags)
 
 @Suppress("DEPRECATION")
@@ -264,14 +285,19 @@ fun Toolbar?.changeNavigateUpColor(@IdRes color: Int) {
 
 fun Context.dip(value: Int): Int = (value * (resources.displayMetrics.density)).toInt()
 fun Context.bool(@BoolRes resourceId: Int): Boolean = resources.getBoolean(resourceId)
-fun Context.colorStateList(@ColorRes resourceId: Int): ColorStateList? = ContextCompat.getColorStateList(this, resourceId)
-fun Context.drawable(@DrawableRes resourceId: Int, tintColorResId: Int): Drawable? =
-        ContextCompat.getDrawable(this, resourceId)?.apply {
-            setTint(color(tintColorResId))
-        }
+fun Context.colorStateList(@ColorRes resourceId: Int): ColorStateList? =
+    ContextCompat.getColorStateList(this, resourceId)
 
-fun Context.string(@StringRes resourceId: Int, vararg args: Any?): String = resources.getString(resourceId, *args)
-fun Context.quantityString(@PluralsRes resourceId: Int, quantity: Int): String = resources.getQuantityString(resourceId, quantity, quantity)
+fun Context.drawable(@DrawableRes resourceId: Int, tintColorResId: Int): Drawable? =
+    ContextCompat.getDrawable(this, resourceId)?.apply {
+        setTint(color(tintColorResId))
+    }
+
+fun Context.string(@StringRes resourceId: Int, vararg args: Any?): String =
+    resources.getString(resourceId, *args)
+
+fun Context.quantityString(@PluralsRes resourceId: Int, quantity: Int): String =
+    resources.getQuantityString(resourceId, quantity, quantity)
 
 fun Context.getAppPath(packageName: String = this.packageName): String {
     if (packageName.isBlank()) return ""
@@ -317,7 +343,10 @@ private fun Context.getInstallAppIntent(file: File, isNewTask: Boolean = false):
 fun Context.getAppSignature(packageName: String = this.packageName): SigningInfo? {
     if (packageName.isBlank()) return null
     return try {
-        packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)?.signingInfo
+        packageManager.getPackageInfo(
+            packageName,
+            PackageManager.GET_SIGNING_CERTIFICATES
+        )?.signingInfo
     } catch (e: PackageManager.NameNotFoundException) {
         e.printStackTrace()
         null
@@ -327,7 +356,7 @@ fun Context.getAppSignature(packageName: String = this.packageName): SigningInfo
 
 fun Context.isAppInForeground(): Boolean {
     val am = this.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
-            ?: return false
+        ?: return false
     val info = am.runningAppProcesses
     if (info.isNullOrEmpty()) return false
     for (aInfo in info) {
@@ -342,52 +371,61 @@ fun Context.isAppInForeground(): Boolean {
 fun Context.isLowRamDevice() = ActivityManagerCompat.isLowRamDevice(activityManager)
 
 
-inline fun <reified T> Context.launchActivityClipRevealAnimation(view: View,
-                                                                 startX: Int = 0,
-                                                                 startY: Int = 0,
-                                                                 width: Int? = null,
-                                                                 height: Int? = null,
-                                                                 optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                                 noinline init: Intent.() -> Unit = {}) {
+inline fun <reified T> Context.launchActivityClipRevealAnimation(
+    view: View,
+    startX: Int = 0,
+    startY: Int = 0,
+    width: Int? = null,
+    height: Int? = null,
+    optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+    noinline init: Intent.() -> Unit = {}
+) {
     val activityOptions = ActivityOptionsCompat.makeClipRevealAnimation(
-            view,
-            startX,
-            startY,
-            width ?: view.width,
-            height ?: view.height)
+        view,
+        startX,
+        startY,
+        width ?: view.width,
+        height ?: view.height
+    )
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
     intent.init()
     startActivity(intent, activityOptions.toBundle())
 }
 
-inline fun <reified T> Context.launchActivityScaleUpAnimation(view: View,
-                                                              startX: Int = 0,
-                                                              startY: Int = 0,
-                                                              width: Int? = null,
-                                                              height: Int? = null,
-                                                              optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                              noinline init: Intent.() -> Unit = {}) {
+inline fun <reified T> Context.launchActivityScaleUpAnimation(
+    view: View,
+    startX: Int = 0,
+    startY: Int = 0,
+    width: Int? = null,
+    height: Int? = null,
+    optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+    noinline init: Intent.() -> Unit = {}
+) {
     val activityOptions = ActivityOptionsCompat.makeScaleUpAnimation(
-            view,
-            startX,
-            startY,
-            width ?: view.width,
-            height ?: view.height)
+        view,
+        startX,
+        startY,
+        width ?: view.width,
+        height ?: view.height
+    )
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
     intent.init()
     startActivity(intent, activityOptions.toBundle())
 }
 
-inline fun <reified T> Context.launchActivityThumbnailAnimation(view: View,
-                                                                startX: Int = 0,
-                                                                startY: Int = 0,
-                                                                thumbnail: Bitmap,
-                                                                optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                                noinline init: Intent.() -> Unit = {}) {
+inline fun <reified T> Context.launchActivityThumbnailAnimation(
+    view: View,
+    startX: Int = 0,
+    startY: Int = 0,
+    thumbnail: Bitmap,
+    optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+    noinline init: Intent.() -> Unit = {}
+) {
     val activityOptions = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(
-            view, thumbnail, startX, startY)
+        view, thumbnail, startX, startY
+    )
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
     intent.init()
@@ -395,11 +433,14 @@ inline fun <reified T> Context.launchActivityThumbnailAnimation(view: View,
 
 }
 
-inline fun <reified T> Context.launchWithCustomAnimation(enterResId: Int,
-                                                         exitResId: Int, optionsCallback: (ActivityOptionsCompat) -> Unit = {},
-                                                         noinline init: Intent.() -> Unit = {}) {
+inline fun <reified T> Context.launchWithCustomAnimation(
+    enterResId: Int,
+    exitResId: Int, optionsCallback: (ActivityOptionsCompat) -> Unit = {},
+    noinline init: Intent.() -> Unit = {}
+) {
     val activityOptions = ActivityOptionsCompat.makeCustomAnimation(
-            this, enterResId, exitResId)
+        this, enterResId, exitResId
+    )
     optionsCallback(activityOptions)
     val intent = Intent(this, T::class.java)
     intent.init()
@@ -411,20 +452,16 @@ inline fun <reified T> Context.launchWithCustomAnimation(enterResId: Int,
  * Or you can manually configure the whitelist in Settings > Battery > Battery Optimization
  * @receiver Context
  */
-@RequiresApi(Build.VERSION_CODES.M)
 @RequiresPermission(REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
 fun Context.whiteListAppForBatteryOptimizations() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-        val powerManager = powerManager ?: return
-        if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
-            val intent = with(Intent()) {
-                action = ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                data = Uri.parse("package:$packageName")
-                this
-            }
-            startActivity(intent)
+    val powerManager = powerManager ?: return
+    if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+        val intent = with(Intent()) {
+            action = ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+            data = Uri.parse("package:$packageName")
+            this
         }
+        startActivity(intent)
     }
 }
 
@@ -436,7 +473,8 @@ fun Context.whiteListAppForBatteryOptimizations() {
  * @receiver Context
  * @return Boolean
  */
-fun Context.isGestureNavigationEnabled() = Settings.Secure.getInt(contentResolver, "navigation_mode", 0) == 2
+fun Context.isGestureNavigationEnabled() =
+    Settings.Secure.getInt(contentResolver, "navigation_mode", 0) == 2
 
 
 /**
@@ -449,9 +487,9 @@ fun Context.isGestureNavigationEnabled() = Settings.Secure.getInt(contentResolve
 fun Context.whichNavigationIsUsed() = Settings.Secure.getInt(contentResolver, "navigation_mode", 0)
 
 fun Context.inflate(
-        @LayoutRes layoutId: Int,
-        root: ViewGroup? = null,
-        attachToRoot: Boolean = false
+    @LayoutRes layoutId: Int,
+    root: ViewGroup? = null,
+    attachToRoot: Boolean = false
 ): View? = layoutInflater?.inflate(layoutId, root, attachToRoot)
 
 

@@ -27,50 +27,68 @@ import java.nio.charset.Charset
  */
 val Context.getMasterKeyDefaultAlias
     get() = MasterKey.Builder(this)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 
 
 val Context.getMasterKeyBuilder get() = MasterKey.Builder(this)
-fun Context.getMasterKeyBuilder(alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS) = MasterKey.Builder(this, alias)
+fun Context.getMasterKeyBuilder(alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS) =
+    MasterKey.Builder(this, alias)
 
 fun Context.masterKey(alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS) {
     MasterKey.Builder(this, alias)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 }
 
 @RequiresApi(Build.VERSION_CODES.P)
 fun Context.masterKeyStrongBox(alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS) {
     MasterKey.Builder(this, alias)
-            .setRequestStrongBoxBacked(true)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        .setRequestStrongBoxBacked(true)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
-fun Context.masterKeyCustomSpec(alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS, keyGenParameterSpec: KeyGenParameterSpec) {
+fun Context.masterKeyCustomSpec(
+    alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS,
+    keyGenParameterSpec: KeyGenParameterSpec
+) {
     MasterKey.Builder(this, alias)
-            .setKeyGenParameterSpec(keyGenParameterSpec)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        .setKeyGenParameterSpec(keyGenParameterSpec)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 }
 
-fun Context.masterKey(alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS, builder: MasterKey.Builder.() -> MasterKey.Builder = { this }) {
+fun Context.masterKey(
+    alias: String = MasterKey.DEFAULT_MASTER_KEY_ALIAS,
+    builder: MasterKey.Builder.() -> MasterKey.Builder = { this }
+) {
     MasterKey.Builder(this, alias)
-            .builder()
-            .build()
+        .builder()
+        .build()
 }
 
-fun Context.getEncryptedFile(file: File, masterKey: MasterKey = getMasterKeyDefaultAlias) = EncryptedFile.Builder(this, file, masterKey, EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB).build()
+fun Context.getEncryptedFile(file: File, masterKey: MasterKey = getMasterKeyDefaultAlias) =
+    EncryptedFile.Builder(
+        this,
+        file,
+        masterKey,
+        EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+    ).build()
 
 fun EncryptedFile.readBytes(): ByteArray = openFileInput().readBytesAndClose()
-fun EncryptedFile.readText(charset: Charset = Charsets.UTF_8) = openFileInput().readTextAndClose(charset)
+fun EncryptedFile.readText(charset: Charset = Charsets.UTF_8) =
+    openFileInput().readTextAndClose(charset)
+
 fun EncryptedFile.reader() = openFileInput().reader()
 
 
 @Throws(IOException::class)
-fun Context.encryptFile(file: File, masterKey: MasterKey = getMasterKeyDefaultAlias, fileContent: ByteArray) {
+fun Context.encryptFile(
+    file: File,
+    masterKey: MasterKey = getMasterKeyDefaultAlias,
+    fileContent: ByteArray
+) {
     getEncryptedFile(file, masterKey).openFileOutput().apply {
         write(fileContent)
         flush()
@@ -79,7 +97,11 @@ fun Context.encryptFile(file: File, masterKey: MasterKey = getMasterKeyDefaultAl
 }
 
 @Throws(IOException::class)
-fun Context.encryptFileSafely(file: File, masterKey: MasterKey = getMasterKeyDefaultAlias, fileContent: ByteArray) {
+fun Context.encryptFileSafely(
+    file: File,
+    masterKey: MasterKey = getMasterKeyDefaultAlias,
+    fileContent: ByteArray
+) {
     if (file.exists()) file.delete()
 
     getEncryptedFile(file, masterKey).openFileOutput().apply {
@@ -90,8 +112,19 @@ fun Context.encryptFileSafely(file: File, masterKey: MasterKey = getMasterKeyDef
 }
 
 const val ENCRYPTED_PREFS_DEFAULT_NAME = "_encryptedPrefsDefaultFileName_"
-fun Context.encryptedSharedPreferences(fileName: String = ENCRYPTED_PREFS_DEFAULT_NAME, masterKey: MasterKey = getMasterKeyDefaultAlias) =
-        EncryptedSharedPreferences.create(this, fileName, masterKey, EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV, EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+fun Context.encryptedSharedPreferences(
+    fileName: String = ENCRYPTED_PREFS_DEFAULT_NAME,
+    masterKey: MasterKey = getMasterKeyDefaultAlias
+) =
+    EncryptedSharedPreferences.create(
+        this,
+        fileName,
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
-internal fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String = bufferedReader(charset).use { it.readText() }
+internal fun InputStream.readTextAndClose(charset: Charset = Charsets.UTF_8): String =
+    bufferedReader(charset).use { it.readText() }
+
 internal fun InputStream.readBytesAndClose(): ByteArray = bufferedReader().use { readBytes() }

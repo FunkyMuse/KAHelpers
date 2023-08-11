@@ -12,15 +12,14 @@ import androidx.core.view.WindowInsetsCompat
  */
 
 val View.isKeyboardVisible: Boolean
-    @RequiresApi(Build.VERSION_CODES.M)
     get() = WindowInsetsCompat
-            .toWindowInsetsCompat(rootWindowInsets)
-            .isVisible(WindowInsetsCompat.Type.ime())
+        .toWindowInsetsCompat(rootWindowInsets)
+        .isVisible(WindowInsetsCompat.Type.ime())
 
 val View.imeHeight
     @RequiresApi(Build.VERSION_CODES.R)
     get() = WindowInsetsCompat.toWindowInsetsCompat(rootWindowInsets)
-            .getInsets(WindowInsetsCompat.Type.ime()).bottom
+        .getInsets(WindowInsetsCompat.Type.ime()).bottom
 
 
 fun View.hideKeyboard() {

@@ -25,7 +25,6 @@ import java.io.InputStream
  */
 
 
-
 fun Fragment.dp2px(dpValue: Float): Int {
     return requireActivity().dp2px(dpValue)
 }
@@ -72,19 +71,16 @@ fun Context.px2dp(pxValue: Float): Float {
 }
 
 val Context.hasInternetCapabilities: Boolean
-    @RequiresApi(Build.VERSION_CODES.M)
     get() = connectivityManager?.activeNetwork.hasInternetCapabilities(this)
 
-@RequiresApi(Build.VERSION_CODES.M)
+
 fun Network?.hasInternetCapabilities(context: Context): Boolean {
     return context.connectivityManager?.getNetworkCapabilities(this)?.hasInternetCapabilities
-            ?: return false
+        ?: return false
 }
 
 
-
 val NetworkCapabilities.hasInternetCapabilities
-    @RequiresApi(Build.VERSION_CODES.M)
     get() = hasCapability(NET_CAPABILITY_INTERNET) || hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
 
 
@@ -115,7 +111,8 @@ val Context.getBatteryPercentage get() = batteryManager.getIntProperty(BatteryMa
  * @param rawId Int
  * @param inputStream [@kotlin.ExtensionFunctionType] Function1<InputStream, Unit>
  */
-fun Context.getRaw(rawId: Int, inputStream: InputStream.() -> Unit) = resources.openRawResource(rawId).use { it.inputStream() }
+fun Context.getRaw(rawId: Int, inputStream: InputStream.() -> Unit) =
+    resources.openRawResource(rawId).use { it.inputStream() }
 
 
 fun Context.getTypedArray(typedArrayID: Int) = resources.obtainTypedArray(typedArrayID)
