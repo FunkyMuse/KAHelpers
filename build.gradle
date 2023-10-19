@@ -17,7 +17,7 @@ buildscript {
         appCompat = "1.6.1"
         coreKTX = "1.12.0"
         securityVersion = "1.1.0-alpha06"
-        recyclerview = '1.3.1'
+        recyclerview = '1.3.2'
         annotationVersion = '1.7.0'
         documentFile = '1.0.1'
         swipeRefresh = '1.1.0'
