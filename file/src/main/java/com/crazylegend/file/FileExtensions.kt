@@ -142,7 +142,7 @@ fun Context.deleteCache() {
 
 }
 
-fun deleteDir(@Nullable dir: File?): Boolean {
+fun deleteDir(dir: File?): Boolean {
     if (dir != null && dir.isDirectory) {
         val children = dir.list()
         if (children.isNullOrEmpty()) return false

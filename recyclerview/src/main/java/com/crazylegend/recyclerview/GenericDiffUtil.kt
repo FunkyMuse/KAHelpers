@@ -14,15 +14,21 @@ import androidx.recyclerview.widget.DiffUtil
  * @property areContentsTheSameCallback Function2<[@kotlin.ParameterName] T, [@kotlin.ParameterName] T, Boolean?>
  * @constructor
  */
-class GenericDiffUtil<T>(private val areItemsTheSameCallback: (old: T, new: T) -> Boolean?,
-                         private val areContentsTheSameCallback: (old: T, new: T) -> Boolean?) : DiffUtil.ItemCallback<T>() {
+class GenericDiffUtil<T>(
+    private val areItemsTheSameCallback: (old: T, new: T) -> Boolean?,
+    private val areContentsTheSameCallback: (old: T, new: T) -> Boolean?
+) : DiffUtil.ItemCallback<T>() {
 
-    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = areItemsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
+    override fun areItemsTheSame(oldItem: T & Any, newItem: T & Any): Boolean =
+        areItemsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
 
     @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean = areContentsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
+    override fun areContentsTheSame(oldItem: T & Any, newItem: T & Any): Boolean =
+        areContentsTheSameCallback(oldItem, newItem) ?: newItem == oldItem
 
 }
 
-fun <T> diffUtilDSL(areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
-                    areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }) = GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)
+fun <T> diffUtilDSL(
+    areItemsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null },
+    areContentsTheSameCallback: (old: T, new: T) -> Boolean? = { _, _ -> null }
+) = GenericDiffUtil(areItemsTheSameCallback, areContentsTheSameCallback)
