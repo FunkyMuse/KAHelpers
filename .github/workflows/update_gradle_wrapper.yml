@@ -1,0 +1,33 @@
+name: Gradle wrapper update
+
+on:
+    schedule:
+        - cron: "0 8 * * MON"
+
+jobs:
+    update:
+        runs-on: ubuntu-20.04
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: set up JDK 17
+              uses: actions/setup-java@v3
+              with:
+                  java-version: 17
+                  distribution: zulu
+
+            - name: update gradle
+              id: gradleUpdate
+              uses: EdwarDDay/upgrade-gradle-action@v1
+
+            - name: create pull request
+              uses: peter-evans/create-pull-request@v3
+              with:
+                  commit-message: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
+                  branch: "gradle_update/version_${{ steps.gradleUpdate.outputs.gradle-version }}"
+                  delete-branch: true
+                  title: "Update gradle to ${{ steps.gradleUpdate.outputs.gradle-version }}"
+                  body: |
+                      ${{ steps.gradleUpdate.outputs.version-information }}
+
+                  labels: "dependencies,gradle"
