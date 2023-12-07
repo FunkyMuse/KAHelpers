@@ -4,28 +4,27 @@ package com.crazylegend.retrofit.responsecode
  * Created by funkymuse on 11/20/21 to long live and prosper !
  */
 sealed interface ResponseCode {
-    object MovedPermanently : ResponseCode
-    object BadRequest : ResponseCode
-    object Unauthorized : ResponseCode
-    object Forbidden : ResponseCode
-    object NotFound : ResponseCode
-    object NotAllowed : ResponseCode
-    object NotAcceptable : ResponseCode
-    object ProxyAuthenticationRequired : ResponseCode
-    object Timeout : ResponseCode
-    object ConflictError : ResponseCode
-    object RequestPermanentlyDeleted:ResponseCode
-    object RequestTooLarge : ResponseCode
-    object AccountExists : ResponseCode
-    object ServerIsBusy : ResponseCode
-    object TooManyRequests :ResponseCode
-    object InternalServerError : ResponseCode
-    object NotImplemented : ResponseCode
-    object BadGateway : ResponseCode
-    object GatewayTimeout : ResponseCode
-    object AuthenticationRequired : ResponseCode
-
-    object GenericError : ResponseCode
+    data object MovedPermanently : ResponseCode
+    data object BadRequest : ResponseCode
+    data object Unauthorized : ResponseCode
+    data object Forbidden : ResponseCode
+    data object NotFound : ResponseCode
+    data object NotAllowed : ResponseCode
+    data object NotAcceptable : ResponseCode
+    data object ProxyAuthenticationRequired : ResponseCode
+    data object Timeout : ResponseCode
+    data object ConflictError : ResponseCode
+    data object RequestPermanentlyDeleted:ResponseCode
+    data object RequestTooLarge : ResponseCode
+    data object AccountExists : ResponseCode
+    data object ServerIsBusy : ResponseCode
+    data object TooManyRequests :ResponseCode
+    data object InternalServerError : ResponseCode
+    data object NotImplemented : ResponseCode
+    data object BadGateway : ResponseCode
+    data object GatewayTimeout : ResponseCode
+    data object AuthenticationRequired : ResponseCode
+    data object GenericError : ResponseCode
 }
 
 

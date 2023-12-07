@@ -9,9 +9,9 @@ sealed interface ViewStatefulEvent {
     data class Error(val throwable: Throwable) : ViewStatefulEvent
     data class ApiError(val errorBody: ResponseBody?, val responseCode: Int) : ViewStatefulEvent
 
-    object Success : ViewStatefulEvent
-    object Loading : ViewStatefulEvent
-    object Idle : ViewStatefulEvent
+    data object Success : ViewStatefulEvent
+    data object Loading : ViewStatefulEvent
+    data object Idle : ViewStatefulEvent
 }
 
 val ViewStatefulEvent.isLoading get() = this is ViewStatefulEvent.Loading
