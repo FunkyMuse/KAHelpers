@@ -101,9 +101,7 @@ object AppRater {
         companion object {
             const val DEFAULT_APP_TITLE = "Rate my app"
             const val DEFAULT_CONTENT =
-                "If you're enjoying using this application, please take a moment to rate it.\nThanks for your support !",
-
-
+                "If you're enjoying using this application, please take a moment to rate it.\nThanks for your support !"
         }
 
         operator fun invoke(callback: AppRaterModelSetup.() -> Unit = {}) {
