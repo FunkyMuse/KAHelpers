@@ -5,14 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.crazylegend.customviews.AppRater.AppRaterModelSetup.Companion.DEFAULT_APP_TITLE
+import com.crazylegend.customviews.AppRater.AppRaterModelSetup.Companion.DEFAULT_CONTENT
 import com.crazylegend.customviews.databinding.DialogAppRaterBinding
 import com.crazylegend.viewbinding.viewBinding
-import kotlinx.parcelize.Parcelize
 
 
 /**
@@ -31,15 +31,20 @@ buttonsBGColor = getCompatColor(R.color.colorAccent)
  */
 object AppRater {
 
-
+    private const val appRaterModelSetupKey = "AppRaterModelSetupKey"
     private const val prefKey = "appRater"
     private const val doNotShowAgainPref = "doNotShowAgain"
     private const val launchCountPref = "launchCount"
     private const val dateFirstLaunchPref = "dateFirLaunched"
     private lateinit var appRaterDialog: AppRaterDialog
 
-    fun appLaunched(context: Context, fragmentManager: FragmentManager, DAYS_UNTIL_PROMPT: Int, LAUNCHES_UNTIL_PROMPT: Int,
-                    appRaterModelSetup: AppRaterModelSetup.() -> Unit = {}) {
+    fun appLaunched(
+        context: Context,
+        fragmentManager: FragmentManager,
+        DAYS_UNTIL_PROMPT: Int,
+        LAUNCHES_UNTIL_PROMPT: Int,
+        appRaterModelSetup: AppRaterModelSetup.() -> Unit = {}
+    ) {
         val modelToModify = AppRaterModelSetup()
         appRaterModelSetup.invoke(modelToModify)
 
@@ -82,18 +87,24 @@ object AppRater {
         appRaterDialog.show(fragmentManager, DIALOG_TAG)
     }
 
-    @Parcelize
     class AppRaterModelSetup(
-            var appTitle: String = "Rate my app",
-            var content: String = "If you're enjoying using this application, please take a moment to rate it.\nThanks for your support !",
-            var buttonsCornerRadius: Int? = null,
-            var contentTextSize: Float? = null,
-            var rateMeButtonText: String? = null,
-            var doNotShowAgainButtonText: String? = null,
-            var remindMeLaterButtonText: String? = null,
-            var backgroundButtonsResource: Int? = null, //use 0 to remove background and also removes the button too
-            var buttonsBGColor: Int? = null) : Parcelable {
+        var appTitle: String = "Rate my app",
+        var content: String = "If you're enjoying using this application, please take a moment to rate it.\nThanks for your support !",
+        var buttonsCornerRadius: Int? = null,
+        var contentTextSize: Float? = null,
+        var rateMeButtonText: String? = null,
+        var doNotShowAgainButtonText: String? = null,
+        var remindMeLaterButtonText: String? = null,
+        var backgroundButtonsResource: Int? = null, //use 0 to remove background and also removes the button too
+        var buttonsBGColor: Int? = null
+    ) {
+        companion object {
+            const val DEFAULT_APP_TITLE = "Rate my app"
+            const val DEFAULT_CONTENT =
+                "If you're enjoying using this application, please take a moment to rate it.\nThanks for your support !",
 
+
+        }
 
         operator fun invoke(callback: AppRaterModelSetup.() -> Unit = {}) {
             callback.invoke(this)
@@ -111,9 +122,25 @@ object AppRater {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-
-            val argumentModel: AppRaterModelSetup? = arguments?.getParcelable(argumentModel)
-            argumentModel ?: return
+            val argumentModel = arguments?.run {
+                AppRaterModelSetup(
+                    appTitle = getString(appRaterModelSetupKey + "appTitle", DEFAULT_APP_TITLE),
+                    content = getString(appRaterModelSetupKey + "content", DEFAULT_CONTENT),
+                    buttonsCornerRadius = runCatching { getInt(appRaterModelSetupKey + "buttonsCornerRadius") }.getOrNull(),
+                    buttonsBGColor = runCatching { getInt(appRaterModelSetupKey + "buttonsBGColor") }.getOrNull(),
+                    backgroundButtonsResource = runCatching { getInt(appRaterModelSetupKey + "backgroundButtonsResource") }.getOrNull(),
+                    contentTextSize = runCatching { getFloat(appRaterModelSetupKey + "contentTextSize") }.getOrNull(),
+                    rateMeButtonText = getString(appRaterModelSetupKey + "rateMeButtonText", null),
+                    doNotShowAgainButtonText = getString(
+                        appRaterModelSetupKey + "doNotShowAgainButtonText",
+                        null
+                    ),
+                    remindMeLaterButtonText = getString(
+                        appRaterModelSetupKey + "remindMeLaterButtonText",
+                        null
+                    ),
+                )
+            } ?: return
 
             binding.content.text = (argumentModel.content)
             binding.title.text = (argumentModel.appTitle)
@@ -130,9 +157,9 @@ object AppRater {
 
             binding.rate.text = argumentModel.rateMeButtonText ?: "Rate"
             binding.doNotShowAgain.text = argumentModel.doNotShowAgainButtonText
-                    ?: "Don't show again"
+                ?: "Don't show again"
             binding.remindMeLater.text = argumentModel.remindMeLaterButtonText
-                    ?: "Remind me later"
+                ?: "Remind me later"
 
             argumentModel.backgroundButtonsResource?.apply {
                 binding.rate.setBackgroundResource(this)
@@ -147,7 +174,10 @@ object AppRater {
             }
 
             binding.rate.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${requireContext().packageName}"))
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=${requireContext().packageName}")
+                )
 
                 if (intent.resolveActivity(requireContext().packageManager) != null) {
                     requireContext().startActivity(intent)

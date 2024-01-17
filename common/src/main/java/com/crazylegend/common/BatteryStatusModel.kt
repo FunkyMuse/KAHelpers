@@ -1,18 +1,16 @@
 package com.crazylegend.common
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
 /**
  * Created by funkymuse on 5/26/21 to long live and prosper !
  */
-@Parcelize
-data class BatteryStatusModel(val isCharging: Boolean,
-                              val isUsbCharging: Boolean,
-                              val wirelessCharge: Boolean,
-                              val isACCharging: Boolean,
-                              val batteryCapacity: Float,
-                              val batteryScale: Float) : Parcelable {
+data class BatteryStatusModel(
+    val isCharging: Boolean,
+    val isUsbCharging: Boolean,
+    val wirelessCharge: Boolean,
+    val isACCharging: Boolean,
+    val batteryCapacity: Float,
+    val batteryScale: Float
+) {
 
     val batteryPercentage get() = (batteryCapacity * batteryScale).toInt()
 

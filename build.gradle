@@ -80,7 +80,7 @@ allprojects {
 }
 
 tasks.register('clean', Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.getBuildDirectory()
 }
 
 subprojects {
@@ -89,7 +89,6 @@ subprojects {
             apply plugin: 'com.android.application'
             apply plugin: 'kotlin-android'
             apply plugin: 'kotlin-kapt'
-            apply plugin: 'kotlin-parcelize'
 
             dependencies {
                 implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -110,7 +109,6 @@ subprojects {
             apply plugin: 'com.android.library'
             apply plugin: 'kotlin-android'
             apply plugin: 'maven-publish'
-            apply plugin: 'kotlin-parcelize'
             apply plugin: 'org.jetbrains.dokka'
 
             applyAndroid(it, false)

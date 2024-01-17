@@ -50,3 +50,4 @@ include ':toaster'
 include ':saf'
 include ':intent'
 include ':receivers'
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

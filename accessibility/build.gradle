@@ -1,5 +1,5 @@
 dependencies {
-    implementation "androidx.core:core-ktx:$coreKTX"
+    implementation libs.androidx.core.ktx
 }
 
 android {
