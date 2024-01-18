@@ -1,8 +1,0 @@
-dependencies {
-    //security
-    api "androidx.security:security-crypto-ktx:$securityVersion"
-}
-
-android {
-    namespace 'com.crazylegend.security'
-}

@@ -1,8 +1,0 @@
-dependencies {
-    implementation "com.github.bumptech.glide:glide:$glide"
-    implementation "androidx.appcompat:appcompat:$appCompat"
-}
-
-android {
-    namespace 'com.crazylegend.glide'
-}

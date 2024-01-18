@@ -31,10 +31,10 @@
         path="." />
     <external-path
         name="my_images"
-        path="Android/data/com.crazylegend.setofusefulkotlinextensions/files/Pictures" />
+        path="Android/data/com.funkymuse.setofusefulkotlinextensions/files/Pictures" />
     <external-path
         name="my_images"
-        path="Android/data/com.crazylegend.setofusefulkotlinextensions/files/Pictures/" />
+        path="Android/data/com.funkymuse.setofusefulkotlinextensions/files/Pictures/" />
 
     <external-files-path
         name="images"

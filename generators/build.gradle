@@ -1,9 +1,0 @@
-dependencies {
-    implementation project(path: ':math')
-
-
-}
-
-android {
-    namespace 'com.crazylegend.generators'
-}

@@ -1,7 +1,0 @@
-
-dependencies {
-}
-
-android {
-    namespace 'com.crazylegend.http'
-}

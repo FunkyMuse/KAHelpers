@@ -1,7 +1,0 @@
-dependencies {
-    implementation libs.androidx.core.ktx
-}
-
-android {
-    namespace 'com.crazylegend.accessibility'
-}

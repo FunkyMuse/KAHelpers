@@ -1,8 +1,0 @@
-
-dependencies {
-    implementation "androidx.core:core-ktx:$coreKTX"
-}
-
-android {
-    namespace 'com.crazylegend.toaster'
-}

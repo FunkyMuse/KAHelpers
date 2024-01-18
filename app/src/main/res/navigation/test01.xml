@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/testFragment"
-        android:name="com.crazylegend.setofusefulkotlinextensions.nav.MVIFragment"
+        android:name="com.funkymuse.setofusefulkotlinextensions.nav.MVIFragment"
         android:label="TestFragment" >
         <action
             android:id="@+id/openDetails"
@@ -17,5 +17,5 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.crazylegend.setofusefulkotlinextensions.nav.DetailFragment"/>
+        android:name="com.funkymuse.setofusefulkotlinextensions.nav.DetailFragment"/>
 </navigation>
