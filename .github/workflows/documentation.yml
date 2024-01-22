@@ -39,7 +39,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: true
-          arguments: dokkaHtmlMultiModule
+          arguments: dokkaHtmlMultiModule --no-configuration-cache
 
       - name: Deploy Documentations
         uses: JamesIves/github-pages-deploy-action@v4
