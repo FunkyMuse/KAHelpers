@@ -1,0 +1,423 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>AutoDisposableJob</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            KAHelpers
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":coroutines:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="coroutines::com.funkymuse.coroutines/AutoDisposableJob///PointingToDeclaration//1941579928">
+  <div class="breadcrumbs"><a href="../../index.html">coroutines</a><span class="delimiter">/</span><a href="../index.html">com.funkymuse.coroutines</a><span class="delimiter">/</span><span class="current">AutoDisposableJob</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Auto</span><wbr><span>Disposable</span><wbr><span><span>Job</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">AutoDisposableJob</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">view<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/View.html">View</a><span class="token punctuation">, </span></span><span class="parameter ">wrapped<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span></span></span><span class="token punctuation">)</span> : <span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span>, <a href="https://developer.android.com/reference/kotlin/android/view/View.OnAttachStateChangeListener.html">View.OnAttachStateChangeListener</a></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1184562341%2FConstructors%2F1941579928" anchor-label="AutoDisposableJob" id="-1184562341%2FConstructors%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-auto-disposable-job.html"><span>Auto</span><wbr><span>Disposable</span><wbr><span><span>Job</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1184562341%2FConstructors%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">view<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/View.html">View</a><span class="token punctuation">, </span></span><span class="parameter ">wrapped<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="1889943471%2FProperties%2F1941579928" anchor-label="children" id="1889943471%2FProperties%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1889943471%2FProperties%2F1941579928"><span><span>children</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1889943471%2FProperties%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="index.html#1889943471%2FProperties%2F1941579928">children</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html">Sequence</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-826717698%2FProperties%2F1941579928" anchor-label="isActive" id="-826717698%2FProperties%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-826717698%2FProperties%2F1941579928"><span>is</span><wbr><span><span>Active</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-826717698%2FProperties%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="index.html#-826717698%2FProperties%2F1941579928">isActive</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-592792667%2FProperties%2F1941579928" anchor-label="isCancelled" id="-592792667%2FProperties%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-592792667%2FProperties%2F1941579928"><span>is</span><wbr><span><span>Cancelled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-592792667%2FProperties%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="index.html#-592792667%2FProperties%2F1941579928">isCancelled</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1339386901%2FProperties%2F1941579928" anchor-label="isCompleted" id="-1339386901%2FProperties%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1339386901%2FProperties%2F1941579928"><span>is</span><wbr><span><span>Completed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1339386901%2FProperties%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="index.html#-1339386901%2FProperties%2F1941579928">isCompleted</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-951571167%2FProperties%2F1941579928" anchor-label="key" id="-951571167%2FProperties%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-951571167%2FProperties%2F1941579928"><span><span>key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-951571167%2FProperties%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="index.html#-951571167%2FProperties%2F1941579928">key</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/-key/index.html">CoroutineContext.Key</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="391293317%2FProperties%2F1941579928" anchor-label="onJoin" id="391293317%2FProperties%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#391293317%2FProperties%2F1941579928"><span>on</span><wbr><span><span>Join</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="391293317%2FProperties%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="index.html#391293317%2FProperties%2F1941579928">onJoin</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.selects/SelectClause0///PointingToDeclaration/">SelectClause0</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1500867492%2FProperties%2F1941579928" anchor-label="parent" id="1500867492%2FProperties%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1500867492%2FProperties%2F1941579928"><span><span>parent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1500867492%2FProperties%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="index.html#1500867492%2FProperties%2F1941579928">parent</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1406623397%2FFunctions%2F1941579928" anchor-label="asAutoDisposable" id="1406623397%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../as-auto-disposable.html"><span>as</span><wbr><span>Auto</span><wbr><span><span>Disposable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1406623397%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span><span class="token punctuation">.</span><a href="../as-auto-disposable.html"><span class="token function">asAutoDisposable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">view<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/View.html">View</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">AutoDisposableJob</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-670469712%2FFunctions%2F1941579928" anchor-label="attachChild" id="-670469712%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-670469712%2FFunctions%2F1941579928"><span>attach</span><wbr><span><span>Child</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-670469712%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-670469712%2FFunctions%2F1941579928"><span class="token function">attachChild</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">child<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/ChildJob///PointingToDeclaration/">ChildJob</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/ChildHandle///PointingToDeclaration/">ChildHandle</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-714028700%2FFunctions%2F1941579928" anchor-label="cancel" id="-714028700%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-714028700%2FFunctions%2F1941579928"><span><span>cancel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-714028700%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-714028700%2FFunctions%2F1941579928"><span class="token function">cancel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cause<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CancellationException///PointingToDeclaration/">CancellationException</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1103936663%2FFunctions%2F1941579928" anchor-label="cancelIfActive" id="-1103936663%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../cancel-if-active.html"><span>cancel</span><wbr><span>If</span><wbr><span><span>Active</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1103936663%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span><span class="token operator">?</span><span class="token punctuation">.</span><a href="../cancel-if-active.html"><span class="token function">cancelIfActive</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Cancel the Job if it's active.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="466442070%2FFunctions%2F1941579928" anchor-label="fold" id="466442070%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#466442070%2FFunctions%2F1941579928"><span><span>fold</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="466442070%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/fold.html">R</a><span class="token operator">&gt; </span><a href="index.html#466442070%2FFunctions%2F1941579928"><span class="token function">fold</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">initial<span class="token operator">: </span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/fold.html">R</a><span class="token punctuation">, </span></span><span class="parameter ">operation<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/fold.html">R</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/-element/index.html">CoroutineContext.Element</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/fold.html">R</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/fold.html">R</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="232613081%2FFunctions%2F1941579928" anchor-label="get" id="232613081%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#232613081%2FFunctions%2F1941579928"><span><span>get</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="232613081%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/get.html">E</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/-element/index.html">CoroutineContext.Element</a><span class="token operator">&gt; </span><a href="index.html#232613081%2FFunctions%2F1941579928"><span class="token function">get</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/-key/index.html">CoroutineContext.Key</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/get.html">E</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../coroutines/com.funkymuse.coroutines/-auto-disposable-job/get.html">E</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1099743560%2FFunctions%2F1941579928" anchor-label="getCancellationException" id="-1099743560%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1099743560%2FFunctions%2F1941579928"><span>get</span><wbr><span>Cancellation</span><wbr><span><span>Exception</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1099743560%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1099743560%2FFunctions%2F1941579928"><span class="token function">getCancellationException</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CancellationException///PointingToDeclaration/">CancellationException</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1199993100%2FFunctions%2F1941579928" anchor-label="invokeOnCompletion" id="1199993100%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1756523180%2FFunctions%2F1941579928"><span>invoke</span><wbr><span>On</span><wbr><span><span>Completion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1199993100%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#1756523180%2FFunctions%2F1941579928"><span class="token function">invokeOnCompletion</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">handler<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CompletionHandler///PointingToDeclaration/">CompletionHandler</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/DisposableHandle///PointingToDeclaration/">DisposableHandle</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-2095021268%2FFunctions%2F1941579928"><span class="token function">invokeOnCompletion</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">onCancelling<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">invokeImmediately<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">handler<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CompletionHandler///PointingToDeclaration/">CompletionHandler</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/DisposableHandle///PointingToDeclaration/">DisposableHandle</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="86493028%2FFunctions%2F1941579928" anchor-label="join" id="86493028%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#86493028%2FFunctions%2F1941579928"><span><span>join</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="86493028%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="index.html#86493028%2FFunctions%2F1941579928"><span class="token function">join</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1830620809%2FFunctions%2F1941579928" anchor-label="minusKey" id="-1830620809%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1830620809%2FFunctions%2F1941579928"><span>minus</span><wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1830620809%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1830620809%2FFunctions%2F1941579928"><span class="token function">minusKey</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/-key/index.html">CoroutineContext.Key</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/index.html">CoroutineContext</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="884338090%2FFunctions%2F1941579928" anchor-label="onViewAttachedToWindow" id="884338090%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-view-attached-to-window.html"><span>on</span><wbr><span>View</span><wbr><span>Attached</span><wbr><span>To</span><wbr><span><span>Window</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="884338090%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="on-view-attached-to-window.html"><span class="token function">onViewAttachedToWindow</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">v<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/View.html">View</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1270951577%2FFunctions%2F1941579928" anchor-label="onViewDetachedFromWindow" id="-1270951577%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-view-detached-from-window.html"><span>on</span><wbr><span>View</span><wbr><span>Detached</span><wbr><span>From</span><wbr><span><span>Window</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1270951577%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="on-view-detached-from-window.html"><span class="token function">onViewDetachedFromWindow</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">v<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/View.html">View</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1088078916%2FFunctions%2F1941579928" anchor-label="plus" id="-1088078916%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1141296693%2FFunctions%2F1941579928"><span><span>plus</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1088078916%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="index.html#1141296693%2FFunctions%2F1941579928"><span class="token function">plus</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/index.html">CoroutineContext</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/index.html">CoroutineContext</a></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="index.html#1574049939%2FFunctions%2F1941579928"><span class="token function"><strike>plus</strike></span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">other<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/Job///PointingToDeclaration/">Job</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="845358634%2FFunctions%2F1941579928" anchor-label="start" id="845358634%2FFunctions%2F1941579928" data-filterable-set=":coroutines:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":coroutines:dokkaHtmlPartial/release" data-filterable-set=":coroutines:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#845358634%2FFunctions%2F1941579928"><span><span>start</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="845358634%2FFunctions%2F1941579928"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":coroutines:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#845358634%2FFunctions%2F1941579928"><span class="token function">start</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

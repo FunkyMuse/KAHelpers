@@ -1,0 +1,264 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.funkymuse.saf</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../index.html">
+                            KAHelpers
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":saf:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageids="saf::com.funkymuse.saf////PointingToDeclaration//-1453654515">
+  <div class="breadcrumbs"><a href="../index.html">saf</a><span class="delimiter">/</span><span class="current">com.funkymuse.saf</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1362062296%2FFunctions%2F-1453654515" anchor-label="asDocumentFile" id="-1362062296%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="as-document-file.html"><span>as</span><wbr><span>Document</span><wbr><span><span>File</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1362062296%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/java/io/File.html">File</a><span class="token punctuation">.</span><a href="as-document-file.html"><span class="token function">asDocumentFile</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a></div><div class="brief "><p class="paragraph">Create a <a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a> representing the filesystem tree rooted at the given <a href="https://developer.android.com/reference/kotlin/java/io/File.html">File</a>. This doesn't give you any additional access to the underlying files beyond what your app already has.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1150278401%2FFunctions%2F-1453654515" anchor-label="asDocumentFileTree" id="1150278401%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="as-document-file-tree.html"><span>as</span><wbr><span>Document</span><wbr><span>File</span><wbr><span><span>Tree</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1150278401%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token punctuation">.</span><a href="as-document-file-tree.html"><span class="token function">asDocumentFileTree</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Create a <a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a> representing the document tree rooted at the given {@link Uri}. This is only useful on devices running {@link android.os.Build.VERSION_CODES#LOLLIPOP} or later, and will return {@code null} when called on earlier platform versions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="998661305%2FFunctions%2F-1453654515" anchor-label="asDocumentSingleUri" id="998661305%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="as-document-single-uri.html"><span>as</span><wbr><span>Document</span><wbr><span>Single</span><wbr><span><span>Uri</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="998661305%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token punctuation">.</span><a href="as-document-single-uri.html"><span class="token function">asDocumentSingleUri</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Create a {@link DocumentFile} representing the single document at the given {@link Uri}. This is only useful on devices running {@link android.os.Build.VERSION_CODES#KITKAT} or later, and will return {@code null} when called on earlier platform versions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2110602666%2FFunctions%2F-1453654515" anchor-label="copyStream" id="2110602666%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="copy-stream.html"><span>copy</span><wbr><span><span>Stream</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2110602666%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="copy-stream.html"><span class="token function">copyStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">size<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">inputStream<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/io/InputStream.html">InputStream</a><span class="token punctuation">, </span></span><span class="parameter ">os<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/io/OutputStream.html">OutputStream</a><span class="token punctuation">, </span></span><span class="parameter ">bufferSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">4096</span><span class="token punctuation">, </span></span><span class="parameter ">progress<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-84651085%2FFunctions%2F-1453654515" anchor-label="copyStream" id="-84651085%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="copy-stream.html"><span>copy</span><wbr><span><span>Stream</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-84651085%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/java/io/InputStream.html">InputStream</a><span class="token punctuation">.</span><a href="copy-stream.html"><span class="token function">copyStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">size<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span></span><span class="parameter ">os<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/io/OutputStream.html">OutputStream</a><span class="token punctuation">, </span></span><span class="parameter ">bufferSize<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">4096</span><span class="token punctuation">, </span></span><span class="parameter ">progress<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-39664111%2FFunctions%2F-1453654515" anchor-label="flipImageHorizontally" id="-39664111%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="flip-image-horizontally.html"><span>flip</span><wbr><span>Image</span><wbr><span><span>Horizontally</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-39664111%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html"><span class="token annotation builtin">RequiresApi</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">29</span></span></span><wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html"><span class="token annotation builtin">RequiresPermission</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"android.permission.ACCESS_MEDIA_LOCATION"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">.</span><a href="flip-image-horizontally.html"><span class="token function">flipImageHorizontally</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">uri<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-948548993%2FFunctions%2F-1453654515" anchor-label="flipImageVertically" id="-948548993%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="flip-image-vertically.html"><span>flip</span><wbr><span>Image</span><wbr><span><span>Vertically</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-948548993%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html"><span class="token annotation builtin">RequiresApi</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">29</span></span></span><wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html"><span class="token annotation builtin">RequiresPermission</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"android.permission.ACCESS_MEDIA_LOCATION"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">.</span><a href="flip-image-vertically.html"><span class="token function">flipImageVertically</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">uri<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2013233938%2FFunctions%2F-1453654515" anchor-label="getLocationFromImages" id="-2013233938%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-location-from-images.html"><span>get</span><wbr><span>Location</span><wbr><span>From</span><wbr><span><span>Images</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2013233938%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html"><span class="token annotation builtin">RequiresApi</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token constant">29</span></span></span><wbr><span class="token punctuation">)</span></div><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html"><span class="token annotation builtin">RequiresPermission</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="breakable-word"><span class="token string">"android.permission.ACCESS_MEDIA_LOCATION"</span></span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">.</span><a href="get-location-from-images.html"><span class="token function">getLocationFromImages</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">uri<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token punctuation">, </span></span><span class="parameter ">latNLongCallBack<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>latNLong<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double-array/index.html">DoubleArray</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{ _ -&gt; }</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Extracts user's location from images, requires permission</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-759496164%2FFunctions%2F-1453654515" anchor-label="getMimeType" id="-759496164%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-mime-type.html"><span>get</span><wbr><span>Mime</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-759496164%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-mime-type.html"><span class="token function">getMimeType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">filePath<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1505393320%2FFunctions%2F-1453654515" anchor-label="getMimeType" id="-1505393320%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-mime-type.html"><span>get</span><wbr><span>Mime</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1505393320%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/java/io/File.html">File</a><span class="token punctuation">.</span><a href="get-mime-type.html"><span class="token function">getMimeType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/java/io/File.html">File</a><span class="token punctuation">.</span><a href="get-mime-type.html"><span class="token function">getMimeType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fallback<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"*/*"</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1334720608%2FFunctions%2F-1453654515" anchor-label="moveFileToUri" id="1334720608%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="move-file-to-uri.html"><span>move</span><wbr><span>File</span><wbr><span>To</span><wbr><span><span>Uri</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1334720608%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">.</span><a href="move-file-to-uri.html"><span class="token function">moveFileToUri</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">treeUri<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token punctuation">, </span></span><span class="parameter ">file<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/io/File.html">File</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>progress<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-583951545%2FFunctions%2F-1453654515" anchor-label="recursiveSAFFiles" id="-583951545%2FFunctions%2F-1453654515" data-filterable-set=":saf:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":saf:dokkaHtmlPartial/release" data-filterable-set=":saf:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="recursive-s-a-f-files.html"><span>recursive</span><wbr><span><span>SAFFiles</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-583951545%2FFunctions%2F-1453654515"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":saf:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="recursive-s-a-f-files.html"><span class="token function">recursiveSAFFiles</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">files<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Recursive listing SAF Files and returns the list containing all the items</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="recursive-s-a-f-files.html"><span class="token function">recursiveSAFFiles</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">files<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">callbackArray<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-list/index.html">ArrayList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="recursive-s-a-f-files.html"><span class="token function">recursiveSAFFiles</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">files<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fileCallback<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>traversedFile<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/documentfile/provider/DocumentFile.html">DocumentFile</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Recursive listing SAF files</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

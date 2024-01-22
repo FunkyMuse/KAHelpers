@@ -1,0 +1,954 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.funkymuse.reflection</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../index.html">
+                            KAHelpers
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":reflection:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageids="reflection::com.funkymuse.reflection////PointingToDeclaration//1805933320">
+  <div class="breadcrumbs"><a href="../index.html">reflection</a><span class="delimiter">/</span><span class="current">com.funkymuse.reflection</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1369959435%2FFunctions%2F1805933320" anchor-label="callFieldWithArguments" id="-1369959435%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="call-field-with-arguments.html"><span>call</span><wbr><span>Field</span><wbr><span>With</span><wbr><span><span>Arguments</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1369959435%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="call-field-with-arguments.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="call-field-with-arguments.html">T</a><span class="token punctuation">.</span><a href="call-field-with-arguments.html"><span class="token function">callFieldWithArguments</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>arguments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="call-field-with-arguments.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="call-field-with-arguments.html">T</a><span class="token punctuation">.</span><a href="call-field-with-arguments.html"><span class="token function">callFieldWithArguments</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">arguments<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html">KParameter</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Calls this callable with the specified list of arguments and returns the result. Throws an exception if the number of specified arguments is not equal to the size of <a href="call-field-with-arguments.html">arguments</a>, or if their types do not match the types of the parameters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="266431963%2FFunctions%2F1805933320" anchor-label="callMethod" id="266431963%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="call-method.html"><span>call</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="266431963%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="call-method.html"><span class="token function">callMethod</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">methodName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">parameterTypes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">parameters<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Direct call a function of an object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1023203322%2FFunctions%2F1805933320" anchor-label="callPrivateFunction" id="1023203322%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="call-private-function.html"><span>call</span><wbr><span>Private</span><wbr><span><span>Function</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1023203322%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="call-private-function.html">T</a><span class="token operator">&gt; </span><a href="call-private-function.html">T</a><span class="token punctuation">.</span><a href="call-private-function.html"><span class="token function">callPrivateFunction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>args<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1830202627%2FFunctions%2F1805933320" anchor-label="fieldDeclaredAnnotations" id="1830202627%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="field-declared-annotations.html"><span>field</span><wbr><span>Declared</span><wbr><span><span>Annotations</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1830202627%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="field-declared-annotations.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="field-declared-annotations.html">T</a><span class="token punctuation">.</span><a href="field-declared-annotations.html"><span class="token function">fieldDeclaredAnnotations</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html">Annotation</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="81068905%2FFunctions%2F1805933320" anchor-label="fieldPropertyValue" id="81068905%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="field-property-value.html"><span>field</span><wbr><span>Property</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="81068905%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="field-property-value.html"><span class="token function">fieldPropertyValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">equalsToFieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Finds property if the name is exact as the one provided</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1425145222%2FFunctions%2F1805933320" anchor-label="fieldToGenericString" id="1425145222%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="field-to-generic-string.html"><span>field</span><wbr><span>To</span><wbr><span>Generic</span><wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1425145222%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="field-to-generic-string.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="field-to-generic-string.html">T</a><span class="token punctuation">.</span><a href="field-to-generic-string.html"><span class="token function">fieldToGenericString</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1553321331%2FFunctions%2F1805933320" anchor-label="firstPropertyValue" id="1553321331%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="first-property-value.html"><span>first</span><wbr><span>Property</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1553321331%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="first-property-value.html"><span class="token function">firstPropertyValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">equalsToFieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Finds first property if the name is exact as the one provided or returns an empty string if not found When using proguard keep your class object</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1093120561%2FFunctions%2F1805933320" anchor-label="getAllFieldsList" id="1093120561%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-all-fields-list.html"><span>get</span><wbr><span>All</span><wbr><span>Fields</span><wbr><span><span>List</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1093120561%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-all-fields-list.html"><span class="token function">getAllFieldsList</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cls<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/lang/reflect/Field.html">Field</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Traverses current class and all the super classes (parents)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1958899839%2FFunctions%2F1805933320" anchor-label="getAnnotations" id="-1958899839%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-annotations.html"><span>get</span><wbr><span><span>Annotations</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1958899839%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-annotations.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-annotations.html">T</a><span class="token punctuation">.</span><a href="get-annotations.html"><span class="token function">getAnnotations</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-annotation/index.html">Annotation</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-196351921%2FFunctions%2F1805933320" anchor-label="getClasstype" id="-196351921%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-classtype.html"><span>get</span><wbr><span><span>Classtype</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-196351921%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-classtype.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-classtype.html">T</a><span class="token punctuation">.</span><a href="get-classtype.html"><span class="token function">getClasstype</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1243356207%2FFunctions%2F1805933320" anchor-label="getConstructor" id="-1243356207%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-constructor.html"><span>get</span><wbr><span><span>Constructor</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1243356207%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-constructor.html"><span class="token function">getConstructor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">className<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">parameterTypes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/reflect/Constructor.html">Constructor</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1992512879%2FFunctions%2F1805933320" anchor-label="getDeclaredField" id="-1992512879%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-declared-field.html"><span>get</span><wbr><span>Declared</span><wbr><span><span>Field</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1992512879%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="get-declared-field.html"><span class="token function">getDeclaredField</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/reflect/Field.html">Field</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="109830465%2FFunctions%2F1805933320" anchor-label="getDeclaredMethod" id="109830465%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-declared-method.html"><span>get</span><wbr><span>Declared</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="109830465%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="get-declared-method.html"><span class="token function">getDeclaredMethod</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">methodName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>parameterTypes<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/reflect/Method.html">Method</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Get DeclaredMethod</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1352080708%2FFunctions%2F1805933320" anchor-label="getDeclaringClass" id="-1352080708%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-declaring-class.html"><span>get</span><wbr><span>Declaring</span><wbr><span><span>Class</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1352080708%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-declaring-class.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-declaring-class.html">T</a><span class="token punctuation">.</span><a href="get-declaring-class.html"><span class="token function">getDeclaringClass</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2033823428%2FFunctions%2F1805933320" anchor-label="getFieldByName" id="-2033823428%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-by-name.html"><span>get</span><wbr><span>Field</span><wbr><span>By</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2033823428%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-by-name.html">T</a><span class="token operator">&gt; </span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-by-name.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="get-field-by-name.html"><span class="token function">getFieldByName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/reflect/Field.html">Field</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-463309326%2FFunctions%2F1805933320" anchor-label="getFieldExtensionReceiverParameter" id="-463309326%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-extension-receiver-parameter.html"><span>get</span><wbr><span>Field</span><wbr><span>Extension</span><wbr><span>Receiver</span><wbr><span><span>Parameter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-463309326%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-extension-receiver-parameter.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-extension-receiver-parameter.html">T</a><span class="token punctuation">.</span><a href="get-field-extension-receiver-parameter.html"><span class="token function">getFieldExtensionReceiverParameter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html">KParameter</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns a parameter representing the extension receiver instance needed to call this callable, or <code class="lang-kotlin">null</code> if this callable is not an extension.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="893117925%2FFunctions%2F1805933320" anchor-label="getFieldInstanceParameter" id="893117925%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-instance-parameter.html"><span>get</span><wbr><span>Field</span><wbr><span>Instance</span><wbr><span><span>Parameter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="893117925%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-instance-parameter.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-instance-parameter.html">T</a><span class="token punctuation">.</span><a href="get-field-instance-parameter.html"><span class="token function">getFieldInstanceParameter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html">KParameter</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns a parameter representing the <code class="lang-kotlin">this</code> instance needed to call this callable, or <code class="lang-kotlin">null</code> if this callable is not a member of a class and thus doesn't take such parameter.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="938590413%2FFunctions%2F1805933320" anchor-label="getFieldModifiers" id="938590413%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-modifiers.html"><span>get</span><wbr><span>Field</span><wbr><span><span>Modifiers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="938590413%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-modifiers.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-modifiers.html">T</a><span class="token punctuation">.</span><a href="get-field-modifiers.html"><span class="token function">getFieldModifiers</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-382015903%2FFunctions%2F1805933320" anchor-label="getFieldParameters" id="-382015903%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-parameters.html"><span>get</span><wbr><span>Field</span><wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-382015903%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-parameters.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-parameters.html">T</a><span class="token punctuation">.</span><a href="get-field-parameters.html"><span class="token function">getFieldParameters</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-parameter/index.html">KParameter</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="681630395%2FFunctions%2F1805933320" anchor-label="getFieldTypeParameters" id="681630395%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-type-parameters.html"><span>get</span><wbr><span>Field</span><wbr><span>Type</span><wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="681630395%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-type-parameters.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-type-parameters.html">T</a><span class="token punctuation">.</span><a href="get-field-type-parameters.html"><span class="token function">getFieldTypeParameters</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-type-parameter/index.html">KTypeParameter</a><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1278021590%2FFunctions%2F1805933320" anchor-label="getFieldValue" id="1278021590%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value.html"><span>get</span><wbr><span>Field</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1278021590%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="get-field-value.html"><span class="token function">getFieldValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-348061010%2FFunctions%2F1805933320" anchor-label="getFieldValueBoolean" id="-348061010%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-boolean.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Boolean</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-348061010%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-boolean.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-boolean.html">T</a><span class="token punctuation">.</span><a href="get-field-value-boolean.html"><span class="token function">getFieldValueBoolean</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-298712428%2FFunctions%2F1805933320" anchor-label="getFieldValueByFieldName" id="-298712428%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-by-field-name.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span>By</span><wbr><span>Field</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-298712428%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-by-field-name.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-by-field-name.html">T</a><span class="token punctuation">.</span><a href="get-field-value-by-field-name.html"><span class="token function">getFieldValueByFieldName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-621531158%2FFunctions%2F1805933320" anchor-label="getFieldValueByte" id="-621531158%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-byte.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Byte</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-621531158%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-byte.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-byte.html">T</a><span class="token punctuation">.</span><a href="get-field-value-byte.html"><span class="token function">getFieldValueByte</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte/index.html">Byte</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1339366200%2FFunctions%2F1805933320" anchor-label="getFieldValueChar" id="1339366200%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-char.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Char</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1339366200%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-char.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-char.html">T</a><span class="token punctuation">.</span><a href="get-field-value-char.html"><span class="token function">getFieldValueChar</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char/index.html">Char</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1013152435%2FFunctions%2F1805933320" anchor-label="getFieldValueDouble" id="1013152435%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-double.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Double</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1013152435%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-double.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-double.html">T</a><span class="token punctuation">.</span><a href="get-field-value-double.html"><span class="token function">getFieldValueDouble</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-double/index.html">Double</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="103076706%2FFunctions%2F1805933320" anchor-label="getFieldValueFloat" id="103076706%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-float.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Float</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="103076706%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-float.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-float.html">T</a><span class="token punctuation">.</span><a href="get-field-value-float.html"><span class="token function">getFieldValueFloat</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="894256117%2FFunctions%2F1805933320" anchor-label="getFieldValueInt" id="894256117%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-int.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Int</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="894256117%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-int.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-int.html">T</a><span class="token punctuation">.</span><a href="get-field-value-int.html"><span class="token function">getFieldValueInt</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1618273442%2FFunctions%2F1805933320" anchor-label="getFieldValueLong" id="-1618273442%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-long.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Long</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1618273442%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-long.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-long.html">T</a><span class="token punctuation">.</span><a href="get-field-value-long.html"><span class="token function">getFieldValueLong</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-545577598%2FFunctions%2F1805933320" anchor-label="getFieldValueShort" id="-545577598%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-field-value-short.html"><span>get</span><wbr><span>Field</span><wbr><span>Value</span><wbr><span><span>Short</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-545577598%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-field-value-short.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-field-value-short.html">T</a><span class="token punctuation">.</span><a href="get-field-value-short.html"><span class="token function">getFieldValueShort</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-short/index.html">Short</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-478189682%2FFunctions%2F1805933320" anchor-label="getGenericType" id="-478189682%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-generic-type.html"><span>get</span><wbr><span>Generic</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-478189682%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-generic-type.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-generic-type.html">T</a><span class="token punctuation">.</span><a href="get-generic-type.html"><span class="token function">getGenericType</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/reflect/Type.html">Type</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1244011591%2FFunctions%2F1805933320" anchor-label="getGenericTypeName" id="-1244011591%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-generic-type-name.html"><span>get</span><wbr><span>Generic</span><wbr><span>Type</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1244011591%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-generic-type-name.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-generic-type-name.html">T</a><span class="token punctuation">.</span><a href="get-generic-type-name.html"><span class="token function">getGenericTypeName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="56114102%2FFunctions%2F1805933320" anchor-label="getGetter" id="56114102%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-getter.html"><span>get</span><wbr><span><span>Getter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="56114102%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-getter.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-getter.html">T</a><span class="token punctuation">.</span><a href="get-getter.html"><span class="token function">getGetter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/-getter/index.html">KProperty.Getter</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="113641637%2FFunctions%2F1805933320" anchor-label="getObjectHashCode" id="113641637%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-object-hash-code.html"><span>get</span><wbr><span>Object</span><wbr><span>Hash</span><wbr><span><span>Code</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="113641637%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="get-object-hash-code.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="get-object-hash-code.html">T</a><span class="token punctuation">.</span><a href="get-object-hash-code.html"><span class="token function">getObjectHashCode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">If the object has hash code returns it else null</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1199889671%2FFunctions%2F1805933320" anchor-label="getObjectInstance" id="1199889671%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-object-instance.html"><span>get</span><wbr><span>Object</span><wbr><span><span>Instance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1199889671%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-object-instance.html"><span class="token function">getObjectInstance</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">className<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">parameterTypes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">parameters<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1167468491%2FFunctions%2F1805933320" anchor-label="invokeMethod" id="-1167468491%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="invoke-method.html"><span>invoke</span><wbr><span><span>Method</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1167468491%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="invoke-method.html"><span class="token function">invokeMethod</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">methodName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">parameterTypes<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">parameters<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1971030615%2FFunctions%2F1805933320" anchor-label="isAbstract" id="-1971030615%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-abstract.html"><span>is</span><wbr><span><span>Abstract</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1971030615%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-abstract.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-abstract.html">T</a><span class="token punctuation">.</span><a href="is-abstract.html"><span class="token function">isAbstract</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-abstract.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-abstract.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="is-abstract.html">T</a><span class="token punctuation">.</span><a href="is-abstract.html"><span class="token function">isAbstract</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-abstract.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-abstract.html">T</a><span class="token punctuation">.</span><a href="is-abstract.html"><span class="token function">isAbstract</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2132214882%2FFunctions%2F1805933320" anchor-label="isCompanion" id="-2132214882%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-companion.html"><span>is</span><wbr><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2132214882%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-companion.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-companion.html">T</a><span class="token punctuation">.</span><a href="is-companion.html"><span class="token function">isCompanion</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-companion.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-companion.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="is-companion.html">T</a><span class="token punctuation">.</span><a href="is-companion.html"><span class="token function">isCompanion</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="537587713%2FFunctions%2F1805933320" anchor-label="isConstant" id="537587713%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-constant.html"><span>is</span><wbr><span><span>Constant</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="537587713%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-constant.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-constant.html">T</a><span class="token punctuation">.</span><a href="is-constant.html"><span class="token function">isConstant</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1990988838%2FFunctions%2F1805933320" anchor-label="isDataClass" id="-1990988838%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-data-class.html"><span>is</span><wbr><span>Data</span><wbr><span><span>Class</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1990988838%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-data-class.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-data-class.html">T</a><span class="token punctuation">.</span><a href="is-data-class.html"><span class="token function">isDataClass</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-data-class.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-data-class.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="is-data-class.html">T</a><span class="token punctuation">.</span><a href="is-data-class.html"><span class="token function">isDataClass</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-332429829%2FFunctions%2F1805933320" anchor-label="isFieldAccessible" id="-332429829%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-field-accessible.html"><span>is</span><wbr><span>Field</span><wbr><span><span>Accessible</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-332429829%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-field-accessible.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-field-accessible.html">T</a><span class="token punctuation">.</span><a href="is-field-accessible.html"><span class="token function">isFieldAccessible</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-668527030%2FFunctions%2F1805933320" anchor-label="isFieldEnumConstant" id="-668527030%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-field-enum-constant.html"><span>is</span><wbr><span>Field</span><wbr><span>Enum</span><wbr><span><span>Constant</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-668527030%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-field-enum-constant.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-field-enum-constant.html">T</a><span class="token punctuation">.</span><a href="is-field-enum-constant.html"><span class="token function">isFieldEnumConstant</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-320843764%2FFunctions%2F1805933320" anchor-label="isFieldNull" id="-320843764%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-field-null.html"><span>is</span><wbr><span>Field</span><wbr><span><span>Null</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-320843764%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-field-null.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-field-null.html">T</a><span class="token punctuation">.</span><a href="is-field-null.html"><span class="token function">isFieldNull</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2049811064%2FFunctions%2F1805933320" anchor-label="isFieldSynthetic" id="-2049811064%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-field-synthetic.html"><span>is</span><wbr><span>Field</span><wbr><span><span>Synthetic</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2049811064%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-field-synthetic.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-field-synthetic.html">T</a><span class="token punctuation">.</span><a href="is-field-synthetic.html"><span class="token function">isFieldSynthetic</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1491950895%2FFunctions%2F1805933320" anchor-label="isFinal" id="-1491950895%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-final.html"><span>is</span><wbr><span><span>Final</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1491950895%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-final.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-final.html">T</a><span class="token punctuation">.</span><a href="is-final.html"><span class="token function">isFinal</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-final.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-final.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="is-final.html">T</a><span class="token punctuation">.</span><a href="is-final.html"><span class="token function">isFinal</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-final.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-final.html">T</a><span class="token punctuation">.</span><a href="is-final.html"><span class="token function">isFinal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1325636490%2FFunctions%2F1805933320" anchor-label="isInner" id="1325636490%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-inner.html"><span>is</span><wbr><span><span>Inner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1325636490%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-inner.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-inner.html">T</a><span class="token punctuation">.</span><a href="is-inner.html"><span class="token function">isInner</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-inner.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-inner.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="is-inner.html">T</a><span class="token punctuation">.</span><a href="is-inner.html"><span class="token function">isInner</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-442614733%2FFunctions%2F1805933320" anchor-label="isLateInit" id="-442614733%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-late-init.html"><span>is</span><wbr><span>Late</span><wbr><span><span>Init</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-442614733%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-late-init.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-late-init.html">T</a><span class="token punctuation">.</span><a href="is-late-init.html"><span class="token function">isLateInit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1334213503%2FFunctions%2F1805933320" anchor-label="isOpen" id="-1334213503%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-open.html"><span>is</span><wbr><span><span>Open</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1334213503%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-open.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-open.html">T</a><span class="token punctuation">.</span><a href="is-open.html"><span class="token function">isOpen</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-open.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-open.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="is-open.html">T</a><span class="token punctuation">.</span><a href="is-open.html"><span class="token function">isOpen</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-open.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-open.html">T</a><span class="token punctuation">.</span><a href="is-open.html"><span class="token function">isOpen</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="33534524%2FFunctions%2F1805933320" anchor-label="isSealed" id="33534524%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-sealed.html"><span>is</span><wbr><span><span>Sealed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="33534524%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-sealed.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-sealed.html">T</a><span class="token punctuation">.</span><a href="is-sealed.html"><span class="token function">isSealed</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-sealed.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html">KClass</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-sealed.html">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="is-sealed.html">T</a><span class="token punctuation">.</span><a href="is-sealed.html"><span class="token function">isSealed</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="275566311%2FFunctions%2F1805933320" anchor-label="isSuspend" id="275566311%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-suspend.html"><span>is</span><wbr><span><span>Suspend</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="275566311%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-suspend.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-suspend.html">T</a><span class="token punctuation">.</span><a href="is-suspend.html"><span class="token function">isSuspend</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2068719696%2FFunctions%2F1805933320" anchor-label="isSynthetic" id="-2068719696%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-synthetic.html"><span>is</span><wbr><span><span>Synthetic</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2068719696%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="is-synthetic.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="is-synthetic.html">T</a><span class="token punctuation">.</span><a href="is-synthetic.html"><span class="token function">isSynthetic</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="520538713%2FFunctions%2F1805933320" anchor-label="logString" id="520538713%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="log-string.html"><span>log</span><wbr><span><span>String</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="520538713%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="log-string.html">T</a><span class="token operator">&gt; </span><a href="log-string.html">T</a><span class="token punctuation">.</span><a href="log-string.html"><span class="token function">logString</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1569438113%2FFunctions%2F1805933320" anchor-label="setFieldAccessible" id="1569438113%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-field-accessible.html"><span>set</span><wbr><span>Field</span><wbr><span><span>Accessible</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1569438113%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="set-field-accessible.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="set-field-accessible.html">T</a><span class="token punctuation">.</span><a href="set-field-accessible.html"><span class="token function">setFieldAccessible</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-425244013%2FFunctions%2F1805933320" anchor-label="setFieldPropertyValue" id="-425244013%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-field-property-value.html"><span>set</span><wbr><span>Field</span><wbr><span>Property</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-425244013%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="set-field-property-value.html"><span class="token function">setFieldPropertyValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">fieldValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Setting the field values by their names ignoring caps, lower cases and such, in case of API shit show when mapping is needed</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2042501022%2FFunctions%2F1805933320" anchor-label="setFieldValue" id="2042501022%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-field-value.html"><span>set</span><wbr><span>Field</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2042501022%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">.</span><a href="set-field-value.html"><span class="token function">setFieldValue</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">fieldName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1323416692%2FFunctions%2F1805933320" anchor-label="setProperty" id="-1323416692%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-property.html"><span>set</span><wbr><span><span>Property</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1323416692%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="set-property.html">T</a><span class="token operator">&gt; </span><a href="set-property.html">T</a><span class="token punctuation">.</span><a href="set-property.html"><span class="token function">setProperty</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">property<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1111880506%2FFunctions%2F1805933320" anchor-label="tryOrIgnore" id="1111880506%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="try-or-ignore.html"><span>try</span><wbr><span>Or</span><wbr><span><span>Ignore</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1111880506%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="try-or-ignore.html"><span class="token function">tryOrIgnore</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">runnable<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">try the code in <a href="try-or-ignore.html">runnable</a>, If it runs then its perfect if its not, It won't crash your app.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1469445186%2FFunctions%2F1805933320" anchor-label="tryOrNull" id="1469445186%2FFunctions%2F1805933320" data-filterable-set=":reflection:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":reflection:dokkaHtmlPartial/release" data-filterable-set=":reflection:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="try-or-null.html"><span>try</span><wbr><span>Or</span><wbr><span><span>Null</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1469445186%2FFunctions%2F1805933320"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":reflection:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="try-or-null.html">T</a><span class="token operator">&gt; </span><a href="try-or-null.html"><span class="token function">tryOrNull</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="try-or-null.html">T</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="try-or-null.html">T</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
