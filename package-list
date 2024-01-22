@@ -198,3 +198,16 @@ module:viewbinding
 dev.funkymuse.viewbinding
 module:viewpager2
 dev.funkymuse.viewpager2
+module:core
+dev.funkymuse.compose.core
+dev.funkymuse.compose.core.lazy_staggered_grid
+dev.funkymuse.compose.core.lazygrid
+dev.funkymuse.compose.core.lazylist
+dev.funkymuse.compose.core.material_transitions
+dev.funkymuse.compose.core.stability_wrappers
+module:core-m3
+dev.funkymuse.compose.core.m3
+module:placeholder
+dev.funkymuse.compose.placeholder
+module:placeholder-m3
+dev.funkymuse.compose.placeholder.m3
