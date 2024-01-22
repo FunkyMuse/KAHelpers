@@ -70,7 +70,6 @@ allprojects {
 subprojects {
     plugins.matching { anyPlugin -> supportedPlugins(anyPlugin) }.whenPluginAdded {
         val artifactName = if (parent?.name == "KAHelpers") name else "${parent?.name ?: ""}-$name"
-        println(artifactName)
         apply(plugin = libs.versions.gradlePlugins.maven.publish.get())
         plugins.withType<JavaLibraryPlugin> {
             publishing.publications {
