@@ -1,0 +1,723 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Success</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../../index.html">
+                            KAHelpers
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":retrofit:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="retrofit::dev.funkymuse.retrofit.apiresult/ApiResult.Success///PointingToDeclaration//-1625453760">
+  <div class="breadcrumbs"><a href="../../../index.html">retrofit</a><span class="delimiter">/</span><a href="../../index.html">dev.funkymuse.retrofit.apiresult</a><span class="delimiter">/</span><a href="../index.html">ApiResult</a><span class="delimiter">/</span><span class="current">Success</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Success</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Success</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="index.html">T</a></span></span><span class="token punctuation">)</span> : <a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="index.html">T</a><span class="token operator">&gt; </span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="765836526%2FConstructors%2F-1625453760" anchor-label="Success" id="765836526%2FConstructors%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-success.html"><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="765836526%2FConstructors%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="index.html">T</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-1498505961%2FProperties%2F-1625453760" anchor-label="getAsApiFailureCode" id="-1498505961%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../get-as-api-failure-code.html"><span>get</span><wbr><span>As</span><wbr><span>Api</span><wbr><span>Failure</span><wbr><span><span>Code</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1498505961%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-api-failure-code.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-api-failure-code.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../get-as-api-failure-code.html">getAsApiFailureCode</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="540867999%2FProperties%2F-1625453760" anchor-label="getAsApiResponseBody" id="540867999%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../get-as-api-response-body.html"><span>get</span><wbr><span>As</span><wbr><span>Api</span><wbr><span>Response</span><wbr><span><span>Body</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="540867999%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-api-response-body.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-api-response-body.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../get-as-api-response-body.html">getAsApiResponseBody</a><span class="token operator">: </span><span data-unresolved-link="okhttp3/ResponseBody///PointingToDeclaration/">ResponseBody</span><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1111369189%2FProperties%2F-1625453760" anchor-label="getAsSuccess" id="1111369189%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../get-as-success.html"><span>get</span><wbr><span>As</span><wbr><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1111369189%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-success.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-success.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../get-as-success.html">getAsSuccess</a><span class="token operator">: </span><a href="../../get-as-success.html">T</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1699504034%2FProperties%2F-1625453760" anchor-label="getAsThrowable" id="1699504034%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../get-as-throwable.html"><span>get</span><wbr><span>As</span><wbr><span><span>Throwable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1699504034%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-throwable.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../get-as-throwable.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../get-as-throwable.html">getAsThrowable</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1471409918%2FProperties%2F-1625453760" anchor-label="isApiError" id="-1471409918%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-api-error.html"><span>is</span><wbr><span>Api</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1471409918%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-api-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-api-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-api-error.html">isApiError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1352444208%2FProperties%2F-1625453760" anchor-label="isError" id="1352444208%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-error.html"><span>is</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1352444208%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-error.html">isError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1244218721%2FProperties%2F-1625453760" anchor-label="isErrorOrApiError" id="1244218721%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-error-or-api-error.html"><span>is</span><wbr><span>Error</span><wbr><span>Or</span><wbr><span>Api</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1244218721%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-error-or-api-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-error-or-api-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-error-or-api-error.html">isErrorOrApiError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1216815304%2FProperties%2F-1625453760" anchor-label="isIdle" id="1216815304%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-idle.html"><span>is</span><wbr><span><span>Idle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1216815304%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-idle.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-idle.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-idle.html">isIdle</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="304961508%2FProperties%2F-1625453760" anchor-label="isLoading" id="304961508%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-loading.html"><span>is</span><wbr><span><span>Loading</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="304961508%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-loading.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-loading.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-loading.html">isLoading</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1707264215%2FProperties%2F-1625453760" anchor-label="isNotApiError" id="-1707264215%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-not-api-error.html"><span>is</span><wbr><span>Not</span><wbr><span>Api</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1707264215%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-api-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-api-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-not-api-error.html">isNotApiError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="525765737%2FProperties%2F-1625453760" anchor-label="isNotError" id="525765737%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-not-error.html"><span>is</span><wbr><span>Not</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="525765737%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-not-error.html">isNotError</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-472419729%2FProperties%2F-1625453760" anchor-label="isNotIdle" id="-472419729%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-not-idle.html"><span>is</span><wbr><span>Not</span><wbr><span><span>Idle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-472419729%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-idle.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-idle.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-not-idle.html">isNotIdle</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="435900637%2FProperties%2F-1625453760" anchor-label="isNotLoading" id="435900637%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-not-loading.html"><span>is</span><wbr><span>Not</span><wbr><span><span>Loading</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="435900637%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-loading.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-loading.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-not-loading.html">isNotLoading</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1377853476%2FProperties%2F-1625453760" anchor-label="isNotSuccess" id="1377853476%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-not-success.html"><span>is</span><wbr><span>Not</span><wbr><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1377853476%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-success.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-not-success.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-not-success.html">isNotSuccess</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1246914347%2FProperties%2F-1625453760" anchor-label="isSuccess" id="1246914347%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-success.html"><span>is</span><wbr><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1246914347%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-success.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-success.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-success.html">isSuccess</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="889367350%2FProperties%2F-1625453760" anchor-label="isSuccessAndValueIsListAndNotNullOrEmpty" id="889367350%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-success-and-value-is-list-and-not-null-or-empty.html"><span>is</span><wbr><span>Success</span><wbr><span>And</span><wbr><span>Value</span><wbr><span>Is</span><wbr><span>List</span><wbr><span>And</span><wbr><span>Not</span><wbr><span>Null</span><wbr><span>Or</span><wbr><span><span>Empty</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="889367350%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-success-and-value-is-list-and-not-null-or-empty.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-success-and-value-is-list-and-not-null-or-empty.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-success-and-value-is-list-and-not-null-or-empty.html">isSuccessAndValueIsListAndNotNullOrEmpty</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-345496039%2FProperties%2F-1625453760" anchor-label="isSuccessAndValueIsListAndNullOrEmpty" id="-345496039%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_PROPERTY" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../is-success-and-value-is-list-and-null-or-empty.html"><span>is</span><wbr><span>Success</span><wbr><span>And</span><wbr><span>Value</span><wbr><span>Is</span><wbr><span>List</span><wbr><span>And</span><wbr><span>Null</span><wbr><span>Or</span><wbr><span><span>Empty</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-345496039%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-success-and-value-is-list-and-null-or-empty.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../is-success-and-value-is-list-and-null-or-empty.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../is-success-and-value-is-list-and-null-or-empty.html">isSuccessAndValueIsListAndNullOrEmpty</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2138318588%2FProperties%2F-1625453760" anchor-label="isValueAListAndNotNullOrEmpty" id="-2138318588%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-value-a-list-and-not-null-or-empty.html"><span>is</span><wbr><span>Value</span><wbr><span>AList</span><wbr><span>And</span><wbr><span>Not</span><wbr><span>Null</span><wbr><span>Or</span><wbr><span><span>Empty</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2138318588%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="is-value-a-list-and-not-null-or-empty.html">isValueAListAndNotNullOrEmpty</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="494802627%2FProperties%2F-1625453760" anchor-label="isValueAListAndNullOrEmpty" id="494802627%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-value-a-list-and-null-or-empty.html"><span>is</span><wbr><span>Value</span><wbr><span>AList</span><wbr><span>And</span><wbr><span>Null</span><wbr><span>Or</span><wbr><span><span>Empty</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="494802627%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="is-value-a-list-and-null-or-empty.html">isValueAListAndNullOrEmpty</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="932740802%2FProperties%2F-1625453760" anchor-label="value" id="932740802%2FProperties%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="value.html"><span><span>value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="932740802%2FProperties%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="value.html">value</a><span class="token operator">: </span><a href="index.html">T</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1535941622%2FFunctions%2F-1625453760" anchor-label="asApiError" id="-1535941622%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../as-api-error.html"><span>as</span><wbr><span>Api</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1535941622%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-api-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-api-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../as-api-error.html"><span class="token function">asApiError</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-api-error/index.html">ApiResult.ApiError</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1329951528%2FFunctions%2F-1625453760" anchor-label="asError" id="1329951528%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../as-error.html"><span>as</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1329951528%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../as-error.html"><span class="token function">asError</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-error/index.html">ApiResult.Error</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-585025584%2FFunctions%2F-1625453760" anchor-label="asIdle" id="-585025584%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../as-idle.html"><span>as</span><wbr><span><span>Idle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-585025584%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-idle.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-idle.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../as-idle.html"><span class="token function">asIdle</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-idle/index.html">ApiResult.Idle</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="164332508%2FFunctions%2F-1625453760" anchor-label="asLoading" id="164332508%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../as-loading.html"><span>as</span><wbr><span><span>Loading</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="164332508%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-loading.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-loading.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../as-loading.html"><span class="token function">asLoading</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-loading/index.html">ApiResult.Loading</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1106285347%2FFunctions%2F-1625453760" anchor-label="asSuccess" id="1106285347%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../as-success.html"><span>as</span><wbr><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1106285347%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-success.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-success.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../as-success.html"><span class="token function">asSuccess</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">ApiResult.Success</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../as-success.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-990490403%2FFunctions%2F-1625453760" anchor-label="asViewEvent" id="-990490403%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-event.html"><span>as</span><wbr><span>View</span><wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-990490403%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-event.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-event.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-event.html"><span class="token function">asViewEvent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../dev.funkymuse.retrofit.viewstate.event/-view-stateful-event/index.html">ViewStatefulEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="10200188%2FFunctions%2F-1625453760" anchor-label="asViewStatePayload" id="10200188%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload.html"><span>as</span><wbr><span>View</span><wbr><span>State</span><wbr><span><span>Payload</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="10200188%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload.html"><span class="token function">asViewStatePayload</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">viewState<span class="token operator">: </span><a href="../../../dev.funkymuse.retrofit.viewstate.state/-view-state-contract/index.html">ViewStateContract</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload.html">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="517391677%2FFunctions%2F-1625453760" anchor-label="asViewStatePayloadWithEvents" id="517391677%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload-with-events.html"><span>as</span><wbr><span>View</span><wbr><span>State</span><wbr><span>Payload</span><wbr><span>With</span><wbr><span><span>Events</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="517391677%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload-with-events.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload-with-events.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload-with-events.html"><span class="token function">asViewStatePayloadWithEvents</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">viewState<span class="token operator">: </span><a href="../../../dev.funkymuse.retrofit.viewstate.state/-view-state-contract/index.html">ViewStateContract</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload-with-events.html">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../dev.funkymuse.retrofit.viewstate.state/as-view-state-payload-with-events.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="435304766%2FFunctions%2F-1625453760" anchor-label="onApiError" id="435304766%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-api-error.html"><span>on</span><wbr><span>Api</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="435304766%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-api-error.html"><span class="token function">onApiError</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>errorBody<span class="token operator">: </span><span data-unresolved-link="okhttp3/ResponseBody///PointingToDeclaration/">ResponseBody</span><span class="token operator">?</span><span class="token punctuation">, </span><span class="token keyword"></span>responseCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1829427644%2FFunctions%2F-1625453760" anchor-label="onApiErrorOrError" id="1829427644%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-api-error-or-error.html"><span>on</span><wbr><span>Api</span><wbr><span>Error</span><wbr><span>Or</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1829427644%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error-or-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error-or-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-api-error-or-error.html"><span class="token function">onApiErrorOrError</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error-or-error.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-614148239%2FFunctions%2F-1625453760" anchor-label="onApiErrorSuspend" id="-614148239%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-api-error-suspend.html"><span>on</span><wbr><span>Api</span><wbr><span>Error</span><wbr><span><span>Suspend</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-614148239%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error-suspend.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error-suspend.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-api-error-suspend.html"><span class="token function">onApiErrorSuspend</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token keyword">suspend </span><span class="token punctuation">(</span><span class="token keyword"></span>errorBody<span class="token operator">: </span><span data-unresolved-link="okhttp3/ResponseBody///PointingToDeclaration/">ResponseBody</span><span class="token operator">?</span><span class="token punctuation">, </span><span class="token keyword"></span>responseCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-api-error-suspend.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1342096933%2FFunctions%2F-1625453760" anchor-label="onError" id="1342096933%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-error.html"><span>on</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1342096933%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-error.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-error.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-error.html"><span class="token function">onError</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>throwable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-error.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1186206448%2FFunctions%2F-1625453760" anchor-label="onErrorSuspend" id="-1186206448%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-error-suspend.html"><span>on</span><wbr><span>Error</span><wbr><span><span>Suspend</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1186206448%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-error-suspend.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-error-suspend.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-error-suspend.html"><span class="token function">onErrorSuspend</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token keyword">suspend </span><span class="token punctuation">(</span><span class="token keyword"></span>throwable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-error-suspend.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="739420265%2FFunctions%2F-1625453760" anchor-label="onIdle" id="739420265%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-idle.html"><span>on</span><wbr><span><span>Idle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="739420265%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-idle.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-idle.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-idle.html"><span class="token function">onIdle</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-idle.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1837396514%2FFunctions%2F-1625453760" anchor-label="onIdleSuspend" id="1837396514%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-idle-suspend.html"><span>on</span><wbr><span>Idle</span><wbr><span><span>Suspend</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1837396514%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-idle-suspend.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-idle-suspend.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-idle-suspend.html"><span class="token function">onIdleSuspend</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token keyword">suspend </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-idle-suspend.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2072688105%2FFunctions%2F-1625453760" anchor-label="onLoading" id="-2072688105%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-loading.html"><span>on</span><wbr><span><span>Loading</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2072688105%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-loading.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-loading.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-loading.html"><span class="token function">onLoading</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-loading.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-698388428%2FFunctions%2F-1625453760" anchor-label="onLoadingSuspend" id="-698388428%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-loading-suspend.html"><span>on</span><wbr><span>Loading</span><wbr><span><span>Suspend</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-698388428%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-loading-suspend.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-loading-suspend.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-loading-suspend.html"><span class="token function">onLoadingSuspend</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token keyword">suspend </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-loading-suspend.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-856846903%2FFunctions%2F-1625453760" anchor-label="onSuccess" id="-856846903%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-success.html"><span>on</span><wbr><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-856846903%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-success.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-success.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-success.html"><span class="token function">onSuccess</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>model<span class="token operator">: </span><a href="../../on-success.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-success.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-701017644%2FFunctions%2F-1625453760" anchor-label="onSuccessSuspend" id="-701017644%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../on-success-suspend.html"><span>on</span><wbr><span>Success</span><wbr><span><span>Suspend</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-701017644%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-success-suspend.html">T</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-success-suspend.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../on-success-suspend.html"><span class="token function">onSuccessSuspend</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">function<span class="token operator">: </span><span class="token keyword">suspend </span><span class="token punctuation">(</span><span class="token keyword"></span>model<span class="token operator">: </span><a href="../../on-success-suspend.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../on-success-suspend.html">T</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1899994836%2FFunctions%2F-1625453760" anchor-label="transform" id="1899994836%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../transform.html"><span><span>transform</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1899994836%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../transform.html">VALUE</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../transform.html">TRANSFORM</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../transform.html">VALUE</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../transform.html"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../../transform.html">VALUE</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../../transform.html">TRANSFORM</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../transform.html">TRANSFORM</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1386839037%2FFunctions%2F-1625453760" anchor-label="transformAsSuccess" id="-1386839037%2FFunctions%2F-1625453760" data-filterable-set=":retrofit:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":retrofit:dokkaHtmlPartial/release" data-filterable-set=":retrofit:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../transform-as-success.html"><span>transform</span><wbr><span>As</span><wbr><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1386839037%2FFunctions%2F-1625453760"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":retrofit:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../transform-as-success.html">VALUE</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../transform-as-success.html">TRANSFORM</a><span class="token operator">&gt; </span><a href="../index.html">ApiResult</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../transform-as-success.html">VALUE</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../../transform-as-success.html"><span class="token function">transformAsSuccess</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../../transform-as-success.html">VALUE</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="../../transform-as-success.html">TRANSFORM</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../transform-as-success.html">TRANSFORM</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
