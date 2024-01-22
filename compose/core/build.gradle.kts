@@ -4,5 +4,6 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.bundles.lifecycle)
     androidTestImplementation(libs.bundles.android.test)
 }
