@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.ksp).apply(false)
     alias(libs.plugins.test).apply(false)
     alias(libs.plugins.spotless).apply(false)
-    alias(libs.plugins.dokka).apply(false)
+    alias(libs.plugins.dokka)
 }
 
 val Project.composeMetricsDir get() = layout.buildDirectory.asFile.get().absolutePath + "/compose_metrics"

@@ -20,17 +20,12 @@ object InMemoryCache {
     /**
      * get the saved value addressed by the key
      */
-    fun get(key: String): Any? = map[key]
+    operator fun get(key: String): Any? = map[key]
 
     /**
      * check if have the value on the Given Key
      */
-    fun have(key: String) = map.containsKey(key)
-
-    /**
-     * check if have the value on the Given Key
-     */
-    fun contains(key: String) = have(key)
+    fun contains(key: String) = map.containsKey(key)
 
     /**
      * Clear all the InMemoryCache
@@ -55,7 +50,7 @@ object InMemoryCache {
 /**
  * get Saved Data from memory, null if it os not exists
  */
-fun <T> getFromMemory(key: String): T? = InMemoryCache.get(key) as? T
+fun <T> getFromMemory(key: String): T? = InMemoryCache[key] as? T
 
 
 /**
