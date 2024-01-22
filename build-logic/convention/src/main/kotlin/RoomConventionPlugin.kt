@@ -1,9 +1,9 @@
-import com.funkymuse.kahelpers.getBundle
-import com.funkymuse.kahelpers.getLibrary
-import com.funkymuse.kahelpers.implementation
-import com.funkymuse.kahelpers.ksp
-import com.funkymuse.kahelpers.kspPluginId
-import com.funkymuse.kahelpers.versionCatalog
+import dev.funkymuse.kahelpers.getBundle
+import dev.funkymuse.kahelpers.getLibrary
+import dev.funkymuse.kahelpers.implementation
+import dev.funkymuse.kahelpers.ksp
+import dev.funkymuse.kahelpers.kspPluginId
+import dev.funkymuse.kahelpers.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies

@@ -1,7 +1,7 @@
-import com.funkymuse.kahelpers.configureJava
-import com.funkymuse.kahelpers.getPluginId
-import com.funkymuse.kahelpers.getVersion
-import com.funkymuse.kahelpers.versionCatalog
+import dev.funkymuse.kahelpers.configureJava
+import dev.funkymuse.kahelpers.getPluginId
+import dev.funkymuse.kahelpers.getVersion
+import dev.funkymuse.kahelpers.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion

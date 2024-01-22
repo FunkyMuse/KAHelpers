@@ -1,5 +1,5 @@
 import com.android.build.gradle.LibraryExtension
-import com.funkymuse.kahelpers.configureAndroidCompose
+import dev.funkymuse.kahelpers.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
