@@ -69,11 +69,13 @@ allprojects {
 
 subprojects {
     plugins.matching { anyPlugin -> supportedPlugins(anyPlugin) }.whenPluginAdded {
+        val artifactName = if (parent?.name == "KAHelpers") name else "${parent?.name ?: ""}-$name"
+        println(artifactName)
         apply(plugin = libs.versions.gradlePlugins.maven.publish.get())
         plugins.withType<JavaLibraryPlugin> {
             publishing.publications {
                 create<MavenPublication>("kotlin") {
-                    artifactId = this@subprojects.name
+                    artifactId = artifactName
                     version = libs.versions.app.version.versionName.get()
                     afterEvaluate {
                         from(components["kotlin"])
@@ -85,7 +87,7 @@ subprojects {
             afterEvaluate {
                 publishing.publications {
                     create<MavenPublication>("release") {
-                        artifactId = this@subprojects.name
+                        artifactId = artifactName
                         version = libs.versions.app.version.versionName.get()
                         afterEvaluate {
                             from(components["release"])
