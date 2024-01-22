@@ -33,6 +33,8 @@ roomKtx = "2.6.1"
 rx = "3.0.1"
 glide = "4.16.0"
 gson = "2.10.1"
+turbine = "1.0.0"
+jupiter_version = "5.10.1"
 joda = "2.12.6"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -104,6 +106,9 @@ androidx-vectordrawable = { module = "androidx.vectordrawable:vectordrawable", v
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "androidx-viewpager2" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
+androidx-androidTestImplementation-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-core" }
+androidx-androidTestImplementation-test-ui-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+androidx-androidTestImplementation-test-ui-junit-ext = { module = "androidx.test.ext:junit-ktx", version.ref = "junitVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
@@ -139,6 +144,12 @@ compose-uiTooling-preview = { module = "androidx.compose.ui:ui-tooling-preview",
 # Dependencies of the included build-logic
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradlePlugins-agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+testImplementation-compose-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+testImplementation-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jupiter_version" }
+testImplementation-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jupiter_version" }
+testImplementation-runtime-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jupiter_version" }
 [bundles]
 compose = [
     "compose-activity",
@@ -169,7 +180,13 @@ unit-test = [
 ]
 android-test = [
     "androidx-junit",
-    "androidx-espresso-core"
+    "androidx-espresso-core",
+    "androidx-test-core-ktx",
+    "androidx-androidTestImplementation-test-rules",
+    "androidx-androidTestImplementation-test-ui-junit",
+    "androidx-androidTestImplementation-test-ui-junit-ext",
+    "test-coroutines",
+    "test-turbine",
 ]
 [plugins]
 java-library = { id = "java-library" }
