@@ -20,7 +20,7 @@ allprojects {
 ```gradle
 dependencies {
 
-implementation "com.github.FunkyMuse.KAHelpers:compose:placeholder-m3:$utilsVersion"
+implementation "com.github.FunkyMuse.KAHelpers:compose-placeholder-m3:$utilsVersion"
 
 }
 ```
