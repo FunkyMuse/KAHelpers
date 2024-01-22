@@ -13,7 +13,6 @@ class KotlinLibraryConventionPlugin : Plugin<Project> {
                 apply(versionCatalog.getPluginId("java-library"))
                 apply(versionCatalog.getPluginId("kotlinJvm"))
                 apply(versionCatalog.getPluginId("dokka"))
-                apply(versionCatalog.getVersion("gradlePlugins-maven-publish"))
             }
             configureJava {
                 toolchain {

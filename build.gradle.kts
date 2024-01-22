@@ -1,6 +1,8 @@
 import com.diffplug.gradle.spotless.SpotlessPlugin
+import com.android.build.gradle.LibraryPlugin
 
 plugins {
+    id(libs.versions.gradlePlugins.maven.publish.get())
     alias(libs.plugins.android).apply(false)
     alias(libs.plugins.library).apply(false)
     alias(libs.plugins.kotlinAndroid).apply(false)
@@ -64,3 +66,36 @@ allprojects {
             }
         }
 }
+
+subprojects {
+    plugins.matching { anyPlugin -> supportedPlugins(anyPlugin) }.whenPluginAdded {
+        apply(plugin = libs.versions.gradlePlugins.maven.publish.get())
+        plugins.withType<JavaLibraryPlugin> {
+            publishing.publications {
+                create<MavenPublication>("kotlin") {
+                    artifactId = this@subprojects.name
+                    version = libs.versions.app.version.versionName.get()
+                    afterEvaluate {
+                        from(components["kotlin"])
+                    }
+                }
+            }
+        }
+        plugins.withType<LibraryPlugin> {
+            afterEvaluate {
+                publishing.publications {
+                    create<MavenPublication>("release") {
+                        artifactId = this@subprojects.name
+                        version = libs.versions.app.version.versionName.get()
+                        afterEvaluate {
+                            from(components["release"])
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun supportedPlugins(anyPlugin: Plugin<*>?) =
+    anyPlugin is LibraryPlugin || anyPlugin is JavaLibraryPlugin

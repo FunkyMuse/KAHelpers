@@ -20,7 +20,6 @@ class LibraryConventionPlugin : Plugin<Project> {
                 apply(versionCatalog.getPluginId("kotlinAndroid"))
                 apply(versionCatalog.getPluginId("spotless"))
                 apply(versionCatalog.getPluginId("dokka"))
-                apply(versionCatalog.getVersion("gradlePlugins-maven-publish"))
             }
             configureKotlinOptions()
             configureLibraryAndTestNameSpace()
