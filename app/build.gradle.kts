@@ -5,11 +5,37 @@ plugins {
 android {
     packaging {
         resources {
-            excludes.addAll(setOf("META-INF/LICENSE.txt", "META-INF/NOTICE.txt", "META-INF/LICENSE"))
+            excludes.addAll(
+                setOf(
+                    "META-INF/LICENSE.txt",
+                    "META-INF/NOTICE.txt",
+                    "META-INF/LICENSE"
+                )
+            )
         }
     }
     buildFeatures {
         viewBinding = true
+    }
+    bundle {
+        storeArchive {
+            enable = false
+        }
+    }
+    buildTypes {
+        debug {
+            isCrunchPngs = false
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
 }
 
