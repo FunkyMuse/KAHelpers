@@ -20,8 +20,9 @@ allprojects {
 }
 ```
 
-2. Add the dependency in the application build.gradle
+2. Add the dependency in the application build.gradle using
 
+### Groovy
 ```gradle
 dependencies {
 
@@ -73,6 +74,29 @@ dependencies {
     implementation "com.github.FunkyMuse.KAHelpers:viewbinding:$utilsVersion"
     
   }
+```
+### Version catalog
+```toml
+[versions]
+kaHelpers = <version>
+
+[libraries]
+kahelpers-toaster = { module = "com.github.FunkyMuse.KAHelpers:toaster", version.ref = "kaHelpers" }
+kahelpers-internetDetector = { module = "com.github.FunkyMuse.KAHelpers:internetDetector", version.ref = "kaHelpers" }
+kahelpers-context = { module = "com.github.FunkyMuse.KAHelpers:context", version.ref = "kaHelpers" }
+kahelpers-kotlinextensions = { module = "com.github.FunkyMuse.KAHelpers:kotlinextensions", version.ref = "kaHelpers" }
+kahelpers-retrofit = { module = "com.github.FunkyMuse.KAHelpers:retrofit", version.ref = "kaHelpers" }
+...
+
+[bundles]
+kahelpers = [
+    "kahelpers-toaster",
+    "kahelpers-internetDetector",
+    "kahelpers-context",
+    "kahelpers-kotlinextensions",
+    "kahelpers-retrofit",
+    ...
+]
 ```
 
 3. To not run into any issues in your application build.gradle add
