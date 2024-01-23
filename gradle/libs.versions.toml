@@ -50,7 +50,7 @@ composeCompiler = "1.5.8"
 composeMaterial3 = "1.2.0-beta02"
 #Gradle
 gradlePlugins-agp = "8.2.1"
-gradlePlugins-spotless = "6.24.0"
+gradlePlugins-spotless = "6.25.0"
 gradlePlugins-dokka = "1.9.10"
 gradlePlugins-maven-publish = "maven-publish"
 #Build
