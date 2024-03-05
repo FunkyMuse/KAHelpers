@@ -51,7 +51,7 @@ composeMaterial3 = "1.2.0"
 #Gradle
 gradlePlugins-agp = "8.3.0"
 gradlePlugins-spotless = "6.25.0"
-gradlePlugins-dokka = "1.9.10"
+gradlePlugins-dokka = "1.9.20"
 gradlePlugins-maven-publish = "maven-publish"
 #Build
 app-build-compileSDKVersion = "34"
