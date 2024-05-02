@@ -46,7 +46,7 @@ kotlin-immutable-collections = "0.3.7"
 #Compose
 composeActivity = "1.9.0"
 compose = "1.7.0-alpha07"
-composeCompiler = "1.5.12"
+composeCompiler = "1.5.13"
 composeMaterial3 = "1.2.1"
 #Gradle
 gradlePlugins-agp = "8.4.0"
