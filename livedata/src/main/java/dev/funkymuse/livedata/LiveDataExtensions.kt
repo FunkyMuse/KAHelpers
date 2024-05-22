@@ -5,12 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
 
 
 fun <T> LiveData<T>.observeOnce(observer: Observer<T>) {
     observeForever(object : Observer<T> {
-        override fun onChanged(t: T?) {
+        override fun onChanged(t: T) {
             observer.onChanged(t)
             removeObserver(this)
         }
@@ -315,14 +314,6 @@ fun <T> LiveData<T>.buffer(count: Int): MutableLiveData<List<T?>> {
     }
     return mutableLiveData
 }
-
-
-fun <X, Y> LiveData<X>.map(mapFunction: (value: X?) -> Y?) =
-        Transformations.map(this, mapFunction)
-
-
-fun <X, Y> LiveData<X>.switchMap(mapFunction: (value: X?) -> LiveData<Y>): LiveData<Y> =
-        Transformations.switchMap(this, mapFunction)
 
 inline fun <T> LiveData<SingleEvent<T>>.observeEvent(owner: LifecycleOwner, crossinline onEventUnhandledContent: (T) -> Unit) {
     observe(owner, Observer { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) })

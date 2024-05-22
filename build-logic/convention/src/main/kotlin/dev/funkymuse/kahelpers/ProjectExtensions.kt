@@ -9,6 +9,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun CommonExtension<*, *, *, *, *, *>.configureBuildFeatures() {
@@ -36,6 +37,7 @@ fun Project.configureKotlinOptions() {
     tasks
         .withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
             compilerOptions {
+                jvmTarget.set(JvmTarget.valueOf(versionCatalog.getVersion("app-build-jVMTarget")))
                 freeCompilerArgs.addAll(
                     listOf(
                         "-opt-in=kotlin.RequiresOptIn",
