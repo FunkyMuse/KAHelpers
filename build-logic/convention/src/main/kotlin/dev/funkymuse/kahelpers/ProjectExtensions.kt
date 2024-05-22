@@ -33,15 +33,19 @@ fun LibraryExtension.addLibrariesConfig() {
 
 
 fun Project.configureKotlinOptions() {
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = versionCatalog.getVersion("app-build-kotlinJVMTarget")
-        kotlinOptions.freeCompilerArgs = listOf(
-            "-opt-in=kotlin.RequiresOptIn",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-Xcontext-receivers"
-        )
-    }
+    tasks
+        .withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+            compilerOptions {
+                freeCompilerArgs.addAll(
+                    listOf(
+                        "-opt-in=kotlin.RequiresOptIn",
+                        "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                        "-opt-in=kotlinx.coroutines.FlowPreview",
+                        "-Xcontext-receivers"
+                    )
+                )
+            }
+        }
 }
 
 fun Project.configureJavaCompatibilityCompileOptions(commonExtensions: CommonExtension<*, *, *, *, *, *>) {

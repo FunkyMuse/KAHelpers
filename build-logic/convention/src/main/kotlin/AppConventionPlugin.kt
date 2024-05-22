@@ -19,6 +19,7 @@ class AppConventionPlugin : Plugin<Project> {
                 apply(versionCatalog.getPluginId("ksp"))
                 apply(versionCatalog.getPluginId("convention-compose-app"))
                 apply(versionCatalog.getPluginId("spotless"))
+                apply(versionCatalog.getPluginId("compose-compiler"))
             }
             configureKotlinOptions()
             extensions.configure<ApplicationExtension>{

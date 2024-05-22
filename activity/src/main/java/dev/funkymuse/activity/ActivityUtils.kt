@@ -11,11 +11,12 @@ import android.view.View
 import android.view.WindowManager
 
 
-
-
 fun Activity.enableImmersiveMode() {
     val window = window
-    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    window.setFlags(
+        WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        WindowManager.LayoutParams.FLAG_FULLSCREEN
+    )
     window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
         if (visibility != 0)
             return@setOnSystemUiVisibilityChangeListener
@@ -82,7 +83,7 @@ var Activity.brightness: Float?
     set(value) {
         val window = this.window
         val layoutParams = window.attributes
-        layoutParams?.screenBrightness = value //0 is turned off, 1 is full brightness
+        layoutParams?.screenBrightness = value ?: 1f //0 is turned off, 1 is full brightness
         window?.attributes = layoutParams
     }
 
@@ -91,28 +92,28 @@ var Activity.brightness: Float?
 fun initStrictMode() {
 
     StrictMode.setThreadPolicy(
-            StrictMode.ThreadPolicy.Builder()
-                    .detectCustomSlowCalls()
-                    .detectNetwork()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build()
+        StrictMode.ThreadPolicy.Builder()
+            .detectCustomSlowCalls()
+            .detectNetwork()
+            .penaltyLog()
+            .penaltyDeath()
+            .build()
     )
 
     StrictMode.setVmPolicy(
-            StrictMode.VmPolicy.Builder()
-                    .apply {
-                        if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                            detectLeakedRegistrationObjects()
-                        if (SDK_INT >= Build.VERSION_CODES.M)
-                            detectCleartextNetwork()
-                    }
-                    .detectActivityLeaks()
-                    .detectLeakedClosableObjects()
-                    .detectLeakedSqlLiteObjects()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build()
+        StrictMode.VmPolicy.Builder()
+            .apply {
+                if (SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                    detectLeakedRegistrationObjects()
+                if (SDK_INT >= Build.VERSION_CODES.M)
+                    detectCleartextNetwork()
+            }
+            .detectActivityLeaks()
+            .detectLeakedClosableObjects()
+            .detectLeakedSqlLiteObjects()
+            .penaltyLog()
+            .penaltyDeath()
+            .build()
     )
 }
 

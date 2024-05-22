@@ -41,7 +41,7 @@ junitVersion = "1.1.5"
 kotlinReflect = "2.0.0"
 material = "1.12.0"
 kotlin = "2.0.0"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.21"
 kotlin-immutable-collections = "0.3.7"
 #Compose
 composeActivity = "1.9.0"
@@ -137,7 +137,6 @@ rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rx" }
 rxkotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rx" }
 kotlin-immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable-collections" }
 #Compose
-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
 compose-material-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
@@ -160,7 +159,6 @@ testImplementation-runtime-jupiter-engine = { module = "org.junit.jupiter:junit-
 compose = [
     "compose-activity",
     "compose-animation",
-    "compose-compiler",
     "compose-foundation",
     "compose-material-icons",
     "compose-material3",
@@ -212,6 +210,7 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "gradlePlugins-dokka" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 convention-compose-app = { id = "convention.android.compose.app" }
 convention-compose-library = { id = "convention.android.compose.library" }
 convention-moshi = { id = "convention.android.moshi" }

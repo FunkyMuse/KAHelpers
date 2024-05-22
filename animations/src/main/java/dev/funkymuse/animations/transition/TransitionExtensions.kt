@@ -133,6 +133,6 @@ inline fun ViewGroup.transitionAuto(builder: AutoTransition.() -> Unit = {}) {
 
 inline fun ViewGroup.transitionDelayed(@TransitionRes id: Int, builder: Transition.() -> Unit = {}) {
     val transition = TransitionInflater.from(context).inflateTransition(id)
-    transition.builder()
+    transition?.builder()
     TransitionManager.beginDelayedTransition(this, transition)
 }
