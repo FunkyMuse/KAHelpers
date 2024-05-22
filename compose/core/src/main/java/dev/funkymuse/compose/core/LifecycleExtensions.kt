@@ -24,7 +24,7 @@ fun AddLifecycleObserver(observer: LifecycleObserver) {
 }
 
 @Composable
-fun <OWNER : LifecycleObserver> OWNER.ObserveLifecycle(lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle) {
+fun <OWNER : LifecycleObserver> OWNER.ObserveLifecycle(lifecycle: Lifecycle = androidx.lifecycle.compose.LocalLifecycleOwner.current.lifecycle) {
     DisposableEffect(lifecycle) {
         lifecycle.addObserver(this@ObserveLifecycle)
         onDispose {

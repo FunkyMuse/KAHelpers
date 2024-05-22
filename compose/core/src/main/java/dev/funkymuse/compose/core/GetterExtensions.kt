@@ -30,10 +30,8 @@ import androidx.compose.ui.platform.LocalFontFamilyResolver
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.LocalTextInputService
 import androidx.compose.ui.platform.LocalTextToolbar
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalView
@@ -45,7 +43,6 @@ import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.platform.ViewConfiguration
 import androidx.compose.ui.platform.WindowInfo
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.TextInputService
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.LifecycleOwner
@@ -57,7 +54,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 
 val lifecycleOwner: LifecycleOwner
     @Composable get() {
-        return LocalLifecycleOwner.current
+        return androidx.lifecycle.compose.LocalLifecycleOwner.current
     }
 
 val context: Context
@@ -127,11 +124,6 @@ val layoutDirection: LayoutDirection
 val savedStateRegistryOwner: SavedStateRegistryOwner
     @Composable get() {
         return LocalSavedStateRegistryOwner.current
-    }
-
-val textInputService: TextInputService?
-    @Composable get() {
-        return LocalTextInputService.current
     }
 
 val uriHandler: UriHandler
