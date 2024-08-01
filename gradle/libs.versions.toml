@@ -44,7 +44,7 @@ kotlin = "2.0.0"
 ksp = "2.0.0-1.0.24"
 kotlin-immutable-collections = "0.3.7"
 #Compose
-composeActivity = "1.9.0"
+composeActivity = "1.9.1"
 compose = "1.7.0-beta06"
 composeCompiler = "1.5.14"
 composeMaterial3 = "1.2.1"
