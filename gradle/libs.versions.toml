@@ -45,7 +45,7 @@ ksp = "2.0.21-1.0.26"
 kotlin-immutable-collections = "0.3.8"
 #Compose
 composeActivity = "1.9.3"
-compose = "1.7.4"
+compose = "1.7.5"
 composeCompiler = "1.5.14"
 composeMaterial3 = "1.3.0"
 #Gradle
