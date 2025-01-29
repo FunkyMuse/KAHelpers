@@ -41,7 +41,7 @@ junitVersion = "1.2.1"
 kotlinReflect = "2.1.0"
 material = "1.12.0"
 kotlin = "2.1.0"
-ksp = "2.1.0-1.0.29"
+ksp = "2.1.10-1.0.29"
 kotlin-immutable-collections = "0.3.8"
 #Compose
 composeActivity = "1.10.0"
