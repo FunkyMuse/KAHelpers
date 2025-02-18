@@ -39,9 +39,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: true
-          arguments: dokkaHtmlMultiModule --no-configuration-cache
+          arguments: dokkaGenerate
 
       - name: Deploy Documentations
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build/dokka/htmlMultiModule
+          folder: build/dokka/html
