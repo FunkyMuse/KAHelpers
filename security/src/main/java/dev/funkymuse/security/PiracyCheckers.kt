@@ -71,11 +71,11 @@ fun Context.getSingInfoMD5(pkg: String): String? {
             packageManager.getPackageInfo(pkg, PackageManager.GET_SIGNATURES)
         }
         val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            packageInfo.signingInfo.signingCertificateHistory
+            packageInfo.signingInfo?.signingCertificateHistory
         } else {
             packageInfo.signatures
         }
-        val signature = signatures.firstOrNull() ?: return null
+        val signature = signatures?.firstOrNull() ?: return null
         getMd5(signature)
     } catch (e: Exception) {
         e.printStackTrace()
@@ -176,12 +176,12 @@ fun Context.getShaSignature(packageName: String): String? {
             packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
         }
         val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            packageInfo.signingInfo.signingCertificateHistory
+            packageInfo.signingInfo?.signingCertificateHistory
         } else {
             packageInfo.signatures
         }
 
-        val signature = signatures.firstOrNull() ?: return null
+        val signature = signatures?.firstOrNull() ?: return null
         val md: MessageDigest = MessageDigest.getInstance("SHA1")
         md.update(signature.toByteArray())
         return String(Base64.encode(md.digest(), 0))

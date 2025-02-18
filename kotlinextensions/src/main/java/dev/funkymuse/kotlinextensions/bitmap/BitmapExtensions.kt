@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.net.Uri
+import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.ImageView
@@ -28,11 +29,8 @@ import kotlin.math.ceil
 import kotlin.math.min
 
 
-
-
-
 fun Bitmap.overlay(overlay: Bitmap): Bitmap {
-    val result = Bitmap.createBitmap(width, height, config)
+    val result = Bitmap.createBitmap(width, height, requireNotNull(config))
     val canvas = Canvas(result)
     canvas.drawBitmap(this, Matrix(), null)
     canvas.drawBitmap(overlay, Matrix(), null)
@@ -169,7 +167,7 @@ fun Bitmap.resize(newWidth: Number, newHeight: Number): Bitmap {
 fun Bitmap.toRoundCorner(radius: Float): Bitmap? {
     val width = this.width
     val height = this.height
-    val bitmap = Bitmap.createBitmap(width, height, this.config)
+    val bitmap = this.config?.let { Bitmap.createBitmap(width, height, it) } ?: return null
     val paint = Paint()
     val canvas = Canvas(bitmap)
     val rect = Rect(0, 0, width, height)
@@ -271,7 +269,7 @@ fun Bitmap.isNotRecycled() = !isRecycled
  * Greyscale the Image.
  */
 fun Bitmap.toGrayScale(recycle: Boolean): Bitmap? {
-    val ret = Bitmap.createBitmap(width, height, config)
+    val ret = config?.let { Bitmap.createBitmap(width, height, it) } ?: return null
     val canvas = Canvas(ret)
     val paint = Paint()
     val colorMatrix = ColorMatrix()
@@ -292,11 +290,11 @@ fun Bitmap.toRoundCorner(
     borderSize: Float = 0f,
     @ColorInt borderColor: Int = 0,
     recycle: Boolean = true
-): Bitmap {
+): Bitmap? {
     val width = width
     val height = height
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    val ret = Bitmap.createBitmap(width, height, config)
+    val ret = config?.let { Bitmap.createBitmap(width, height, it) } ?: return null
     val shader = BitmapShader(this, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
     paint.shader = shader
     val canvas = Canvas(ret)
@@ -320,12 +318,12 @@ fun Bitmap.toRoundCorner(
 /**
  * Makes the Bitmap Round with given params
  */
-fun Bitmap.toRound(borderSize: Float = 0f, borderColor: Int = 0, recycle: Boolean = true): Bitmap {
+fun Bitmap.toRound(borderSize: Float = 0f, borderColor: Int = 0, recycle: Boolean = true): Bitmap? {
     val width = width
     val height = height
     val size = Math.min(width, height)
     val paint = Paint(ANTI_ALIAS_FLAG)
-    val ret = Bitmap.createBitmap(width, height, config)
+    val ret = config?.let { Bitmap.createBitmap(width, height, it) } ?: return null
     val center = size / 2f
     val rectF = RectF(0f, 0f, width.toFloat(), height.toFloat())
     rectF.inset((width - size) / 2f, (height - size) / 2f)
@@ -623,6 +621,7 @@ infix fun ImageView.set(drawable: Drawable) {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.M)
 infix fun ImageView.set(ic: Icon) {
     setImageIcon(ic)
 }

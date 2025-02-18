@@ -35,11 +35,11 @@ fun Context.isAppEnabled(packageName: String): Boolean {
 
 
 fun Context.whoInstalledMyApp(packageName: String) =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            packageManager.getInstallSourceInfo(packageName).installingPackageName
-        } else {
-            packageManager.getInstallerPackageName(packageName)
-        }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        packageManager.getInstallSourceInfo(packageName).installingPackageName
+    } else {
+        packageManager.getInstallerPackageName(packageName)
+    }
 
 
 fun Context.showAppInfo(packageName: String) {
@@ -84,7 +84,10 @@ inline val Context.installerPackageName: String?
 inline val Context.isFromGooglePlay: Boolean
     get() {
         val installer = installerPackageName
-        return arrayOf(INSTALLER_GOOGLE_PLAY_FEEDBACK, INSTALLER_GOOGLE_PLAY_VENDING).any { it == installer }
+        return arrayOf(
+            INSTALLER_GOOGLE_PLAY_FEEDBACK,
+            INSTALLER_GOOGLE_PLAY_VENDING
+        ).any { it == installer }
     }
 
 fun PackageManager.isIntentSafe(intent: Intent): Boolean {
@@ -99,7 +102,9 @@ fun PackageManager.isIntentSafe(intent: Intent): Boolean {
  * @param pkgInfo
  * @return
  */
-fun isSystemPackage(pkgInfo: PackageInfo) = pkgInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+fun isSystemPackage(pkgInfo: PackageInfo): Boolean {
+    return (pkgInfo.applicationInfo?.flags ?: -1) and ApplicationInfo.FLAG_SYSTEM != 0
+}
 
 fun Context.launchAnApp(packageName: String) {
     val launchApp = packageManager.getLaunchIntentForPackage(packageName)

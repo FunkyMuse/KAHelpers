@@ -12,7 +12,7 @@ class MagiskDetector(context: Context) {
     fun checkForMagisk(): Boolean {
         for (pkg in packages) {
             val pkgName = pkg.packageName
-            val appInfo = pkg.applicationInfo
+            val appInfo = pkg.applicationInfo?: return false
             if (pkgName == ORIGINAL_PACKAGE) return true
 
             val label = pm.getApplicationLabel(appInfo).toString()

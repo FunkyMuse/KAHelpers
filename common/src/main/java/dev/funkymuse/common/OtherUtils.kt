@@ -276,7 +276,7 @@ inline fun <K : Any, V : Any> LruCache<K, V>.getOrPut(key: K, defaultValue: () -
  *
  * This method is thread-safe.
  */
-inline fun <K : Any, V> LruCache<K, V>.getOrPutNotNull(key: K, defaultValue: () -> V?): V? {
+inline fun <K : Any, V : Any> LruCache<K, V>.getOrPutNotNull(key: K, defaultValue: () -> V?): V? {
     synchronized(this) {
         this[key]?.let { return it }
         return defaultValue()?.apply { put(key, this) }
@@ -286,19 +286,19 @@ inline fun <K : Any, V> LruCache<K, V>.getOrPutNotNull(key: K, defaultValue: () 
 /**
  * Returns an array containing the keys in the cache.
  */
-fun <V> LruCache<Int, V>.keys(): IntArray =
+fun <V : Any> LruCache<Int, V>.keys(): IntArray =
         snapshot().keys.toIntArray()
 
 /**
  * Returns an array containing the keys in the cache.
  */
-fun <V> LruCache<Long, V>.keys(): LongArray =
+fun <V : Any> LruCache<Long, V>.keys(): LongArray =
         snapshot().keys.toLongArray()
 
 /**
  * Returns an array containing the keys in the cache.
  */
-inline fun <reified K, V> LruCache<K, V>.keys(): Array<K> =
+inline fun <reified K : Any, V : Any> LruCache<K, V>.keys(): Array<K> =
         snapshot().keys.toTypedArray()
 
 val randomUUIDstring get() = UUID.randomUUID().toString()
@@ -642,6 +642,7 @@ fun <T> lazyFast(operation: () -> T): Lazy<T> = lazy(LazyThreadSafetyMode.NONE) 
  * @receiver Context
  * @return Drawable?
  */
+@SuppressLint("MissingPermission")
 fun Context.getWallpaperDrawable(): Drawable? = WallpaperManager.getInstance(this).peekDrawable()
 
 

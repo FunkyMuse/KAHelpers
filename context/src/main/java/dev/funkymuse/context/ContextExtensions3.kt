@@ -117,7 +117,7 @@ fun Context.getAppIcon(pName: String = packageName): Drawable {
  * Provide Package or will provide the current App Detail
  */
 @Throws(PackageManager.NameNotFoundException::class)
-fun Context.getAppVersionName(pName: String = packageName): String {
+fun Context.getAppVersionName(pName: String = packageName): String? {
     return packageManager.getPackageInfo(pName, 0).versionName
 }
 
@@ -172,17 +172,6 @@ val Context.getAndroidID: String?
     get() {
         return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
     }
-
-
-/**
- * get Device IMEI
- *
- * Requires READ_PHONE_STATE Permission
- */
-@RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("HardwareIds")
-@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-fun Context.getIMEI() = telephonyManager?.imei
 
 
 /**
@@ -516,7 +505,7 @@ val Context.processName: String?
         .firstOrNull()
 
 
-val Context.packageVersionName: String
+val Context.packageVersionName: String?
     get() = packageManager.getPackageInfo(packageName, 0).versionName
 
 

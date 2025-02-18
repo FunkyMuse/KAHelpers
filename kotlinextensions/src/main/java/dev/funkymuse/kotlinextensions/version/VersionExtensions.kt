@@ -65,7 +65,7 @@ fun Context.getVersionCodeCompat(): Long = if (Build.VERSION.SDK_INT >= Build.VE
     packageManager.getPackageInfo(packageName, 0).versionCode.toLong()
 }
 
-fun Context.getVersionName(): String = packageManager.getPackageInfo(packageName, 0).versionName
+fun Context.getVersionName(): String? = packageManager.getPackageInfo(packageName, 0).versionName
 
 inline fun doWithApi(api: Api, block: () -> Unit) {
     doWithApi(api.sdkCode, block)
