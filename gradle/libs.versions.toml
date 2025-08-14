@@ -1,6 +1,6 @@
 [versions]
 androidx-activity = "1.10.1"
-androidx-coreKTX = "1.16.0"
+androidx-coreKTX = "1.17.0"
 androidx-appCompat = "1.7.1"
 androidx-interpolator = "1.0.0"
 androidx-recyclerview = "1.4.0"
