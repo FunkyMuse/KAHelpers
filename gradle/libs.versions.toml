@@ -1,5 +1,5 @@
 [versions]
-androidx-activity = "1.12.1"
+androidx-activity = "1.12.2"
 androidx-coreKTX = "1.17.0"
 androidx-appCompat = "1.7.1"
 androidx-interpolator = "1.0.0"
